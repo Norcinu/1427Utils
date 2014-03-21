@@ -1,0 +1,31 @@
+﻿<Window x:Class="PDTUtils.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="1427 Shell Utils" Height="600" Width="800" Name="WindowMain" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None">
+    <!--<Grid Background="#FFC78585"></Grid>-->
+    <Grid>
+        <!-- Using default column and row configurations -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Name="ColumnOne"/>
+            <ColumnDefinition Name="ColumnTwo"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Name="RowOne"/>
+            <RowDefinition Name="RowTwo"/>
+           <!-- <RowDefinition Name="RowThree"/>
+            <RowDefinition Name="RowFour"/> -->
+        </Grid.RowDefinitions>
+
+        <!-- 2nd screenshot uses ColumnSpan and RowSpan -->
+        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="Red">Red 1</Label>
+        <Label Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Background="LightGreen">Green 1</Label>
+        <Label Grid.Column="1" Grid.Row="1" Grid.RowSpan="1" Background="LightBlue">Blue 1</Label>
+        <!--<Label Grid.Column="1" Grid.Row="2" Grid.RowSpan="1" Background="Yellow">Yellow 1</Label>
+        <Label Grid.Column="1" Grid.Row="3" Grid.RowSpan="1" Background="Salmon">Salmon 1</Label>-->
+        <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="25,25,25,25" Name="btnExit" Width="75" Grid.Column="0" Grid.Row="3" Click="btnExit_Click" />
+        <Button Content="Games" Height="23" HorizontalAlignment="Left" Margin="25,43,0,0" Name="Games" VerticalAlignment="Top" Width="75" Grid.Row="1" />
+        <Button Content="Hoppers" Height="23" HorizontalAlignment="Left" Margin="25,86,0,0" Name="btnHoppers" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnHoppers_Click" />
+    </Grid>
+
+   
+</Window>
