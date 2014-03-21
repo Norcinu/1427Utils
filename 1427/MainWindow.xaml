@@ -25,6 +25,28 @@
         <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="25,25,25,25" Name="btnExit" Width="75" Grid.Column="0" Grid.Row="3" Click="btnExit_Click" />
         <Button Content="Games" Height="23" HorizontalAlignment="Left" Margin="25,43,0,0" Name="Games" VerticalAlignment="Top" Width="75" Grid.Row="1" />
         <Button Content="Hoppers" Height="23" HorizontalAlignment="Left" Margin="25,86,0,0" Name="btnHoppers" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnHoppers_Click" />
+
+        <TabControl TabStripPlacement="Top" Margin="0, 0, 0, 10" Grid.Row="1" Grid.Column="1" Width="300" Height="400" Visibility="Hidden" Name="MyTab">
+            <TabItem Name="tabIitemContent" Header="TabItem with Buttons">
+                <StackPanel>
+                    <Button Content="_OK"/>
+                    <Button Content="_Cancel"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Name="backgroundcolor" Header="Background">
+                <TabItem.Content>Background property information goes here.</TabItem.Content>
+            </TabItem>
+
+            <TabItem Name="foregroundcolor" Header="Foreground">
+                <TabItem.Content>Foreground property information goes here.</TabItem.Content>
+            </TabItem>
+
+            <TabItem Name="bordercolor" Header="BorderColor">
+                <TabItem.Content>Border color property information goes here.</TabItem.Content>
+            </TabItem>
+        </TabControl>
+    
     </Grid>
 
    

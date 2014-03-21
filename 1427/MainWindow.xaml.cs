@@ -27,12 +27,15 @@ namespace PDTUtils
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+			this.Close();
         }
 
         private void btnHoppers_Click(object sender, RoutedEventArgs e)
         {
-            TabControl tb = new TabControl();
+			if (MyTab.Visibility == System.Windows.Visibility.Visible)
+				MyTab.Visibility = System.Windows.Visibility.Hidden;
+			else
+				MyTab.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }
