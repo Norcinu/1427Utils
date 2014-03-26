@@ -18,9 +18,27 @@
     <ClInclude Include="Source\Main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BoLibGetValues.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoLibSetValues.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BoLibGeneral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoLibGetValues.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoLibSetValues.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BoLibGeneral.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

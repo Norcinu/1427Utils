@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Collections.Generic;
+
 using PDTUtils.Native;
 
 namespace PDTUtils
@@ -28,26 +29,45 @@ namespace PDTUtils
 
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
-			if (MyTab.Visibility == Visibility.Visible)
-				MyTab.Visibility = Visibility.Hidden;
+			if (MyTab.Visibility == System.Windows.Visibility.Visible)
+				MyTab.Visibility = System.Windows.Visibility.Hidden;
 			else
-				MyTab.Visibility = Visibility.Visible;
+				MyTab.Visibility = System.Windows.Visibility.Visible;
 		}
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
-			Logfile.IsEnabled = true;
-			Logfile.Visibility = Visibility.Hidden;
+			Logfile.Visibility = System.Windows.Visibility.Visible;
+			string[] lines = System.IO.File.ReadAllLines(@"D:\\machine\\GAME_DATA\\TerminalErrLog.log");
+			string[] reveresed = new string[lines.Length];
+						
+			int ctr = 0;
+			for (int i = lines.Length-1; i > 0; i--)
+			{
+				reveresed[ctr] = lines[i];
+				ctr++;
+			}
 			
-			if (Logfile.SelectedItem == tabErrorLog)
-				PresentErrorLog();
+			foreach (string s in reveresed)
+			{
+				try
+				{
+					bool? b = s.Contains("TimeStamp");
+					if (b == false)
+						txtErrorLog.Text += s + "\r\n";
+				}
+				catch (System.Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+				}
+			}
 		}
 
 		private void btnHopperOK_Click(object sender, RoutedEventArgs e)
 		{
 			MessageBoxResult result = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
 			if (result == MessageBoxResult.Yes)
-				MyTab.Visibility = Visibility.Hidden;
+				MyTab.Visibility = System.Windows.Visibility.Hidden;
 		}
 
 		private void Games_Click(object sender, RoutedEventArgs e)
@@ -77,19 +97,37 @@ namespace PDTUtils
 			}
 		}
 
-
-		private void Logfile_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+		private void InitialiseBoLib()
 		{
-			if (Logfile.IsEnabled)
+			int shell = 0;// BoLibNative.Bo_SetEnvironment();
+
+			if (shell == 0)
 			{
-				if (Logfile.SelectedItem == tabErrorLog)
-					PresentErrorLog();
-				else if (Logfile.SelectedItem == tabLastGamesLog)
-					PresentLastGames();
-				else if (Logfile.SelectedItem == tabWinGamesLog)
-				{
-					tabWinGamesLog.Content = "Wins Go Here!";
-				}
+				//UpdateValues();
+				//Connected = true;
+				//timer = new System.Timers.Timer(1000);
+				//timer.Elapsed += UpdateTimer;
+				//timer.Enabled = true;
+				return;
+			}
+			else if (shell == 1)
+			{
+				error_message = "Shell Out of Date. Check If Running.";
+			}
+			else if (shell == 2)
+			{
+				error_message = "Bo Lib Out of Date.";
+			}
+			else
+			{
+				error_message = "Unknown Error Occurred.";
+			}
+
+			error_message += "\nFix the issue and restart program.";
+
+			if (MessageBox.Show(error_message, "Error", MessageBoxButton.OK) == MessageBoxResult.OK)
+			{
+				Application.Current.Shutdown();
 			}
 		}
     }
