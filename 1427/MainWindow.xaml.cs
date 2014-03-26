@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Collections.Generic;
+using System.Threading;
+
 using PDTUtils.Native;
 
 namespace PDTUtils
@@ -10,14 +12,14 @@ namespace PDTUtils
     /// </summary>
     public partial class MainWindow : Window
     {
-		private string error_message = "";
-
-        public MainWindow()
+		private string error_message = "";     
+		
+		public MainWindow()
         {
             InitializeComponent();
             RowOne.Height = new GridLength(75);
             ColumnOne.Width = new GridLength(200);
-
+	
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
         }
 
@@ -36,11 +38,16 @@ namespace PDTUtils
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
-			Logfile.IsEnabled = true;
-			Logfile.Visibility = Visibility.Hidden;
-			
-			if (Logfile.SelectedItem == tabErrorLog)
-				PresentErrorLog();
+			//var ptr = BoLibNative.GetLastGames();
+			//MessageBox.Show(Convert.ToString(ptr[2]));
+			if (!Logfile.IsEnabled)
+			{
+				Logfile.IsEnabled = true;
+				Logfile.Visibility = Visibility.Hidden;
+
+				if (Logfile.SelectedItem == tabErrorLog)
+					PresentErrorLog();
+			}
 		}
 
 		private void btnHopperOK_Click(object sender, RoutedEventArgs e)

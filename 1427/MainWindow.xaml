@@ -29,9 +29,9 @@
         <Button Content="Games" Height="23" HorizontalAlignment="Left" Margin="25,43,0,0" Name="Games" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="Games_Click" Grid.ColumnSpan="2" />
         <Button Content="Hoppers" Height="23" HorizontalAlignment="Left" Margin="25,86,0,0" Name="btnHoppers" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnHoppers_Click" Grid.ColumnSpan="2" />
         <Button Content="Logfiles" Height="23" HorizontalAlignment="Left" Margin="25,129,0,0" Name="btnLogfiles" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnLogfiles_Click" Grid.ColumnSpan="2" />
-        
-        
-        <TabControl TabStripPlacement="Top" Margin="37,0,-11,10" Grid.Row="1" Grid.Column="2" Width="400" Height="400" Visibility="Hidden" Name="MyTab" Grid.ColumnSpan="3">
+
+
+        <TabControl TabStripPlacement="Top" Margin="37,0,-11,100" Grid.Row="1" Grid.Column="2" Width="400" Height="600" Visibility="Hidden" Name="MyTab" Grid.ColumnSpan="3">
             <TabItem Name="tabIitemContent" Header="Clear Hoppers">
                 <StackPanel>
                     <Button Name="btnHopperOK" Content="_OK" Width="Auto" Click="btnHopperOK_Click" />
@@ -52,7 +52,7 @@
             </TabItem>
         </TabControl>
 
-        <TabControl Name="Logfile" TabStripPlacement="Top" Margin="37,0,-11,10" Grid.Row="1" Grid.Column="2" Width="600" Height="600" Visibility="Hidden" Grid.ColumnSpan="3" SelectionChanged="Logfile_SelectionChanged" IsEnabled="False">
+        <TabControl Name="Logfile" TabStripPlacement="Top" Margin="37,0,-11,10" Grid.Row="1" Grid.Column="2" Width="900" Height="600" Visibility="Hidden" Grid.ColumnSpan="3" SelectionChanged="Logfile_SelectionChanged" IsEnabled="False">
             <TabItem Name="tabErrorLog" Header="Error Log">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto">
                     <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
