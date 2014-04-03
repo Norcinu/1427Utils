@@ -18,6 +18,8 @@ unsigned long *GetLastGames()
 	unsigned long games[5] = {0};
 	return games;
 }
+
+
 /*char *GetLastGames(int game_no)
 {
 	unsigned char last_game = LastGameNo;

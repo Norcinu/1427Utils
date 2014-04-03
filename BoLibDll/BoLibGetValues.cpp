@@ -1,7 +1,6 @@
 #include <Windows.h>
 #include <bo.h>
 #include <NVR.H>
-//#include "Main.h"
 #include "BoLibGetValues.h"
 
 extern unsigned long zero_cdeposit(void);
@@ -75,3 +74,11 @@ int Bo_RefillKeyStatus()
 	return GetSwitchStatus(REFILL_KEY);
 }
 
+const char *Bo_GetLastGame()
+{
+	static int GameCounter = 10;
+	// count down and when at zero reset to 10;
+	// 10 is the most recent game.
+	return "";
+}
+//int Bo_Get

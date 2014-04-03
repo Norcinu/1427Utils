@@ -1,7 +1,8 @@
 using System;
+using System.Timers;
 using System.Windows;
-using System.Collections.Generic;
 using PDTUtils.Native;
+using System.Windows.Media;
 
 namespace PDTUtils
 {
@@ -11,14 +12,15 @@ namespace PDTUtils
 		{
 			try
 			{
-				int shell = BoLibNative.Bo_SetEnvironment();
+				int shell = BoLib.Bo_SetEnvironment();
 				if (shell == 0)
 				{
-					//UpdateValues();
-					//Connected = true;
-					//timer = new System.Timers.Timer(1000);
-					//timer.Elapsed += UpdateTimer;
-					//timer.Enabled = true;
+					UpdateValues();
+					Connected = true;
+					timer = new System.Timers.Timer(500);
+					timer.Elapsed += UpdateTimer;
+					timer.Enabled = true;
+					
 					return;
 				}
 				else if (shell == 1)
@@ -40,16 +42,47 @@ namespace PDTUtils
 									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
 				{
 					Application.Current.Shutdown();
+					throw new System.Exception();
 				}
 			}
 			catch (Exception ex)
 			{
-				//	if (MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK,
-				//					MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
-				//{
-				//	Application.Current.Shutdown();
-				//}
+				if (MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK,
+									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
+				{
+					Application.Current.Shutdown();
+					throw new System.Exception();
+				}
 			}
+		}
+
+		public delegate void delUpdate();
+		public void UpdateTimer(object sender, ElapsedEventArgs e)
+		{
+			this.lblDoorStatus.Dispatcher.Invoke((delUpdate)UpdateValues);
+		}
+
+		void UpdateValues()
+		{
+			string status = "Door Status : ";
+			if (BoLib.Bo_GetDoorStatus() == 0)
+			{
+				status += "Closed";
+				SolidColorBrush b = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+				SolidColorBrush f = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+				lblDoorStatus.Background = b;
+				lblDoorStatus.Foreground = f;
+			}
+			else
+			{
+				status += "Open";
+				SolidColorBrush b = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+				SolidColorBrush f = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
+				lblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+				lblDoorStatus.Background = b;
+				lblDoorStatus.Foreground = f;
+			}
+			lblDoorStatus.Content = status;
 		}
 
 		private void PresentLastGames()
@@ -59,7 +92,8 @@ namespace PDTUtils
 
 		private void PresentErrorLog()
 		{
-			string err_log_location = @"D:\\machine\\GAME_DATA\\TerminalErrLog.log";
+			txtErrorLog.Text = "";
+			string err_log_location = @"D:\machine\GAME_DATA\TerminalErrLog.log";
 			Logfile.Visibility = Visibility.Visible;
 			try
 			{
@@ -73,14 +107,20 @@ namespace PDTUtils
 					ctr++;
 				}
 
-				txtErrorLog.Text += "Date\t\t\t  ErrCode\tDescription\r\n";
+				//lstErrLog.it
+
+				txtErrorLog.Text += "Date\t\t  ErrCode\tDescription\r\n";
 				foreach (string s in reveresed)
 				{
 					try
 					{
+						//char[] delims = new char[2]{" ", "\t"};
+						var sub_str = s.Split("\t ".ToCharArray());
+						
 						bool? b = s.Contains("TimeStamp");
 						if (b == false && s != "")
 							txtErrorLog.Text += s + "\r\n";
+						
 					}
 					catch (System.Exception ex)
 					{
