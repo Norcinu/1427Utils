@@ -30,8 +30,16 @@ namespace PDTUtils.Native
 		[return: MarshalAs(UnmanagedType.LPStr)]
 		public unsafe static extern string Bo_GetCurrentError();
 
-		[DllImport(dllName, CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		[return: MarshalAs(UnmanagedType.LPStr)]
 		public unsafe static extern string Bo_GetErrorText();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		public unsafe static extern string Bo_GetLastGame(int index);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		public unsafe static extern string Bo_GetWinningGame(int index);
 	}
 }

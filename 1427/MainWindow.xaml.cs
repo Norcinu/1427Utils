@@ -5,6 +5,9 @@ using System.Windows;
 using System.Windows.Input;
 using PDTUtils.Native;
 using System.Windows.Interop;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Collections.Generic;
 
 
 namespace PDTUtils
@@ -38,37 +41,53 @@ namespace PDTUtils
 
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
-			if (MyTab.Visibility == Visibility.Visible)
+			if (stpButtonPanel.Children.Count == 0) // need to clear these when other button is pressed.
 			{
-				MyTab.IsEnabled = false;
-				MyTab.Visibility = Visibility.Hidden;
-			}
-			else
-			{
-				MyTab.IsEnabled = true;
-				MyTab.Visibility = Visibility.Visible;
+				for (int i = 0; i < 5; i++)
+				{
+					Button b = new Button();
+					b.Content = i.ToString();
+					b.Name = "Button" + i.ToString();
+					b.Click += new RoutedEventHandler(dynamicButton_Click);
+					stpButtonPanel.Children.Add((UIElement)b);
+				}
 			}
 		}
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
-			if (!Logfile.IsEnabled)
+			if (!settingsTab.IsEnabled)
 			{
-				Logfile.IsEnabled = true;
-				Logfile.Visibility = Visibility.Hidden;
+				settingsTab.IsEnabled = true;
+				settingsTab.Visibility = Visibility.Hidden;
 
-				if (Logfile.SelectedItem == tabErrorLog)
-					PresentErrorLog();				
+				var headers = new Dictionary<string, string>();
+				headers.Add("tabErrorLog", "Error Log");
+				headers.Add("tabGameLog", "Last Game Log");
+				headers.Add("tabWinLog", "Wins Log");
+				var brushes = new SolidColorBrush[3]{Brushes.Red, Brushes.Yellow, Brushes.Green};
+
+				var i = 0;
+				foreach (var entry in headers)
+				{
+					TabItem tab = new TabItem();
+					tab.Name = entry.Key;
+					tab.Header = entry.Value;
+					tab.Foreground = brushes[i++];
+					settingsTab.Items.Add(tab);
+				}
+
+				PresentErrorLog();
 			}
 		}
 
 		private void btnHopperOK_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBoxResult result = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
+			var result = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
 			if (result == MessageBoxResult.Yes)
 			{
-				MyTab.IsEnabled = false;
-				MyTab.Visibility = Visibility.Hidden;
+				settingsTab.IsEnabled = false;
+				settingsTab.Visibility = Visibility.Hidden;
 			}
 		}
 
@@ -79,7 +98,7 @@ namespace PDTUtils
 				if (BoLib.Bo_RefillKeyStatus() == 0)
 					MessageBox.Show("Refill Key Off");
 				else
-					MessageBox.Show("Refill Key on");
+					MessageBox.Show("Refill Key On");
 			}
 			catch (SystemException ex)
 			{
@@ -105,14 +124,16 @@ namespace PDTUtils
 
 		private void Logfile_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
 		{
-			if (Logfile.IsEnabled)
+			if (settingsTab.IsEnabled)
 			{
-				if (Logfile.SelectedItem == tabErrorLog)
+				TabItem item = settingsTab.SelectedItem as TabItem;
+				
+				if (item.Name == "tabErrorLog")
 					PresentErrorLog();
-				else if (Logfile.SelectedItem == tabLastGamesLog)
+				else if (item.Name == "tabGameLog")
 					PresentLastGames();
-				else if (Logfile.SelectedItem == tabWinGamesLog)
-					tabWinGamesLog.Content = "Wins Go Here!";
+				else if (item.Name == "tabWinLog")
+					PresentWinningGames();
 			}
 		}
 
@@ -132,6 +153,20 @@ namespace PDTUtils
 
 			if (Connected)
 				BoLib.Bo_Shutdown();
+		}
+
+		private void dynamicButton_Click(Object sender, EventArgs e)
+		{
+			Button b = sender as Button;
+			// identify button and do the relevant stuff
+			int con = Convert.ToInt32(b.Content);
+			con += 1;
+			b.Content = con.ToString();
+		}
+
+		private void updateUiControls(object sender)
+		{
+
 		}
     }
 }

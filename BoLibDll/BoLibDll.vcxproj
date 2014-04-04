@@ -169,13 +169,11 @@
   <ItemGroup>
     <ClInclude Include="BoLibGetValues.h" />
     <ClInclude Include="BoLibSetValues.h" />
-    <ClInclude Include="Source\Main.h" />
     <ClInclude Include="BoLibGeneral.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoLibGetValues.cpp" />
     <ClCompile Include="BoLibSetValues.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="BoLibGeneral.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

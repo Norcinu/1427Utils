@@ -13,4 +13,5 @@ extern "C" DllExport int Bo_GetCredit();
 extern "C" DllExport int Bo_GetBank();		    
 extern "C" DllExport int Bo_AddCredit(int pennies);
 extern "C" DllExport int Bo_GetCountryCode();
-extern "C" DllExport const char *Bo_GetLastGame();
+extern "C" DllExport const char *Bo_GetLastGame(int index);
+extern "C" DllExport const char *Bo_GetWinningGame(int index);

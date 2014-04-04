@@ -53,56 +53,9 @@
         <Button Content="Games" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="26,45,0,0" Name="Games" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="Games_Click" />
         <Button Content="Hoppers" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="26,94,0,0" Name="btnHoppers" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnHoppers_Click" />
         <Button Content="Logfiles" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="26,143,0,0" Name="btnLogfiles" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnLogfiles_Click" />
-        
-
-        <TabControl TabStripPlacement="Top" Margin="135,163,171,201" Grid.Column="1" Width="Auto" Height="Auto" Visibility="Hidden" Name="MyTab" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" IsEnabled="False">
-            <TabItem Name="tabIitemContent" Header="Clear Hoppers">
-                <StackPanel>
-                    <Button Name="btnHopperOK" Content="_OK" Width="Auto" Click="btnHopperOK_Click" />
-                    <Button Name="btnHopperCancel" Content="_Cancel" Width="Auto"/>
-                </StackPanel>
-            </TabItem>
-
-            <TabItem Name="backgroundcolor" Header="Background">
-                <TabItem.Content>Background property information goes here.</TabItem.Content>
-            </TabItem>
-
-            <TabItem Name="foregroundcolor" Header="Foreground">
-                <TabItem.Content>Foreground property information goes here.</TabItem.Content>
-            </TabItem>
-
-            <TabItem Name="bordercolor" Header="BorderColor">
-                <TabItem.Content>Border color property information goes here.</TabItem.Content>
-            </TabItem>
-        </TabControl>
-
-        <TabControl Name="Logfile" TabStripPlacement="Top" Grid.Row="1" Grid.Column="1" Visibility="Hidden" SelectionChanged="Logfile_SelectionChanged" IsEnabled="False" BorderBrush="DarkSalmon" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="18,6,56,60">
-            <TabItem Name="tabErrorLog" Header="Error Log" Foreground="Red">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" FontSize="20">
-                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <TextBlock Name="txtErrorLog" FontFamily="Monaco" Foreground="Black" Background="Beige" Width="551"></TextBlock>
-                    </StackPanel>
-                </ScrollViewer>
-                
-            </TabItem>
-
-            <TabItem Name="tabLastGamesLog" Header="Last Games" Foreground="DarkOrange">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <TextBlock Name="txtLastGamesLog" FontFamily="Monaco" Background="AntiqueWhite"></TextBlock>
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem>
-
-            <TabItem Name="tabWinGamesLog" Header="Winning Games" Foreground="Green">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto">
-                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <TextBlock Name="txtWinGamesLog" FontFamily="Monaco"></TextBlock>
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem>
-        </TabControl>
+        <TabControl Name="settingsTab" TabStripPlacement="Top" Grid.Row="1" Grid.Column="1" Visibility="Hidden" SelectionChanged="Logfile_SelectionChanged" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="18,6,56,60"></TabControl>
         <Label Grid.Column="2" Height="39" HorizontalAlignment="Right" Margin="0,12,0,0" Name="lblDoorStatus" VerticalAlignment="Top" Width="275" FontWeight="Bold" FontSize="26" FontFamily="Cambria" Content="Door Status : Closed" />
+        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Margin="0,6,0,0" Name="stpButtonPanel" VerticalAlignment="Top" Orientation="Horizontal" />
     </Grid>
 
    
