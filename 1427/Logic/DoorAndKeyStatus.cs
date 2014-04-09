@@ -13,6 +13,7 @@ namespace PDTUtils
 	{
 		volatile bool doorStatus;
 		volatile bool running;
+		System.Timers.Timer updateTimer;
 
 		public bool DoorStatus
 		{
@@ -30,6 +31,10 @@ namespace PDTUtils
 		{
 			doorStatus = false;
 			running = true;
+
+			updateTimer = new System.Timers.Timer(1000);
+			updateTimer.Elapsed += CheckForUpdate;
+			updateTimer.Enabled = true;
 		}
 
 		public void Run()
@@ -37,7 +42,7 @@ namespace PDTUtils
 			while (running)
 			{
 				Random r = new Random();
-				if (r.Next(1000) < 100) // could have a timer -> test every second or so.
+				if (r.Next(1000) < 100) // could have a doorStatusTimer -> test every second or so.
 				{
 					if (BoLib.Bo_RefillKeyStatus() == 0)
 					{
@@ -59,6 +64,12 @@ namespace PDTUtils
 				
 				Thread.Sleep(2);
 			}
+		}
+
+		private delegate void TimerUpdate();
+		private void CheckForUpdate(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

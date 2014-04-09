@@ -13,33 +13,39 @@ namespace PDTUtils
 		{
 			try
 			{
-				int shell = BoLib.Bo_SetEnvironment();
+				int shell =  BoLib.Bo_SetEnvironment();
 				if (shell == 0)
 				{
-					UpdateDoorStatusLabel();
 					Connected = true;
-					timer = new System.Timers.Timer(500);
-					timer.Elapsed += UpdateTimer;
-					timer.Enabled = true;
+
+					UpdateDoorStatusLabel();
+					doorStatusTimer = new System.Timers.Timer(500);
+					doorStatusTimer.Elapsed += DoorTimerEvent;
+					doorStatusTimer.Enabled = true;
+
+					GetSystemUptime();
+					uiUpdateTimer = new System.Timers.Timer(1000);
+					uiUpdateTimer.Elapsed += UpdateUiLabels;
+					uiUpdateTimer.Enabled = true;
 					
 					return;
 				}
 				else if (shell == 1)
 				{
-					error_message = "Shell Out of Date. Check If Running.";
+					errorMessage = "Shell Out of Date. Check If Running.";
 				}
 				else if (shell == 2)
 				{
-					error_message = "Bo Lib Out of Date.";
+					errorMessage = "Bo Lib Out of Date.";
 				}
 				else
 				{
-					error_message = "Unknown Error Occurred.";
+					errorMessage = "Unknown Error Occurred.";
 				}
 
-				error_message += "\nFix the issue and restart program.";
+				errorMessage += "\nFix the issue and restart program.";
 
-				if (MessageBox.Show(error_message, "Error", MessageBoxButton.OK,
+				if (MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK,
 									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
 				{
 					Application.Current.Shutdown();
@@ -58,9 +64,14 @@ namespace PDTUtils
 		}
 
 		public delegate void DelegateUpdate();
-		public void UpdateTimer(object sender, ElapsedEventArgs e)
+		public void DoorTimerEvent(object sender, ElapsedEventArgs e)
 		{
 			this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
+		}
+
+		public void UpdateUiLabels(object sender, ElapsedEventArgs e)
+		{
+			this.lblUptime.Dispatcher.Invoke((DelegateUpdate)GetSystemUptime);
 		}
 
 		void UpdateDoorStatusLabel()

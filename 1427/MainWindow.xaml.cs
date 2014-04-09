@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Management;
 using System.Threading;
 using System.Windows;
-using System.Windows.Input;
-using PDTUtils.Native;
-using System.Windows.Interop;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Collections.Generic;
+using PDTUtils.Native;
 
 
 namespace PDTUtils
@@ -18,11 +18,12 @@ namespace PDTUtils
     public partial class MainWindow : Window
     {
 		bool Connected = false;
-		string error_message = "";
+		string errorMessage = "";
 		DoorAndKeyStatus k = new DoorAndKeyStatus();
 		BackgroundWorker w = new BackgroundWorker();
 		ErrorLog ErrorLogText = new ErrorLog();
-		System.Timers.Timer timer;
+		System.Timers.Timer doorStatusTimer;
+		System.Timers.Timer uiUpdateTimer;
 		Thread t;
 		
 		public MainWindow()
@@ -95,15 +96,32 @@ namespace PDTUtils
 		{
 			try
 			{
-				if (BoLib.Bo_RefillKeyStatus() == 0)
-					MessageBox.Show("Refill Key Off");
-				else
-					MessageBox.Show("Refill Key On");
+				string filename = "D:\\1199\\1199L27U010R.exe";
+				MessageBox.Show(FileHashing.GetFileHash(@filename), "MD5 " + filename, MessageBoxButton.OK);
+
+				if (lblUptime.IsEnabled == false)
+				{
+					lblUptime.Visibility = System.Windows.Visibility.Visible;
+					lblUptime.IsEnabled = true;
+					lblUptime.FontSize = 36;
+					lblUptime.Foreground = Brushes.Magenta;
+					lblUptime.Background = Brushes.Black;
+				//	GetSystemUptime();
+				}
 			}
 			catch (SystemException ex)
 			{
 				Console.WriteLine(ex.Message);
 			}
+		}
+
+		private void GetSystemUptime()
+		{
+			var ticks = Stopwatch.GetTimestamp();
+			var uptime = ((double)ticks) / Stopwatch.Frequency;
+			var uptimeSpan = TimeSpan.FromSeconds(uptime);
+			var u = uptimeSpan.ToString().Split(".".ToCharArray());
+			lblUptime.Content = u[0];
 		}
 
 		private void WindowMain_Loaded(object sender, RoutedEventArgs e)
@@ -158,15 +176,29 @@ namespace PDTUtils
 		private void dynamicButton_Click(Object sender, EventArgs e)
 		{
 			Button b = sender as Button;
-			// identify button and do the relevant stuff
 			int con = Convert.ToInt32(b.Content);
 			con += 1;
 			b.Content = con.ToString();
 		}
 
-		private void updateUiControls(object sender)
+		private void button1_Click(object sender, RoutedEventArgs e)
 		{
+			ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");
+			ManagementBaseObject inParams, outParams;
+			int result;
+			W32_OS.Scope.Options.EnablePrivileges = true;
 
+			foreach(ManagementObject obj in W32_OS.GetInstances())
+			{
+				inParams = obj.GetMethodParameters("Win32Shutdown");
+				inParams["Flags"] = 6; //ForcedReboot;
+				inParams["Reserved"] = 0;
+
+				outParams = obj.InvokeMethod("Win32Shutdown", inParams, null);
+				result = Convert.ToInt32(outParams["returnValue"]);
+				if (result != 0) 
+					throw new Win32Exception(result);
+			}
 		}
     }
 }

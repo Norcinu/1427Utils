@@ -146,8 +146,8 @@ const char *Bo_GetLastGame(int index)
 {
 	std::string fields[LAST_GAME_FIELDS] = {" : ", " : ", " : ", " : ", " : ", " : ", " : ", " : ", " : "};
 	fields[0] = TO_STR(LastGames[index][0]); // This should be the .raw icon file
-	fields[2] = TO_STR(LastGames[index][1]) + ":" + TO_STR(LastGames[index][2]) 
-		+ " " + TO_STR(LastGames[index][3]) + "/" + TO_STR(LastGames[index][4]);
+	fields[2] = TO_STR(LastGames[index][3]) + ":" + TO_STR(LastGames[index][4]) 
+		+ " " + TO_STR(LastGames[index][1]) + "/" + TO_STR(LastGames[index][2]);
 	fields[4] = ReturnDenom(index, 5, TO_STR(LastGames[index][5]));
 	fields[6] = ReturnDenom(index, 6, TO_STR(LastGames[index][6]));
 	fields[8] = ReturnDenom(index, 7, TO_STR(LastGames[index][7]));
@@ -157,7 +157,7 @@ const char *Bo_GetLastGame(int index)
 		game_info += fields[i];
 	
     int field_length = game_info.size()-1;
-	char buffer[512] = {0};
+	char buffer[512] = {0}; // erm? it only uses 44 chars and the rest dont get set to 0?
 	//strncpy_s(buffer, field_length, game_info.c_str(), field_length);
 	strncpy_s(buffer, game_info.c_str(), 511);
 	return buffer;

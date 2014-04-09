@@ -56,8 +56,10 @@
     <StartupObject>PDTUtils.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationBuildTasks" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
@@ -78,8 +80,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BoLibNative\BoLibNative.cs" />
-    <Compile Include="DoorAndKeyStatus.cs" />
-    <Compile Include="ErrorLog.cs" />
+    <Compile Include="Logic\DoorAndKeyStatus.cs" />
+    <Compile Include="Logic\ErrorLog.cs" />
+    <Compile Include="Logic\FileHashing.cs" />
+    <Compile Include="Logic\MachineGameStatistics.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
