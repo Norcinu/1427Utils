@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Native;
+using PDTUtils.Logic;
 
 
 namespace PDTUtils
@@ -25,7 +26,8 @@ namespace PDTUtils
 		System.Timers.Timer doorStatusTimer;
 		System.Timers.Timer uiUpdateTimer;
 		Thread t;
-		
+		MachineIni machineIni = new MachineIni();
+
 		public MainWindow()
         {
             InitializeComponent();
@@ -140,7 +142,7 @@ namespace PDTUtils
 			}
 		}
 
-		private void Logfile_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+		private void Logfile_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (settingsTab.IsEnabled)
 			{
@@ -178,12 +180,20 @@ namespace PDTUtils
 			Button b = sender as Button;
 			int con = Convert.ToInt32(b.Content);
 			con += 1;
-			b.Content = con.ToString();
+			b.Content = this.VisualChildrenCount.ToString();
+			//b.Content = con.ToString();
 		}
 
 		private void button1_Click(object sender, RoutedEventArgs e)
 		{
-			ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");
+			//MachineInfo mi = new MachineInfo();
+			//mi.ProbeMachine();
+
+			machineIni.ParseIni();
+			MessageBox.Show(machineIni.GetIniValue("Dpercentage"));
+			MessageBox.Show(machineIni["Machine Number"]);
+		}
+			/*ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");
 			ManagementBaseObject inParams, outParams;
 			int result;
 			W32_OS.Scope.Options.EnablePrivileges = true;
@@ -199,6 +209,7 @@ namespace PDTUtils
 				if (result != 0) 
 					throw new Win32Exception(result);
 			}
-		}
+			 */
+		//}
     }
 }
