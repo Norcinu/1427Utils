@@ -81,12 +81,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BoLibNative\BoLibNative.cs" />
+    <Compile Include="BoLibNative\MeterTypes.cs" />
     <Compile Include="Logic\DoorAndKeyStatus.cs" />
     <Compile Include="Logic\ErrorLog.cs" />
     <Compile Include="Logic\FileHashing.cs" />
     <Compile Include="Logic\MachineGameStatistics.cs" />
     <Compile Include="Logic\MachineInfo.cs" />
     <Compile Include="Logic\MachineIni.cs" />
+    <Compile Include="Logic\UsbControl.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Management;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using PDTUtils.Native;
 using PDTUtils.Logic;
+using PDTUtils.Native;
 
 
 namespace PDTUtils
@@ -26,7 +25,8 @@ namespace PDTUtils
 		System.Timers.Timer doorStatusTimer;
 		System.Timers.Timer uiUpdateTimer;
 		Thread t;
-		MachineIni machineIni = new MachineIni();
+		MachineIni _machineIni = new MachineIni();
+		UniqueIniCategory _uniqueIniCategory = new UniqueIniCategory();
 
 		public MainWindow()
         {
@@ -37,7 +37,17 @@ namespace PDTUtils
 			//this.Cursor = Cursors.None;
         }
 
-        private void btnExit_Click(object sender, RoutedEventArgs e)
+		public MachineIni GetMachineIni
+		{ 
+			get { return _machineIni; } 
+		}
+
+		public UniqueIniCategory GetUniqueCategories
+		{
+			get { return _uniqueIniCategory; }
+		}
+		
+		private void btnExit_Click(object sender, RoutedEventArgs e)
         {
 			Application.Current.Shutdown();
         }
@@ -99,7 +109,7 @@ namespace PDTUtils
 			try
 			{
 				string filename = "D:\\1199\\1199L27U010R.exe";
-				MessageBox.Show(FileHashing.GetFileHash(@filename), "MD5 " + filename, MessageBoxButton.OK);
+				MessageBox.Show(FileHashing.GetFileHash(filename), "MD5 " + filename, MessageBoxButton.OK);
 
 				if (lblUptime.IsEnabled == false)
 				{
@@ -130,7 +140,7 @@ namespace PDTUtils
 		{
 			try
 			{
-				InitialiseBoLib();
+				//InitialiseBoLib();
 				t = new Thread(new ThreadStart(k.Run));
 				t.Start();
 				while (!t.IsAlive);
@@ -175,6 +185,7 @@ namespace PDTUtils
 				BoLib.Bo_Shutdown();
 		}
 
+		
 		private void dynamicButton_Click(Object sender, EventArgs e)
 		{
 			Button b = sender as Button;
@@ -184,14 +195,46 @@ namespace PDTUtils
 			//b.Content = con.ToString();
 		}
 
-		private void button1_Click(object sender, RoutedEventArgs e)
+		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
-			//MachineInfo mi = new MachineInfo();
-			//mi.ProbeMachine();
+			_machineIni.ParseIni();
+			MessageBox.Show("Machine RTP " + _machineIni.GetIniValue("Datapack.Dpercentage") + "%");
+			MessageBox.Show("Machine Number " + _machineIni["Server.Machine Number"]);
 
-			machineIni.ParseIni();
-			MessageBox.Show(machineIni.GetIniValue("Dpercentage"));
-			MessageBox.Show(machineIni["Machine Number"]);
+			// commit changes to memory
+		}
+
+		private void btnMachineIni_Click(object sender, RoutedEventArgs e)
+		{
+			RemoveChildrenFromStackPanel();
+		
+			_machineIni.ParseIni();
+			_uniqueIniCategory.Find(_machineIni);
+
+			stpButtonPanel.Orientation = Orientation.Vertical;
+	
+			MachineIniCategorys.IsEnabled = true;
+			MachineIniCategorys.Visibility = Visibility.Visible;
+			var secondOrigParent = VisualTreeHelper.GetParent(MachineIniCategorys);
+			var secondParentPanel = secondOrigParent as Panel;
+			secondParentPanel.Children.Remove(MachineIniCategorys);
+			stpButtonPanel.Children.Add(MachineIniCategorys);
+
+			MachineIniListView.IsEnabled = true;
+			MachineIniListView.Visibility = Visibility.Visible;
+			var originalParent = VisualTreeHelper.GetParent(MachineIniListView);
+			var parentAsPanel = originalParent as Panel;
+			parentAsPanel.Children.Remove(MachineIniListView);
+			stpButtonPanel.Children.Add(MachineIniListView);
+		}
+
+		private void RemoveChildrenFromStackPanel()
+		{
+			int childCount = stpButtonPanel.Children.Count;
+			if (childCount > 0)
+			{
+				stpButtonPanel.Children.RemoveRange(0, childCount);
+			}
 		}
 			/*ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");
 			ManagementBaseObject inParams, outParams;

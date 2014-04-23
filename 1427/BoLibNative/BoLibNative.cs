@@ -10,7 +10,6 @@ namespace PDTUtils.Native
 #else
         const string dllName = "BoLibDll.dll";
 #endif
-
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern int Bo_SetEnvironment();
 
@@ -41,5 +40,11 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		[return: MarshalAs(UnmanagedType.LPStr)]
 		public unsafe static extern string Bo_GetWinningGame(int index);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint Bo_GetPerformanceMeter(byte Offset);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint Bo_GetGamePerformanceMeter(uint Offset, uint MeterType);
 	}
 }

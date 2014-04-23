@@ -145,6 +145,7 @@ namespace PDTUtils
 		}
 
 		private void PresentWinningGames()
+		
 		{
 			TextBlock tb = GetTabTextBlock(Brushes.LightBlue, Brushes.Salmon);
 			for (int i = 0; i < 10; i++)

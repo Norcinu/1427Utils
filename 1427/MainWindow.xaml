@@ -1,8 +1,14 @@
 ﻿<Window x:Class="PDTUtils.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Title="1427 Shell Utils" Height="600" Width="800" Name="WindowMain" WindowStyle="None" Loaded="WindowMain_Loaded" WindowState="Maximized" Closing="WindowMain_Closing" Foreground="#FF837C7C" Background="Black" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-   
+
+   <!-- <Window.Resources>
+        <ObjectDataProvider x:Key="MachineIniDataSource"
+           ObjectType="{x:Type ds:PDTUtils.Logic.MachineIni}"/>
+    </Window.Resources> -->
+    
     <!--<Grid Background="#FFC78585"></Grid>-->
     <Grid>
         <Grid.ColumnDefinitions>
@@ -55,9 +61,37 @@
         <Button Content="Logfiles" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="26,143,0,0" Name="btnLogfiles" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnLogfiles_Click" />
         <TabControl Name="settingsTab" TabStripPlacement="Top" Grid.Row="1" Grid.Column="1" Visibility="Hidden" SelectionChanged="Logfile_SelectionChanged" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="18,6,56,60"></TabControl>
         <Label Grid.Column="2" Height="39" HorizontalAlignment="Right" Margin="0,12,0,0" Name="lblDoorStatus" VerticalAlignment="Top" Width="275" FontWeight="Bold" FontSize="26" FontFamily="Cambria" Content="Door Status : Closed" />
-        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Margin="0,6,0,0" Name="stpButtonPanel" VerticalAlignment="Top" Orientation="Horizontal" />
-        <Button Content="Button" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="26,399,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
+        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Margin="0,6,0,0" Name="stpButtonPanel" VerticalAlignment="Top" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+        <Button Content="Button" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="26,399,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="modifySettingsButton_Click" />
         <Label Height="Auto" HorizontalAlignment="Left" Margin="292,12,0,0" Name="lblUptime" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Width="Auto" FontSize="36" IsEnabled="False" Visibility="Collapsed" />
+        <Button Content="Edit Machine Ini" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="12,359,0,0" Name="btnMachineIni" VerticalAlignment="Top" Width="89" Click="btnMachineIni_Click" />
+
+        <ComboBox Width="100" Height="35" Name="MachineIniCategorys" IsEnabled="False" Visibility="Hidden"
+                  ItemsSource="{Binding GetUniqueCategories}"
+                  DisplayMemberPath="Category"
+                  SelectedValuePath="Category"
+                  SelectedValue="{Binding Category}" />
+        
+        <ListView ItemsSource="{Binding GetMachineIni}" Name="MachineIniListView" IsEnabled="False" Visibility="Hidden">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="true"
+                    ColumnHeaderToolTip="Machine INI config settings">
+                        <GridViewColumn DisplayMemberBinding=
+                                "{Binding Path=Category}" 
+                            Header="Category" Width="150"/>
+
+                        <GridViewColumn DisplayMemberBinding=
+                                "{Binding Path=Field}" 
+                            Header="Field"  Width="150" >
+                        </GridViewColumn>
+
+                        <GridViewColumn DisplayMemberBinding=
+                                "{Binding Path=Value}" 
+                            Header="Value" Width="450"/>
+                    </GridView>
+
+                </ListView.View>
+        </ListView>
     </Grid>
 
    

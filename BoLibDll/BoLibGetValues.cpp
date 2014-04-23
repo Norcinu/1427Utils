@@ -178,3 +178,14 @@ const char *Bo_GetWinningGame(int index)
 
 	return "";
 }
+
+
+unsigned long Bo_GetPerformanceMeter(unsigned char Offset)
+{
+	return GetPerformanceMeter(Offset);
+}
+
+unsigned long Bo_GetGamePerformanceMeter(unsigned int Offset, unsigned int MeterType)
+{
+	return GetGamePerformanceMeter(Offset, MeterType);
+}

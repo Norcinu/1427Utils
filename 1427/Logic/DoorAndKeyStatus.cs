@@ -44,7 +44,7 @@ namespace PDTUtils
 				Random r = new Random();
 				if (r.Next(1000) < 100) // could have a doorStatusTimer -> test every second or so.
 				{
-					if (BoLib.Bo_RefillKeyStatus() == 0)
+				/*	if (BoLib.Bo_RefillKeyStatus() == 0)
 					{
 						running = false;
 						Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
@@ -59,7 +59,7 @@ namespace PDTUtils
 					{
 						if (doorStatus == false)
 							doorStatus = true;
-					}
+					}*/
 				}
 				
 				Thread.Sleep(2);

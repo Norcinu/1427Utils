@@ -15,3 +15,5 @@ extern "C" DllExport int Bo_AddCredit(int pennies);
 extern "C" DllExport int Bo_GetCountryCode();
 extern "C" DllExport const char *Bo_GetLastGame(int index);
 extern "C" DllExport const char *Bo_GetWinningGame(int index);
+extern "C" DllExport unsigned long Bo_GetPerformanceMeter(unsigned int Offset);
+extern "C" DllExport unsigned long Bo_GetGamePerformanceMeter(unsigned int Offset, unsigned int MeterType);

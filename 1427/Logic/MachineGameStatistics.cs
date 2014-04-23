@@ -16,8 +16,6 @@ namespace PDTUtils
 
 		public void Update()
 		{
-		}
-
-		
+		}		
 	}
 }
