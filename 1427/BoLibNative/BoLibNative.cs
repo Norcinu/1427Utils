@@ -46,5 +46,11 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern uint Bo_GetGamePerformanceMeter(uint Offset, uint MeterType);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern int BO_GetLocalMasterVolume();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void BO_SetLocalMasterVolume(uint val);
 	}
 }

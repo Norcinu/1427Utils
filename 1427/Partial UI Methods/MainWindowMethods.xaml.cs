@@ -1,4 +1,5 @@
 using System;
+using System.Media;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,36 +17,36 @@ namespace PDTUtils
 				int shell =  BoLib.Bo_SetEnvironment();
 				if (shell == 0)
 				{
-					Connected = true;
+					m_connected = true;
 
 					UpdateDoorStatusLabel();
-					doorStatusTimer = new System.Timers.Timer(500);
-					doorStatusTimer.Elapsed += DoorTimerEvent;
-					doorStatusTimer.Enabled = true;
+					m_doorStatusTimer = new System.Timers.Timer(500);
+					m_doorStatusTimer.Elapsed += DoorTimerEvent;
+					m_doorStatusTimer.Enabled = true;
 
 					GetSystemUptime();
-					uiUpdateTimer = new System.Timers.Timer(1000);
-					uiUpdateTimer.Elapsed += UpdateUiLabels;
-					uiUpdateTimer.Enabled = true;
+					m_uiUpdateTimer = new System.Timers.Timer(1000);
+					m_uiUpdateTimer.Elapsed += UpdateUiLabels;
+					m_uiUpdateTimer.Enabled = true;
 					
 					return;
 				}
 				else if (shell == 1)
 				{
-					errorMessage = "Shell Out of Date. Check If Running.";
+					m_errorMessage = "Shell Out of Date. Check If Running.";
 				}
 				else if (shell == 2)
 				{
-					errorMessage = "Bo Lib Out of Date.";
+					m_errorMessage = "Bo Lib Out of Date.";
 				}
 				else
 				{
-					errorMessage = "Unknown Error Occurred.";
+					m_errorMessage = "Unknown Error Occurred.";
 				}
 
-				errorMessage += "\nFix the issue and restart program.";
+				m_errorMessage += "\nFix the issue and restart program.";
 
-				if (MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK,
+				if (MessageBox.Show(m_errorMessage, "Error", MessageBoxButton.OK,
 									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
 				{
 					Application.Current.Shutdown();
@@ -79,18 +80,57 @@ namespace PDTUtils
 			string status = "Door Status : ";
 			if (BoLib.Bo_GetDoorStatus() == 0)
 			{
+				//DetectDoorChange(@"./wav/util_exit.wav");	
 				status += "Closed";
 				lblDoorStatus.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
 				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
 			}
 			else
 			{
+				//DetectDoorChange(@"./wav/util_exit.wav");
 				status += "Open";
 				lblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
 				lblDoorStatus.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
 				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
 			}
 			lblDoorStatus.Content = status;
+		}
+
+		private void DetectDoorChange(string filename)
+		{
+			if (m_keyDoorWorker.HasChanged == true)
+			{
+				PlaySoundOnEvent(filename);
+				m_keyDoorWorker.HasChanged = false;
+			}
+		}
+
+		/// <summary>
+		/// Draw the option buttons for the suitable door status or
+		/// the users card level.
+		/// </summary>
+		private void DetectDoorStatus()
+		{
+			if (m_keyDoorWorker.DoorStatus == false) // door closed.
+			{
+
+			}
+			else // door open.
+			{
+
+			}
+		}
+
+		private void ChangeVolume(int newVolume)
+		{
+			int volume = BoLib.BO_GetLocalMasterVolume();
+			//setlocalvolume(volume - 5);
+		}
+
+		private void PlaySoundOnEvent(string filename)
+		{
+			SoundPlayer sound = new SoundPlayer(filename);
+			sound.Play();
 		}
 
 		private void PresentErrorLog()
@@ -120,7 +160,6 @@ namespace PDTUtils
 						bool? b = s.Contains("TimeStamp");
 						if (b == false && s != "")
 							txtErrorLog.Text += s + "\r\n";
-
 					}
 					catch (System.Exception ex)
 					{
@@ -145,13 +184,15 @@ namespace PDTUtils
 		}
 
 		private void PresentWinningGames()
-		
 		{
 			TextBlock tb = GetTabTextBlock(Brushes.LightBlue, Brushes.Salmon);
 			for (int i = 0; i < 10; i++)
 			{
-				tb.Text += "I = " + i.ToString() +" : ";
-				tb.Text += BoLib.Bo_GetWinningGame(i) + "\r\n";
+				if (BoLib.Bo_GetWinningGame(i) != "")
+				{
+					tb.Text += "I = " + i.ToString() + " : ";
+					tb.Text += BoLib.Bo_GetWinningGame(i) + "\r\n";
+				}
 			}
 		}
 

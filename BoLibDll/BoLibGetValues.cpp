@@ -165,17 +165,33 @@ const char *Bo_GetLastGame(int index)
 
 const char *Bo_GetWinningGame(int index)
 {
-	auto selected_game = LastGames[index][6];
-	if (selected_game)
+	auto winValue = LastGames[index][6];
+	if (winValue)
 	{
-		auto value = utils::to_string(selected_game);
+		auto value = utils::to_string(winValue);
+		value.insert(0, "£");
 		value.insert(value.size()-2, ".");
-		char buffer[16] = {0};
+		int copySize = 0;
+		if (utils::GetDigit(winValue, 4) > 0)
+			copySize = 7;
+		else if (utils::GetDigit(winValue, 3) > 0)
+			copySize = 6;
+		else if (utils::GetDigit(winValue, 2) > 0)
+			copySize = 5;
+		else
+			copySize = 4;
+		const char * name = value.c_str();
+		char buffer[7] = {0};
+		//char buffer[6] = {0};
+		//for (int i = 0; i < value.size(); i++)
+		//	buffer[i] = value[i];
 		//strncpy_s(buffer, 8, value.c_str(), 7);
-		strncpy_s(buffer, value.c_str(), 15);
+		//strncpy_s(buffer, 7, value.c_str(), value.size());
+		strncpy_s(buffer, value.c_str(), value.size());
+		//return std::move(value.c_str());
 		return buffer;
+		//return value.c_str();
 	}
-
 	return "";
 }
 
@@ -188,4 +204,9 @@ unsigned long Bo_GetPerformanceMeter(unsigned char Offset)
 unsigned long Bo_GetGamePerformanceMeter(unsigned int Offset, unsigned int MeterType)
 {
 	return GetGamePerformanceMeter(Offset, MeterType);
+}
+
+unsigned int BO_GetLocalMasterVolume()
+{
+	return GetLocalMasterVolume();
 }

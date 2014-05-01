@@ -17,3 +17,4 @@ extern "C" DllExport const char *Bo_GetLastGame(int index);
 extern "C" DllExport const char *Bo_GetWinningGame(int index);
 extern "C" DllExport unsigned long Bo_GetPerformanceMeter(unsigned int Offset);
 extern "C" DllExport unsigned long Bo_GetGamePerformanceMeter(unsigned int Offset, unsigned int MeterType);
+extern "C" DllExport unsigned int BO_GetLocalMasterVolume();

@@ -4,33 +4,42 @@ using System.Text;
 using System.Windows;
 using System.Threading;
 using System.Windows.Threading;
-
 using PDTUtils.Native;
 
 namespace PDTUtils
 {
 	public class DoorAndKeyStatus
 	{
-		volatile bool doorStatus;
-		volatile bool running;
+		volatile bool m_doorStatus;
+		volatile bool m_running;
+		volatile bool m_hasChanged;
 		System.Timers.Timer updateTimer;
+
+		#region Properties
+		public bool HasChanged
+		{
+			get { return m_hasChanged; }
+			set { m_hasChanged = value; }
+		}
 
 		public bool DoorStatus
 		{
-			get { return doorStatus; }
-			set { doorStatus = value; }
+			get { return m_doorStatus; }
+			set { m_doorStatus = value; }
 		}
 
 		public bool Running
 		{
-			get { return running; }
-			set { running = value; }
+			get { return m_running; }
+			set { m_running = value; }
 		}
-		
+		#endregion
+
 		public DoorAndKeyStatus()
 		{
-			doorStatus = false;
-			running = true;
+			m_doorStatus = false;
+			m_running = true;
+			m_hasChanged = false;
 
 			updateTimer = new System.Timers.Timer(1000);
 			updateTimer.Elapsed += CheckForUpdate;
@@ -39,27 +48,33 @@ namespace PDTUtils
 
 		public void Run()
 		{
-			while (running)
+			while (m_running)
 			{
 				Random r = new Random();
-				if (r.Next(1000) < 100) // could have a doorStatusTimer -> test every second or so.
+				if (r.Next(1000) < 100)
 				{
-				/*	if (BoLib.Bo_RefillKeyStatus() == 0)
+					if (BoLib.Bo_RefillKeyStatus() == 0)
 					{
-						running = false;
+						m_running = false;
 						Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 					}
 
 					if (BoLib.Bo_GetDoorStatus() == 0)
 					{
-						if (doorStatus == true)
-							doorStatus = false; // delegate to set this in the other thread? or just read straight from?
+						if (m_doorStatus == true)
+						{
+							m_doorStatus = false;
+							m_hasChanged = true;
+						}
 					}
 					else
 					{
-						if (doorStatus == false)
-							doorStatus = true;
-					}*/
+						if (m_doorStatus == false)
+						{
+							m_doorStatus = true;
+							m_hasChanged = true;
+						}
+					}
 				}
 				
 				Thread.Sleep(2);

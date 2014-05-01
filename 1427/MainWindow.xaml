@@ -50,7 +50,7 @@
         <!-- columnspan="5" -->
         <Label Name="lblLeft" Background="DimGray" BorderBrush="Black" BorderThickness="2" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="1" Margin="0,0,1,0" Grid.Column="0">Green 1</Label>
         <!--Background="LightGreen"-->
-        <Label Name="lblRight" Background="DimGray" BorderBrush="Black" BorderThickness="2" Grid.Column="1" Grid.Row="1" Margin="0,0,0,47" Grid.RowSpan="2">Blue 1</Label>
+        <Label Name="lblRight" Background="DimGray" BorderBrush="Black" BorderThickness="2" Grid.Column="1" Grid.Row="1" Margin="0,0,0,47" Grid.RowSpan="2" Style="{Binding}" IsEnabled="True">Blue 1</Label>
         <Label Name="lblBottom" Background="#336699" BorderBrush="Black" BorderThickness="2" Grid.Row="2" Grid.Column="1" Height="48" VerticalAlignment="Bottom">Bottom 1</Label>
         <!--Background="LightBlue"-->
         <!--<Label Grid.Column="1" Grid.Row="2" Grid.RowSpan="1" Background="Yellow">Yellow 1</Label>
@@ -70,9 +70,9 @@
                   ItemsSource="{Binding GetUniqueCategories}"
                   DisplayMemberPath="Category"
                   SelectedValuePath="Category"
-                  SelectedValue="{Binding Category}" />
+                  SelectedValue="{Binding Category}" SelectionChanged="MachineIniCategorys_SelectionChanged" DropDownClosed="MachineIniCategorys_DropDownClosed" />
         
-        <ListView ItemsSource="{Binding GetMachineIni}" Name="MachineIniListView" IsEnabled="False" Visibility="Hidden">
+        <!--<ListView ItemsSource="{Binding GetMachineIni}" Name="MachineIniListView" IsEnabled="False" Visibility="Hidden">
                 <ListView.View>
                     <GridView AllowsColumnReorder="true"
                     ColumnHeaderToolTip="Machine INI config settings">
@@ -91,7 +91,24 @@
                     </GridView>
 
                 </ListView.View>
+        </ListView>-->
+
+        <ListView Name="MachineIniListView" IsEnabled="False" Visibility="Hidden">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true"
+                    ColumnHeaderToolTip="Machine INI config settings">
+                    <GridViewColumn Header="Category" Width="150"/>
+
+                    <GridViewColumn Header="Field"  Width="150" />
+
+                    <GridViewColumn Header="Value" Width="450"/>
+                </GridView>
+            </ListView.View>
+            
         </ListView>
+        <Slider Grid.Column="1" Grid.Row="1" Height="50" HorizontalAlignment="Center" Margin="0,205,118,183" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500" Visibility="Hidden" IsEnabled="False" DataContext="{Binding Path=Content}" TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
+        <Button Content="Set Volume" Height="23" HorizontalAlignment="Left" Margin="26,186,0,0" Name="btnVolume" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnVolume_Click" />
+        <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,205,81,211" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" />
     </Grid>
 
    

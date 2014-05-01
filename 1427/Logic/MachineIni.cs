@@ -41,7 +41,7 @@ namespace PDTUtils.Logic
 
 	// need to check for duplicates, remove etc...
 	public class UniqueIniCategory : ObservableCollection<IniElement>
-	{
+	{ 
 		private List<string> uniqueEntries = new List<string>();
 		public UniqueIniCategory()
 		{
@@ -91,7 +91,17 @@ namespace PDTUtils.Logic
 			get { return Items; }
 		}
 		#endregion
+
+		public void Save()
+		{
+
+		}
 		
+
+		/// <summary>
+		/// Read Machine and parse accordingly.
+		/// </summary>
+		/// <returns></returns>
 		public bool ParseIni()
 		{
 			using (FileStream fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

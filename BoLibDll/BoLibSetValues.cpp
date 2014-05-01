@@ -43,3 +43,8 @@ void Bo_SetTargetPercentage(int Percentage)
 {
 	SetTargetPercentage(Percentage);
 }
+
+void BO_SetLocalMasterVolume(unsigned int val)
+{
+	SetLocalMasterVolume(val);
+}

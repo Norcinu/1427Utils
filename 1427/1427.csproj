@@ -72,6 +72,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="IniSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -82,6 +86,9 @@
     </Compile>
     <Compile Include="BoLibNative\BoLibNative.cs" />
     <Compile Include="BoLibNative\MeterTypes.cs" />
+    <Compile Include="IniSettingsWindow.xaml.cs">
+      <DependentUpon>IniSettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Logic\DoorAndKeyStatus.cs" />
     <Compile Include="Logic\ErrorLog.cs" />
     <Compile Include="Logic\FileHashing.cs" />
