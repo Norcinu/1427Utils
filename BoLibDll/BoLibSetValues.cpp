@@ -6,45 +6,45 @@
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
 
-int Bo_SetEnvironment()
+int setEnvironment()
 {
 	return SetEnvironment(RELEASEx);
 }
 
-void Bo_Shutdown()
+void closeSharedMemory()
 {
 	CloseSharedMemory();
 }
 
-void Bo_ClearBankAndCredit()
+void clearBankAndCredit()
 {
 	ZeroBankDeposit();
 	zero_cdeposit();
 }
 
-int Bo_SetCountryCode(int countryCode)
+int setCountryCode(int countryCode)
 {
 	nvr_main->countryCode = countryCode;
 	return GetCountry();
 }
 
-int Bo_ClearError()
+int clearError()
 {
 	ClearCriticalError(GetCurrentError());
 	return GetCurrentError();
 }
 
-void Bo_TransferBankToCredit()
+void transferBankToCredit()
 {
 	TransferFromBankToCredits();
 }
 
-void Bo_SetTargetPercentage(int Percentage)
+void setTargetPercentage(int Percentage)
 {
 	SetTargetPercentage(Percentage);
 }
 
-void BO_SetLocalMasterVolume(unsigned int val)
+void setLocalMasterVolume(unsigned int val)
 {
 	SetLocalMasterVolume(val);
 }

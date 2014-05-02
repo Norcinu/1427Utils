@@ -1,10 +1,10 @@
 #define DllExport __declspec(dllexport)
 
-extern "C" DllExport int Bo_SetEnvironment();
-extern "C" DllExport void Bo_Shutdown();
-extern "C" DllExport void Bo_ClearBankAndCredit();
-extern "C" DllExport int Bo_SetCountryCode(int countryCode);
-extern "C" DllExport int Bo_ClearError();
-extern "C" DllExport void Bo_TransferBankToCredit();
-extern "C" DllExport void Bo_SetTargetPercentage(int Percentage);
-extern "C" DllExport void BO_SetLocalMasterVolume(unsigned int val);
+extern "C" DllExport int setEnvironment();
+extern "C" DllExport void closeSharedMemory();
+extern "C" DllExport void clearBankAndCredit();
+extern "C" DllExport int setCountryCode(int countryCode);
+extern "C" DllExport int clearError();
+extern "C" DllExport void transferBankToCredit();
+extern "C" DllExport void setTargetPercentage(int Percentage);
+extern "C" DllExport void setLocalMasterVolume(unsigned int val);

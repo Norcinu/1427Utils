@@ -59,17 +59,17 @@ namespace utils
 // 
 
 // Functions for export 
-int Bo_GetCredit()
+int getCredit()
 {
 	return GetCredits();
 }
 
-int Bo_GetBank()
+int getBank()
 {
 	return GetBankDeposit();
 }
 
-int Bo_AddCredit(int pennies)
+int addCredit(int pennies)
 {
 	int toBank = 0;
 	if(pennies > GetVariableValue(MAX_WBANK_TRANSFER))
@@ -82,47 +82,47 @@ int Bo_AddCredit(int pennies)
 	return add_cdeposit(pennies);
 }
 
-int Bo_GetCountryCode()
+int getCountryCode()
 {
 	return GetCountry();
 }
 
-bool Bo_IsDualBank()
+bool isDualBank()
 {
 	return GetBankAndCreditMeter() ? true : false;
 }
 
-int Bo_GetError()
+int getError()
 {
 	return GetCurrentError();
 }
 
-const char* Bo_GetErrorText()
+const char* getErrorText()
 {
 	return GetErrorText(GetCurrentError());
 }
 
-int Bo_GetMaxCredits()
+int getMaxCredits()
 {
 	return (signed)GetVariableValue(MAX_CREDITS);
 }
 
-int Bo_GetMaxBank()
+int getMaxBank()
 {
 	return(signed)GetVariableValue(MAX_WIN_BANK);
 }
 
-int Bo_GetTargetPercentage()
+int getTargetPercentage()
 {
 	return GetTargetPercentage();
 }
 
-int Bo_GetDoorStatus()
+int getDoorStatus()
 {
 	return GetDoorStatus();
 }
 
-int Bo_RefillKeyStatus()
+int refillKeyStatus()
 {
 	return GetSwitchStatus(REFILL_KEY);
 }
@@ -142,7 +142,7 @@ std::string ReturnDenom(const int index, const int field, const std::string& pou
 	return std::move(ret);
 }
 
-const char *Bo_GetLastGame(int index)
+const char *getLastGame(int index)
 {
 	std::string fields[LAST_GAME_FIELDS] = {" : ", " : ", " : ", " : ", " : ", " : ", " : ", " : ", " : "};
 	fields[0] = TO_STR(LastGames[index][0]); // This should be the .raw icon file
@@ -163,50 +163,33 @@ const char *Bo_GetLastGame(int index)
 	return buffer;
 }
 
-const char *Bo_GetWinningGame(int index)
+unsigned long getGameModel(int index)
 {
-	auto winValue = LastGames[index][6];
-	if (winValue)
-	{
-		auto value = utils::to_string(winValue);
-		value.insert(0, "£");
-		value.insert(value.size()-2, ".");
-		int copySize = 0;
-		if (utils::GetDigit(winValue, 4) > 0)
-			copySize = 7;
-		else if (utils::GetDigit(winValue, 3) > 0)
-			copySize = 6;
-		else if (utils::GetDigit(winValue, 2) > 0)
-			copySize = 5;
-		else
-			copySize = 4;
-		const char * name = value.c_str();
-		char buffer[7] = {0};
-		//char buffer[6] = {0};
-		//for (int i = 0; i < value.size(); i++)
-		//	buffer[i] = value[i];
-		//strncpy_s(buffer, 8, value.c_str(), 7);
-		//strncpy_s(buffer, 7, value.c_str(), value.size());
-		strncpy_s(buffer, value.c_str(), value.size());
-		//return std::move(value.c_str());
-		return buffer;
-		//return value.c_str();
-	}
-	return "";
+	return LastGames[index][0];
 }
 
+unsigned int getGameDate(int index)
+{
+	int result = (LastGames[index][3] << 16) | LastGames[index][4];
+	return result;
+}
 
-unsigned long Bo_GetPerformanceMeter(unsigned char Offset)
+unsigned long getWinningGame(int index)
+{
+	return LastGames[index][6];
+}
+
+unsigned long getPerformanceMeter(unsigned char Offset)
 {
 	return GetPerformanceMeter(Offset);
 }
 
-unsigned long Bo_GetGamePerformanceMeter(unsigned int Offset, unsigned int MeterType)
+unsigned long getGamePerformanceMeter(unsigned int Offset, unsigned int MeterType)
 {
 	return GetGamePerformanceMeter(Offset, MeterType);
 }
 
-unsigned int BO_GetLocalMasterVolume()
+unsigned int getLocalMasterVolume()
 {
 	return GetLocalMasterVolume();
 }

@@ -20,11 +20,13 @@ namespace PDTUtils
 		bool m_requiresSave = false;
 		bool m_connected = false;
 		string m_errorMessage = "";
-		DoorAndKeyStatus m_keyDoorWorker = new DoorAndKeyStatus();
-		ErrorLog m_errorLogText = new ErrorLog();
+		
 		System.Timers.Timer m_doorStatusTimer;
 		System.Timers.Timer m_uiUpdateTimer;
 		Thread m_keyDoorThread;
+
+		DoorAndKeyStatus m_keyDoorWorker = new DoorAndKeyStatus();
+		ErrorLog m_errorLogText = new ErrorLog();
 		MachineIni m_machineIni = new MachineIni();
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
 
@@ -147,7 +149,7 @@ namespace PDTUtils
 		{
 			try
 			{
-				//InitialiseBoLib();
+				InitialiseBoLib();
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
@@ -189,7 +191,7 @@ namespace PDTUtils
 			}
 
 			if (m_connected)
-				BoLib.Bo_Shutdown();
+				BoLib.closeSharedMemory();
 		}
 
 		
@@ -344,7 +346,7 @@ namespace PDTUtils
 		{
 			MasterVolumeSlider.IsEnabled = true;
 			MasterVolumeSlider.Visibility = Visibility.Visible;
-			MasterVolumeSlider.Value =  BoLib.BO_GetLocalMasterVolume();
+			MasterVolumeSlider.Value =  BoLib.getLocalMasterVolume();
 			txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
 		}
 
@@ -352,7 +354,7 @@ namespace PDTUtils
 		{
 			PlaySoundOnEvent(@"./wav/volume.wav");
 			uint volume = Convert.ToUInt32(MasterVolumeSlider.Value);
-			BoLib.BO_SetLocalMasterVolume(volume);
+			BoLib.setLocalMasterVolume(volume);
 		}
 
 		/*ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");

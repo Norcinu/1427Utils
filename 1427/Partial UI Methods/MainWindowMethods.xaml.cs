@@ -14,7 +14,7 @@ namespace PDTUtils
 		{
 			try
 			{
-				int shell =  BoLib.Bo_SetEnvironment();
+				int shell =  BoLib.setEnvironment();
 				if (shell == 0)
 				{
 					m_connected = true;
@@ -78,7 +78,7 @@ namespace PDTUtils
 		void UpdateDoorStatusLabel()
 		{
 			string status = "Door Status : ";
-			if (BoLib.Bo_GetDoorStatus() == 0)
+			if (BoLib.getDoorStatus() == 0)
 			{
 				//DetectDoorChange(@"./wav/util_exit.wav");	
 				status += "Closed";
@@ -123,7 +123,7 @@ namespace PDTUtils
 
 		private void ChangeVolume(int newVolume)
 		{
-			int volume = BoLib.BO_GetLocalMasterVolume();
+			int volume = BoLib.getLocalMasterVolume();
 			//setlocalvolume(volume - 5);
 		}
 
@@ -179,19 +179,30 @@ namespace PDTUtils
 			for (int i = 0; i < 10; i++)
 			{
 				tb.Text += "I = " + i.ToString() + " : ";
-				tb.Text += BoLib.Bo_GetLastGame(i) + "\r\n";
+				tb.Text += BoLib.getLastGame(i) + "\r\n";
 			}
 		}
 
 		private void PresentWinningGames()
 		{
 			TextBlock tb = GetTabTextBlock(Brushes.LightBlue, Brushes.Salmon);
+			int counter = 0;
 			for (int i = 0; i < 10; i++)
 			{
-				if (BoLib.Bo_GetWinningGame(i) != "")
+				if (BoLib.getWinningGame(i) > 0)
 				{
-					tb.Text += "I = " + i.ToString() + " : ";
-					tb.Text += BoLib.Bo_GetWinningGame(i) + "\r\n";
+					var today = DateTime.Today;
+					counter++;
+					var gameDate = BoLib.getGameDate(i);
+					tb.Text += "Win Number " + counter.ToString() + " : ";
+					tb.Text += BoLib.getGameModel(i) + " : ";
+					uint day = gameDate >> 16;
+					uint month = gameDate & 0x0000FFFF;
+					int year = (month > today.Month) ? today.Year - 1 : today.Month;
+					string win = Convert.ToString(BoLib.getWinningGame(i));
+					string final = win.Insert(win.Length - 2, ".");
+					string date = Convert.ToString(day) + @"/" + Convert.ToString(month) + "/" + year;
+					tb.Text += date + " : £" + final + "\r\n";
 				}
 			}
 		}

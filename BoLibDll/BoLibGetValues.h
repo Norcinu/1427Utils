@@ -1,20 +1,24 @@
 #define DllExport __declspec(dllexport)
 
 
-extern "C" DllExport int Bo_GetMaxCredits();
-extern "C" DllExport int Bo_GetMaxBank();
-extern "C" DllExport int Bo_GetTargetPercentage();
-extern "C" DllExport bool Bo_IsDualBank();
-extern "C" DllExport int Bo_GetError();
-extern "C" DllExport const char *Bo_GetErrorText();
-extern "C" DllExport int Bo_GetDoorStatus();
-extern "C" DllExport int Bo_RefillKeyStatus();
-extern "C" DllExport int Bo_GetCredit();		 
-extern "C" DllExport int Bo_GetBank();		    
-extern "C" DllExport int Bo_AddCredit(int pennies);
-extern "C" DllExport int Bo_GetCountryCode();
-extern "C" DllExport const char *Bo_GetLastGame(int index);
-extern "C" DllExport const char *Bo_GetWinningGame(int index);
-extern "C" DllExport unsigned long Bo_GetPerformanceMeter(unsigned int Offset);
-extern "C" DllExport unsigned long Bo_GetGamePerformanceMeter(unsigned int Offset, unsigned int MeterType);
-extern "C" DllExport unsigned int BO_GetLocalMasterVolume();
+extern "C" DllExport int getMaxCredits();
+extern "C" DllExport int getMaxBank();
+extern "C" DllExport int getTargetPercentage();
+extern "C" DllExport bool isDualBank();
+extern "C" DllExport int getError();
+extern "C" DllExport const char *getErrorText();
+extern "C" DllExport int getDoorStatus();
+extern "C" DllExport int refillKeyStatus();
+extern "C" DllExport int getCredit();		 
+extern "C" DllExport int getBank();		    
+extern "C" DllExport int addCredit(int pennies);
+extern "C" DllExport int getCountryCode();
+extern "C" DllExport const char *getLastGame(int index);
+extern "C" DllExport unsigned long getWinningGame(int index);
+//extern "C" DllExport const unsigned char *Bo_GetWinningGame(int index);
+extern "C" DllExport unsigned long getPerformanceMeter(unsigned int Offset);
+extern "C" DllExport unsigned long getGamePerformanceMeter(unsigned int Offset, unsigned int MeterType);
+extern "C" DllExport unsigned int getLocalMasterVolume();
+
+extern "C" DllExport unsigned long getGameModel(int index);
+extern "C" DllExport unsigned int getGameDate(int index);

@@ -53,13 +53,13 @@ namespace PDTUtils
 				Random r = new Random();
 				if (r.Next(1000) < 100)
 				{
-					if (BoLib.Bo_RefillKeyStatus() == 0)
+					if (BoLib.refillKeyStatus() == 0)
 					{
 						m_running = false;
 						Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 					}
 
-					if (BoLib.Bo_GetDoorStatus() == 0)
+					if (BoLib.getDoorStatus() == 0)
 					{
 						if (m_doorStatus == true)
 						{
