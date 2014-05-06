@@ -1,41 +1,41 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace PDTUtils.Logic
 {
 	public class IniElement
 	{
-		private string _category;
-		private string _field;
-		private string _value;
+		private string m_category;
+		private string m_field;
+		private string m_value;
 
 		#region Properties
 		public string Category
 		{
-			get { return _category; }
-			set { _category = value; }
+			get { return m_category; }
+			set { m_category = value; }
 		}
 
 		public string Field
 		{
-			get { return _field; }
-			set { _field = value; }
+			get { return m_field; }
+			set { m_field = value; }
 		}
 		
 
 		public string Value
 		{
-			get { return _value; }
-			set { _value = value; }
+			get { return m_value; }
+			set { m_value = value; }
 		}
 		#endregion
 		
 		public IniElement(string category, string field, string value)
 		{
-			_category = category;
-			_field = field;
-			_value = value;
+			m_category = category;
+			m_field = field;
+			m_value = value;
 		}
 	}
 
@@ -104,7 +104,7 @@ namespace PDTUtils.Logic
 		/// <returns></returns>
 		public bool ParseIni()
 		{
-			using (FileStream fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+			using (FileStream fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.Read))
 			using (BufferedStream bs = new BufferedStream(fs))
 			using (StreamReader sr = new StreamReader(bs))
 			{

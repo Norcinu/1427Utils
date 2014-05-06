@@ -124,19 +124,18 @@ namespace PDTUtils
 		private void ChangeVolume(int newVolume)
 		{
 			int volume = BoLib.getLocalMasterVolume();
-			//setlocalvolume(volume - 5);
 		}
 
 		private void PlaySoundOnEvent(string filename)
 		{
-			SoundPlayer sound = new SoundPlayer(filename);
+			// replace this with synth_sound? // if (AdjustingVolume) synth else soundplayer
+			SoundPlayer sound = new SoundPlayer(filename); 
 			sound.Play();
 		}
 
 		private void PresentErrorLog()
 		{
 			var txtErrorLog = GetTabTextBlock(Brushes.Black, Brushes.LightGoldenrodYellow);
-			
 			string errLogLocation = @"D:\machine\GAME_DATA\TerminalErrLog.log";
 			settingsTab.Visibility = Visibility.Visible;
 			try
@@ -176,11 +175,42 @@ namespace PDTUtils
 		private void PresentLastGames()
 		{
 			TextBlock tb = GetTabTextBlock(Brushes.RosyBrown, Brushes.BurlyWood);
+			var textContent = new string[10];
+			int MaxLength = 0;
 			for (int i = 0; i < 10; i++)
 			{
-				tb.Text += "I = " + i.ToString() + " : ";
-				tb.Text += BoLib.getLastGame(i) + "\r\n";
+				//tb.Text += "I = " + i.ToString() + " : ";
+				//tb.Text += BoLib.getLastGame(i) + "\r\n";
+				textContent[i] = i.ToString() + " : " + BoLib.getLastGame(i);
+				int tempLength = textContent[i].Length;
+				if (tempLength > MaxLength)
+					MaxLength = tempLength;
 			}
+
+			for (int i = 0; i < 10; i++)
+			{
+				if (textContent[i].Length < MaxLength)
+				{
+					int diff = MaxLength - textContent[i].Length;
+					for (int j = 0; j < diff; j++)
+					{
+						MessageBox.Show(textContent[i].Length.ToString(), MaxLength.ToString());
+						textContent[i] += ".";
+					}
+				}
+			}
+
+			for (int i = 0; i < 10; i++)
+			{
+			
+				tb.Text += textContent[i] + "\r\n";
+			}
+		}
+
+		private void SetMultipleVars(out int one, out int two)
+		{
+			one = 1;
+			two = 2;
 		}
 
 		private void PresentWinningGames()
@@ -201,8 +231,12 @@ namespace PDTUtils
 					int year = (month > today.Month) ? today.Year - 1 : today.Month;
 					string win = Convert.ToString(BoLib.getWinningGame(i));
 					string final = win.Insert(win.Length - 2, ".");
-					string date = Convert.ToString(day) + @"/" + Convert.ToString(month) + "/" + year;
+					string date = Convert.ToString(day) + @"/" + Convert.ToString(month) + @"/" + year;
 					tb.Text += date + " : £" + final + "\r\n";
+				//	int o = 444; 
+				//	int zzz = 33;
+				//	Meshugga(out o,  out zzz);
+				//	tb.Text = o.ToString() + " : " + zzz.ToString() + "\r\n";
 				}
 			}
 		}
@@ -214,7 +248,9 @@ namespace PDTUtils
 			txtContentBlock.FontSize = 20;
 			txtContentBlock.Foreground = fg;
 			txtContentBlock.Background = bg;
-
+			txtContentBlock.TextAlignment = TextAlignment.Center;
+			txtContentBlock.FontFamily = new FontFamily("Consolas");
+			
 			ScrollViewer sv = new ScrollViewer();
 			sv.Content = txtContentBlock;
 

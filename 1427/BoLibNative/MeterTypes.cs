@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PDTUtils.BoLibNative
+namespace PDTUtils.Native
 {
 	public static class MeterTypes
 	{

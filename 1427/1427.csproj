@@ -144,6 +144,23 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\volume.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\util.wav" />
+    <None Include="Resources\start.wav" />
+    <None Include="Resources\return.wav" />
+    <None Include="Resources\reset.wav" />
+    <None Include="Resources\paytrans.wav" />
+    <None Include="Resources\exit.wav" />
+    <None Include="Resources\attention.wav" />
+    <None Include="Resources\alarm.wav" />
+    <None Include="Resources\util_exit.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\util_click.WAV" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "y:\1427"</PostBuildEvent>

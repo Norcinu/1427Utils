@@ -12,8 +12,8 @@
     <!--<Grid Background="#FFC78585"></Grid>-->
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Name="ColumnOne" Width="122*" />
-            <ColumnDefinition Name="ColumnTwo" Width="656*" />
+            <ColumnDefinition Name="ColumnOne" Width="207*" />
+            <ColumnDefinition Name="ColumnTwo" Width="571*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Name="RowOne" Height="82*" />
@@ -55,16 +55,16 @@
         <!--Background="LightBlue"-->
         <!--<Label Grid.Column="1" Grid.Row="2" Grid.RowSpan="1" Background="Yellow">Yellow 1</Label>
         <Label Grid.Column="1" Grid.Row="3" Grid.RowSpan="1" Background="Salmon">Salmon 1</Label>-->
-        <Button Content="Exit" Background="{StaticResource FunkyBrush}" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="26,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
-        <Button Content="Games" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="26,45,0,0" Name="Games" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="Games_Click" />
-        <Button Content="Hoppers" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="26,94,0,0" Name="btnHoppers" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnHoppers_Click" />
-        <Button Content="Logfiles" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="26,143,0,0" Name="btnLogfiles" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnLogfiles_Click" />
-        <TabControl Name="settingsTab" TabStripPlacement="Top" Grid.Row="1" Grid.Column="1" Visibility="Hidden" SelectionChanged="Logfile_SelectionChanged" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="18,6,56,60"></TabControl>
+        <Button Content="Exit" Background="{StaticResource FunkyBrush}" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
+        <Button Content="Games" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="12,46,0,0" Name="Games" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="Games_Click" />
+        <Button Content="Hoppers" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="107,46,0,0" Name="btnHoppers" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnHoppers_Click" />
+        <Button Content="Logfiles" Background="{StaticResource FunkyBrush}" Height="23" HorizontalAlignment="Left" Margin="12,89,0,0" Name="btnLogfiles" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnLogfiles_Click" />
+        <TabControl Name="settingsTab" TabStripPlacement="Top" Grid.Column="1" Visibility="Hidden" SelectionChanged="Logfile_SelectionChanged" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="14,28,12,84" Width="545" Height="327" ScrollViewer.HorizontalScrollBarVisibility="Visible" Grid.Row="1" />
         <Label Grid.Column="2" Height="39" HorizontalAlignment="Right" Margin="0,12,0,0" Name="lblDoorStatus" VerticalAlignment="Top" Width="275" FontWeight="Bold" FontSize="26" FontFamily="Cambria" Content="Door Status : Closed" />
         <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Margin="0,6,0,0" Name="stpButtonPanel" VerticalAlignment="Top" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
-        <Button Content="Button" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="26,399,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="modifySettingsButton_Click" />
+        <Button Content="Button" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="107,132,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="modifySettingsButton_Click" />
         <Label Height="Auto" HorizontalAlignment="Left" Margin="292,12,0,0" Name="lblUptime" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Width="Auto" FontSize="36" IsEnabled="False" Visibility="Collapsed" />
-        <Button Content="Edit Machine Ini" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="12,359,0,0" Name="btnMachineIni" VerticalAlignment="Top" Width="89" Click="btnMachineIni_Click" />
+        <Button Content="Edit Machine Ini" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="54,179,0,0" Name="btnMachineIni" VerticalAlignment="Top" Width="89" Click="btnMachineIni_Click" />
 
         <ComboBox Width="100" Height="35" Name="MachineIniCategorys" IsEnabled="False" Visibility="Hidden"
                   ItemsSource="{Binding GetUniqueCategories}"
@@ -106,9 +106,10 @@
             </ListView.View>
             
         </ListView>
-        <Slider Grid.Column="1" Grid.Row="1" Height="50" HorizontalAlignment="Center" Margin="0,205,118,183" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500" Visibility="Hidden" IsEnabled="False" DataContext="{Binding Path=Content}" TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
-        <Button Content="Set Volume" Height="23" HorizontalAlignment="Left" Margin="26,186,0,0" Name="btnVolume" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnVolume_Click" />
-        <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,205,81,211" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" />
+        <Slider Grid.Column="1" Grid.Row="1" Height="50" HorizontalAlignment="Center" Margin="28,205,43,184" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500" Visibility="Hidden" IsEnabled="False" DataContext="{Binding Path=Content}" TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
+        <Button Content="Set Volume" Height="23" HorizontalAlignment="Left" Margin="107,89,0,0" Name="btnVolume" VerticalAlignment="Top" Width="75" Grid.Row="1" Click="btnVolume_Click" />
+        <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,261,269,154" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" IsEnabled="False" Visibility="Hidden" />
+        <Button Content="Read Meters" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="12,132,0,0" Name="btnReadMeters" VerticalAlignment="Top" Width="75" Click="btnReadMeters_Click" />
     </Grid>
 
    

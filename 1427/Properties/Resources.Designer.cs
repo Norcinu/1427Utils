@@ -59,5 +59,107 @@ namespace PDTUtils.Properties {
                 resourceCulture = value;
             }
         }
+        
+        internal static System.IO.UnmanagedMemoryStream alarm {
+            get {
+                return ResourceManager.GetStream("alarm", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream attention {
+            get {
+                return ResourceManager.GetStream("attention", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream exit {
+            get {
+                return ResourceManager.GetStream("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\.
+        /// </summary>
+        internal static string game_data {
+            get {
+                return ResourceManager.GetString("game_data", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream go_back {
+            get {
+                return ResourceManager.GetStream("go_back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\.
+        /// </summary>
+        internal static string machine {
+            get {
+                return ResourceManager.GetString("machine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\machine.ini.
+        /// </summary>
+        internal static string machine_ini {
+            get {
+                return ResourceManager.GetString("machine_ini", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream paytrans {
+            get {
+                return ResourceManager.GetStream("paytrans", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\Performance.log.
+        /// </summary>
+        internal static string perf_log {
+            get {
+                return ResourceManager.GetString("perf_log", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream reset {
+            get {
+                return ResourceManager.GetStream("reset", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream start {
+            get {
+                return ResourceManager.GetStream("start", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream util {
+            get {
+                return ResourceManager.GetStream("util", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream util_click {
+            get {
+                return ResourceManager.GetStream("util_click", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream util_exit {
+            get {
+                return ResourceManager.GetStream("util_exit", resourceCulture);
+            }
+        }
+        
+        internal static System.IO.UnmanagedMemoryStream volume_snd {
+            get {
+                return ResourceManager.GetStream("volume_snd", resourceCulture);
+            }
+        }
     }
 }

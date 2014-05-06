@@ -29,6 +29,7 @@ namespace PDTUtils
 		ErrorLog m_errorLogText = new ErrorLog();
 		MachineIni m_machineIni = new MachineIni();
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
+		MachineGameStatistics m_gameStatistics = new MachineGameStatistics();
 
 		public MainWindow()
         {
@@ -355,6 +356,11 @@ namespace PDTUtils
 			PlaySoundOnEvent(@"./wav/volume.wav");
 			uint volume = Convert.ToUInt32(MasterVolumeSlider.Value);
 			BoLib.setLocalMasterVolume(volume);
+		}
+
+		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
+		{
+			m_gameStatistics.ParsePerfLog();
 		}
 
 		/*ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");
