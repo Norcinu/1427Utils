@@ -10,7 +10,7 @@
     </Window.Resources> -->
     
     <!--<Grid Background="#FFC78585"></Grid>-->
-    <Grid>
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Name="ColumnOne" Width="207*" />
             <ColumnDefinition Name="ColumnTwo" Width="571*" />
@@ -93,7 +93,7 @@
                 </ListView.View>
         </ListView>-->
 
-        <ListView Name="MachineIniListView" IsEnabled="False" Visibility="Hidden">
+        <ListView Name="MachineIniListView" IsEnabled="False" Visibility="Hidden" Grid.Row ="1" Grid.Column="1">
             <ListView.View>
                 <GridView AllowsColumnReorder="true"
                     ColumnHeaderToolTip="Machine INI config settings">

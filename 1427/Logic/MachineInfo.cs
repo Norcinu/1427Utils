@@ -15,10 +15,19 @@ namespace PDTUtils.Logic
 		ManagementBaseObject inParams;
 		ManagementBaseObject outParams;
 
+		string m_ipAddress;
+		string m_subnet;
+		bool isUsbDriveConnected; // power this by event/delegate.
+
 		public MachineInfo()
 		{
 		}
 
+		public void ProbeUsb()
+		{
+
+		}
+		
 		public void ProbeMachine()
 		{
 			SelectQuery netObjQry = new SelectQuery("Win32_NetworkAdapter");

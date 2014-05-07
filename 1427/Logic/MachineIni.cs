@@ -65,7 +65,7 @@ namespace PDTUtils.Logic
 	/// </summary>
 	public class MachineIni : ObservableCollection<IniElement>
 	{
-		static readonly string IniPath = "Y:\\machine\\machine.ini";
+		static readonly string IniPath = "D:\\machine\\machine.ini";
 		static readonly string EndOfIni = "[END]";
 		Dictionary<string, string> iniVariables = new Dictionary<string, string>();
 

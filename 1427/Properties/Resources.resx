@@ -146,7 +146,7 @@
     <value>..\Resources\paytrans.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="perf_log" xml:space="preserve">
-    <value>D:\machine\GAME_DATA\Performance.log</value>
+    <value>Y:\machine\GAME_DATA\Performance.log</value>
     <comment>The terminals game statistics log.</comment>
   </data>
   <data name="reset" type="System.Resources.ResXFileRef, System.Windows.Forms">

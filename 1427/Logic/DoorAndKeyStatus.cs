@@ -51,7 +51,7 @@ namespace PDTUtils
 				Random r = new Random();
 				if (r.Next(1000) < 100)
 				{
-					if (BoLib.refillKeyStatus() == 0)
+					/*if (BoLib.refillKeyStatus() == 0)
 					{
 						m_running = false;
 						Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
@@ -72,7 +72,7 @@ namespace PDTUtils
 							m_doorStatus = true;
 							m_hasChanged = true;
 						}
-					}
+					}*/
 				}
 				
 				Thread.Sleep(2);

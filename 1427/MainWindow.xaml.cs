@@ -9,9 +9,42 @@ using System.Windows.Media;
 using PDTUtils.Logic;
 using PDTUtils.Native;
 
+namespace System.Runtime.CompilerServices
+{
+	public class ExtensionAttribute : Attribute { }
+}
 
 namespace PDTUtils
 {
+	public static class Extension
+	{
+		/// <summary>
+		/// http://stackoverflow.com/questions/10279092/how-to-get-child-by-type-in-wpf-container
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="depObj"></param>
+		/// <returns></returns>
+		public static List<T> GetChildOfType<T>(this DependencyObject depObj)
+			where T : DependencyObject
+		{
+			if (depObj == null) return null;
+			List<T> elementList = new List<T>();
+
+			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+			{
+				var child = VisualTreeHelper.GetChild(depObj, i);
+
+				var result = (child as T) ?? null;//GetChildOfType<T>(child);
+				if (result != null) //return result;
+					elementList.Add(result);
+			}
+//			if (elementList.Count > 0)
+	//		return null;
+			return elementList;
+		}
+	}
+
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -150,7 +183,7 @@ namespace PDTUtils
 		{
 			try
 			{
-				InitialiseBoLib();
+				//InitialiseBoLib();
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
@@ -360,7 +393,70 @@ namespace PDTUtils
 
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
+			RemoveChildrenFromStackPanel();
+
+			var a = Extension.GetChildOfType<StackPanel>(MainGrid);
+			string panelName = "BottomPanel";
+			var item = a.Find(sp => sp.Name == panelName);
+			if (item != null)
+			{
+				item.Children.RemoveRange(0, item.Children.Count);
+				MainGrid.Children.Remove(item);
+				a.Remove(item);
+			}
+
 			m_gameStatistics.ParsePerfLog();
+
+			Label lblBanner = new Label();
+			lblBanner.Content = "Machine Info:";
+			lblBanner.FontSize = 22;
+			stpButtonPanel.Children.Add(lblBanner);
+			
+			Label lblTotalBet = new Label();
+			lblTotalBet.FontSize = 22;
+			string totalBetStr = Convert.ToString(m_gameStatistics.TotalBet);
+			lblTotalBet.Content = "Total Bet: £" + totalBetStr.Insert(totalBetStr.Length-2, ".");
+			stpButtonPanel.Children.Add(lblTotalBet);
+			stpButtonPanel.Background = Brushes.AntiqueWhite;
+			
+			Label lblTotalWon = new Label();
+			string totalWonStr = Convert.ToString(m_gameStatistics.TotalWon);
+			lblTotalWon.FontSize = 22;
+			lblTotalWon.Content = "Total Won: £" + totalWonStr.Insert(totalWonStr.Length-2, ".");
+			stpButtonPanel.Children.Add(lblTotalWon);
+
+			Label lblTotalRtp = new Label();
+			lblTotalRtp.FontSize = 22;
+			double rtp = (double)m_gameStatistics.TotalWon / (double)m_gameStatistics.TotalGames;
+			lblTotalRtp.Content = "RTP: " + Math.Round(rtp,2).ToString() + "%";
+			stpButtonPanel.Children.Add(lblTotalRtp);
+
+			StackPanel s = new StackPanel();
+			s.Name = panelName;
+			s.Background = Brushes.Aquamarine;
+			s.HorizontalAlignment = HorizontalAlignment.Center;
+			s.VerticalAlignment = VerticalAlignment.Bottom;
+			
+			MainGrid.Children.Add(s);
+			Grid.SetColumn(s, 1);
+			Grid.SetRow(s, 1);
+
+			Label lblGameSpecific = new Label();
+			lblGameSpecific.FontFamily = new FontFamily("Andale Mono");
+			lblGameSpecific.Background = Brushes.LightGray;
+			lblGameSpecific.Foreground = Brushes.DarkBlue;
+			//lblGameSpecific.FontSize = 11;
+		//	lblGameSpecific.LayoutTransform = new ScaleTransform(5, 1.0);
+			foreach (var gs in m_gameStatistics.Games)
+			{
+				lblGameSpecific.Content += "Game No: " + gs.GameNumber.ToString() + "\r\n";
+				lblGameSpecific.Content += "Model Number: " + gs.ModelNumber.ToString() + "\r\n";
+				lblGameSpecific.Content += "Bets: " + gs.Bets.ToString() + "\r\n";
+				lblGameSpecific.Content += "Wins: " + gs.Wins.ToString() + "\r\n";
+				lblGameSpecific.Content += "Percentage: " + Math.Round(gs.Percentage).ToString() + "\r\n";
+			}
+
+			s.Children.Add(lblGameSpecific);
 		}
 
 		/*ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");

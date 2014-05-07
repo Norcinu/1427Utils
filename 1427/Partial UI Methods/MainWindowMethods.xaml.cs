@@ -179,8 +179,6 @@ namespace PDTUtils
 			int MaxLength = 0;
 			for (int i = 0; i < 10; i++)
 			{
-				//tb.Text += "I = " + i.ToString() + " : ";
-				//tb.Text += BoLib.getLastGame(i) + "\r\n";
 				textContent[i] = i.ToString() + " : " + BoLib.getLastGame(i);
 				int tempLength = textContent[i].Length;
 				if (tempLength > MaxLength)
@@ -233,10 +231,6 @@ namespace PDTUtils
 					string final = win.Insert(win.Length - 2, ".");
 					string date = Convert.ToString(day) + @"/" + Convert.ToString(month) + @"/" + year;
 					tb.Text += date + " : £" + final + "\r\n";
-				//	int o = 444; 
-				//	int zzz = 33;
-				//	Meshugga(out o,  out zzz);
-				//	tb.Text = o.ToString() + " : " + zzz.ToString() + "\r\n";
 				}
 			}
 		}
