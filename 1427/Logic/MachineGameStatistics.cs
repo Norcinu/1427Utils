@@ -78,11 +78,17 @@ namespace PDTUtils
 		int m_totalWon = 0;
 		int m_totalGames = 0;
 		int m_numberOfGames = 0;
-		
+		bool m_fileLoaded = false;
+
 		#region Properties
 		public List<GameStats> Games
 		{
 			get { return m_games; }
+		}
+
+		public int LoadedGameCount
+		{
+			get { return m_games.Count; }
 		}
 
 		public int MoneyIn
@@ -144,60 +150,77 @@ namespace PDTUtils
 				gs.Percentage = Convert.ToDouble(combo[1]);
 		}
 
+		public void ResetStats()
+		{
+			m_moneyIn = 0;
+			m_moneyOut = 0;
+			m_totalBet = 0;
+			m_totalWon = 0;
+			m_totalGames = 0;
+			m_numberOfGames = 0;
+			m_fileLoaded = false;
+
+			m_games.RemoveAll(gs => gs != null);
+		}
+
 		public void ParsePerfLog()
 		{
-			using (FileStream fs = File.Open(m_perfLog, FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (BufferedStream bs = new BufferedStream(fs))
-			using (StreamReader sr = new StreamReader(bs))
+			if (m_fileLoaded == false)
 			{
-				int gameCounter = 0;
-				int fieldCounter = 0;
-				bool isGeneral = true;
-				int generalFields = 6;
-				var generalValues = new string[generalFields];
-				string line = "";
-				while ((line = sr.ReadLine()) != null)
+				using (FileStream fs = File.Open(m_perfLog, FileMode.Open, FileAccess.Read, FileShare.Read))
+				using (BufferedStream bs = new BufferedStream(fs))
+				using (StreamReader sr = new StreamReader(bs))
 				{
-					if (isGeneral == true)
+					int gameCounter = 0;
+					int fieldCounter = 0;
+					bool isGeneral = true;
+					int generalFields = 6;
+					var generalValues = new string[generalFields];
+					string line = "";
+					while ((line = sr.ReadLine()) != null)
 					{
-						if (line.StartsWith("[") == false)
+						if (isGeneral == true)
 						{
-							var splitLine = line.Split("=".ToCharArray());
-							generalValues[fieldCounter] = splitLine[1];
-							fieldCounter++;
-						}
-					}
-					else
-					{
-						if (line.StartsWith("[") == false)
-						{
-							var outter = m_games[gameCounter];
-							FillGameStats(line.Split("=".ToCharArray()), ref outter);
+							if (line.StartsWith("[") == false)
+							{
+								var splitLine = line.Split("=".ToCharArray());
+								generalValues[fieldCounter] = splitLine[1];
+								fieldCounter++;
+							}
 						}
 						else
 						{
-							if (fieldCounter != 0)
-								gameCounter++;
-							fieldCounter++;
+							if (line.StartsWith("[") == false)
+							{
+								var outter = m_games[gameCounter];
+								FillGameStats(line.Split("=".ToCharArray()), ref outter);
+							}
+							else
+							{
+								if (fieldCounter != 0)
+									gameCounter++;
+								fieldCounter++;
+							}
 						}
-					}
 
-					if (fieldCounter >= generalFields && isGeneral == true)
-					{
-						isGeneral = false;
-						fieldCounter = 0;
-						for (int i = 0; i < Convert.ToInt32(generalValues[5]); i++)
+						if (fieldCounter >= generalFields && isGeneral == true)
 						{
-							m_games.Add(new GameStats());
+							isGeneral = false;
+							fieldCounter = 0;
+							for (int i = 0; i < Convert.ToInt32(generalValues[5]); i++)
+							{
+								m_games.Add(new GameStats());
+							}
 						}
 					}
+					m_fileLoaded = true;
+					m_moneyIn = Convert.ToInt32(generalValues[0]);
+					m_moneyOut = Convert.ToInt32(generalValues[1]);
+					m_totalBet = Convert.ToInt32(generalValues[2]);
+					m_totalWon = Convert.ToInt32(generalValues[3]);
+					m_totalGames = Convert.ToInt32(generalValues[4]);
+					m_numberOfGames = Convert.ToInt32(generalValues[5]);
 				}
-				m_moneyIn = Convert.ToInt32(generalValues[0]);
-				m_moneyOut = Convert.ToInt32(generalValues[1]);
-				m_totalBet = Convert.ToInt32(generalValues[2]);
-				m_totalWon = Convert.ToInt32(generalValues[3]);
-				m_totalGames = Convert.ToInt32(generalValues[4]);
-				m_numberOfGames = Convert.ToInt32(generalValues[5]);
 			}
 		}
 	}

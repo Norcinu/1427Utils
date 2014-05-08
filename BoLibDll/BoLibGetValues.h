@@ -1,5 +1,6 @@
 #define DllExport __declspec(dllexport)
 
+typedef BOOL int;
 
 /**
 *	Gets the maximum credits level for the category.
@@ -66,6 +67,6 @@ extern "C" DllExport unsigned long getWinningGame(int index);
 extern "C" DllExport unsigned long getPerformanceMeter(unsigned int Offset);
 extern "C" DllExport unsigned long getGamePerformanceMeter(unsigned int Offset, unsigned int MeterType);
 extern "C" DllExport unsigned int getLocalMasterVolume();
-
 extern "C" DllExport unsigned long getGameModel(int index);
 extern "C" DllExport unsigned int getGameDate(int index);
+extern "C" DllExport unsigned int getSwitchStatus(unsigned char offset, unsigned char mask);

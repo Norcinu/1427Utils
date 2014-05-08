@@ -8,3 +8,4 @@ extern "C" DllExport int clearError();
 extern "C" DllExport void transferBankToCredit();
 extern "C" DllExport void setTargetPercentage(int Percentage);
 extern "C" DllExport void setLocalMasterVolume(unsigned int val);
+extern "C" DllExport void setLampStatus(unsigned char offset, unsigned char mask, unsigned char state);

@@ -118,7 +118,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Y:\machine\GAME_DATA\Performance.log.
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\Performance.log.
         /// </summary>
         internal static string perf_log {
             get {

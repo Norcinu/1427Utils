@@ -193,3 +193,8 @@ unsigned int getLocalMasterVolume()
 {
 	return GetLocalMasterVolume();
 }
+
+unsigned int getSwitchStatus(unsigned char offset, unsigned char mask)
+{
+	return GetSwitchStatus(offset, mask);
+}

@@ -63,5 +63,14 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern UInt32 getGameDate(int index);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getSwitchStatus(byte offset, byte mask);
+
+		/************************************************************************/
+		/*							Set methods                                 */
+		/************************************************************************/
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void setLampStatus(byte offset, byte mask, byte state);
 	}
 }

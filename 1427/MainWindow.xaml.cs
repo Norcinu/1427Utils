@@ -9,43 +9,11 @@ using System.Windows.Media;
 using PDTUtils.Logic;
 using PDTUtils.Native;
 
-namespace System.Runtime.CompilerServices
-{
-	public class ExtensionAttribute : Attribute { }
-}
+
 
 namespace PDTUtils
 {
-	public static class Extension
-	{
-		/// <summary>
-		/// http://stackoverflow.com/questions/10279092/how-to-get-child-by-type-in-wpf-container
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="depObj"></param>
-		/// <returns></returns>
-		public static List<T> GetChildOfType<T>(this DependencyObject depObj)
-			where T : DependencyObject
-		{
-			if (depObj == null) return null;
-			List<T> elementList = new List<T>();
-
-			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-			{
-				var child = VisualTreeHelper.GetChild(depObj, i);
-
-				var result = (child as T) ?? null;//GetChildOfType<T>(child);
-				if (result != null) //return result;
-					elementList.Add(result);
-			}
-//			if (elementList.Count > 0)
-	//		return null;
-			return elementList;
-		}
-	}
-
-
-    /// <summary>
+	/// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
@@ -183,7 +151,7 @@ namespace PDTUtils
 		{
 			try
 			{
-				//InitialiseBoLib();
+				InitialiseBoLib();
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
@@ -403,6 +371,7 @@ namespace PDTUtils
 				item.Children.RemoveRange(0, item.Children.Count);
 				MainGrid.Children.Remove(item);
 				a.Remove(item);
+				m_gameStatistics.ResetStats();
 			}
 
 			m_gameStatistics.ParsePerfLog();
@@ -442,21 +411,28 @@ namespace PDTUtils
 			Grid.SetRow(s, 1);
 
 			Label lblGameSpecific = new Label();
-			lblGameSpecific.FontFamily = new FontFamily("Andale Mono");
+			lblGameSpecific.FontFamily = new FontFamily("Consolas");
 			lblGameSpecific.Background = Brushes.LightGray;
 			lblGameSpecific.Foreground = Brushes.DarkBlue;
 			//lblGameSpecific.FontSize = 11;
-		//	lblGameSpecific.LayoutTransform = new ScaleTransform(5, 1.0);
+			//lblGameSpecific.LayoutTransform = new ScaleTransform(2, 2);
 			foreach (var gs in m_gameStatistics.Games)
 			{
-				lblGameSpecific.Content += "Game No: " + gs.GameNumber.ToString() + "\r\n";
-				lblGameSpecific.Content += "Model Number: " + gs.ModelNumber.ToString() + "\r\n";
-				lblGameSpecific.Content += "Bets: " + gs.Bets.ToString() + "\r\n";
-				lblGameSpecific.Content += "Wins: " + gs.Wins.ToString() + "\r\n";
-				lblGameSpecific.Content += "Percentage: " + Math.Round(gs.Percentage).ToString() + "\r\n";
+				lblGameSpecific.Content += "Game No:\t\t " + gs.GameNumber.ToString() + "\r\n";
+				lblGameSpecific.Content += "Model:\t\t\t " + gs.ModelNumber.ToString() + "\r\n";
+				lblGameSpecific.Content += "Bets:\t\t\t " + gs.Bets.ToString() + "\r\n";
+				lblGameSpecific.Content += "Wins:\t\t\t " + gs.Wins.ToString() + "\r\n";
+				lblGameSpecific.Content += "Percentage:\t\t " + Math.Round(gs.Percentage).ToString() + "\r\n";
+				lblGameSpecific.Content += "-------------------\r\n"; 
 			}
 
 			s.Children.Add(lblGameSpecific);
+		}
+
+		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
+		{
+			TestSuiteWindow ts = new TestSuiteWindow();
+			ts.ShowDialog();
 		}
 
 		/*ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");

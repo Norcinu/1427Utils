@@ -48,3 +48,8 @@ void setLocalMasterVolume(unsigned int val)
 {
 	SetLocalMasterVolume(val);
 }
+
+void setLampStatus(unsigned char offset, unsigned char mask, unsigned char state)
+{
+	SetLampStatus(offset, mask, state);
+}
