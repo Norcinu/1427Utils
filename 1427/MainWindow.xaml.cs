@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define REMOTE
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,7 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Logic;
 using PDTUtils.Native;
-
 
 
 namespace PDTUtils
@@ -151,7 +152,9 @@ namespace PDTUtils
 		{
 			try
 			{
+#if REMOTE
 				InitialiseBoLib();
+#endif
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);

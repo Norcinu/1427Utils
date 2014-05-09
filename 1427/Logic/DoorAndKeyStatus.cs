@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define REMOTE
+
+using System;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
@@ -51,6 +53,7 @@ namespace PDTUtils
 				Random r = new Random();
 				if (r.Next(1000) < 100)
 				{
+#if REMOTE
 					if (BoLib.refillKeyStatus() == 0)
 					{
 						m_running = false;
@@ -73,6 +76,7 @@ namespace PDTUtils
 							m_hasChanged = true;
 						}
 					}
+#endif
 				}
 				
 				Thread.Sleep(2);

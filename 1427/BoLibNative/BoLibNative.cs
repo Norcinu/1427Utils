@@ -41,10 +41,6 @@ namespace PDTUtils.Native
 		[return: MarshalAs(UnmanagedType.U4)]
 		public unsafe static extern UInt32 getWinningGame(int index);
 
-		/*[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-		[return: MarshalAs(UnmanagedType.LPStr)]
-		public unsafe static extern string Bo_GetWinningGame(int index);*/
-
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern uint getPerformanceMeter(byte Offset);
 
@@ -53,9 +49,6 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern int getLocalMasterVolume();
-
-		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern void setLocalMasterVolume(uint val);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		[return: MarshalAs(UnmanagedType.U4)]
@@ -70,6 +63,9 @@ namespace PDTUtils.Native
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void setLocalMasterVolume(uint val);
+		
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern void setLampStatus(byte offset, byte mask, byte state);
 	}

@@ -1,6 +1,6 @@
 #define DllExport __declspec(dllexport)
 
-typedef BOOL int;
+typedef int BOOL;
 
 /**
 *	Gets the maximum credits level for the category.
