@@ -13,9 +13,16 @@ namespace PDTUtils
 		volatile bool m_doorStatus;
 		volatile bool m_running;
 		volatile bool m_hasChanged;
+		volatile bool m_isTestSuiteRunning;
 		System.Timers.Timer updateTimer;
 
 		#region Properties
+		public bool TestSuiteRunning
+		{
+			get { return m_isTestSuiteRunning; }
+			set { m_isTestSuiteRunning = value; }
+		}
+
 		public bool HasChanged
 		{
 			get { return m_hasChanged; }
@@ -40,6 +47,7 @@ namespace PDTUtils
 			m_doorStatus = false;
 			m_running = true;
 			m_hasChanged = false;
+			m_isTestSuiteRunning = false;
 
 			updateTimer = new System.Timers.Timer(1000);
 			updateTimer.Elapsed += CheckForUpdate;
@@ -54,26 +62,29 @@ namespace PDTUtils
 				if (r.Next(1000) < 100)
 				{
 #if REMOTE
-					if (BoLib.refillKeyStatus() == 0)
+					if (m_isTestSuiteRunning == false)
 					{
-						m_running = false;
-						Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
-					}
-
-					if (BoLib.getDoorStatus() == 0)
-					{
-						if (m_doorStatus == true)
+						if (BoLib.refillKeyStatus() == 0)
 						{
-							m_doorStatus = false;
-							m_hasChanged = true;
+							m_running = false;
+							Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 						}
-					}
-					else
-					{
-						if (m_doorStatus == false)
+
+						if (BoLib.getDoorStatus() == 0)
 						{
-							m_doorStatus = true;
-							m_hasChanged = true;
+							if (m_doorStatus == true)
+							{
+								m_doorStatus = false;
+								m_hasChanged = true;
+							}
+						}
+						else
+						{
+							if (m_doorStatus == false)
+							{
+								m_doorStatus = true;
+								m_hasChanged = true;
+							}
 						}
 					}
 #endif

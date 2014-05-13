@@ -60,13 +60,32 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern uint getSwitchStatus(byte offset, byte mask);
 
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern int getCredit();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern int getBank();
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void clearBankAndCredit();
+		
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern void setLocalMasterVolume(uint val);
 		
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern void setLampStatus(byte offset, byte mask, byte state);
+
+		/************************************************************************/
+		/* General methods                                                      */
+		/************************************************************************/
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void enableNoteValidator();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void disableNoteValidator();
+
 	}
 }

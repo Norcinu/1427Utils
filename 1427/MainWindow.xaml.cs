@@ -434,8 +434,10 @@ namespace PDTUtils
 
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
 		{
+			m_keyDoorWorker.TestSuiteRunning = true;
 			TestSuiteWindow ts = new TestSuiteWindow();
 			ts.ShowDialog();
+			m_keyDoorWorker.TestSuiteRunning = false;
 		}
 
 		/*ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");
