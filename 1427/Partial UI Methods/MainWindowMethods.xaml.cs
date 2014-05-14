@@ -27,6 +27,7 @@ namespace PDTUtils
 					GetSystemUptime();
 					m_uiUpdateTimer = new System.Timers.Timer(1000);
 					m_uiUpdateTimer.Elapsed += UpdateUiLabels;
+					//m_uiUpdateTimer.Elapsed += DetectDoorChange;
 					m_uiUpdateTimer.Enabled = true;
 					
 					return;
@@ -80,6 +81,11 @@ namespace PDTUtils
 			string status = "Door Status : ";
 			if (BoLib.getDoorStatus() == 0)
 			{
+				if (m_keyDoorWorker.HasChanged == true)
+				{
+					BoLib.enableNoteValidator();
+					m_keyDoorWorker.HasChanged = false;
+				}
 				//DetectDoorChange(@"./wav/util_exit.wav");	
 				status += "Closed";
 				lblDoorStatus.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
@@ -87,6 +93,11 @@ namespace PDTUtils
 			}
 			else
 			{
+				if (m_keyDoorWorker.HasChanged == true)
+				{
+					BoLib.disableNoteValidator();
+					m_keyDoorWorker.HasChanged = false;
+				}
 				//DetectDoorChange(@"./wav/util_exit.wav");
 				status += "Open";
 				lblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
@@ -96,12 +107,14 @@ namespace PDTUtils
 			lblDoorStatus.Content = status;
 		}
 
-		private void DetectDoorChange(string filename)
+		private void DetectDoorChange(object sender, ElapsedEventArgs e)
 		{
 			if (m_keyDoorWorker.HasChanged == true)
 			{
-				PlaySoundOnEvent(filename);
+				PlaySoundOnEvent(Properties.Resources.util_exit.ToString());
 				m_keyDoorWorker.HasChanged = false;
+				if (m_keyDoorWorker.DoorStatus == false)
+					BoLib.disableNoteValidator();
 			}
 		}
 

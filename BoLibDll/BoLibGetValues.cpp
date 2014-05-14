@@ -198,3 +198,18 @@ unsigned int getSwitchStatus(unsigned char offset, unsigned char mask)
 {
 	return GetSwitchStatus(offset, mask);
 }
+
+unsigned int getLastNote(int index)
+{
+	return nvr_main->lastFiveNotes[index];
+}
+
+unsigned int *getLastNotes()
+{
+	return nvr_main->lastFiveNotes;
+}
+
+unsigned int getTerminalType()
+{
+	return GetTerminalType();
+}

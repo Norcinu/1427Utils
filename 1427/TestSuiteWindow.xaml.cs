@@ -3,82 +3,21 @@ using System.Collections.Generic;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using PDTUtils.Impls;
 using PDTUtils.Native;
+using System.Threading;
+
 
 namespace PDTUtils
 {
-	public class Impl
-	{
-		bool m_isRunning;
-		string m_name = "";
-
-		#region Properties
-		public bool IsRunning
-		{
-			get { return m_isRunning; }
-			set { m_isRunning = value; }
-		}
-
-		public string Name
-		{
-			get { return m_name; }
-			set { m_name = value; }
-		}
-		#endregion
-
-		public Impl() 
-		{
-			this.m_isRunning = false;
-			this.m_name = "";
-		}
-	}
-	
-	public class ButtonTestImpl : Impl
-	{
-		public bool m_doSpecials;
-		public bool[] m_toggled;
-		public int m_currentButton;
-		public int m_numberOfButtons;
-		public int m_specials;
-		public int m_currentSpecial;
-
-		public ButtonTestImpl()
-		{
-			m_doSpecials = true;
-			m_toggled = new bool[2] { false, false };
-			//m_toggled = false;
-			m_currentButton = 0;
-			m_numberOfButtons = 8;
-			m_specials = 2;
-			m_currentSpecial = 0;
-		}
-	}
-
-	public class NoteValImpl : Impl
-	{
-		public NoteValImpl()
-		{
-			
-		}
-	}
-
-	public class LampTestImpl
-	{
-		public LampTestImpl()
-		{
-
-		}
-	}
-
 	/// <summary>
 	/// Interaction logic for TestSuiteWindow.xaml
 	/// </summary>
 	public partial class TestSuiteWindow : Window
 	{
 		ButtonTestImpl m_btnImpl = new ButtonTestImpl();
-		NoteValImpl m_noteImpl = new NoteValImpl();
-
-		//LampTestImpl m_lampImpl = new LampTestImpl();
+		CoinNoteValImpl m_noteImpl = new CoinNoteValImpl();
 		const int m_visualButtonCount = 6;
 		int m_buttonEnabledCount = 6;
 		int m_counter = 0;
@@ -89,8 +28,16 @@ namespace PDTUtils
 		List<Button> m_buttons = new List<Button>();
 		string[] m_buttonContent = new string[6] { "Printer", "Buttons", "Lamps", "Dil Status", "Note Val", "Coin Mech" };
 		int[] m_buttonsPressed = new int[8];
-		Label[] m_labels;// = new Label[8];
+		Label[] m_labels;
 		System.Timers.Timer startTimer = new System.Timers.Timer();
+
+
+		#region DELEGATE TYPES
+		public delegate void DelegateDil(Label l, string message);
+		public delegate void DelegateNoteVal(Label l, int v);
+		public delegate void DelegateUpdate(Label l);
+		public delegate void DelegatePrintErr(Label l, string message);
+		#endregion
 
 		public TestSuiteWindow()
 		{
@@ -99,15 +46,13 @@ namespace PDTUtils
 			for (int i = 0; i < 8; i++)
 				m_buttonsPressed[i] = 0;
 
-			//startTimer.Interval = 500;//1000;
 			startTimer.Elapsed += timer_CheckButton;
 			startTimer.Elapsed += timer_CheckNoteValidator;
+			btnEndTest.Click += btnEndTest_Click;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			//for (int i = 0; i < 6; i++)
-			//	stpButtons.Children.Add(new Button());
 			for (int i = 0; i < 6; i++)
 			{
 				stpButtons.Children.Add(new Button());
@@ -131,6 +76,7 @@ namespace PDTUtils
 				m_currentButton = stpButtons.Children.IndexOf(button);
 				if (button.Content.ToString() == m_buttonContent[0])
 				{
+					DoPrinterTest();
 				}
 				else if (button.Content.ToString() == m_buttonContent[1])
 				{
@@ -138,9 +84,11 @@ namespace PDTUtils
 				}
 				else if (button.Content.ToString() == m_buttonContent[2])
 				{
+					DoLampTest();
 				}
 				else if (button.Content.ToString() == m_buttonContent[3])
 				{
+					DoDilSwitchTest();
 				}
 				else if (button.Content.ToString() == m_buttonContent[4])
 				{
@@ -148,6 +96,7 @@ namespace PDTUtils
 				}
 				else if (button.Content.ToString() == m_buttonContent[5])
 				{
+					DoCoinTest();
 				}
 
 				for (int i = 0; i < m_visualButtonCount; i++)
@@ -164,7 +113,84 @@ namespace PDTUtils
 				{
 					stpButtons.Children[i].IsEnabled = true;
 				}
+				m_buttonEnabledCount = 6;
 			}
+		}
+
+		private void DoLampTest()
+		{
+
+		}
+
+		private void DoPrinterTest()
+		{
+			// set printer state. 
+
+			BoLib.printTestTicket();
+
+			do 
+			{
+				Thread.Sleep(2);
+				if(BoLib.getError() == 10)
+				{
+					label3.Dispatcher.Invoke((DelegatePrintErr)label_updateDilStatus,
+						new object[] { label3, "PRINTER NOT FOUND" });
+				}
+				else if(BoLib.getError() == 11)
+				{
+					label3.Dispatcher.Invoke((DelegatePrintErr)label_updateDilStatus,
+						new object[] { label3, "PRINT ERROR,CHECK PRINTER" });
+				}
+				else if (BoLib.getError() == 12)
+				{
+					label3.Dispatcher.Invoke((DelegatePrintErr)label_updateDilStatus,
+						new object[] { label3, "PRINT ERROR,CHECK PRINTER" });
+				}
+			} while ((BoLib.getPrinterTicketState() & 0x01) == 1);
+		}
+
+		private void DoDilSwitchTest()
+		{
+			btnEndTest.IsEnabled = true;
+
+			int ctr = 1;
+			for (int i = 1; i <= 8; i *= 2)
+			{
+				if (BoLib.getSwitchStatus(4, (byte)i) > 0)
+				{
+					var converter = new BrushConverter();
+					var bg = (Brush)converter.ConvertFromString("#6599FF");
+					m_labels[ctr].Background = bg;
+					m_labels[ctr].Foreground = Brushes.Yellow;
+					m_labels[ctr].FontSize = 16;
+					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateDilStatus,
+							new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " ON" });
+				}
+				else
+				{
+					m_labels[ctr].Background = Brushes.Red;
+					m_labels[ctr].Foreground = Brushes.Black;
+					m_labels[ctr].FontSize = 16;
+					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateDilStatus,
+							new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " OFF" });
+				}
+				ctr++;
+			}
+		}
+
+		private void DoCoinTest()
+		{
+			m_noteImpl.m_isCoinTest = true;
+			m_noteImpl.IsRunning = true;
+			BoLib.clearBankAndCredit();
+			BoLib.enableNoteValidator();
+			label1.FontSize = 16;
+			label1.Background = Brushes.Black;
+			label1.Foreground = Brushes.Aqua;
+			label1.Content = "Please deposit coin into the machine.";
+			label3.FontSize = 16;
+			startTimer.Enabled = true;
+			btnEndTest.IsEnabled = true;
 		}
 
 		private void DoNoteTest()
@@ -172,8 +198,13 @@ namespace PDTUtils
 			m_noteImpl.IsRunning = true;
 			BoLib.clearBankAndCredit();
 			BoLib.enableNoteValidator();
-			label1.Content = "Please insert note in Note Validator";
+			label1.FontSize = 16;
+			label1.Background = Brushes.Black;
+			label1.Foreground = Brushes.Aqua;
+			label1.Content = "Please insert note into Note Validator.";
+			label3.FontSize = 16;
 			startTimer.Enabled = true;
+			btnEndTest.IsEnabled = true;
 		}
 
 		private void DoButtonTest()
@@ -195,6 +226,12 @@ namespace PDTUtils
 			startTimer.Enabled = true;
 		}
 
+		#region DELEGATES AND EVENTS
+		private void label_updateDilStatus(Label l, string message)
+		{
+			l.Content = message;
+		}
+
 		private void timer_UpdateLabel(Label l)
 		{
 			l.Content = "m_termButton = " + m_termButtonList[m_currentButton];
@@ -213,12 +250,15 @@ namespace PDTUtils
 			l.Content = "m_termButton = " + m_termButtonList[m_currentButton] + " NOT FITTED/ERROR";
 		}
 
-		private void timer_updateNoteVal(Label l)
+		
+		private void timer_updateNoteVal(Label l, int v)
 		{
-			l.Content = "NOTE ADDED";
+			if (v >= 500)
+				l.Content = "Note of " + (v / 100).ToString("0.00") + " value inserted.";
+			else
+				l.Content = "Coin of " + (v / 100).ToString("0.00") + " value inserted.";
 		}
 
-		public delegate void DelegateUpdate(Label l);
 		private void timer_CheckButton(object sender, ElapsedEventArgs e)
 		{
 			// test refill key and door switch.
@@ -320,18 +360,62 @@ namespace PDTUtils
 		{
 			if (m_noteImpl.IsRunning == true)
 			{
-				if ((BoLib.getCredit() + BoLib.getBank()) >= 500)
+				int value = BoLib.getCredit() + BoLib.getBank();
+				if (value > 0)
 				{
-					//label3.Content = "NOTE ADDED";
-					label3.Dispatcher.Invoke((DelegateUpdate)timer_updateNoteVal, new object[] { label3 });
+					label3.Dispatcher.Invoke((DelegateNoteVal)timer_updateNoteVal, 
+						new object[] { label3, value });
+					BoLib.clearBankAndCredit();
 				}
 			}
 		}
 
+		/// <summary>
+		/// Clear the form, some tests like the coin and note need to run indefinitely 
+		/// until otherwise told.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnEndTest_Click(object sender, RoutedEventArgs e)
+		{
+			for (int i = 0; i < m_visualButtonCount; i++)
+				stpButtons.Children[i].IsEnabled = true;
+
+			m_buttonEnabledCount = m_visualButtonCount;
+
+			label1.Background = null;
+			label1.Foreground = null;
+
+			if (m_noteImpl.IsRunning)
+			{
+				BoLib.clearBankAndCredit();
+				BoLib.disableNoteValidator();
+			}
+
+			if (startTimer.Enabled == true)
+				startTimer.Enabled = false;
+
+			var labels = Extension.GetChildOfType<Label>(stpMainPanel);
+			foreach (var l in labels)
+			{
+				l.Content = "";
+				l.Foreground = null;
+				l.Background = null;
+				l.FontSize = 11;
+			}
+
+			btnEndTest.IsEnabled = false;
+		}
 
 		private void btnExit_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();
+		}
+		#endregion
+
+		private void Window_Closed(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

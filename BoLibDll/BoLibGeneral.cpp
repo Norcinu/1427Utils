@@ -16,3 +16,13 @@ void disableNoteValidator()
 	DisableNoteValidator();
 }
 
+unsigned long getPrinterTicketState()
+{
+	return Share2;
+}
+
+void printTestTicket()
+{
+	Share2 |= 0x01;
+}
+
