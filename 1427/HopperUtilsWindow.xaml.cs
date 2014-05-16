@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using PDTUtils.Native;
 
 namespace PDTUtils.Logic
@@ -20,13 +13,12 @@ namespace PDTUtils.Logic
 	{
 		DoorAndKeyStatus m_keyDoor = new DoorAndKeyStatus();
 		string[] ContentHeaders = new string[3] { "Set Hopper Floats", "Empty Hoppers", "Refill Hoppers" };
+		bool[] m_clearHoopers = new bool[2] { false, false };
 		
 		private HopperUtilsWindow()
 		{
 			InitializeComponent();
-
 			InitButtons();
-			
 		}
 
 		public HopperUtilsWindow(DoorAndKeyStatus kd)
@@ -64,6 +56,24 @@ namespace PDTUtils.Logic
 			}
 		}
 
+		private void checkBox_Checked(object sender, EventArgs e)
+		{
+			var chkbox = sender as CheckBox;
+			if (chkbox.Name == "Left")
+				m_clearHoopers[0] = true;
+			else if (chkbox.Name == "Right")
+				m_clearHoopers[1] = true;
+		}
+
+		private void checkbox_UnChecked(object sender, EventArgs e)
+		{
+			var chkbox = sender as CheckBox;
+			if (chkbox.Name == "Left")
+				m_clearHoopers[0] = false;
+			else if (chkbox.Name=="Right")
+				m_clearHoopers[1] = false;
+		}
+
 		private void DoEmptyHoppers()
 		{
 			var leftLevel = BoLib.getHopperFloatLevel(BoLib.getLeftHopper());
@@ -75,6 +85,7 @@ namespace PDTUtils.Logic
 			right.Content = "10p Hopper contains £ " + leftLevel.ToString("0.00");
 
 			CheckBox chkLeft = new CheckBox();
+			chkLeft.Name = "Left";
 			chkLeft.Content = "Empty the Left Hopper";
 			chkLeft.Foreground = Brushes.White;
 			chkLeft.FontSize = 22;
@@ -82,6 +93,7 @@ namespace PDTUtils.Logic
 				chkLeft.IsEnabled = false;
 
 			CheckBox chkRight = new CheckBox();
+			chkRight.Name = "Right";
 			chkRight.Foreground = Brushes.White;
 			chkRight.FontSize = 22;
 			chkRight.Content = "Empty the Right Hopper";
@@ -91,7 +103,7 @@ namespace PDTUtils.Logic
 			Button empty = new Button();
 			empty.Content = "Empty";
 			empty.Width = 75;
-
+			
 			stackPanel1.Children.Add(left);
 			stackPanel1.Children.Add(right);
 			stackPanel1.Children.Add(chkLeft);

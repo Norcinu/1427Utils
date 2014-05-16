@@ -273,3 +273,8 @@ unsigned char getRightHopper()
 {
 	return RIGHTHOPPER;
 }
+
+unsigned int getMinPayoutValue()
+{
+	return GetMinPayoutValue();
+}

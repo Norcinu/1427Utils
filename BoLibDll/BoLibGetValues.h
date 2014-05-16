@@ -84,3 +84,4 @@ extern "C" DllExport signed int    getRefillCtr(unsigned char hopper);
 extern "C" DllExport unsigned char getLeftHopper();
 extern "C" DllExport unsigned char getMiddleHopper();
 extern "C" DllExport unsigned char getRightHopper();
+extern "C" DllExport unsigned int  getMinPayoutValue();

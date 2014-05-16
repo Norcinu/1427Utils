@@ -1,6 +1,10 @@
 ﻿using System.Runtime.InteropServices;
 using System;
 
+
+/*	Break this class up into a partial class?
+ *	Follow the convention from the Lib files. Get/Set/General
+ */
 namespace PDTUtils.Native
 {
 	static class BoLib
@@ -108,6 +112,9 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern byte getRightHopper();
 
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getMinPayoutValue();
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/
@@ -122,6 +129,12 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern void setHopperFloatLevel(byte hopper, uint value);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void setRequestEmptyLeftHopper();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void setRequestEmptyRightHopper();
 
 		/************************************************************************/
 		/* General methods                                                      */

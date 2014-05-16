@@ -58,3 +58,14 @@ void setHopperFloatLevel(unsigned char hopper, unsigned int value)
 {
 	SetHopperFloatLevel(hopper, value);
 }
+
+void setRequestEmptyLeftHopper()
+{
+	SetRequestEmptyLeftHopper();
+}
+
+void setRequestEmptyRightHopper()
+{
+	SetRequestEmptyRightHopper();
+}
+

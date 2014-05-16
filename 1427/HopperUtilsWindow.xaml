@@ -4,6 +4,6 @@
         Title="HopperUtilsWindow" Height="480" Width="640" HorizontalAlignment="Center" VerticalAlignment="Center" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow">
     <Grid>
         <DockPanel Height="30" HorizontalAlignment="Left" Margin="9,12,12,0" Name="dockPanel1" VerticalAlignment="Top" Width="600"></DockPanel>
-        <StackPanel Name="stackPanel1" Margin="9,60,9,50" Background="#FFFFAAAA"></StackPanel>
+        <StackPanel Name="stackPanel1" Margin="9,60,9,50" Background="#FFAACBFF"></StackPanel>
     </Grid>
 </Window>
