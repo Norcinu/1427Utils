@@ -15,7 +15,7 @@ namespace PDTUtils
 				MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
 				byte[] byteHashValue = md5.ComputeHash(stream);
 				stream.Close();
-
+				
 				string hashData = System.BitConverter.ToString(byteHashValue);
 				hashData = hashData.Replace("-", "");
 				result = hashData;

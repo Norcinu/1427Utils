@@ -74,10 +74,17 @@
     </ApplicationDefinition>
     <Compile Include="Extension.cs" />
     <Compile Include="Impls\Impls.cs" />
+    <Compile Include="HopperUtilsWindow.xaml.cs">
+      <DependentUpon>HopperUtilsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestSuiteWindow.xaml.cs">
       <DependentUpon>TestSuiteWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="IniSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HopperUtilsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -67,18 +67,8 @@ namespace PDTUtils
 
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
-			if (stpButtonPanel.Children.Count == 0) // need to clear these when other button is pressed.
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					Button b = new Button();
-					b.Content = i.ToString();
-					b.Name = "Button" + i.ToString();
-					b.Click += new RoutedEventHandler(dynamicButton_Click);
-					stpButtonPanel.Children.Add((UIElement)b);
-					stpButtonPanel.Background = Brushes.Sienna;
-				}
-			}
+			HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
+			w.ShowDialog();
 		}
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
@@ -159,6 +149,13 @@ namespace PDTUtils
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
 				Thread.Sleep(2);
+
+				//BoLib.printTestTicket();
+				//if (BoLib.getError() > 0 && BoLib.getDoorStatus() == 0)
+				//{
+					//MessageBox.Show(BoLib.getErrorText());
+					
+				//}
 			}
 			catch (Exception err)
 			{
@@ -214,7 +211,7 @@ namespace PDTUtils
 			m_machineIni.ParseIni();
 			MessageBox.Show("Machine RTP " + m_machineIni.GetIniValue("Datapack.Dpercentage") + "%");
 			MessageBox.Show("Machine Number " + m_machineIni["Server.Machine Number"]);
-
+			
 			// commit changes to memory
 		}
 

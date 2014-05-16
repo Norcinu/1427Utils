@@ -12,7 +12,7 @@ namespace PDTUtils.Logic
 
 		public UsbControl()
 		{
-
+			
 		}
 
 		public void Dispose()

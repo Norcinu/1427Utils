@@ -213,3 +213,63 @@ unsigned int getTerminalType()
 {
 	return GetTerminalType();
 }
+
+unsigned int getHopperFloatLevel(unsigned char hopper)
+{
+	return GetHopperFloatLevel(hopper);
+}
+
+unsigned int getHopperDivertLevel(unsigned char hopper)
+{
+	return GetHopperDivertLevel(hopper);
+}
+
+unsigned char getHopperDumpSwitchActive()
+{
+	return GetHopperDumpSwitchActive();
+}
+
+unsigned char getHopperDumpSwitch()
+{
+	return GetSwitchStatus(HOPPER_DUMP_SW);
+}
+
+unsigned int getRequestEmptyLeftHopper()
+{
+	return GetRequestEmptyLeftHopper();
+}
+
+unsigned int getRequestEmptyRightHopper()
+{
+	return GetRequestEmptyRightHopper();
+}
+
+unsigned char getBnvType()
+{
+	return GetBnvType();
+}
+
+unsigned int getRecyclerFloatValue()
+{
+	return GetRecyclerFloatValue();
+}
+
+signed int getRefillCtr(unsigned char hopper)
+{
+	return GetRefillCtr(hopper);
+}
+
+unsigned char getLeftHopper()
+{
+	return LEFTHOPPER;
+}
+
+unsigned char getMiddleHopper()
+{
+	return MIDDLEHOPPER;
+}
+
+unsigned char getRightHopper()
+{
+	return RIGHTHOPPER;
+}

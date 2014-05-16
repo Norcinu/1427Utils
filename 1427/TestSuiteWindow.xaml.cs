@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Impls;
 using PDTUtils.Native;
-using System.Threading;
 
 
 namespace PDTUtils
@@ -30,13 +30,14 @@ namespace PDTUtils
 		int[] m_buttonsPressed = new int[8];
 		Label[] m_labels;
 		System.Timers.Timer startTimer = new System.Timers.Timer();
-
+		Thread m_testPrintThread;
 
 		#region DELEGATE TYPES
 		public delegate void DelegateDil(Label l, string message);
 		public delegate void DelegateNoteVal(Label l, int v);
 		public delegate void DelegateUpdate(Label l);
 		public delegate void DelegatePrintErr(Label l, string message);
+		public delegate void DelegateEnableBtn(Button b);
 		#endregion
 
 		public TestSuiteWindow()
@@ -60,6 +61,7 @@ namespace PDTUtils
 				b.Content = m_buttonContent[i];
 				b.MinWidth = 90;
 				b.Margin = new Thickness(0, 0, 5, 0);
+		
 				b.Click += button_Click;
 				if (i < 2) 
 					DockPanel.SetDock(b, Dock.Left);
@@ -124,29 +126,9 @@ namespace PDTUtils
 
 		private void DoPrinterTest()
 		{
-			// set printer state. 
-
-			BoLib.printTestTicket();
-
-			do 
-			{
-				Thread.Sleep(2);
-				if(BoLib.getError() == 10)
-				{
-					label3.Dispatcher.Invoke((DelegatePrintErr)label_updateDilStatus,
-						new object[] { label3, "PRINTER NOT FOUND" });
-				}
-				else if(BoLib.getError() == 11)
-				{
-					label3.Dispatcher.Invoke((DelegatePrintErr)label_updateDilStatus,
-						new object[] { label3, "PRINT ERROR,CHECK PRINTER" });
-				}
-				else if (BoLib.getError() == 12)
-				{
-					label3.Dispatcher.Invoke((DelegatePrintErr)label_updateDilStatus,
-						new object[] { label3, "PRINT ERROR,CHECK PRINTER" });
-				}
-			} while ((BoLib.getPrinterTicketState() & 0x01) == 1);
+			btnEndTest.IsEnabled = true;
+			m_testPrintThread = new Thread(new ThreadStart(BoLib.printTestTicket));
+			m_testPrintThread.Start();
 		}
 
 		private void DoDilSwitchTest()
@@ -163,7 +145,7 @@ namespace PDTUtils
 					m_labels[ctr].Background = bg;
 					m_labels[ctr].Foreground = Brushes.Yellow;
 					m_labels[ctr].FontSize = 16;
-					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateDilStatus,
+					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
 							new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " ON" });
 				}
 				else
@@ -171,7 +153,7 @@ namespace PDTUtils
 					m_labels[ctr].Background = Brushes.Red;
 					m_labels[ctr].Foreground = Brushes.Black;
 					m_labels[ctr].FontSize = 16;
-					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateDilStatus,
+					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
 							new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " OFF" });
 				}
 				ctr++;
@@ -227,7 +209,7 @@ namespace PDTUtils
 		}
 
 		#region DELEGATES AND EVENTS
-		private void label_updateDilStatus(Label l, string message)
+		private void label_updateMessage(Label l, string message)
 		{
 			l.Content = message;
 		}
@@ -247,10 +229,11 @@ namespace PDTUtils
 
 		private void timer_buttonError(Label l)
 		{
+			l.Background = Brushes.Red;
+			l.Foreground = Brushes.Black;
 			l.Content = "m_termButton = " + m_termButtonList[m_currentButton] + " NOT FITTED/ERROR";
 		}
 
-		
 		private void timer_updateNoteVal(Label l, int v)
 		{
 			if (v >= 500)
@@ -259,10 +242,15 @@ namespace PDTUtils
 				l.Content = "Coin of " + (v / 100).ToString("0.00") + " value inserted.";
 		}
 
+		private void timer_buttonEnable(Button b)
+		{
+			b.IsEnabled = true;
+		}
+	
 		private void timer_CheckButton(object sender, ElapsedEventArgs e)
 		{
 			// test refill key and door switch.
-			if (m_btnImpl.m_doSpecials == true)
+		/*	if (m_btnImpl.m_doSpecials == true)
 			{
 				if (m_counter >= 0 && m_counter < 60)
 				{
@@ -276,23 +264,23 @@ namespace PDTUtils
 						{
 							if (m_btnImpl.m_toggled[0] == false)
 							{
-								MessageBox.Show("toggled key off");
+							//	MessageBox.Show("toggled key off");
 								m_btnImpl.m_toggled[0] = true;
 							}
 							else
 							{
-								MessageBox.Show("toggled key on");
+							//	MessageBox.Show("toggled key on");
 								m_btnImpl.m_currentSpecial = 1;
 							}
 							
 //							MessageBox.Show("toggled key");
 						}
 					}
-				/*	else if (m_btnImpl.m_currentSpecial == 1)
+					else if (m_btnImpl.m_currentSpecial == 1)
 					{
 						if (m_btnImpl.m_toggled[1] == false)
 							m_counter++;
-						MessageBox.Show("toggled key");
+					//	MessageBox.Show("toggled key");
 						var mask = m_specialMasks[1];
 						var status = BoLib.getSwitchStatus(2, mask);
 						if (status == 0)
@@ -302,9 +290,9 @@ namespace PDTUtils
 							else
 								m_btnImpl.m_currentSpecial++;
 							
-							MessageBox.Show("toggled key");
+						//	MessageBox.Show("toggled key");
 						}
-					}*/
+					}
 				}
 				else
 				{
@@ -319,7 +307,7 @@ namespace PDTUtils
 					}
 				}
 			}
-			else // Button deck
+			else*/ // Button deck
 			{
 				uint status = 100;
 				if (m_counter >= 0 && m_counter < 30) // 6
@@ -349,6 +337,7 @@ namespace PDTUtils
 					{
 						m_currentButton = 0;
 						startTimer.Enabled = false;
+						btnEndTest.Dispatcher.Invoke((DelegateEnableBtn)timer_buttonEnable, new object[] { btnEndTest });
 					}
 
 					m_counter = 0;
@@ -378,6 +367,9 @@ namespace PDTUtils
 		/// <param name="e"></param>
 		private void btnEndTest_Click(object sender, RoutedEventArgs e)
 		{
+			if (m_testPrintThread != null)
+				while (m_testPrintThread.IsAlive) ;
+
 			for (int i = 0; i < m_visualButtonCount; i++)
 				stpButtons.Children[i].IsEnabled = true;
 

@@ -8,7 +8,7 @@ using PDTUtils.Native;
 
 namespace PDTUtils
 {
-	public class DoorAndKeyStatus
+	public class DoorAndKeyStatus 
 	{
 		volatile bool m_doorStatus;
 		volatile bool m_running;
@@ -94,10 +94,17 @@ namespace PDTUtils
 			}
 		}
 
+		public void Clone(DoorAndKeyStatus kd)
+		{
+			this.DoorStatus = kd.DoorStatus;
+			this.HasChanged = kd.HasChanged;
+			this.Running = kd.Running;
+		}
+
 		private delegate void TimerUpdate();
 		private void CheckForUpdate(object sender, EventArgs e)
 		{
-
+			
 		}
 	}
 }

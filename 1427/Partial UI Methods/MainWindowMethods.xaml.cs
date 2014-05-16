@@ -14,7 +14,7 @@ namespace PDTUtils
 		{
 			try
 			{
-				int shell =  BoLib.setEnvironment();
+				int shell = BoLib.setEnvironment();
 				if (shell == 0)
 				{
 					m_connected = true;
@@ -60,7 +60,7 @@ namespace PDTUtils
 									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
 				{
 					Application.Current.Shutdown();
-					throw new System.Exception();
+					throw new System.Exception(); // is this needed?
 				}
 			}
 		}

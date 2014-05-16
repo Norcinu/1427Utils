@@ -72,6 +72,42 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern uint[] getLastNotes();
 
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getHopperFloatLevel(byte hopper);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getHopperDivertLevel(byte hopper);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern byte getHopperDumpSwitchActive();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern byte getHopperDumpSwitch();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getRequestEmptyLeftHopper();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getRequestEmptyRightHopper();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern byte getBnvType();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getRecyclerFloatValue();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern int getRefillCtr(byte hopper);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern byte getLeftHopper();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern byte getMiddleHopper();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern byte getRightHopper();
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/
@@ -83,6 +119,9 @@ namespace PDTUtils.Native
 		
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern void setLampStatus(byte offset, byte mask, byte state);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void setHopperFloatLevel(byte hopper, uint value);
 
 		/************************************************************************/
 		/* General methods                                                      */
@@ -98,5 +137,9 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern UInt32 getPrinterTicketState();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		public unsafe static extern string getBnvStringType(byte bnv);
 	}
 }

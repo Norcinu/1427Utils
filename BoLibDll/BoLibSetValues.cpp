@@ -53,3 +53,8 @@ void setLampStatus(unsigned char offset, unsigned char mask, unsigned char state
 {
 	SetLampStatus(offset, mask, state);
 }
+
+void setHopperFloatLevel(unsigned char hopper, unsigned int value)
+{
+	SetHopperFloatLevel(hopper, value);
+}
