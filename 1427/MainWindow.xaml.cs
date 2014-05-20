@@ -69,6 +69,33 @@ namespace PDTUtils
 		{
 			HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
 			w.ShowDialog();
+			/*int childCount = stpButtonPanel.Children.Count;
+			if (childCount > 0)
+				stpButtonPanel.Children.RemoveRange(0, childCount);
+
+			DockPanel d = new DockPanel();
+			d.Margin = new Thickness(9, 12, 12, 0);
+			d.Width = 600;
+			d.Height = 30;
+			d.Name = "dpButtons";
+			d.HorizontalAlignment = HorizontalAlignment.Left;
+			d.LastChildFill = false;
+			
+			for (int i = 0; i < 3; i++)
+			{
+				Button b = new Button();
+				b.MinWidth = 200;
+				b.MinHeight = 40;
+				b.FontSize = 18;
+				b.Content = i.ToString("0.00");
+				d.Children.Add(b);
+			}*/
+
+			/*stpButtonPanel.Children.Add(d);
+
+			StackPanel s = new StackPanel();
+			s.Name = "SubMain";
+			stpButtonPanel.Children.Add(new StackPanel());*/
 		}
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
@@ -82,14 +109,14 @@ namespace PDTUtils
 				headers.Add("tabErrorLog", "Error Log");
 				headers.Add("tabGameLog", "Last Game Log");
 				headers.Add("tabWinLog", "Wins Log");
-				var brushes = new SolidColorBrush[3]{Brushes.Red, Brushes.Yellow, Brushes.Green};
-				var i = 0;
+				//var brushes = new SolidColorBrush[3]{Brushes.Red, Brushes.Yellow, Brushes.Green};
+				//var i = 0;
 				foreach (var entry in headers)
 				{
 					TabItem tab = new TabItem();
 					tab.Name = entry.Key;
 					tab.Header = entry.Value;
-					tab.Foreground = brushes[i++];
+				//	tab.Foreground = brushes[i++];
 					settingsTab.Items.Add(tab);
 				}
 				PresentErrorLog();
@@ -234,7 +261,6 @@ namespace PDTUtils
 			stpButtonPanel.Children.Add(SetupDynamicListBox());
 		}
 
-
 		private bool ValidateNewIniSetting()
 		{
 			return true;
@@ -349,12 +375,13 @@ namespace PDTUtils
 			MasterVolumeSlider.IsEnabled = true;
 			MasterVolumeSlider.Visibility = Visibility.Visible;
 			MasterVolumeSlider.Value =  BoLib.getLocalMasterVolume();
-			txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
+			if (MasterVolumeSlider.Value>0)
+				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
 		}
 
 		private void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			PlaySoundOnEvent(@"./wav/volume.wav");
+			//PlaySoundOnEvent(@"./wav/volume.wav");
 			uint volume = Convert.ToUInt32(MasterVolumeSlider.Value);
 			BoLib.setLocalMasterVolume(volume);
 		}
@@ -383,8 +410,8 @@ namespace PDTUtils
 			
 			Label lblTotalBet = new Label();
 			lblTotalBet.FontSize = 22;
-			string totalBetStr = Convert.ToString(m_gameStatistics.TotalBet);
-			lblTotalBet.Content = "Total Bet: £" + totalBetStr.Insert(totalBetStr.Length-2, ".");
+			string totalBetStr = m_gameStatistics.TotalBet.ToString("0.00"); //Convert.ToString(m_gameStatistics.TotalBet,"0.00");
+			lblTotalBet.Content = "Total Bet: £" + totalBetStr;//.Insert(totalBetStr.Length-2, ".");
 			stpButtonPanel.Children.Add(lblTotalBet);
 			stpButtonPanel.Background = Brushes.AntiqueWhite;
 			

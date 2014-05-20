@@ -85,10 +85,11 @@ namespace PDTUtils
 				{
 					BoLib.enableNoteValidator();
 					m_keyDoorWorker.HasChanged = false;
+
 				}
 				//DetectDoorChange(@"./wav/util_exit.wav");	
 				status += "Closed";
-				lblDoorStatus.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+				lblDoorStatus.Background = Brushes.Black;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
 				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
 			}
 			else
@@ -101,7 +102,7 @@ namespace PDTUtils
 				//DetectDoorChange(@"./wav/util_exit.wav");
 				status += "Open";
 				lblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-				lblDoorStatus.Background = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+				lblDoorStatus.Background = Brushes.Aquamarine;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
 				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
 			}
 			lblDoorStatus.Content = status;
@@ -204,10 +205,7 @@ namespace PDTUtils
 				{
 					int diff = MaxLength - textContent[i].Length;
 					for (int j = 0; j < diff; j++)
-					{
-						MessageBox.Show(textContent[i].Length.ToString(), MaxLength.ToString());
 						textContent[i] += ".";
-					}
 				}
 			}
 
@@ -250,13 +248,17 @@ namespace PDTUtils
 
 		private ScrollViewer CreateSimpleTabTextBlock(SolidColorBrush bg, SolidColorBrush fg)
 		{
-			TextBlock txtContentBlock = new TextBlock();
-			txtContentBlock.Text = "";
-			txtContentBlock.FontSize = 20;
-			txtContentBlock.Foreground = fg;
-			txtContentBlock.Background = bg;
-			txtContentBlock.TextAlignment = TextAlignment.Center;
-			txtContentBlock.FontFamily = new FontFamily("Consolas");
+			TextBlock txtContentBlock = new TextBlock()
+			{
+				Text = "",
+				FontSize = 20,
+				Foreground = fg,
+				Background = bg,
+				TextAlignment = TextAlignment.Center,
+				FontFamily = new FontFamily("Consolas")
+			};
+			
+			//txtContentBlock.FontFamily = new FontFamily("Consolas");
 			
 			ScrollViewer sv = new ScrollViewer();
 			sv.Content = txtContentBlock;
