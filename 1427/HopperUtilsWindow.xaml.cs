@@ -19,44 +19,56 @@ namespace PDTUtils.Logic
 		System.Timers.Timer m_switchTimer = new System.Timers.Timer();
 		HopperImpl m_hopperImpl = new HopperImpl();
 		bool doLeft = true;
-
+		
 		private HopperUtilsWindow()
 		{
 			this.FontSize = 22;
 			InitializeComponent();
-		//	InitButtons();
 			m_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
 		}
 
 		public HopperUtilsWindow(DoorAndKeyStatus kd)
 		{
-			//this.FontSize = 22;
+			this.FontSize = 14;
 			InitializeComponent();
 			m_keyDoor = kd;
-		//	InitButtons();
 			m_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
-		}
+			var open = BoLib.getDoorStatus();
+			int first = -1;
 
-		private void InitButtons()
-		{
-			/*for (int i = 0; i < 3; i++)
+			for (int i = 0; i < tabHoppers.Items.Count; i++)
 			{
-				// add buttons here.
-				dockPanel1.Children.Add(new Button()
+				var t = tabHoppers.Items[i] as TabItem;
+				if (i < 2)
 				{
-					Content = m_contentHeaders[i],
-					MinWidth = 100,
-					HorizontalAlignment = HorizontalAlignment.Center
-				});
+					if (open > 0)
+					{
+						t.IsEnabled = true;
+						if (first == -1)
+							first = i;
+					}
+					else
+						t.IsEnabled = false;
+				}
+				else
+				{
+					if (open > 0)
+						t.IsEnabled = false;
+					else
+					{
+						t.IsEnabled = true;
+						if (first == -1)
+							first = i;
+						else
+							t.IsEnabled = false;
+					}
+				}
 
-				var b = dockPanel1.Children[i] as Button;
-				b.Click += button_DoEvent;
-	
-				if (m_keyDoor.DoorStatus == false && i < 2)
-					b.IsEnabled = false;
-				else if (m_keyDoor.DoorStatus == true && i == 2)
-					b.IsEnabled = false;
-			}*/
+				tabHoppers.SelectedIndex = first;
+			}
+
+			emptyLeftHopValue.Content = "£" + BoLib.getHopperFloatLevel(BoLib.getLeftHopper()).ToString("0.00");
+			emptyRightHopValue.Content = "£" + BoLib.getHopperFloatLevel(BoLib.getRightHopper()).ToString("0.00");
 		}
 
 		private void button_DoEvent(object sender, EventArgs e)
@@ -170,16 +182,17 @@ namespace PDTUtils.Logic
 						doLeft = false;
 						m_switchTimer.Enabled = false;
 						m_switchTimer.Elapsed -= timer_CheckHopperDumpSwitch;
+						btnEmptyHoppers.IsEnabled = true;
 					}
 				}
 
 				if (BoLib.getRequestEmptyLeftHopper() > 0)
 				{
-				//	label1.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { label1 });
+					emptyLeftHopValue.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { emptyLeftHopValue });
 				}
 				else if (BoLib.getRequestEmptyRightHopper() > 0)
 				{
-				//	label1.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { label1 });
+					emptyRightHopValue.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { emptyRightHopValue });
 				}
 			}
 		}
@@ -188,7 +201,6 @@ namespace PDTUtils.Logic
 		private void emptyHoppers(Label l)
 		{
 			l.Foreground = Brushes.Aqua;
-			l.Background = Brushes.Salmon;
 			l.Content = "Hopper Value : £" + BoLib.getHopperFloatLevel(
 				(doLeft == true) ? BoLib.getLeftHopper() : BoLib.getRightHopper()).ToString("0.00");
 		}
@@ -207,7 +219,10 @@ namespace PDTUtils.Logic
 
 		private void btnEmptyHoppers_Click(object sender, RoutedEventArgs e)
 		{
-
+			m_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
+			m_switchTimer.Enabled = true;
+			btnEmptyHoppers.IsEnabled = false;
+			lblGeneralMsg.Content = "Press and hold dump switch";
 		}
 	}
 }
