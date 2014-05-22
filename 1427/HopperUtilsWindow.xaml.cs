@@ -18,28 +18,28 @@ namespace PDTUtils.Logic
 		bool[] m_clearHoopers = new bool[2] { false, false };
 		System.Timers.Timer m_switchTimer = new System.Timers.Timer();
 		HopperImpl m_hopperImpl = new HopperImpl();
-		bool youreds = false;
+		bool doLeft = true;
 
 		private HopperUtilsWindow()
 		{
 			this.FontSize = 22;
 			InitializeComponent();
-			InitButtons();
+		//	InitButtons();
 			m_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
 		}
 
 		public HopperUtilsWindow(DoorAndKeyStatus kd)
 		{
-			this.FontSize = 22;
+			//this.FontSize = 22;
 			InitializeComponent();
 			m_keyDoor = kd;
-			InitButtons();
+		//	InitButtons();
 			m_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
 		}
 
 		private void InitButtons()
 		{
-			for (int i = 0; i < 3; i++)
+			/*for (int i = 0; i < 3; i++)
 			{
 				// add buttons here.
 				dockPanel1.Children.Add(new Button()
@@ -56,7 +56,7 @@ namespace PDTUtils.Logic
 					b.IsEnabled = false;
 				else if (m_keyDoor.DoorStatus == true && i == 2)
 					b.IsEnabled = false;
-			}
+			}*/
 		}
 
 		private void button_DoEvent(object sender, EventArgs e)
@@ -64,8 +64,21 @@ namespace PDTUtils.Logic
 			var button = sender as Button;
 			if (button.Content.ToString() == m_contentHeaders[0])
 			{
-				DoEmptyHoppers();
+				DoSetFloats();
 			}
+			else if (button.Content.ToString() == m_contentHeaders[1])
+				DoEmptyHoppers();
+			else if (button.Content.ToString() == m_contentHeaders[2])
+			{
+
+			}
+		}
+
+		private void button_EmptyEvent(object sender, EventArgs e)
+		{
+			//label1.Content = "Press and Hold Dump Switch";
+			//label1.Foreground = Brushes.CadetBlue;
+			m_switchTimer.Enabled = true;
 		}
 
 		private void checkBox_Checked(object sender, EventArgs e)
@@ -86,6 +99,14 @@ namespace PDTUtils.Logic
 				m_clearHoopers[1] = false;
 		}
 
+		private void DoSetFloats()
+		{
+			stackPanel1.IsEnabled = true;
+			stackPanel1.Visibility = Visibility.Visible;
+			lblLeftHopperValue.Content = "£" + BoLib.getHopperFloatLevel(BoLib.getLeftHopper()).ToString("0.00");
+			lblRightHopperValue.Content = "£" + BoLib.getHopperFloatLevel(BoLib.getRightHopper()).ToString("0.00");
+		}
+
 		private void DoEmptyHoppers()
 		{
 			var leftLevel = BoLib.getHopperFloatLevel(BoLib.getLeftHopper());
@@ -103,15 +124,15 @@ namespace PDTUtils.Logic
 				chkRight.IsEnabled = false;
 
 			Button empty = new Button() { Content = "Empty", Width = 75 };
-					
+			empty.Click += button_DoEvent;
+		
 			stackPanel1.Children.Add(left);
 			stackPanel1.Children.Add(right);
 			stackPanel1.Children.Add(chkLeft);
 			stackPanel1.Children.Add(chkRight);
 			stackPanel1.Children.Add(empty);
 
-			m_switchTimer.Enabled = true;
-			
+		//	m_switchTimer.Enabled = true;
 			/*
 			 * Hold dump switch for > 1 second
 			 */
@@ -124,20 +145,20 @@ namespace PDTUtils.Logic
 			{
 				if (BoLib.getHopperDumpSwitch() > 0)
 				{
-					label1.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { label1 });
-					m_hopperImpl.m_dumpSwitchPressed = true;
-					m_switchTimer.Interval = 2000;
+					//label1.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { label1 });
+					m_hopperImpl.DumpSwitchPressed = true;
+					m_switchTimer.Interval = 1000;
 					BoLib.setRequestEmptyLeftHopper();
 				}
 			}
 			else
 			{
-				if (youreds == false)
+				if (doLeft == true)
 				{
 					var result = BoLib.getRequestEmptyLeftHopper();
 					if (result == 0 && BoLib.getHopperFloatLevel(BoLib.getLeftHopper()) == 0)
 					{
-						youreds = true;
+						doLeft = false;
 						BoLib.setRequestEmptyRightHopper();
 					}
 				}
@@ -146,18 +167,19 @@ namespace PDTUtils.Logic
 					var result = BoLib.getRequestEmptyRightHopper();
 					if (result == 0 && BoLib.getHopperFloatLevel(BoLib.getRightHopper()) == 0)
 					{
-						youreds = false;
+						doLeft = false;
 						m_switchTimer.Enabled = false;
+						m_switchTimer.Elapsed -= timer_CheckHopperDumpSwitch;
 					}
 				}
 
 				if (BoLib.getRequestEmptyLeftHopper() > 0)
 				{
-					int b = 22;			
+				//	label1.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { label1 });
 				}
 				else if (BoLib.getRequestEmptyRightHopper() > 0)
 				{
-					label1.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { label1 });
+				//	label1.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { label1 });
 				}
 			}
 		}
@@ -165,7 +187,27 @@ namespace PDTUtils.Logic
 		public delegate void DelegateUpdate(Label l);
 		private void emptyHoppers(Label l)
 		{
-			l.Content = "Hopper Value : £" + BoLib.getHopperFloatLevel(BoLib.getLeftHopper()).ToString("0.00");
+			l.Foreground = Brushes.Aqua;
+			l.Background = Brushes.Salmon;
+			l.Content = "Hopper Value : £" + BoLib.getHopperFloatLevel(
+				(doLeft == true) ? BoLib.getLeftHopper() : BoLib.getRightHopper()).ToString("0.00");
+		}
+
+		private void btnSetLeft_Click(object sender, RoutedEventArgs e)
+		{
+			var leftHopper = BoLib.getLeftHopper();
+			BoLib.setHopperFloatLevel(leftHopper, BoLib.getHopperDivertLevel(leftHopper));
+		}
+
+		private void btnSetRight_Click(object sender, RoutedEventArgs e)
+		{
+			var rightHopper = BoLib.getRightHopper();
+			BoLib.setHopperFloatLevel(rightHopper, BoLib.getHopperDivertLevel(rightHopper));
+		}
+
+		private void btnEmptyHoppers_Click(object sender, RoutedEventArgs e)
+		{
+
 		}
 	}
 }
