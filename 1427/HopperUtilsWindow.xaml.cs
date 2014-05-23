@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Impls;
 using PDTUtils.Native;
+using System.Windows.Data;
 
 namespace PDTUtils.Logic
 {
@@ -33,40 +34,10 @@ namespace PDTUtils.Logic
 			InitializeComponent();
 			m_keyDoor = kd;
 			m_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
-			var open = BoLib.getDoorStatus();
-			int first = -1;
-
-			for (int i = 0; i < tabHoppers.Items.Count; i++)
-			{
-				var t = tabHoppers.Items[i] as TabItem;
-				if (i < 2)
-				{
-					if (open > 0)
-					{
-						t.IsEnabled = true;
-						if (first == -1)
-							first = i;
-					}
-					else
-						t.IsEnabled = false;
-				}
-				else
-				{
-					if (open > 0)
-						t.IsEnabled = false;
-					else
-					{
-						t.IsEnabled = true;
-						if (first == -1)
-							first = i;
-						else
-							t.IsEnabled = false;
-					}
-				}
-
-				tabHoppers.SelectedIndex = first;
-			}
-
+			
+			base.DataContext = kd;
+			
+			ChangeSelectedItem();
 			emptyLeftHopValue.Content = "£" + BoLib.getHopperFloatLevel(BoLib.getLeftHopper()).ToString("0.00");
 			emptyRightHopValue.Content = "£" + BoLib.getHopperFloatLevel(BoLib.getRightHopper()).ToString("0.00");
 		}
@@ -75,9 +46,7 @@ namespace PDTUtils.Logic
 		{
 			var button = sender as Button;
 			if (button.Content.ToString() == m_contentHeaders[0])
-			{
 				DoSetFloats();
-			}
 			else if (button.Content.ToString() == m_contentHeaders[1])
 				DoEmptyHoppers();
 			else if (button.Content.ToString() == m_contentHeaders[2])
@@ -109,6 +78,41 @@ namespace PDTUtils.Logic
 				m_clearHoopers[0] = false;
 			else if (chkbox.Name=="Right")
 				m_clearHoopers[1] = false;
+		}
+
+		public void ChangeSelectedItem()
+		{
+			int first = -1;
+			var open = BoLib.getDoorStatus();
+			for (int i = 0; i < tabHoppers.Items.Count; i++)
+			{
+				var t = tabHoppers.Items[i] as TabItem;
+				if (i < 2)
+				{
+					if (open > 0)
+					{
+						t.IsEnabled = true;
+						if (first == -1)
+							first = i;
+					}
+					else
+						t.IsEnabled = false;
+				}
+				else
+				{
+					if (open > 0)
+						t.IsEnabled = false;
+					else
+					{
+						t.IsEnabled = true;
+						if (first == -1)
+							first = i;
+						else
+							t.IsEnabled = false;
+					}
+				}
+				tabHoppers.SelectedIndex = first;
+			}
 		}
 
 		private void DoSetFloats()
@@ -143,21 +147,14 @@ namespace PDTUtils.Logic
 			stackPanel1.Children.Add(chkLeft);
 			stackPanel1.Children.Add(chkRight);
 			stackPanel1.Children.Add(empty);
-
-		//	m_switchTimer.Enabled = true;
-			/*
-			 * Hold dump switch for > 1 second
-			 */
 		}
 
-		
 		private void timer_CheckHopperDumpSwitch(object sender, ElapsedEventArgs e)
 		{
 			if (m_hopperImpl.DumpSwitchPressed == false)
 			{
 				if (BoLib.getHopperDumpSwitch() > 0)
 				{
-					//label1.Dispatcher.Invoke((DelegateUpdate)emptyHoppers, new object[] { label1 });
 					m_hopperImpl.DumpSwitchPressed = true;
 					m_switchTimer.Interval = 1000;
 					BoLib.setRequestEmptyLeftHopper();
@@ -219,10 +216,19 @@ namespace PDTUtils.Logic
 
 		private void btnEmptyHoppers_Click(object sender, RoutedEventArgs e)
 		{
-			m_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
-			m_switchTimer.Enabled = true;
-			btnEmptyHoppers.IsEnabled = false;
-			lblGeneralMsg.Content = "Press and hold dump switch";
+			if (chkEmptyLeft.IsChecked == true || chkEmptyRight.IsChecked == true)
+			{
+				m_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
+				m_switchTimer.Enabled = true;
+				btnEmptyHoppers.IsEnabled = false;
+				lblGeneralMsg.Content = "Press and hold dump switch";
+			}
+			else
+			{
+				MessageBox.Show("Please select which Hopper(s) to empty", 
+								"Select Hopper", MessageBoxButton.OK, 
+								MessageBoxImage.Asterisk);
+			}
 		}
 	}
 }

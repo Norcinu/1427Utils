@@ -1,6 +1,7 @@
 ﻿#define REMOTE
 
 using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
@@ -8,7 +9,7 @@ using PDTUtils.Native;
 
 namespace PDTUtils
 {
-	public class DoorAndKeyStatus 
+	public class DoorAndKeyStatus : INotifyPropertyChanged
 	{
 		volatile bool m_doorStatus;
 		volatile bool m_running;
@@ -32,7 +33,17 @@ namespace PDTUtils
 		public bool DoorStatus
 		{
 			get { return m_doorStatus; }
-			set { m_doorStatus = value; }
+			set
+			{
+				m_doorStatus = value;
+				this.OnPropertyChanged("DoorStatus");
+				this.OnPropertyChanged("IsDoorClosed");
+			}
+		}
+
+		public bool IsDoorClosed
+		{
+			get { return !m_doorStatus; }
 		}
 
 		public bool Running
@@ -76,6 +87,8 @@ namespace PDTUtils
 							{
 								m_doorStatus = false;
 								m_hasChanged = true;
+								this.OnPropertyChanged("DoorStatus");
+								this.OnPropertyChanged("IsDoorClosed");
 							}
 						}
 						else
@@ -84,6 +97,8 @@ namespace PDTUtils
 							{
 								m_doorStatus = true;
 								m_hasChanged = true;
+								this.OnPropertyChanged("DoorStatus"); 
+								this.OnPropertyChanged("IsDoorClosed");
 							}
 						}
 					}
@@ -104,7 +119,16 @@ namespace PDTUtils
 		private delegate void TimerUpdate();
 		private void CheckForUpdate(object sender, EventArgs e)
 		{
-			
+
 		}
+
+		#region Property Changed events
+		public event PropertyChangedEventHandler PropertyChanged;
+		void OnPropertyChanged(string name)
+		{
+			if (this.PropertyChanged != null)
+				this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+		}
+		#endregion
 	}
 }
