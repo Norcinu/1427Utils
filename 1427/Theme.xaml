@@ -273,7 +273,7 @@
         <GradientStop Color="#FFE2E8EE" Offset="1"/>
     </LinearGradientBrush>
 
-    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" />
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#2F4F4F" />
 
     <Style x:Key="NuclearButtonFocusVisual">
         <Setter Property="Control.Template">

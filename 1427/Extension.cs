@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
+using System;
 
 namespace System.Runtime.CompilerServices
 {
@@ -34,6 +36,15 @@ namespace PDTUtils
 			//			if (elementList.Count > 0)
 			//		return null;
 			return elementList;
+		}
+
+		public static void RemoveAll<T>(this ObservableCollection<T> coll)
+		{
+			for (int i = coll.Count - 1; i >= 0; i--)
+			{
+				if (coll[i] != null)
+					coll.RemoveAt(i);
+			}
 		}
 	}
 }

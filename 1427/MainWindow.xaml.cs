@@ -32,6 +32,7 @@ namespace PDTUtils
 		MachineIni m_machineIni = new MachineIni();
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
 		MachineGameStatistics m_gameStatistics = new MachineGameStatistics();
+		ServiceEnabler m_enabler = new ServiceEnabler();
 
 		public MainWindow()
         {
@@ -39,7 +40,6 @@ namespace PDTUtils
             RowOne.Height = new GridLength(75);
 			ColumnOne.Width = new GridLength(200);
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
-			//this.Cursor = Cursors.None;
         }
 
 		#region Properties
@@ -58,6 +58,18 @@ namespace PDTUtils
 		{
 			get { return m_uniqueIniCategory; }
 		}
+
+		public ServiceEnabler Enabler
+		{
+			get { return m_enabler; }
+		}
+
+		public MachineGameStatistics GameStatistics
+		{
+			get { return m_gameStatistics; }
+			set { m_gameStatistics = value; }
+		}
+
 		#endregion
 
 		private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -69,33 +81,6 @@ namespace PDTUtils
 		{
 			HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
 			w.ShowDialog();
-			/*int childCount = stpButtonPanel.Children.Count;
-			if (childCount > 0)
-				stpButtonPanel.Children.RemoveRange(0, childCount);
-
-			DockPanel d = new DockPanel();
-			d.Margin = new Thickness(9, 12, 12, 0);
-			d.Width = 600;
-			d.Height = 30;
-			d.Name = "dpButtons";
-			d.HorizontalAlignment = HorizontalAlignment.Left;
-			d.LastChildFill = false;
-			
-			for (int i = 0; i < 3; i++)
-			{
-				Button b = new Button();
-				b.MinWidth = 200;
-				b.MinHeight = 40;
-				b.FontSize = 18;
-				b.Content = i.ToString("0.00");
-				d.Children.Add(b);
-			}*/
-
-			/*stpButtonPanel.Children.Add(d);
-
-			StackPanel s = new StackPanel();
-			s.Name = "SubMain";
-			stpButtonPanel.Children.Add(new StackPanel());*/
 		}
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
@@ -135,7 +120,9 @@ namespace PDTUtils
 
 		private void Games_Click(object sender, RoutedEventArgs e)
 		{
-			try
+			m_gameStatistics.ParsePerfLog();
+			m_enabler.GameStatistics = true;
+			/*try
 			{
 				string filename = "D:\\1199\\1199L27U010D.exe";
 				MessageBox.Show(FileHashing.GetFileHash(filename), "MD5 " + filename, MessageBoxButton.OK);
@@ -153,7 +140,7 @@ namespace PDTUtils
 			catch (SystemException ex)
 			{
 				Console.WriteLine(ex.Message);
-			}
+			}*/
 		}
 
 		private void GetSystemUptime()
@@ -176,13 +163,6 @@ namespace PDTUtils
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
 				Thread.Sleep(2);
-
-				//BoLib.printTestTicket();
-				//if (BoLib.getError() > 0 && BoLib.getDoorStatus() == 0)
-				//{
-					//MessageBox.Show(BoLib.getErrorText());
-					
-				//}
 			}
 			catch (Exception err)
 			{
@@ -372,10 +352,9 @@ namespace PDTUtils
 
 		private void btnVolume_Click(object sender, RoutedEventArgs e)
 		{
-			MasterVolumeSlider.IsEnabled = true;
-			MasterVolumeSlider.Visibility = Visibility.Visible;
+			m_enabler.Volume = true;
 			MasterVolumeSlider.Value =  BoLib.getLocalMasterVolume();
-			if (MasterVolumeSlider.Value>0)
+			if (MasterVolumeSlider.Value > 0)
 				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
 		}
 
@@ -384,12 +363,13 @@ namespace PDTUtils
 			//PlaySoundOnEvent(@"./wav/volume.wav");
 			uint volume = Convert.ToUInt32(MasterVolumeSlider.Value);
 			BoLib.setLocalMasterVolume(volume);
+			
 		}
 
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
 			RemoveChildrenFromStackPanel();
-
+			
 			var a = Extension.GetChildOfType<StackPanel>(MainGrid);
 			string panelName = "BottomPanel";
 			var item = a.Find(sp => sp.Name == panelName);

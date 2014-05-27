@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace PDTUtils
 {
-	class GameStats
+	public class GameStats
 	{
 		int m_gameNumber;
 		int m_modelNumber;
@@ -68,9 +69,10 @@ namespace PDTUtils
 	/// Gets the information regarding the ranking of games for the 
 	/// statistics screen.
 	/// </summary>
-	class MachineGameStatistics
+	public class MachineGameStatistics 
 	{
-		List<GameStats> m_games = new List<GameStats>();
+		//List<GameStats> m_games = new List<GameStats>();
+		ObservableCollection<GameStats> m_games = new ObservableCollection<GameStats>();
 		string m_perfLog = PDTUtils.Properties.Resources.perf_log;
 		int m_moneyIn = 0;
 		int m_moneyOut = 0;
@@ -81,7 +83,12 @@ namespace PDTUtils
 		bool m_fileLoaded = false;
 
 		#region Properties
-		public List<GameStats> Games
+		//public List<GameStats> Games
+		//{
+		//	get { return m_games; }
+		//}
+
+		public ObservableCollection<GameStats> Games
 		{
 			get { return m_games; }
 		}
@@ -160,7 +167,9 @@ namespace PDTUtils
 			m_numberOfGames = 0;
 			m_fileLoaded = false;
 
-			m_games.RemoveAll(gs => gs != null);
+			Extension.RemoveAll(m_games);
+			//m_games.re
+			//m_games.RemoveAll(gs => gs != null);
 		}
 
 		public void ParsePerfLog()

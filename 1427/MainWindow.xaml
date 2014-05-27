@@ -23,6 +23,7 @@
         </Grid.RowDefinitions>
 
         <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
             <LinearGradientBrush x:Key="FunkyBrush">
                 <GradientStop Color="Yellow" Offset="0" />
                 <GradientStop Color="Navy" Offset="1" />
@@ -107,23 +108,29 @@
 
                 </ListView.View>
         </ListView>-->
-
-        <ListView Name="MachineIniListView" IsEnabled="False" Visibility="Hidden" Grid.Row ="1" Grid.Column="1">
-            <ListView.View>
-                <GridView AllowsColumnReorder="true"
-                    ColumnHeaderToolTip="Machine INI config settings">
-                    <GridViewColumn Header="Category" Width="150"/>
-
-                    <GridViewColumn Header="Field"  Width="150" />
-
-                    <GridViewColumn Header="Value" Width="450"/>
-                </GridView>
-            </ListView.View>
-            
-        </ListView>
-        <Slider Grid.Column="1" Grid.Row="1" Height="50" HorizontalAlignment="Center" Margin="28,205,43,184" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500" Visibility="Hidden" IsEnabled="False" DataContext="{Binding Path=Content}" TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
+        
+        
+        <StackPanel Name="stpVolume" IsEnabled="{Binding Path=Enabler.Volume}" Visibility="{Binding Path=Enabler.Volume, Converter={StaticResource BoolToVisConverter}}" Grid.Column="1" Grid.Row="1">
+            <Slider Grid.Column="1" Grid.Row="1" Height="50" HorizontalAlignment="Center" Margin="28,205,43,184" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500"  TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
+            <ProgressBar Grid.Column="1" Grid.Row="1" Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,348,269,67" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True"  />
+        </StackPanel>
+        
+        <StackPanel Grid.Row="1" Grid.Column="1" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
+            <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}">
+                <ListView.View>
+                    <GridView ColumnHeaderToolTip="Machine INI config settings">
+                        <GridViewColumn Header="Model No." Width="auto" DisplayMemberBinding="{Binding ModelNumber}" />
+                        <GridViewColumn Header="Bets" Width="auto" DisplayMemberBinding="{Binding Bets}"/>
+                        <GridViewColumn Header="Wins" Width="auto" DisplayMemberBinding="{Binding Wins}"/>
+                        <GridViewColumn Header="Percentage" Width="auto" DisplayMemberBinding="{Binding Percentage}"/>
+                        <GridViewColumn Header="Average Stake" Width="auto" DisplayMemberBinding="{Binding AverageStake}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+        
         <Button Content="Set Volume" Height="35" HorizontalAlignment="Left" Margin="21,170,0,0" Name="btnVolume" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnVolume_Click" FontSize="22" />
-        <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,348,269,67" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" IsEnabled="False" Visibility="Hidden" />
         <Button Content="Read Meters" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,211,0,0" Name="btnReadMeters" VerticalAlignment="Top" Width="170" Click="btnReadMeters_Click" FontSize="22" />
         <Button Content="Functional Tests" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,251,0,0" Name="btnFunctionalTests" VerticalAlignment="Top" Width="170" Click="btnFunctionalTests_Click" FontSize="22" />
         <Button Content="Machine Settings" Grid.Row="1" Height="35" Margin="21,292,0,0" Name="btnMachineSettings" VerticalAlignment="Top" FontSize="22" Width="170" HorizontalAlignment="Left" />
