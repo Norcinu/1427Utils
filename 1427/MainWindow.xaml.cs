@@ -368,7 +368,8 @@ namespace PDTUtils
 
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
-			RemoveChildrenFromStackPanel();
+			m_enabler.Meters = true;
+			/*RemoveChildrenFromStackPanel();
 			
 			var a = Extension.GetChildOfType<StackPanel>(MainGrid);
 			string panelName = "BottomPanel";
@@ -433,7 +434,7 @@ namespace PDTUtils
 				lblGameSpecific.Content += "-------------------\r\n"; 
 			}
 
-			s.Children.Add(lblGameSpecific);
+			s.Children.Add(lblGameSpecific);*/
 		}
 
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)

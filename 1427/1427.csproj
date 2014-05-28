@@ -78,6 +78,7 @@
       <DependentUpon>HopperUtilsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logic\ServiceEnabler.cs" />
+    <Compile Include="MachineMeters.cs" />
     <Compile Include="Models\ViewModels\MainWindowViewModel.cs" />
     <Compile Include="TestSuiteWindow.xaml.cs">
       <DependentUpon>TestSuiteWindow.xaml</DependentUpon>

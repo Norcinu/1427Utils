@@ -5,11 +5,6 @@
         Background="{DynamicResource WindowBackgroundBrush}"
         Title="1427 Shell Utils" Height="600" Width="800" Name="WindowMain" WindowStyle="None" Loaded="WindowMain_Loaded" WindowState="Maximized" Closing="WindowMain_Closing" Foreground="#FF837C7C"  ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Manual">
        
-    <!-- <Window.Resources>
-        <ObjectDataProvider x:Key="MachineIniDataSource"
-           ObjectType="{x:Type ds:PDTUtils.Logic.MachineIni}"/>
-    </Window.Resources> -->
-    
     <!--<Grid Background="#FFC78585"></Grid>-->
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
@@ -29,22 +24,6 @@
                 <GradientStop Color="Navy" Offset="1" />
             </LinearGradientBrush>
         </Grid.Resources>
-        <!-- Using default column and row configurations -->
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Name="ColumnOne" Width="0"/>  77 
-            <ColumnDefinition Width="275*" /> 
-            <ColumnDefinition Width="37*" /> 
-            <ColumnDefinition Name="ColumnTwo" Width="87*" />
-            <ColumnDefinition Width="588*" />
-            <ColumnDefinition Width="41*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Name="RowOne" Height="224*" />
-            <RowDefinition Height="56*" />
-            <RowDefinition Name="RowTwo" Height="280*" />
-            <RowDefinition Name="RowThree"/>
-            <RowDefinition Name="RowFour"/> 
-        </Grid.RowDefinitions>-->
 
         <!-- 2nd screenshot uses ColumnSpan and RowSpan -->
         <Label Name="lblTop" Background="#336699"  BorderBrush="Black" BorderThickness="2" Grid.ColumnSpan="2"></Label>
@@ -54,27 +33,6 @@
         <!--Background="LightGreen"-->
         <Label Name="lblRight" Background="DimGray" BorderBrush="Black" BorderThickness="2" Grid.Column="1" Grid.Row="1" Margin="0,0,0,47" Grid.RowSpan="2" Style="{Binding}" IsEnabled="True">Blue 1</Label>
         <Label Name="lblBottom" Background="#FF336699" BorderBrush="Black" BorderThickness="2" Grid.Row="2" Grid.Column="1" Height="48" VerticalAlignment="Bottom"></Label>
-        <!--Background="LightBlue"-->
-        <!--<Label Grid.Column="1" Grid.Row="2" Grid.RowSpan="1" Background="Yellow">Yellow 1</Label>
-        <Label Grid.Column="1" Grid.Row="3" Grid.RowSpan="1" Background="Salmon">Salmon 1</Label>-->
-        
-        <!--<Expander Header="Open Door Mode" Margin="0,157,0,206" Grid.Row="1" Name="expDoorOpen">
-            <StackPanel>-->
-                <Button Content="Hoppers" Height="35" HorizontalAlignment="Left" Name="btnHoppers" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnHoppers_Click" FontSize="22" Margin="21,6,0,0" />
-                <Button Content="Edit Machine Ini" Grid.Row="1" Height="35" HorizontalAlignment="Left" Name="btnMachineIni" VerticalAlignment="Top" Width="170" Click="btnMachineIni_Click" FontSize="22" Margin="21,47,0,0" />
-            <!--</StackPanel>
-        </Expander>-->
-        
-        <!--<Expander Header="Closed Door Mode" Margin="-1,2,1,362" Grid.Row="1" Name="expDoorClosed">
-            <StackPanel>-->
-                <Button Content="Games" Height="35" HorizontalAlignment="Left" Name="Games" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="Games_Click" FontSize="22" Margin="21,88,0,0" />
-                <Button Content="Logfiles" Height="35" HorizontalAlignment="Left" Name="btnLogfiles" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnLogfiles_Click" FontSize="22" Margin="21,129,0,0" />
-            <!--</StackPanel>
-        </Expander>-->
-        
-        <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
-        
-        
         
         <TabControl Name="settingsTab" TabStripPlacement="Top" Grid.Column="1" Visibility="Hidden" SelectionChanged="Logfile_SelectionChanged" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="14,28,12,84" Width="545" Height="327" ScrollViewer.HorizontalScrollBarVisibility="Visible" Grid.Row="1" />
         <Label Grid.Column="2" Height="39" HorizontalAlignment="Right" Margin="0,12,0,0" Name="lblDoorStatus" VerticalAlignment="Top" Width="275" FontWeight="Bold" FontSize="26" FontFamily="Cambria" Content="Door Status : Closed" />
@@ -116,24 +74,47 @@
             <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,348,269,67" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True"  />
         </StackPanel>
         
-        <StackPanel Grid.Row="1" Grid.Column="1" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
-            <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}">
+        <StackPanel Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
+            <!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
+            <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="700" FontSize="16">
                 <ListView.View>
-                    <GridView ColumnHeaderToolTip="Machine INI config settings">
-                        <GridViewColumn Header="Model No." Width="auto" DisplayMemberBinding="{Binding ModelNumber}" />
-                        <GridViewColumn Header="Bets" Width="auto" DisplayMemberBinding="{Binding Bets}"/>
-                        <GridViewColumn Header="Wins" Width="auto" DisplayMemberBinding="{Binding Wins}"/>
-                        <GridViewColumn Header="Percentage" Width="auto" DisplayMemberBinding="{Binding Percentage}"/>
-                        <GridViewColumn Header="Average Stake" Width="auto" DisplayMemberBinding="{Binding AverageStake}" />
+                    <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
+                        <GridViewColumn Header="Game Number" Width="Auto" DisplayMemberBinding="{Binding GameNumber}" />
+                        <GridViewColumn Header="Icon" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding ImageSource}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Model No." Width="100" DisplayMemberBinding="{Binding ModelNumber}" />
+                        <GridViewColumn Header="Bets" Width="100" DisplayMemberBinding="{Binding Bets}"/>
+                        <GridViewColumn Header="Wins" Width="100" DisplayMemberBinding="{Binding Wins}"/>
+                        <GridViewColumn Header="Percentage" Width="100" DisplayMemberBinding="{Binding Percentage}"/>
+                        <GridViewColumn Header="Average Stake" Width="100" DisplayMemberBinding="{Binding AverageStake}" />
                     </GridView>
                 </ListView.View>
             </ListView>
         </StackPanel>
-        
+
+        <!--<StackPanel Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpReadMeters" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Performance, Converter={StaticResource BoolToVisConverter}}">-->
+            <TabControl Name="tabMeters"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
+                <TabItem Header="LCD Meters"></TabItem>
+                <TabItem Header="Cash Reconcilliation"></TabItem>
+                <!--<TabItem Content></TabItem>-->
+            </TabControl>
+        <!--</StackPanel>-->
+
+        <Button Content="Hoppers" Height="35" HorizontalAlignment="Left" Name="btnHoppers" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnHoppers_Click" FontSize="22" Margin="21,6,0,0" />
+        <Button Content="Edit Machine Ini" Grid.Row="1" Height="35" HorizontalAlignment="Left" Name="btnMachineIni" VerticalAlignment="Top" Width="170" Click="btnMachineIni_Click" FontSize="22" Margin="21,47,0,0" />
+        <Button Content="Games" Height="35" HorizontalAlignment="Left" Name="Games" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="Games_Click" FontSize="22" Margin="21,88,0,0" />
+        <Button Content="Logfiles" Height="35" HorizontalAlignment="Left" Name="btnLogfiles" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnLogfiles_Click" FontSize="22" Margin="21,129,0,0" />
         <Button Content="Set Volume" Height="35" HorizontalAlignment="Left" Margin="21,170,0,0" Name="btnVolume" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnVolume_Click" FontSize="22" />
         <Button Content="Read Meters" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,211,0,0" Name="btnReadMeters" VerticalAlignment="Top" Width="170" Click="btnReadMeters_Click" FontSize="22" />
         <Button Content="Functional Tests" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,251,0,0" Name="btnFunctionalTests" VerticalAlignment="Top" Width="170" Click="btnFunctionalTests_Click" FontSize="22" />
         <Button Content="Machine Settings" Grid.Row="1" Height="35" Margin="21,292,0,0" Name="btnMachineSettings" VerticalAlignment="Top" FontSize="22" Width="170" HorizontalAlignment="Left" />
+        <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
+        <Button Content="Performance" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,333,0,0" Name="button1" VerticalAlignment="Top" Width="170" FontSize="22" />
     </Grid>
 
    

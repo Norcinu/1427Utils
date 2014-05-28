@@ -8,6 +8,9 @@
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
 
+extern int CoinConv[COIN_CNT][CC_CNT];
+extern int NoteValues[NOTE_CNT][CC_CNT];
+
 // Local Util functions not export to DLL
 namespace utils 
 {
@@ -277,4 +280,124 @@ unsigned char getRightHopper()
 unsigned int getMinPayoutValue()
 {
 	return GetMinPayoutValue();
+}
+
+unsigned long getCoinsIn(int meter)
+{
+	auto coins = 0;
+	if (meter == MONEY_IN_LT) 
+	{
+		coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_LT);
+		coins += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_LT);
+		coins += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_LT);
+		coins += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_LT);
+		coins += CoinConv[3][GetCountry()]*GetReconciliationMeter(COIN_3_LT);
+		coins += CoinConv[4][GetCountry()]*GetReconciliationMeter(COIN_2_LT);
+		coins += CoinConv[7][GetCountry()]*GetReconciliationMeter(COIN_1_LT);
+
+		coins += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_LT);
+		coins += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_LT);
+		coins += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_LT);
+		coins += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_LT);
+		coins += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_LT);
+		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_LT);
+	}
+	else
+	{
+		coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_ST);
+		coins += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_ST);
+		coins += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_ST);
+		coins += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_ST);
+		coins += CoinConv[3][GetCountry()]*GetReconciliationMeter(COIN_3_ST);
+		coins += CoinConv[4][GetCountry()]*GetReconciliationMeter(COIN_2_ST);
+		coins += CoinConv[7][GetCountry()]*GetReconciliationMeter(COIN_1_ST);
+
+		coins += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_ST);
+		coins += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_ST);
+		coins += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_ST);
+		coins += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_ST);
+		coins += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_ST);
+		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);
+	}
+	return coins;
+}
+
+// MONEY_OUT_LT = 1, MONEY_OUT_ST = 8
+unsigned long getCoinsOut(int meter)
+{
+	return GetPerformanceMeter(meter);
+}
+
+unsigned long getNotesIn(int meter)
+{
+	auto notes = 0;
+	if (meter == MONEY_IN_LT)
+	{
+		notes += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_LT);
+		notes += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_LT);
+		notes += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_LT);
+		notes += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_LT);
+		notes += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_LT);
+		notes += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_LT);
+	}
+	else
+	{
+		notes += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_ST);
+		notes += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_ST);
+		notes += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_ST);
+		notes += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_ST);
+		notes += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_ST);
+		notes += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);
+	}
+	return notes;
+}
+
+unsigned long getNotesOut(int meter)
+{
+	auto notes = 0;
+	if (meter == MONEY_OUT_LT)
+	{
+		notes += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_OUT_LT);
+		notes += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_OUT_LT);
+		notes += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_OUT_LT);
+		notes += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_OUT_LT);
+		notes += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_OUT_LT);
+		notes += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_OUT_LT);
+	}
+	else
+	{
+		notes += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_OUT_ST);
+		notes += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_OUT_ST);
+		notes += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_OUT_ST);
+		notes += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_OUT_ST);
+		notes += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_OUT_ST);
+		notes += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_OUT_ST);
+	}
+	return notes;
+}
+
+unsigned long getRefillValue(int meter)
+{
+	if (meter == REFILL_L_LT)
+		return (GetReconciliationMeter(REFILL_L_LT)*COINVALUELEFT + GetReconciliationMeter(REFILL_R_LT)*COINVALUERIGHT);
+	else
+		return (GetReconciliationMeter(REFILL_L_ST)*COINVALUELEFT + GetReconciliationMeter(REFILL_R_ST)*COINVALUERIGHT);
+}
+
+unsigned long getVtp(int meter)
+{
+	if (meter == WAGERED_LT)
+		return GetPerformanceMeter(WAGERED_LT);
+	else
+		return GetPerformanceMeter(WAGERED_ST);
+}
+
+unsigned long getWon(int meter)
+{
+	return GetPerformanceMeter(meter);
+}
+
+unsigned int getHandPay(int meter)
+{
+	return GetPerformanceMeter(meter);
 }

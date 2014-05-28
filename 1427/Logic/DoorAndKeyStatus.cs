@@ -61,7 +61,6 @@ namespace PDTUtils
 			m_isTestSuiteRunning = false;
 
 			updateTimer = new System.Timers.Timer(1000);
-			updateTimer.Elapsed += CheckForUpdate;
 			updateTimer.Enabled = true;
 		}
 
@@ -114,12 +113,6 @@ namespace PDTUtils
 			this.DoorStatus = kd.DoorStatus;
 			this.HasChanged = kd.HasChanged;
 			this.Running = kd.Running;
-		}
-
-		private delegate void TimerUpdate();
-		private void CheckForUpdate(object sender, EventArgs e)
-		{
-
 		}
 
 		#region Property Changed events

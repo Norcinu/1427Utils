@@ -66,3 +66,37 @@ char *getBnvStringType(unsigned char bnv)
 	return "";
 }
 
+unsigned long useMoneyOutType(int value)
+{
+	return (!value) ? MONEY_OUT_LT : MONEY_OUT_ST;
+}
+
+unsigned long useMoneyInType(int value)
+{
+	return (!value) ? MONEY_IN_LT : MONEY_IN_ST;
+}
+
+unsigned long useRefillType(int value)
+{
+	return (!value) ? REFILL_L_LT : REFILL_L_ST;
+}
+
+unsigned long useVtpMeter(int value)
+{
+	return (!value) ? WAGERED_LT  : WAGERED_ST;
+}
+
+unsigned long useWonMeter(int value)
+{
+	return (!value) ? WON_LT : WON_ST;
+}
+
+unsigned long useHandPayMeter(int value)
+{
+	return (!value) ? HAND_PAY_LT : HAND_PAY_ST;
+}
+
+unsigned long useTicketsMeter(int value)
+{
+	return (!value) ? TICKET_OUT_LT : TICKET_OUT_ST;
+}

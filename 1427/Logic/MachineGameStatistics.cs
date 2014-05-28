@@ -52,6 +52,14 @@ namespace PDTUtils
 			get { return m_averageStake; }
 			set { m_averageStake = value; }
 		}
+		
+		public string ImageSource
+		{
+			get;
+			set;
+			/*get { return m_imageSource; }
+			set { m_imageSource = value; }*/
+		}
 		#endregion
 
 		public GameStats()
@@ -62,6 +70,7 @@ namespace PDTUtils
 			m_wins = 0;
 			m_percentage = 0;
 			m_averageStake = 0.0;
+			ImageSource = "";
 		}
 	}
 
@@ -71,7 +80,6 @@ namespace PDTUtils
 	/// </summary>
 	public class MachineGameStatistics 
 	{
-		//List<GameStats> m_games = new List<GameStats>();
 		ObservableCollection<GameStats> m_games = new ObservableCollection<GameStats>();
 		string m_perfLog = PDTUtils.Properties.Resources.perf_log;
 		int m_moneyIn = 0;
@@ -83,11 +91,6 @@ namespace PDTUtils
 		bool m_fileLoaded = false;
 
 		#region Properties
-		//public List<GameStats> Games
-		//{
-		//	get { return m_games; }
-		//}
-
 		public ObservableCollection<GameStats> Games
 		{
 			get { return m_games; }
@@ -148,7 +151,10 @@ namespace PDTUtils
 			if (combo[0] == "GameNo")
 				gs.GameNumber = Convert.ToInt32(combo[1]);
 			else if (combo[0] == "ModelNo")
+			{
 				gs.ModelNumber = Convert.ToInt32(combo[1]);
+				gs.ImageSource = @"D:\" + gs.ModelNumber.ToString() + @"\I" + gs.ModelNumber.ToString() + ".png";
+			}
 			else if (combo[0] == "Bets")
 				gs.Bets = Convert.ToInt32(combo[1]);
 			else if (combo[0] == "Wins")

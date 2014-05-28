@@ -13,36 +13,32 @@ namespace PDTUtils.Logic
 		public bool GameStatistics
 		{
 			get { return m_categories["GameStatistics"]; }
-			set 
-			{
-				IterateCategory("GameStatistics");
-				//m_categories["GameStatistics"] = value;
-				//this.OnPropertyChanged("GameStatistics");
-			}
+			set { IterateCategory("GameStatistics"); }
 		}
 
 		public bool MachineIni
 		{
 			get { return m_categories["MachineIni"]; }
-			set 
-			{
-				IterateCategory("MachineIni");
-				//m_categories["MachineIni"] = value;
-				//this.OnPropertyChanged("MachineIni");
-			}
+			set { IterateCategory("MachineIni"); }
 		}
 
 		public bool Volume
 		{
 			get { return m_categories["Volume"]; }
-			set 
-			{
-				IterateCategory("Volume");
-				//m_categories["Volume"] = value;
-				//this.OnPropertyChanged("Volume");
-			}
+			set { IterateCategory("Volume"); }
 		}
 
+		public bool Meters
+		{
+			get { return m_categories["Meters"]; }
+			set { IterateCategory("Meters"); }
+		}
+
+		public bool Performance
+		{
+			get { return m_categories["Perfomance"]; }
+			set { IterateCategory("Performance"); }
+		}
 		#endregion
 
 		public ServiceEnabler()
@@ -53,6 +49,10 @@ namespace PDTUtils.Logic
 			this.OnPropertyChanged("MachineIni");
 			m_categories.Add("Volume", false);
 			this.OnPropertyChanged("Volume");
+			m_categories.Add("Meters", false);
+			this.OnPropertyChanged("Meters");
+			m_categories.Add("Performance", false);
+			this.OnPropertyChanged("Performance");
 		}
 
 		#region Property Changed
