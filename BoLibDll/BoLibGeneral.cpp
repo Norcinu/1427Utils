@@ -68,35 +68,35 @@ char *getBnvStringType(unsigned char bnv)
 
 unsigned long useMoneyOutType(int value)
 {
-	return (!value) ? MONEY_OUT_LT : MONEY_OUT_ST;
+	return (!value) ? MONEY_OUT_ST : MONEY_OUT_LT;
 }
 
 unsigned long useMoneyInType(int value)
 {
-	return (!value) ? MONEY_IN_LT : MONEY_IN_ST;
+	return (!value) ? MONEY_IN_ST : MONEY_IN_LT;
 }
 
 unsigned long useRefillType(int value)
 {
-	return (!value) ? REFILL_L_LT : REFILL_L_ST;
+	return (!value) ? REFILL_L_ST : REFILL_L_LT;
 }
 
 unsigned long useVtpMeter(int value)
 {
-	return (!value) ? WAGERED_LT  : WAGERED_ST;
+	return (!value) ? WAGERED_ST : WAGERED_LT;
 }
 
 unsigned long useWonMeter(int value)
 {
-	return (!value) ? WON_LT : WON_ST;
+	return (!value) ? WON_ST : WON_LT;
 }
 
 unsigned long useHandPayMeter(int value)
 {
-	return (!value) ? HAND_PAY_LT : HAND_PAY_ST;
+	return (!value) ? HAND_PAY_ST : HAND_PAY_LT;
 }
 
 unsigned long useTicketsMeter(int value)
 {
-	return (!value) ? TICKET_OUT_LT : TICKET_OUT_ST;
+	return (!value) ? TICKET_OUT_ST : TICKET_OUT_LT;
 }

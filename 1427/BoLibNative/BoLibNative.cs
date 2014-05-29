@@ -122,7 +122,10 @@ namespace PDTUtils.Native
 		public unsafe static extern UInt32 getCoinsOut(int meter);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 getNotesIn();
+		public unsafe static extern UInt32 getNotesIn(int meter);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern UInt32 getNotesOut(int meter);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern UInt32 getRefillValue(int meter);
@@ -132,6 +135,12 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern UInt32 getWon(int meter);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getHandPay(int meter);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern UInt32 getTicketsPay(int meter);
 
 		/************************************************************************/
 		/*							Set methods                                 */
@@ -174,24 +183,24 @@ namespace PDTUtils.Native
 		public unsafe static extern string getBnvStringType(byte bnv);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 useMoneyInType(int value);
+		public unsafe static extern int useMoneyInType(int value);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 useMoneyOutType(int value);
+		public unsafe static extern int useMoneyOutType(int value);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 useRefillType(int value);
+		public unsafe static extern int useRefillType(int value);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 useVtpMeter(int value);
+		public unsafe static extern int useVtpMeter(int value);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 useWonMeter(int value);
+		public unsafe static extern int useWonMeter(int value);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 useHandPayMeter(int meter);
+		public unsafe static extern int useHandPayMeter(int meter);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 useTicketsMeter(int meter);
+		public unsafe static extern int useTicketsMeter(int meter);
 	}
 }

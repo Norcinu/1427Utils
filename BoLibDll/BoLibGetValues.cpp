@@ -401,3 +401,8 @@ unsigned int getHandPay(int meter)
 {
 	return GetPerformanceMeter(meter);
 }
+
+unsigned long getTicketsPay(int meter)
+{
+	return GetReconciliationMeter(meter);
+}

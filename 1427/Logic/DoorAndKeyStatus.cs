@@ -1,4 +1,4 @@
-﻿#define REMOTE
+﻿//#define REMOTE
 
 using System;
 using System.ComponentModel;

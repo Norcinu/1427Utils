@@ -1,4 +1,4 @@
-﻿#define REMOTE
+﻿//#define REMOTE
 
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Logic;
 using PDTUtils.Native;
+using System.Management;
 
 
 namespace PDTUtils
@@ -33,16 +34,36 @@ namespace PDTUtils
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
 		MachineGameStatistics m_gameStatistics = new MachineGameStatistics();
 		ServiceEnabler m_enabler = new ServiceEnabler();
-
+		MachineMeters m_meters;// = new MachineMeters();
+		
 		public MainWindow()
         {
             InitializeComponent();
             RowOne.Height = new GridLength(75);
 			ColumnOne.Width = new GridLength(200);
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
+			MessageBox.Show(System.Windows.SystemParameters.PrimaryScreenWidth.ToString() + "x" + System.Windows.SystemParameters.PrimaryScreenHeight.ToString());
+			MessageBox.Show(System.Environment.MachineName);
+
+			ObjectQuery winQuery = new ObjectQuery("SELECT * FROM Win32_LogicalMemoryConfiguration"); //Win32_OperatingSystem");
+
+			ManagementObjectSearcher searcher = new ManagementObjectSearcher(winQuery);
+
+			foreach (ManagementObject item in searcher.Get())
+			{
+				MessageBox.Show("Total Space = " + item["TotalPageFileSpace"]);
+				MessageBox.Show("Total Physical Memory = " + item["TotalPhysicalMemory"]);
+				MessageBox.Show("Total Virtual Memory = " + item["TotalVirtualMemory"]);
+				MessageBox.Show("Available Virtual Memory = " + item["AvailableVirtualMemory"]);
+			}
         }
 
 		#region Properties
+		public MachineMeters Meters
+		{
+			get { return m_meters; }
+		}
+
 		public bool RequiresSave
 		{
 			get { return m_requiresSave; }
@@ -368,6 +389,9 @@ namespace PDTUtils
 
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
+			if (Meters == null)
+				m_meters = new MachineMeters();
+			Meters.ReadMeters();
 			m_enabler.Meters = true;
 			/*RemoveChildrenFromStackPanel();
 			

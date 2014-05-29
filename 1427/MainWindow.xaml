@@ -99,12 +99,49 @@
 
         <!--<StackPanel Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpReadMeters" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Performance, Converter={StaticResource BoolToVisConverter}}">-->
             <TabControl Name="tabMeters"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
-                <TabItem Header="LCD Meters"></TabItem>
+                <TabItem Header="LCD Meters">
+                    <ListBox ItemsSource="{Binding Meters.Me}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <!--<TextBlock Text="{Binding CoinIn}"/>
+                                <TextBlock Text="{Binding CoinOut}"/>-->
+                                <TextBlock Text="{Binding NotesIn}" />
+                            </DataTemplate>                    
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--<ListView ItemsSource="{Binding Meter}"></ListView>-->
+                    <!--<TextBlock Name="lblLcdMeter" Width="auto" Height="auto" Text="{Binding Path=Meters.LCDShortTerm.CoinIn, StringFormat=\{0:c\}}"/>-->
+                    <!--<TextBlock Text="{Binding Meters.LCDShortTerm.CashOut}"/>-->
+                <!--<ListView Name="MetersView">
+                        <ListView.View>
+                            <GridView></GridView>
+                        </ListView.View>
+                    </ListView>-->
+                </TabItem>
                 <TabItem Header="Cash Reconcilliation"></TabItem>
                 <!--<TabItem Content></TabItem>-->
             </TabControl>
         <!--</StackPanel>-->
 
+        <!-- System Info View -->
+        <DockPanel LastChildFill="False" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
+            <Label DockPanel.Dock="Left">LOOOOOL MESH</Label>
+            <ListView DockPanel.Dock="Right">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Game"></GridViewColumn>
+                        <GridViewColumn Header="Executable Path"></GridViewColumn>
+                        <GridViewColumn Header="MD5 Status"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+        
+        <!-- End of System Info View -->
+        
+        
+        
+        
         <Button Content="Hoppers" Height="35" HorizontalAlignment="Left" Name="btnHoppers" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnHoppers_Click" FontSize="22" Margin="21,6,0,0" />
         <Button Content="Edit Machine Ini" Grid.Row="1" Height="35" HorizontalAlignment="Left" Name="btnMachineIni" VerticalAlignment="Top" Width="170" Click="btnMachineIni_Click" FontSize="22" Margin="21,47,0,0" />
         <Button Content="Games" Height="35" HorizontalAlignment="Left" Name="Games" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="Games_Click" FontSize="22" Margin="21,88,0,0" />
@@ -115,6 +152,7 @@
         <Button Content="Machine Settings" Grid.Row="1" Height="35" Margin="21,292,0,0" Name="btnMachineSettings" VerticalAlignment="Top" FontSize="22" Width="170" HorizontalAlignment="Left" />
         <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
         <Button Content="Performance" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,333,0,0" Name="button1" VerticalAlignment="Top" Width="170" FontSize="22" />
+        <Button Content="System Settings" Grid.Row="1" VerticalAlignment="Top" Width="170" Height="35" FontSize="22" Margin="20,374,16,0" />
     </Grid>
 
    
