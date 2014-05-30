@@ -59,9 +59,9 @@ extern "C" DllExport int getCredit();
 *	Value is returned in pennies.
 *	Call wraps GetBankDeposit();
 */
-extern "C" DllExport int getBank();		    
-extern "C" DllExport int addCredit(int pennies);
-extern "C" DllExport int getCountryCode();
+extern "C" DllExport int		   getBank();		    
+extern "C" DllExport int		   addCredit(int pennies);
+extern "C" DllExport int		   getCountryCode();
 extern "C" DllExport const char    *getLastGame(int index);
 extern "C" DllExport unsigned long getWinningGame(int index);
 extern "C" DllExport unsigned long getPerformanceMeter(unsigned int Offset);
@@ -94,3 +94,5 @@ extern "C" DllExport unsigned long getVtp(int meter);
 extern "C" DllExport unsigned long getWon(int meter);
 extern "C" DllExport unsigned int  getHandPay(int meter);
 extern "C" DllExport unsigned long getTicketsPay(int meter);
+extern "C" DllExport char		   *getSerialNumber();
+extern "C" DllExport char		   *getEDCTypeStr();

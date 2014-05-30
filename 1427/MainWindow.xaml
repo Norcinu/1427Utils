@@ -124,8 +124,15 @@
         <!--</StackPanel>-->
 
         <!-- System Info View -->
-        <DockPanel LastChildFill="False" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1">
-            <Label DockPanel.Dock="Left">LOOOOOL MESH</Label>
+        <DockPanel LastChildFill="False" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding Enabler.System}" Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}">
+            <ListBox ItemsSource="{Binding MachineData}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ListBoxItem Content="{Binding Field}"></ListBoxItem>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
             <ListView DockPanel.Dock="Right">
                 <ListView.View>
                     <GridView>
@@ -152,7 +159,7 @@
         <Button Content="Machine Settings" Grid.Row="1" Height="35" Margin="21,292,0,0" Name="btnMachineSettings" VerticalAlignment="Top" FontSize="22" Width="170" HorizontalAlignment="Left" />
         <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
         <Button Content="Performance" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,333,0,0" Name="button1" VerticalAlignment="Top" Width="170" FontSize="22" />
-        <Button Content="System Settings" Grid.Row="1" VerticalAlignment="Top" Width="170" Height="35" FontSize="22" Margin="20,374,16,0" />
+        <Button Content="System Settings" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="35" FontSize="22" Margin="21,374,0,0" Name="btnSystem" Click="btnSystem_Click" />
     </Grid>
 
    

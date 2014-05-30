@@ -142,6 +142,10 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern UInt32 getTicketsPay(int meter);
 
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		public unsafe static extern string getSerialNumber();
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/
@@ -202,5 +206,9 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern int useTicketsMeter(int meter);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		public unsafe static extern string GetUniquePcbID(byte TYPE);
 	}
 }

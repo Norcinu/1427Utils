@@ -39,6 +39,12 @@ namespace PDTUtils.Logic
 			get { return m_categories["Perfomance"]; }
 			set { IterateCategory("Performance"); }
 		}
+
+		public bool System
+		{
+			get { return m_categories["System"]; }
+			set { IterateCategory("System"); }
+		}
 		#endregion
 
 		public ServiceEnabler()
@@ -53,6 +59,8 @@ namespace PDTUtils.Logic
 			this.OnPropertyChanged("Meters");
 			m_categories.Add("Performance", false);
 			this.OnPropertyChanged("Performance");
+			m_categories.Add("System", false);
+			this.OnPropertyChanged("System");
 		}
 
 		#region Property Changed

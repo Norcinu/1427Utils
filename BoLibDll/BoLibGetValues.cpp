@@ -3,6 +3,7 @@
 #include <NVR.H>
 #include "BoLibGetValues.h"
 #include <sstream>
+#include <cstring>
 #include <string>
 
 extern unsigned long zero_cdeposit(void);
@@ -10,6 +11,9 @@ extern unsigned long add_cdeposit(unsigned long value);
 
 extern int CoinConv[COIN_CNT][CC_CNT];
 extern int NoteValues[NOTE_CNT][CC_CNT];
+
+const std::string MACHINE_INI = "D:\\machine\\machine.ini";
+char buffer[256] = {0};
 
 // Local Util functions not export to DLL
 namespace utils 
@@ -405,4 +409,24 @@ unsigned int getHandPay(int meter)
 unsigned long getTicketsPay(int meter)
 {
 	return GetReconciliationMeter(meter);
+}
+
+char *getSerialNumber()
+{
+	GetPrivateProfileString("Keys", "Serial", "~", buffer, 256, MACHINE_INI.c_str());
+	std::string pre = "Serial Number: ";
+	//pre.append(buffer);
+	char final[272] = {0};
+	strncat_s(final, pre.c_str(), pre.length());
+	strncat_s(final, buffer, 256);
+	return final;
+}
+
+char *getEDCTypeStr()
+{
+	//uto edc = GetMVersion();
+	if (GetMVersion())
+		return "Data/EDC: 1 - On.";
+	else
+		return "Data/EDC: 0 - Off.";
 }

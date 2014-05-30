@@ -1,4 +1,4 @@
-﻿//#define REMOTE
+﻿#define REMOTE
 
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,7 @@ using System.Windows.Media;
 using PDTUtils.Logic;
 using PDTUtils.Native;
 using System.Management;
+using System.Net.NetworkInformation;
 
 
 namespace PDTUtils
@@ -35,30 +36,39 @@ namespace PDTUtils
 		MachineGameStatistics m_gameStatistics = new MachineGameStatistics();
 		ServiceEnabler m_enabler = new ServiceEnabler();
 		MachineMeters m_meters;// = new MachineMeters();
-		
+		MachineInfo m_machineData = new MachineInfo();
+				
 		public MainWindow()
         {
             InitializeComponent();
             RowOne.Height = new GridLength(75);
 			ColumnOne.Width = new GridLength(200);
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
-			MessageBox.Show(System.Windows.SystemParameters.PrimaryScreenWidth.ToString() + "x" + System.Windows.SystemParameters.PrimaryScreenHeight.ToString());
+			//MessageBox.Show(System.Windows.SystemParameters.VirtualScreenWidth.ToString());
+			/*MessageBox.Show(System.Windows.SystemParameters.PrimaryScreenWidth.ToString() + "x" + System.Windows.SystemParameters.PrimaryScreenHeight.ToString());
 			MessageBox.Show(System.Environment.MachineName);
 
-			ObjectQuery winQuery = new ObjectQuery("SELECT * FROM Win32_LogicalMemoryConfiguration"); //Win32_OperatingSystem");
+			ObjectQuery winQuery = new ObjectQuery("SELECT * FROM  Win32_OperatingSystem"); 
 
 			ManagementObjectSearcher searcher = new ManagementObjectSearcher(winQuery);
 
 			foreach (ManagementObject item in searcher.Get())
 			{
-				MessageBox.Show("Total Space = " + item["TotalPageFileSpace"]);
-				MessageBox.Show("Total Physical Memory = " + item["TotalPhysicalMemory"]);
-				MessageBox.Show("Total Virtual Memory = " + item["TotalVirtualMemory"]);
-				MessageBox.Show("Available Virtual Memory = " + item["AvailableVirtualMemory"]);
-			}
+				var fpm = Convert.ToInt32(item["FreePhysicalMemory"]);
+				MessageBox.Show("FreePhysicalMemory : " + fpm);
+				MessageBox.Show("Version : " + item["Version"]);
+			}*/
+			
         }
 
 		#region Properties
+
+		public MachineInfo MachineData
+		{
+			get { return m_machineData; }
+			set { m_machineData = value; }
+		}
+
 		public MachineMeters Meters
 		{
 			get { return m_meters; }
@@ -106,6 +116,8 @@ namespace PDTUtils
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
+			BoLib.GetUniquePcbID(0);
+			BoLib.GetUniquePcbID(1);
 			if (!settingsTab.IsEnabled)
 			{
 				settingsTab.IsEnabled = true;
@@ -143,9 +155,9 @@ namespace PDTUtils
 		{
 			m_gameStatistics.ParsePerfLog();
 			m_enabler.GameStatistics = true;
-			/*try
+			try
 			{
-				string filename = "D:\\1199\\1199L27U010D.exe";
+				string filename = "D:\\1077.exe";//1199\\1199L27U010D.exe";
 				MessageBox.Show(FileHashing.GetFileHash(filename), "MD5 " + filename, MessageBoxButton.OK);
 
 				if (lblUptime.IsEnabled == false)
@@ -161,7 +173,7 @@ namespace PDTUtils
 			catch (SystemException ex)
 			{
 				Console.WriteLine(ex.Message);
-			}*/
+			}
 		}
 
 		private void GetSystemUptime()
@@ -467,6 +479,11 @@ namespace PDTUtils
 			TestSuiteWindow ts = new TestSuiteWindow();
 			ts.ShowDialog();
 			m_keyDoorWorker.TestSuiteRunning = false;
+		}
+
+		private void btnSystem_Click(object sender, RoutedEventArgs e)
+		{
+			m_enabler.System = true;
 		}
 
 		/*ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");

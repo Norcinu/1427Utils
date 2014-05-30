@@ -2,9 +2,14 @@
 #include <bo.h>
 #include <NVR.H>
 #include "BoLibGeneral.h"
+#include <cstdio>
+#include <memory>
+#include <string>
 
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
+
+const std::string MACHINE_INI = "D:\\machine\\machine.ini";
 
 void enableNoteValidator()
 {
@@ -99,4 +104,51 @@ unsigned long useHandPayMeter(int value)
 unsigned long useTicketsMeter(int value)
 {
 	return (!value) ? TICKET_OUT_ST : TICKET_OUT_LT;
+}
+
+char *GetUniquePcbID(char TYPE)
+{
+	unsigned char chipId[DPCI_IDPROM_ID_SIZE];
+	unsigned char retries = 5;
+	char chipIdStr[32] = {0};
+	unsigned long PromId1 = 0;
+	unsigned long PromId2 = 0;
+
+	for (int i = 0; i < DPCI_IDPROM_ID_SIZE; i++)
+		chipId[i]=0;
+
+	do
+	{
+		if (dpci_idprom_readid(chipId) == 0)
+			break;  //success
+
+		Sleep(100);
+	}
+	while (--retries > 0);
+
+	for (char a = 0; a < DPCI_IDPROM_ID_SIZE / 2; a++)
+	{
+		PromId1 += chipId[a];
+		if(a < ((DPCI_IDPROM_ID_SIZE / 2) - 1))
+			PromId1 = (PromId1 << 8);
+	}
+
+	for (char a = DPCI_IDPROM_ID_SIZE / 2; a < DPCI_IDPROM_ID_SIZE; a++)
+	{
+		PromId2 += chipId[a];
+		if(a < (DPCI_IDPROM_ID_SIZE - 1))
+			PromId2 = (PromId2 << 8);
+	}
+
+	if (PromId1 && PromId2)
+	{
+		if (TYPE)
+			sprintf_s(chipIdStr, "%.10lu%.10lu", PromId1, PromId2);	//decimal for encryption
+		else
+			sprintf_s(chipIdStr, "%.8X-%.8X", PromId1, PromId2);		//hex for display
+		return chipIdStr;
+	}
+	
+	sprintf_s(chipIdStr, "Unavailable");
+	return chipIdStr;
 }
