@@ -44,6 +44,8 @@ namespace PDTUtils
             RowOne.Height = new GridLength(75);
 			ColumnOne.Width = new GridLength(200);
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
+
+			//Process.Start("EWFMGR C: -COMMIT");
 			//MessageBox.Show(System.Windows.SystemParameters.VirtualScreenWidth.ToString());
 			/*MessageBox.Show(System.Windows.SystemParameters.PrimaryScreenWidth.ToString() + "x" + System.Windows.SystemParameters.PrimaryScreenHeight.ToString());
 			MessageBox.Show(System.Environment.MachineName);
@@ -155,7 +157,7 @@ namespace PDTUtils
 		{
 			m_gameStatistics.ParsePerfLog();
 			m_enabler.GameStatistics = true;
-			try
+			/*try
 			{
 				string filename = "D:\\1077.exe";//1199\\1199L27U010D.exe";
 				MessageBox.Show(FileHashing.GetFileHash(filename), "MD5 " + filename, MessageBoxButton.OK);
@@ -173,7 +175,7 @@ namespace PDTUtils
 			catch (SystemException ex)
 			{
 				Console.WriteLine(ex.Message);
-			}
+			}*/
 		}
 
 		private void GetSystemUptime()

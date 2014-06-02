@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logic\CommitChanges.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="Impls\Impls.cs" />
     <Compile Include="HopperUtilsWindow.xaml.cs">

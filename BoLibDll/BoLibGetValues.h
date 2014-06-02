@@ -96,3 +96,4 @@ extern "C" DllExport unsigned int  getHandPay(int meter);
 extern "C" DllExport unsigned long getTicketsPay(int meter);
 extern "C" DllExport char		   *getSerialNumber();
 extern "C" DllExport char		   *getEDCTypeStr();
+extern "C" DllExport unsigned long getReconciliationMeter(unsigned char offset);

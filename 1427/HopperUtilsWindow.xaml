@@ -6,7 +6,7 @@
         <StackPanel Name="stackPanel1"></StackPanel>
         <TabControl Height="541" VerticalAlignment="Top" Margin="9,8,9,0" Name="tabHoppers" FontSize="18">
             <TabItem Header="Set Hopper Float" MinWidth="100" IsEnabled="{Binding Path=DoorStatus}" ToolTipService.ShowOnDisabled="True" ToolTip="Only available in Door Open Mode">
-                <DockPanel Height="Auto" Name="dockPanel2" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" IsEnabled="{Binding Path=DoorStatus}">
+                <DockPanel Height="Auto" Name="dockPanel2" Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" IsEnabled="{Binding Path=DoorStatus}">
                     <Grid DockPanel.Dock="Left" Margin="0,25,15,0">
                         <Grid.RowDefinitions>
                             <!--<RowDefinition Height="50" />-->

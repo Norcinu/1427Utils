@@ -415,7 +415,6 @@ char *getSerialNumber()
 {
 	GetPrivateProfileString("Keys", "Serial", "~", buffer, 256, MACHINE_INI.c_str());
 	std::string pre = "Serial Number: ";
-	//pre.append(buffer);
 	char final[272] = {0};
 	strncat_s(final, pre.c_str(), pre.length());
 	strncat_s(final, buffer, 256);
@@ -424,9 +423,13 @@ char *getSerialNumber()
 
 char *getEDCTypeStr()
 {
-	//uto edc = GetMVersion();
 	if (GetMVersion())
 		return "Data/EDC: 1 - On.";
 	else
 		return "Data/EDC: 0 - Off.";
+}
+
+unsigned long getReconciliationMeter(unsigned char offset)
+{
+	return GetReconciliationMeter(offset);
 }

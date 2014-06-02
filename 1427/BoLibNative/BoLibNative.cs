@@ -146,6 +146,9 @@ namespace PDTUtils.Native
 		[return: MarshalAs(UnmanagedType.LPStr)]
 		public unsafe static extern string getSerialNumber();
 
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern UInt32 getReconciliationMeter(byte offset);
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/

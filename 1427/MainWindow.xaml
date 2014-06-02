@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Background="{DynamicResource WindowBackgroundBrush}"
-        Title="1427 Shell Utils" Height="600" Width="800" Name="WindowMain" WindowStyle="None" Loaded="WindowMain_Loaded" WindowState="Maximized" Closing="WindowMain_Closing" Foreground="#FF837C7C"  ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Manual">
+        Title="1427 Shell Utils" Height="768" Width="1360" Name="WindowMain" WindowStyle="None" Loaded="WindowMain_Loaded" WindowState="Maximized" Closing="WindowMain_Closing" Foreground="#FF837C7C"  ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Manual">
        
     <!--<Grid Background="#FFC78585"></Grid>-->
     <Grid x:Name="MainGrid">
@@ -16,7 +16,6 @@
             <RowDefinition Name="RowTwo" Height="479*" />
             <RowDefinition Name="RowThree" Height="52*"/>
         </Grid.RowDefinitions>
-
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
             <LinearGradientBrush x:Key="FunkyBrush">
@@ -34,17 +33,40 @@
         <Label Name="lblRight" Background="DimGray" BorderBrush="Black" BorderThickness="2" Grid.Column="1" Grid.Row="1" Margin="0,0,0,47" Grid.RowSpan="2" Style="{Binding}" IsEnabled="True">Blue 1</Label>
         <Label Name="lblBottom" Background="#FF336699" BorderBrush="Black" BorderThickness="2" Grid.Row="2" Grid.Column="1" Height="48" VerticalAlignment="Bottom"></Label>
         
-        <TabControl Name="settingsTab" TabStripPlacement="Top" Grid.Column="1" Visibility="Hidden" SelectionChanged="Logfile_SelectionChanged" IsEnabled="False" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="14,28,12,84" Width="545" Height="327" ScrollViewer.HorizontalScrollBarVisibility="Visible" Grid.Row="1" />
+        <TabControl Name="settingsTab" 
+                    TabStripPlacement="Top" 
+                    Grid.Column="1" 
+                    Visibility="Hidden" 
+                    SelectionChanged="Logfile_SelectionChanged" 
+                    IsEnabled="False" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" Margin="14,28,12,84" Width="545" Height="327" ScrollViewer.HorizontalScrollBarVisibility="Visible" Grid.Row="1" />
         <Label Grid.Column="2" Height="39" HorizontalAlignment="Right" Margin="0,12,0,0" Name="lblDoorStatus" VerticalAlignment="Top" Width="275" FontWeight="Bold" FontSize="26" FontFamily="Cambria" Content="Door Status : Closed" />
         <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Margin="0,6,0,0" Name="stpButtonPanel" VerticalAlignment="Top" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
         <Label Height="Auto" HorizontalAlignment="Left" Margin="292,12,0,0" Name="lblUptime" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Width="Auto" FontSize="36" IsEnabled="False" Visibility="Collapsed" />
         
+        <!-- Logifles -->
+        <TabControl Name="MyLogfiles" Grid.Column="1" Grid.Row="1" IsEnabled="False" Visibility="Hidden">
+            <TabItem Header="All">
+                
+            </TabItem>
+            <TabItem Header="Errors"></TabItem>
+            <TabItem Header="Hoppers"></TabItem>
+            <TabItem Header="Games"></TabItem>
+            <TabItem Header="Wins"></TabItem>
+        </TabControl>
         
-        <ComboBox Width="100" Height="35" Name="MachineIniCategorys" IsEnabled="False" Visibility="Hidden"
+        <ComboBox Width="100" 
+                  Height="35" 
+                  Name="MachineIniCategorys" 
+                  IsEnabled="False" 
+                  Visibility="Hidden"
                   ItemsSource="{Binding GetUniqueCategories}"
                   DisplayMemberPath="Category"
                   SelectedValuePath="Category"
-                  SelectedValue="{Binding Category}" SelectionChanged="MachineIniCategorys_SelectionChanged" DropDownClosed="MachineIniCategorys_DropDownClosed" />
+                  SelectedValue="{Binding Category}" 
+                  SelectionChanged="MachineIniCategorys_SelectionChanged" 
+                  DropDownClosed="MachineIniCategorys_DropDownClosed" />
         
         <!--<ListView ItemsSource="{Binding GetMachineIni}" Name="MachineIniListView" IsEnabled="False" Visibility="Hidden">
                 <ListView.View>
@@ -118,7 +140,16 @@
                         </ListView.View>
                     </ListView>-->
                 </TabItem>
-                <TabItem Header="Cash Reconcilliation"></TabItem>
+                <TabItem Header="Cash Reconcilliation">
+                    <TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
+                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
+                            AncestorType={x:Type Window}}}">
+                        <TabItem Header="Cash" MinWidth="100"></TabItem>
+                        <TabItem Header="Attendant" MinHeight="100"/>
+                        <TabItem Header="Book Levels" MinWidth="100"></TabItem>
+                    </TabControl>
+            </TabItem>
                 <!--<TabItem Content></TabItem>-->
             </TabControl>
         <!--</StackPanel>-->
@@ -142,19 +173,17 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            
         </DockPanel>
         
         <!-- End of System Info View -->
-        
-        
-        
-        
+       
         <Button Content="Hoppers" Height="35" HorizontalAlignment="Left" Name="btnHoppers" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnHoppers_Click" FontSize="22" Margin="21,6,0,0" />
-        <Button Content="Edit Machine Ini" Grid.Row="1" Height="35" HorizontalAlignment="Left" Name="btnMachineIni" VerticalAlignment="Top" Width="170" Click="btnMachineIni_Click" FontSize="22" Margin="21,47,0,0" />
-        <Button Content="Games" Height="35" HorizontalAlignment="Left" Name="Games" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="Games_Click" FontSize="22" Margin="21,88,0,0" />
+        <Button Content="Setup" Grid.Row="1" Height="35" HorizontalAlignment="Left" Name="btnSetup" VerticalAlignment="Top" Width="170" Click="btnMachineIni_Click" FontSize="22" Margin="21,47,0,0" />
+        <Button Content="Games" Height="35" HorizontalAlignment="Left" Name="btnGames" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="Games_Click" FontSize="22" Margin="21,88,0,0" />
         <Button Content="Logfiles" Height="35" HorizontalAlignment="Left" Name="btnLogfiles" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnLogfiles_Click" FontSize="22" Margin="21,129,0,0" />
         <Button Content="Set Volume" Height="35" HorizontalAlignment="Left" Margin="21,170,0,0" Name="btnVolume" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnVolume_Click" FontSize="22" />
-        <Button Content="Read Meters" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,211,0,0" Name="btnReadMeters" VerticalAlignment="Top" Width="170" Click="btnReadMeters_Click" FontSize="22" />
+        <Button Content="Cash" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,211,0,0" Name="btnCash" VerticalAlignment="Top" Width="170" Click="btnReadMeters_Click" FontSize="22" />
         <Button Content="Functional Tests" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,251,0,0" Name="btnFunctionalTests" VerticalAlignment="Top" Width="170" Click="btnFunctionalTests_Click" FontSize="22" />
         <Button Content="Machine Settings" Grid.Row="1" Height="35" Margin="21,292,0,0" Name="btnMachineSettings" VerticalAlignment="Top" FontSize="22" Width="170" HorizontalAlignment="Left" />
         <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
