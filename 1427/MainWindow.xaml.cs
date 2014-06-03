@@ -29,7 +29,6 @@ namespace PDTUtils
 		System.Timers.Timer m_uiUpdateTimer;
 		Thread m_keyDoorThread;
 
-		DoorAndKeyStatus m_keyDoorWorker = new DoorAndKeyStatus();
 		ErrorLog m_errorLogText = new ErrorLog();
 		MachineIni m_machineIni = new MachineIni();
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
@@ -65,6 +64,13 @@ namespace PDTUtils
 
 		#region Properties
 
+		DoorAndKeyStatus m_keyDoorWorker = new DoorAndKeyStatus();
+		public DoorAndKeyStatus KeyDoorWorker
+		{
+			get { return m_keyDoorWorker; }
+			private set { m_keyDoorWorker = value; }
+		}
+		
 		public MachineInfo MachineData
 		{
 			get { return m_machineData; }
@@ -112,8 +118,11 @@ namespace PDTUtils
 
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
-			HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
-			w.ShowDialog();
+			CommitChanges.Save();
+			MessageBox.Show("Changes Made, reboot required.", "Commit Changes", MessageBoxButton.OK, MessageBoxImage.Information);
+			//CommitChanges.RebootMachine();
+		//	HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
+			//w.ShowDialog();
 		}
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
@@ -129,7 +138,7 @@ namespace PDTUtils
 				headers.Add("tabErrorLog", "Error Log");
 				headers.Add("tabGameLog", "Last Game Log");
 				headers.Add("tabWinLog", "Wins Log");
-				//var brushes = new SolidColorBrush[3]{Brushes.Red, Brushes.Yellow, Brushes.Green};
+				//var brushes = new SolidColorBrush[3] { Brushes.Red, Brushes.Yellow, Brushes.Green };
 				//var i = 0;
 				foreach (var entry in headers)
 				{
@@ -257,9 +266,11 @@ namespace PDTUtils
 			// commit changes to memory
 		}
 
-		private void btnMachineIni_Click(object sender, RoutedEventArgs e)
+		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
-			RemoveChildrenFromStackPanel();
+			TabSetup.IsEnabled = true;
+			TabSetup.Visibility = Visibility.Visible;
+			/*RemoveChildrenFromStackPanel();
 			
 			m_machineIni.ParseIni();
 			m_uniqueIniCategory.Find(m_machineIni);
@@ -273,7 +284,7 @@ namespace PDTUtils
 			stpButtonPanel.Children.Add(MachineIniCategorys);
 			MachineIniCategorys.SelectedIndex = 0;
 
-			stpButtonPanel.Children.Add(SetupDynamicListBox());
+			stpButtonPanel.Children.Add(SetupDynamicListBox());*/
 		}
 
 		private bool ValidateNewIniSetting()
@@ -283,7 +294,7 @@ namespace PDTUtils
 
 		private ListBox SetupDynamicListBox()
 		{
-			ListBox l = new ListBox();
+			/*ListBox l = new ListBox();
 			l.SelectionChanged += new SelectionChangedEventHandler(ListBoxSelectionChanged);
 			l.FontSize = 22.0;
 			var items = m_machineIni.GetItems;
@@ -302,7 +313,8 @@ namespace PDTUtils
 				}
 			}
 
-			return l;
+			return l;*/
+			return new ListBox();
 		}
 		
 		private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -355,11 +367,11 @@ namespace PDTUtils
 
 		private void MachineIniCategorys_DropDownClosed(object sender, EventArgs e)
 		{
-			var items = m_machineIni.GetItems;
-			var count = stpButtonPanel.Children.Count;
-			stpButtonPanel.Children.RemoveRange(1, count - 1);
+			//var items = m_machineIni.GetItems;
+			//var count = stpButtonPanel.Children.Count;
+			//stpButtonPanel.Children.RemoveRange(1, count - 1);
 
-			stpButtonPanel.Children.Add(SetupDynamicListBox());
+			//stpButtonPanel.Children.Add(SetupDynamicListBox());
 		}
 
 		/// <summary>

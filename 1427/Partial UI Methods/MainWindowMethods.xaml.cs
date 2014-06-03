@@ -69,6 +69,7 @@ namespace PDTUtils
 		public void DoorTimerEvent(object sender, ElapsedEventArgs e)
 		{
 			this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
+			this.lblTop.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
 		}
 
 		public void UpdateUiLabels(object sender, ElapsedEventArgs e)
@@ -76,6 +77,13 @@ namespace PDTUtils
 			this.lblUptime.Dispatcher.Invoke((DelegateUpdate)GetSystemUptime);
 		}
 
+		public void UpdateTimeAndDate()
+		{
+			lblTop.FontSize = 22;
+			lblTop.Foreground = Brushes.Pink;
+			lblTop.Content = DateTime.Now.ToLongDateString() + " - " + DateTime.Now.ToLongTimeString();
+		}
+		
 		void UpdateDoorStatusLabel()
 		{
 			string status = "Door Status : ";

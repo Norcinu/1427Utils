@@ -25,31 +25,92 @@
         </Grid.Resources>
 
         <!-- 2nd screenshot uses ColumnSpan and RowSpan -->
-        <Label Name="lblTop" Background="#336699"  BorderBrush="Black" BorderThickness="2" Grid.ColumnSpan="2"></Label>
+        <Label Name="lblTop" 
+               Background="#336699"  
+               BorderBrush="Black" 
+               BorderThickness="2" 
+               Grid.ColumnSpan="2" VerticalContentAlignment="Center"></Label>
         <!--LightGoldenrodYellow"-->
         <!-- columnspan="5" -->
-        <Label Name="lblLeft" Background="DimGray" BorderBrush="Black" BorderThickness="2" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="1" Margin="0,0,1,0" Grid.Column="0"></Label>
+        <Label Name="lblLeft" 
+               Background="DimGray" 
+               BorderBrush="Black" 
+               BorderThickness="2" 
+               Grid.Row="1" 
+               Grid.RowSpan="2" Margin="-5,2,6,-2"></Label>
+        
         <!--Background="LightGreen"-->
-        <Label Name="lblRight" Background="DimGray" BorderBrush="Black" BorderThickness="2" Grid.Column="1" Grid.Row="1" Margin="0,0,0,47" Grid.RowSpan="2" Style="{Binding}" IsEnabled="True">Blue 1</Label>
-        <Label Name="lblBottom" Background="#FF336699" BorderBrush="Black" BorderThickness="2" Grid.Row="2" Grid.Column="1" Height="48" VerticalAlignment="Bottom"></Label>
+        <Label Name="lblRight" 
+               Background="DimGray" 
+               BorderBrush="Black" 
+               BorderThickness="2" 
+               Grid.Column="1" 
+               Grid.Row="1" 
+               Margin="0,0,0,47" 
+               Grid.RowSpan="2" 
+               Style="{Binding}" 
+               IsEnabled="True">Blue 1</Label>
+        
+        <Label Name="lblBottom" 
+               Background="#FF336699" 
+               BorderBrush="Black" 
+               BorderThickness="2" 
+               Grid.Row="2" 
+               Grid.Column="1" 
+               Height="48" 
+               VerticalAlignment="Bottom"></Label>
         
         <TabControl Name="settingsTab" 
                     TabStripPlacement="Top" 
                     Grid.Column="1" 
+                    Grid.Row="1" 
                     Visibility="Hidden" 
                     SelectionChanged="Logfile_SelectionChanged" 
                     IsEnabled="False" 
                     HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" Margin="14,28,12,84" Width="545" Height="327" ScrollViewer.HorizontalScrollBarVisibility="Visible" Grid.Row="1" />
-        <Label Grid.Column="2" Height="39" HorizontalAlignment="Right" Margin="0,12,0,0" Name="lblDoorStatus" VerticalAlignment="Top" Width="275" FontWeight="Bold" FontSize="26" FontFamily="Cambria" Content="Door Status : Closed" />
-        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Margin="0,6,0,0" Name="stpButtonPanel" VerticalAlignment="Top" Orientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Visible" />
-        <Label Height="Auto" HorizontalAlignment="Left" Margin="292,12,0,0" Name="lblUptime" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Width="Auto" FontSize="36" IsEnabled="False" Visibility="Collapsed" />
+                    VerticalAlignment="Center" 
+                    Margin="14,28,12,84" 
+                    Width="545" 
+                    Height="327" 
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+        
+        <Label Grid.Column="2" 
+               Height="39" 
+               HorizontalAlignment="Right" 
+               Margin="0,12,0,0" 
+               Name="lblDoorStatus" 
+               VerticalAlignment="Top" 
+               Width="275" 
+               FontWeight="Bold" FontSize="26" FontFamily="Cambria" Content="Door Status : Closed" />
+        
+        <StackPanel Grid.Column="1" 
+                    Grid.Row="1" 
+                    HorizontalAlignment="Center" 
+                    Margin="0,6,0,0" 
+                    Name="stpButtonPanel" 
+                    VerticalAlignment="Top" 
+                    Orientation="Horizontal" 
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+        
+        <Label Height="Auto" 
+               HorizontalAlignment="Left" 
+               Margin="292,12,0,0" 
+               Name="lblUptime" 
+               VerticalAlignment="Top" 
+               Grid.Column="1" 
+               Grid.Row="1" 
+               Width="Auto" 
+               FontSize="36" 
+               IsEnabled="False" 
+               Visibility="Collapsed" />
         
         <!-- Logifles -->
-        <TabControl Name="MyLogfiles" Grid.Column="1" Grid.Row="1" IsEnabled="False" Visibility="Hidden">
-            <TabItem Header="All">
-                
-            </TabItem>
+        <TabControl Name="MyLogfiles" Grid.Column="1" Grid.Row="1" IsEnabled="False" Visibility="Hidden" 
+                    Height="{Binding Path=ActualHeight,
+                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                    Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
+                    AncestorType={x:Type Window}}}">
+            <TabItem Header="All"></TabItem>
             <TabItem Header="Errors"></TabItem>
             <TabItem Header="Hoppers"></TabItem>
             <TabItem Header="Games"></TabItem>
@@ -67,89 +128,108 @@
                   SelectedValue="{Binding Category}" 
                   SelectionChanged="MachineIniCategorys_SelectionChanged" 
                   DropDownClosed="MachineIniCategorys_DropDownClosed" />
-        
-        <!--<ListView ItemsSource="{Binding GetMachineIni}" Name="MachineIniListView" IsEnabled="False" Visibility="Hidden">
-                <ListView.View>
-                    <GridView AllowsColumnReorder="true"
-                    ColumnHeaderToolTip="Machine INI config settings">
-                        <GridViewColumn DisplayMemberBinding=
-                                "{Binding Path=Category}" 
-                            Header="Category" Width="150"/>
 
-                        <GridViewColumn DisplayMemberBinding=
-                                "{Binding Path=Field}" 
-                            Header="Field"  Width="150" >
-                        </GridViewColumn>
 
-                        <GridViewColumn DisplayMemberBinding=
-                                "{Binding Path=Value}" 
-                            Header="Value" Width="450"/>
-                    </GridView>
-
-                </ListView.View>
-        </ListView>-->
+        <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" IsEnabled="False" Visibility="Hidden"
+                    Height="{Binding Path=ActualHeight,
+                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                    Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
+                    AncestorType={x:Type Window}}}">
+            <TabItem Header="Edit Machine Ini" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
+                <StackPanel>
+                    <ListView ItemsSource="{Binding GetMachineIni}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="140" Header="Field" 
+                                    DisplayMemberBinding="{Binding Field}"  />
+                                <GridViewColumn Width="340" Header="Value"  
+                                    DisplayMemberBinding="{Binding Value}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </TabItem>
+            
+            <TabItem Header="System Volume" MinWidth="100">
+                <StackPanel Name="stpVolume" Grid.Column="1" Grid.Row="1">
+                    <Slider Grid.Column="1" Grid.Row="1" Height="50" HorizontalAlignment="Center" Margin="28,205,43,184" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500"  TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
+                    <ProgressBar Grid.Column="1" Grid.Row="1" Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,348,269,67" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True"  />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Hoppers" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}"></TabItem>
+            
+            <!-- we need more tab controls inside tab controls. -->
+            <!-- and more patches that take for ever to install -->
+        </TabControl>
+               
         
-        
-        <StackPanel Name="stpVolume" IsEnabled="{Binding Path=Enabler.Volume}" Visibility="{Binding Path=Enabler.Volume, Converter={StaticResource BoolToVisConverter}}" Grid.Column="1" Grid.Row="1">
-            <Slider Grid.Column="1" Grid.Row="1" Height="50" HorizontalAlignment="Center" Margin="28,205,43,184" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500"  TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
-            <ProgressBar Grid.Column="1" Grid.Row="1" Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,348,269,67" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True"  />
-        </StackPanel>
+      
         
         <StackPanel Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
             <!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
-            <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="700" FontSize="16">
-                <ListView.View>
-                    <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
-                        <GridViewColumn Header="Game Number" Width="Auto" DisplayMemberBinding="{Binding GameNumber}" />
-                        <GridViewColumn Header="Icon" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding ImageSource}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Model No." Width="100" DisplayMemberBinding="{Binding ModelNumber}" />
-                        <GridViewColumn Header="Bets" Width="100" DisplayMemberBinding="{Binding Bets}"/>
-                        <GridViewColumn Header="Wins" Width="100" DisplayMemberBinding="{Binding Wins}"/>
-                        <GridViewColumn Header="Percentage" Width="100" DisplayMemberBinding="{Binding Percentage}"/>
-                        <GridViewColumn Header="Average Stake" Width="100" DisplayMemberBinding="{Binding AverageStake}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <TabControl>
+                <TabItem Header="Games" MinWidth="100">
+                <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="700" FontSize="16">
+                    <ListView.View>
+                        <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
+                            <GridViewColumn Header="Game Number" Width="Auto" DisplayMemberBinding="{Binding GameNumber}" />
+                            <GridViewColumn Header="Icon" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding ImageSource}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Model No." Width="100" DisplayMemberBinding="{Binding ModelNumber}" />
+                            <GridViewColumn Header="Bets" Width="100" DisplayMemberBinding="{Binding Bets}"/>
+                            <GridViewColumn Header="Wins" Width="100" DisplayMemberBinding="{Binding Wins}"/>
+                            <GridViewColumn Header="Percentage" Width="100" DisplayMemberBinding="{Binding Percentage}"/>
+                            <GridViewColumn Header="Average Stake" Width="100" DisplayMemberBinding="{Binding AverageStake}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                </TabItem>
+                <TabItem Header="{Binding MachineIniListView.SelectedItem}"  MinWidth="100">
+                    
+                </TabItem>
+            </TabControl>
         </StackPanel>
 
         <!--<StackPanel Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpReadMeters" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Performance, Converter={StaticResource BoolToVisConverter}}">-->
             <TabControl Name="tabMeters"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
                 <TabItem Header="LCD Meters">
-                    <ListBox ItemsSource="{Binding Meters.Me}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <!--<TextBlock Text="{Binding CoinIn}"/>
-                                <TextBlock Text="{Binding CoinOut}"/>-->
-                                <TextBlock Text="{Binding NotesIn}" />
-                            </DataTemplate>                    
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <!--<ListView ItemsSource="{Binding Meter}"></ListView>-->
-                    <!--<TextBlock Name="lblLcdMeter" Width="auto" Height="auto" Text="{Binding Path=Meters.LCDShortTerm.CoinIn, StringFormat=\{0:c\}}"/>-->
-                    <!--<TextBlock Text="{Binding Meters.LCDShortTerm.CashOut}"/>-->
-                <!--<ListView Name="MetersView">
-                        <ListView.View>
-                            <GridView></GridView>
-                        </ListView.View>
-                    </ListView>-->
-                </TabItem>
+                <ListBox ItemsSource="{Binding Meters.Me}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding LCDShortTerm}"/>
+                            <!-- This should point to 1 long string?
+                                <TextBlock Text="{Binding CoinOut}"/>
+                                <TextBlock Text="{Binding NotesIn}" />-->
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
                 <TabItem Header="Cash Reconcilliation">
                     <TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                             Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
                             AncestorType={x:Type Window}}}">
-                        <TabItem Header="Cash" MinWidth="100"></TabItem>
-                        <TabItem Header="Attendant" MinHeight="100"/>
-                        <TabItem Header="Book Levels" MinWidth="100"></TabItem>
+                        <TabItem Header="Cash" MinWidth="150">
+                            <DockPanel>
+                                <ListBox ItemsSource="{Binding MachineData}" DockPanel.Dock="Left">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <ListBoxItem Content="{Binding Field}" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </DockPanel>
+                        </TabItem>
+                        <TabItem Header="Attendant" MinWidth="100"/>
+                        <TabItem Header="Book Levels" MinWidth="150"></TabItem>
                     </TabControl>
-            </TabItem>
+                </TabItem>
                 <!--<TabItem Content></TabItem>-->
             </TabControl>
         <!--</StackPanel>-->
@@ -173,13 +253,12 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            
         </DockPanel>
         
         <!-- End of System Info View -->
        
         <Button Content="Hoppers" Height="35" HorizontalAlignment="Left" Name="btnHoppers" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnHoppers_Click" FontSize="22" Margin="21,6,0,0" />
-        <Button Content="Setup" Grid.Row="1" Height="35" HorizontalAlignment="Left" Name="btnSetup" VerticalAlignment="Top" Width="170" Click="btnMachineIni_Click" FontSize="22" Margin="21,47,0,0" />
+        <Button Content="Setup" Grid.Row="1" Height="35" HorizontalAlignment="Left" Name="btnSetup" VerticalAlignment="Top" Width="170" Click="btnSetup_Click" FontSize="22" Margin="21,47,0,0" />
         <Button Content="Games" Height="35" HorizontalAlignment="Left" Name="btnGames" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="Games_Click" FontSize="22" Margin="21,88,0,0" />
         <Button Content="Logfiles" Height="35" HorizontalAlignment="Left" Name="btnLogfiles" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnLogfiles_Click" FontSize="22" Margin="21,129,0,0" />
         <Button Content="Set Volume" Height="35" HorizontalAlignment="Left" Margin="21,170,0,0" Name="btnVolume" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnVolume_Click" FontSize="22" />

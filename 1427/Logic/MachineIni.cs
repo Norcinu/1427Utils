@@ -23,7 +23,6 @@ namespace PDTUtils.Logic
 			set { m_field = value; }
 		}
 		
-
 		public string Value
 		{
 			get { return m_value; }
@@ -49,14 +48,14 @@ namespace PDTUtils.Logic
 
 		public void Find(MachineIni ini)
 		{
-			foreach (IniElement i in ini.GetItems)
+			/*foreach (IniElement i in ini.GetItems)
 			{
 				if (!uniqueEntries.Contains(i.Category))
 				{
 					uniqueEntries.Add(i.Category);
 					Add(i);
 				}
-			}
+			}*/
 		}
 	}
 
@@ -68,9 +67,13 @@ namespace PDTUtils.Logic
 		static readonly string IniPath = "D:\\machine\\machine.ini";
 		static readonly string EndOfIni = "[END]";
 		Dictionary<string, string> iniVariables = new Dictionary<string, string>();
-
+		List<string> m_field = new List<string>();
+		List<string> m_values = new List<string>();
+		//ObservableCollection<IniElement> m_iniElements = new ObservableCollection<IniElement>();
+		
 		public MachineIni()
 		{
+			ParseIni();
 		}
 
 
@@ -86,10 +89,10 @@ namespace PDTUtils.Logic
 			return iniVariables[key];
 		}
 
-		public IList<IniElement> GetItems
+		/*public IList<IniElement> GetItems
 		{
 			get { return Items; }
-		}
+		}*/
 		#endregion
 
 		public void Save()

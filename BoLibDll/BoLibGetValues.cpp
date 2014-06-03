@@ -433,3 +433,17 @@ unsigned long getReconciliationMeter(unsigned char offset)
 {
 	return GetReconciliationMeter(offset);
 }
+
+void getMemoryStatus(MEMORYSTATUS *memory)
+{
+	MEMORYSTATUS mem;
+	GlobalMemoryStatus(&mem);
+	memory->dwAvailPageFile = (mem.dwAvailPageFile / 1024) / 1024;
+	memory->dwAvailPhys = (mem.dwAvailPhys/1024) / 1024;
+	memory->dwAvailVirtual = (mem.dwAvailVirtual / 1024) / 1024;
+	memory->dwLength = (mem.dwLength / 1024) / 1024;
+	memory->dwMemoryLoad = (mem.dwMemoryLoad / 1024) / 1024;
+	memory->dwTotalPageFile = (mem.dwTotalPageFile / 1024) / 1024;
+	memory->dwTotalPhys = (mem.dwTotalPhys / 1024) / 1024;
+	memory->dwTotalVirtual = (mem.dwTotalVirtual / 1024) / 1024;
+}

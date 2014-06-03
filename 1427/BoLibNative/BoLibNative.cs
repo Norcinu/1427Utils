@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using PDTUtils.BoLibNative;
 
 
 /*	Break this class up into a partial class?
@@ -149,6 +150,13 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern UInt32 getReconciliationMeter(byte offset);
 
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void getMemoryStatus(ref NativeMemLayout memory);
+
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool GlobalMemoryStatus(ref NativeMemLayout lpBuffer); // [In, Out]
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/
@@ -213,5 +221,7 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		[return: MarshalAs(UnmanagedType.LPStr)]
 		public unsafe static extern string GetUniquePcbID(byte TYPE);
+
+
 	}
 }

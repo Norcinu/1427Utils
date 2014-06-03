@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using System.Net.NetworkInformation;
 using PDTUtils.Native;
+using PDTUtils.BoLibNative;
+using System.Runtime.InteropServices;
 
 namespace PDTUtils.Logic
 {
@@ -78,6 +80,34 @@ namespace PDTUtils.Logic
 			//return Screen.AllScreens[1].ToString() + "x" + System.Windows.SystemParameters.pr
 		}
 
+		public string GetMemoryInfo()
+		{
+			/*string memory = "Physical Memory: ";
+			memory += "\nFree Physical Memory: ";
+			memory += "\nVirtual Memory: ";
+			memory += "\nFree Virtual Memory: ";
+			return memory;*/
+		
+			/*NativeMemLayout memory = new NativeMemLayout();
+			//BoLib.getMemoryStatus(ref memory);
+			memory.dwLength = (uint)Marshal.SizeOf(typeof(NativeMemLayout));
+			BoLib.getMemoryStatus(ref memory);
+			var totalPhys = ComputerInfo.TotalPhysicalMemory;//((memory.dwTotalPhys / 1024) / 1024).ToString();
+			StringBuilder str = new StringBuilder("Physical Memory: " + totalPhys);//(memory.dwTotalPhys/1024)/1024);
+			str.Append("\n");
+			str.Append("Free Physical Memory: " + memory.dwAvailPhys);
+			return str.ToString();*/
+			ObjectQuery winQuery = new ObjectQuery("SELECT * FROM Win32_LogicalMemoryConfiguration");
+			ManagementObjectSearcher searcher = new ManagementObjectSearcher(winQuery);
+
+			double memory = 0;
+			foreach (ManagementObject item in searcher.Get())
+			{
+				memory = double.Parse(item["TotalPhysicalMemory"].ToString());
+			}
+			return (memory/1024).ToString() + "MB";
+		}
+
 		public string GetMachineSerial()
 		{
 			return BoLib.getSerialNumber();
@@ -88,6 +118,7 @@ namespace PDTUtils.Logic
 			Add(new SystemInfo(GetComputerName()));
 			Add(new SystemInfo(GetMachineIP()));
 			Add(new SystemInfo(GetMachineSerial()));
+			Add(new SystemInfo(GetMemoryInfo()));
 			// 20 fields platform -> utils.
 			// x games is seperate. + maybe include shell, utils + menu here. if so above will be 17 fields.
 
