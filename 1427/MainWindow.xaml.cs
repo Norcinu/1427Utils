@@ -207,6 +207,8 @@ namespace PDTUtils
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
 				Thread.Sleep(2);
+
+				m_machineIni.ParseIni();
 			}
 			catch (Exception err)
 			{

@@ -132,9 +132,27 @@ namespace PDTUtils.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\SecurityLog.txt.
+        /// </summary>
+        internal static string security_log {
+            get {
+                return ResourceManager.GetString("security_log", resourceCulture);
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream start {
             get {
                 return ResourceManager.GetStream("start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\updatekey.txt.
+        /// </summary>
+        internal static string update_log {
+            get {
+                return ResourceManager.GetString("update_log", resourceCulture);
             }
         }
         

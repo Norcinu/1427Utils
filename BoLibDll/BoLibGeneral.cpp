@@ -9,6 +9,9 @@
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
 
+char chipIdStr[32] = {0};
+unsigned char finalChipID[32] = {0};
+
 const std::string MACHINE_INI = "D:\\machine\\machine.ini";
 
 void enableNoteValidator()
@@ -110,7 +113,7 @@ char *GetUniquePcbID(char TYPE)
 {
 	unsigned char chipId[DPCI_IDPROM_ID_SIZE];
 	unsigned char retries = 5;
-	char chipIdStr[32] = {0};
+	
 	unsigned long PromId1 = 0;
 	unsigned long PromId2 = 0;
 
@@ -146,7 +149,11 @@ char *GetUniquePcbID(char TYPE)
 			sprintf_s(chipIdStr, "%.10lu%.10lu", PromId1, PromId2);	//decimal for encryption
 		else
 			sprintf_s(chipIdStr, "%.8X-%.8X", PromId1, PromId2);		//hex for display
-		return chipIdStr;
+		
+		for (int i = 0; i < 32; i++)
+			finalChipID[i] = chipIdStr[i];
+		
+		return (char *)finalChipID;
 	}
 	
 	sprintf_s(chipIdStr, "Unavailable");

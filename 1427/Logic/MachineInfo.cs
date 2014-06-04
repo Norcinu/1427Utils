@@ -6,19 +6,24 @@ using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using System.Net.NetworkInformation;
 using PDTUtils.Native;
-using PDTUtils.BoLibNative;
 using System.Runtime.InteropServices;
+using System.IO;
+using PDTUtils.Properties;
 
 namespace PDTUtils.Logic
 {
 	public class SystemInfo
 	{
 		public string Field { get; set; }
+		public bool IsEditable { get; set; }
+		
 		public SystemInfo(string name)
 		{
 			this.Field = name;
+			this.IsEditable = false;
 		}
 	}
+
 	/// <summary>
 	/// Class to represent the hardware and operating system settings.
 	/// </summary>
@@ -64,53 +69,121 @@ namespace PDTUtils.Logic
 
 		private string GetComputerName()
 		{
-			return System.Environment.MachineName;
-		}
-
-		public string GetScreenOneResolution()
-		{
-			return Screen.AllScreens[0].ToString();
-		}
-
-		public string GetScreenTwoResolution()
-		{
-			if (System.Windows.SystemParameters.VirtualScreenHeight != System.Windows.SystemParameters.PrimaryScreenHeight)
-				return "1";
-			return "";
-			//return Screen.AllScreens[1].ToString() + "x" + System.Windows.SystemParameters.pr
+			return "Computer Name: " + System.Environment.MachineName;
 		}
 
 		public string GetMemoryInfo()
 		{
-			/*string memory = "Physical Memory: ";
-			memory += "\nFree Physical Memory: ";
-			memory += "\nVirtual Memory: ";
-			memory += "\nFree Virtual Memory: ";
-			return memory;*/
-		
-			/*NativeMemLayout memory = new NativeMemLayout();
-			//BoLib.getMemoryStatus(ref memory);
-			memory.dwLength = (uint)Marshal.SizeOf(typeof(NativeMemLayout));
-			BoLib.getMemoryStatus(ref memory);
-			var totalPhys = ComputerInfo.TotalPhysicalMemory;//((memory.dwTotalPhys / 1024) / 1024).ToString();
-			StringBuilder str = new StringBuilder("Physical Memory: " + totalPhys);//(memory.dwTotalPhys/1024)/1024);
-			str.Append("\n");
-			str.Append("Free Physical Memory: " + memory.dwAvailPhys);
-			return str.ToString();*/
-			ObjectQuery winQuery = new ObjectQuery("SELECT * FROM Win32_LogicalMemoryConfiguration");
-			ManagementObjectSearcher searcher = new ManagementObjectSearcher(winQuery);
+			NativeWinApi.MEMORYSTATUS ms = new NativeWinApi.MEMORYSTATUS();
+			NativeWinApi.GlobalMemoryStatus(ref ms);
 
-			double memory = 0;
-			foreach (ManagementObject item in searcher.Get())
+			var str = new StringBuilder("Total Physical Memory: " + (ms.dwTotalPhys / 1024) / 1024 + " MB");
+			str.Append("\nFree Physical Memory: " + (ms.dwAvailPhys / 1024) / 1024 + " MB");
+			str.Append("\nTotal Virtual Memory: " + (ms.dwTotalVirtual / 1024) / 1024 + " MB");
+			str.Append("\nFree Virtual Memory: " + (ms.dwAvailVirtual / 1024) / 1024 + " MB");
+
+			return str.ToString();
+		}
+
+		public string GetScreenResolution()
+		{
+			string errorString = "Screen Not Active/Fitted.\n";
+
+			var str = new StringBuilder("Top Screen:\n");
+			NativeWinApi.DEVMODE dm = new NativeWinApi.DEVMODE();
+
+			var result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display2", 
+				(int)NativeWinApi.ModeNum.ENUM_CURRENT_SETTINGS, ref dm);
+			
+			if (result == true)
 			{
-				memory = double.Parse(item["TotalPhysicalMemory"].ToString());
+				str.Append("Resolution: " + dm.dmPelsWidth + "x" + dm.dmPelsHeight + ".\n");
+				str.Append("BPP: " + dm.dmBitsPerPel + ".\n");
 			}
-			return (memory/1024).ToString() + "MB";
+			else
+				str.Append(errorString);
+			
+			str.Append("Bottom Screen:\n");
+			NativeWinApi.DEVMODE dm2 = new NativeWinApi.DEVMODE();
+			result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display1", 
+				(int)NativeWinApi.ModeNum.ENUM_CURRENT_SETTINGS, ref dm2);
+			
+			if (result == true)
+			{
+				str.Append("Resolution: " + dm2.dmPelsWidth + "x" + dm2.dmPelsHeight + ".\n");
+				str.Append("BPP: " + dm2.dmBitsPerPel + ".\n");
+			}
+			else
+				str.Append(errorString);
+			
+			return str.ToString();
 		}
 
 		public string GetMachineSerial()
 		{
 			return BoLib.getSerialNumber();
+		}
+
+		public string GetCpuID()
+		{
+			return "CPU-ID:\n" + BoLib.GetUniquePcbID(0);
+		}
+
+		public string GetEDC()
+		{
+			return BoLib.getEDCTypeStr();
+		}
+
+		public string GetCountryCode()
+		{
+			try
+			{
+				return "Country Code: " + BoLib.getCountryCodeStr();
+			}
+			catch (System.Exception ex)
+			{
+				//return BoLib.getCountryCodeStr(); //BoLib.getBankT().oString(); //BoLib.getCountryCode().ToString();	
+			}
+			return "A";
+		}
+
+		public string GetOsVersion()
+		{
+			NativeWinApi.OSVERSIONINFO os = new NativeWinApi.OSVERSIONINFO();
+			os.dwOSVersionInfoSize = (uint)Marshal.SizeOf(os);
+			NativeWinApi.GetVersionEx(ref os);
+			return "OS Version:\nWindows XPe - " + os.szCSDVersion.ToString();
+		}
+
+		public string GetLastMD5Check()
+		{
+			return ReadFileLine(Resources.security_log);
+		}
+
+		public string GetUpdateKey()
+		{
+			return ReadFileLine(Resources.update_log,1);
+		}
+
+		private string ReadFileLine(string filename, int index=0)
+		{
+			string line = "";
+
+			try
+			{
+				using (StreamReader stream = new  StreamReader(filename))
+				{
+					for (int i = 0; i < index; i++)
+						stream.ReadLine();
+					line = stream.ReadLine();
+				}
+			}
+			catch (System.Exception ex)
+			{
+				line = ex.Message;
+			}
+
+			return line;
 		}
 
 		public void QueryMachine()
@@ -119,39 +192,18 @@ namespace PDTUtils.Logic
 			Add(new SystemInfo(GetMachineIP()));
 			Add(new SystemInfo(GetMachineSerial()));
 			Add(new SystemInfo(GetMemoryInfo()));
+			Add(new SystemInfo(GetScreenResolution()));
+			Add(new SystemInfo(GetCpuID()));
+			Add(new SystemInfo("Game Provider: Project Coin"));
+			Add(new SystemInfo(GetOsVersion()));
+			Add(new SystemInfo(GetLastMD5Check()));
+			Add(new SystemInfo(GetUpdateKey()));
+			//Add(new SystemInfo(GetCountryCode()));
+
+			//Add(new SystemInfo(GetEDC()));
 			// 20 fields platform -> utils.
 			// x games is seperate. + maybe include shell, utils + menu here. if so above will be 17 fields.
 
 		}
-
-		/*public void ProbeMachine()
-		{
-			SelectQuery netObjQry = new SelectQuery("Win32_NetworkAdapter");
-			ManagementObjectSearcher searcher = new ManagementObjectSearcher(netObjQry);
-
-			foreach (ManagementObject netAdapters in searcher.Get())
-			{
-				Object adapterTypeObj = netAdapters.GetPropertyValue("AdapterType");
-				string adapterType = "";
-				if (adapterTypeObj != null)
-				{
-					adapterType = adapterTypeObj.ToString();
-				}
-
-				Object adapterTypeIDObj = netAdapters.GetPropertyValue("AdapterTypeID");
-				string adapterTypeID = "";
-				if (adapterTypeIDObj != null)
-				{
-					adapterTypeID = adapterTypeIDObj.ToString();
-				}
-
-				if ((UInt16)netAdapters.GetPropertyValue("AdapterTypeID") == 0)
-				{
-					MessageBox.Show("Network Adapter Name: " + netAdapters.GetPropertyValue("Name").ToString());
-					MessageBox.Show("Adapter Type: " + adapterTypeObj);
-					MessageBox.Show("Adapter Type ID:" + adapterTypeID + "\n");
-				}
-			}
-		}*/
 	}
 }

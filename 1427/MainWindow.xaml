@@ -236,7 +236,7 @@
 
         <!-- System Info View -->
         <DockPanel LastChildFill="False" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding Enabler.System}" Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}">
-            <ListBox ItemsSource="{Binding MachineData}">
+            <ListBox ItemsSource="{Binding MachineData}" FontSize="14" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <ListBoxItem Content="{Binding Field}"></ListBoxItem>

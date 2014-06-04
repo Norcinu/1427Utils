@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using PDTUtils.BoLibNative;
 
 
-/*	Break this class up into a partial class?
- *	Follow the convention from the Lib files. Get/Set/General
- */
 namespace PDTUtils.Native
 {
 	static class BoLib
@@ -24,6 +20,13 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern int getDoorStatus();
 
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern int getCountryCode();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		public unsafe static extern string getCountryCodeStr();
+		
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern int refillKeyStatus();
 
@@ -150,12 +153,9 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern UInt32 getReconciliationMeter(byte offset);
 
-		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern void getMemoryStatus(ref NativeMemLayout memory);
-
-		[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool GlobalMemoryStatus(ref NativeMemLayout lpBuffer); // [In, Out]
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+		[return: MarshalAs(UnmanagedType.LPStr)]
+		public unsafe static extern string getEDCTypeStr();
 
 		/************************************************************************/
 		/*							Set methods                                 */
@@ -221,7 +221,5 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		[return: MarshalAs(UnmanagedType.LPStr)]
 		public unsafe static extern string GetUniquePcbID(byte TYPE);
-
-
 	}
 }

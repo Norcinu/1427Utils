@@ -6,8 +6,8 @@
     <DebuggerFlavor>WindowsRemoteDebugger</DebuggerFlavor>
     <LocalDebuggerAttach>false</LocalDebuggerAttach>
     <LocalDebuggerWorkingDirectory>D:\1427</LocalDebuggerWorkingDirectory>
-    <RemoteDebuggerWorkingDirectory>d:\1427</RemoteDebuggerWorkingDirectory>
+    <RemoteDebuggerWorkingDirectory>$(ProjectDir)</RemoteDebuggerWorkingDirectory>
     <RemoteDebuggerServerName>169.254.1.9:4015</RemoteDebuggerServerName>
-    <RemoteDebuggerConnection>RemoteWithoutAuthentication</RemoteDebuggerConnection>
+    <RemoteDebuggerAttach>true</RemoteDebuggerAttach>
   </PropertyGroup>
 </Project>

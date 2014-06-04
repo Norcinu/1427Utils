@@ -72,9 +72,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BoLibNative\NativeMemLayout.cs" />
     <Compile Include="Logic\CommitChanges.cs" />
-    <Compile Include="Extension.cs" />
+    <Compile Include="Logic\Extension.cs" />
     <Compile Include="Impls\Impls.cs" />
     <Compile Include="HopperUtilsWindow.xaml.cs">
       <DependentUpon>HopperUtilsWindow.xaml</DependentUpon>
@@ -82,6 +81,7 @@
     <Compile Include="Logic\ServiceEnabler.cs" />
     <Compile Include="Logic\MachineMeters.cs" />
     <Compile Include="Models\ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="BoLibNative\NativeWinApi.cs" />
     <Compile Include="TestSuiteWindow.xaml.cs">
       <DependentUpon>TestSuiteWindow.xaml</DependentUpon>
     </Compile>

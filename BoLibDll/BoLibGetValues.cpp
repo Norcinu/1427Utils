@@ -14,6 +14,7 @@ extern int NoteValues[NOTE_CNT][CC_CNT];
 
 const std::string MACHINE_INI = "D:\\machine\\machine.ini";
 char buffer[256] = {0};
+char item[2]= {0};
 
 // Local Util functions not export to DLL
 namespace utils 
@@ -92,6 +93,15 @@ int addCredit(int pennies)
 int getCountryCode()
 {
 	return GetCountry();
+}
+
+char *getCountryCodeStr()
+{
+	//return "123";
+	itoa(GetCountry(), item, 10);
+	return item;
+	//auto str = TO_STR(GetCountry());
+	//return (char *)str.c_str();
 }
 
 bool isDualBank()
@@ -437,6 +447,8 @@ unsigned long getReconciliationMeter(unsigned char offset)
 void getMemoryStatus(MEMORYSTATUS *memory)
 {
 	MEMORYSTATUS mem;
+	mem.dwTotalPageFile = sizeof(mem);
+
 	GlobalMemoryStatus(&mem);
 	memory->dwAvailPageFile = (mem.dwAvailPageFile / 1024) / 1024;
 	memory->dwAvailPhys = (mem.dwAvailPhys/1024) / 1024;
