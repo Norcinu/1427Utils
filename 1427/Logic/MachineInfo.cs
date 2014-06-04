@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Management;
-using System.Windows.Forms;
-using System.Collections.ObjectModel;
-using System.Net.NetworkInformation;
-using PDTUtils.Native;
-using System.Runtime.InteropServices;
+﻿using System.Collections.ObjectModel;
 using System.IO;
+using System.Management;
+using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
+using System.Text;
+using PDTUtils.Native;
 using PDTUtils.Properties;
 
 namespace PDTUtils.Logic
@@ -162,16 +159,25 @@ namespace PDTUtils.Logic
 
 		public string GetUpdateKey()
 		{
-			return ReadFileLine(Resources.update_log,1);
+			var strs = ReadFileLine(Resources.update_log,1).Split("=".ToCharArray());
+			var final = new StringBuilder(strs[1]);
+			
+			for (int i = 0; i < 68; i++)
+			{
+				if ((i % 15 == 0) && (i > 0))
+					final.Insert(i, "-");
+			}
+
+			return "Update Key: " + final.ToString();
 		}
 
-		private string ReadFileLine(string filename, int index=0)
+		private string ReadFileLine(string filename, int index = 0)
 		{
 			string line = "";
 
 			try
 			{
-				using (StreamReader stream = new  StreamReader(filename))
+				using (StreamReader stream = new StreamReader(filename))
 				{
 					for (int i = 0; i < index; i++)
 						stream.ReadLine();
