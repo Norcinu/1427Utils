@@ -205,7 +205,7 @@
                             <TextBlock Text="{Binding LCDShortTerm}"/>
                             <!-- This should point to 1 long string?
                                 <TextBlock Text="{Binding CoinOut}"/>
-                                <TextBlock Text="{Binding NotesIn}" />-->
+                                <TextBlock Text="{Binding NotesIn}"/>-->
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -235,8 +235,8 @@
         <!--</StackPanel>-->
 
         <!-- System Info View -->
-        <DockPanel LastChildFill="False" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding Enabler.System}" Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}">
-            <ListBox ItemsSource="{Binding MachineData}" FontSize="14" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible">
+        <DockPanel Name="DockSystem" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding Enabler.System}" Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}">
+            <ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="14" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <ListBoxItem Content="{Binding Field}"></ListBoxItem>

@@ -75,9 +75,9 @@ namespace PDTUtils.Logic
 			NativeWinApi.GlobalMemoryStatus(ref ms);
 
 			var str = new StringBuilder("Total Physical Memory: " + (ms.dwTotalPhys / 1024) / 1024 + " MB");
-			str.Append("\nFree Physical Memory: " + (ms.dwAvailPhys / 1024) / 1024 + " MB");
+			str.Append("\tFree Physical Memory: " + (ms.dwAvailPhys / 1024) / 1024 + " MB");
 			str.Append("\nTotal Virtual Memory: " + (ms.dwTotalVirtual / 1024) / 1024 + " MB");
-			str.Append("\nFree Virtual Memory: " + (ms.dwAvailVirtual / 1024) / 1024 + " MB");
+			str.Append("\tFree Virtual Memory: " + (ms.dwAvailVirtual / 1024) / 1024 + " MB");
 
 			return str.ToString();
 		}
@@ -123,7 +123,7 @@ namespace PDTUtils.Logic
 
 		public string GetCpuID()
 		{
-			return "CPU-ID:\n" + BoLib.GetUniquePcbID(0);
+			return "CPU-ID: " + BoLib.GetUniquePcbID(0);
 		}
 
 		public string GetEDC()
@@ -135,13 +135,12 @@ namespace PDTUtils.Logic
 		{
 			try
 			{
-				return "Country Code: " + BoLib.getCountryCodeStr();
+				return BoLib.getCountryCodeStr();
 			}
 			catch (System.Exception ex)
 			{
-				//return BoLib.getCountryCodeStr(); //BoLib.getBankT().oString(); //BoLib.getCountryCode().ToString();	
+				return ex.Message;
 			}
-			return "A";
 		}
 
 		public string GetOsVersion()
@@ -204,12 +203,11 @@ namespace PDTUtils.Logic
 			Add(new SystemInfo(GetOsVersion()));
 			Add(new SystemInfo(GetLastMD5Check()));
 			Add(new SystemInfo(GetUpdateKey()));
-			//Add(new SystemInfo(GetCountryCode()));
-
-			//Add(new SystemInfo(GetEDC()));
+			Add(new SystemInfo(GetCountryCode()));
+			Add(new SystemInfo(GetEDC()));
+			
 			// 20 fields platform -> utils.
 			// x games is seperate. + maybe include shell, utils + menu here. if so above will be 17 fields.
-
 		}
 	}
 }

@@ -99,3 +99,4 @@ extern "C" DllExport char			*getSerialNumber();
 extern "C" DllExport char			*getEDCTypeStr();
 extern "C" DllExport unsigned long	getReconciliationMeter(unsigned char offset);
 extern "C" DllExport void			getMemoryStatus(MEMORYSTATUS *memory);
+extern "C" DllExport unsigned int	getNumberOfGames();

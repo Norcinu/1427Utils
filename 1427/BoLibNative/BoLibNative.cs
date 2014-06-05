@@ -157,6 +157,9 @@ namespace PDTUtils.Native
 		[return: MarshalAs(UnmanagedType.LPStr)]
 		public unsafe static extern string getEDCTypeStr();
 
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getNumberOfGames();
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/

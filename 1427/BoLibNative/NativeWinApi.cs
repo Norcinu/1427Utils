@@ -3,6 +3,17 @@ using System.Runtime.InteropServices;
 
 namespace PDTUtils.Native
 {
+	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+	static class Games
+	{
+		public class GameInfo
+		{
+			public string name = "";
+			public string hash_code = "";
+			public string path = "";
+		}
+	}
+
 	static class NativeWinApi
 	{
 		public enum ModeNum : int

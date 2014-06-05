@@ -82,7 +82,6 @@ namespace PDTUtils.Logic
 				else
 					m_categories[key] = true;
 				this.OnPropertyChanged(key);
-			
 			}
 		}
 	}

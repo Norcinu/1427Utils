@@ -1,10 +1,12 @@
 #include <Windows.h>
 #include <bo.h>
 #include <NVR.H>
-#include "BoLibGetValues.h"
 #include <sstream>
 #include <cstring>
 #include <string>
+#include <vector>
+#include "BoLibGetValues.h"
+#include "MD5.h"
 
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
@@ -13,8 +15,18 @@ extern int CoinConv[COIN_CNT][CC_CNT];
 extern int NoteValues[NOTE_CNT][CC_CNT];
 
 const std::string MACHINE_INI = "D:\\machine\\machine.ini";
-char buffer[256] = {0};
+char global_buffer[256] = {0};
+std::string country_code_buffer = "";
 char item[2]= {0};
+
+struct GamesInfo
+{
+	char *name;
+	char *hash_code;
+	char *path;
+};
+
+std::vector<GamesInfo *> GamesList;
 
 // Local Util functions not export to DLL
 namespace utils 
@@ -25,6 +37,13 @@ namespace utils
 		std::stringstream ss;
 		ss << t;
 		return ss.str();
+	}
+
+	template <class T>
+	bool FromString(T& t, const std::string& s, std::ios_base& (*f)(std::ios_base&))
+	{
+		std::istringstream iss(s);
+		return !(iss >> f >> t).fail();
 	}
 
 	unsigned int GetDigit(const unsigned int n, const unsigned int k) 
@@ -97,11 +116,13 @@ int getCountryCode()
 
 char *getCountryCodeStr()
 {
-	//return "123";
-	itoa(GetCountry(), item, 10);
-	return item;
-	//auto str = TO_STR(GetCountry());
-	//return (char *)str.c_str();
+	//SetFileAction();
+	char buffer[32] = {0};
+	GetPrivateProfileSection("CountryCode", buffer, 32, MACHINE_INI.c_str());
+	//ClearFileAction();
+	country_code_buffer = "Country Code: ";
+	country_code_buffer += buffer[0];
+	return (char *)country_code_buffer.c_str();
 }
 
 bool isDualBank()
@@ -393,9 +414,11 @@ unsigned long getNotesOut(int meter)
 unsigned long getRefillValue(int meter)
 {
 	if (meter == REFILL_L_LT)
-		return (GetReconciliationMeter(REFILL_L_LT)*COINVALUELEFT + GetReconciliationMeter(REFILL_R_LT)*COINVALUERIGHT);
+		return (GetReconciliationMeter(REFILL_L_LT)*COINVALUELEFT + 
+			GetReconciliationMeter(REFILL_R_LT)*COINVALUERIGHT);
 	else
-		return (GetReconciliationMeter(REFILL_L_ST)*COINVALUELEFT + GetReconciliationMeter(REFILL_R_ST)*COINVALUERIGHT);
+		return (GetReconciliationMeter(REFILL_L_ST)*COINVALUELEFT + 
+			GetReconciliationMeter(REFILL_R_ST)*COINVALUERIGHT);
 }
 
 unsigned long getVtp(int meter)
@@ -423,17 +446,28 @@ unsigned long getTicketsPay(int meter)
 
 char *getSerialNumber()
 {
-	GetPrivateProfileString("Keys", "Serial", "~", buffer, 256, MACHINE_INI.c_str());
+	//SetFileAction();
+	GetPrivateProfileString("Keys", "Serial", "~", global_buffer, 256, MACHINE_INI.c_str());
+	//ClearFileAction();
 	std::string pre = "Serial Number: ";
 	char final[272] = {0};
 	strncat_s(final, pre.c_str(), pre.length());
-	strncat_s(final, buffer, 256);
+	strncat_s(final, global_buffer, 256);
 	return final;
 }
 
+/*
+* Refinement needed. I don't really want to read from file but the data binding from the 
+* UI is causing this and certain other functions (GetCountry) to crash when reading them 
+* via data binding. I believe this is due to the time and order in which they are called.
+*/
 char *getEDCTypeStr()
 {
-	if (GetMVersion())
+	char buffer[64] = {0};
+	GetPrivateProfileString("Datapack", "Protocol", "", buffer, 64, MACHINE_INI.c_str());
+	auto mversion = atoi(buffer);
+	
+	if (mversion)
 		return "Data/EDC: 1 - On.";
 	else
 		return "Data/EDC: 0 - Off.";
@@ -450,12 +484,36 @@ void getMemoryStatus(MEMORYSTATUS *memory)
 	mem.dwTotalPageFile = sizeof(mem);
 
 	GlobalMemoryStatus(&mem);
-	memory->dwAvailPageFile = (mem.dwAvailPageFile / 1024) / 1024;
-	memory->dwAvailPhys = (mem.dwAvailPhys/1024) / 1024;
-	memory->dwAvailVirtual = (mem.dwAvailVirtual / 1024) / 1024;
-	memory->dwLength = (mem.dwLength / 1024) / 1024;
-	memory->dwMemoryLoad = (mem.dwMemoryLoad / 1024) / 1024;
-	memory->dwTotalPageFile = (mem.dwTotalPageFile / 1024) / 1024;
-	memory->dwTotalPhys = (mem.dwTotalPhys / 1024) / 1024;
-	memory->dwTotalVirtual = (mem.dwTotalVirtual / 1024) / 1024;
+	memory->dwAvailPageFile = (mem.dwAvailPageFile	/ 1024) / 1024;
+	memory->dwAvailPhys		= (mem.dwAvailPhys		/ 1024) / 1024;
+	memory->dwAvailVirtual	= (mem.dwAvailVirtual	/ 1024) / 1024;
+	memory->dwLength		= (mem.dwLength			/ 1024) / 1024;
+	memory->dwMemoryLoad	= (mem.dwMemoryLoad		/ 1024) / 1024;
+	memory->dwTotalPageFile = (mem.dwTotalPageFile	/ 1024) / 1024;
+	memory->dwTotalPhys		= (mem.dwTotalPhys		/ 1024) / 1024;
+	memory->dwTotalVirtual	= (mem.dwTotalVirtual	/ 1024) / 1024;
+}
+
+void GetGamesList(GamesInfo *game)
+{
+	auto num_games = getNumberOfGames();
+	char name_buffer[64] = {0};
+	char buffer[256] = {0};
+	for (int i = 0; i < num_games; i++)
+	{
+		GamesInfo *info = new GamesInfo;
+		info->name = "";
+		info->hash_code = "";//draw
+		info->path = "";
+		GamesList.push_back(info);
+	}
+}
+
+unsigned int getNumberOfGames()
+{
+	char buffer[64] = {0};
+	GetPrivateProfileString("Terminal", "NumberGames", "", buffer, 64, MACHINE_INI.c_str());
+	unsigned int value = 0;
+	utils::FromString<unsigned int>(value, buffer, std::dec);
+	return value;
 }

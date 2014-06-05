@@ -7,11 +7,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using PDTUtils.Logic;
 using PDTUtils.Native;
-using System.Management;
-using System.Net.NetworkInformation;
 
 
 namespace PDTUtils
@@ -40,6 +37,22 @@ namespace PDTUtils
 		public MainWindow()
         {
             InitializeComponent();
+			try
+			{
+#if REMOTE
+				InitialiseBoLib();
+#endif
+				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
+				m_keyDoorThread.Start();
+				while (!m_keyDoorThread.IsAlive) ;
+				Thread.Sleep(2);
+				
+				m_machineIni.ParseIni();
+			}
+			catch (Exception err)
+			{
+				MessageBox.Show("Error: " + err.ToString());
+			}
             RowOne.Height = new GridLength(75);
 			ColumnOne.Width = new GridLength(200);
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
@@ -118,8 +131,11 @@ namespace PDTUtils
 
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
-			CommitChanges.Save();
-			MessageBox.Show("Changes Made, reboot required.", "Commit Changes", MessageBoxButton.OK, MessageBoxImage.Information);
+			BoLib.getCountryCode();
+			MessageBox.Show(BoLib.getCountryCodeStr());
+			MessageBox.Show(BoLib.getEDCTypeStr());
+			//CommitChanges.Save();
+			//MessageBox.Show("Changes Made, reboot required.", "Commit Changes", MessageBoxButton.OK, MessageBoxImage.Information);
 			//CommitChanges.RebootMachine();
 		//	HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
 			//w.ShowDialog();
@@ -127,6 +143,7 @@ namespace PDTUtils
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
+			MessageBox.Show(BoLib.getNumberOfGames().ToString());
 			BoLib.GetUniquePcbID(0);
 			BoLib.GetUniquePcbID(1);
 			if (!settingsTab.IsEnabled)

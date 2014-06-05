@@ -82,6 +82,7 @@
     <Compile Include="Logic\MachineMeters.cs" />
     <Compile Include="Models\ViewModels\MainWindowViewModel.cs" />
     <Compile Include="BoLibNative\NativeWinApi.cs" />
+    <Compile Include="BoLibNative\NativeMD5.cs" />
     <Compile Include="TestSuiteWindow.xaml.cs">
       <DependentUpon>TestSuiteWindow.xaml</DependentUpon>
     </Compile>
