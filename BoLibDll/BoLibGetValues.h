@@ -1,5 +1,7 @@
 #define DllExport __declspec(dllexport)
 
+struct GamesInfo;
+
 typedef int BOOL;
 
 /**
@@ -100,3 +102,5 @@ extern "C" DllExport char			*getEDCTypeStr();
 extern "C" DllExport unsigned long	getReconciliationMeter(unsigned char offset);
 extern "C" DllExport void			getMemoryStatus(MEMORYSTATUS *memory);
 extern "C" DllExport unsigned int	getNumberOfGames();
+extern "C" DllExport void			getGamesList(GamesInfo *game);
+extern "C" DllExport void			getGame(GamesInfo *game, int index);

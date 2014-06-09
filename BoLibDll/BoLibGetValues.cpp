@@ -18,6 +18,7 @@ const std::string MACHINE_INI = "D:\\machine\\machine.ini";
 char global_buffer[256] = {0};
 std::string country_code_buffer = "";
 char item[2]= {0};
+char path_buffer[64] = {0};
 
 struct GamesInfo
 {
@@ -482,7 +483,7 @@ void getMemoryStatus(MEMORYSTATUS *memory)
 {
 	MEMORYSTATUS mem;
 	mem.dwTotalPageFile = sizeof(mem);
-
+	
 	GlobalMemoryStatus(&mem);
 	memory->dwAvailPageFile = (mem.dwAvailPageFile	/ 1024) / 1024;
 	memory->dwAvailPhys		= (mem.dwAvailPhys		/ 1024) / 1024;
@@ -494,18 +495,67 @@ void getMemoryStatus(MEMORYSTATUS *memory)
 	memory->dwTotalVirtual	= (mem.dwTotalVirtual	/ 1024) / 1024;
 }
 
-void GetGamesList(GamesInfo *game)
+void getGame(GamesInfo *game, int index)
+{	
+	std::string name = "Game" + TO_STR(index);
+	GetPrivateProfileString(name.c_str(), "Exe", "", path_buffer, 64, MACHINE_INI.c_str());
+	//std::string full_path = "D:\\" + TO_STR()
+	game->path = path_buffer;
+		
+	unsigned char *h;
+	char buf[128];
+	char folder[5];
+	bool Auth;
+	char *Hex;
+
+	strncpy(game->name, path_buffer, 4);
+	strncpy(folder, path_buffer, 4); //Now works with 4 digits
+	folder[4]=0;
+
+	sprintf(buf,"D:\\%s\\%s\0",folder,game->path);
+
+	FILE *ff;
+
+	ff=fopen(MACHINE_INI.c_str(),"r");
+
+	if (ff==NULL)
+	{
+		game->hash_code = "[FILE NOT FOUND]\0";
+		return;
+	}
+
+	fclose(ff);
+
+	Auth = CheckHash(buf);
+
+	if (Auth)
+	{
+		h = CalcHashFromFile(buf);
+
+		Hex = HashToHex(h);
+
+		if (Hex!=NULL)
+			strncat(game->hash_code, Hex, 32);
+		else
+			sprintf(game->hash_code, "[ERROR CALCULATING HASH CODE]\0");
+	}
+	else
+		game->hash_code = "[NOT AUTHORISED]\0";
+}
+
+void getGamesList(GamesInfo *game)
 {
 	auto num_games = getNumberOfGames();
 	char name_buffer[64] = {0};
 	char buffer[256] = {0};
 	for (int i = 0; i < num_games; i++)
 	{
-		GamesInfo *info = new GamesInfo;
-		info->name = "";
-		info->hash_code = "";//draw
-		info->path = "";
+		GamesInfo *info = new GamesInfo; // delete? I'm not sure this is a good idea.
+		//info->name = "";
+		//info->hash_code = "";
+		//info->path = "";
 		GamesList.push_back(info);
+		//game = info would be better.
 	}
 }
 

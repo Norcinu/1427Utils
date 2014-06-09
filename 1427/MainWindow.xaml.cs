@@ -438,72 +438,6 @@ namespace PDTUtils
 				m_meters = new MachineMeters();
 			Meters.ReadMeters();
 			m_enabler.Meters = true;
-			/*RemoveChildrenFromStackPanel();
-			
-			var a = Extension.GetChildOfType<StackPanel>(MainGrid);
-			string panelName = "BottomPanel";
-			var item = a.Find(sp => sp.Name == panelName);
-			if (item != null)
-			{
-				item.Children.RemoveRange(0, item.Children.Count);
-				MainGrid.Children.Remove(item);
-				a.Remove(item);
-				m_gameStatistics.ResetStats();
-			}
-
-			m_gameStatistics.ParsePerfLog();
-
-			Label lblBanner = new Label();
-			lblBanner.Content = "Machine Info:";
-			lblBanner.FontSize = 22;
-			stpButtonPanel.Children.Add(lblBanner);
-			
-			Label lblTotalBet = new Label();
-			lblTotalBet.FontSize = 22;
-			string totalBetStr = m_gameStatistics.TotalBet.ToString("0.00"); //Convert.ToString(m_gameStatistics.TotalBet,"0.00");
-			lblTotalBet.Content = "Total Bet: £" + totalBetStr;//.Insert(totalBetStr.Length-2, ".");
-			stpButtonPanel.Children.Add(lblTotalBet);
-			stpButtonPanel.Background = Brushes.AntiqueWhite;
-			
-			Label lblTotalWon = new Label();
-			string totalWonStr = Convert.ToString(m_gameStatistics.TotalWon);
-			lblTotalWon.FontSize = 22;
-			lblTotalWon.Content = "Total Won: £" + totalWonStr.Insert(totalWonStr.Length-2, ".");
-			stpButtonPanel.Children.Add(lblTotalWon);
-
-			Label lblTotalRtp = new Label();
-			lblTotalRtp.FontSize = 22;
-			double rtp = (double)m_gameStatistics.TotalWon / (double)m_gameStatistics.TotalGames;
-			lblTotalRtp.Content = "RTP: " + Math.Round(rtp,2).ToString() + "%";
-			stpButtonPanel.Children.Add(lblTotalRtp);
-
-			StackPanel s = new StackPanel();
-			s.Name = panelName;
-			s.Background = Brushes.Aquamarine;
-			s.HorizontalAlignment = HorizontalAlignment.Center;
-			s.VerticalAlignment = VerticalAlignment.Bottom;
-			
-			MainGrid.Children.Add(s);
-			Grid.SetColumn(s, 1);
-			Grid.SetRow(s, 1);
-
-			Label lblGameSpecific = new Label();
-			lblGameSpecific.FontFamily = new FontFamily("Consolas");
-			lblGameSpecific.Background = Brushes.LightGray;
-			lblGameSpecific.Foreground = Brushes.DarkBlue;
-			//lblGameSpecific.FontSize = 11;
-			//lblGameSpecific.LayoutTransform = new ScaleTransform(2, 2);
-			foreach (var gs in m_gameStatistics.Games)
-			{
-				lblGameSpecific.Content += "Game No:\t\t " + gs.GameNumber.ToString() + "\r\n";
-				lblGameSpecific.Content += "Model:\t\t\t " + gs.ModelNumber.ToString() + "\r\n";
-				lblGameSpecific.Content += "Bets:\t\t\t " + gs.Bets.ToString() + "\r\n";
-				lblGameSpecific.Content += "Wins:\t\t\t " + gs.Wins.ToString() + "\r\n";
-				lblGameSpecific.Content += "Percentage:\t\t " + Math.Round(gs.Percentage).ToString() + "\r\n";
-				lblGameSpecific.Content += "-------------------\r\n"; 
-			}
-
-			s.Children.Add(lblGameSpecific);*/
 		}
 
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
@@ -516,6 +450,12 @@ namespace PDTUtils
 
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
+			GamesInfo g = new GamesInfo();
+			g.path = "";
+			g.name = "";
+			g.hash_code = "";
+			BoLib.getGame(ref g, 1);
+			MessageBox.Show(g.name + " : " + g.path + " : " + g.hash_code);
 			m_enabler.System = true;
 		}
 

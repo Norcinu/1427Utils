@@ -104,7 +104,7 @@
                IsEnabled="False" 
                Visibility="Collapsed" />
         
-        <!-- Logifles -->
+        <!-- Logfiles -->
         <TabControl Name="MyLogfiles" Grid.Column="1" Grid.Row="1" IsEnabled="False" Visibility="Hidden" 
                     Height="{Binding Path=ActualHeight,
                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -135,26 +135,30 @@
                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                     Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
                     AncestorType={x:Type Window}}}">
-            <TabItem Header="Edit Machine Ini" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
-                <StackPanel>
-                    <ListView ItemsSource="{Binding GetMachineIni}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Width="140" Header="Field" 
-                                    DisplayMemberBinding="{Binding Field}"  />
-                                <GridViewColumn Width="340" Header="Value"  
-                                    DisplayMemberBinding="{Binding Value}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </StackPanel>
+            <TabItem Header="Machine Ini" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="340" Header="Field" 
+                                        DisplayMemberBinding="{Binding Field}"  />
+                                    <GridViewColumn Width="340" Header="Value"  
+                                        DisplayMemberBinding="{Binding Value}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
             
             <TabItem Header="System Volume" MinWidth="100">
-                <StackPanel Name="stpVolume" Grid.Column="1" Grid.Row="1">
-                    <Slider Grid.Column="1" Grid.Row="1" Height="50" HorizontalAlignment="Center" Margin="28,205,43,184" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500"  TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
-                    <ProgressBar Grid.Column="1" Grid.Row="1" Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}"/>
-                    <TextBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Right" Margin="0,348,269,67" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True"  />
+                <StackPanel Name="stpVolume">
+                    <Slider Height="50" HorizontalAlignment="Center" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500"  TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
+                    <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+                        <ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}"/>
+                        <TextBox Height="23" HorizontalAlignment="Right" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True"  />
+                    </StackPanel>                               
                 </StackPanel>
             </TabItem>
             <TabItem Header="Hoppers" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}"></TabItem>
@@ -163,9 +167,7 @@
             <!-- and more patches that take for ever to install -->
         </TabControl>
                
-        
-      
-        
+
         <StackPanel Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
             <!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
             <TabControl>
@@ -253,21 +255,24 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <StackPanel Height="100" Name="stackPanel1" Width="200" />
         </DockPanel>
         
         <!-- End of System Info View -->
        
-        <Button Content="Hoppers" Height="35" HorizontalAlignment="Left" Name="btnHoppers" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnHoppers_Click" FontSize="22" Margin="21,6,0,0" />
-        <Button Content="Setup" Grid.Row="1" Height="35" HorizontalAlignment="Left" Name="btnSetup" VerticalAlignment="Top" Width="170" Click="btnSetup_Click" FontSize="22" Margin="21,47,0,0" />
-        <Button Content="Games" Height="35" HorizontalAlignment="Left" Name="btnGames" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="Games_Click" FontSize="22" Margin="21,88,0,0" />
-        <Button Content="Logfiles" Height="35" HorizontalAlignment="Left" Name="btnLogfiles" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnLogfiles_Click" FontSize="22" Margin="21,129,0,0" />
-        <Button Content="Set Volume" Height="35" HorizontalAlignment="Left" Margin="21,170,0,0" Name="btnVolume" VerticalAlignment="Top" Width="170" Grid.Row="1" Click="btnVolume_Click" FontSize="22" />
-        <Button Content="Cash" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,211,0,0" Name="btnCash" VerticalAlignment="Top" Width="170" Click="btnReadMeters_Click" FontSize="22" />
-        <Button Content="Functional Tests" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,251,0,0" Name="btnFunctionalTests" VerticalAlignment="Top" Width="170" Click="btnFunctionalTests_Click" FontSize="22" />
-        <Button Content="Machine Settings" Grid.Row="1" Height="35" Margin="21,292,0,0" Name="btnMachineSettings" VerticalAlignment="Top" FontSize="22" Width="170" HorizontalAlignment="Left" />
+        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button Content="Hoppers" Height="35" HorizontalAlignment="Stretch" Name="btnHoppers" VerticalAlignment="Stretch" Width="170" Click="btnHoppers_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="btnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Games" Height="35" HorizontalAlignment="Stretch" Name="btnGames" VerticalAlignment="Stretch" Width="170" Click="Games_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Logfiles" Height="35" HorizontalAlignment="Stretch" Name="btnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Cash" Height="35" Name="btnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="btnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Machine Settings" Height="35" Name="btnMachineSettings" VerticalAlignment="Stretch" FontSize="22" Width="170" HorizontalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Performance" Height="35" HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="System Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+        </StackPanel>
+
         <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
-        <Button Content="Performance" Grid.Row="1" Height="35" HorizontalAlignment="Left" Margin="21,333,0,0" Name="button1" VerticalAlignment="Top" Width="170" FontSize="22" />
-        <Button Content="System Settings" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="170" Height="35" FontSize="22" Margin="21,374,0,0" Name="btnSystem" Click="btnSystem_Click" />
     </Grid>
 
    

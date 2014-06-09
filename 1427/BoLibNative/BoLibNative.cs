@@ -1,9 +1,19 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-
 namespace PDTUtils.Native
 {
+	[StructLayout(LayoutKind.Sequential)]
+	public struct GamesInfo
+	{
+		[MarshalAs(UnmanagedType.LPStr)]
+		public string name;
+		[MarshalAs(UnmanagedType.LPStr)]
+		public string hash_code;
+		[MarshalAs(UnmanagedType.LPStr)]
+		public string path;
+	}
+
 	static class BoLib
 	{
 #if DEBUG
@@ -159,6 +169,9 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern uint getNumberOfGames();
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern void getGame (ref GamesInfo game, int index);
 
 		/************************************************************************/
 		/*							Set methods                                 */
