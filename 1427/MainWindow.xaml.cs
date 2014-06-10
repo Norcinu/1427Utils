@@ -9,6 +9,10 @@ using System.Windows;
 using System.Windows.Controls;
 using PDTUtils.Logic;
 using PDTUtils.Native;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.IO;
+using System.Security.Cryptography;
 
 
 namespace PDTUtils
@@ -33,7 +37,8 @@ namespace PDTUtils
 		ServiceEnabler m_enabler = new ServiceEnabler();
 		MachineMeters m_meters;// = new MachineMeters();
 		MachineInfo m_machineData = new MachineInfo();
-				
+		GamesList m_gamesList = new GamesList();
+		
 		public MainWindow()
         {
             InitializeComponent();
@@ -76,6 +81,11 @@ namespace PDTUtils
         }
 
 		#region Properties
+
+		public GamesList GamesList
+		{
+			get { return m_gamesList; }
+		}
 
 		DoorAndKeyStatus m_keyDoorWorker = new DoorAndKeyStatus();
 		public DoorAndKeyStatus KeyDoorWorker
@@ -450,12 +460,42 @@ namespace PDTUtils
 
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
-			GamesInfo g = new GamesInfo();
-			g.path = "";
-			g.name = "";
-			g.hash_code = "";
-			BoLib.getGame(ref g, 1);
-			MessageBox.Show(g.name + " : " + g.path + " : " + g.hash_code);
+			GamesList.GetGamesList();
+			//MessageBox.Show(GamesList.GamesInfo[0].Hash_code);
+			//GamesList.GamesInfo
+		//	for (int i = 0; i < 10; i++)
+			{
+				/*GamesInfo g = new GamesInfo();
+				StringBuilder sb = new StringBuilder(500);
+				uint res = NativeWinApi.GetPrivateProfileString("Game"+(7+1).ToString(), "Exe", "", sb, (uint)sb.Capacity, @"D:\machine\machine.ini");
+				g.path = sb.ToString();
+				var modelNo = sb.ToString().Substring(0, 4);
+				g.name = @"D:\" + modelNo + @"\" + modelNo + ".png";
+
+				if (NativeMD5.CheckHash(@"d:\1138\" + sb.ToString()) == true)
+				{
+					var hash = NativeMD5.CalcHashFromFile(@"d:\1138\" + sb.ToString());
+					var hex = NativeMD5.HashToHex(hash);
+					MessageBox.Show(hash + " : " + hex);
+				}
+				else
+					MessageBox.Show("FALSE IMO");*/
+				/*FileStream file = new FileStream(@"D:\" + modelNo + @"\" + g.path, FileMode.Open);
+				MD5 md5 = new MD5CryptoServiceProvider();
+				byte[] retVal = md5.ComputeHash(file);
+
+				file.Close();
+
+				StringBuilder sb1 = new StringBuilder();
+				for (int j = 0; j < retVal.Length; j++)
+				{
+					sb1.Append(retVal[j].ToString("X2"));
+				}*/
+
+			//	MessageBox.Show(g.name + " : " + g.path + " : " + sb1.ToString());
+			}
+
+
 			m_enabler.System = true;
 		}
 

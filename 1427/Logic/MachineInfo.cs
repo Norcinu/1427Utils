@@ -86,7 +86,7 @@ namespace PDTUtils.Logic
 		{
 			string errorString = "Screen Not Active/Fitted.\n";
 
-			var str = new StringBuilder("Top Screen:\n");
+			var str = new StringBuilder("Top Screen:\t "); // \n
 			NativeWinApi.DEVMODE dm = new NativeWinApi.DEVMODE();
 
 			var result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display2", 
@@ -94,20 +94,20 @@ namespace PDTUtils.Logic
 			
 			if (result == true)
 			{
-				str.Append("Resolution: " + dm.dmPelsWidth + "x" + dm.dmPelsHeight + ".\n");
+				str.Append("Resolution: " + dm.dmPelsWidth + "x" + dm.dmPelsHeight + ". "); //\n
 				str.Append("BPP: " + dm.dmBitsPerPel + ".\n");
 			}
 			else
 				str.Append(errorString);
 			
-			str.Append("Bottom Screen:\n");
+			str.Append("Bottom Screen:\t "); // \n
 			NativeWinApi.DEVMODE dm2 = new NativeWinApi.DEVMODE();
 			result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display1", 
 				(int)NativeWinApi.ModeNum.ENUM_CURRENT_SETTINGS, ref dm2);
 			
 			if (result == true)
 			{
-				str.Append("Resolution: " + dm2.dmPelsWidth + "x" + dm2.dmPelsHeight + ".\n");
+				str.Append("Resolution: " + dm2.dmPelsWidth + "x" + dm2.dmPelsHeight + ". ");//\n
 				str.Append("BPP: " + dm2.dmBitsPerPel + ".\n");
 			}
 			else
@@ -190,7 +190,7 @@ namespace PDTUtils.Logic
 
 			return line;
 		}
-
+		
 		public void QueryMachine()
 		{
 			Add(new SystemInfo(GetComputerName()));
@@ -205,7 +205,7 @@ namespace PDTUtils.Logic
 			Add(new SystemInfo(GetUpdateKey()));
 			Add(new SystemInfo(GetCountryCode()));
 			Add(new SystemInfo(GetEDC()));
-			
+						
 			// 20 fields platform -> utils.
 			// x games is seperate. + maybe include shell, utils + menu here. if so above will be 17 fields.
 		}

@@ -73,11 +73,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Logic\CommitChanges.cs" />
+    <Compile Include="Logic\Converters.cs" />
     <Compile Include="Logic\Extension.cs" />
     <Compile Include="Impls\Impls.cs" />
     <Compile Include="HopperUtilsWindow.xaml.cs">
       <DependentUpon>HopperUtilsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logic\GamesList.cs" />
     <Compile Include="Logic\ServiceEnabler.cs" />
     <Compile Include="Logic\MachineMeters.cs" />
     <Compile Include="Models\ViewModels\MainWindowViewModel.cs" />
@@ -103,7 +105,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BoLibNative\BoLibNative.cs" />
-    <Compile Include="BoLibNative\MeterTypes.cs" />
     <Compile Include="IniSettingsWindow.xaml.cs">
       <DependentUpon>IniSettingsWindow.xaml</DependentUpon>
     </Compile>

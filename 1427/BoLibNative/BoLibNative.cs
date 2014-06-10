@@ -12,6 +12,10 @@ namespace PDTUtils.Native
 		public string hash_code;
 		[MarshalAs(UnmanagedType.LPStr)]
 		public string path;
+
+		public string Name { get; set; }
+		public string Hash_code { get; set; }
+		public string Path { get; set; }
 	}
 
 	static class BoLib
@@ -169,9 +173,6 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern uint getNumberOfGames();
-
-		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern void getGame (ref GamesInfo game, int index);
 
 		/************************************************************************/
 		/*							Set methods                                 */

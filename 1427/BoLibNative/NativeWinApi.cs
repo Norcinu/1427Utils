@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace PDTUtils.Native
 {
@@ -11,6 +12,10 @@ namespace PDTUtils.Native
 			public string name = "";
 			public string hash_code = "";
 			public string path = "";
+
+			public string Name { get { return name; } }
+			public string Hash_code { get { return hash_code; } }
+			public string Path { get { return path; } }
 		}
 	}
 
@@ -196,5 +201,24 @@ namespace PDTUtils.Native
 
 		[DllImport("kernel32")]
 		public static extern bool GetVersionEx(ref OSVERSIONINFO osvi);
+
+
+		[DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
+		public static extern uint GetPrivateProfileString(string lpAppName,
+														  string lpKeyName,
+														  string lpDefault,
+												          StringBuilder lpReturnedString,
+												          uint nSize,
+												          string lpFileName);
+
+
+		[DllImport("kernel32.dll")]
+		public static extern uint GetPrivateProfileSection(string lpAppName,
+														   IntPtr lpReturnedString, 
+														   uint nSize, 
+														   string lpFileName);
+
+
+
 	}
 }

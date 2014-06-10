@@ -407,7 +407,7 @@ bool CheckHash(char * filename)
 			return false;
 		}
 	}
-	
+
 	fclose (file);
 
 	return true;

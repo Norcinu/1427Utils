@@ -198,46 +198,42 @@
             </TabControl>
         </StackPanel>
 
-        <!--<StackPanel Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpReadMeters" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Performance, Converter={StaticResource BoolToVisConverter}}">-->
-            <TabControl Name="tabMeters"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
-                <TabItem Header="LCD Meters">
-                <ListBox ItemsSource="{Binding Meters.Me}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding LCDShortTerm}"/>
-                            <!-- This should point to 1 long string?
-                                <TextBlock Text="{Binding CoinOut}"/>
-                                <TextBlock Text="{Binding NotesIn}"/>-->
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+   
+        <TabControl Name="tabMeters"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
+            <TabItem Header="LCD Meters">
+            <ListBox ItemsSource="{Binding Meters.Me}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding LCDShortTerm}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </TabItem>
+            <TabItem Header="Cash Reconcilliation">
+                <TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                        Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
+                        AncestorType={x:Type Window}}}">
+                    <TabItem Header="Cash" MinWidth="150">
+                        <DockPanel>
+                            <ListBox ItemsSource="{Binding MachineData}" DockPanel.Dock="Left">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <ListBoxItem Content="{Binding Field}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem Header="Attendant" MinWidth="100"/>
+                    <TabItem Header="Book Levels" MinWidth="150"></TabItem>
+                </TabControl>
             </TabItem>
-                <TabItem Header="Cash Reconcilliation">
-                    <TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
-                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                            Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
-                            AncestorType={x:Type Window}}}">
-                        <TabItem Header="Cash" MinWidth="150">
-                            <DockPanel>
-                                <ListBox ItemsSource="{Binding MachineData}" DockPanel.Dock="Left">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <ListBoxItem Content="{Binding Field}" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </DockPanel>
-                        </TabItem>
-                        <TabItem Header="Attendant" MinWidth="100"/>
-                        <TabItem Header="Book Levels" MinWidth="150"></TabItem>
-                    </TabControl>
-                </TabItem>
-                <!--<TabItem Content></TabItem>-->
-            </TabControl>
-        <!--</StackPanel>-->
+            <!--<TabItem Content></TabItem>-->
+        </TabControl>
 
         <!-- System Info View -->
-        <DockPanel Name="DockSystem" Grid.Row="1" Grid.Column="1" IsEnabled="{Binding Enabler.System}" Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}">
+        <StackPanel Orientation="Horizontal" IsEnabled="{Binding DockSystem.IsEnabled}" Grid.Row="1" Grid.Column="1" Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" >
             <ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="14" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -246,18 +242,17 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             
-            <ListView DockPanel.Dock="Right">
+            <ListView DockPanel.Dock="Right" ItemsSource="{Binding Path=GamesList.GamesInfo}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Game"></GridViewColumn>
-                        <GridViewColumn Header="Executable Path"></GridViewColumn>
-                        <GridViewColumn Header="MD5 Status"></GridViewColumn>
+                        <GridViewColumn Header="Game" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
+                        <GridViewColumn Header="Executable Path" DisplayMemberBinding="{Binding Path=Path}"></GridViewColumn>
+                        <GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=Hash_code}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <StackPanel Height="100" Name="stackPanel1" Width="200" />
-        </DockPanel>
-        
+        </StackPanel>
+       
         <!-- End of System Info View -->
        
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
