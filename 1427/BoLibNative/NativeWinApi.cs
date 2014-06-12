@@ -220,5 +220,15 @@ namespace PDTUtils.Native
 
 
 
+		[DllImport("kernel32.dll")]
+		public static extern bool WritePrivateProfileSection(string lpAppName, 
+					   										 string lpString, 
+													         string lpFileName);
+
+		[DllImport("kernel32.dll")]
+		public static extern bool SetFileAttributes(string lpFileName, 
+													uint dwFileAttributes);
+
+		public const int FILE_ATTRIBUTE_NORMAL = 0x80;
 	}
 }

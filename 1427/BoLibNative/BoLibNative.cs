@@ -77,7 +77,13 @@ namespace PDTUtils.Native
 		public unsafe static extern UInt32 getGameModel(int index);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern UInt32 getGameTime(int index);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern UInt32 getGameDate(int index);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getGameCreditLevel(int index);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern uint getSwitchStatus(byte offset, byte mask);

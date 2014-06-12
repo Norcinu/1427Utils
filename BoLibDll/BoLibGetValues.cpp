@@ -207,8 +207,16 @@ unsigned long getGameModel(int index)
 	return LastGames[index][0];
 }
 
+unsigned int getGameTime(int index)
+{
+				  //       hour							minute
+	int result = (LastGames[index][1] << 16) | LastGames[index][2];
+	return result;
+}
+
 unsigned int getGameDate(int index)
 {
+				  //		day							 month
 	int result = (LastGames[index][3] << 16) | LastGames[index][4];
 	return result;
 }
@@ -216,6 +224,11 @@ unsigned int getGameDate(int index)
 unsigned long getWinningGame(int index)
 {
 	return LastGames[index][6];
+}
+
+unsigned int getGameCreditLevel(int index)
+{
+	return LastGames[index][7];
 }
 
 unsigned long getPerformanceMeter(unsigned char Offset)

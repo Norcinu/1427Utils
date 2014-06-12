@@ -9,10 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using PDTUtils.Logic;
 using PDTUtils.Native;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.IO;
-using System.Security.Cryptography;
 
 
 namespace PDTUtils
@@ -30,7 +26,7 @@ namespace PDTUtils
 		System.Timers.Timer m_uiUpdateTimer;
 		Thread m_keyDoorThread;
 
-		ErrorLog m_errorLogText = new ErrorLog();
+		MachineErrorLog m_errorLogText = new MachineErrorLog();
 		MachineIni m_machineIni = new MachineIni();
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
 		MachineGameStatistics m_gameStatistics = new MachineGameStatistics();
@@ -38,7 +34,8 @@ namespace PDTUtils
 		MachineMeters m_meters;// = new MachineMeters();
 		MachineInfo m_machineData = new MachineInfo();
 		GamesList m_gamesList = new GamesList();
-		
+		MachineLogsController m_logController = new MachineLogsController();
+
 		public MainWindow()
         {
             InitializeComponent();
@@ -61,26 +58,11 @@ namespace PDTUtils
             RowOne.Height = new GridLength(75);
 			ColumnOne.Width = new GridLength(200);
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
-
-			//Process.Start("EWFMGR C: -COMMIT");
-			//MessageBox.Show(System.Windows.SystemParameters.VirtualScreenWidth.ToString());
-			/*MessageBox.Show(System.Windows.SystemParameters.PrimaryScreenWidth.ToString() + "x" + System.Windows.SystemParameters.PrimaryScreenHeight.ToString());
-			MessageBox.Show(System.Environment.MachineName);
-
-			ObjectQuery winQuery = new ObjectQuery("SELECT * FROM  Win32_OperatingSystem"); 
-
-			ManagementObjectSearcher searcher = new ManagementObjectSearcher(winQuery);
-
-			foreach (ManagementObject item in searcher.Get())
-			{
-				var fpm = Convert.ToInt32(item["FreePhysicalMemory"]);
-				MessageBox.Show("FreePhysicalMemory : " + fpm);
-				MessageBox.Show("Version : " + item["Version"]);
-			}*/
-			
         }
 
 		#region Properties
+
+		public MachineLogsController LogController { get { return m_logController; } }
 
 		public GamesList GamesList
 		{
@@ -147,21 +129,24 @@ namespace PDTUtils
 			//CommitChanges.Save();
 			//MessageBox.Show("Changes Made, reboot required.", "Commit Changes", MessageBoxButton.OK, MessageBoxImage.Information);
 			//CommitChanges.RebootMachine();
-		//	HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
+			//HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
 			//w.ShowDialog();
 		}
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBox.Show(BoLib.getNumberOfGames().ToString());
-			BoLib.GetUniquePcbID(0);
-			BoLib.GetUniquePcbID(1);
 			if (!settingsTab.IsEnabled)
 			{
-				settingsTab.IsEnabled = true;
-				settingsTab.Visibility = Visibility.Hidden;
+				MessageBox.Show(DateTime.Now.ToString());
+				MyLogfiles.IsEnabled = true;
+				MyLogfiles.Visibility = Visibility.Visible;
+				LogController.setEerrorLog();
+				LogController.setPlayedLog();
+				LogController.setWinningLog();
+			//	settingsTab.IsEnabled = true;
+			//	settingsTab.Visibility = Visibility.Hidden;
 
-				var headers = new Dictionary<string, string>();
+				/*var headers = new Dictionary<string, string>();
 				headers.Add("tabErrorLog", "Error Log");
 				headers.Add("tabGameLog", "Last Game Log");
 				headers.Add("tabWinLog", "Wins Log");
@@ -175,7 +160,7 @@ namespace PDTUtils
 				//	tab.Foreground = brushes[i++];
 					settingsTab.Items.Add(tab);
 				}
-				PresentErrorLog();
+				PresentErrorLog();*/
 			}
 		}
 

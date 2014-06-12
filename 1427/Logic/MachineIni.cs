@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using PDTUtils.Native;
+using System;
 
 namespace PDTUtils.Logic
 {
@@ -143,6 +145,28 @@ namespace PDTUtils.Logic
 			}
 
 			return true;
+		}
+
+		public void HashMachineIni()
+		{
+			int retries = 10;
+
+			if (NativeMD5.CheckFileType(IniPath) == true)
+			{
+				if (NativeMD5.CheckHash(IniPath) != true)
+				{
+					if (NativeWinApi.SetFileAttributes(IniPath, NativeWinApi.FILE_ATTRIBUTE_NORMAL))
+					{
+						NativeWinApi.WritePrivateProfileSection("End", null, IniPath);
+						NativeWinApi.WritePrivateProfileSection("End", "", IniPath);
+
+						do
+						{
+							NativeMD5.AddHashToFile(IniPath);
+						} while (!NativeMD5.CheckHash(IniPath) && retries-- > 0);
+					}
+				}
+			}
 		}
 	}
 }

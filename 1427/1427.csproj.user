@@ -22,4 +22,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <StartAction>Project</StartAction>
   </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>C:\Documents and Settings\User\My Documents\Visual Studio 2010\Projects\1427\</ReferencePath>
+  </PropertyGroup>
 </Project>

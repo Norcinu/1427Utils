@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace PDTUtils
 {
@@ -12,8 +13,15 @@ namespace PDTUtils
 	{
 		public object Convert(object value, Type targetType, 
 							  object parameter, CultureInfo culture)
-		{			
-			return new NotImplementedException();
+		{
+			var input = value as string;
+			
+			if (input == "ERROR: NOT AUTHORISED") // Make this a resource
+				return Brushes.Red;
+			else if (input == "")
+				return Brushes.Pink;
+			else
+				return Brushes.Green;
 		}
 
 		public object ConvertBack(object value, Type targetType,

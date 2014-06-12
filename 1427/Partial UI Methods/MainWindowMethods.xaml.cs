@@ -160,6 +160,8 @@ namespace PDTUtils
 			var txtErrorLog = GetTabTextBlock(Brushes.Black, Brushes.LightGoldenrodYellow);
 			string errLogLocation = @"D:\machine\GAME_DATA\TerminalErrLog.log";
 			settingsTab.Visibility = Visibility.Visible;
+			//txtErrorLog.ActualHeight = MyLogfiles.ActualHeight;
+			//txtErrorLog.Width = MyLogfiles.ActualWidth;
 			try
 			{
 				string[] lines = System.IO.File.ReadAllLines(errLogLocation);
@@ -197,6 +199,8 @@ namespace PDTUtils
 		private void PresentLastGames()
 		{
 			TextBlock tb = GetTabTextBlock(Brushes.RosyBrown, Brushes.BurlyWood);
+			//tb.Width = MyLogfiles.ActualWidth;
+			//tb.Height = MyLogfiles.Height;
 			var textContent = new string[10];
 			int MaxLength = 0;
 			for (int i = 0; i < 10; i++)
@@ -234,7 +238,7 @@ namespace PDTUtils
 		{
 			TextBlock tb = GetTabTextBlock(Brushes.LightBlue, Brushes.Salmon);
 			int counter = 0;
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < BoLib.getNumberOfGames(); i++)
 			{
 				if (BoLib.getWinningGame(i) > 0)
 				{

@@ -109,7 +109,7 @@
       <DependentUpon>IniSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logic\DoorAndKeyStatus.cs" />
-    <Compile Include="Logic\ErrorLog.cs" />
+    <Compile Include="Logic\LogfileModels.cs" />
     <Compile Include="Logic\FileHashing.cs" />
     <Compile Include="Logic\MachineGameStatistics.cs" />
     <Compile Include="Logic\MachineInfo.cs" />
