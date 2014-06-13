@@ -73,6 +73,7 @@ extern "C" DllExport unsigned int	getLocalMasterVolume();
 extern "C" DllExport unsigned long	getGameModel(int index);
 extern "C" DllExport unsigned int   getGameTime(int index);
 extern "C" DllExport unsigned int	getGameDate(int index);
+extern "C" DllExport unsigned int   getGameWager(int index);
 extern "C" DllExport unsigned int   getGameCreditLevel(int index);
 extern "C" DllExport unsigned int	getSwitchStatus(unsigned char offset, unsigned char mask);
 extern "C" DllExport unsigned int	getLastNote(int index);

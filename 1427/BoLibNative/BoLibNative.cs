@@ -86,6 +86,9 @@ namespace PDTUtils.Native
 		public unsafe static extern uint getGameCreditLevel(int index);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+		public unsafe static extern uint getGameWager(int index);
+
+		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern uint getSwitchStatus(byte offset, byte mask);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]

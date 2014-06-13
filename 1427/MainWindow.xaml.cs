@@ -137,30 +137,11 @@ namespace PDTUtils
 		{
 			if (!settingsTab.IsEnabled)
 			{
-				MessageBox.Show(DateTime.Now.ToString());
 				MyLogfiles.IsEnabled = true;
 				MyLogfiles.Visibility = Visibility.Visible;
 				LogController.setEerrorLog();
 				LogController.setPlayedLog();
 				LogController.setWinningLog();
-			//	settingsTab.IsEnabled = true;
-			//	settingsTab.Visibility = Visibility.Hidden;
-
-				/*var headers = new Dictionary<string, string>();
-				headers.Add("tabErrorLog", "Error Log");
-				headers.Add("tabGameLog", "Last Game Log");
-				headers.Add("tabWinLog", "Wins Log");
-				//var brushes = new SolidColorBrush[3] { Brushes.Red, Brushes.Yellow, Brushes.Green };
-				//var i = 0;
-				foreach (var entry in headers)
-				{
-					TabItem tab = new TabItem();
-					tab.Name = entry.Key;
-					tab.Header = entry.Value;
-				//	tab.Foreground = brushes[i++];
-					settingsTab.Items.Add(tab);
-				}
-				PresentErrorLog();*/
 			}
 		}
 
@@ -178,25 +159,6 @@ namespace PDTUtils
 		{
 			m_gameStatistics.ParsePerfLog();
 			m_enabler.GameStatistics = true;
-			/*try
-			{
-				string filename = "D:\\1077.exe";//1199\\1199L27U010D.exe";
-				MessageBox.Show(FileHashing.GetFileHash(filename), "MD5 " + filename, MessageBoxButton.OK);
-
-				if (lblUptime.IsEnabled == false)
-				{
-					lblUptime.Visibility = System.Windows.Visibility.Visible;
-					lblUptime.IsEnabled = true;
-					lblUptime.FontSize = 36;
-					lblUptime.Foreground = Brushes.Magenta;
-					lblUptime.Background = Brushes.Black;
-				//	GetSystemUptime();
-				}
-			}
-			catch (SystemException ex)
-			{
-				Console.WriteLine(ex.Message);
-			}*/
 		}
 
 		private void GetSystemUptime()
@@ -284,21 +246,6 @@ namespace PDTUtils
 		{
 			TabSetup.IsEnabled = true;
 			TabSetup.Visibility = Visibility.Visible;
-			/*RemoveChildrenFromStackPanel();
-			
-			m_machineIni.ParseIni();
-			m_uniqueIniCategory.Find(m_machineIni);
-			stpButtonPanel.Orientation = Orientation.Vertical;
-	
-			MachineIniCategorys.IsEnabled = true;
-			MachineIniCategorys.Visibility = Visibility.Visible;
-			var secondOrigParent = VisualTreeHelper.GetParent(MachineIniCategorys);
-			var secondParentPanel = secondOrigParent as Panel;
-			secondParentPanel.Children.Remove(MachineIniCategorys);
-			stpButtonPanel.Children.Add(MachineIniCategorys);
-			MachineIniCategorys.SelectedIndex = 0;
-
-			stpButtonPanel.Children.Add(SetupDynamicListBox());*/
 		}
 
 		private bool ValidateNewIniSetting()
@@ -308,7 +255,7 @@ namespace PDTUtils
 
 		private ListBox SetupDynamicListBox()
 		{
-			/*ListBox l = new ListBox();
+			ListBox l = new ListBox();
 			l.SelectionChanged += new SelectionChangedEventHandler(ListBoxSelectionChanged);
 			l.FontSize = 22.0;
 			var items = m_machineIni.GetItems;
@@ -327,8 +274,7 @@ namespace PDTUtils
 				}
 			}
 
-			return l;*/
-			return new ListBox();
+			return l;
 		}
 		
 		private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)

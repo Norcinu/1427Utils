@@ -221,6 +221,11 @@ unsigned int getGameDate(int index)
 	return result;
 }
 
+unsigned int getGameWager(int index)
+{
+	return LastGames[index][5];
+}
+
 unsigned long getWinningGame(int index)
 {
 	return LastGames[index][6];

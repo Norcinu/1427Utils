@@ -126,9 +126,9 @@
                         <ListView ItemsSource="{Binding Path=LogController.ErrorLog}" MinHeight="650">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
-                                    <GridViewColumn Header="Date" Width="300" DisplayMemberBinding="{Binding Path=GameDate}" />
+                                    <GridViewColumn Header="Date" Width="300" DisplayMemberBinding="{Binding Path=ErrorDate}" />
                                     <GridViewColumn Header="Error Code" Width="300" DisplayMemberBinding="{Binding Path=ErrorCode}" />
-                                    <GridViewColumn Header="Description" Width="300" DisplayMemberBinding="{Binding Path=Stake}" />
+                                    <GridViewColumn Header="Description" Width="300" DisplayMemberBinding="{Binding Path=Description}" />
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -144,12 +144,12 @@
                         <ListView ItemsSource="{Binding Path=LogController.PlayedGames}" MinHeight="600">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
-                                    <GridViewColumn Header="Game" Width="150" DisplayMemberBinding="{Binding Path=GameModel}" />
-                                    <GridViewColumn Header="Date" Width="150" DisplayMemberBinding="{Binding Path=GameDate}" />
-                                    <GridViewColumn Header="Game Stake" Width="150" DisplayMemberBinding="{Binding Path=Stake}" />
-                                    <GridViewColumn Header="Credits Before" Width="150" DisplayMemberBinding="{Binding Path=Credits}" />
+                                    <GridViewColumn Header="Game" Width="180" DisplayMemberBinding="{Binding Path=GameModel}" />
+                                    <GridViewColumn Header="Date" Width="180" DisplayMemberBinding="{Binding Path=LogDate}" />
+                                    <GridViewColumn Header="Game Stake" Width="180" DisplayMemberBinding="{Binding Path=Stake}" />
+                                    <GridViewColumn Header="Credits Before" Width="180" DisplayMemberBinding="{Binding Path=Credit}" />
                                     <!--<GridViewColumn Header="Credits After" Width="150" DisplayMemberBinding="{Binding Path=CreditAfter}" />-->
-                                    <GridViewColumn Header="Win Amount" Width="150" DisplayMemberBinding="{Binding Path=WinAmount}" />
+                                    <GridViewColumn Header="Win Amount" Width="180" DisplayMemberBinding="{Binding Path=WinAmount}" />
                                  </GridView>
                             </ListView.View>
                         </ListView>
@@ -163,9 +163,10 @@
                         <ListView ItemsSource="{Binding Path=LogController.WinningGames}" MinHeight="600">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
-                                    <GridViewColumn Header="Date" Width="200" DisplayMemberBinding="{Binding Path=GameDate}" />
-                                    <GridViewColumn Header="Description" Width="200" DisplayMemberBinding="{Binding Path=Stake}" />
-                                    <GridViewColumn Header="Win Amount" Width="200" DisplayMemberBinding="{Binding Path=WinAmount}" />
+                                    <GridViewColumn Header="Date" Width="225" DisplayMemberBinding="{Binding Path=GameDate}" />
+                                    <GridViewColumn Header="Stake" Width="225" DisplayMemberBinding="{Binding Path=Stake}" />
+                                    <GridViewColumn Header="Credits" Width="225" DisplayMemberBinding="{Binding Path=Credit}" />
+                                    <GridViewColumn Header="Win Amount" Width="225" DisplayMemberBinding="{Binding Path=WinAmount}" />
                                 </GridView>
                             </ListView.View>
                         </ListView>

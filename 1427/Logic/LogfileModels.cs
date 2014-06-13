@@ -3,32 +3,15 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using PDTUtils.Native;
+using System.IO;
 
 namespace PDTUtils
 {
 	abstract public class BaseNotifyPropertyChanged : INotifyPropertyChanged
 	{
-		public string GameDate 
-		{
-			get { return logDate.ToString(); }
-		}
-
-		public DateTime LogDate { get; set; }
-		public uint Stake { get; set; }
-		public uint Credit { get; set; }
-		public uint GameModel { get; set; }
-
-		#region Private Variables
-		public DateTime logDate;
-		#endregion
-
 		public BaseNotifyPropertyChanged()
 		{
-			CultureInfo ci = new CultureInfo("es-ES"); // en-GB
-			/*string date = DateTime.Now.ToString();
-			DateTime.TryParse(date, ci, DateTimeStyles.None, out logDate);*/
-			Stake = 0;
-			Credit = 0;
+			
 		}
 
 		public abstract void ParseGame(int gameNo);
@@ -41,9 +24,37 @@ namespace PDTUtils
 		}
 	}
 
-	public class WinningGame : BaseNotifyPropertyChanged
+	public abstract class BaseGameLog : BaseNotifyPropertyChanged
 	{
-		public uint WinAmount { get; set; }
+		public string GameDate
+		{
+			get { return logDate.ToString("dd/MM/yyyy HH:mm"); }
+		}
+
+		public string LogDate { get { return logDate.ToString("dd/MM/yyyy HH:mm"); } }// set; }
+		public string Stake { get { return (stake / 100m).ToString("c2"); } }
+		public string Credit { get { return (credit / 100m).ToString("c2"); } }
+		public uint GameModel { get; set; }
+
+		#region Private Variables
+		public DateTime logDate;
+		public decimal credit;
+		public decimal stake;
+		#endregion
+
+		public BaseGameLog()
+		{
+			CultureInfo ci = new CultureInfo("es-ES");
+			stake = 0;
+			credit = 0;
+		}
+	}
+
+	public class WinningGame : BaseGameLog
+	{
+		public string WinAmount { get { return (winAmount / 100m).ToString("c2"); } }
+
+		Decimal winAmount = 0;
 		public WinningGame(int gameNo)
 		{
 			ParseGame(gameNo);
@@ -51,25 +62,26 @@ namespace PDTUtils
 
 		public override void ParseGame(int gameNo)
 		{
-			CultureInfo ci = new CultureInfo("es-ES"); // en-GB
+			CultureInfo ci = new CultureInfo("en-GB"); // en-GB
 			string date = DateTime.Now.ToString();
 			DateTime.TryParse(date, ci, DateTimeStyles.None, out logDate);
 
-			int counter = 0;
 			GameModel = BoLib.getGameModel(gameNo);
-			var today = //DateTime.Today;
-			counter++;
-			var gameDate = BoLib.getGameDate(gameNo);
-			LogDate = new DateTime(2014, (int)(gameDate & 0x0000FFFF), (int)(gameDate >> 16));
-			WinAmount = BoLib.getWinningGame(gameNo);
+			stake = BoLib.getGameWager(gameNo);
+			var tempGameDate = BoLib.getGameDate(gameNo);
+			var today = (int)tempGameDate >> 16;
+			var month = (int)tempGameDate & 0x0000FFFF;
+			logDate = new DateTime(2014, month, today);
+			winAmount = BoLib.getWinningGame(gameNo);
+			credit = BoLib.getGameCreditLevel(gameNo);
 			this.OnPropertyChanged("WinningGames");
 		}
 	}
 
-	public class PlayedGame : BaseNotifyPropertyChanged
+	public class PlayedGame : BaseGameLog
 	{
-		public uint WinAmount { get; set; }
-		public uint Credits { get; set; }
+		public string WinAmount { get { return (winAmount / 100).ToString("c2"); } }
+		private decimal winAmount;
 
 		public PlayedGame()
 		{
@@ -83,13 +95,9 @@ namespace PDTUtils
 
 		public override void ParseGame(int gameNo)
 		{
-			int counter = 0;
-			CultureInfo ci = new CultureInfo("es-ES"); // en-GB
-			string date = DateTime.Now.ToString();
-			DateTime.TryParse(date, ci, DateTimeStyles.None, out logDate);
+			CultureInfo ci = new CultureInfo("en-GB"); // en-GB
 
 			var today = DateTime.Today;
-			counter++;
 			var gameDate = BoLib.getGameDate(gameNo);
 			var time = BoLib.getGameTime(gameNo);
 
@@ -101,23 +109,43 @@ namespace PDTUtils
 			var year = DateTime.Now.Year;
 			if (month > DateTime.Now.Month)
 				--year;
-			
-			Credits = BoLib.getGameCreditLevel(gameNo);
+
+			string ds = day + @"/" + month + @"/" + year + " " + hour + " " + ":" + minute;
+			credit = BoLib.getGameCreditLevel(gameNo);
+			stake = BoLib.getGameWager(gameNo);
 			GameModel = BoLib.getGameModel(gameNo);
-			LogDate = new DateTime(year, (int)month, (int)day, (int)hour, (int)minute, 0);
-			
-			WinAmount = BoLib.getWinningGame(gameNo);
+			logDate = DateTime.Parse(ds, ci);
+			winAmount = BoLib.getWinningGame(gameNo);
 			this.OnPropertyChanged("PlayedGames");
 		}
 	}
 
-	public class MachineErrorLog : BaseNotifyPropertyChanged
+	public class MachineErrorLog : BaseGameLog
 	{
 		public int ErrorCode { get; set; }
+		public string Description { get; set; }
+		public String ErrorDate { get; set; }
+
 		public MachineErrorLog()
 		{
 			this.ErrorCode = 10;
 			this.OnPropertyChanged("ErrorCode");
+		}
+
+		public MachineErrorLog(string code, string desciption, string date)
+		{
+			this.ErrorCode = Convert.ToInt32(code);
+			this.Description = desciption;
+			this.ErrorDate = date;
+			this.OnPropertyChanged("ErrorCode");
+
+			using (StreamWriter writer = new StreamWriter("MachineError.txt", true))
+			{
+				writer.WriteLine(this.ErrorCode);
+				writer.WriteLine(this.Description);
+				writer.WriteLine(this.ErrorDate);
+				writer.WriteLine("");
+			}
 		}
 
 		public override void ParseGame(int gameNo)
@@ -131,7 +159,7 @@ namespace PDTUtils
 		ObservableCollection<MachineErrorLog> m_errorLog = new ObservableCollection<MachineErrorLog>();
 		ObservableCollection<WinningGame> m_winningGames = new ObservableCollection<WinningGame>();
 		ObservableCollection<PlayedGame> m_playedGames = new ObservableCollection<PlayedGame>();
-
+		
 		public MachineLogsController()
 		{			
 		}
@@ -144,7 +172,53 @@ namespace PDTUtils
 
 		public void setEerrorLog()
 		{
-			ErrorLog.Add(new MachineErrorLog());
+			string errLogLocation = @"D:\machine\GAME_DATA\TerminalErrLog.log";
+
+			string[] lines = System.IO.File.ReadAllLines(errLogLocation);
+			string[] reveresed = new string[lines.Length - 1];
+
+			int ctr = 0;
+			for (int i = lines.Length - 1; i > 0; i--)
+			{
+				using (StreamWriter writer = new StreamWriter("debug.txt", true))
+				{
+					writer.WriteLine(lines[i]);
+				}
+
+				if (lines[i] != null || lines[i] != "")
+				{
+					var subStr = lines[i].Split("\t ".ToCharArray());
+					using (StreamWriter writer = new StreamWriter("debug2.txt", true))
+					{
+						writer.WriteLine(subStr.Length);
+					}
+					//ErrorLog.Add(new MachineErrorLog(subStr[0], subStr[1], subStr[0]));
+				}
+				reveresed[ctr] = lines[i];
+				ctr++;
+			}
+
+			foreach (string s in lines) //reveresed
+			{
+				try
+				{
+					var subStr = s.Split("\t ".ToCharArray());
+					bool? b = s.Contains("TimeStamp");
+				//	if (b == false && s != "")
+					{
+						/*ErrorLog.Add(new MachineErrorLog(subStr[0], subStr[1], subStr[0]));*/
+					}
+					
+				}
+				catch (System.Exception ex)
+				{
+					using (StreamWriter writer = new StreamWriter("error.txt", true))
+					{
+						writer.WriteLine(ex.Message);
+					}
+				}
+			}
+			
 		}
 
 		public void setPlayedLog()
