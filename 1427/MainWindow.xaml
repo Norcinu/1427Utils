@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PDTUtils.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:PDTUtils"
+        xmlns:uc="clr-namespace:PDTUtilsControlLib;assembly=PDTUtilsControlLib"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Background="{DynamicResource WindowBackgroundBrush}"
         Title="1427 Shell Utils" 
@@ -29,7 +29,6 @@
             <RowDefinition Name="RowThree" Height="52*"/>
         </Grid.RowDefinitions>
         <Grid.Resources>
-            <local:GridColourConversion x:Key="gridColour" />
             <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
             <LinearGradientBrush x:Key="FunkyBrush">
                 <GradientStop Color="Yellow" Offset="0" />
@@ -73,7 +72,7 @@
                Height="48" 
                VerticalAlignment="Bottom"></Label>
         
-        <TabControl Name="settingsTab"
+        <!--<TabControl Name="settingsTab"
                     TabStripPlacement="Top" 
                     Grid.Column="1" 
                     Grid.Row="1" 
@@ -85,7 +84,7 @@
                     Margin="14,28,12,84" 
                     Width="545" 
                     Height="327" 
-                    ScrollViewer.HorizontalScrollBarVisibility="Visible" />
+                    ScrollViewer.HorizontalScrollBarVisibility="Visible" />-->
         
         <Label Grid.Column="2" 
                Height="39" 
@@ -119,11 +118,10 @@
         
         <!-- Logfiles -->
         <TabControl Name="MyLogfiles" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="False" Visibility="Hidden">
-            <TabItem Header="All"></TabItem>
-            <TabItem Header="Errors">
+            <TabItem Header="Errors" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <ListView ItemsSource="{Binding Path=LogController.ErrorLog}" MinHeight="650">
+                        <ListView ItemsSource="{Binding Path=LogController.ErrorLog}" MinHeight="650" FontSize="16">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
                                     <GridViewColumn Header="Date" Width="300" DisplayMemberBinding="{Binding Path=ErrorDate}" />
@@ -132,13 +130,12 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
+                    
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Hoppers">
-                
-            </TabItem>
-            <TabItem Header="Games">
+         
+            <TabItem Header="Games" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel  HorizontalAlignment="Left">
                         <ListView ItemsSource="{Binding Path=LogController.PlayedGames}" MinHeight="600">
@@ -148,16 +145,15 @@
                                     <GridViewColumn Header="Date" Width="180" DisplayMemberBinding="{Binding Path=LogDate}" />
                                     <GridViewColumn Header="Game Stake" Width="180" DisplayMemberBinding="{Binding Path=Stake}" />
                                     <GridViewColumn Header="Credits Before" Width="180" DisplayMemberBinding="{Binding Path=Credit}" />
-                                    <!--<GridViewColumn Header="Credits After" Width="150" DisplayMemberBinding="{Binding Path=CreditAfter}" />-->
                                     <GridViewColumn Header="Win Amount" Width="180" DisplayMemberBinding="{Binding Path=WinAmount}" />
                                  </GridView>
                             </ListView.View>
                         </ListView>
                     </StackPanel>
                 </ScrollViewer>
-            </TabItem>
+            </TabItem>>
             
-            <TabItem Header="Wins">
+            <TabItem Header="Wins" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <ListView ItemsSource="{Binding Path=LogController.WinningGames}" MinHeight="600">
@@ -173,6 +169,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+
         </TabControl>
         
         <ComboBox Width="100" 
@@ -188,11 +185,7 @@
                   DropDownClosed="MachineIniCategorys_DropDownClosed" />
 
 
-        <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" IsEnabled="False" Visibility="Hidden"
-                    Height="{Binding Path=ActualHeight,
-                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                    Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
-                    AncestorType={x:Type Window}}}">
+        <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="Hidden">
             <TabItem Header="Machine Ini" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
@@ -211,7 +204,7 @@
             </TabItem>
             
             <TabItem Header="System Volume" MinWidth="100">
-                <StackPanel Name="stpVolume">
+                <StackPanel Name="stpVolume" VerticalAlignment="Top">
                     <Slider Height="50" HorizontalAlignment="Center" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500"  TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
                     <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
                         <ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}"/>
@@ -219,8 +212,14 @@
                     </StackPanel>                               
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Hoppers" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}"></TabItem>
             
+            <TabItem Header="System Time" MinWidth="100">
+                <uc:SetTimeControl Visibility="Visible" IsEnabled="True" />
+            </TabItem>
+            
+            <TabItem Header="Hoppers" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
+                
+            </TabItem>
             <!-- we need more tab controls inside tab controls. -->
             <!-- and more patches that take for ever to install -->
         </TabControl>
@@ -259,14 +258,14 @@
    
         <TabControl Name="tabMeters"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
             <TabItem Header="LCD Meters">
-            <ListBox ItemsSource="{Binding Meters.Me}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding LCDShortTerm}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </TabItem>
+                <ListBox ItemsSource="{Binding Meters.Me}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding LCDShortTerm}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
             <TabItem Header="Cash Reconcilliation">
                 <TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -287,7 +286,6 @@
                     <TabItem Header="Book Levels" MinWidth="150"></TabItem>
                 </TabControl>
             </TabItem>
-            <!--<TabItem Content></TabItem>-->
         </TabControl>
 
         <!-- System Info View -->
@@ -305,16 +303,7 @@
                     <GridView>
                         <GridViewColumn Header="Game" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
                         <GridViewColumn Header="Executable Path" DisplayMemberBinding="{Binding Path=Path}"></GridViewColumn>
-                        <GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=Hash_code}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Background="{Binding Path=Hash_code, 
-                                                            Converter={StaticResource gridColour}}">
-                                    </TextBlock>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-
-                        </GridViewColumn>
+                        <GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=Hash_code}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

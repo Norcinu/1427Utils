@@ -31,7 +31,7 @@ namespace PDTUtils
 			get { return logDate.ToString("dd/MM/yyyy HH:mm"); }
 		}
 
-		public string LogDate { get { return logDate.ToString("dd/MM/yyyy HH:mm"); } }// set; }
+		public string LogDate { get { return logDate.ToString("dd/MM/yyyy HH:mm"); } }
 		public string Stake { get { return (stake / 100m).ToString("c2"); } }
 		public string Credit { get { return (credit / 100m).ToString("c2"); } }
 		public uint GameModel { get; set; }
@@ -122,30 +122,21 @@ namespace PDTUtils
 
 	public class MachineErrorLog : BaseGameLog
 	{
-		public int ErrorCode { get; set; }
+		public string ErrorCode { get; set; }
 		public string Description { get; set; }
 		public String ErrorDate { get; set; }
 
 		public MachineErrorLog()
 		{
-			this.ErrorCode = 10;
-			this.OnPropertyChanged("ErrorCode");
+			this.OnPropertyChanged("ErrorLog");
 		}
 
 		public MachineErrorLog(string code, string desciption, string date)
 		{
-			this.ErrorCode = Convert.ToInt32(code);
+			this.ErrorCode = code;
 			this.Description = desciption;
 			this.ErrorDate = date;
-			this.OnPropertyChanged("ErrorCode");
-
-			using (StreamWriter writer = new StreamWriter("MachineError.txt", true))
-			{
-				writer.WriteLine(this.ErrorCode);
-				writer.WriteLine(this.Description);
-				writer.WriteLine(this.ErrorDate);
-				writer.WriteLine("");
-			}
+			this.OnPropertyChanged("ErrorLog");
 		}
 
 		public override void ParseGame(int gameNo)
@@ -173,52 +164,49 @@ namespace PDTUtils
 		public void setEerrorLog()
 		{
 			string errLogLocation = @"D:\machine\GAME_DATA\TerminalErrLog.log";
-
-			string[] lines = System.IO.File.ReadAllLines(errLogLocation);
-			string[] reveresed = new string[lines.Length - 1];
-
-			int ctr = 0;
-			for (int i = lines.Length - 1; i > 0; i--)
+			try
 			{
-				using (StreamWriter writer = new StreamWriter("debug.txt", true))
+				string[] lines = System.IO.File.ReadAllLines(errLogLocation);
+				string[] reveresed = new string[lines.Length - 1];
+
+				int ctr = 0;
+				for (int i = lines.Length - 1; i > 0; i--)
 				{
-					writer.WriteLine(lines[i]);
+					reveresed[ctr] = lines[i];
+					ctr++;
 				}
 
-				if (lines[i] != null || lines[i] != "")
+				foreach (string s in reveresed)
 				{
-					var subStr = lines[i].Split("\t ".ToCharArray());
-					using (StreamWriter writer = new StreamWriter("debug2.txt", true))
+					try
 					{
-						writer.WriteLine(subStr.Length);
-					}
-					//ErrorLog.Add(new MachineErrorLog(subStr[0], subStr[1], subStr[0]));
-				}
-				reveresed[ctr] = lines[i];
-				ctr++;
-			}
+						var subStr = s.Split("\t".ToCharArray());
+						bool? b = s.Contains("TimeStamp");
+						if (b == false && s != "")
+						{
 
-			foreach (string s in lines) //reveresed
-			{
-				try
-				{
-					var subStr = s.Split("\t ".ToCharArray());
-					bool? b = s.Contains("TimeStamp");
-				//	if (b == false && s != "")
-					{
-						/*ErrorLog.Add(new MachineErrorLog(subStr[0], subStr[1], subStr[0]));*/
+							foreach (var ss in subStr)
+							{
+								if (ss != "")
+								{
+									var timeAndDate = ss.Substring(0, 19).TrimStart(" \t".ToCharArray());
+									var errorCode = ss.Substring(21, 3).TrimStart(" \t".ToCharArray());
+									var desc = ss.Substring(26).TrimStart(" \t".ToCharArray());
+									ErrorLog.Add(new MachineErrorLog(errorCode, desc, timeAndDate));
+								}
+							}
+						}
 					}
-					
-				}
-				catch (System.Exception ex)
-				{
-					using (StreamWriter writer = new StreamWriter("error.txt", true))
+					catch (System.Exception ex)
 					{
-						writer.WriteLine(ex.Message);
+						Console.WriteLine(ex.Message);
 					}
 				}
 			}
-			
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+			}
 		}
 
 		public void setPlayedLog()

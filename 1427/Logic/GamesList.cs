@@ -55,7 +55,7 @@ namespace PDTUtils.Logic
 			
 				g.Name = g.name;
 				g.Path = g.path;
-				g.Hash_code = g.hash_code; // yuk.
+				g.Hash_code = g.hash_code; 
 
 				m_gamesInfo.Add(g);
 

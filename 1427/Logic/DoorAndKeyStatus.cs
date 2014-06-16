@@ -1,6 +1,4 @@
-﻿#define REMOTE
-
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
@@ -71,7 +69,6 @@ namespace PDTUtils
 				Random r = new Random();
 				if (r.Next(1000) < 100)
 				{
-#if REMOTE
 					if (m_isTestSuiteRunning == false)
 					{
 						if (BoLib.refillKeyStatus() == 0)
@@ -101,7 +98,6 @@ namespace PDTUtils
 							}
 						}
 					}
-#endif
 				}
 				
 				Thread.Sleep(2);

@@ -191,6 +191,12 @@
   <ItemGroup>
     <Folder Include="Views\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PDTUtilsControlLib\PDTUtilsControlLib.csproj">
+      <Project>{43D33559-0084-4250-AE6D-E38753097A57}</Project>
+      <Name>PDTUtilsControlLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "y:\1427"

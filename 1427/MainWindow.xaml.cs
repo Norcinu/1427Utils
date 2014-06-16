@@ -1,6 +1,4 @@
-﻿#define REMOTE
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -31,7 +29,7 @@ namespace PDTUtils
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
 		MachineGameStatistics m_gameStatistics = new MachineGameStatistics();
 		ServiceEnabler m_enabler = new ServiceEnabler();
-		MachineMeters m_meters;// = new MachineMeters();
+		MachineMeters m_meters;
 		MachineInfo m_machineData = new MachineInfo();
 		GamesList m_gamesList = new GamesList();
 		MachineLogsController m_logController = new MachineLogsController();
@@ -41,9 +39,7 @@ namespace PDTUtils
             InitializeComponent();
 			try
 			{
-#if REMOTE
 				InitialiseBoLib();
-#endif
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive) ;
@@ -135,14 +131,11 @@ namespace PDTUtils
 
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
-			if (!settingsTab.IsEnabled)
-			{
-				MyLogfiles.IsEnabled = true;
-				MyLogfiles.Visibility = Visibility.Visible;
-				LogController.setEerrorLog();
-				LogController.setPlayedLog();
-				LogController.setWinningLog();
-			}
+			MyLogfiles.IsEnabled = true;
+			MyLogfiles.Visibility = Visibility.Visible;
+			LogController.setEerrorLog();
+			LogController.setPlayedLog();
+			LogController.setWinningLog();
 		}
 
 		private void btnHopperOK_Click(object sender, RoutedEventArgs e)
@@ -150,8 +143,6 @@ namespace PDTUtils
 			var result = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
 			if (result == MessageBoxResult.Yes)
 			{
-				settingsTab.IsEnabled = false;
-				settingsTab.Visibility = Visibility.Hidden;
 			}
 		}
 
@@ -174,9 +165,7 @@ namespace PDTUtils
 		{
 			try
 			{
-#if REMOTE
 				InitialiseBoLib();
-#endif
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
@@ -187,21 +176,6 @@ namespace PDTUtils
 			catch (Exception err)
 			{
 				MessageBox.Show("Error: " + err.ToString());
-			}
-		}
-
-		private void Logfile_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (settingsTab.IsEnabled)
-			{
-				TabItem item = settingsTab.SelectedItem as TabItem;
-				
-				if (item.Name == "tabErrorLog")
-					PresentErrorLog();
-				else if (item.Name == "tabGameLog")
-					PresentLastGames();
-				else if (item.Name == "tabWinLog")
-					PresentWinningGames();
 			}
 		}
 
@@ -223,16 +197,6 @@ namespace PDTUtils
 				BoLib.closeSharedMemory();
 		}
 
-		
-		private void dynamicButton_Click(Object sender, EventArgs e)
-		{
-			Button b = sender as Button;
-			int con = Convert.ToInt32(b.Content);
-			con += 1;
-			b.Content = this.VisualChildrenCount.ToString();
-			//b.Content = con.ToString();
-		}
-
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
 			m_machineIni.ParseIni();
@@ -251,30 +215,6 @@ namespace PDTUtils
 		private bool ValidateNewIniSetting()
 		{
 			return true;
-		}
-
-		private ListBox SetupDynamicListBox()
-		{
-			ListBox l = new ListBox();
-			l.SelectionChanged += new SelectionChangedEventHandler(ListBoxSelectionChanged);
-			l.FontSize = 22.0;
-			var items = m_machineIni.GetItems;
-			var count = stpButtonPanel.Children.Count;
-			stpButtonPanel.Children.RemoveRange(1, count - 1);
-			
-			foreach (var i in items)
-			{
-				if (i.Category == MachineIniCategorys.Text)
-				{
-					ListBoxItem li = new ListBoxItem();
-					li.Foreground = (l.Items.Count % 2 == 1) ? Brushes.SaddleBrown : Brushes.Plum;
-					li.Background = (l.Items.Count % 2 == 1) ? Brushes.PaleGoldenrod : Brushes.Beige;
-					li.Content = i.Field + " : " + i.Value;
-					l.Items.Add(li);
-				}
-			}
-
-			return l;
 		}
 		
 		private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -301,7 +241,6 @@ namespace PDTUtils
 					{
 						current.Content = newContent[0] + " : " + newValue;
 					}
-					//m_machineIni.GetItems[a]
 				}
 			}
 		}
@@ -327,11 +266,6 @@ namespace PDTUtils
 
 		private void MachineIniCategorys_DropDownClosed(object sender, EventArgs e)
 		{
-			//var items = m_machineIni.GetItems;
-			//var count = stpButtonPanel.Children.Count;
-			//stpButtonPanel.Children.RemoveRange(1, count - 1);
-
-			//stpButtonPanel.Children.Add(SetupDynamicListBox());
 		}
 
 		/// <summary>
@@ -392,61 +326,7 @@ namespace PDTUtils
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
 			GamesList.GetGamesList();
-			//MessageBox.Show(GamesList.GamesInfo[0].Hash_code);
-			//GamesList.GamesInfo
-		//	for (int i = 0; i < 10; i++)
-			{
-				/*GamesInfo g = new GamesInfo();
-				StringBuilder sb = new StringBuilder(500);
-				uint res = NativeWinApi.GetPrivateProfileString("Game"+(7+1).ToString(), "Exe", "", sb, (uint)sb.Capacity, @"D:\machine\machine.ini");
-				g.path = sb.ToString();
-				var modelNo = sb.ToString().Substring(0, 4);
-				g.name = @"D:\" + modelNo + @"\" + modelNo + ".png";
-
-				if (NativeMD5.CheckHash(@"d:\1138\" + sb.ToString()) == true)
-				{
-					var hash = NativeMD5.CalcHashFromFile(@"d:\1138\" + sb.ToString());
-					var hex = NativeMD5.HashToHex(hash);
-					MessageBox.Show(hash + " : " + hex);
-				}
-				else
-					MessageBox.Show("FALSE IMO");*/
-				/*FileStream file = new FileStream(@"D:\" + modelNo + @"\" + g.path, FileMode.Open);
-				MD5 md5 = new MD5CryptoServiceProvider();
-				byte[] retVal = md5.ComputeHash(file);
-
-				file.Close();
-
-				StringBuilder sb1 = new StringBuilder();
-				for (int j = 0; j < retVal.Length; j++)
-				{
-					sb1.Append(retVal[j].ToString("X2"));
-				}*/
-
-			//	MessageBox.Show(g.name + " : " + g.path + " : " + sb1.ToString());
-			}
-
-
 			m_enabler.System = true;
 		}
-
-		/*ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");
-		ManagementBaseObject inParams, outParams;
-		int result;
-		W32_OS.Scope.Options.EnablePrivileges = true;
-
-		foreach(ManagementObject obj in W32_OS.GetInstances())
-		{
-			inParams = obj.GetMethodParameters("Win32Shutdown");
-			inParams["Flags"] = 6; //ForcedReboot;
-			inParams["Reserved"] = 0;
-
-			outParams = obj.InvokeMethod("Win32Shutdown", inParams, null);
-			result = Convert.ToInt32(outParams["returnValue"]);
-			if (result != 0) 
-				throw new Win32Exception(result);
-		}
-			*/
-		//}
     }
 }
