@@ -19,6 +19,7 @@ namespace PDTUtils.Native
 		}
 	}
 
+#pragma warning disable 0169, 0649
 	static class NativeWinApi
 	{
 		public enum ModeNum : int
@@ -230,5 +231,24 @@ namespace PDTUtils.Native
 													uint dwFileAttributes);
 
 		public const int FILE_ATTRIBUTE_NORMAL = 0x80;
+
+		public struct SYSTEMTIME
+		{
+			public short year;
+			public short month;
+			public short dayOfWeek;
+			public short day;
+			public short hour;
+			public short minute;
+			public short second;
+			public short milliseconds;
+		}
+
+		[DllImport("coredll.dll")]
+		private extern static void GetSystemTime(ref SYSTEMTIME lpSystemTime);
+
+		[DllImport("coredll.dll")]
+		private extern static uint SetSystemTime(ref SYSTEMTIME lpSystemTime);
+
 	}
 }

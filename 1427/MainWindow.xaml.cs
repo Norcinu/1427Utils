@@ -210,6 +210,11 @@ namespace PDTUtils
 		{
 			TabSetup.IsEnabled = true;
 			TabSetup.Visibility = Visibility.Visible;
+
+			m_enabler.Volume = true;
+			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
+			if (MasterVolumeSlider.Value > 0)
+				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
 		}
 
 		private bool ValidateNewIniSetting()
@@ -294,7 +299,7 @@ namespace PDTUtils
 		private void btnVolume_Click(object sender, RoutedEventArgs e)
 		{
 			m_enabler.Volume = true;
-			MasterVolumeSlider.Value =  BoLib.getLocalMasterVolume();
+			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 			if (MasterVolumeSlider.Value > 0)
 				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
 		}
@@ -304,7 +309,6 @@ namespace PDTUtils
 			//PlaySoundOnEvent(@"./wav/volume.wav");
 			uint volume = Convert.ToUInt32(MasterVolumeSlider.Value);
 			BoLib.setLocalMasterVolume(volume);
-			
 		}
 
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)

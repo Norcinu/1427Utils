@@ -72,20 +72,6 @@
                Height="48" 
                VerticalAlignment="Bottom"></Label>
         
-        <!--<TabControl Name="settingsTab"
-                    TabStripPlacement="Top" 
-                    Grid.Column="1" 
-                    Grid.Row="1" 
-                    Visibility="Hidden" 
-                    SelectionChanged="Logfile_SelectionChanged" 
-                    IsEnabled="False" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" 
-                    Margin="14,28,12,84" 
-                    Width="545" 
-                    Height="327" 
-                    ScrollViewer.HorizontalScrollBarVisibility="Visible" />-->
-        
         <Label Grid.Column="2" 
                Height="39" 
                HorizontalAlignment="Right" 
@@ -169,8 +155,8 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
         </TabControl>
+        
         
         <ComboBox Width="100" 
                   Height="35" 
@@ -204,17 +190,29 @@
             </TabItem>
             
             <TabItem Header="System Volume" MinWidth="100">
-                <StackPanel Name="stpVolume" VerticalAlignment="Top">
-                    <Slider Height="50" HorizontalAlignment="Center" IsSnapToTickEnabled="True" Name="MasterVolumeSlider" VerticalAlignment="Center" Width="500"  TickFrequency="5" TickPlacement="Both" Maximum="100" ValueChanged="MasterVolumeSlider_ValueChanged" SmallChange="5" />
+                <StackPanel Name="stpVolume" VerticalAlignment="Top" Background="BlanchedAlmond">
+                    <TextBlock FontSize="22" TextAlignment="Center">Set Machine's Volume Level</TextBlock>
+                    <Slider Height="50" 
+                            HorizontalAlignment="Center" 
+                            IsSnapToTickEnabled="True" 
+                            Name="MasterVolumeSlider" 
+                            VerticalAlignment="Center" 
+                            Width="500" 
+                            TickFrequency="5" 
+                            TickPlacement="Both" 
+                            Maximum="100" 
+                            ValueChanged="MasterVolumeSlider_ValueChanged" 
+                            SmallChange="5" 
+                            Margin="0,5,0,0" />
                     <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-                        <ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}"/>
-                        <TextBox Height="23" HorizontalAlignment="Right" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True"  />
+                        <ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" Margin="5,0,5,5"/>
+                        <TextBox Height="23" HorizontalAlignment="Right" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" Margin="5,0,5,5"/>
                     </StackPanel>                               
                 </StackPanel>
             </TabItem>
             
             <TabItem Header="System Time" MinWidth="100">
-                <uc:SetTimeControl Visibility="Visible" IsEnabled="True" />
+                <uc:SetTimeControl Name="setTimeControl" />
             </TabItem>
             
             <TabItem Header="Hoppers" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
@@ -254,8 +252,8 @@
                 </TabItem>
             </TabControl>
         </StackPanel>
-
-   
+        
+        
         <TabControl Name="tabMeters"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
             <TabItem Header="LCD Meters">
                 <ListBox ItemsSource="{Binding Meters.Me}">
@@ -288,6 +286,7 @@
             </TabItem>
         </TabControl>
 
+        
         <!-- System Info View -->
         <StackPanel Orientation="Horizontal" IsEnabled="{Binding DockSystem.IsEnabled}" Grid.Row="1" Grid.Column="1" Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" >
             <ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="14" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible">
@@ -318,7 +317,6 @@
             <Button Content="Logfiles" Height="35" HorizontalAlignment="Stretch" Name="btnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
             <Button Content="Cash" Height="35" Name="btnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
             <Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="btnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-            <Button Content="Machine Settings" Height="35" Name="btnMachineSettings" VerticalAlignment="Stretch" FontSize="22" Width="170" HorizontalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
             <Button Content="Performance" Height="35" HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
             <Button Content="System Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
         </StackPanel>

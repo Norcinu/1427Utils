@@ -18,7 +18,7 @@ namespace PDTUtils
 				if (shell == 0)
 				{
 					m_connected = true;
-
+					
 					UpdateDoorStatusLabel();
 					m_doorStatusTimer = new System.Timers.Timer(500);
 					m_doorStatusTimer.Elapsed += DoorTimerEvent;
