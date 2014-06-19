@@ -174,8 +174,6 @@ namespace PDTUtils
 			m_fileLoaded = false;
 
 			Extension.RemoveAll(m_games);
-			//m_games.re
-			//m_games.RemoveAll(gs => gs != null);
 		}
 
 		public void ParsePerfLog()

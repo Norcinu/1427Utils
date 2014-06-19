@@ -5,6 +5,9 @@ using System.Management;
 
 namespace PDTUtils.Logic
 {
+	/// <summary>
+	/// Don't bother with this shizzle just, export the C++ routines into dll.
+	/// </summary>
 	class UsbControl : IDisposable
 	{
 		ManagementEventWatcher attachWatcher;

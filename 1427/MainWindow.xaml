@@ -252,17 +252,39 @@
                 </TabItem>
             </TabControl>
         </StackPanel>
-        
-        
+
         <TabControl Name="tabMeters"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
             <TabItem Header="LCD Meters">
-                <ListBox ItemsSource="{Binding Meters.Me}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding LCDShortTerm}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <DockPanel LastChildFill="False">
+                    <StackPanel DockPanel.Dock="Left">
+                        <Label FontSize="22">Short Term Meters</Label>
+                        <ListView ItemsSource="{Binding Path=ShortTerm.MeterDesc}">
+                            <ListView.View>
+                                <GridView>
+                                    <!--<GridViewColumn>
+                                        <TextBlock Text="{Binding Key}" TextAlignment="Center"></TextBlock>
+                                    </GridViewColumn>
+                                    <GridViewColumn>
+                                        <TextBlock Text="{Binding Value}" TextAlignment="Center"></TextBlock>
+                                    </GridViewColumn>-->
+                                    <GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
+                                    <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Right">
+                        <Label FontSize="22">Long Term Meters</Label>
+                        <ListView ItemsSource="{Binding Path=LongTerm.MeterDesc}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
+                                    <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                </DockPanel>
             </TabItem>
             <TabItem Header="Cash Reconcilliation">
                 <TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
@@ -286,8 +308,8 @@
             </TabItem>
         </TabControl>
 
-        
         <!-- System Info View -->
+        
         <StackPanel Orientation="Horizontal" IsEnabled="{Binding DockSystem.IsEnabled}" Grid.Row="1" Grid.Column="1" Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" >
             <ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="14" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 <ListBox.ItemTemplate>
@@ -296,7 +318,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
+            
             <ListView DockPanel.Dock="Right" ItemsSource="{Binding Path=GamesList.GamesInfo}">
                 <ListView.View>
                     <GridView>

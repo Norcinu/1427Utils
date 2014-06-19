@@ -29,7 +29,8 @@ namespace PDTUtils
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
 		MachineGameStatistics m_gameStatistics = new MachineGameStatistics();
 		ServiceEnabler m_enabler = new ServiceEnabler();
-		MachineMeters m_meters;
+		ShortTermMeters m_shortTerm = new ShortTermMeters();
+		LongTermMeters m_longTerm = new LongTermMeters();
 		MachineInfo m_machineData = new MachineInfo();
 		GamesList m_gamesList = new GamesList();
 		MachineLogsController m_logController = new MachineLogsController();
@@ -78,11 +79,6 @@ namespace PDTUtils
 			set { m_machineData = value; }
 		}
 
-		public MachineMeters Meters
-		{
-			get { return m_meters; }
-		}
-
 		public bool RequiresSave
 		{
 			get { return m_requiresSave; }
@@ -108,6 +104,18 @@ namespace PDTUtils
 		{
 			get { return m_gameStatistics; }
 			set { m_gameStatistics = value; }
+		}
+
+		public ShortTermMeters ShortTerm
+		{
+			get { return m_shortTerm; }
+			set { m_shortTerm = value; }
+		}
+
+		public LongTermMeters LongTerm
+		{
+			get { return m_longTerm; }
+			set { m_longTerm = value; }
 		}
 
 		#endregion
@@ -313,9 +321,8 @@ namespace PDTUtils
 
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
-			if (Meters == null)
-				m_meters = new MachineMeters();
-			Meters.ReadMeters();
+			m_shortTerm.ReadMeter();
+			m_longTerm.ReadMeter();
 			m_enabler.Meters = true;
 		}
 
