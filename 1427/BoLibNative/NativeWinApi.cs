@@ -213,10 +213,10 @@ namespace PDTUtils.Native
 												          string lpFileName);
 
 
-		[DllImport("kernel32.dll")]
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
 		public static extern uint GetPrivateProfileSection(string lpAppName,
-														   IntPtr lpReturnedString, 
-														   uint nSize, 
+														   IntPtr lpReturnedString,
+														   uint nSize,
 														   string lpFileName);
 
 

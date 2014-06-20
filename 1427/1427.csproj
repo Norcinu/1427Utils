@@ -114,7 +114,7 @@
     <Compile Include="Logic\MachineGameStatistics.cs" />
     <Compile Include="Logic\MachineInfo.cs" />
     <Compile Include="Logic\MachineIni.cs" />
-    <Compile Include="Logic\UsbControl.cs" />
+    <Compile Include="Logic\SoftwareUpdate.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

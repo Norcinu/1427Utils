@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <bo.h>
 #include <NVR.H>
+#include <direct.h>
 #include <cstdio>
 #include <memory>
 #include <string>
@@ -158,4 +159,20 @@ char *GetUniquePcbID(char TYPE)
 	
 	sprintf_s(chipIdStr, "Unavailable");
 	return chipIdStr;
+}
+
+int CanChangeDrive(int *drive)
+{
+	for (auto test_drive = 1; test_drive <= 26; test_drive++)
+	{
+		if (!_chdrive(test_drive))
+		{
+			if (test_drive + 'A' - 1 > 'D')
+			{
+				*drive = test_drive;
+				return 0;
+			}
+		}
+	}
+	return -1;
 }

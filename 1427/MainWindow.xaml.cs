@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using PDTUtils.Logic;
 using PDTUtils.Native;
+using System.IO;
 
 
 namespace PDTUtils
@@ -338,6 +339,16 @@ namespace PDTUtils
 		{
 			GamesList.GetGamesList();
 			m_enabler.System = true;
+		}
+
+		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
+		{
+			UserSoftwareUpdate usd = new UserSoftwareUpdate();
+			if (usd.DoSoftwareUpdate() == false)
+			{
+				MessageBox.Show("Could not find update.ini " + usd.UpdateIni);
+			}
+
 		}
     }
 }
