@@ -30,4 +30,27 @@ namespace PDTUtils
 			return new NotImplementedException();
 		}
 	}
+
+	public class CustomImagePathConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, 
+									   object parameter, CultureInfo culture)
+		{
+			string str = value as string;
+			if (str.Contains(".png") == true)
+				return @"D:\1427\bmp\bitmap.bmp";
+			else if (str.Contains(".wav") == true)
+				return @"D:\1427\bmp\wav.bmp";
+			else if (str.ToString().Contains(".ini") == true)
+				return @"D:\1427\bmp\ini.bmp";
+			else
+				return @"D:\1427\bmp\unknown.png";	
+		}
+
+		public object ConvertBack(object value, Type targetType, 
+										   object parameter, CultureInfo culture)
+		{
+			throw new Exception("The method or operation is not implemented.");
+		}
+	}
 }

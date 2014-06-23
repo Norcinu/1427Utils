@@ -47,11 +47,6 @@ void printTestTicket()
 
 		returnCode = GetCurrentError();
 	}while (Share2&0x01);
-
-	//if (!GetCurrentError())
-	//	ShowTestMessage(GetUtilText(TESTPRINT),1);
-
-//	Sleep(50);
 }
 
 char *getBnvStringType(unsigned char bnv)

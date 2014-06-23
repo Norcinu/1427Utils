@@ -205,7 +205,7 @@ namespace PDTUtils
 			if (m_connected)
 				BoLib.closeSharedMemory();
 		}
-
+		
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
 			m_machineIni.ParseIni();
@@ -282,29 +282,6 @@ namespace PDTUtils
 		{
 		}
 
-		/// <summary>
-		/// Call this from button_click event method
-		/// If user presses OK then save changes, if user presses cancel discard and continue.
-		/// </summary>
-		private void IsSaveRequired()
-		{
-			if (RequiresSave == true)
-			{
-				string message = "Changes to machine.ini are pending.\nPress OK to save.\nPress Cancel to discard changes.";
-				string caption = "Changes Pending.";
-				var result = MessageBox.Show(message, caption, MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-				if (result == MessageBoxResult.OK)
-				{
-					// save
-				}
-				else
-				{
-					// discard
-				}
-				RequiresSave = false;
-			}
-		}
-
 		private void btnVolume_Click(object sender, RoutedEventArgs e)
 		{
 			m_enabler.Volume = true;
@@ -348,7 +325,6 @@ namespace PDTUtils
 			{
 				MessageBox.Show("Could not find update.ini " + usd.UpdateIni);
 			}
-
 		}
     }
 }
