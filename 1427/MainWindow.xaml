@@ -106,6 +106,7 @@
         
         <!-- Logfiles -->
         <TabControl Name="MyLogfiles" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="False" Visibility="Hidden">
+
             <TabItem Header="Errors" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
@@ -118,11 +119,11 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                    
+
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-         
+
             <TabItem Header="Games" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel  HorizontalAlignment="Left">
@@ -139,8 +140,8 @@
                         </ListView>
                     </StackPanel>
                 </ScrollViewer>
-            </TabItem>>
-            
+            </TabItem> >
+
             <TabItem Header="Wins" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
@@ -157,6 +158,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+
         </TabControl>
         
         
@@ -226,7 +228,7 @@
                     <Button Name="btnRollback" Content="RollBack to Previous" MinWidth="150" MinHeight="50" FontSize="14"></Button>
                     <Button Name="btnUpdateFiles" Content="Update Files" MinWidth="150" MinHeight="50" FontSize="14" Click="btnUpdateFiles_Click"></Button>
                     <TreeView>
-                        <!--><TreeView.Resources>
+                        <!--<TreeView.Resources>
                             <Style TargetType="{x:Type TreeViewItem}">
                                 <Setter Property="HeaderTemplate">
                                     <Setter.Value>
@@ -246,24 +248,25 @@
                                 </Setter>
                             </Style>
                         </TreeView.Resources>-->
-                        <TreeView.ItemTemplate>
-                            <HierarchicalDataTemplate ItemsSource="{Binding Path=UpdateFiles}">
+                       <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Path=UpdateFiles.FilesToUpdate}">
                                 <Grid Background="LightSkyBlue"  Margin="2" Width="100" Height="24">
                                     <Label Content="Select Files to copy." FontSize="18"></Label>
+                                    <CheckBox Name="chk" Margin="2" Tag="{Binding}" />
                                     <Image Margin="2" Width="32" Height="18" Source="{Binding Path=ImageUrl}" HorizontalAlignment="Right" 
-               	                            VerticalAlignment="Center" ></Image>
+               	                            VerticalAlignment="Center"></Image>
                                     <TextBlock Margin="2" Text="{Binding Path=Name}" VerticalAlignment="Center" FontWeight="Bold" />
                                 </Grid>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
-                        <TreeViewItem Header="Arsenal" IsExpanded="True">
+                        <!--<TreeViewItem Header="Arsenal" IsExpanded="True">
                             <TreeViewItem Header="arsenal.png"/>
                             <TreeViewItem Header="highbury.wav" />
                             <TreeViewItem Header="North Bank.ini" />
                         </TreeViewItem>
                         <TreeViewItem Header="Arsenal Reserves" IsExpanded="True">
                             <TreeViewItem Header="Bulla" />
-                        </TreeViewItem>
+                        </TreeViewItem>-->
                     </TreeView>
                 </StackPanel>
             </TabItem>

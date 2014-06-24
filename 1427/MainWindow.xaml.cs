@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
@@ -7,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using PDTUtils.Logic;
 using PDTUtils.Native;
-using System.IO;
 
 
 namespace PDTUtils
@@ -35,6 +33,7 @@ namespace PDTUtils
 		MachineInfo m_machineData = new MachineInfo();
 		GamesList m_gamesList = new GamesList();
 		MachineLogsController m_logController = new MachineLogsController();
+		UserSoftwareUpdate m_updateFiles = new UserSoftwareUpdate();
 
 		public MainWindow()
         {
@@ -61,7 +60,8 @@ namespace PDTUtils
 		#region Properties
 
 		public MachineLogsController LogController { get { return m_logController; } }
-
+		public UserSoftwareUpdate UpdateFiles { get { return m_updateFiles; } }
+		
 		public GamesList GamesList
 		{
 			get { return m_gamesList; }
@@ -320,10 +320,9 @@ namespace PDTUtils
 
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
 		{
-			UserSoftwareUpdate usd = new UserSoftwareUpdate();
-			if (usd.DoSoftwareUpdate() == false)
+			if (UpdateFiles.DoSoftwareUpdate() == false)
 			{
-				MessageBox.Show("Could not find update.ini " + usd.UpdateIni);
+				MessageBox.Show("Could not find update.ini " + UpdateFiles.UpdateIni);
 			}
 		}
     }

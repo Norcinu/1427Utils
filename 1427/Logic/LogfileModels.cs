@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 using PDTUtils.Native;
-using System.IO;
+using System.ComponentModel;
 
 namespace PDTUtils
 {
@@ -11,7 +10,7 @@ namespace PDTUtils
 	{
 		public BaseNotifyPropertyChanged()
 		{
-			
+
 		}
 
 		public abstract void ParseGame(int gameNo);

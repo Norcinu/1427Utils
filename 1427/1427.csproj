@@ -29,6 +29,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -80,6 +81,7 @@
       <DependentUpon>HopperUtilsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logic\GamesList.cs" />
+    <Compile Include="Logic\MyDebug.cs" />
     <Compile Include="Logic\ServiceEnabler.cs" />
     <Compile Include="Logic\MachineMeters.cs" />
     <Compile Include="Models\ViewModels\MainWindowViewModel.cs" />

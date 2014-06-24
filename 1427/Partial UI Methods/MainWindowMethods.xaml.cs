@@ -68,20 +68,20 @@ namespace PDTUtils
 		public delegate void DelegateUpdate();
 		public void DoorTimerEvent(object sender, ElapsedEventArgs e)
 		{
-			this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
-			this.lblTop.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
+			//this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
+			//this.lblTop.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
 		}
 
 		public void UpdateUiLabels(object sender, ElapsedEventArgs e)
 		{
-			this.lblUptime.Dispatcher.Invoke((DelegateUpdate)GetSystemUptime);
+			//this.lblUptime.Dispatcher.Invoke((DelegateUpdate)GetSystemUptime);
 		}
 
 		public void UpdateTimeAndDate()
 		{
-			lblTop.FontSize = 22;
+			/*lblTop.FontSize = 22;
 			lblTop.Foreground = Brushes.Pink;
-			lblTop.Content = DateTime.Now.ToLongDateString() + " - " + DateTime.Now.ToLongTimeString();
+			lblTop.Content = DateTime.Now.ToLongDateString() + " - " + DateTime.Now.ToLongTimeString();*/
 		}
 		
 		void UpdateDoorStatusLabel()
@@ -97,8 +97,8 @@ namespace PDTUtils
 				}
 				//DetectDoorChange(@"./wav/util_exit.wav");	
 				status += "Closed";
-				lblDoorStatus.Background = Brushes.Black;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+				/*lblDoorStatus.Background = Brushes.Black;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));*/
 			}
 			else
 			{
@@ -109,11 +109,11 @@ namespace PDTUtils
 				}
 				//DetectDoorChange(@"./wav/util_exit.wav");
 				status += "Open";
-				lblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+				/*lblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
 				lblDoorStatus.Background = Brushes.Aquamarine;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
+				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));*/
 			}
-			lblDoorStatus.Content = status;
+			/*lblDoorStatus.Content = status;*/
 		}
 
 		private void DetectDoorChange(object sender, ElapsedEventArgs e)

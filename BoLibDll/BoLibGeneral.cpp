@@ -171,3 +171,13 @@ int CanChangeDrive(int *drive)
 	}
 	return -1;
 }
+
+void setFileAction()
+{
+	SetFileAction();
+}
+
+void clearFileAction()
+{
+	ClearFileAction();
+}

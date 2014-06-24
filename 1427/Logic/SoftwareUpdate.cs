@@ -1,23 +1,47 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Management;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
-using PDTUtils.Native;
 using System.Runtime.InteropServices;
+using PDTUtils.Logic;
+using PDTUtils.Native;
 
-namespace PDTUtils.Logic
+namespace PDTUtils
 {
-	public class UserSoftwareUpdate
+	public class FileImpl
+	{
+		public string Name { get; set; }
+		public string Avatar { get; set; }
+
+		public FileImpl(string _name, string _av)
+		{
+			Name = _name;
+			Avatar = _av;
+		}
+	}
+
+	public class UserSoftwareUpdate : BaseNotifyPropertyChanged
 	{
 		string m_rollbackIni; 
 		string m_updateIni;
+		
+		DriveInfo m_updateDrive;
+		//ObservableCollection<string> m_filesToUpdate = new ObservableCollection<string>();
+		ObservableCollection<FileImpl> m_filesToUpdate = new ObservableCollection<FileImpl>();
+		
+		#region PROPERTIES
 		public string UpdateIni
 		{
 			get { return m_updateIni; }
 			set { m_updateIni = value; }
 		}
-		DriveInfo m_updateDrive;
+
+		public ObservableCollection<FileImpl> FilesToUpdate
+		{
+			get { return m_filesToUpdate; }
+			set { m_filesToUpdate = value; }
+		}
+		#endregion
 
 		public UserSoftwareUpdate()
 		{
@@ -38,16 +62,35 @@ namespace PDTUtils.Logic
 				{
 					string[] folders_section = null;
 					string[] files_section = null;
+					bool quit = false;
 
+					BoLib.setFileAction();
 					bool? b = GetIniProfileSection(out folders_section, "Folders");
 					if (b == false || folders_section == null)
-						return false;
+						quit = true;
 
 					b = GetIniProfileSection(out files_section, "Files");
 					if (b == false || folders_section == null)
+						quit = true;
+					
+					BoLib.clearFileAction();
+					
+					if (quit == true)
 						return false;
 
-					
+					foreach (var str in files_section)
+					{
+						CustomImagePathConverter conv = new CustomImagePathConverter();
+						conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture);
+						m_filesToUpdate.Add(new FileImpl(str, str));
+					}
+
+					foreach (var str in folders_section)
+						m_filesToUpdate.Add(new FileImpl(str, str));
+
+					this.OnPropertyChanged("UpdateFiles");
+					MyDebug<string>.WriteCollectionToFile("debug.txt", files_section);
+					MyDebug<string>.WriteCollectionToFile("debug2.txt", folders_section);
 				}
 				else
 				{
@@ -57,7 +100,7 @@ namespace PDTUtils.Logic
 			}
 			return false;
 		}
-
+		
 		private bool GetIniProfileSection(out string[] section, string field)
 		{
 			uint bufferSize = 4048;
@@ -90,6 +133,11 @@ namespace PDTUtils.Logic
 				}
 			}
 			return false;
+		}
+
+		public override void ParseGame(int gameNo)
+		{
+			throw new Exception("The method or operation is not implemented.");
 		}
 	}
 }

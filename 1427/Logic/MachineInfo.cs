@@ -26,22 +26,14 @@ namespace PDTUtils.Logic
 	/// </summary>
 	public class MachineInfo : ObservableCollection<SystemInfo>
 	{
-		//ManagementClass os = new ManagementClass("Win32_OperatingSystem");
-		ManagementBaseObject inParams;
-		ManagementBaseObject outParams;
-
-		string m_ipAddress;
-		string m_subnet;
-		bool isUsbDriveConnected; // power this by event/delegate.
-
 		public MachineInfo()
 		{
 			QueryMachine();
 		}
-
+		
 		public void ProbeUsb()
 		{
-	
+			
 		}
 
 		private string GetMachineIP()
@@ -81,12 +73,12 @@ namespace PDTUtils.Logic
 
 			return str.ToString();
 		}
-
+		
 		public string GetScreenResolution()
 		{
 			string errorString = "Screen Not Active/Fitted.\n";
 
-			var str = new StringBuilder("Top Screen:\t "); // \n
+			var str = new StringBuilder("Top Screen:\t "); 
 			NativeWinApi.DEVMODE dm = new NativeWinApi.DEVMODE();
 
 			var result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display2", 
