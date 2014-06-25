@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using PDTUtils.Native;
-using System;
 
 namespace PDTUtils.Logic
 {

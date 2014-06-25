@@ -12,11 +12,13 @@ namespace PDTUtils
 	{
 		public string Name { get; set; }
 		public string Avatar { get; set; }
+		public bool? IsFile { get; set; }
 
 		public FileImpl(string _name, string _av)
 		{
 			Name = _name;
 			Avatar = _av;
+			IsFile = null;
 		}
 	}
 
@@ -26,9 +28,9 @@ namespace PDTUtils
 		string m_updateIni;
 		
 		DriveInfo m_updateDrive;
-		//ObservableCollection<string> m_filesToUpdate = new ObservableCollection<string>();
 		ObservableCollection<FileImpl> m_filesToUpdate = new ObservableCollection<FileImpl>();
-		
+		ObservableCollection<string> m_filesNotCopied = new ObservableCollection<string>();
+
 		#region PROPERTIES
 		public string UpdateIni
 		{
@@ -63,7 +65,7 @@ namespace PDTUtils
 					string[] folders_section = null;
 					string[] files_section = null;
 					bool quit = false;
-
+					
 					BoLib.setFileAction();
 					bool? b = GetIniProfileSection(out folders_section, "Folders");
 					if (b == false || folders_section == null)
@@ -77,17 +79,17 @@ namespace PDTUtils
 					
 					if (quit == true)
 						return false;
-
+					
 					foreach (var str in files_section)
 					{
 						CustomImagePathConverter conv = new CustomImagePathConverter();
-						conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture);
-						m_filesToUpdate.Add(new FileImpl(str, str));
+						var ret = conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture) as string;
+						m_filesToUpdate.Add(new FileImpl(str, ret));
 					}
 
 					foreach (var str in folders_section)
 						m_filesToUpdate.Add(new FileImpl(str, str));
-
+					
 					this.OnPropertyChanged("UpdateFiles");
 					MyDebug<string>.WriteCollectionToFile("debug.txt", files_section);
 					MyDebug<string>.WriteCollectionToFile("debug2.txt", folders_section);
@@ -139,5 +141,101 @@ namespace PDTUtils
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
+
+		void AddToRollBack(string path, int flag)
+		{
+			BoLib.setFileAction();
+			if (flag == 1)
+				NativeWinApi.WritePrivateProfileSection("Folders", path, m_rollbackIni);
+			else
+				NativeWinApi.WritePrivateProfileSection("Files", path, m_rollbackIni);
+			BoLib.clearFileAction();
+		}
+
+		bool DoCopyFile(string fileToCopy)
+		{
+			var attributes = File.GetAttributes(fileToCopy);
+			if ((attributes & FileAttributes.Directory) == FileAttributes.Directory)
+				return false;
+
+			var source = fileToCopy;
+			var destination = @"D:\" + fileToCopy;
+			var rename = destination + "_old";
+			
+			try
+			{
+				Directory.Move(source, destination);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				AddToRollBack(rename, 0);
+			}
+
+			if (NativeMD5.CheckHash(source) || !NativeMD5.CheckFileType(source))
+			{
+				File.SetAttributes(destination, FileAttributes.Normal);
+				var destAttr = File.GetAttributes(destination);
+				if ((destAttr & FileAttributes.Normal) == FileAttributes.Normal)
+				{
+					var retries = 10;
+					while (!NativeMD5.CheckHash(destination) && retries > 0)
+					{
+						NativeMD5.AddHashToFile(destination);
+						retries--;
+					}
+					return true;
+				}
+			}
+			MyDebug<string>.WriteToFile("destinations.txt", destination);
+			return false;
+		}
+
+		bool DoCopyDirectory(string path, int dirFlag)
+		{
+			var source = m_updateDrive.Name + path;
+			var destination = @"D:\" + path;
+			var renameDir = destination + "_old";
+			
+			var flag = 0;
+			if (path == "1224" || path == "1227")
+				flag = 1;
+			else
+				flag = 0;
+			
+			if (Directory.Exists(destination) == false)
+			{
+				Directory.CreateDirectory(destination);
+				Directory.SetCurrentDirectory(destination);
+			}
+			else if (dirFlag == flag)
+			{
+
+			}
+			
+			var allFiles = Directory.GetFiles(path, "*.*");
+			foreach(var f in allFiles)
+			{
+				MyDebug<string>.WriteToFile("paths.txt", f);
+				//var fullSourcePath = m_updateDrive.Name+path
+				if (NativeMD5.CheckHash(source) || !NativeMD5.CheckFileType(source))
+				{
+					File.SetAttributes(destination, FileAttributes.Normal);
+					var destAttr = File.GetAttributes(destination);
+					if ((destAttr & FileAttributes.Normal) == FileAttributes.Normal)
+					{
+						var retries = 10;
+						while (!NativeMD5.CheckHash(destination) && retries > 0)
+						{
+							NativeMD5.AddHashToFile(destination);
+							retries--;
+						}
+						return true;
+					}
+				}
+			}
+			return true;
+		}
 	}
 }
+

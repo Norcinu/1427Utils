@@ -43,8 +43,25 @@ namespace PDTUtils
 				return @"D:\1427\bmp\wav.bmp";
 			else if (str.ToString().Contains(".ini") == true)
 				return @"D:\1427\bmp\ini.bmp";
+			else if (str.ToString().Contains(".exe") == true)
+				return @"D:\1427\bmp\exe.bmp";
 			else
 				return @"D:\1427\bmp\unknown.png";	
+		}
+
+		public object ConvertBack(object value, Type targetType, 
+										   object parameter, CultureInfo culture)
+		{
+			throw new Exception("The method or operation is not implemented.");
+		}
+	}
+
+	public class CheckStringIsFileOrPath : IValueConverter
+	{
+		public object Convert(object value, Type targetType, 
+									   object parameter, CultureInfo culture)
+		{
+			throw new Exception("The method or operation is not implemented.");
 		}
 
 		public object ConvertBack(object value, Type targetType, 

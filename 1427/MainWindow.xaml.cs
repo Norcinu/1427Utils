@@ -320,9 +320,19 @@ namespace PDTUtils
 
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
 		{
-			if (UpdateFiles.DoSoftwareUpdate() == false)
+			if (m_updateFiles.DoSoftwareUpdate() == false)
 			{
 				MessageBox.Show("Could not find update.ini " + UpdateFiles.UpdateIni);
+			}
+			else
+			{
+				btnUpdateFiles.IsEnabled = false;
+				btnUpdateFiles.Visibility = Visibility.Hidden;
+				btnRollback.IsEnabled = false;
+				btnRollback.Visibility = Visibility.Hidden;
+
+				stpUpdate.IsEnabled = true;
+				stpUpdate.Visibility = Visibility.Visible;
 			}
 		}
     }

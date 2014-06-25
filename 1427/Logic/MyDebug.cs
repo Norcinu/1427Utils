@@ -9,21 +9,25 @@ namespace PDTUtils.Logic
 	{
 		public static void WriteToFile(string filename, T theOutput)
 		{
+#if DEBUG
 			using (StreamWriter writer = new StreamWriter(filename))
 			{
 				writer.WriteLine(theOutput.ToString());
 			}
+#endif
 		}
 
 		public static void WriteCollectionToFile(string filename, T[] theOutput)
 		{
-			using (StreamWriter writer = new StreamWriter(filename, true))
+#if DEBUG
+			using (StreamWriter writer = new StreamWriter(filename))
 			{
 				foreach (var s in theOutput)
 				{
 					writer.WriteLine(s);
 				}
 			}
+#endif
 		}
 	}
 }
