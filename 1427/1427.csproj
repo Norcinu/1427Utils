@@ -106,7 +106,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BoLibNative\BoLibNative.cs" />
+    <Compile Include="BoLibNative\NativeBoLib.cs" />
     <Compile Include="IniSettingsWindow.xaml.cs">
       <DependentUpon>IniSettingsWindow.xaml</DependentUpon>
     </Compile>

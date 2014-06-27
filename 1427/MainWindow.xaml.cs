@@ -259,11 +259,6 @@ namespace PDTUtils
 			}
 		}
 
-		private void CommitMachineIni()
-		{
-		
-		}
-
 		private void RemoveChildrenFromStackPanel()
 		{
 			int childCount = stpButtonPanel.Children.Count;

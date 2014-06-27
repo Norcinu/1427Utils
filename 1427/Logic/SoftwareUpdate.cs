@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using PDTUtils.Logic;
 using PDTUtils.Native;
+using System.Diagnostics;
 
 namespace PDTUtils
 {
@@ -85,10 +86,15 @@ namespace PDTUtils
 						CustomImagePathConverter conv = new CustomImagePathConverter();
 						var ret = conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture) as string;
 						m_filesToUpdate.Add(new FileImpl(str, ret));
+						MyDebug<string>.WriteToFile("copy_file2.txt", "The str is " + str);
+						DoCopyFile(str);
 					}
 
 					foreach (var str in folders_section)
+					{
 						m_filesToUpdate.Add(new FileImpl(str, str));
+						DoCopyDirectory(str,0);
+					}
 					
 					this.OnPropertyChanged("UpdateFiles");
 					MyDebug<string>.WriteCollectionToFile("debug.txt", files_section);
@@ -154,24 +160,53 @@ namespace PDTUtils
 
 		bool DoCopyFile(string fileToCopy)
 		{
-			var attributes = File.GetAttributes(fileToCopy);
-			if ((attributes & FileAttributes.Directory) == FileAttributes.Directory)
-				return false;
-
-			var source = fileToCopy;
-			var destination = @"D:\" + fileToCopy;
-			var rename = destination + "_old";
-			
 			try
 			{
-				Directory.Move(source, destination);
+				var attributes = File.GetAttributes(fileToCopy);
+				if ((attributes & FileAttributes.Directory) == FileAttributes.Directory)
+					return false;
 			}
-			catch (Exception ex)
+			catch (System.Exception ex)
 			{
-				Console.WriteLine(ex.Message);
-				AddToRollBack(rename, 0);
+				MyDebug<string>.WriteToFile("copy_file.txt", ex.Message);
 			}
 
+			var source = m_updateDrive.Name + fileToCopy;
+			var destination = @"D:" + fileToCopy;
+			var rename = destination + "_old";
+
+			try
+			{
+				if (File.Exists(destination) == false)
+				{
+					try
+					{
+						File.Copy(source, destination, false);
+					}
+					catch (Exception ex)
+					{
+						MyDebug<string>.WriteToFile("copy_file.txt", "The Destination file seems to exist." + ex.Message);
+					}
+				}
+				else
+				{
+					try
+					{
+						File.Copy(destination, rename, true);
+						File.Copy(source, destination, true);
+						AddToRollBack(rename, 0);
+					}
+					catch (Exception ex)
+					{
+						MyDebug<string>.WriteToFile("copy_file.txt", "The Destination file does exist." + ex.Message);
+					}
+				}
+			}
+			catch (System.Exception ex)
+			{
+				MyDebug<string>.WriteToFile("copy_file.txt", ex.Message);
+			}
+			
 			if (NativeMD5.CheckHash(source) || !NativeMD5.CheckFileType(source))
 			{
 				File.SetAttributes(destination, FileAttributes.Normal);
@@ -187,54 +222,97 @@ namespace PDTUtils
 					return true;
 				}
 			}
-			MyDebug<string>.WriteToFile("destinations.txt", destination);
 			return false;
 		}
 
 		bool DoCopyDirectory(string path, int dirFlag)
 		{
-			var source = m_updateDrive.Name + path;
-			var destination = @"D:\" + path;
-			var renameDir = destination + "_old";
-			
-			var flag = 0;
-			if (path == "1224" || path == "1227")
-				flag = 1;
-			else
-				flag = 0;
-			
-			if (Directory.Exists(destination) == false)
+			string source_folder = m_updateDrive + path;
+			string destination_folder = @"d:\";
+			string rename_folder = destination_folder + @"_old";
+			if (!Directory.Exists(destination_folder))
 			{
-				Directory.CreateDirectory(destination);
-				Directory.SetCurrentDirectory(destination);
-			}
-			else if (dirFlag == flag)
-			{
-
-			}
-			
-			var allFiles = Directory.GetFiles(path, "*.*");
-			foreach(var f in allFiles)
-			{
-				MyDebug<string>.WriteToFile("paths.txt", f);
-				//var fullSourcePath = m_updateDrive.Name+path
-				if (NativeMD5.CheckHash(source) || !NativeMD5.CheckFileType(source))
+				try
 				{
-					File.SetAttributes(destination, FileAttributes.Normal);
-					var destAttr = File.GetAttributes(destination);
+					// destination doesnt exist so create folder.
+					Directory.CreateDirectory(destination_folder);
+					GetAndCopyAllFiles(new DirectoryInfo(source_folder), destination_folder);
+				}
+				catch (System.Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+				}
+			}
+			else
+			{
+				// Need to handle the case where we are only updating part of the folder.
+				// for instance updating the bmp + wav folder we obviously need the other 
+				// folders or the game won't run. At current it doesnt do this we just
+				// block move the entire folder.
+				try
+				{
+					// folder does exist move it to _old
+					// and create new folder
+					if (Directory.Exists(rename_folder))
+						Directory.Delete(rename_folder, true);
+
+					Directory.Move(destination_folder, rename_folder);
+					Directory.CreateDirectory(destination_folder);
+					DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
+
+					try
+					{
+						GetAndCopyAllFiles(srcInfo, destination_folder);
+					}
+					catch (System.Exception ex)
+					{
+						Console.WriteLine(ex.Message);
+					}
+				}
+				catch (System.Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+				}
+			}
+			
+			DirectoryInfo d = new DirectoryInfo(source_folder);
+			var files = d.GetFiles();
+			foreach (var fi in files)
+			{
+				if (NativeMD5.CheckHash(source_folder + fi.Name) || !NativeMD5.CheckFileType(source_folder + fi.Name))
+				{
+					File.SetAttributes(destination_folder + fi.Name, FileAttributes.Normal);
+					var destAttr = File.GetAttributes(destination_folder + fi.Name);
 					if ((destAttr & FileAttributes.Normal) == FileAttributes.Normal)
 					{
 						var retries = 10;
-						while (!NativeMD5.CheckHash(destination) && retries > 0)
+						while (!NativeMD5.CheckHash(destination_folder + fi.Name) && retries > 0)
 						{
-							NativeMD5.AddHashToFile(destination);
+							NativeMD5.AddHashToFile(destination_folder + fi.Name);
 							retries--;
 						}
 						return true;
 					}
 				}
 			}
+
 			return true;
+		}
+
+		private void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destination_folder)
+		{
+			var files = srcInfo.GetFiles();
+			foreach (var f in files)
+			{
+				try
+				{
+					f.CopyTo(Path.Combine(destination_folder, f.Name));
+				}
+				catch (System.Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+				}
+			}
 		}
 	}
 }

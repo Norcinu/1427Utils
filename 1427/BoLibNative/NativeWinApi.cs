@@ -250,5 +250,11 @@ namespace PDTUtils.Native
 		[DllImport("coredll.dll")]
 		private extern static uint SetSystemTime(ref SYSTEMTIME lpSystemTime);
 
+		[DllImport("kernel32.dll")]
+		public static extern bool MoveFile(string lpExistingFileName, string lpNewFileName);
+
+		[DllImport("kernel32.dll")]
+		public static extern bool CopyFile(string lpExistingFileName, string lpNewFileName, bool bFailIfExists);
+
 	}
 }

@@ -10,7 +10,7 @@ namespace PDTUtils.Logic
 		public static void WriteToFile(string filename, T theOutput)
 		{
 #if DEBUG
-			using (StreamWriter writer = new StreamWriter(filename))
+			using (StreamWriter writer = new StreamWriter(filename, true))
 			{
 				writer.WriteLine(theOutput.ToString());
 			}
