@@ -168,7 +168,7 @@ namespace PDTUtils
 			}
 			catch (System.Exception ex)
 			{
-				MyDebug<string>.WriteToFile("copy_file.txt", ex.Message);
+				MyDebug<string>.WriteToFile(Properties.Resources.usb_error_log , ex.Message);
 			}
 
 			var source = m_updateDrive.Name + fileToCopy;
@@ -185,7 +185,7 @@ namespace PDTUtils
 					}
 					catch (Exception ex)
 					{
-						MyDebug<string>.WriteToFile("copy_file.txt", "The Destination file seems to exist." + ex.Message);
+						MyDebug<string>.WriteToFile(Properties.Resources.usb_error_log, "The Destination file seems to exist." + ex.Message);
 					}
 				}
 				else
@@ -204,7 +204,7 @@ namespace PDTUtils
 			}
 			catch (System.Exception ex)
 			{
-				MyDebug<string>.WriteToFile("copy_file.txt", ex.Message);
+				MyDebug<string>.WriteToFile(Properties.Resources.usb_error_log, ex.Message);
 			}
 			
 			if (NativeMD5.CheckHash(source) || !NativeMD5.CheckFileType(source))
@@ -230,6 +230,7 @@ namespace PDTUtils
 			string source_folder = m_updateDrive + path;
 			string destination_folder = @"d:\";
 			string rename_folder = destination_folder + @"_old";
+			
 			if (!Directory.Exists(destination_folder))
 			{
 				try
@@ -255,19 +256,13 @@ namespace PDTUtils
 					// and create new folder
 					if (Directory.Exists(rename_folder))
 						Directory.Delete(rename_folder, true);
-
+					
 					Directory.Move(destination_folder, rename_folder);
 					Directory.CreateDirectory(destination_folder);
 					DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
+					AddToRollBack(rename_folder, 0);
 
-					try
-					{
-						GetAndCopyAllFiles(srcInfo, destination_folder);
-					}
-					catch (System.Exception ex)
-					{
-						Console.WriteLine(ex.Message);
-					}
+					GetAndCopyAllFiles(srcInfo, destination_folder);
 				}
 				catch (System.Exception ex)
 				{
@@ -276,6 +271,7 @@ namespace PDTUtils
 			}
 			
 			DirectoryInfo d = new DirectoryInfo(source_folder);
+			
 			var files = d.GetFiles();
 			foreach (var fi in files)
 			{
@@ -295,23 +291,23 @@ namespace PDTUtils
 					}
 				}
 			}
-
+			
 			return true;
 		}
-
+		// i am a anosey neighbiour
 		private void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destination_folder)
 		{
-			var files = srcInfo.GetFiles();
-			foreach (var f in files)
+			try 
 			{
-				try
+				var files = srcInfo.GetFiles();
+				foreach (var f in files)
 				{
 					f.CopyTo(Path.Combine(destination_folder, f.Name));
 				}
-				catch (System.Exception ex)
-				{
-					Console.WriteLine(ex.Message);
-				}
+			}
+			catch (System.Exception ex)
+			{
+				MyDebug<string>.WriteToFile(Properties.Resources.usb_error_log, ex.Message);
 			}
 		}
 	}

@@ -156,6 +156,15 @@ namespace PDTUtils.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to D:\usb_error.log.
+        /// </summary>
+        internal static string usb_error_log {
+            get {
+                return ResourceManager.GetString("usb_error_log", resourceCulture);
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream util {
             get {
                 return ResourceManager.GetStream("util", resourceCulture);

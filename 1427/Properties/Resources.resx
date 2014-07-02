@@ -136,7 +136,7 @@
   </data>
   <data name="machine" xml:space="preserve">
     <value>D:\machine\</value>
-    <comment>Location of the terminals machine folder</comment>
+    <comment>Location of the terminals machine folder.</comment>
   </data>
   <data name="machine_ini" xml:space="preserve">
     <value>D:\machine\machine.ini</value>
@@ -154,14 +154,18 @@
   </data>
   <data name="security_log" xml:space="preserve">
     <value>D:\machine\SecurityLog.txt</value>
-    <comment>MD5 Logs</comment>
+    <comment>MD5 Logs.</comment>
   </data>
   <data name="start" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="update_log" xml:space="preserve">
     <value>D:\machine\updatekey.txt</value>
-    <comment>Update Key</comment>
+    <comment>Update Key.</comment>
+  </data>
+  <data name="usb_error_log" xml:space="preserve">
+    <value>D:\usb_error.log</value>
+    <comment>Error log for updating games via USB.</comment>
   </data>
   <data name="util" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\util.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

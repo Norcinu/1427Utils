@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Native;
+using System.Diagnostics;
 
 namespace PDTUtils
 {
@@ -68,8 +69,8 @@ namespace PDTUtils
 		public delegate void DelegateUpdate();
 		public void DoorTimerEvent(object sender, ElapsedEventArgs e)
 		{
-			//this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
-			//this.lblTop.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
+			this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
+			this.lblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
 		}
 
 		public void UpdateUiLabels(object sender, ElapsedEventArgs e)
@@ -79,9 +80,14 @@ namespace PDTUtils
 
 		public void UpdateTimeAndDate()
 		{
-			/*lblTop.FontSize = 22;
-			lblTop.Foreground = Brushes.Pink;
-			lblTop.Content = DateTime.Now.ToLongDateString() + " - " + DateTime.Now.ToLongTimeString();*/
+			lblBottom.FontSize = 22;
+			lblBottom.Foreground = Brushes.Pink;
+			lblBottom.Content = DateTime.Now.ToLongDateString() + " - " + DateTime.Now.ToLongTimeString() + "\t\t ::::\t\t Uptime ";
+			var ticks = Stopwatch.GetTimestamp();
+			var uptime = ((double)ticks) / Stopwatch.Frequency;
+			var uptimeSpan = TimeSpan.FromSeconds(uptime);
+			string s = string.Format("{0:H:mm:ss}", new DateTime(uptimeSpan.Ticks));
+			lblBottom.Content += s;
 		}
 		
 		void UpdateDoorStatusLabel()
@@ -97,8 +103,8 @@ namespace PDTUtils
 				}
 				//DetectDoorChange(@"./wav/util_exit.wav");	
 				status += "Closed";
-				/*lblDoorStatus.Background = Brushes.Black;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));*/
+				lblDoorStatus.Background = Brushes.Black;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
 			}
 			else
 			{
@@ -109,11 +115,11 @@ namespace PDTUtils
 				}
 				//DetectDoorChange(@"./wav/util_exit.wav");
 				status += "Open";
-				/*lblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+				lblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
 				lblDoorStatus.Background = Brushes.Aquamarine;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
-				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));*/
-			}
-			/*lblDoorStatus.Content = status;*/
+				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
+			}			
+			lblDoorStatus.Content = status;
 		}
 
 		private void DetectDoorChange(object sender, ElapsedEventArgs e)

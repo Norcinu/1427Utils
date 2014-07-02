@@ -313,7 +313,7 @@ namespace PDTUtils
 				if (m_counter >= 0 && m_counter < 30) // 6
 				{
 					m_counter++;
-
+	
 					status = BoLib.getSwitchStatus(1, m_buttonMasks[m_currentButton]);
 					if (status > 0)
 					{
@@ -339,7 +339,6 @@ namespace PDTUtils
 						startTimer.Enabled = false;
 						btnEndTest.Dispatcher.Invoke((DelegateEnableBtn)timer_buttonEnable, new object[] { btnEndTest });
 					}
-
 					m_counter = 0;
 				}
 			}
@@ -369,7 +368,7 @@ namespace PDTUtils
 		{
 			if (m_testPrintThread != null)
 				while (m_testPrintThread.IsAlive) ;
-
+			
 			for (int i = 0; i < m_visualButtonCount; i++)
 				stpButtons.Children[i].IsEnabled = true;
 
@@ -395,7 +394,7 @@ namespace PDTUtils
 				l.Background = null;
 				l.FontSize = 11;
 			}
-
+			
 			btnEndTest.IsEnabled = false;
 		}
 
