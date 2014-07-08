@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Impls;
 using PDTUtils.Native;
+using PDTUtils.Logic;
 
 
 namespace PDTUtils
@@ -130,7 +131,7 @@ namespace PDTUtils
 			m_testPrintThread = new Thread(new ThreadStart(BoLib.printTestTicket));
 			m_testPrintThread.Start();
 		}
-
+		
 		private void DoDilSwitchTest()
 		{
 			btnEndTest.IsEnabled = true;
@@ -141,17 +142,17 @@ namespace PDTUtils
 				if (BoLib.getSwitchStatus(4, (byte)i) > 0)
 				{
 					var converter = new BrushConverter();
-					var bg = (Brush)converter.ConvertFromString("#6599FF");
-					m_labels[ctr].Background = bg;
-					m_labels[ctr].Foreground = Brushes.Yellow;
+					//var bg = (Brush)converter.ConvertFromString("#6599FF");
+					//m_labels[ctr].Background = bg;
+					m_labels[ctr].Foreground = Brushes.Green;//Brushes.Yellow;
 					m_labels[ctr].FontSize = 16;
 					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
 							new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " ON" });
 				}
 				else
 				{
-					m_labels[ctr].Background = Brushes.Red;
-					m_labels[ctr].Foreground = Brushes.Black;
+					//m_labels[ctr].Background = Brushes.Red;
+					m_labels[ctr].Foreground = Brushes.Red;//Brushes.Black;
 					m_labels[ctr].FontSize = 16;
 					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
 							new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " OFF" });
@@ -195,7 +196,7 @@ namespace PDTUtils
 			{
 				Label l = new Label();
 				l.FontSize = 22;
-				l.Content = "Press Button: ";
+				l.Content = "Toggle Refill Key: ";
 				l.Name = "PressButton";
 				
 				stpMainPanel.Children.Add(l);
@@ -226,7 +227,7 @@ namespace PDTUtils
 			else if (l == label2)
 				l.Content = "Please hold and release the DOOR SWITCH.";
 		}
-
+		
 		private void timer_buttonError(Label l)
 		{
 			l.Background = Brushes.Red;
@@ -250,7 +251,7 @@ namespace PDTUtils
 		private void timer_CheckButton(object sender, ElapsedEventArgs e)
 		{
 			// test refill key and door switch.
-		/*	if (m_btnImpl.m_doSpecials == true)
+			if (m_btnImpl.m_doSpecials == true)
 			{
 				if (m_counter >= 0 && m_counter < 60)
 				{
@@ -264,33 +265,38 @@ namespace PDTUtils
 						{
 							if (m_btnImpl.m_toggled[0] == false)
 							{
-							//	MessageBox.Show("toggled key off");
+								MyDebug<string>.WriteToFile("toggle.txt", "Key Toggled Off");
 								m_btnImpl.m_toggled[0] = true;
 							}
 							else
 							{
-							//	MessageBox.Show("toggled key on");
+								MyDebug<string>.WriteToFile("toggle.txt", "Key Toggled On");
 								m_btnImpl.m_currentSpecial = 1;
 							}
-							
-//							MessageBox.Show("toggled key");
 						}
 					}
 					else if (m_btnImpl.m_currentSpecial == 1)
 					{
 						if (m_btnImpl.m_toggled[1] == false)
 							m_counter++;
-					//	MessageBox.Show("toggled key");
+					
 						var mask = m_specialMasks[1];
 						var status = BoLib.getSwitchStatus(2, mask);
 						if (status == 0)
 						{
 							if (m_btnImpl.m_toggled[1] == false)
+							{
 								m_btnImpl.m_toggled[1] = true;
+								MyDebug<string>.WriteToFile("toggle.txt", "Toggled Closed");
+								//this.label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label1 });
+							}
 							else
+							{
 								m_btnImpl.m_currentSpecial++;
-							
-						//	MessageBox.Show("toggled key");
+								MyDebug<string>.WriteToFile("toggle.txt", "Toggled Open");
+								m_btnImpl.DoSpecials = false;
+								//this.label2.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label2 });
+							}
 						}
 					}
 				}
@@ -307,7 +313,7 @@ namespace PDTUtils
 					}
 				}
 			}
-			else*/ // Button deck
+			else // Button deck
 			{
 				uint status = 100;
 				if (m_counter >= 0 && m_counter < 30) // 6

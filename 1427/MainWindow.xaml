@@ -17,7 +17,7 @@
         ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" 
         SizeToContent="Manual">
-
+        
     <!--<Grid Background="#FFC78585"></Grid>-->
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
@@ -192,6 +192,52 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+
+            <TabItem Header="Regional Settings">
+                <StackPanel Orientation="Horizontal">
+                    <GroupBox>
+                        <GroupBox.Header>Staking Options</GroupBox.Header>
+                        <StackPanel Margin="0,10,0,10">
+                            <DockPanel>
+                                <CheckBox DockPanel.Dock="Left" VerticalContentAlignment="Center">20¢</CheckBox>
+                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
+                            </DockPanel>
+                            <DockPanel>
+                                <CheckBox DockPanel.Dock="Left" >40¢</CheckBox>
+                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
+                            </DockPanel>
+                            <DockPanel>
+                                <CheckBox>50¢</CheckBox>
+                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
+                            </DockPanel>
+                            <DockPanel>
+                                <CheckBox>60¢</CheckBox>
+                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
+                            </DockPanel>
+                            <DockPanel>
+                                <CheckBox>80¢</CheckBox>
+                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
+                            </DockPanel>
+                            <DockPanel>
+                                <CheckBox>€1</CheckBox>
+                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
+                            </DockPanel>
+                            <DockPanel>
+                                <CheckBox>€2</CheckBox>
+                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
+                            </DockPanel>
+                            <DockPanel>
+                                <CheckBox>€3</CheckBox>
+                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
+                            </DockPanel>
+                            <DockPanel>
+                                <CheckBox>€6</CheckBox>
+                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
+                            </DockPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
             
             <TabItem Header="System Volume" MinWidth="100">
                 <StackPanel Name="stpVolume" VerticalAlignment="Top" Background="BlanchedAlmond">
@@ -216,7 +262,14 @@
             </TabItem>
             
             <TabItem Header="System Time" MinWidth="100">
-                <uc:SetTimeControl Name="setTimeControl" />
+                <TabControl>
+                    <TabItem Header="System Time" MinWidth="150" >
+                        <uc:SetTimeControl Name="setTimeControl" />
+                    </TabItem>
+                    <TabItem Header="Network" MinWidth="150">
+                        
+                    </TabItem>
+                </TabControl>
             </TabItem>
             
             <TabItem Header="Hoppers" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
@@ -250,11 +303,12 @@
                     </StackPanel>
                 </StackPanel>
             </TabItem>
+            
             <!-- we need more tab controls inside tab controls. -->
             <!-- and more patches that take for ever to install -->
         </TabControl>
-               
-
+        
+        
         <StackPanel Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
             <!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
             <TabControl>

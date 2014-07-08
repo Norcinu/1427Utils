@@ -88,7 +88,7 @@ namespace PDTUtils
 							}
 						}
 						else
-						{
+						{							
 							if (m_doorStatus == false)
 							{
 								m_doorStatus = true;

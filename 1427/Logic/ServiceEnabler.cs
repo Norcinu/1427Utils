@@ -53,8 +53,8 @@ namespace PDTUtils.Logic
 			this.OnPropertyChanged("GameStatistics");
 			m_categories.Add("MachineIni", false);
 			this.OnPropertyChanged("MachineIni");
-			m_categories.Add("Volume", false);
-			this.OnPropertyChanged("Volume");
+		//	m_categories.Add("Volume", false);
+		//	this.OnPropertyChanged("Volume");
 			m_categories.Add("Meters", false);
 			this.OnPropertyChanged("Meters");
 			m_categories.Add("Performance", false);

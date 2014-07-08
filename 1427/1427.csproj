@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Logic\GamesList.cs" />
     <Compile Include="Logic\MyDebug.cs" />
+    <Compile Include="Logic\RegionalSettings.cs" />
     <Compile Include="Logic\ServiceEnabler.cs" />
     <Compile Include="Logic\MachineMeters.cs" />
     <Compile Include="Models\ViewModels\MainWindowViewModel.cs" />

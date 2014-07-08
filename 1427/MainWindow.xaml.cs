@@ -125,7 +125,7 @@ namespace PDTUtils
         {
 			Application.Current.Shutdown();
         }
-
+		
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
 			BoLib.getCountryCode();
@@ -169,7 +169,7 @@ namespace PDTUtils
 			var u = uptimeSpan.ToString().Split(".".ToCharArray());
 			lblUptime.Content = u[0];
 		}
-
+		
 		private void WindowMain_Loaded(object sender, RoutedEventArgs e)
 		{
 			try
@@ -192,7 +192,7 @@ namespace PDTUtils
 		{
 			if (m_keyDoorWorker.Running == true)
 				m_keyDoorWorker.Running = false;
-
+			
 			if (m_keyDoorThread != null)
 			{
 				if (m_keyDoorThread.IsAlive)
@@ -211,7 +211,7 @@ namespace PDTUtils
 			m_machineIni.ParseIni();
 			MessageBox.Show("Machine RTP " + m_machineIni.GetIniValue("Datapack.Dpercentage") + "%");
 			MessageBox.Show("Machine Number " + m_machineIni["Server.Machine Number"]);
-			
+
 			// commit changes to memory
 		}
 
@@ -225,12 +225,12 @@ namespace PDTUtils
 			if (MasterVolumeSlider.Value > 0)
 				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
 		}
-
+		
 		private bool ValidateNewIniSetting()
 		{
 			return true;
 		}
-		
+
 		private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			IniSettingsWindow w = new IniSettingsWindow();
@@ -270,13 +270,13 @@ namespace PDTUtils
 
 		private void MachineIniCategorys_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-
+			// Select a pre-defined set of regional rules. Select the region in the machine and this loads them into the shell.
 		}
-
+		
 		private void MachineIniCategorys_DropDownClosed(object sender, EventArgs e)
 		{
 		}
-
+		
 		private void btnVolume_Click(object sender, RoutedEventArgs e)
 		{
 			m_enabler.Volume = true;
@@ -284,7 +284,7 @@ namespace PDTUtils
 			if (MasterVolumeSlider.Value > 0)
 				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
 		}
-
+		
 		private void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			//PlaySoundOnEvent(@"./wav/volume.wav");
@@ -325,6 +325,7 @@ namespace PDTUtils
 				btnUpdateFiles.Visibility = Visibility.Hidden;
 				btnRollback.IsEnabled = false;
 				btnRollback.Visibility = Visibility.Hidden;
+				
 
 				stpUpdate.IsEnabled = true;
 				stpUpdate.Visibility = Visibility.Visible;

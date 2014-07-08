@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="PDTUtilsControlLib.NumericalDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="140" Loaded="UserControl_Loaded">
+    <Grid Height="39" Width="140" >
+        <Button Content="-" Height="25" HorizontalAlignment="Left" Margin="12,0,0,0" Name="button1" VerticalAlignment="Center" Width="27" FontWeight="Bold" FontSize="16" Click="button1_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+        <Button Content="+" Height="25" HorizontalAlignment="Right" Margin="0,0,12,0" Name="button2" VerticalAlignment="Center" Width="27" FontWeight="Bold" FontSize="16" Click="button2_Click" />
+        <TextBlock Height="22" HorizontalAlignment="Left" Margin="47,0,0,0" Name="textBlock1" VerticalAlignment="Center" Width="48" Text="{Binding Path=Value}" TextAlignment="Center" FontWeight="Bold" />
+    </Grid>
+</UserControl>

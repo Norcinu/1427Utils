@@ -116,7 +116,7 @@ namespace PDTUtils
 				//DetectDoorChange(@"./wav/util_exit.wav");
 				status += "Open";
 				lblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-				lblDoorStatus.Background = Brushes.Aquamarine;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+				lblDoorStatus.Background = Brushes.Aquamarine;
 				lblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
 			}			
 			lblDoorStatus.Content = status;
@@ -132,12 +132,12 @@ namespace PDTUtils
 					BoLib.disableNoteValidator();
 			}
 		}
-
+		
 		private void ChangeVolume(int newVolume)
 		{
 			int volume = BoLib.getLocalMasterVolume();
 		}
-
+		
 		private void PlaySoundOnEvent(string filename)
 		{
 			// replace this with synth_sound? // if (AdjustingVolume) synth else soundplayer
