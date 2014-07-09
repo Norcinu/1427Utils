@@ -174,7 +174,7 @@ namespace PDTUtils
 					reveresed[ctr] = lines[i];
 					ctr++;
 				}
-
+				
 				foreach (string s in reveresed)
 				{
 					try
@@ -183,7 +183,6 @@ namespace PDTUtils
 						bool? b = s.Contains("TimeStamp");
 						if (b == false && s != "")
 						{
-
 							foreach (var ss in subStr)
 							{
 								if (ss != "")
@@ -191,7 +190,7 @@ namespace PDTUtils
 									var timeAndDate = ss.Substring(0, 19).TrimStart(" \t".ToCharArray());
 									var errorCode = ss.Substring(21, 3).TrimStart(" \t".ToCharArray());
 									var desc = ss.Substring(26).TrimStart(" \t".ToCharArray());
-									ErrorLog.Add(new MachineErrorLog(errorCode, desc, timeAndDate));
+									ErrorLog.Add(new MachineErrorLog(errorCode, desc, timeAndDate));	
 								}
 							}
 						}

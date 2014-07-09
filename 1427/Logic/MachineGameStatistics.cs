@@ -162,7 +162,7 @@ namespace PDTUtils
 			else if (combo[0] == "Percentage")
 				gs.Percentage = Convert.ToDouble(combo[1]);
 		}
-
+		
 		public void ResetStats()
 		{
 			m_moneyIn = 0;

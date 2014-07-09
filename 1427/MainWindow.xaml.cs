@@ -128,9 +128,10 @@ namespace PDTUtils
 		
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
-			BoLib.getCountryCode();
-			MessageBox.Show(BoLib.getCountryCodeStr());
-			MessageBox.Show(BoLib.getEDCTypeStr());
+			Enabler.ClearAll();
+		//	BoLib.getCountryCode();
+		//	MessageBox.Show(BoLib.getCountryCodeStr());
+		//	MessageBox.Show(BoLib.getEDCTypeStr());
 			//CommitChanges.Save();
 			//MessageBox.Show("Changes Made, reboot required.", "Commit Changes", MessageBoxButton.OK, MessageBoxImage.Information);
 			//CommitChanges.RebootMachine();
@@ -158,7 +159,8 @@ namespace PDTUtils
 		private void Games_Click(object sender, RoutedEventArgs e)
 		{
 			m_gameStatistics.ParsePerfLog();
-			m_enabler.GameStatistics = true;
+			m_enabler.IterateCategory("GameStatistics");
+			//m_enabler.GameStatistics = true;
 		}
 
 		private void GetSystemUptime()
@@ -217,10 +219,11 @@ namespace PDTUtils
 
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
-			TabSetup.IsEnabled = true;
-			TabSetup.Visibility = Visibility.Visible;
+		//	TabSetup.IsEnabled = true;
+		//	TabSetup.Visibility = Visibility.Visible;
 
-			m_enabler.Volume = true;
+			//m_enabler.Volume = true;
+			m_enabler.IterateCategory("Setup");
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 			if (MasterVolumeSlider.Value > 0)
 				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
@@ -279,7 +282,8 @@ namespace PDTUtils
 		
 		private void btnVolume_Click(object sender, RoutedEventArgs e)
 		{
-			m_enabler.Volume = true;
+			//m_enabler.Volume = true;
+			m_enabler.IterateCategory("Volume");
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 			if (MasterVolumeSlider.Value > 0)
 				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
@@ -296,21 +300,25 @@ namespace PDTUtils
 		{
 			m_shortTerm.ReadMeter();
 			m_longTerm.ReadMeter();
-			m_enabler.Meters = true;
+			m_enabler.IterateCategory("Meters");
+			//m_enabler.Meters = true;
 		}
 
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
 		{
+			m_enabler.ClearAll();
 			m_keyDoorWorker.TestSuiteRunning = true;
 			TestSuiteWindow ts = new TestSuiteWindow();
 			ts.ShowDialog();
 			m_keyDoorWorker.TestSuiteRunning = false;
+
 		}
 
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
 			GamesList.GetGamesList();
-			m_enabler.System = true;
+			m_enabler.IterateCategory("System");
+			//m_enabler.System = true;
 		}
 
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)

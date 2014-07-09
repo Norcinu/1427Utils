@@ -2,6 +2,8 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Windows;
+using PDTUtils.Logic;
 
 namespace PDTUtils
 {
@@ -70,4 +72,44 @@ namespace PDTUtils
 			throw new Exception("The method or operation is not implemented.");
 		}
 	}
+
+	[ValueConversion(typeof(bool), typeof(Visibility))]
+	public sealed class BoolToVisibilityConverter : IValueConverter
+	{
+		public Visibility TrueValue { get; set; }
+		public Visibility FalseValue { get; set; }
+
+		public BoolToVisibilityConverter()
+		{
+			TrueValue = Visibility.Visible;
+			FalseValue = Visibility.Collapsed;
+		}
+
+		public object Convert(object value, Type targetType,
+							  object parameter, CultureInfo culture)
+		{
+			if (!(value is bool))
+			{
+				MyDebug<string>.WriteToFile("conv.txt", "Value is null");
+				return null;
+			}
+			MyDebug<string>.WriteToFile("conv.txt", value.ToString());
+			return (bool)value ? TrueValue : FalseValue;
+		}
+
+		public object ConvertBack(object value, Type targetType,
+								  object parameter, CultureInfo culture)
+		{
+			if (Equals(value, TrueValue))
+				return true;
+			if (Equals(value, FalseValue))
+				return false;
+			return null;
+		}
+	}
+
+	/*public class CustomBoolToVisConverter : IValueConverter
+	{
+
+	}*/
 }

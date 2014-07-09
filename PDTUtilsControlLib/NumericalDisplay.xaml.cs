@@ -32,6 +32,8 @@ namespace PDTUtilsControlLib
 			InitializeComponent();
 		}
 
+		public string FormHeader { get { return label1.Content.ToString(); } set { label1.Content = value; } }
+
 		private void button1_Click(object sender, RoutedEventArgs e)
 		{
 			if (Value > 0)

@@ -31,6 +31,7 @@
         </Grid.RowDefinitions>
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+            <conv:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Visible" FalseValue="Hidden" />
             <conv:CustomImagePathConverter x:Key="CustomImgPath"/>
             <LinearGradientBrush x:Key="FunkyBrush">
                 <GradientStop Color="Yellow" Offset="0" />
@@ -106,7 +107,6 @@
         
         <!-- Logfiles -->
         <TabControl Name="MyLogfiles" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="False" Visibility="Hidden">
-
             <TabItem Header="Errors" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
@@ -119,11 +119,10 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
+            
             <TabItem Header="Games" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel  HorizontalAlignment="Left">
@@ -135,13 +134,13 @@
                                     <GridViewColumn Header="Game Stake" Width="180" DisplayMemberBinding="{Binding Path=Stake}" />
                                     <GridViewColumn Header="Credits Before" Width="180" DisplayMemberBinding="{Binding Path=Credit}" />
                                     <GridViewColumn Header="Win Amount" Width="180" DisplayMemberBinding="{Binding Path=WinAmount}" />
-                                 </GridView>
+                                </GridView>
                             </ListView.View>
                         </ListView>
                     </StackPanel>
                 </ScrollViewer>
-            </TabItem> >
-
+            </TabItem> 
+            
             <TabItem Header="Wins" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
@@ -158,7 +157,6 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
         </TabControl>
         
         
@@ -175,8 +173,8 @@
                   DropDownClosed="MachineIniCategorys_DropDownClosed" />
 
 
-        <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="Hidden">
-            <TabItem Header="Machine Ini" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
+        <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
+            <TabItem Header="Machine Ini" MinWidth="100"><!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center">
@@ -192,48 +190,37 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
+            
             <TabItem Header="Regional Settings">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
                     <GroupBox>
-                        <GroupBox.Header>Staking Options</GroupBox.Header>
-                        <StackPanel Margin="0,10,0,10">
-                            <DockPanel>
-                                <CheckBox DockPanel.Dock="Left" VerticalContentAlignment="Center">20¢</CheckBox>
-                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
-                            </DockPanel>
-                            <DockPanel>
-                                <CheckBox DockPanel.Dock="Left" >40¢</CheckBox>
-                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
-                            </DockPanel>
-                            <DockPanel>
-                                <CheckBox>50¢</CheckBox>
-                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
-                            </DockPanel>
-                            <DockPanel>
-                                <CheckBox>60¢</CheckBox>
-                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
-                            </DockPanel>
-                            <DockPanel>
-                                <CheckBox>80¢</CheckBox>
-                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
-                            </DockPanel>
-                            <DockPanel>
-                                <CheckBox>€1</CheckBox>
-                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
-                            </DockPanel>
-                            <DockPanel>
-                                <CheckBox>€2</CheckBox>
-                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
-                            </DockPanel>
-                            <DockPanel>
-                                <CheckBox>€3</CheckBox>
-                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
-                            </DockPanel>
-                            <DockPanel>
-                                <CheckBox>€6</CheckBox>
-                                <uc:NumericalDisplay DockPanel.Dock="Right"></uc:NumericalDisplay>
-                            </DockPanel>
+                        <GroupBox.Header>Select Play Stakes</GroupBox.Header>
+                        <StackPanel Margin="10,10,10,10">
+                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">20¢</CheckBox>
+                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">40¢</CheckBox>
+                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">50¢</CheckBox>
+                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">60¢</CheckBox>
+                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">80¢</CheckBox>
+                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">€1</CheckBox>
+                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">€2</CheckBox>
+                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">€3</CheckBox>
+                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">€6</CheckBox>
+                        </StackPanel>
+                    </GroupBox>
+                    
+                    <GroupBox>
+                        <GroupBox.Header>Max Stake Wins</GroupBox.Header>
+                        <StackPanel>
+                            <!-- ¢ = ALT + 0162, € = CTRL + ALT + 4 -->
+                            <uc:NumericalDisplay FormHeader="20¢"></uc:NumericalDisplay>
+                            <uc:NumericalDisplay FormHeader="40¢"></uc:NumericalDisplay>
+                            <uc:NumericalDisplay FormHeader="50¢"></uc:NumericalDisplay>
+                            <uc:NumericalDisplay FormHeader="60¢"></uc:NumericalDisplay>
+                            <uc:NumericalDisplay FormHeader="80¢"></uc:NumericalDisplay>
+                            <uc:NumericalDisplay FormHeader="€1"></uc:NumericalDisplay>
+                            <uc:NumericalDisplay FormHeader="€2"></uc:NumericalDisplay>
+                            <uc:NumericalDisplay FormHeader="€3"></uc:NumericalDisplay>
+                            <uc:NumericalDisplay FormHeader="€6"></uc:NumericalDisplay>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>
@@ -257,7 +244,7 @@
                     <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
                         <ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" Margin="5,0,5,5"/>
                         <TextBox Height="23" HorizontalAlignment="Right" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" Margin="5,0,5,5"/>
-                    </StackPanel>                               
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             
@@ -272,7 +259,7 @@
                 </TabControl>
             </TabItem>
             
-            <TabItem Header="Hoppers" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
+            <TabItem Header="Hoppers" MinWidth="100"><!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
                 
             </TabItem>
             
