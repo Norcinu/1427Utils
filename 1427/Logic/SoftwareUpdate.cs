@@ -294,7 +294,7 @@ namespace PDTUtils
 			
 			return true;
 		}
-		// i am a anosey neighbiour
+		
 		private void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destination_folder)
 		{
 			try 

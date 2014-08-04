@@ -11,7 +11,6 @@ namespace PDTUtils.Logic
 	{
 		public GamesList()
 		{
-
 		}
 
 		ObservableCollection<GamesInfo> m_gamesInfo = new ObservableCollection<GamesInfo>();
@@ -27,7 +26,7 @@ namespace PDTUtils.Logic
 			if (this.PropertyChanged != null)
 				this.PropertyChanged(this, new PropertyChangedEventArgs(name));
 		}
-
+		
 		public void GetGamesList()
 		{
 			if (m_gamesInfo.Count > 0)

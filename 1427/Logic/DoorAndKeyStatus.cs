@@ -99,7 +99,6 @@ namespace PDTUtils
 						}
 					}
 				}
-				
 				Thread.Sleep(2);
 			}
 		}

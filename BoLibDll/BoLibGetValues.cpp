@@ -66,9 +66,9 @@ namespace utils
 	{
 		unsigned int int1 = t;
 		unsigned int int2 = z;
-	
+		
 		unsigned int temp = int2;
-	
+		
 		do
 		{
 			temp /= 10;

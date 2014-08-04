@@ -38,7 +38,7 @@ namespace PDTUtils.Logic
 			m_value = value;
 		}
 	}
-
+	
 	// need to check for duplicates, remove etc...
 	public class UniqueIniCategory : ObservableCollection<IniElement>
 	{ 
@@ -46,20 +46,8 @@ namespace PDTUtils.Logic
 		public UniqueIniCategory()
 		{
 		}
-
-		public void Find(MachineIni ini)
-		{
-			/*foreach (IniElement i in ini.GetItems)
-			{
-				if (!uniqueEntries.Contains(i.Category))
-				{
-					uniqueEntries.Add(i.Category);
-					Add(i);
-				}
-			}*/
-		}
 	}
-
+	
 	/// <summary>
 	/// Represents the machine ini of the cabinet.
 	/// </summary>
@@ -70,13 +58,11 @@ namespace PDTUtils.Logic
 		Dictionary<string, string> iniVariables = new Dictionary<string, string>();
 		List<string> m_field = new List<string>();
 		List<string> m_values = new List<string>();
-		//ObservableCollection<IniElement> m_iniElements = new ObservableCollection<IniElement>();
 		
 		public MachineIni()
 		{
 			ParseIni();
 		}
-
 
 		#region Properties
 
@@ -95,13 +81,7 @@ namespace PDTUtils.Logic
 			get { return Items; }
 		}*/
 		#endregion
-
-		public void Save()
-		{
-
-		}
 		
-
 		/// <summary>
 		/// Read Machine and parse accordingly.
 		/// </summary>
@@ -118,7 +98,7 @@ namespace PDTUtils.Logic
 				{
 					if (line.Equals(EndOfIni))
 						break;
-					else if (line.StartsWith("#") /*|| line.StartsWith("[")*/ || line.Equals(""))
+					else if (line.StartsWith("#") || line.Equals(""))
 					{
 					}
 					else if (line.StartsWith("["))
@@ -131,25 +111,21 @@ namespace PDTUtils.Logic
 						if (line.Contains("="))
 						{
 							var options = line.Split("=".ToCharArray());
-						//	iniVariables.Add(category + options[0], options[1]);
 							Add(new IniElement(category, options[0], options[1]));
 						}
 						else if(line != null || line != "")
 						{
-							//iniVariables.Add(line, line);
 							Add(new IniElement(category, line, line));
 						}
 					}
 				}
 			}
-
 			return true;
 		}
 
 		public void HashMachineIni()
 		{
 			int retries = 10;
-
 			if (NativeMD5.CheckFileType(IniPath) == true)
 			{
 				if (NativeMD5.CheckHash(IniPath) != true)

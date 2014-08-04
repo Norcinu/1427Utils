@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
+
 namespace PDTUtils.Logic
 {
 	public static class MyDebug<T>
@@ -16,7 +17,7 @@ namespace PDTUtils.Logic
 			}
 #endif
 		}
-
+		
 		public static void WriteCollectionToFile(string filename, T[] theOutput)
 		{
 #if DEBUG

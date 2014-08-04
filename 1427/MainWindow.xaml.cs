@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using PDTUtils.Logic;
 using PDTUtils.Native;
+using System.Globalization;
 
 
 namespace PDTUtils
@@ -34,12 +35,21 @@ namespace PDTUtils
 		GamesList m_gamesList = new GamesList();
 		MachineLogsController m_logController = new MachineLogsController();
 		UserSoftwareUpdate m_updateFiles = new UserSoftwareUpdate();
-
+		
 		public MainWindow()
         {
             InitializeComponent();
 			try
 			{
+				Random r = new Random();
+				CultureInfo ci = null;
+				if (r.Next(2) == 0)
+					ci = new CultureInfo("es-ES"); // read this from config
+				else
+					ci = new CultureInfo("en-GB");
+				Thread.CurrentThread.CurrentCulture = ci;
+				Thread.CurrentThread.CurrentUICulture = ci;
+				
 				InitialiseBoLib();
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
@@ -120,7 +130,7 @@ namespace PDTUtils
 		}
 
 		#endregion
-
+		
 		private void btnExit_Click(object sender, RoutedEventArgs e)
         {
 			Application.Current.Shutdown();
@@ -129,9 +139,9 @@ namespace PDTUtils
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
 			Enabler.ClearAll();
-		//	BoLib.getCountryCode();
-		//	MessageBox.Show(BoLib.getCountryCodeStr());
-		//	MessageBox.Show(BoLib.getEDCTypeStr());
+			//BoLib.getCountryCode();
+			//MessageBox.Show(BoLib.getCountryCodeStr());
+			//MessageBox.Show(BoLib.getEDCTypeStr());
 			//CommitChanges.Save();
 			//MessageBox.Show("Changes Made, reboot required.", "Commit Changes", MessageBoxButton.OK, MessageBoxImage.Information);
 			//CommitChanges.RebootMachine();
@@ -143,7 +153,8 @@ namespace PDTUtils
 		{
 			MyLogfiles.IsEnabled = true;
 			MyLogfiles.Visibility = Visibility.Visible;
-			LogController.setEerrorLog();
+			Enabler.EnableCategory("Logfiles");
+			LogController.setErrorLog();
 			LogController.setPlayedLog();
 			LogController.setWinningLog();
 		}
@@ -155,12 +166,11 @@ namespace PDTUtils
 			{
 			}
 		}
-
+		
 		private void Games_Click(object sender, RoutedEventArgs e)
 		{
 			m_gameStatistics.ParsePerfLog();
 			m_enabler.IterateCategory("GameStatistics");
-			//m_enabler.GameStatistics = true;
 		}
 
 		private void GetSystemUptime()
@@ -189,7 +199,7 @@ namespace PDTUtils
 				MessageBox.Show("Error: " + err.ToString());
 			}
 		}
-
+		
 		private void WindowMain_Closing(object sender, CancelEventArgs e)
 		{
 			if (m_keyDoorWorker.Running == true)
@@ -203,7 +213,7 @@ namespace PDTUtils
 					m_keyDoorThread.Join();
 				}
 			}
-
+		
 			if (m_connected)
 				BoLib.closeSharedMemory();
 		}
@@ -213,16 +223,12 @@ namespace PDTUtils
 			m_machineIni.ParseIni();
 			MessageBox.Show("Machine RTP " + m_machineIni.GetIniValue("Datapack.Dpercentage") + "%");
 			MessageBox.Show("Machine Number " + m_machineIni["Server.Machine Number"]);
-
+			
 			// commit changes to memory
 		}
 
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
-		//	TabSetup.IsEnabled = true;
-		//	TabSetup.Visibility = Visibility.Visible;
-
-			//m_enabler.Volume = true;
 			m_enabler.IterateCategory("Setup");
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 			if (MasterVolumeSlider.Value > 0)
@@ -233,7 +239,7 @@ namespace PDTUtils
 		{
 			return true;
 		}
-
+		
 		private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			IniSettingsWindow w = new IniSettingsWindow();
@@ -261,7 +267,7 @@ namespace PDTUtils
 				}
 			}
 		}
-
+		
 		private void RemoveChildrenFromStackPanel()
 		{
 			int childCount = stpButtonPanel.Children.Count;
@@ -270,23 +276,16 @@ namespace PDTUtils
 				stpButtonPanel.Children.RemoveRange(0, childCount);
 			}
 		}
-
+		
 		private void MachineIniCategorys_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			// Select a pre-defined set of regional rules. Select the region in the machine and this loads them into the shell.
+			// Select a pre-defined set of regional rules. 
+			// Select the region in the machine and this loads them into the shell.
 		}
 		
 		private void MachineIniCategorys_DropDownClosed(object sender, EventArgs e)
 		{
-		}
-		
-		private void btnVolume_Click(object sender, RoutedEventArgs e)
-		{
-			//m_enabler.Volume = true;
-			m_enabler.IterateCategory("Volume");
-			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
-			if (MasterVolumeSlider.Value > 0)
-				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
+			
 		}
 		
 		private void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -301,9 +300,8 @@ namespace PDTUtils
 			m_shortTerm.ReadMeter();
 			m_longTerm.ReadMeter();
 			m_enabler.IterateCategory("Meters");
-			//m_enabler.Meters = true;
 		}
-
+		
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
 		{
 			m_enabler.ClearAll();
@@ -311,14 +309,12 @@ namespace PDTUtils
 			TestSuiteWindow ts = new TestSuiteWindow();
 			ts.ShowDialog();
 			m_keyDoorWorker.TestSuiteRunning = false;
-
 		}
 
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
 			GamesList.GetGamesList();
 			m_enabler.IterateCategory("System");
-			//m_enabler.System = true;
 		}
 
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
@@ -334,7 +330,6 @@ namespace PDTUtils
 				btnRollback.IsEnabled = false;
 				btnRollback.Visibility = Visibility.Hidden;
 				
-
 				stpUpdate.IsEnabled = true;
 				stpUpdate.Visibility = Visibility.Visible;
 			}

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using PDTUtils.Native;
 using System.ComponentModel;
+using PDTUtils.Logic;
 
 namespace PDTUtils
 {
@@ -22,18 +23,21 @@ namespace PDTUtils
 				this.PropertyChanged(this, new PropertyChangedEventArgs(name));
 		}
 	}
-
+	
 	public abstract class BaseGameLog : BaseNotifyPropertyChanged
 	{
 		public string GameDate
 		{
 			get { return logDate.ToString("dd/MM/yyyy HH:mm"); }
 		}
-
-		public string LogDate { get { return logDate.ToString("dd/MM/yyyy HH:mm"); } }
-		public string Stake { get { return (stake / 100m).ToString("c2"); } }
-		public string Credit { get { return (credit / 100m).ToString("c2"); } }
-		public uint GameModel { get; set; }
+		
+		public string LogDate	{ get { return logDate.ToString("dd/MM/yyyy HH:mm"); } }
+		public string Stake		{ get { return (stake / 100m).ToString("c2"); } }
+		public string Credit	{ get { return (credit / 100m).ToString("c2"); } }
+		public uint GameModel	{ get; set; }
+		
+		CultureInfo ci = new CultureInfo("en-GB");
+		NumberFormatInfo nfi;
 
 		#region Private Variables
 		public DateTime logDate;
@@ -43,7 +47,9 @@ namespace PDTUtils
 
 		public BaseGameLog()
 		{
-			CultureInfo ci = new CultureInfo("es-ES");
+			//CultureInfo ci = new CultureInfo("en-GB");//"es-ES");
+			nfi = (NumberFormatInfo)CultureInfo.CurrentCulture.NumberFormat.Clone();
+			nfi.CurrencySymbol = "£";
 			stake = 0;
 			credit = 0;
 		}
@@ -76,7 +82,7 @@ namespace PDTUtils
 			this.OnPropertyChanged("WinningGames");
 		}
 	}
-
+	
 	public class PlayedGame : BaseGameLog
 	{
 		public string WinAmount { get { return (winAmount / 100).ToString("c2"); } }
@@ -86,7 +92,7 @@ namespace PDTUtils
 		{
 
 		}
-
+		
 		public PlayedGame(int gameNo)
 		{
 			ParseGame(gameNo);
@@ -100,8 +106,8 @@ namespace PDTUtils
 			var gameDate = BoLib.getGameDate(gameNo);
 			var time = BoLib.getGameTime(gameNo);
 
-			var hour = time & 0x0000FFFF;
-			var minute = time >> 16;
+			var hour = time >> 16;
+			var minute = time & 0x0000FFFF;
 
 			var month = gameDate & 0x0000FFFF;
 			var day = gameDate >> 16;
@@ -109,13 +115,25 @@ namespace PDTUtils
 			if (month > DateTime.Now.Month)
 				--year;
 
-			string ds = day + @"/" + month + @"/" + year + " " + hour + " " + ":" + minute;
-			credit = BoLib.getGameCreditLevel(gameNo);
-			stake = BoLib.getGameWager(gameNo);
-			GameModel = BoLib.getGameModel(gameNo);
-			logDate = DateTime.Parse(ds, ci);
-			winAmount = BoLib.getWinningGame(gameNo);
-			this.OnPropertyChanged("PlayedGames");
+			string error_str="";
+			try
+			{
+				string ds = day + @"/" + month + @"/" + year + " " + hour + " " + ":" + minute;
+				error_str = ds;
+				credit = BoLib.getGameCreditLevel(gameNo);
+				stake = BoLib.getGameWager(gameNo);
+				GameModel = BoLib.getGameModel(gameNo);
+					
+				logDate = DateTime.Parse(ds, ci);
+				winAmount = BoLib.getWinningGame(gameNo);
+				this.OnPropertyChanged("PlayedGames");
+				
+			}
+			catch (System.Exception ex)
+			{
+				MyDebug<string>.WriteToFile("error_log.txt", ex.Message + "\n" + ex.StackTrace);
+				MyDebug<string>.WriteToFile("error_log.txt", error_str);
+			}
 		}
 	}
 
@@ -160,7 +178,7 @@ namespace PDTUtils
 		public ObservableCollection<PlayedGame> PlayedGames { get { return m_playedGames; } }
 		#endregion
 
-		public void setEerrorLog()
+		public void setErrorLog()
 		{
 			string errLogLocation = @"D:\machine\GAME_DATA\TerminalErrLog.log";
 			try
@@ -174,7 +192,7 @@ namespace PDTUtils
 					reveresed[ctr] = lines[i];
 					ctr++;
 				}
-				
+			
 				foreach (string s in reveresed)
 				{
 					try
@@ -190,7 +208,7 @@ namespace PDTUtils
 									var timeAndDate = ss.Substring(0, 19).TrimStart(" \t".ToCharArray());
 									var errorCode = ss.Substring(21, 3).TrimStart(" \t".ToCharArray());
 									var desc = ss.Substring(26).TrimStart(" \t".ToCharArray());
-									ErrorLog.Add(new MachineErrorLog(errorCode, desc, timeAndDate));	
+									ErrorLog.Add(new MachineErrorLog(errorCode, desc, timeAndDate));
 								}
 							}
 						}
@@ -206,7 +224,7 @@ namespace PDTUtils
 				Console.WriteLine(ex.Message);
 			}
 		}
-
+		
 		public void setPlayedLog()
 		{
 			for (int i = 0; i < 10; i++)

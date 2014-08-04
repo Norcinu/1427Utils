@@ -139,7 +139,7 @@
                         </ListView>
                     </StackPanel>
                 </ScrollViewer>
-            </TabItem> 
+            </TabItem>
             
             <TabItem Header="Wins" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -174,7 +174,7 @@
 
 
         <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
-            <TabItem Header="Machine Ini" MinWidth="100"><!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
+            <TabItem Header="Machine Ini" MinWidth="100"> <!--IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center">
@@ -259,7 +259,7 @@
                 </TabControl>
             </TabItem>
             
-            <TabItem Header="Hoppers" MinWidth="100"><!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
+            <TabItem Header="Hoppers" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
                 
             </TabItem>
             
@@ -267,10 +267,10 @@
                 <StackPanel MinWidth="150">
                     <Button Name="btnRollback" Content="RollBack to Previous" MinWidth="150" MinHeight="50" FontSize="14"></Button>
                     <Button Name="btnUpdateFiles" Content="Update Files" MinWidth="150" MinHeight="50" FontSize="14" Click="btnUpdateFiles_Click"></Button>
-                    
+                        
                     <StackPanel Name="stpUpdate" IsEnabled="False" Visibility="Hidden">
                         <Label Content="Select Files to copy." FontSize="18" />
-
+                        
                         <TreeView ItemsSource="{Binding Path=UpdateFiles.FilesToUpdate}">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate>
@@ -290,11 +290,7 @@
                     </StackPanel>
                 </StackPanel>
             </TabItem>
-            
-            <!-- we need more tab controls inside tab controls. -->
-            <!-- and more patches that take for ever to install -->
         </TabControl>
-        
         
         <StackPanel Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
             <!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
@@ -344,7 +340,7 @@
                         <Label FontSize="22" HorizontalContentAlignment="Center">Long Term Meters</Label>
                         <ListView ItemsSource="{Binding Path=LongTerm.MeterDesc}" FontSize="18">
                             <ListView.View>
-                                <GridView >
+                                <GridView>
                                     <GridViewColumn Header="Meter Type"  Width="150">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -402,9 +398,8 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
-       
-        <!-- End of System Info View -->
         
+        <!-- End of System Info View -->
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Content="Hoppers" Height="35" HorizontalAlignment="Stretch" Name="btnHoppers" VerticalAlignment="Stretch" Width="170" Click="btnHoppers_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
             <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="btnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
@@ -415,7 +410,7 @@
             <Button Content="Performance" Height="35" HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
             <Button Content="System Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
         </StackPanel>
-
+        
         <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
     </Grid>
 
