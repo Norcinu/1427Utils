@@ -131,8 +131,7 @@ namespace PDTUtils
 			}
 			catch (System.Exception ex)
 			{
-				MyDebug<string>.WriteToFile("error_log.txt", ex.Message + "\n" + ex.StackTrace);
-				MyDebug<string>.WriteToFile("error_log.txt", error_str);
+				Console.WriteLine(ex.Message);
 			}
 		}
 	}

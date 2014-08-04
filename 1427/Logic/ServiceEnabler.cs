@@ -92,8 +92,6 @@ namespace PDTUtils.Logic
 			var keys = new List<string>(m_categories.Keys);
 			foreach (var key in keys)
 			{
-				MyDebug<string>.WriteToFile("banter.txt", "The Key is : " + key);
-				MyDebug<string>.WriteToFile("banter.txt", "DA VALUE IMO " + m_categories[key].ToString());
 				m_categories[key] = false;
 				this.OnPropertyChanged(key);
 			}

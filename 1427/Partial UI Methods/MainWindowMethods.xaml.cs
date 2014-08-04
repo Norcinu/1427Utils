@@ -18,7 +18,7 @@ namespace PDTUtils
 				int shell = BoLib.setEnvironment();
 				if (shell == 0)
 				{
-					m_connected = true;
+					m_sharedMemoryOnline = true;
 					
 					UpdateDoorStatusLabel();
 					m_doorStatusTimer = new System.Timers.Timer(500);

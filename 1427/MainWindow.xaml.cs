@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using PDTUtils.Logic;
 using PDTUtils.Native;
-using System.Globalization;
 
 
 namespace PDTUtils
@@ -17,13 +17,13 @@ namespace PDTUtils
     public partial class MainWindow : Window
     {
 		bool m_requiresSave = false;
-		bool m_connected = false;
+		bool m_sharedMemoryOnline = false;
 		string m_errorMessage = "";
 		
 		System.Timers.Timer m_doorStatusTimer;
 		System.Timers.Timer m_uiUpdateTimer;
 		Thread m_keyDoorThread;
-
+		
 		MachineErrorLog m_errorLogText = new MachineErrorLog();
 		MachineIni m_machineIni = new MachineIni();
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
@@ -66,9 +66,9 @@ namespace PDTUtils
 			ColumnOne.Width = new GridLength(200);
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
         }
-
+		
 		#region Properties
-
+		
 		public MachineLogsController LogController { get { return m_logController; } }
 		public UserSoftwareUpdate UpdateFiles { get { return m_updateFiles; } }
 		
@@ -76,7 +76,7 @@ namespace PDTUtils
 		{
 			get { return m_gamesList; }
 		}
-
+		
 		DoorAndKeyStatus m_keyDoorWorker = new DoorAndKeyStatus();
 		public DoorAndKeyStatus KeyDoorWorker
 		{
@@ -148,7 +148,7 @@ namespace PDTUtils
 			//HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
 			//w.ShowDialog();
 		}
-
+		
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
 			MyLogfiles.IsEnabled = true;
@@ -199,7 +199,7 @@ namespace PDTUtils
 				MessageBox.Show("Error: " + err.ToString());
 			}
 		}
-		
+	
 		private void WindowMain_Closing(object sender, CancelEventArgs e)
 		{
 			if (m_keyDoorWorker.Running == true)
@@ -213,8 +213,8 @@ namespace PDTUtils
 					m_keyDoorThread.Join();
 				}
 			}
-		
-			if (m_connected)
+			
+			if (m_sharedMemoryOnline)
 				BoLib.closeSharedMemory();
 		}
 		
@@ -223,7 +223,7 @@ namespace PDTUtils
 			m_machineIni.ParseIni();
 			MessageBox.Show("Machine RTP " + m_machineIni.GetIniValue("Datapack.Dpercentage") + "%");
 			MessageBox.Show("Machine Number " + m_machineIni["Server.Machine Number"]);
-			
+					
 			// commit changes to memory
 		}
 
@@ -282,7 +282,7 @@ namespace PDTUtils
 			// Select a pre-defined set of regional rules. 
 			// Select the region in the machine and this loads them into the shell.
 		}
-		
+				
 		private void MachineIniCategorys_DropDownClosed(object sender, EventArgs e)
 		{
 			
@@ -294,7 +294,7 @@ namespace PDTUtils
 			uint volume = Convert.ToUInt32(MasterVolumeSlider.Value);
 			BoLib.setLocalMasterVolume(volume);
 		}
-
+		
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
 			m_shortTerm.ReadMeter();

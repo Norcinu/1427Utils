@@ -90,10 +90,8 @@ namespace PDTUtils
 		{
 			if (!(value is bool))
 			{
-				MyDebug<string>.WriteToFile("conv.txt", "Value is null");
 				return null;
-			}
-			MyDebug<string>.WriteToFile("conv.txt", value.ToString());
+			}			
 			return (bool)value ? TrueValue : FalseValue;
 		}
 

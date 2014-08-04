@@ -265,12 +265,12 @@ namespace PDTUtils
 						{
 							if (m_btnImpl.m_toggled[0] == false)
 							{
-								MyDebug<string>.WriteToFile("toggle.txt", "Key Toggled Off");
+								Console.WriteLine("Key Toggled Off");
 								m_btnImpl.m_toggled[0] = true;
 							}
 							else
 							{
-								MyDebug<string>.WriteToFile("toggle.txt", "Key Toggled On");
+								Console.WriteLine("Key Toggled On");
 								m_btnImpl.m_currentSpecial = 1;
 							}
 						}
@@ -287,13 +287,13 @@ namespace PDTUtils
 							if (m_btnImpl.m_toggled[1] == false)
 							{
 								m_btnImpl.m_toggled[1] = true;
-								MyDebug<string>.WriteToFile("toggle.txt", "Toggled Closed");
+								Console.WriteLine("Toggled Closed");
 								//this.label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label1 });
 							}
 							else
 							{
 								m_btnImpl.m_currentSpecial++;
-								MyDebug<string>.WriteToFile("toggle.txt", "Toggled Open");
+								Console.WriteLine("Toggled Open");
 								m_btnImpl.DoSpecials = false;
 								//this.label2.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label2 });
 							}

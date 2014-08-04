@@ -86,7 +86,6 @@ namespace PDTUtils
 						CustomImagePathConverter conv = new CustomImagePathConverter();
 						var ret = conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture) as string;
 						m_filesToUpdate.Add(new FileImpl(str, ret));
-						MyDebug<string>.WriteToFile("copy_file2.txt", "The str is " + str);
 						DoCopyFile(str);
 					}
 
@@ -97,8 +96,6 @@ namespace PDTUtils
 					}
 					
 					this.OnPropertyChanged("UpdateFiles");
-					MyDebug<string>.WriteCollectionToFile("debug.txt", files_section);
-					MyDebug<string>.WriteCollectionToFile("debug2.txt", folders_section);
 				}
 				else
 				{
@@ -168,7 +165,7 @@ namespace PDTUtils
 			}
 			catch (System.Exception ex)
 			{
-				MyDebug<string>.WriteToFile(Properties.Resources.usb_error_log , ex.Message);
+				Console.WriteLine(ex.Message);
 			}
 
 			var source = m_updateDrive.Name + fileToCopy;
@@ -185,7 +182,7 @@ namespace PDTUtils
 					}
 					catch (Exception ex)
 					{
-						MyDebug<string>.WriteToFile(Properties.Resources.usb_error_log, "The Destination file seems to exist." + ex.Message);
+						Console.WriteLine(ex.Message);
 					}
 				}
 				else
@@ -198,13 +195,13 @@ namespace PDTUtils
 					}
 					catch (Exception ex)
 					{
-						MyDebug<string>.WriteToFile("copy_file.txt", "The Destination file does exist." + ex.Message);
+						Console.WriteLine(ex.Message);
 					}
 				}
 			}
 			catch (System.Exception ex)
 			{
-				MyDebug<string>.WriteToFile(Properties.Resources.usb_error_log, ex.Message);
+				Console.WriteLine(ex.Message);
 			}
 			
 			if (NativeMD5.CheckHash(source) || !NativeMD5.CheckFileType(source))
@@ -307,7 +304,7 @@ namespace PDTUtils
 			}
 			catch (System.Exception ex)
 			{
-				MyDebug<string>.WriteToFile(Properties.Resources.usb_error_log, ex.Message);
+				Console.WriteLine(ex.Message);
 			}
 		}
 	}
