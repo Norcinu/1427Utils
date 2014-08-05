@@ -4,6 +4,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows;
 using PDTUtils.Logic;
+using PDTUtils.Properties;
 
 namespace PDTUtils
 {
@@ -39,16 +40,18 @@ namespace PDTUtils
 									   object parameter, CultureInfo culture)
 		{
 			string str = value as string;
-			if (str.Contains(".png") == true)
-				return @"D:\1427\bmp\bitmap.bmp";
+			if (str[str.Length - 4] != '.')
+				return @Resources.FILE_TYPE_FOLDER;
+			else if (str.Contains(".png") == true)
+				return @Resources.FILE_TYPE_IMG;
 			else if (str.Contains(".wav") == true)
-				return @"D:\1427\bmp\wav.bmp";
+				return @Resources.FILE_TYPE_WAV;
 			else if (str.ToString().Contains(".ini") == true)
-				return @"D:\1427\bmp\ini.bmp";
+				return @Resources.FILE_TYPE_INI;
 			else if (str.ToString().Contains(".exe") == true)
-				return @"D:\1427\bmp\exe.bmp";
+				return @Resources.FILE_TYPE_EXE;
 			else
-				return @"D:\1427\bmp\unknown.png";	
+				return @Resources.FILE_TYPE_UNKNOWN;
 		}
 
 		public object ConvertBack(object value, Type targetType, 

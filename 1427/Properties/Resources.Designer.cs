@@ -79,6 +79,60 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to D:\1427\exe.bmp.
+        /// </summary>
+        internal static string FILE_TYPE_EXE {
+            get {
+                return ResourceManager.GetString("FILE_TYPE_EXE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1427\folder.bmp.
+        /// </summary>
+        internal static string FILE_TYPE_FOLDER {
+            get {
+                return ResourceManager.GetString("FILE_TYPE_FOLDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1427\bitmap.bmp.
+        /// </summary>
+        internal static string FILE_TYPE_IMG {
+            get {
+                return ResourceManager.GetString("FILE_TYPE_IMG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1427\ini.bmp.
+        /// </summary>
+        internal static string FILE_TYPE_INI {
+            get {
+                return ResourceManager.GetString("FILE_TYPE_INI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1427\unknown.bmp.
+        /// </summary>
+        internal static string FILE_TYPE_UNKNOWN {
+            get {
+                return ResourceManager.GetString("FILE_TYPE_UNKNOWN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1427\wav.bmp.
+        /// </summary>
+        internal static string FILE_TYPE_WAV {
+            get {
+                return ResourceManager.GetString("FILE_TYPE_WAV", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D:\machine\GAME_DATA\.
         /// </summary>
         internal static string game_data {

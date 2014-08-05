@@ -117,84 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="alarm" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\alarm.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Functional" xml:space="preserve">
+    <value>Functional</value>
   </data>
-  <data name="attention" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\attention.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Games" xml:space="preserve">
+    <value>Games</value>
   </data>
-  <data name="exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\exit.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="GameStatistics" xml:space="preserve">
+    <value>GameStatistics</value>
   </data>
-  <data name="game_data" xml:space="preserve">
-    <value>D:\machine\GAME_DATA\</value>
-    <comment>Location of the terminals game data folder.</comment>
+  <data name="Hoppers" xml:space="preserve">
+    <value>Hoppers</value>
   </data>
-  <data name="go_back" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\return.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Logfile" xml:space="preserve">
+    <value>Logfile</value>
   </data>
-  <data name="machine" xml:space="preserve">
-    <value>D:\machine\</value>
-    <comment>Location of the terminals machine folder.</comment>
+  <data name="MachineIni" xml:space="preserve">
+    <value>MachineIni</value>
   </data>
-  <data name="machine_ini" xml:space="preserve">
-    <value>D:\machine\machine.ini</value>
-    <comment>The terminals ini configuration file.</comment>
+  <data name="Meters" xml:space="preserve">
+    <value>Meters</value>
   </data>
-  <data name="paytrans" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\paytrans.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Performance" xml:space="preserve">
+    <value>Performance</value>
   </data>
-  <data name="perf_log" xml:space="preserve">
-    <value>D:\machine\GAME_DATA\Performance.log</value>
-    <comment>The terminals game statistics log.</comment>
+  <data name="Setup" xml:space="preserve">
+    <value>Setup</value>
   </data>
-  <data name="reset" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\reset.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
   </data>
-  <data name="security_log" xml:space="preserve">
-    <value>D:\machine\SecurityLog.txt</value>
-    <comment>MD5 Logs.</comment>
-  </data>
-  <data name="start" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\start.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="update_log" xml:space="preserve">
-    <value>D:\machine\updatekey.txt</value>
-    <comment>Update Key.</comment>
-  </data>
-  <data name="usb_error_log" xml:space="preserve">
-    <value>D:\usb_error.log</value>
-    <comment>Error log for updating games via USB.</comment>
-  </data>
-  <data name="util" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\util.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="util_click" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\util_click.WAV;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="util_exit" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\util_exit.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="volume_snd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\volume.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="FILE_TYPE_EXE" xml:space="preserve">
-    <value>D:\1427\exe.bmp</value>
-  </data>
-  <data name="FILE_TYPE_FOLDER" xml:space="preserve">
-    <value>D:\1427\folder.bmp</value>
-  </data>
-  <data name="FILE_TYPE_IMG" xml:space="preserve">
-    <value>D:\1427\bitmap.bmp</value>
-  </data>
-  <data name="FILE_TYPE_INI" xml:space="preserve">
-    <value>D:\1427\ini.bmp</value>
-  </data>
-  <data name="FILE_TYPE_UNKNOWN" xml:space="preserve">
-    <value>D:\1427\unknown.bmp</value>
-  </data>
-  <data name="FILE_TYPE_WAV" xml:space="preserve">
-    <value>D:\1427\wav.bmp</value>
+  <data name="Volume" xml:space="preserve">
+    <value>Volume</value>
   </data>
 </root>

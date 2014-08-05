@@ -33,6 +33,9 @@ namespace PDTUtils
 		ObservableCollection<string> m_filesNotCopied = new ObservableCollection<string>();
 
 		#region PROPERTIES
+		public bool AllowUpdate { get; set; }
+		public uint FileCount { get; set; }
+
 		public string UpdateIni
 		{
 			get { return m_updateIni; }
@@ -56,8 +59,66 @@ namespace PDTUtils
 
 		}
 
+
+		/// <summary>
+		/// Read update ini and populate the tree view with the necessary files.
+		/// Do not take any action.
+		/// </summary>
+		/// <returns>True or false on success or failure</returns>
+		public bool DoSoftwareUpdatePreparation()
+		{
+			if (CanChangeToUsbDrive())
+			{
+				// we can look for update.ini
+				if (File.Exists(m_updateIni))
+				{
+					string[] folders_section = null;
+					string[] files_section = null;
+					bool quit = false;
+
+					BoLib.setFileAction();
+					bool? b = GetIniProfileSection(out folders_section, "Folders");
+					if (b == false || folders_section == null)
+						quit = true;
+
+					b = GetIniProfileSection(out files_section, "Files");
+					if (b == false || folders_section == null)
+						quit = true;
+
+					BoLib.clearFileAction();
+
+					if (quit == true)
+						return false;
+
+					foreach (var str in files_section)
+					{
+						var ret = GetImagePathString(str);
+						m_filesToUpdate.Add(new FileImpl(str, ret));
+						FileCount++;
+					}
+
+					foreach (var str in folders_section)
+					{
+						var ret = GetImagePathString(str);
+						m_filesToUpdate.Add(new FileImpl(str, ret));
+						FileCount++;
+					}
+
+					this.OnPropertyChanged("UpdateFiles");
+				}
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// Perform the necessary updates.
+		/// </summary>
+		/// <returns>True or false on success</returns>
 		public bool DoSoftwareUpdate()
 		{
+			if (m_filesToUpdate.Count > 0)
+				m_filesToUpdate.Clear();
+
 			if (CanChangeToUsbDrive())
 			{
 				// we can look for update.ini
@@ -83,16 +144,16 @@ namespace PDTUtils
 					
 					foreach (var str in files_section)
 					{
-						CustomImagePathConverter conv = new CustomImagePathConverter();
-						var ret = conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture) as string;
+						var ret = GetImagePathString(str);
 						m_filesToUpdate.Add(new FileImpl(str, ret));
 						DoCopyFile(str);
 					}
 
 					foreach (var str in folders_section)
 					{
-						m_filesToUpdate.Add(new FileImpl(str, str));
-						DoCopyDirectory(str,0);
+						var ret = GetImagePathString(str);
+						m_filesToUpdate.Add(new FileImpl(str, ret));
+						DoCopyDirectory(str, 0);
 					}
 					
 					this.OnPropertyChanged("UpdateFiles");
@@ -104,6 +165,13 @@ namespace PDTUtils
 				return true;
 			}
 			return false;
+		}
+
+		private static string GetImagePathString(string str)
+		{
+			CustomImagePathConverter conv = new CustomImagePathConverter();
+			var ret = conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture) as string;
+			return ret;
 		}
 		
 		private bool GetIniProfileSection(out string[] section, string field)
@@ -225,7 +293,7 @@ namespace PDTUtils
 		bool DoCopyDirectory(string path, int dirFlag)
 		{
 			string source_folder = m_updateDrive + path;
-			string destination_folder = @"d:\";
+			string destination_folder = @"d:\" + path;//no path?
 			string rename_folder = destination_folder + @"_old";
 			
 			if (!Directory.Exists(destination_folder))
@@ -252,14 +320,32 @@ namespace PDTUtils
 					// folder does exist move it to _old
 					// and create new folder
 					if (Directory.Exists(rename_folder))
+					{
 						Directory.Delete(rename_folder, true);
-					
-					Directory.Move(destination_folder, rename_folder);
-					Directory.CreateDirectory(destination_folder);
-					DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
-					AddToRollBack(rename_folder, 0);
 
-					GetAndCopyAllFiles(srcInfo, destination_folder);
+						Directory.Move(destination_folder, rename_folder);
+						Directory.CreateDirectory(destination_folder);
+						DirectoryInfo dstInfo = new DirectoryInfo(rename_folder);
+						//GetAndCopyAllFiles(dstInfo, destination_folder);
+						//var dd = dstInfo.GetDirectories();
+						foreach (string dirPath in Directory.GetDirectories(rename_folder, "*",
+							SearchOption.AllDirectories))
+							Directory.CreateDirectory(dirPath.Replace(rename_folder, destination_folder));
+
+						//Copy all the files & Replaces any files with the same name
+						foreach (string newPath in Directory.GetFiles(rename_folder, "*.*",
+							SearchOption.AllDirectories))
+							File.Copy(newPath, newPath.Replace(rename_folder, destination_folder), true);
+
+						DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
+						AddToRollBack(rename_folder, 0);
+
+						GetAndCopyAllFiles(srcInfo, destination_folder);
+					}
+					else
+					{
+					}
+					
 				}
 				catch (System.Exception ex)
 				{
@@ -306,6 +392,14 @@ namespace PDTUtils
 			{
 				Console.WriteLine(ex.Message);
 			}
+		}
+
+		public void DoCancelUpdate()
+		{
+			AllowUpdate = false;
+			FileCount = 0;
+			m_filesToUpdate.Clear();
+			m_filesNotCopied.Clear();
 		}
 	}
 }

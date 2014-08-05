@@ -2,7 +2,6 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:uc="clr-namespace:PDTUtilsControlLib;assembly=PDTUtilsControlLib"
-        xmlns:conv="clr-namespace:PDTUtils"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Background="{DynamicResource WindowBackgroundBrush}"
         Title="1427 Shell Utils" 
@@ -31,8 +30,8 @@
         </Grid.RowDefinitions>
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-            <conv:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Visible" FalseValue="Hidden" />
-            <conv:CustomImagePathConverter x:Key="CustomImgPath"/>
+            <!--<conv:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Visible" FalseValue="Hidden" />
+            <conv:CustomImagePathConverter x:Key="CustomImgPath"/>-->
             <LinearGradientBrush x:Key="FunkyBrush">
                 <GradientStop Color="Yellow" Offset="0" />
                 <GradientStop Color="Navy" Offset="1" />
@@ -106,7 +105,7 @@
                Visibility="Collapsed" />
         
         <!-- Logfiles -->
-        <TabControl Name="MyLogfiles" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="False" Visibility="Hidden">
+        <TabControl Name="MyLogfiles" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding Path=Enabler.Logfile}" Visibility="{Binding Path=Enabler.Logfile, Converter={StaticResource BoolToVisConverter}}">
             <TabItem Header="Errors" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
@@ -159,20 +158,6 @@
             </TabItem>
         </TabControl>
         
-        
-        <ComboBox Width="100" 
-                  Height="35" 
-                  Name="MachineIniCategorys" 
-                  IsEnabled="False" 
-                  Visibility="Hidden"
-                  ItemsSource="{Binding GetUniqueCategories}"
-                  DisplayMemberPath="Category"
-                  SelectedValuePath="Category"
-                  SelectedValue="{Binding Category}" 
-                  SelectionChanged="MachineIniCategorys_SelectionChanged" 
-                  DropDownClosed="MachineIniCategorys_DropDownClosed" />
-
-
         <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
             <TabItem Header="Machine Ini" MinWidth="100"> <!--IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
@@ -271,7 +256,7 @@
                     <StackPanel Name="stpUpdate" IsEnabled="False" Visibility="Hidden">
                         <Label Content="Select Files to copy." FontSize="18" />
                         
-                        <TreeView ItemsSource="{Binding Path=UpdateFiles.FilesToUpdate}">
+                        <TreeView ItemsSource="{Binding Path=UpdateFiles.FilesToUpdate}" Name="treeUpdateSelectFiles">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -284,8 +269,8 @@
                             </TreeView.ItemTemplate>
                         </TreeView>
                         <StackPanel Orientation="Horizontal">
-                            <Button Width="75" Height="25" Margin="0,0,10,0">Update</Button>
-                            <Button Width="75" Height="25" Margin="0,0,10,0">Cancel</Button>
+                            <Button Width="75" Height="25" Margin="0,0,10,0" Name="btnPerformUpdate">Update</Button>
+                            <Button Width="75" Height="25" Margin="0,0,10,0" Name="btnCancelUpdate">Cancel</Button>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>

@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using PDTUtils.Logic;
 using PDTUtils.Native;
-
+using PDTUtils.Properties;
 
 namespace PDTUtils
 {
@@ -49,7 +49,7 @@ namespace PDTUtils
 					ci = new CultureInfo("en-GB");
 				Thread.CurrentThread.CurrentCulture = ci;
 				Thread.CurrentThread.CurrentUICulture = ci;
-				
+
 				InitialiseBoLib();
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
@@ -151,12 +151,11 @@ namespace PDTUtils
 		
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
-			MyLogfiles.IsEnabled = true;
-			MyLogfiles.Visibility = Visibility.Visible;
-			Enabler.EnableCategory("Logfiles");
+			Enabler.EnableCategory(Categories.Logfile);
 			LogController.setErrorLog();
 			LogController.setPlayedLog();
 			LogController.setWinningLog();
+			
 		}
 
 		private void btnHopperOK_Click(object sender, RoutedEventArgs e)
@@ -170,7 +169,7 @@ namespace PDTUtils
 		private void Games_Click(object sender, RoutedEventArgs e)
 		{
 			m_gameStatistics.ParsePerfLog();
-			m_enabler.IterateCategory("GameStatistics");
+			Enabler.EnableCategory(Categories.GameStatistics);
 		}
 
 		private void GetSystemUptime()
@@ -229,7 +228,8 @@ namespace PDTUtils
 
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
-			m_enabler.IterateCategory("Setup");
+			//m_enabler.IterateCategory("Setup");
+			Enabler.EnableCategory(Categories.Setup);
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 			if (MasterVolumeSlider.Value > 0)
 				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
@@ -299,7 +299,7 @@ namespace PDTUtils
 		{
 			m_shortTerm.ReadMeter();
 			m_longTerm.ReadMeter();
-			m_enabler.IterateCategory("Meters");
+			Enabler.EnableCategory(Categories.Meters);
 		}
 		
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
@@ -314,12 +314,12 @@ namespace PDTUtils
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
 			GamesList.GetGamesList();
-			m_enabler.IterateCategory("System");
+			Enabler.EnableCategory(Categories.System);
 		}
 
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
 		{
-			if (m_updateFiles.DoSoftwareUpdate() == false)
+			if (m_updateFiles.DoSoftwareUpdatePreparation() == false) //.DoSoftwareUpdate() == false) // !!! move this to the below function.
 			{
 				MessageBox.Show("Could not find update.ini " + UpdateFiles.UpdateIni);
 			}
@@ -329,10 +329,56 @@ namespace PDTUtils
 				btnUpdateFiles.Visibility = Visibility.Hidden;
 				btnRollback.IsEnabled = false;
 				btnRollback.Visibility = Visibility.Hidden;
-				
+
 				stpUpdate.IsEnabled = true;
 				stpUpdate.Visibility = Visibility.Visible;
 			}
 		}
-    }
+
+		private void UpdateCheckBoxSelected_Checked(object sender, RoutedEventArgs e)
+		{
+			if (btnPerformUpdate.IsEnabled == false)
+				btnPerformUpdate.IsEnabled = true;
+		}
+
+		private void UpdateCheckBoxSelected_UnChecked(object sender, RoutedEventArgs e)
+		{
+			if (m_updateFiles.FileCount > 0)
+				m_updateFiles.FileCount--;
+
+			if (btnPerformUpdate.IsEnabled == true && m_updateFiles.FileCount == 0)
+				btnPerformUpdate.IsEnabled = false;
+		}
+
+		private void btnPerformUpdate_Click(object sender, RoutedEventArgs e)
+		{
+			var checkboxes = Extension.GetChildOfType<CheckBox>(treeUpdateSelectFiles);
+			var activeCount = 0;
+			foreach (var chk in checkboxes)
+			{
+				if (chk.IsChecked.Value == true)
+				{
+					activeCount++;
+				}
+			}
+
+			if (activeCount == 0)
+			{
+				btnPerformUpdate.IsEnabled = false;
+			}
+
+		}
+
+		private void btnPerformUpdateCancel_Click(object sender, RoutedEventArgs e)
+		{
+			m_updateFiles.DoCancelUpdate();
+			treeUpdateSelectFiles.Items.Clear();
+			treeUpdateSelectFiles.IsEnabled = false;
+			treeUpdateSelectFiles.Visibility = Visibility.Hidden;
+			btnPerformUpdate.IsEnabled = false;
+			btnPerformUpdate.Visibility = Visibility.Hidden;
+			btnCancelUpdate.IsEnabled = false;
+			btnCancelUpdate.Visibility = Visibility.Hidden;
+		}
+	}
 }

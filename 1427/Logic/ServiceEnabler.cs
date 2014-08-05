@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
+using PDTUtils.Properties;
 
 namespace PDTUtils.Logic
 {
@@ -12,60 +13,64 @@ namespace PDTUtils.Logic
 		#region Properties
 		public bool GameStatistics
 		{
-			get { return m_categories["GameStatistics"]; }
-			//set { IterateCategory("GameStatistics"); }
+			get { return m_categories[Categories.GameStatistics]; }
 		}
 
 		public bool MachineIni
 		{
-			get { return m_categories["MachineIni"]; }
-		//	set { IterateCategory("MachineIni"); }
+			get { return m_categories[Categories.MachineIni]; }
 		}
 
 		public bool Volume
 		{
-			get { return m_categories["Volume"]; }
-		//	set { IterateCategory("Volume"); }
+			get { return m_categories[Categories.Volume]; }
 		}
 
 		public bool Meters
 		{
-			get { return m_categories["Meters"]; }
-		//	set { IterateCategory("Meters"); }
+			get { return m_categories[Categories.Meters]; }
 		}
 
 		public bool Performance
 		{
-			get { return m_categories["Perfomance"]; }
-		//	set { IterateCategory("Performance"); }
+			get { return m_categories[Categories.Performance]; }
 		}
 
 		public bool System
 		{
-			get { return m_categories["System"]; }
-		//	set { IterateCategory("System"); }
+			get { return m_categories[Categories.System]; }
 		}
 
-		public bool Setup { get { return m_categories["Setup"]; } }
+		public bool Setup
+		{
+			get { return m_categories[Categories.Setup]; }
+		}
+
+		public bool Logfile
+		{
+			get { return m_categories[Categories.Logfile]; }
+		}
 
 		#endregion
 
 		public ServiceEnabler()
 		{
-			m_categories.Add("GameStatistics", false);
-			this.OnPropertyChanged("GameStatistics");
-			m_categories.Add("MachineIni", false);
-			this.OnPropertyChanged("MachineIni");
-			m_categories.Add("Volume", false);
-			this.OnPropertyChanged("Volume");
-			m_categories.Add("Meters", false);
-			this.OnPropertyChanged("Meters");
-			m_categories.Add("Performance", false);
-			this.OnPropertyChanged("Performance");
-			m_categories.Add("System", false);
-			this.OnPropertyChanged("System");
-			m_categories.Add("Setup", false);
-			this.OnPropertyChanged("Setup");
+			m_categories.Add(Categories.GameStatistics, false);
+			this.OnPropertyChanged(Categories.GameStatistics);
+			m_categories.Add(Categories.MachineIni, false);
+			this.OnPropertyChanged(Categories.MachineIni);
+			m_categories.Add(Categories.Volume, false);
+			this.OnPropertyChanged(Categories.Volume);
+			m_categories.Add(Categories.Meters, false);
+			this.OnPropertyChanged(Categories.Meters);
+			m_categories.Add(Categories.Performance, false);
+			this.OnPropertyChanged(Categories.Performance);
+			m_categories.Add(Categories.System, false);
+			this.OnPropertyChanged(Categories.System);
+			m_categories.Add(Categories.Setup, false);
+			this.OnPropertyChanged(Categories.Setup);
+			m_categories.Add(Categories.Logfile, false);
+			this.OnPropertyChanged(Categories.Logfile);
 		}
 
 		#region Property Changed
@@ -83,8 +88,11 @@ namespace PDTUtils.Logic
 		/// <param name="name">Name of the key to enable</param>
 		public void EnableCategory(string name)
 		{
-			if (m_categories.Keys.Count == 0)
+			if (m_categories.Keys.Count == 0 || name == "")
 				return;
+			ClearAll();
+			m_categories[name] = true;
+			this.OnPropertyChanged(name);
 		}
 
 		public void ClearAll()
@@ -93,19 +101,6 @@ namespace PDTUtils.Logic
 			foreach (var key in keys)
 			{
 				m_categories[key] = false;
-				this.OnPropertyChanged(key);
-			}
-		}
-
-		public void IterateCategory(string name)
-		{
-			var keys = new List<string>(m_categories.Keys);	
-			foreach(var key in keys)
-			{
-				if (key != name)
-					m_categories[key] = false;
-				else
-					m_categories[key] = true;
 				this.OnPropertyChanged(key);
 			}
 		}
