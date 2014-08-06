@@ -401,6 +401,30 @@ namespace PDTUtils
 			m_filesToUpdate.Clear();
 			m_filesNotCopied.Clear();
 		}
+		
+		public void DeleteRollBack()
+		{
+			string[] folders_section = null;
+			string[] files_section = null;
+
+			BoLib.setFileAction();
+			bool? result = GetIniProfileSection(out folders_section, "folders");
+			if (result != true)
+				return;
+			
+			result = GetIniProfileSection(out files_section, "files");
+			if (result != true)
+				return;
+			BoLib.clearFileAction();
+			
+			// read rollback ini file
+			// get folders section
+			// delete folders
+			// get files section
+			// delete files
+			// delete rollback ini
+			// finish
+		}
 	}
 }
 

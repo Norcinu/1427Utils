@@ -47,6 +47,7 @@ namespace PDTUtils
 					ci = new CultureInfo("es-ES"); // read this from config
 				else
 					ci = new CultureInfo("en-GB");
+				
 				Thread.CurrentThread.CurrentCulture = ci;
 				Thread.CurrentThread.CurrentUICulture = ci;
 
@@ -228,11 +229,13 @@ namespace PDTUtils
 
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
-			//m_enabler.IterateCategory("Setup");
 			Enabler.EnableCategory(Categories.Setup);
+			TabSetup.SelectedIndex=0;
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 			if (MasterVolumeSlider.Value > 0)
 				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
+			btnUpdateFiles.IsEnabled = true;
+			btnRollback.IsEnabled = true;
 		}
 		
 		private bool ValidateNewIniSetting()
@@ -277,17 +280,6 @@ namespace PDTUtils
 			}
 		}
 		
-		private void MachineIniCategorys_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			// Select a pre-defined set of regional rules. 
-			// Select the region in the machine and this loads them into the shell.
-		}
-				
-		private void MachineIniCategorys_DropDownClosed(object sender, EventArgs e)
-		{
-			
-		}
-		
 		private void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			//PlaySoundOnEvent(@"./wav/volume.wav");
@@ -310,7 +302,7 @@ namespace PDTUtils
 			ts.ShowDialog();
 			m_keyDoorWorker.TestSuiteRunning = false;
 		}
-
+		
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
 			GamesList.GetGamesList();
@@ -329,18 +321,19 @@ namespace PDTUtils
 				btnUpdateFiles.Visibility = Visibility.Hidden;
 				btnRollback.IsEnabled = false;
 				btnRollback.Visibility = Visibility.Hidden;
-
+				btnCancelUpdate.IsEnabled = true;
+				btnPerformUpdate.IsEnabled = true;
 				stpUpdate.IsEnabled = true;
 				stpUpdate.Visibility = Visibility.Visible;
 			}
 		}
-
+		
 		private void UpdateCheckBoxSelected_Checked(object sender, RoutedEventArgs e)
 		{
 			if (btnPerformUpdate.IsEnabled == false)
 				btnPerformUpdate.IsEnabled = true;
 		}
-
+		
 		private void UpdateCheckBoxSelected_UnChecked(object sender, RoutedEventArgs e)
 		{
 			if (m_updateFiles.FileCount > 0)
@@ -349,7 +342,7 @@ namespace PDTUtils
 			if (btnPerformUpdate.IsEnabled == true && m_updateFiles.FileCount == 0)
 				btnPerformUpdate.IsEnabled = false;
 		}
-
+		
 		private void btnPerformUpdate_Click(object sender, RoutedEventArgs e)
 		{
 			var checkboxes = Extension.GetChildOfType<CheckBox>(treeUpdateSelectFiles);
@@ -366,19 +359,26 @@ namespace PDTUtils
 			{
 				btnPerformUpdate.IsEnabled = false;
 			}
-
 		}
-
+		
 		private void btnPerformUpdateCancel_Click(object sender, RoutedEventArgs e)
 		{
 			m_updateFiles.DoCancelUpdate();
-			treeUpdateSelectFiles.Items.Clear();
+			if (treeUpdateSelectFiles.Items.Count > 0)
+				treeUpdateSelectFiles.Items.Clear();
+
 			treeUpdateSelectFiles.IsEnabled = false;
 			treeUpdateSelectFiles.Visibility = Visibility.Hidden;
 			btnPerformUpdate.IsEnabled = false;
 			btnPerformUpdate.Visibility = Visibility.Hidden;
 			btnCancelUpdate.IsEnabled = false;
 			btnCancelUpdate.Visibility = Visibility.Hidden;
+			lblUpdateSelect.Visibility = Visibility.Hidden;
+
+			btnRollback.IsEnabled = true;
+			btnRollback.Visibility = Visibility.Visible;
+			btnUpdateFiles.IsEnabled = true;
+			btnUpdateFiles.Visibility = Visibility.Visible;
 		}
 	}
 }
