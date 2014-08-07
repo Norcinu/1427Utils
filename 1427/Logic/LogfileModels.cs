@@ -97,10 +97,10 @@ namespace PDTUtils
 		{
 			ParseGame(gameNo);
 		}
-
+		
 		public override void ParseGame(int gameNo)
 		{
-			CultureInfo ci = new CultureInfo("en-GB"); // en-GB
+			CultureInfo ci = new CultureInfo("en-GB");
 
 			var today = DateTime.Today;
 			var gameDate = BoLib.getGameDate(gameNo);
@@ -114,7 +114,7 @@ namespace PDTUtils
 			var year = DateTime.Now.Year;
 			if (month > DateTime.Now.Month)
 				--year;
-
+			
 			string error_str="";
 			try
 			{
@@ -127,7 +127,6 @@ namespace PDTUtils
 				logDate = DateTime.Parse(ds, ci);
 				winAmount = BoLib.getWinningGame(gameNo);
 				this.OnPropertyChanged("PlayedGames");
-				
 			}
 			catch (System.Exception ex)
 			{
@@ -135,18 +134,18 @@ namespace PDTUtils
 			}
 		}
 	}
-
+	
 	public class MachineErrorLog : BaseGameLog
 	{
 		public string ErrorCode { get; set; }
 		public string Description { get; set; }
-		public String ErrorDate { get; set; }
+		public string ErrorDate { get; set; }
 
 		public MachineErrorLog()
 		{
 			this.OnPropertyChanged("ErrorLog");
 		}
-
+		
 		public MachineErrorLog(string code, string desciption, string date)
 		{
 			this.ErrorCode = code;
@@ -160,7 +159,7 @@ namespace PDTUtils
 			throw new NotImplementedException();
 		}
 	}
-
+	
 	public class MachineLogsController
 	{
 		ObservableCollection<MachineErrorLog> m_errorLog = new ObservableCollection<MachineErrorLog>();
@@ -170,7 +169,7 @@ namespace PDTUtils
 		public MachineLogsController()
 		{			
 		}
-
+	
 		#region Properties
 		public ObservableCollection<MachineErrorLog> ErrorLog { get { return m_errorLog; } }
 		public ObservableCollection<WinningGame> WinningGames { get { return m_winningGames; } }
@@ -205,7 +204,7 @@ namespace PDTUtils
 								if (ss != "")
 								{
 									var timeAndDate = ss.Substring(0, 19).TrimStart(" \t".ToCharArray());
-									var errorCode = ss.Substring(21, 3).TrimStart(" \t".ToCharArray());
+									var errorCode = ss.Substring(21, 4).TrimStart(" \t".ToCharArray());
 									var desc = ss.Substring(26).TrimStart(" \t".ToCharArray());
 									ErrorLog.Add(new MachineErrorLog(errorCode, desc, timeAndDate));
 								}

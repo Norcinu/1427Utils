@@ -58,8 +58,7 @@ namespace PDTUtils
 		{
 
 		}
-
-
+		
 		/// <summary>
 		/// Read update ini and populate the tree view with the necessary files.
 		/// Do not take any action.
@@ -74,22 +73,18 @@ namespace PDTUtils
 				{
 					string[] folders_section = null;
 					string[] files_section = null;
-					bool quit = false;
-
+					bool[] quit = new bool[2] { false, false };
+					
 					BoLib.setFileAction();
-					bool? b = GetIniProfileSection(out folders_section, "Folders");
-					if (b == false || folders_section == null)
-						quit = true;
 
-					b = GetIniProfileSection(out files_section, "Files");
-					if (b == false || folders_section == null)
-						quit = true;
+					quit[0] = ReadIniSection(out folders_section, "Folders");
+					quit[1] = ReadIniSection(out files_section, "Files");
 
 					BoLib.clearFileAction();
 
-					if (quit == true)
+					if (quit[0] || quit[1])
 						return false;
-
+					
 					foreach (var str in files_section)
 					{
 						var ret = GetImagePathString(str);
@@ -109,7 +104,7 @@ namespace PDTUtils
 			}
 			return true;
 		}
-
+		
 		/// <summary>
 		/// Perform the necessary updates.
 		/// </summary>
@@ -126,20 +121,16 @@ namespace PDTUtils
 				{
 					string[] folders_section = null;
 					string[] files_section = null;
-					bool quit = false;
+					bool[] quit = new bool[2] { false, false };
 					
 					BoLib.setFileAction();
-					bool? b = GetIniProfileSection(out folders_section, "Folders");
-					if (b == false || folders_section == null)
-						quit = true;
 
-					b = GetIniProfileSection(out files_section, "Files");
-					if (b == false || folders_section == null)
-						quit = true;
+					quit[0] = ReadIniSection(out folders_section, "Folders");
+					quit[1] = ReadIniSection(out files_section, "Files");
 					
 					BoLib.clearFileAction();
-					
-					if (quit == true)
+
+					if (quit[0] || quit[1])
 						return false;
 					
 					foreach (var str in files_section)
@@ -148,7 +139,7 @@ namespace PDTUtils
 						m_filesToUpdate.Add(new FileImpl(str, ret));
 						DoCopyFile(str);
 					}
-
+					
 					foreach (var str in folders_section)
 					{
 						var ret = GetImagePathString(str);
@@ -164,6 +155,14 @@ namespace PDTUtils
 				}
 				return true;
 			}
+			return false;
+		}
+
+		bool ReadIniSection(out string[] section, string field)
+		{
+			bool? result = GetIniProfileSection(out section, field);
+			if (result == false || section == null)
+				return true;
 			return false;
 		}
 
@@ -300,9 +299,15 @@ namespace PDTUtils
 			{
 				try
 				{
-					// destination doesnt exist so create folder.
-					Directory.CreateDirectory(destination_folder);
-					GetAndCopyAllFiles(new DirectoryInfo(source_folder), destination_folder);
+					DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
+					foreach (string dirPath in Directory.GetDirectories(source_folder, "*",
+						SearchOption.AllDirectories))
+						Directory.CreateDirectory(dirPath.Replace(source_folder, destination_folder));
+						
+					//Copy all the files & Replaces any files with the same name
+					foreach (string newPath in Directory.GetFiles(source_folder, "*.*",
+						SearchOption.AllDirectories))
+						File.Copy(newPath, newPath.Replace(source_folder, destination_folder), true);
 				}
 				catch (System.Exception ex)
 				{
@@ -322,12 +327,11 @@ namespace PDTUtils
 					if (Directory.Exists(rename_folder))
 					{
 						Directory.Delete(rename_folder, true);
-
+						
 						Directory.Move(destination_folder, rename_folder);
 						Directory.CreateDirectory(destination_folder);
 						DirectoryInfo dstInfo = new DirectoryInfo(rename_folder);
-						//GetAndCopyAllFiles(dstInfo, destination_folder);
-						//var dd = dstInfo.GetDirectories();
+
 						foreach (string dirPath in Directory.GetDirectories(rename_folder, "*",
 							SearchOption.AllDirectories))
 							Directory.CreateDirectory(dirPath.Replace(rename_folder, destination_folder));

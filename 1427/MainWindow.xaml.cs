@@ -308,7 +308,7 @@ namespace PDTUtils
 			GamesList.GetGamesList();
 			Enabler.EnableCategory(Categories.System);
 		}
-
+		
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
 		{
 			if (m_updateFiles.DoSoftwareUpdatePreparation() == false) //.DoSoftwareUpdate() == false) // !!! move this to the below function.
@@ -322,9 +322,15 @@ namespace PDTUtils
 				btnRollback.IsEnabled = false;
 				btnRollback.Visibility = Visibility.Hidden;
 				btnCancelUpdate.IsEnabled = true;
+				btnCancelUpdate.Visibility = Visibility.Visible;
 				btnPerformUpdate.IsEnabled = true;
+				btnPerformUpdate.Visibility = Visibility.Visible;
 				stpUpdate.IsEnabled = true;
 				stpUpdate.Visibility = Visibility.Visible;
+				treeUpdateSelectFiles.Visibility = Visibility.Visible;
+				treeUpdateSelectFiles.IsEnabled = true;
+				lblUpdateSelect.IsEnabled = true;
+				lblUpdateSelect.Visibility = Visibility.Visible;
 			}
 		}
 		
@@ -359,6 +365,8 @@ namespace PDTUtils
 			{
 				btnPerformUpdate.IsEnabled = false;
 			}
+
+			m_updateFiles.DoSoftwareUpdate();
 		}
 		
 		private void btnPerformUpdateCancel_Click(object sender, RoutedEventArgs e)
@@ -366,7 +374,7 @@ namespace PDTUtils
 			m_updateFiles.DoCancelUpdate();
 			if (treeUpdateSelectFiles.Items.Count > 0)
 				treeUpdateSelectFiles.Items.Clear();
-
+		
 			treeUpdateSelectFiles.IsEnabled = false;
 			treeUpdateSelectFiles.Visibility = Visibility.Hidden;
 			btnPerformUpdate.IsEnabled = false;
@@ -374,7 +382,7 @@ namespace PDTUtils
 			btnCancelUpdate.IsEnabled = false;
 			btnCancelUpdate.Visibility = Visibility.Hidden;
 			lblUpdateSelect.Visibility = Visibility.Hidden;
-
+				
 			btnRollback.IsEnabled = true;
 			btnRollback.Visibility = Visibility.Visible;
 			btnUpdateFiles.IsEnabled = true;
