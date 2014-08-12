@@ -140,14 +140,7 @@ namespace PDTUtils
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
 			Enabler.ClearAll();
-			//BoLib.getCountryCode();
-			//MessageBox.Show(BoLib.getCountryCodeStr());
-			//MessageBox.Show(BoLib.getEDCTypeStr());
-			//CommitChanges.Save();
-			//MessageBox.Show("Changes Made, reboot required.", "Commit Changes", MessageBoxButton.OK, MessageBoxImage.Information);
-			//CommitChanges.RebootMachine();
-			//HopperUtilsWindow w = new HopperUtilsWindow(m_keyDoorWorker);
-			//w.ShowDialog();
+            //DiskCommit.RebootMachine();
 		}
 		
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
@@ -221,10 +214,12 @@ namespace PDTUtils
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
 			m_machineIni.ParseIni();
-			MessageBox.Show("Machine RTP " + m_machineIni.GetIniValue("Datapack.Dpercentage") + "%");
-			MessageBox.Show("Machine Number " + m_machineIni["Server.Machine Number"]);
-					
-			// commit changes to memory
+            if (m_machineIni.ChangesPending == false)
+            {
+                // commit changes to memory
+                Thread saver = new Thread(new ThreadStart(DiskCommit.SaveAndReboot));
+                MessageBox.Show("Cabinet restarting", "System Notice");
+            }
 		}
 
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
@@ -242,10 +237,17 @@ namespace PDTUtils
 		{
 			return true;
 		}
-		
+        /// <summary>
+        /// LOL I havent been to the kahzee once today.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 		private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			IniSettingsWindow w = new IniSettingsWindow();
+            var l = sender as ListView;
+            int a1 = l.SelectedIndex;
+            var c = l.Items[a1] as IniElement;
+            IniSettingsWindow w = new IniSettingsWindow(c.Value);
 	
 			if (w.ShowDialog() == false)
 			{
@@ -253,11 +255,13 @@ namespace PDTUtils
 				if (newValue != "")
 				{
 					Console.WriteLine(newValue);
-					var listBox = sender as ListBox;
-					int a = listBox.SelectedIndex;
-					var current = listBox.Items[a] as ListBoxItem;
-					var old = Convert.ToString(current.Content);
-					var dropDownBox = stpButtonPanel.Children[0] as ComboBox;
+					var listView = sender as ListView;
+					int a = listView.SelectedIndex;
+                    var current = listView.ItemsSource as IniElement;//ListBoxItem;
+                    current.Value = newValue;
+                    listView.Items[a] = current;
+                    //var old = current.Category; //Convert.ToString(current.Content);
+                    /*var dropDownBox = stpButtonPanel.Children[0] as ComboBox;
 					var newContent = old.Split(":".ToCharArray());
 					if (dropDownBox.SelectedIndex == 0) // need to validate inputs!
 					{
@@ -266,7 +270,7 @@ namespace PDTUtils
 					else
 					{
 						current.Content = newContent[0] + " : " + newValue;
-					}
+					}*/
 				}
 			}
 		}
@@ -388,5 +392,11 @@ namespace PDTUtils
 			btnUpdateFiles.IsEnabled = true;
 			btnUpdateFiles.Visibility = Visibility.Visible;
 		}
+
+        private void btnScreenShots_Click(object sender, RoutedEventArgs e)
+        {
+            ScreenshotWindow w = new ScreenshotWindow();
+            w.ShowDialog();
+        }
 	}
 }

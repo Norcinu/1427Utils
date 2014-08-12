@@ -27,8 +27,6 @@ struct GamesInfo
 	char *path;
 };
 
-std::vector<GamesInfo *> GamesList;
-
 // Local Util functions not export to DLL
 namespace utils 
 {
@@ -46,7 +44,7 @@ namespace utils
 		std::istringstream iss(s);
 		return !(iss >> f >> t).fail();
 	}
-
+	
 	unsigned int GetDigit(const unsigned int n, const unsigned int k) 
 	{
 		switch(k)
@@ -197,7 +195,7 @@ const char *getLastGame(int index)
 	
     int field_length = game_info.size()-1;
 	char buffer[512] = {0}; // erm? it only uses 44 chars and the rest dont get set to 0?
-	//strncpy_s(buffer, field_length, game_info.c_str(), field_length);
+	
 	strncpy_s(buffer, game_info.c_str(), 511);
 	return buffer;
 }

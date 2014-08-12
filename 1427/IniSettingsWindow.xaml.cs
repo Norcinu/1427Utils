@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Diagnostics;
+using System.Windows;
 
 namespace PDTUtils
 {
@@ -33,18 +24,26 @@ namespace PDTUtils
 			InitializeComponent();
 			Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + "/osk.exe");
 		}
-
+        
+        public IniSettingsWindow(string v)
+        {     
+            InitializeComponent();
+            OptionValue = v;
+            txtNewValue.Text = OptionValue;
+            Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + "/osk.exe");
+        }
+        
 		private void button2_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();
 		}
-
+        
 		private void btnSave_Click(object sender, RoutedEventArgs e)
 		{
 			optionValue = txtNewValue.Text;
 			this.Close();
 		}
-
+        
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			var processes = Process.GetProcesses();

@@ -1,14 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Management;
-using System.ComponentModel;
 
 namespace PDTUtils
 {
-	public static class CommitChanges
+    /// <summary>
+    /// This class commits any changes that are made to shared memory.
+    /// </summary>
+	public static class DiskCommit
 	{
+        /// <summary>
+        /// Runs the EWFMGR command which commits changes to shared memory.
+        /// This must always be called when changes are made and the machine must
+        /// be rebooted.
+        /// </summary>
 		public static void Save()
 		{
 			Process process = new Process();
@@ -20,6 +26,9 @@ namespace PDTUtils
 			process.Start();
 		}
 
+        /// <summary>
+        /// Forces the machine to reboot.
+        /// </summary>
 		public static void RebootMachine()
 		{
 			ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");
@@ -39,5 +48,11 @@ namespace PDTUtils
 					throw new Win32Exception(result);
 			}
 		}
+
+        public static void SaveAndReboot()
+        {
+            Save();
+            RebootMachine();
+        }
 	}
 }

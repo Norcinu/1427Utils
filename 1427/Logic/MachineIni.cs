@@ -58,7 +58,8 @@ namespace PDTUtils.Logic
 		Dictionary<string, string> iniVariables = new Dictionary<string, string>();
 		List<string> m_field = new List<string>();
 		List<string> m_values = new List<string>();
-		
+        public bool ChangesPending { get; set; }
+
 		public MachineIni()
 		{
 			ParseIni();
@@ -98,7 +99,7 @@ namespace PDTUtils.Logic
 				{
 					if (line.Equals(EndOfIni))
 						break;
-					else if (line.StartsWith("#") || line.Equals(""))
+					else if (/*line.StartsWith("#") ||*/ line.Equals(""))
 					{
 					}
 					else if (line.StartsWith("["))
