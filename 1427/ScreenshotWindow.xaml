@@ -15,12 +15,12 @@
         
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,15,0,15">
             <StackPanel Orientation="Horizontal">
-                <Button Content="&lt;&lt;" Height="23" Name="button1" Width="47" FontWeight="Bold" Margin="15,0,5,0" />
-                <Button Content="&lt;" Height="23" Name="button2" Width="47" FontWeight="Bold" Margin="0,0,30,0" />
-                <Button Content="&gt;" Height="23" Name="button3" Width="47" FontWeight="Bold" Margin="0,0,5,0" />
-                <Button Content="&gt;&gt;" Height="23" Name="button4" Width="47" FontWeight="Bold" Margin="0,0,15,0"/>
+                <Button Content="&lt;&lt;" Height="23" Name="button1" Width="47" FontWeight="Bold" Margin="15,0,5,0" Click="button1_Click" />
+                <Button Content="&lt;" Height="23" Name="button2" Width="47" FontWeight="Bold" Margin="0,0,30,0" Click="button2_Click" />
+                <Button Content="&gt;" Height="23" Name="button3" Width="47" FontWeight="Bold" Margin="0,0,5,0" Click="button3_Click" />
+                <Button Content="&gt;&gt;" Height="23" Name="button4" Width="47" FontWeight="Bold" Margin="0,0,15,0" Click="button4_Click" />
             </StackPanel>
-            <Label FontSize="28" VerticalAlignment="Center" HorizontalAlignment="Center">1&#47;200</Label>
+            <Label Name="lblCount" FontSize="28" VerticalAlignment="Center" HorizontalAlignment="Center">1&#47;200</Label>
         </StackPanel>
     </Grid>
 </Window>

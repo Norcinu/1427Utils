@@ -75,8 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controllers\ScreenshotController.cs" />
-    <Compile Include="Models\ScreenshotModel.cs" />
+    <Compile Include="Screenshot\ScreenshotModel.cs" />
     <Compile Include="Properties\Categories.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

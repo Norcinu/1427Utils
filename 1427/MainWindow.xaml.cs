@@ -237,18 +237,14 @@ namespace PDTUtils
 		{
 			return true;
 		}
-        /// <summary>
-        /// LOL I havent been to the kahzee once today.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
 		private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
             var l = sender as ListView;
             int a1 = l.SelectedIndex;
             var c = l.Items[a1] as IniElement;
             IniSettingsWindow w = new IniSettingsWindow(c.Value);
-	
+	        
 			if (w.ShowDialog() == false)
 			{
 				string newValue = w.OptionValue;
@@ -364,12 +360,12 @@ namespace PDTUtils
 					activeCount++;
 				}
 			}
-
+            
 			if (activeCount == 0)
 			{
 				btnPerformUpdate.IsEnabled = false;
 			}
-
+            
 			m_updateFiles.DoSoftwareUpdate();
 		}
 		
@@ -392,9 +388,10 @@ namespace PDTUtils
 			btnUpdateFiles.IsEnabled = true;
 			btnUpdateFiles.Visibility = Visibility.Visible;
 		}
-
+        
         private void btnScreenShots_Click(object sender, RoutedEventArgs e)
         {
+            Enabler.ClearAll();
             ScreenshotWindow w = new ScreenshotWindow();
             w.ShowDialog();
         }
