@@ -261,19 +261,23 @@ namespace PDTUtils
 							m_counter++;
 						var mask = m_specialMasks[0];
 						var status = BoLib.getSwitchStatus(2, mask);
-						if (status == 0)
-						{
-							if (m_btnImpl.m_toggled[0] == false)
-							{
-								Console.WriteLine("Key Toggled Off");
-								m_btnImpl.m_toggled[0] = true;
-							}
-							else
-							{
-								Console.WriteLine("Key Toggled On");
-								m_btnImpl.m_currentSpecial = 1;
-							}
-						}
+                        if (status == 0)
+                        {
+                            if (m_btnImpl.m_toggled[0] == false)
+                            {
+                                Console.WriteLine("Key Toggled Off");
+                                m_btnImpl.m_toggled[0] = true;
+                            }
+                        }
+                        else
+                        {
+                            if (m_btnImpl.m_toggled[0] == true)
+                            {
+                                Console.WriteLine("Key Toggled On");
+                                m_btnImpl.m_currentSpecial = 1;
+                                m_counter = 0;
+                            }
+                        }
 					}
 					else if (m_btnImpl.m_currentSpecial == 1)
 					{
@@ -282,22 +286,22 @@ namespace PDTUtils
 					
 						var mask = m_specialMasks[1];
 						var status = BoLib.getSwitchStatus(2, mask);
-						if (status == 0)
-						{
-							if (m_btnImpl.m_toggled[1] == false)
-							{
-								m_btnImpl.m_toggled[1] = true;
-								Console.WriteLine("Toggled Closed");
-								//this.label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label1 });
-							}
-							else
-							{
-								m_btnImpl.m_currentSpecial++;
-								Console.WriteLine("Toggled Open");
-								m_btnImpl.DoSpecials = false;
-								//this.label2.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label2 });
-							}
-						}
+                        if (status == 0)
+                        {
+                            if (m_btnImpl.m_toggled[1] == false)
+                            {
+                                m_btnImpl.m_toggled[1] = true;
+                                Console.WriteLine("Toggled Closed");
+                            }
+                        }
+                        else
+                        {
+                            if (m_btnImpl.m_toggled[1] == true)
+                            {
+                                Console.WriteLine("Toggle Open");
+                                m_btnImpl.DoSpecials = false;
+                            }
+                        }
 					}
 				}
 				else
@@ -311,6 +315,8 @@ namespace PDTUtils
 						m_btnImpl.m_currentSpecial = 0;
 						m_btnImpl.m_doSpecials = false;
 					}
+                    if (m_counter >= 60)
+                        m_counter = 0;
 				}
 			}
 			else // Button deck
