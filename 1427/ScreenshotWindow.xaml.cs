@@ -3,6 +3,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System;
 
 namespace PDTUtils
 {
@@ -14,13 +15,20 @@ namespace PDTUtils
         List<System.Drawing.Image> images = new List<System.Drawing.Image>();
         int currentImage = 0;
         int maxImages = 0;
-        
+
         public ScreenshotWindow()
         {
             InitializeComponent();
             DirectoryInfo di = new DirectoryInfo(@"D:\screenshots");
-            foreach (string path in Directory.GetFiles(@"D:\screenshots", "*.jpg", SearchOption.TopDirectoryOnly))
+            var files = Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly);
+            Array.Sort(files, delegate(string str1, string str2)
             {
+                return File.GetCreationTime(str1).CompareTo(File.GetCreationTime(str2));
+            });            
+
+            foreach (string path in Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly))
+            {
+                var ct = File.GetCreationTime(path);
                 images.Add(System.Drawing.Image.FromFile(path));
             }
 
@@ -34,13 +42,13 @@ namespace PDTUtils
             BitmapImage bi = new BitmapImage();
             bi.BeginInit();
             MemoryStream ms = new MemoryStream();
-            images[currentImage].Save(ms, ImageFormat.Jpeg);
+            images[currentImage].Save(ms, ImageFormat.Png);
             ms.Seek(0, SeekOrigin.Begin);
             bi.StreamSource = ms;
             bi.EndInit();
             image1.Source = bi;
         }
-
+        
         private void button3_Click(object sender, RoutedEventArgs e)
         {
             if (currentImage < maxImages)
@@ -48,7 +56,7 @@ namespace PDTUtils
             SetImageSource();
             UpdateLabel();
         }
-
+        
         private void button2_Click(object sender, RoutedEventArgs e)
         {
             if (currentImage > 0)
@@ -68,7 +76,7 @@ namespace PDTUtils
             SetImageSource();
             UpdateLabel();
         }
-
+        
         private void button4_Click(object sender, RoutedEventArgs e)
         {
             if (maxImages > 10 && currentImage < (maxImages - 10))
@@ -80,13 +88,10 @@ namespace PDTUtils
             SetImageSource();
             UpdateLabel();
         }
-
-        /// <summary>
-        /// lol dont talk to me about the button presses, I dont fucking know, what is going on jeepers.
-        /// </summary>
+        
         private void UpdateLabel()
         {
-            lblCount.Content = currentImage + 1 + "/" + (maxImages + 1);
+            lblCount.Content = (currentImage + 1) + "/" + (maxImages + 1);
         }
     }
 }

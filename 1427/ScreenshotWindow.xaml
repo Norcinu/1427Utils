@@ -22,5 +22,11 @@
             </StackPanel>
             <Label Name="lblCount" FontSize="28" VerticalAlignment="Center" HorizontalAlignment="Center">1&#47;200</Label>
         </StackPanel>
+        
+        <StackPanel Grid.Row ="0" Grid.Column="1" VerticalAlignment="Center">
+            <Label Name="lblFilename" Content="Filename: "/>
+            <Label Name="lblDate" Content="Date: " />
+            <Label Name="lblTime" Content="Time: " />
+        </StackPanel>
     </Grid>
 </Window>

@@ -44,7 +44,7 @@ namespace utils
 		std::istringstream iss(s);
 		return !(iss >> f >> t).fail();
 	}
-	
+
 	unsigned int GetDigit(const unsigned int n, const unsigned int k) 
 	{
 		switch(k)
@@ -84,7 +84,12 @@ namespace utils
 #define GAME_MODEL 1
 // 
 
-// Functions for export 
+// Functions for export
+unsigned int getBoLibVersion()
+{
+	return BOLIBRELEASE;
+}
+
 int getCredit()
 {
 	return GetCredits();
@@ -463,9 +468,7 @@ unsigned long getTicketsPay(int meter)
 
 char *getSerialNumber()
 {
-	//SetFileAction();
 	GetPrivateProfileString("Keys", "Serial", "~", global_buffer, 256, MACHINE_INI.c_str());
-	//ClearFileAction();
 	std::string pre = "Serial Number: ";
 	char final[272] = {0};
 	strncat_s(final, pre.c_str(), pre.length());
@@ -473,11 +476,6 @@ char *getSerialNumber()
 	return final;
 }
 
-/*
-* Refinement needed. I don't really want to read from file but the data binding from the 
-* UI is causing this and certain other functions (GetCountry) to crash when reading them 
-* via data binding. I believe this is due to the time and order in which they are called.
-*/
 char *getEDCTypeStr()
 {
 	char buffer[64] = {0};

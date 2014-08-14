@@ -368,7 +368,7 @@ namespace PDTUtils
             
 			m_updateFiles.DoSoftwareUpdate();
 		}
-		
+        
 		private void btnPerformUpdateCancel_Click(object sender, RoutedEventArgs e)
 		{
 			m_updateFiles.DoCancelUpdate();
