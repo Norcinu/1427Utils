@@ -39,6 +39,7 @@ namespace PDTUtils
 		public delegate void DelegateUpdate(Label l);
 		public delegate void DelegatePrintErr(Label l, string message);
 		public delegate void DelegateEnableBtn(Button b);
+        public delegate string DelegateReturnString(Label l);
 		#endregion
 
 		public TestSuiteWindow()
@@ -122,45 +123,59 @@ namespace PDTUtils
 
 		private void DoLampTest()
 		{
+            btnEndTest.IsEnabled = true;
 
+            for (short i = 128; i > 0; i /= 2)
+            {
+                BoLib.setLampStatus(1, (byte)i, 1);
+                Thread.Sleep(200);
+                BoLib.setLampStatus(1, (byte)i, 1);
+                Thread.Sleep(200);
+                BoLib.setLampStatus(1, (byte)i, 1);
+                Thread.Sleep(200);
+                BoLib.setLampStatus(1, (byte)i, 1);
+                Thread.Sleep(200);
+                BoLib.setLampStatus(1, (byte)i, 1);
+                Thread.Sleep(200);
+            }
+           
+            for (short i = 128; i > 0; i /= 2)
+                BoLib.setLampStatus(1, (byte)i, 0);
 		}
-
+        
 		private void DoPrinterTest()
 		{
 			btnEndTest.IsEnabled = true;
 			m_testPrintThread = new Thread(new ThreadStart(BoLib.printTestTicket));
 			m_testPrintThread.Start();
 		}
-		
-		private void DoDilSwitchTest()
-		{
-			btnEndTest.IsEnabled = true;
+        //the time has come to pay the debt, with no more for the rent
+        private void DoDilSwitchTest()
+        {
+            btnEndTest.IsEnabled = true;
 
-			int ctr = 1;
-			for (int i = 1; i <= 8; i *= 2)
-			{
-				if (BoLib.getSwitchStatus(4, (byte)i) > 0)
-				{
-					var converter = new BrushConverter();
-					//var bg = (Brush)converter.ConvertFromString("#6599FF");
-					//m_labels[ctr].Background = bg;
-					m_labels[ctr].Foreground = Brushes.Green;//Brushes.Yellow;
-					m_labels[ctr].FontSize = 16;
-					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
-							new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " ON" });
-				}
-				else
-				{
-					//m_labels[ctr].Background = Brushes.Red;
-					m_labels[ctr].Foreground = Brushes.Red;//Brushes.Black;
-					m_labels[ctr].FontSize = 16;
-					m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
-							new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " OFF" });
-				}
-				ctr++;
-			}
-		}
-
+            int ctr = 1;
+            for (int i = 1; i <= 8; i *= 2)
+            {
+                if (BoLib.getSwitchStatus(4, (byte)i) > 0)
+                {
+                    var converter = new BrushConverter();
+                    m_labels[ctr].Foreground = Brushes.Green;
+                    m_labels[ctr].FontSize = 16;
+                    m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
+                            new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " ON" });
+                }
+                else
+                {
+                    m_labels[ctr].Foreground = Brushes.Red;
+                    m_labels[ctr].FontSize = 16;
+                    m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
+                            new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " OFF" });
+                }
+                ctr++;
+            }
+        }
+        
 		private void DoCoinTest()
 		{
 			m_noteImpl.m_isCoinTest = true;
@@ -219,13 +234,13 @@ namespace PDTUtils
 		{
 			l.Content = "m_termButton = " + m_termButtonList[m_currentButton];
 		}
-
+        
 		private void timer_UpdateSpecials(Label l)
 		{
-			if (l == label1)
-				l.Content = "Please toggle the REFILL KEY off and on.";
-			else if (l == label2)
-				l.Content = "Please hold and release the DOOR SWITCH.";
+            if (l == label1)
+                l.Content = "Please toggle the REFILL KEY off and on.";
+            else if (l == label2)
+                l.Content = "Please hold and release the DOOR SWITCH.";
 		}
 		
 		private void timer_buttonError(Label l)
@@ -234,7 +249,7 @@ namespace PDTUtils
 			l.Foreground = Brushes.Black;
 			l.Content = "m_termButton = " + m_termButtonList[m_currentButton] + " NOT FITTED/ERROR";
 		}
-
+        
 		private void timer_updateNoteVal(Label l, int v)
 		{
 			if (v >= 500)
@@ -247,7 +262,12 @@ namespace PDTUtils
 		{
 			b.IsEnabled = true;
 		}
-	
+        
+        private string timer_getLabelContent(Label l)
+        {
+            return (string)l.Content;
+        }
+        
 		private void timer_CheckButton(object sender, ElapsedEventArgs e)
 		{
 			// test refill key and door switch.
@@ -263,17 +283,13 @@ namespace PDTUtils
 						var status = BoLib.getSwitchStatus(2, mask);
                         if (status == 0)
                         {
-                            if (m_btnImpl.m_toggled[0] == false)
-                            {
-                                Console.WriteLine("Key Toggled Off");
+                            if (m_btnImpl.m_toggled[0] == false) // key toggled off
                                 m_btnImpl.m_toggled[0] = true;
-                            }
                         }
                         else
                         {
-                            if (m_btnImpl.m_toggled[0] == true)
+                            if (m_btnImpl.m_toggled[0] == true) // key toggled on
                             {
-                                Console.WriteLine("Key Toggled On");
                                 m_btnImpl.m_currentSpecial = 1;
                                 m_counter = 0;
                             }
@@ -281,6 +297,11 @@ namespace PDTUtils
 					}
 					else if (m_btnImpl.m_currentSpecial == 1)
 					{
+                        var comp = this.label2.Dispatcher.Invoke((DelegateReturnString)timer_getLabelContent, 
+                            new object[] { label2 }) as string;
+                        if (comp == "" || comp == null)
+                            this.label2.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label2 });
+
 						if (m_btnImpl.m_toggled[1] == false)
 							m_counter++;
 					
@@ -288,25 +309,19 @@ namespace PDTUtils
 						var status = BoLib.getSwitchStatus(2, mask);
                         if (status == 0)
                         {
-                            if (m_btnImpl.m_toggled[1] == false)
-                            {
+                            if (m_btnImpl.m_toggled[1] == false) // toggle closed
                                 m_btnImpl.m_toggled[1] = true;
-                                Console.WriteLine("Toggled Closed");
-                            }
                         }
                         else
                         {
-                            if (m_btnImpl.m_toggled[1] == true)
-                            {
-                                Console.WriteLine("Toggle Open");
+                            if (m_btnImpl.m_toggled[1] == true) // toggle open
                                 m_btnImpl.DoSpecials = false;
-                            }
                         }
 					}
 				}
 				else
 				{
-					if (m_btnImpl.m_currentSpecial < 2) //6
+					if (m_btnImpl.m_currentSpecial < 2)
 					{
 						m_btnImpl.m_currentSpecial = 1;
 					}
@@ -322,7 +337,7 @@ namespace PDTUtils
 			else // Button deck
 			{
 				uint status = 100;
-				if (m_counter >= 0 && m_counter < 30) // 6
+				if (m_counter >= 0 && m_counter < 30)
 				{
 					m_counter++;
 	
@@ -334,7 +349,7 @@ namespace PDTUtils
 							new object[] { m_labels[m_currentButton] });
 					}
 				}
-				else
+				else 
 				{
 					if (m_currentButton < 8)
 					{
@@ -355,7 +370,7 @@ namespace PDTUtils
 				}
 			}
 		}
-
+        
 		private void timer_CheckNoteValidator(object sender, ElapsedEventArgs e)
 		{
 			if (m_noteImpl.IsRunning == true)
@@ -369,7 +384,7 @@ namespace PDTUtils
 				}
 			}
 		}
-
+        
 		/// <summary>
 		/// Clear the form, some tests like the coin and note need to run indefinitely 
 		/// until otherwise told.
@@ -388,16 +403,16 @@ namespace PDTUtils
 
 			label1.Background = null;
 			label1.Foreground = null;
-
+            
 			if (m_noteImpl.IsRunning)
 			{
 				BoLib.clearBankAndCredit();
 				BoLib.disableNoteValidator();
 			}
-
+            
 			if (startTimer.Enabled == true)
 				startTimer.Enabled = false;
-
+            
 			var labels = Extension.GetChildOfType<Label>(stpMainPanel);
 			foreach (var l in labels)
 			{
@@ -406,10 +421,10 @@ namespace PDTUtils
 				l.Background = null;
 				l.FontSize = 11;
 			}
-			
+		    
 			btnEndTest.IsEnabled = false;
 		}
-
+        
 		private void btnExit_Click(object sender, RoutedEventArgs e)
 		{
 			this.Close();

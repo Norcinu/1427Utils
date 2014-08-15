@@ -26,8 +26,9 @@ namespace PDTUtils.Impls
 	}
 
 	public class ButtonTestImpl : Impl
-	{
-		public bool m_doSpecials;
+    {
+        #region Properties
+        public bool m_doSpecials;
 		public bool DoSpecials
 		{
 			get { return m_doSpecials; }
@@ -63,7 +64,9 @@ namespace PDTUtils.Impls
 			get { return m_currentSpecial; }
 			set { m_currentSpecial = value; }
 		}
-		public ButtonTestImpl()
+        #endregion
+
+        public ButtonTestImpl()
 		{
 			m_doSpecials = true;
 			m_toggled = new bool[2] { false, false };
