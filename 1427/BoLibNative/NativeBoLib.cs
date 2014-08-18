@@ -183,6 +183,9 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern uint getNumberOfGames();
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern uint getBoLibVersion();
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/

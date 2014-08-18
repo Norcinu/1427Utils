@@ -41,7 +41,7 @@ namespace PDTUtils
 		public delegate void DelegateEnableBtn(Button b);
         public delegate string DelegateReturnString(Label l);
 		#endregion
-
+        
 		public TestSuiteWindow()
 		{
 			InitializeComponent();
@@ -53,7 +53,7 @@ namespace PDTUtils
 			startTimer.Elapsed += timer_CheckNoteValidator;
 			btnEndTest.Click += btnEndTest_Click;
 		}
-
+        
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			for (int i = 0; i < 6; i++)
@@ -71,7 +71,7 @@ namespace PDTUtils
 					DockPanel.SetDock(b, Dock.Right);
 			}
 		}
-
+        
 		private void button_Click(object sender, EventArgs e)
 		{
 			var button = sender as Button;
@@ -117,10 +117,9 @@ namespace PDTUtils
 				{
 					stpButtons.Children[i].IsEnabled = true;
 				}
-				m_buttonEnabledCount = 6;
 			}
 		}
-
+        
 		private void DoLampTest()
 		{
             btnEndTest.IsEnabled = true;
@@ -138,9 +137,13 @@ namespace PDTUtils
                 BoLib.setLampStatus(1, (byte)i, 1);
                 Thread.Sleep(200);
             }
-           
+            
             for (short i = 128; i > 0; i /= 2)
                 BoLib.setLampStatus(1, (byte)i, 0);
+            
+            for (int i = 0; i < m_visualButtonCount; i++)
+                stpButtons.Children[i].Dispatcher.Invoke((DelegateEnableBtn)timer_buttonEnable, new object[] { stpButtons.Children[i] });
+            m_buttonEnabledCount = 6;
 		}
         
 		private void DoPrinterTest()
@@ -149,7 +152,7 @@ namespace PDTUtils
 			m_testPrintThread = new Thread(new ThreadStart(BoLib.printTestTicket));
 			m_testPrintThread.Start();
 		}
-        //the time has come to pay the debt, with no more for the rent
+        
         private void DoDilSwitchTest()
         {
             btnEndTest.IsEnabled = true;
@@ -190,7 +193,7 @@ namespace PDTUtils
 			startTimer.Enabled = true;
 			btnEndTest.IsEnabled = true;
 		}
-
+        
 		private void DoNoteTest()
 		{
 			m_noteImpl.IsRunning = true;
@@ -204,21 +207,18 @@ namespace PDTUtils
 			startTimer.Enabled = true;
 			btnEndTest.IsEnabled = true;
 		}
-
+        
 		private void DoButtonTest()
 		{
-			//if (stpMainPanel.Children.Count == 0)
-			{
-				Label l = new Label();
-				l.FontSize = 22;
-				l.Content = "Toggle Refill Key: ";
-				l.Name = "PressButton";
+		    Label l = new Label();
+		    l.FontSize = 22;
+		    l.Content = "Toggle Refill Key: ";
+		    l.Name = "PressButton";
 				
-				stpMainPanel.Children.Add(l);
-				for (int i = 0; i < 8; i++)
-					m_buttonsPressed[i] = 0;
-			}
-
+		    stpMainPanel.Children.Add(l);
+		    for (int i = 0; i < 8; i++)
+			    m_buttonsPressed[i] = 0;
+			
 			m_currentButton = 0;
 			this.label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label1 });
 			startTimer.Enabled = true;
@@ -238,11 +238,30 @@ namespace PDTUtils
 		private void timer_UpdateSpecials(Label l)
 		{
             if (l == label1)
-                l.Content = "Please toggle the REFILL KEY off and on.";
+            {
+                if ((string)l.Content == "" || l.Content == null)
+                    l.Content = "Please toggle the REFILL KEY off and on.";
+                else
+                    l.Content += " OK";
+            }
             else if (l == label2)
-                l.Content = "Please hold and release the DOOR SWITCH.";
+            {
+                if ((string)l.Content == "" || l.Content == null)
+                    l.Content = "Please hold and release the DOOR SWITCH.";
+                else
+                {
+                    if (!l.Content.ToString().Contains(" OK"))
+                        l.Content += " OK";
+                }
+            }
 		}
-		
+
+
+        private void UpdateSpecialsError(Label l)
+        {
+            l.Content = "Button NOT FITTED/ERROR";
+        }
+
 		private void timer_buttonError(Label l)
 		{
 			l.Background = Brushes.Red;
@@ -292,6 +311,11 @@ namespace PDTUtils
                             {
                                 m_btnImpl.m_currentSpecial = 1;
                                 m_counter = 0;
+                                this.label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label1 });
+                            }
+                            else
+                            {
+                                this.label1.Dispatcher.Invoke((DelegateUpdate)UpdateSpecialsError, new object[] { label1 });
                             }
                         }
 					}
@@ -304,29 +328,35 @@ namespace PDTUtils
 
 						if (m_btnImpl.m_toggled[1] == false)
 							m_counter++;
-					
+					    
 						var mask = m_specialMasks[1];
 						var status = BoLib.getSwitchStatus(2, mask);
                         if (status == 0)
                         {
                             if (m_btnImpl.m_toggled[1] == false) // toggle closed
                                 m_btnImpl.m_toggled[1] = true;
+                            //this.label2.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label2 });
                         }
                         else
                         {
                             if (m_btnImpl.m_toggled[1] == true) // toggle open
+                            {
                                 m_btnImpl.DoSpecials = false;
+                                this.label2.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label2 });
+                            }
                         }
 					}
 				}
 				else
 				{
-					if (m_btnImpl.m_currentSpecial < 2)
+					if (m_btnImpl.m_currentSpecial < 1)
 					{
 						m_btnImpl.m_currentSpecial = 1;
 					}
 					else
 					{
+                        if (m_btnImpl.DoSpecials == true && m_btnImpl.m_currentSpecial == 1)
+                            this.label2.Dispatcher.Invoke((DelegateUpdate)UpdateSpecialsError, new object[] { label2 });
 						m_btnImpl.m_currentSpecial = 0;
 						m_btnImpl.m_doSpecials = false;
 					}
@@ -342,6 +372,7 @@ namespace PDTUtils
 					m_counter++;
 	
 					status = BoLib.getSwitchStatus(1, m_buttonMasks[m_currentButton]);
+
 					if (status > 0)
 					{
 						m_buttonsPressed[m_currentButton] = 1;
