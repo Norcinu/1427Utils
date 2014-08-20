@@ -56,8 +56,6 @@ namespace PDTUtils
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive) ;
 				Thread.Sleep(2);
-				
-				m_machineIni.ParseIni();
 			}
 			catch (Exception err)
 			{
@@ -140,7 +138,6 @@ namespace PDTUtils
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
 			Enabler.ClearAll();
-            //DiskCommit.RebootMachine();
 		}
 		
 		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
@@ -149,7 +146,6 @@ namespace PDTUtils
 			LogController.setErrorLog();
 			LogController.setPlayedLog();
 			LogController.setWinningLog();
-			
 		}
 
 		private void btnHopperOK_Click(object sender, RoutedEventArgs e)
@@ -184,8 +180,6 @@ namespace PDTUtils
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
 				Thread.Sleep(2);
-
-				m_machineIni.ParseIni();
 			}
 			catch (Exception err)
 			{
@@ -213,62 +207,65 @@ namespace PDTUtils
 		
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
-			m_machineIni.ParseIni();
+	/*		m_machineIni.ParseIni();
             if (m_machineIni.ChangesPending == false)
             {
                 // commit changes to memory
                 Thread saver = new Thread(new ThreadStart(DiskCommit.SaveAndReboot));
                 MessageBox.Show("Cabinet restarting", "System Notice");
-            }
+            }*/
 		}
-
+        
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
 			Enabler.EnableCategory(Categories.Setup);
-			TabSetup.SelectedIndex=0;
+            TabSetup.SelectedIndex = 0;
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 			if (MasterVolumeSlider.Value > 0)
 				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
 			btnUpdateFiles.IsEnabled = true;
 			btnRollback.IsEnabled = true;
+            
+          /* 
+           * Save and reboot machine
+           * Thread saver = new Thread(new ThreadStart(DiskCommit.SaveAndReboot));
+           * saver.Start();
+           * AutoClosingMessageBox.Show("Rebooting System in 5 seconds.", "Rebooting", 5000);
+           */
 		}
 		
 		private bool ValidateNewIniSetting()
-		{
+		{            
 			return true;
 		}
         
-		private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
             var l = sender as ListView;
+            //l.ItemsSource = GetMachineIni;
             int a1 = l.SelectedIndex;
             var c = l.Items[a1] as IniElement;
             IniSettingsWindow w = new IniSettingsWindow(c.Value);
-	        
+	       
 			if (w.ShowDialog() == false)
 			{
 				string newValue = w.OptionValue;
-				if (newValue != "")
-				{
-					Console.WriteLine(newValue);
-					var listView = sender as ListView;
-					int a = listView.SelectedIndex;
-                    var current = listView.ItemsSource as IniElement;//ListBoxItem;
+                if (newValue != c.Value)//newValue != "")
+                {
+                    Console.WriteLine(newValue);
+                    var listView = sender as ListView;
+                    int a = listView.SelectedIndex;
+                    var current = listView.Items[a] as IniElement;//listView.ItemsSource as IniElement;//ListBoxItem;
                     current.Value = newValue;
+                    if (current.Field[0] == '#')
+                        current.Value = "";
+                    /*listView.Items*/
                     listView.Items[a] = current;
-                    //var old = current.Category; //Convert.ToString(current.Content);
-                    /*var dropDownBox = stpButtonPanel.Children[0] as ComboBox;
-					var newContent = old.Split(":".ToCharArray());
-					if (dropDownBox.SelectedIndex == 0) // need to validate inputs!
-					{
-						current.Content = newValue + " : " + newValue;
-					}
-					else
-					{
-						current.Content = newContent[0] + " : " + newValue;
-					}*/
-				}
-			}
+                    //listView.Items[a] = current;
+                    //listView.Items[a] = current;
+                    //listView.ItemsSource. = current;
+                }
+            }
 		}
 		
 		private void RemoveChildrenFromStackPanel()
@@ -382,7 +379,7 @@ namespace PDTUtils
 			btnCancelUpdate.IsEnabled = false;
 			btnCancelUpdate.Visibility = Visibility.Hidden;
 			lblUpdateSelect.Visibility = Visibility.Hidden;
-				
+		    
 			btnRollback.IsEnabled = true;
 			btnRollback.Visibility = Visibility.Visible;
 			btnUpdateFiles.IsEnabled = true;

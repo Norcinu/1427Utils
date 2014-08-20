@@ -47,8 +47,8 @@ namespace PDTUtils.Logic
 		{
 		}
 	}
-	
-	/// <summary>
+
+    /// <summary>
 	/// Represents the machine ini of the cabinet.
 	/// </summary>
 	public class MachineIni : ObservableCollection<IniElement>
@@ -87,43 +87,49 @@ namespace PDTUtils.Logic
 		/// Read Machine and parse accordingly.
 		/// </summary>
 		/// <returns></returns>
-		public bool ParseIni()
-		{
-			using (FileStream fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (BufferedStream bs = new BufferedStream(fs))
-			using (StreamReader sr = new StreamReader(bs))
-			{
-				string line;
-				string category = "";
-				while ((line = sr.ReadLine()) != null)
-				{
-					if (line.Equals(EndOfIni))
-						break;
-					else if (/*line.StartsWith("#") ||*/ line.Equals(""))
-					{
-					}
-					else if (line.StartsWith("["))
-					{
-						category = line.Trim("[]".ToCharArray());
-						category += ".";
-					}
-					else
-					{
-						if (line.Contains("="))
-						{
-							var options = line.Split("=".ToCharArray());
-							Add(new IniElement(category, options[0], options[1]));
-						}
-						else if(line != null || line != "")
-						{
-							Add(new IniElement(category, line, line));
-						}
-					}
-				}
-			}
-			return true;
-		}
+        public bool ParseIni()
+        {
+            using (FileStream fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (BufferedStream bs = new BufferedStream(fs))
+            using (StreamReader sr = new StreamReader(bs))
+            {
+                string line;
+                string category = "";
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (line.Equals(EndOfIni))
+                        break;
+                    else if (line.Equals(""))
+                    {
+                    }
+                    else if (line.StartsWith("["))
+                    {
+                        category = line.Trim("[]".ToCharArray());
 
+                        string[] str;
+                        IniFileUtility.GetIniProfileSection(out str, category, @"D:\machine\machine.ini");
+                        if (str != null)
+                        {
+                            foreach (var val in str)
+                            {
+                                if (val.Contains("="))
+                                {
+                                    var options = val.Split("=".ToCharArray());
+                                    Add(new IniElement(category + ".", options[0], options[1]));
+                                }
+                                else
+                                {
+                                    if (category == "Models")
+                                        Add(new IniElement(category + ".", "Model Number", val));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+        
 		public void HashMachineIni()
 		{
 			int retries = 10;

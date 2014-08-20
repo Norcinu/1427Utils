@@ -6,7 +6,7 @@ using System.IO;
 
 namespace PDTUtils.Logic
 {
-	public static class MyDebug<T>
+	public static class SegLogging<T>
 	{
 		public static void WriteToFile(string filename, T theOutput)
 		{

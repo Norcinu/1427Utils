@@ -307,6 +307,7 @@
             </TabControl>
         </StackPanel>
         
+        <!-- is this were all the binding errors come from? -->
         <TabControl Name="tabMeters"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
             <TabItem Header="LCD Meters">
                 <DockPanel LastChildFill="False">

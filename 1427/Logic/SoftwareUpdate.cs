@@ -5,7 +5,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using PDTUtils.Logic;
 using PDTUtils.Native;
-using System.Diagnostics;
 
 namespace PDTUtils
 {
@@ -160,7 +159,7 @@ namespace PDTUtils
 
 		bool ReadIniSection(out string[] section, string field)
 		{
-			bool? result = GetIniProfileSection(out section, field);
+            bool? result = IniFileUtility.GetIniProfileSection(out section, field, m_updateIni);
 			if (result == false || section == null)
 				return true;
 			return false;
@@ -412,11 +411,11 @@ namespace PDTUtils
 			string[] files_section = null;
 
 			BoLib.setFileAction();
-			bool? result = GetIniProfileSection(out folders_section, "folders");
+            bool? result = IniFileUtility.GetIniProfileSection(out folders_section, "folders", m_updateIni);
 			if (result != true)
 				return;
-			
-			result = GetIniProfileSection(out files_section, "files");
+
+            result = IniFileUtility.GetIniProfileSection(out files_section, "files", m_updateIni);
 			if (result != true)
 				return;
 			BoLib.clearFileAction();

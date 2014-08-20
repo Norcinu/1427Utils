@@ -23,9 +23,9 @@ namespace PDTUtils
 		int m_buttonEnabledCount = 6;
 		int m_counter = 0;
 		int m_currentButton = 0;
-		string[] m_termButtonList = new string[8] { "LH1", "LH2", "LH3", "LH4", "LH5", "LH6", "LH7", "LH8" }; // Increase to 10.
+		string[] m_termButtonList = new string[8] { "LH1", "LH2", "LH3", "LH4", "LH5", "LH6", "LH7", "LH8" }; 
 		byte[] m_specialMasks = new byte[2] { 0x10, 0x02 };
-		byte[] m_buttonMasks = new byte[8] {0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01};
+        byte[] m_buttonMasks = new byte[8] { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 		List<Button> m_buttons = new List<Button>();
 		string[] m_buttonContent = new string[6] { "Printer", "Buttons", "Lamps", "Dil Status", "Note Val", "Coin Mech" };
 		int[] m_buttonsPressed = new int[8];
@@ -123,6 +123,9 @@ namespace PDTUtils
 		private void DoLampTest()
 		{
             btnEndTest.IsEnabled = true;
+            label1.Dispatcher.Invoke((DelegateDil)label_updateMessage, new object[] { label1, "Testing Button Lamps" });
+            
+            Thread.Sleep(3000);
 
             for (short i = 128; i > 0; i /= 2)
             {
@@ -144,6 +147,8 @@ namespace PDTUtils
             for (int i = 0; i < m_visualButtonCount; i++)
                 stpButtons.Children[i].Dispatcher.Invoke((DelegateEnableBtn)timer_buttonEnable, new object[] { stpButtons.Children[i] });
             m_buttonEnabledCount = 6;
+
+            label4.Dispatcher.Invoke((DelegateDil)label_updateMessage, new object[] { label4, "Testing Button Lamps Finished" });
 		}
         
 		private void DoPrinterTest()
@@ -242,7 +247,7 @@ namespace PDTUtils
                 if ((string)l.Content == "" || l.Content == null)
                     l.Content = "Please toggle the REFILL KEY off and on.";
                 else
-                    l.Content += " OK";
+                    l.Content = "REFILL KEY OK";
             }
             else if (l == label2)
             {
@@ -251,7 +256,7 @@ namespace PDTUtils
                 else
                 {
                     if (!l.Content.ToString().Contains(" OK"))
-                        l.Content += " OK";
+                        l.Content = "DOOR SWITCH OK";
                 }
             }
 		}
@@ -298,7 +303,14 @@ namespace PDTUtils
 					{
 						if (m_btnImpl.m_toggled[0] == false)
 							m_counter++;
-						var mask = m_specialMasks[0];
+                        
+                        var comp = this.label1.Dispatcher.Invoke((DelegateReturnString)timer_getLabelContent,
+                            new object[] { label1 }) as string;
+
+                        if (comp == "" || comp == null)
+                            this.label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label1 });
+						
+                        var mask = m_specialMasks[0];
 						var status = BoLib.getSwitchStatus(2, mask);
                         if (status == 0)
                         {
@@ -313,16 +325,13 @@ namespace PDTUtils
                                 m_counter = 0;
                                 this.label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label1 });
                             }
-                            else
-                            {
-                                this.label1.Dispatcher.Invoke((DelegateUpdate)UpdateSpecialsError, new object[] { label1 });
-                            }
                         }
 					}
 					else if (m_btnImpl.m_currentSpecial == 1)
 					{
                         var comp = this.label2.Dispatcher.Invoke((DelegateReturnString)timer_getLabelContent, 
                             new object[] { label2 }) as string;
+                        
                         if (comp == "" || comp == null)
                             this.label2.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label2 });
 
@@ -335,7 +344,6 @@ namespace PDTUtils
                         {
                             if (m_btnImpl.m_toggled[1] == false) // toggle closed
                                 m_btnImpl.m_toggled[1] = true;
-                            //this.label2.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, new object[] { label2 });
                         }
                         else
                         {
@@ -352,11 +360,18 @@ namespace PDTUtils
 					if (m_btnImpl.m_currentSpecial < 1)
 					{
 						m_btnImpl.m_currentSpecial = 1;
+
+                        var comp = this.label1.Dispatcher.Invoke((DelegateReturnString)timer_getLabelContent,
+                           new object[] { label1 }) as string;
+
+                        if (comp == "Please toggle the REFILL KEY off and on.")
+                            this.label1.Dispatcher.Invoke((DelegateUpdate)UpdateSpecialsError, new object[] { label1 });
 					}
 					else
 					{
                         if (m_btnImpl.DoSpecials == true && m_btnImpl.m_currentSpecial == 1)
                             this.label2.Dispatcher.Invoke((DelegateUpdate)UpdateSpecialsError, new object[] { label2 });
+
 						m_btnImpl.m_currentSpecial = 0;
 						m_btnImpl.m_doSpecials = false;
 					}
@@ -418,7 +433,7 @@ namespace PDTUtils
         
 		/// <summary>
 		/// Clear the form, some tests like the coin and note need to run indefinitely 
-		/// until otherwise told.
+		/// until otherwise told. 
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
@@ -431,7 +446,7 @@ namespace PDTUtils
 				stpButtons.Children[i].IsEnabled = true;
 
 			m_buttonEnabledCount = m_visualButtonCount;
-
+            
 			label1.Background = null;
 			label1.Foreground = null;
             
@@ -464,7 +479,6 @@ namespace PDTUtils
 
 		private void Window_Closed(object sender, EventArgs e)
 		{
-
 		}
 	}
 }

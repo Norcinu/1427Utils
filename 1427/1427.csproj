@@ -75,6 +75,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logic\AutoClosingMessageBox.cs" />
+    <Compile Include="Logic\IniFileUtility.cs" />
     <Compile Include="Screenshot\ScreenshotModel.cs" />
     <Compile Include="Properties\Categories.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -89,7 +91,7 @@
       <DependentUpon>HopperUtilsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Logic\GamesList.cs" />
-    <Compile Include="Logic\MyDebug.cs" />
+    <Compile Include="Logic\Logging.cs" />
     <Compile Include="Logic\RegionalSettings.cs" />
     <Compile Include="Logic\ServiceEnabler.cs" />
     <Compile Include="Logic\MachineMeters.cs" />
