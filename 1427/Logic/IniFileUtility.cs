@@ -17,7 +17,7 @@ namespace PDTUtils.Logic
                 Marshal.FreeCoTaskMem(retStringPtr);
                 return false;
             }
-
+            
             string retString = Marshal.PtrToStringAuto(retStringPtr, (int)bytesReturned - 1);
             section = retString.Split('\0');
             Marshal.FreeCoTaskMem(retStringPtr);

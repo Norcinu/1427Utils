@@ -123,7 +123,7 @@ namespace PDTUtils
 					bool[] quit = new bool[2] { false, false };
 					
 					BoLib.setFileAction();
-
+                    
 					quit[0] = ReadIniSection(out folders_section, "Folders");
 					quit[1] = ReadIniSection(out files_section, "Files");
 					

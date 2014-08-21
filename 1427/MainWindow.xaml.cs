@@ -207,7 +207,7 @@ namespace PDTUtils
 		
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
-	/*		m_machineIni.ParseIni();
+			/*m_machineIni.ParseIni();
             if (m_machineIni.ChangesPending == false)
             {
                 // commit changes to memory
@@ -235,39 +235,37 @@ namespace PDTUtils
 		}
 		
 		private bool ValidateNewIniSetting()
-		{            
+		{   
 			return true;
 		}
         
         private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
             var l = sender as ListView;
-            //l.ItemsSource = GetMachineIni;
             int a1 = l.SelectedIndex;
             var c = l.Items[a1] as IniElement;
+            var items = l.ItemsSource;
             IniSettingsWindow w = new IniSettingsWindow(c.Value);
 	       
 			if (w.ShowDialog() == false)
 			{
 				string newValue = w.OptionValue;
-                if (newValue != c.Value)//newValue != "")
+                if (newValue != c.Value)
                 {
                     Console.WriteLine(newValue);
                     var listView = sender as ListView;
                     int a = listView.SelectedIndex;
-                    var current = listView.Items[a] as IniElement;//listView.ItemsSource as IniElement;//ListBoxItem;
+                    var current = listView.Items[a] as IniElement;
                     current.Value = newValue;
                     if (current.Field[0] == '#')
                         current.Value = "";
-                    /*listView.Items*/
-                    listView.Items[a] = current;
-                    //listView.Items[a] = current;
-                    //listView.Items[a] = current;
-                    //listView.ItemsSource. = current;
+                    
+                    /*items[a] = current;*/
+                    /*listView.ItemsSource = items;*/
                 }
             }
 		}
-		
+        
 		private void RemoveChildrenFromStackPanel()
 		{
 			int childCount = stpButtonPanel.Children.Count;
@@ -308,7 +306,7 @@ namespace PDTUtils
 		
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
 		{
-			if (m_updateFiles.DoSoftwareUpdatePreparation() == false) //.DoSoftwareUpdate() == false) // !!! move this to the below function.
+			if (m_updateFiles.DoSoftwareUpdatePreparation() == false)
 			{
 				MessageBox.Show("Could not find update.ini " + UpdateFiles.UpdateIni);
 			}

@@ -59,7 +59,7 @@ namespace PDTUtils.Logic
 		List<string> m_field = new List<string>();
 		List<string> m_values = new List<string>();
         public bool ChangesPending { get; set; }
-
+        
 		public MachineIni()
 		{
 			ParseIni();
@@ -101,11 +101,12 @@ namespace PDTUtils.Logic
                         break;
                     else if (line.Equals(""))
                     {
+
                     }
-                    else if (line.StartsWith("["))
+                    else if (line.StartsWith("[") && LineContainsCategories(line))
                     {
                         category = line.Trim("[]".ToCharArray());
-
+                        
                         string[] str;
                         IniFileUtility.GetIniProfileSection(out str, category, @"D:\machine\machine.ini");
                         if (str != null)
@@ -117,17 +118,17 @@ namespace PDTUtils.Logic
                                     var options = val.Split("=".ToCharArray());
                                     Add(new IniElement(category + ".", options[0], options[1]));
                                 }
-                                else
-                                {
-                                    if (category == "Models")
-                                        Add(new IniElement(category + ".", "Model Number", val));
-                                }
                             }
                         }
                     }
                 }
             }
             return true;
+        }
+        
+        private static bool LineContainsCategories(string line)//man it was nice when the snide and the pone were out
+        {
+            return (line.Contains("Game") != true && line.Contains("Select") != true && line.Contains("Models") != true && line.Contains("Standby") != true);
         }
         
 		public void HashMachineIni()
@@ -141,7 +142,7 @@ namespace PDTUtils.Logic
 					{
 						NativeWinApi.WritePrivateProfileSection("End", null, IniPath);
 						NativeWinApi.WritePrivateProfileSection("End", "", IniPath);
-
+                        
 						do
 						{
 							NativeMD5.AddHashToFile(IniPath);
