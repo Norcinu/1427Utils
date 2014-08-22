@@ -22,7 +22,7 @@ namespace PDTUtils
 		public IniSettingsWindow()
 		{
 			InitializeComponent();
-			Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + "/osk.exe");
+			//Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + "/osk.exe");
 		}
         
         public IniSettingsWindow(string v)
@@ -30,7 +30,7 @@ namespace PDTUtils
             InitializeComponent();
             OptionValue = v;
             txtNewValue.Text = OptionValue;
-            Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + "/osk.exe");
+         //   Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.System) + "/osk.exe");
         }
         
 		private void button2_Click(object sender, RoutedEventArgs e)
@@ -46,12 +46,12 @@ namespace PDTUtils
         
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
-			var processes = Process.GetProcesses();
+			/*var processes = Process.GetProcesses();
 			foreach (Process p in processes)
 			{
 				if (p.ProcessName == "osk")
 					p.Kill();
-			}
+			}*/
 		}
 	}
 }

@@ -48,7 +48,7 @@ namespace PDTUtils
 				else
 					ci = new CultureInfo("en-GB");
 				
-				Thread.CurrentThread.CurrentCulture = ci;
+		    	Thread.CurrentThread.CurrentCulture = ci;
 				Thread.CurrentThread.CurrentUICulture = ci;
 
 				InitialiseBoLib();
@@ -246,7 +246,7 @@ namespace PDTUtils
             var c = l.Items[a1] as IniElement;
             var items = l.ItemsSource;
             IniSettingsWindow w = new IniSettingsWindow(c.Value);
-	       
+            
 			if (w.ShowDialog() == false)
 			{
 				string newValue = w.OptionValue;
@@ -259,9 +259,6 @@ namespace PDTUtils
                     current.Value = newValue;
                     if (current.Field[0] == '#')
                         current.Value = "";
-                    
-                    /*items[a] = current;*/
-                    /*listView.ItemsSource = items;*/
                 }
             }
 		}
