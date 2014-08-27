@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PDTUtils.IniSettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:k="clr-namespace:PDTUtils.Keyboard"
+        xmlns:k="clr-namespace:PDTUtils.Logic"
         Title="IniSettingsWindow" Height="136" Width="300" WindowStartupLocation="CenterScreen" FontStyle="Normal" FontWeight="Normal" FontSize="11" WindowStyle="ThreeDBorderWindow" Closing="Window_Closing">
     <Grid Height="94" FocusManager.FocusedElement="{Binding ElementName=txtNewValue}">
         <Label Height="23"   VerticalAlignment="Top" Margin="10,3,12,0" FontStretch="Normal" Name="lblText" Content="Enter new Item Value:"></Label>

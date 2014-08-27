@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace PDTUtils.Keyboard
+namespace PDTUtils.Logic
 {
     public class TouchScreenKeyboard : Window
     {
@@ -606,8 +606,6 @@ namespace PDTUtils.Keyboard
                     TouchScreenKeyboard.TouchScreenText += Char.ConvertFromUtf32(34);
                     ShiftFlag = false;
                 }
-
-
             }
             else if (e.Command == CmdEnter)
             {
@@ -762,7 +760,9 @@ namespace PDTUtils.Keyboard
             }
             catch (System.Exception ex)
             {
-	
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+#endif
             }
         }
         
@@ -808,7 +808,6 @@ namespace PDTUtils.Keyboard
             host.BorderBrush = Brushes.Red;
             host.BorderThickness = new Thickness(4);
 
-
             m_currentControl = host;
 
             if (m_instanceObject == null)
@@ -835,9 +834,6 @@ namespace PDTUtils.Keyboard
 
                 host.LayoutUpdated += new EventHandler(tb_LayoutUpdated);
             }
-
-
-
         }
 
         static void TouchScreenKeyboard_Deactivated(object sender, EventArgs e)
@@ -879,9 +875,6 @@ namespace PDTUtils.Keyboard
                 m_instanceObject.Close();
                 m_instanceObject = null;
             }
-
-
-
         }
 
         #endregion

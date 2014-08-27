@@ -38,9 +38,10 @@ namespace PDTUtils
 		
 		public MainWindow()
         {
-            InitializeComponent();
 			try
 			{
+              	InitializeComponent();
+
 				Random r = new Random();
 				CultureInfo ci = null;
 				if (r.Next(2) == 0)
@@ -241,27 +242,38 @@ namespace PDTUtils
         
         private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+            UpdateIniItem(sender);
+		}
+
+        private void UpdateIniItem(object sender)
+        {
             var l = sender as ListView;
             int a1 = l.SelectedIndex;
             var c = l.Items[a1] as IniElement;
             var items = l.ItemsSource;
             IniSettingsWindow w = new IniSettingsWindow(c.Value);
             
-			if (w.ShowDialog() == false)
-			{
-				string newValue = w.OptionValue;
-                if (newValue != c.Value)
+            if (w.ShowDialog() == false)
+            {
+                string newValue = w.OptionValue;
+                Debug.WriteLine(newValue);
+                var listView = sender as ListView;
+                int a = listView.SelectedIndex;
+                var current = listView.Items[a] as IniElement;
+
+                if (newValue != c.Value || (newValue == c.Value && current.Field[0] == '#'))
                 {
-                    Console.WriteLine(newValue);
-                    var listView = sender as ListView;
-                    int a = listView.SelectedIndex;
-                    var current = listView.Items[a] as IniElement;
                     current.Value = newValue;
                     if (current.Field[0] == '#')
-                        current.Value = "";
+                        current.Field = current.Field.Substring(1);
+                    current.Value = newValue;
+                    listView.Items.Refresh();
+                    
+                    GetMachineIni.WriteMachineIni();
+                    //dump to file.
                 }
             }
-		}
+        }
         
 		private void RemoveChildrenFromStackPanel()
 		{

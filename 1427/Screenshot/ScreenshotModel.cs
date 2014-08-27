@@ -17,7 +17,7 @@ namespace PDTUtils.Models
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
+    
     public class ScreenshotModel
     {
         public uint CurrentIndex { get; set; }

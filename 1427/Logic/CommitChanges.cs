@@ -39,7 +39,7 @@ namespace PDTUtils
 			foreach(ManagementObject obj in W32_OS.GetInstances())
 			{
 				inParams = obj.GetMethodParameters("Win32Shutdown");
-				inParams["Flags"] = 6; //ForcedReboot;
+                inParams["Flags"] = 6; // ForcedReboot;
 				inParams["Reserved"] = 0;
 
 				outParams = obj.InvokeMethod("Win32Shutdown", inParams, null);

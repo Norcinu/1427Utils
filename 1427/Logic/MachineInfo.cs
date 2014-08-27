@@ -86,13 +86,13 @@ namespace PDTUtils.Logic
 			
 			if (result == true)
 			{
-				str.Append("Resolution: " + dm.dmPelsWidth + "x" + dm.dmPelsHeight + ". "); //\n
+				str.Append("Resolution: " + dm.dmPelsWidth + "x" + dm.dmPelsHeight + ". ");
 				str.Append("BPP: " + dm.dmBitsPerPel + ".\n");
 			}
 			else
 				str.Append(errorString);
-			
-			str.Append("Bottom Screen:\t "); // \n
+			//do you unnserstand? yes yes I unnerstand
+			str.Append("Bottom Screen:\t "); 
 			NativeWinApi.DEVMODE dm2 = new NativeWinApi.DEVMODE();
 			result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display1", 
 				(int)NativeWinApi.ModeNum.ENUM_CURRENT_SETTINGS, ref dm2);

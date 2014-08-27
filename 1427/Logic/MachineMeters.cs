@@ -8,7 +8,7 @@ namespace PDTUtils
 	{
 		public string Key { get; set; }
 		public string Value { get; set; }
-
+        
 		public MeterDescription() { }
 		public MeterDescription(string k, string v)
 		{
@@ -16,7 +16,7 @@ namespace PDTUtils
 			this.Value = v;
 		}
 	}
-
+    
 	abstract public class MachineMeters : INotifyPropertyChanged
 	{
 		public ObservableCollection<MeterDescription> m_meterDesc = new ObservableCollection<MeterDescription>();
@@ -35,10 +35,10 @@ namespace PDTUtils
 			if (this.PropertyChanged != null)
 				this.PropertyChanged(this, new PropertyChangedEventArgs(name));
 		}
-
+        
 		abstract public void ReadMeter();
 	}
-
+    
 	public class ShortTermMeters : MachineMeters
 	{
 		public ShortTermMeters()
@@ -59,8 +59,8 @@ namespace PDTUtils
 			this.OnPropertyChanged("ShortTerm");
 		}
 	}
-
-	public class LongTermMeters : MachineMeters
+    
+    public class LongTermMeters : MachineMeters
 	{
 		public LongTermMeters()
 		{

@@ -24,27 +24,20 @@ namespace PDTUtils
 					m_doorStatusTimer = new System.Timers.Timer(500);
 					m_doorStatusTimer.Elapsed += DoorTimerEvent;
 					m_doorStatusTimer.Enabled = true;
-
+                    
 					GetSystemUptime();
 					m_uiUpdateTimer = new System.Timers.Timer(1000);
 					m_uiUpdateTimer.Elapsed += UpdateUiLabels;
-					//m_uiUpdateTimer.Elapsed += DetectDoorChange;
 					m_uiUpdateTimer.Enabled = true;
 					
 					return;
 				}
 				else if (shell == 1)
-				{
 					m_errorMessage = "Shell Out of Date. Check If Running.";
-				}
 				else if (shell == 2)
-				{
 					m_errorMessage = "Bo Lib Out of Date.";
-				}
 				else
-				{
 					m_errorMessage = "Unknown Error Occurred.";
-				}
 
 				m_errorMessage += "\nFix the issue and restart program.";
 
@@ -72,12 +65,12 @@ namespace PDTUtils
 			this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
 			this.lblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
 		}
-
+        
 		public void UpdateUiLabels(object sender, ElapsedEventArgs e)
 		{
 			//this.lblUptime.Dispatcher.Invoke((DelegateUpdate)GetSystemUptime);
 		}
-
+        
 		public void UpdateTimeAndDate()
 		{
 			lblBottom.FontSize = 22;
