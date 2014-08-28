@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using PDTUtils.Native;
+using System.Text.RegularExpressions;
 
 namespace PDTUtils.Logic
 {
@@ -60,32 +61,12 @@ namespace PDTUtils.Logic
         List<IniElement> _models = new List<IniElement>();
         string _firstLine = "";
 
-        Dictionary<string, string> iniVariables = new Dictionary<string, string>();
-        List<string> m_field = new List<string>();
-        List<string> m_values = new List<string>();
-
 		public MachineIni()
 		{
 			ParseIni();
 		}
 
-        #region Properties
 
-        public string this[string key]
-        {
-            get { return iniVariables[key]; }
-        }
-
-        public string GetIniValue(string key)
-        {
-            return iniVariables[key];
-        }
-
-        /*public IList<IniElement> GetItems
-        {
-            get { return Items; }
-        }*/
-        #endregion
 
 		/// <summary>
 		/// Read Machine and parse accordingly.
@@ -115,7 +96,7 @@ namespace PDTUtils.Logic
                 {
                     if (line.Equals(EndOfIni))
                         break;
-                    else if (line.StartsWith("[") && LineContainsCategories(line) && line.Equals("") != true)
+                    else if (line.StartsWith("[") && !LineContainsCategories(line) && line.Equals("") != true)
                     {
                         category = line.Trim("[]".ToCharArray());
                         
@@ -133,6 +114,10 @@ namespace PDTUtils.Logic
                             }
                         }
                     }
+                    else if (LineContainsCategories(line))
+                    {
+                        //!!! NEED TO ADD THE GAME FIELDS.
+                    }
                 }
             }
 
@@ -148,16 +133,40 @@ namespace PDTUtils.Logic
         
         private static bool LineContainsCategories(string line)
         {
-            return (line.Contains("Game")   != true && line.Contains("Select")  != true && 
-                    line.Contains("Models") != true && line.Contains("Standby") != true);
+            return (line.Contains("Game")   == true || line.Contains("Select")  == true || 
+                    line.Contains("Models") == true || line.Contains("Standby") == true);
+        }
+        
+        //I think in categories that are linked, I should just unset all of them at the same time.
+        //I mean the ones that are commented out.
+        public void WriteMachineIni(string category, string field)
+        {
+            if (category == null)
+                WriteMachineIni();
+            else
+            {
+                bool found = false;
+                for (int i = 0; i < Items.Count && !found; i++)
+                {
+                    if (Items[i].Category == category && Items[i].Field == field)
+                    {
+                        string text = File.ReadAllText(IniPath);
+                        text = Regex.Replace(text, "#" + Items[i].Field, Items[i].Field);
+                        File.WriteAllText(IniPath, text);
+                        NativeWinApi.WritePrivateProfileString(category, Items[i].Field, 
+                                                               Items[i].Value, IniPath);
+                        found = !found;
+                    }
+                }
+            }
         }
         
         public void WriteMachineIni()
         {
             //if (File.Exists(IniPath))
             //{
-                //  File.Move(IniPath, IniPath + "_old");
-                //  File.Create(IniPath);
+            //    File.Move(IniPath, IniPath + "_old");
+            //    File.Create(IniPath);
                 string divider = "Models";
                 using (StreamWriter w = File.CreateText(IniPath))
                 {
@@ -168,7 +177,7 @@ namespace PDTUtils.Logic
                     w.Flush();
                 }
             //}
-
+            
             foreach (var item in Items)
             {
                 if (item.Category != divider)
@@ -182,10 +191,10 @@ namespace PDTUtils.Logic
                 }
                 NativeWinApi.WritePrivateProfileString(item.Category, item.Field, item.Value, IniPath);
             }
-        
+            
             HashMachineIni();
         }
-        
+
 		public void HashMachineIni()
 		{
 			int retries = 10;

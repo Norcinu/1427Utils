@@ -269,7 +269,7 @@ namespace PDTUtils
                     current.Value = newValue;
                     listView.Items.Refresh();
                     
-                    GetMachineIni.WriteMachineIni();
+                    GetMachineIni.WriteMachineIni(current.Category, current.Field);
                     //dump to file.
                 }
             }

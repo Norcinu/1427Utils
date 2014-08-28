@@ -1,11 +1,11 @@
 using System;
+using System.Diagnostics;
 using System.Media;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Native;
-using System.Diagnostics;
+
 
 namespace PDTUtils
 {
