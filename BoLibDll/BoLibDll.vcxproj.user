@@ -7,7 +7,7 @@
     <LocalDebuggerAttach>false</LocalDebuggerAttach>
     <LocalDebuggerWorkingDirectory>D:\1427</LocalDebuggerWorkingDirectory>
     <RemoteDebuggerWorkingDirectory>$(ProjectDir)</RemoteDebuggerWorkingDirectory>
-    <RemoteDebuggerServerName>169.254.1.9:4015</RemoteDebuggerServerName>
+    <RemoteDebuggerServerName>Steven@169.254.1.9:4015</RemoteDebuggerServerName>
     <RemoteDebuggerAttach>true</RemoteDebuggerAttach>
   </PropertyGroup>
 </Project>

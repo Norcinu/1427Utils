@@ -138,7 +138,7 @@ namespace PDTUtils.Logic
         }
         
         //I think in categories that are linked, I should just unset all of them at the same time.
-        //I mean the ones that are commented out.
+        //I mean the ones that are commented out. 
         public void WriteMachineIni(string category, string field)
         {
             if (category == null)
@@ -194,7 +194,7 @@ namespace PDTUtils.Logic
             
             HashMachineIni();
         }
-
+        
 		public void HashMachineIni()
 		{
 			int retries = 10;

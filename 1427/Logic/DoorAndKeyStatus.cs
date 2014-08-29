@@ -61,7 +61,7 @@ namespace PDTUtils
 			updateTimer = new System.Timers.Timer(1000);
 			updateTimer.Enabled = true;
 		}
-
+        
 		public void Run()
 		{
 			while (m_running)
