@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
-using System.Globalization;
 
 namespace PDTUtils
 {
@@ -13,11 +9,16 @@ namespace PDTUtils
     /// </summary>
     public partial class App : Application
     {
-		private void Application_Startup(object sender, StartupEventArgs e)
+		void Application_Startup(object sender, StartupEventArgs e)
 		{
 			FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
-											new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(
-											CultureInfo.CurrentCulture.IetfLanguageTag)));
-		}        
+											    new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(
+											    CultureInfo.CurrentCulture.IetfLanguageTag)));
+		}
+        
+        void Application_Exit(object sender, ExitEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Exiting");
+        }
     }
 }

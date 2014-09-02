@@ -56,6 +56,8 @@ namespace PDTUtils.Logic
 	{
 		static readonly string IniPath = "D:\\machine\\machine.ini";
 		static readonly string EndOfIni = "[END]";
+        static readonly string BackUpFile = IniPath + "_backup";
+
         public bool ChangesPending { get; set; }
         
         List<IniElement> _models = new List<IniElement>();
@@ -65,8 +67,21 @@ namespace PDTUtils.Logic
 		{
 			ParseIni();
 		}
-
-
+        
+        void RemoveBackupFile()
+        {
+            if (File.Exists(BackUpFile))
+            {
+                try
+                {
+                	File.Delete(BackUpFile);
+                }
+                catch (System.Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                }
+            }
+        }
 
 		/// <summary>
 		/// Read Machine and parse accordingly.
@@ -82,6 +97,10 @@ namespace PDTUtils.Logic
                 string category = null;
                 try
                 {
+                    if (File.Exists(BackUpFile))
+                        RemoveBackupFile();
+                    File.Copy(IniPath, BackUpFile);
+                    
                     char[] first = new char[10];
                 	sr.Read(first, 0, 7);
                     _firstLine = new string(first).Trim('\0');
@@ -90,8 +109,7 @@ namespace PDTUtils.Logic
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);	
                 }
-                
-                
+                //go and make your coffee you fucking cunt. and eat a bag of shit
                 while ((line = sr.ReadLine()) != null)
                 {
                     if (line.Equals(EndOfIni))
@@ -101,7 +119,7 @@ namespace PDTUtils.Logic
                         category = line.Trim("[]".ToCharArray());
                         
                         string[] str;
-                        IniFileUtility.GetIniProfileSection(out str, category, @"D:\machine\machine.ini");
+                        IniFileUtility.GetIniProfileSection(out str, category, IniPath);
                         if (str != null)
                         {
                             foreach (var val in str)
@@ -136,9 +154,9 @@ namespace PDTUtils.Logic
             return (line.Contains("Game")   == true || line.Contains("Select")  == true || 
                     line.Contains("Models") == true || line.Contains("Standby") == true);
         }
-        
+
         //I think in categories that are linked, I should just unset all of them at the same time.
-        //I mean the ones that are commented out. 
+        //I mean the ones that are commented out.
         public void WriteMachineIni(string category, string field)
         {
             if (category == null)

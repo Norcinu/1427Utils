@@ -24,7 +24,7 @@ namespace PDTUtils.Impls
 			this.m_name = "";
 		}
 	}
-
+    
 	public class ButtonTestImpl : Impl
     {
         #region Properties
@@ -65,7 +65,7 @@ namespace PDTUtils.Impls
 			set { m_currentSpecial = value; }
 		}
         #endregion
-
+        
         public ButtonTestImpl()
 		{
 			m_doSpecials = true;
@@ -76,7 +76,7 @@ namespace PDTUtils.Impls
 			m_currentSpecial = 0;
 		}
 	}
-
+    
 	public class CoinNoteValImpl : Impl
 	{
 		public bool m_isCoinTest;
@@ -91,7 +91,7 @@ namespace PDTUtils.Impls
 			m_isCoinTest = coinTest;
 		}
 	}
-
+    
 	public class HopperImpl : Impl
 	{
 		public bool m_dumpSwitchPressed = false;

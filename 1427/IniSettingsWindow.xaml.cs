@@ -22,7 +22,7 @@ namespace PDTUtils
 		{
 			InitializeComponent();
 		}
-
+        
         public IniSettingsWindow(string f, string v)
         {
             InitializeComponent();
@@ -47,18 +47,20 @@ namespace PDTUtils
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 		}
-
+        
         private void btnComment_Click(object sender, RoutedEventArgs e)
         {
             if (OptionField[0] == '#')
             {
                 OptionField = OptionField.Substring(1);
-                RetChangeType = ChangeType.COMMENT;
+                RetChangeType = ChangeType.UNCOMMENT;
+                this.Close();
             }
             else
             {
                 OptionField = OptionField.Insert(0, "#");
-                RetChangeType = ChangeType.UNCOMMENT;
+                RetChangeType = ChangeType.COMMENT;
+                this.Close();
             }
         }
 	}

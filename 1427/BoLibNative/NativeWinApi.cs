@@ -20,6 +20,7 @@ namespace PDTUtils.Native
 	}
 
 #pragma warning disable 0169, 0649
+    [System.Security.SuppressUnmanagedCodeSecurity]
 	static class NativeWinApi
 	{
 		public enum ModeNum : int
@@ -212,42 +213,70 @@ namespace PDTUtils.Native
 
 		[DllImport("kernel32")]
 		public static extern bool GetVersionEx(ref OSVERSIONINFO osvi);
+       
+       
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetPrivateProfileSectionNames(IntPtr lpszReturnBuffer,
+                                                               uint nSize,
+                                                               string lpFileName);
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern uint GetPrivateProfileString(string lpAppName,
+                                                          string lpKeyName,
+                                                          string lpDefault,
+                                                          StringBuilder lpReturnedString,
+                                                          int nSize,
+                                                          string lpFileName);
 
-		[DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
-		public static extern uint GetPrivateProfileString(string lpAppName,
-														  string lpKeyName,
-														  string lpDefault,
-												          StringBuilder lpReturnedString,
-												          uint nSize,
-												          string lpFileName);
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern uint GetPrivateProfileString(string lpAppName,
+                                                          string lpKeyName,
+                                                          string lpDefault,
+                                                          [In, Out] char[] lpReturnedString,
+                                                          int nSize,
+                                                          string lpFileName);
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetPrivateProfileString(string lpAppName,
+                                                         string lpKeyName,
+                                                         string lpDefault,
+                                                         IntPtr lpReturnedString,
+                                                         uint nSize,
+                                                         string lpFileName);
+        
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetPrivateProfileInt(string lpAppName,
+                                                      string lpKeyName,
+                                                      int lpDefault,
+                                                      string lpFileName);
 
-		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-		public static extern uint GetPrivateProfileSection(string lpAppName,
-														   IntPtr lpReturnedString,
-														   uint nSize,
-														   string lpFileName);
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern int GetPrivateProfileSection(string lpAppName,
+                                                          IntPtr lpReturnedString,
+                                                          uint nSize,
+                                                          string lpFileName);
 
+        // We explicitly enable the SetLastError attribute here because
+        // WritePrivateProfileString returns errors via SetLastError.
+        // Failure to set this can result in errors being lost during 
+        // the marshal back to managed code.
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool WritePrivateProfileSection(string lpAppName,
+                                                             string lpString,
+                                                             string lpFileName);
 
-
-		[DllImport("kernel32.dll")]
-		public static extern bool WritePrivateProfileSection(string lpAppName, 
-					   										 string lpString, 
-													         string lpFileName);
-
-        [DllImport("kernel32.dll")]
-        public static extern void WritePrivateProfileString(string lpAppName,
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern bool WritePrivateProfileString(string lpAppName,
                                                             string lpKeyName, 
-                                                            string lpString,
+                                                            string lpString, 
                                                             string lpFileName);
-
+        
 		[DllImport("kernel32.dll")]
 		public static extern bool SetFileAttributes(string lpFileName, 
 													uint dwFileAttributes);
-
+        
 		public const int FILE_ATTRIBUTE_NORMAL = 0x80;
-
+        
 		public struct SYSTEMTIME
 		{
 			public short year;
@@ -259,7 +288,7 @@ namespace PDTUtils.Native
 			public short second;
 			public short milliseconds;
 		}
-
+        
 		[DllImport("coredll.dll")]
 		private extern static void GetSystemTime(ref SYSTEMTIME lpSystemTime);
 

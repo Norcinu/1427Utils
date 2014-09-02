@@ -187,28 +187,29 @@ namespace PDTUtils
 				MessageBox.Show("Error: " + err.ToString());
 			}
 		}
-	
-		private void WindowMain_Closing(object sender, CancelEventArgs e)
-		{
-			if (m_keyDoorWorker.Running == true)
-				m_keyDoorWorker.Running = false;
-			
-			if (m_keyDoorThread != null)
-			{
-				if (m_keyDoorThread.IsAlive)
-				{
-					m_keyDoorThread.Abort();
-					m_keyDoorThread.Join();
-			    }
-			}
-			
-			if (m_sharedMemoryOnline)
-				BoLib.closeSharedMemory();
+
+        // not called when turning the key
+        private void WindowMain_Closing(object sender, CancelEventArgs e)
+        {
+            if (m_keyDoorWorker.Running == true)
+                m_keyDoorWorker.Running = false;
+
+            if (m_keyDoorThread != null)
+            {
+                if (m_keyDoorThread.IsAlive)
+                {
+                    m_keyDoorThread.Abort();
+                    m_keyDoorThread.Join();
+                }
+            }
             
-            if (GetMachineIni.ChangesPending)
-                DiskCommit.RebootMachine();
-		}
-		
+            if (m_sharedMemoryOnline)
+                BoLib.closeSharedMemory();
+            
+         //   if (GetMachineIni.ChangesPending)
+         //       DiskCommit.RebootMachine();
+        }
+        
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
 			/*m_machineIni.ParseIni();
@@ -247,20 +248,20 @@ namespace PDTUtils
 		{
             UpdateIniItem(sender);
 		}
-
+        
         private void UpdateIniItem(object sender)
         {
             var l = sender as ListView;
             var c = l.Items[l.SelectedIndex] as IniElement;
             var items = l.ItemsSource;
-            IniSettingsWindow w = new IniSettingsWindow(c.Field, c.Value);
             
-            if (w.ShowDialog() == false)    //implement cancel button, comment button
+            IniSettingsWindow w = new IniSettingsWindow(c.Field, c.Value);
+            if (w.ShowDialog() == false) //implement cancel button, comment button
             {
                 switch (w.RetChangeType)
                 {
                     case ChangeType.AMEND:
-                        AmenOption(w, sender, ref c);
+                        AmendOption(w, sender, ref c);
                         break;
                     case ChangeType.CANCEL:
                         break;
@@ -268,14 +269,15 @@ namespace PDTUtils
                         CommentEntry(w, sender, ref c);
                         break;
                     case ChangeType.UNCOMMENT:
+                        UnCommentEntry(w, sender, ref c);
                         break;
                     default:
                         break;
                 }
             }
         }
-         
-        private void AmenOption(IniSettingsWindow w, object sender, ref IniElement c)
+        
+        void AmendOption(IniSettingsWindow w, object sender, ref IniElement c)
         {
             string newValue = w.OptionValue;
             Debug.WriteLine(newValue);
@@ -286,7 +288,11 @@ namespace PDTUtils
             {
                 current.Value = newValue;
                 if (current.Field[0] == '#')
+                {
+                    IniFile ini = new IniFile(Properties.Resources.machine_ini);
+                    ini.DeleteKey(current.Category, current.Field);
                     current.Field = current.Field.Substring(1);
+                }
                 current.Value = newValue;
                 listView.Items.Refresh();
                 
@@ -298,14 +304,40 @@ namespace PDTUtils
         
         private void CommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
-            GetMachineIni.ChangesPending = true;
-        }
+            var listView = sender as ListView;
+            var current = listView.Items[listView.SelectedIndex] as IniElement;
 
+            if (current.Field[0] != '#')
+            {
+                IniFile ini = new IniFile(Properties.Resources.machine_ini);
+                ini.DeleteKey(current.Category, current.Field);
+                current.Field = "#" + current.Field;
+
+                listView.Items.Refresh();
+                GetMachineIni.WriteMachineIni(current.Category, current.Field);
+                GetMachineIni.ChangesPending = true;
+            }
+        }
+        
         private void UnCommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
-            GetMachineIni.ChangesPending = true;
-        }
+            var listView = sender as ListView;
+            var current = listView.Items[listView.SelectedIndex] as IniElement;
 
+            if (current.Field[0] == '#')
+            {
+                listView.Items.Refresh();
+                GetMachineIni.WriteMachineIni(current.Category, current.Field);
+                GetMachineIni.ChangesPending = true;
+
+                current.Field = current.Field.Substring(1);
+
+                listView.Items.Refresh();
+                GetMachineIni.WriteMachineIni(current.Category, current.Field);
+                GetMachineIni.ChangesPending = true;
+            }
+        }
+        
 		private void RemoveChildrenFromStackPanel()
 		{
 			int childCount = stpButtonPanel.Children.Count;

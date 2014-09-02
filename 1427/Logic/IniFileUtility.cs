@@ -10,7 +10,7 @@ namespace PDTUtils.Logic
         {
             uint bufferSize = 4048;
             IntPtr retStringPtr = Marshal.AllocCoTaskMem((int)bufferSize * sizeof(char));
-            uint bytesReturned = NativeWinApi.GetPrivateProfileSection(field, retStringPtr, bufferSize, @file);
+            var bytesReturned = NativeWinApi.GetPrivateProfileSection(field, retStringPtr, bufferSize, @file);
             if ((bytesReturned == bufferSize - 2) || (bytesReturned == 0))
             {
                 section = null;
@@ -18,7 +18,7 @@ namespace PDTUtils.Logic
                 return false;
             }
             
-            string retString = Marshal.PtrToStringAuto(retStringPtr, (int)bytesReturned - 1);
+            string retString = Marshal.PtrToStringAuto(retStringPtr, bytesReturned - 1);
             section = retString.Split('\0');
             Marshal.FreeCoTaskMem(retStringPtr);
             return true;

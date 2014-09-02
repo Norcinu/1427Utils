@@ -50,7 +50,7 @@ namespace PDTUtils
 			set { m_running = value; }
 		}
 		#endregion
-
+        
 		public DoorAndKeyStatus()
 		{
 			m_doorStatus = false;
@@ -62,7 +62,7 @@ namespace PDTUtils
 			updateTimer.Enabled = true;
 		}
         
-		public void Run()
+        public void Run()
 		{
 			while (m_running)
 			{
@@ -76,7 +76,7 @@ namespace PDTUtils
 							m_running = false;
 							Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 						}
-
+                        
 						if (BoLib.getDoorStatus() == 0)
 						{
 							if (m_doorStatus == true)
@@ -102,7 +102,7 @@ namespace PDTUtils
 				Thread.Sleep(2);
 			}
 		}
-   
+
 		public void Clone(DoorAndKeyStatus kd)
 		{
 			this.DoorStatus = kd.DoorStatus;

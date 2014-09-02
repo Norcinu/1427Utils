@@ -14,7 +14,6 @@ namespace PDTUtils.Logic
 		}
 
 		ObservableCollection<GamesInfo> m_gamesInfo = new ObservableCollection<GamesInfo>();
-		
 		public ObservableCollection<GamesInfo> GamesInfo
 		{
 			get { return m_gamesInfo; }
@@ -27,22 +26,23 @@ namespace PDTUtils.Logic
 				this.PropertyChanged(this, new PropertyChangedEventArgs(name));
 		}
 		
+        
 		public void GetGamesList()
 		{
 			if (m_gamesInfo.Count > 0)
 				m_gamesInfo.RemoveAll();
-
+            //
 			var numGames = BoLib.getNumberOfGames();
 			for (int i = 0; i < numGames; i++)
 			{
 				GamesInfo g = new GamesInfo();
-			
+			    
 				StringBuilder sb = new StringBuilder(500);
-				uint res = NativeWinApi.GetPrivateProfileString("Game" + (i + 1).ToString(), "Exe", "", sb, (uint)sb.Capacity, @"D:\machine\machine.ini");
+				var res = NativeWinApi.GetPrivateProfileString("Game" + (i + 1).ToString(), "Exe", "", sb, sb.Capacity, @"D:\machine\machine.ini");
 				g.path = sb.ToString();
 				var modelNo = sb.ToString().Substring(0, 4);
 				g.name = @"D:\" + modelNo + @"\" + modelNo + ".png";
-
+                
 				if (NativeMD5.CheckHash(@"d:\" + modelNo + @"\" + sb.ToString()) == true)
 				{
 					var hash = NativeMD5.CalcHashFromFile(@"d:\" + modelNo + @"\" + sb.ToString());
@@ -57,10 +57,10 @@ namespace PDTUtils.Logic
 				g.Hash_code = g.hash_code; 
 
 				m_gamesInfo.Add(g);
-
+                
 				this.OnPropertyChanged("Name");
 				this.OnPropertyChanged("Path");
-				this.OnPropertyChanged("Hash_code"); // Fire dem events.
+				this.OnPropertyChanged("Hash_code");
 			}
 		}
 	}

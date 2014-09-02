@@ -175,6 +175,10 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
+                        <StackPanel Orientation="Horizontal" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button Width="75">Save</Button>
+                            <Button Width="75">Discard Changes</Button>
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

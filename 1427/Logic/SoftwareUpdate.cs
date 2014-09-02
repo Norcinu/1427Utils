@@ -176,7 +176,7 @@ namespace PDTUtils
 		{
 			uint bufferSize = 4048;
 			IntPtr retStringPtr = Marshal.AllocCoTaskMem((int)bufferSize * sizeof(char));
-			uint bytesReturned = NativeWinApi.GetPrivateProfileSection(field, retStringPtr, bufferSize, m_updateIni);
+			var bytesReturned = NativeWinApi.GetPrivateProfileSection(field, retStringPtr, bufferSize, m_updateIni);
 			if ((bytesReturned == bufferSize - 2) || (bytesReturned == 0))
 			{
 				section = null;
