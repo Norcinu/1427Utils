@@ -256,29 +256,32 @@
             </TabItem>
             
             <TabItem Header="Software Update" MinWidth="100">
-                <StackPanel MinWidth="150">
+                <StackPanel MinWidth="150" VerticalAlignment="Top" Margin="0,0,0,300">
                     <Button Name="btnRollback" Content="RollBack to Previous" FontWeight="Bold" MinWidth="150" MinHeight="50" FontSize="14" IsEnabled="False" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}"></Button>
                     <Button Name="btnUpdateFiles" Content="Update Files" FontWeight="Bold" MinWidth="150" MinHeight="50" FontSize="14" Click="btnUpdateFiles_Click" IsEnabled="False" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}"></Button>
+                
+                <StackPanel Name="stpUpdate" IsEnabled="False" Visibility="Hidden">
+                        <Label Name="lblUpdateSelect" Content="Files to be updated." FontSize="18" HorizontalAlignment="Center" HorizontalContentAlignment="Center" />
                         
-                    <StackPanel Name="stpUpdate" IsEnabled="False" Visibility="Hidden">
-                        <Label Name="lblUpdateSelect" Content="Select Files to copy." FontSize="18" />
                         
                         <TreeView ItemsSource="{Binding Path=UpdateFiles.FilesToUpdate}" Name="treeUpdateSelectFiles">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox Name="chk" Margin="2" Tag="{Binding}" Checked="UpdateCheckBoxSelected_Checked" Unchecked="UpdateCheckBoxSelected_UnChecked"/>
-                                        <Image Margin="2" Width="32" Height="18" Source="{Binding Path=Avatar}" HorizontalAlignment="Right" 
-               	                            VerticalAlignment="Center"></Image>
+                                    <StackPanel Orientation="Horizontal" Margin="-25,0,25,0">
+                                        <Image Width="32" Height="18" Source="{Binding Path=Avatar}"  HorizontalAlignment="Right" 
+               	                            VerticalAlignment="Center" Margin="0,0,25,0" />
                                         <TextBlock Margin="2" Text="{Binding Path=Name}" VerticalAlignment="Center" FontWeight="Bold" />
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Width="75" Height="25" Margin="0,0,10,0" FontWeight="Bold" Name="btnPerformUpdate" Click="btnPerformUpdate_Click" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}">Update</Button>
-                            <Button Width="75" Height="25" Margin="0,0,10,0" FontWeight="Bold" Name="btnCancelUpdate" Click="btnPerformUpdateCancel_Click" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}">Cancel</Button>
-                        </StackPanel>
+                        
+                        
+                        <DockPanel Width="{Binding Path=ActualWidth, ElementName=stpUpdate}" Background="BlanchedAlmond">
+                            <Button Width="75" Height="25" Margin="0,0,10,0" FontWeight="Bold" Name="btnPerformUpdate" DockPanel.Dock="Left"  Click="btnPerformUpdate_Click" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}">Update</Button>
+                            <Button Width="75" Height="25" Margin="85,0,0,0" FontWeight="Bold" Name="btnCancelUpdate" DockPanel.Dock="Right"  Click="btnPerformUpdateCancel_Click" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}">Cancel</Button>
+                        </DockPanel>
+                   
                     </StackPanel>
                 </StackPanel>
             </TabItem>

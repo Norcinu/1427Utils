@@ -109,7 +109,7 @@ namespace PDTUtils.Logic
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);	
                 }
-                //go and make your coffee you fucking cunt. and eat a bag of shit
+                
                 while ((line = sr.ReadLine()) != null)
                 {
                     if (line.Equals(EndOfIni))
@@ -132,20 +132,16 @@ namespace PDTUtils.Logic
                             }
                         }
                     }
-                    else if (LineContainsCategories(line))
-                    {
-                        //!!! NEED TO ADD THE GAME FIELDS.
-                    }
                 }
             }
-
+            
             string[] models;
             IniFileUtility.GetIniProfileSection(out models, "Models", IniPath);
             foreach (var m in models)
             {
                 _models.Add(new IniElement("Models", m, ""));
             }
-
+            
             return true; 
         }
         
@@ -154,7 +150,7 @@ namespace PDTUtils.Logic
             return (line.Contains("Game")   == true || line.Contains("Select")  == true || 
                     line.Contains("Models") == true || line.Contains("Standby") == true);
         }
-
+        
         //I think in categories that are linked, I should just unset all of them at the same time.
         //I mean the ones that are commented out.
         public void WriteMachineIni(string category, string field)

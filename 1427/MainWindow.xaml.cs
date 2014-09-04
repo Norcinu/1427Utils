@@ -306,7 +306,7 @@ namespace PDTUtils
         {
             var listView = sender as ListView;
             var current = listView.Items[listView.SelectedIndex] as IniElement;
-
+            
             if (current.Field[0] != '#')
             {
                 IniFile ini = new IniFile(Properties.Resources.machine_ini);
@@ -437,11 +437,11 @@ namespace PDTUtils
 		}
         
 		private void btnPerformUpdateCancel_Click(object sender, RoutedEventArgs e)
-		{
+        {
 			m_updateFiles.DoCancelUpdate();
 			if (treeUpdateSelectFiles.Items.Count > 0)
 				treeUpdateSelectFiles.Items.Clear();
-		
+		    
 			treeUpdateSelectFiles.IsEnabled = false;
 			treeUpdateSelectFiles.Visibility = Visibility.Hidden;
 			btnPerformUpdate.IsEnabled = false;
@@ -455,7 +455,7 @@ namespace PDTUtils
 			btnUpdateFiles.IsEnabled = true;
 			btnUpdateFiles.Visibility = Visibility.Visible;
 		}
-        
+        //distinctly average imo. I just wanna sell out my funeral
         private void btnScreenShots_Click(object sender, RoutedEventArgs e)
         {
             Enabler.ClearAll();

@@ -11,7 +11,7 @@ namespace PDTUtils
 	public class FileImpl
 	{
 		public string Name { get; set; }
-		public string Avatar { get; set; }
+        public string Avatar { get; set; }
 		public bool? IsFile { get; set; }
 
 		public FileImpl(string _name, string _av)
@@ -21,7 +21,7 @@ namespace PDTUtils
 			IsFile = null;
 		}
 	}
-
+    //
 	public class UserSoftwareUpdate : BaseNotifyPropertyChanged
 	{
 		string m_rollbackIni; 
@@ -75,7 +75,7 @@ namespace PDTUtils
 					bool[] quit = new bool[2] { false, false };
 					
 					BoLib.setFileAction();
-
+                    
 					quit[0] = ReadIniSection(out folders_section, "Folders");
 					quit[1] = ReadIniSection(out files_section, "Files");
 
@@ -105,15 +105,15 @@ namespace PDTUtils
 		}
 		
 		/// <summary>
-		/// Perform the necessary updates.
-		/// </summary>
-		/// <returns>True or false on success</returns>
+		/// Perform the necessary updates. 
+        /// </summary>
+		/// <returns>True for success, False for failure.</returns>
 		public bool DoSoftwareUpdate()
 		{
 			if (m_filesToUpdate.Count > 0)
 				m_filesToUpdate.Clear();
-
-			if (CanChangeToUsbDrive())
+            
+            if (CanChangeToUsbDrive())
 			{
 				// we can look for update.ini
 				if (File.Exists(m_updateIni))
@@ -123,12 +123,12 @@ namespace PDTUtils
 					bool[] quit = new bool[2] { false, false };
 					
 					BoLib.setFileAction();
-                    
+
 					quit[0] = ReadIniSection(out folders_section, "Folders");
 					quit[1] = ReadIniSection(out files_section, "Files");
-					
+                    
 					BoLib.clearFileAction();
-
+                    
 					if (quit[0] || quit[1])
 						return false;
 					
@@ -145,7 +145,7 @@ namespace PDTUtils
 						m_filesToUpdate.Add(new FileImpl(str, ret));
 						DoCopyDirectory(str, 0);
 					}
-					
+                    
 					this.OnPropertyChanged("UpdateFiles");
 				}
 				else
@@ -156,7 +156,7 @@ namespace PDTUtils
 			}
 			return false;
 		}
-
+        
 		bool ReadIniSection(out string[] section, string field)
 		{
             bool? result = IniFileUtility.GetIniProfileSection(out section, field, m_updateIni);
@@ -164,7 +164,7 @@ namespace PDTUtils
 				return true;
 			return false;
 		}
-
+        
 		private static string GetImagePathString(string str)
 		{
 			CustomImagePathConverter conv = new CustomImagePathConverter();
@@ -381,7 +381,7 @@ namespace PDTUtils
 			return true;
 		}
 		
-		private void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destination_folder)
+		void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destination_folder)
 		{
 			try 
 			{
