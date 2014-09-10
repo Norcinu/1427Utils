@@ -5,9 +5,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 using PDTUtils.Logic;
 using PDTUtils.Native;
+using System.Windows.Input;
+using System.Windows;
 
 namespace PDTUtils
 {
+
 	public class FileImpl
 	{
 		public string Name { get; set; }
@@ -53,11 +56,19 @@ namespace PDTUtils
 			get { return m_filesToUpdate; }
 			set { m_filesToUpdate = value; }
 		}
-		#endregion
-        //I think tomorrow I will work on getting a new UI for the software update.
-        //User Control 3 columed?
-		public UserSoftwareUpdate()
+        #endregion
+
+        public ICommand UpdatePrep { get; set; }
+        public ICommand Update { get; set; }
+        public ICommand Rollback { get; set; }
+
+		public UserSoftwareUpdate(FrameworkElement element)
 		{
+            UpdatePrep = new RoutedCommand();
+            Update = new RoutedCommand();
+            Rollback = new RoutedCommand();
+            CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(UpdatePrep, DoSoftwareUpdatePreparation));
+           // DoSoftwareUpdatePreparation();
 		}
         
 		public void DoRollBack()
@@ -70,7 +81,7 @@ namespace PDTUtils
 		/// Do not take any action.
 		/// </summary>
 		/// <returns>True or false on success or failure</returns>
-		public bool DoSoftwareUpdatePreparation()
+		public void DoSoftwareUpdatePreparation(object o, ExecutedRoutedEventArgs e)
 		{
 			if (CanChangeToUsbDrive())
 			{
@@ -81,16 +92,16 @@ namespace PDTUtils
 					string[] files_section = null;
                     bool  [] quit = new bool[2] { false, false };
 					
-					//BoLib.setFileAction();
-                    
-					quit[0] = ReadIniSection(out folders_section, "Folders");
+					BoLib.setFileAction(); 
+	                
+                    quit[0] = ReadIniSection(out folders_section, "Folders");
                     quit[1] = ReadIniSection(out files_section, "Files");
-
-					//BoLib.clearFileAction();
+                    
+					BoLib.clearFileAction();
                     
 					if (quit[0] || quit[1])
-						return false;
-				    //I wish that I could be bothered to write some actual code.
+						return;
+				    
 					foreach (var str in files_section)
 					{
 						var ret = GetImagePathString(str);
@@ -106,10 +117,10 @@ namespace PDTUtils
 					}
                     
 					this.OnPropertyChanged("UpdateFiles");
-                    return true;
+                    return;// true;
 				}
 			}
-            return false;
+            return;// false;
 		}
 		
         /// <summary>

@@ -34,7 +34,7 @@ namespace PDTUtils
 		MachineInfo m_machineData = new MachineInfo();
 		GamesList m_gamesList = new GamesList();
 		MachineLogsController m_logController = new MachineLogsController();
-		UserSoftwareUpdate m_updateFiles = new UserSoftwareUpdate();
+        UserSoftwareUpdate m_updateFiles = null;// = new UserSoftwareUpdate(this);
 		
 		public MainWindow()
         {
@@ -51,6 +51,8 @@ namespace PDTUtils
 				
 		    	Thread.CurrentThread.CurrentCulture = ci;
 				Thread.CurrentThread.CurrentUICulture = ci;
+                
+                m_updateFiles = new UserSoftwareUpdate(this);
 
                 InitialiseBoLib();
 			    m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
@@ -378,12 +380,12 @@ namespace PDTUtils
         
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
 		{
-			if (m_updateFiles.DoSoftwareUpdatePreparation() == false)
-			{
-				MessageBox.Show("Could not find update.ini " + UpdateFiles.UpdateIni);
-			}
-			else
-			{
+		//	if (m_updateFiles.DoSoftwareUpdatePreparation() == false)
+		//	{
+		//		MessageBox.Show("Could not find update.ini " + UpdateFiles.UpdateIni);
+		//	}
+		//	else
+		//	{
                 /*btnUpdateFiles.IsEnabled = false;
 				btnUpdateFiles.Visibility = Visibility.Hidden;
 				btnRollback.IsEnabled = false;
@@ -398,7 +400,7 @@ namespace PDTUtils
 				treeUpdateSelectFiles.IsEnabled = true;
 				lblUpdateSelect.IsEnabled = true;
 				lblUpdateSelect.Visibility = Visibility.Visible;*/
-			}
+		//	}
 		}
 		
 		private void UpdateCheckBoxSelected_Checked(object sender, RoutedEventArgs e)

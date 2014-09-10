@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Windows.Input;
 
 namespace PDTUtils.Logic
 {
@@ -22,8 +21,8 @@ namespace PDTUtils.Logic
 			_execute = execute;
 			_canExecute = canExecute;
 		}
-
-		public override bool CanExecute(object parameter)
+        
+		public bool CanExecute(object parameter)
 		{
 			if (_canExecute == null)
 			{
@@ -32,8 +31,8 @@ namespace PDTUtils.Logic
 
 			return _canExecute(parameter);
 		}
-
-		public override void Execute(object parameter)
+        
+		public void Execute(object parameter)
 		{
 			_execute(parameter);
 		}

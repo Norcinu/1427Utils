@@ -19,8 +19,7 @@
         WindowStartupLocation="CenterScreen" 
         SizeToContent="Manual"
         >
-        
-    <!--<Grid Background="#FFC78585"></Grid>-->
+    
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Name="ColumnOne" Width="207*" />
@@ -32,10 +31,7 @@
             <RowDefinition Name="RowThree" Height="52*" />
         </Grid.RowDefinitions>
         <Grid.Resources>
-            <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-            <!--<conv:BoolToVisibilityConverter x:Key="BoolToHiddenConverter" TrueValue="Visible" FalseValue="Hidden" />
-            <conv:CustomImagePathConverter x:Key="CustomImgPath"/>-->
-            
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
         </Grid.Resources>
         
         <!-- 2nd screenshot uses ColumnSpan and RowSpan -->
