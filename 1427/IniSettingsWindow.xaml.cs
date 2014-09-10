@@ -8,17 +8,12 @@ namespace PDTUtils
 	public partial class IniSettingsWindow : Window
 	{
 		#region options
-		/*public string OptionValue
-		{
-			get { return optionValue; }
-			set { optionValue = value; }
-		}*/
         public string OptionValue { get; set; }
         public string OptionField { get; set; }
 		#endregion
         public ChangeType RetChangeType { get; set; }
 
-		public IniSettingsWindow()
+        public IniSettingsWindow()
 		{
 			InitializeComponent();
 		}
@@ -29,15 +24,16 @@ namespace PDTUtils
             OptionField = f;
             OptionValue = v;
             txtNewValue.Text = OptionValue;
+            RetChangeType = ChangeType.NONE;
         }
         
-		private void button2_Click(object sender, RoutedEventArgs e)
+        private void button2_Click(object sender, RoutedEventArgs e)
 		{
             RetChangeType = ChangeType.CANCEL;
 			this.Close();
 		}
         
-		private void btnSave_Click(object sender, RoutedEventArgs e)
+        private void btnSave_Click(object sender, RoutedEventArgs e)
 		{
             RetChangeType = ChangeType.AMEND;
 			OptionValue = txtNewValue.Text;

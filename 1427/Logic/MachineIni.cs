@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using PDTUtils.Native;
 using System.Text.RegularExpressions;
+using PDTUtils.Native;
 
 namespace PDTUtils.Logic
 {
@@ -82,7 +82,7 @@ namespace PDTUtils.Logic
                 }
             }
         }
-
+        
 		/// <summary>
 		/// Read Machine and parse accordingly.
 		/// </summary>
@@ -142,12 +142,12 @@ namespace PDTUtils.Logic
                 _models.Add(new IniElement("Models", m, ""));
             }
             
-            return true; 
+            return true;
         }
         
         private static bool LineContainsCategories(string line)
         {
-            return (line.Contains("Game")   == true || line.Contains("Select")  == true || 
+            return (line.Contains("Game")   == true || line.Contains("Select")  == true ||
                     line.Contains("Models") == true || line.Contains("Standby") == true);
         }
         
@@ -223,7 +223,7 @@ namespace PDTUtils.Logic
                         
 						do
 						{
-							NativeMD5.AddHashToFile(IniPath);
+                            NativeMD5.AddHashToFile(IniPath);
 						} while (!NativeMD5.CheckHash(IniPath) && retries-- > 0);
 					}
 				}

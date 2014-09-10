@@ -61,9 +61,6 @@
     <Compile Include="SetTimeControl.xaml.cs">
       <DependentUpon>SetTimeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TSKeyboard.xaml.cs">
-      <DependentUpon>TSKeyboard.xaml</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -83,9 +80,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TSKeyboard.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

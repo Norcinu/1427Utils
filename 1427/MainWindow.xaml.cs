@@ -52,8 +52,8 @@ namespace PDTUtils
 		    	Thread.CurrentThread.CurrentCulture = ci;
 				Thread.CurrentThread.CurrentUICulture = ci;
 
-				InitialiseBoLib();
-				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
+                InitialiseBoLib();
+			    m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive) ;
 				Thread.Sleep(2);
@@ -226,10 +226,10 @@ namespace PDTUtils
 			Enabler.EnableCategory(Categories.Setup);
             TabSetup.SelectedIndex = 0;
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
-			if (MasterVolumeSlider.Value > 0)
-				txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
-			btnUpdateFiles.IsEnabled = true;
-			btnRollback.IsEnabled = true;
+			//if (MasterVolumeSlider.Value > 0) *************RE-INSTATE THIS DEBUG DEBUG ****************
+			//	txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
+			//btnUpdateFiles.IsEnabled = true;
+			//btnRollback.IsEnabled = true;
             
           /* 
            * Save and reboot machine
@@ -256,7 +256,7 @@ namespace PDTUtils
             var items = l.ItemsSource;
             
             IniSettingsWindow w = new IniSettingsWindow(c.Field, c.Value);
-            if (w.ShowDialog() == false) //implement cancel button, comment button
+            if (w.ShowDialog() == false)
             {
                 switch (w.RetChangeType)
                 {
@@ -375,7 +375,7 @@ namespace PDTUtils
 			GamesList.GetGamesList();
 			Enabler.EnableCategory(Categories.System);
 		}
-		
+        
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
 		{
 			if (m_updateFiles.DoSoftwareUpdatePreparation() == false)
@@ -384,7 +384,7 @@ namespace PDTUtils
 			}
 			else
 			{
-				btnUpdateFiles.IsEnabled = false;
+                /*btnUpdateFiles.IsEnabled = false;
 				btnUpdateFiles.Visibility = Visibility.Hidden;
 				btnRollback.IsEnabled = false;
 				btnRollback.Visibility = Visibility.Hidden;
@@ -397,14 +397,14 @@ namespace PDTUtils
 				treeUpdateSelectFiles.Visibility = Visibility.Visible;
 				treeUpdateSelectFiles.IsEnabled = true;
 				lblUpdateSelect.IsEnabled = true;
-				lblUpdateSelect.Visibility = Visibility.Visible;
+				lblUpdateSelect.Visibility = Visibility.Visible;*/
 			}
 		}
 		
 		private void UpdateCheckBoxSelected_Checked(object sender, RoutedEventArgs e)
 		{
-			if (btnPerformUpdate.IsEnabled == false)
-				btnPerformUpdate.IsEnabled = true;
+		//	if (btnPerformUpdate.IsEnabled == false)
+		//		btnPerformUpdate.IsEnabled = true;
 		}
 		
 		private void UpdateCheckBoxSelected_UnChecked(object sender, RoutedEventArgs e)
@@ -412,13 +412,13 @@ namespace PDTUtils
 			if (m_updateFiles.FileCount > 0)
 				m_updateFiles.FileCount--;
 
-			if (btnPerformUpdate.IsEnabled == true && m_updateFiles.FileCount == 0)
-				btnPerformUpdate.IsEnabled = false;
+			//if (btnPerformUpdate.IsEnabled == true && m_updateFiles.FileCount == 0)
+			//	btnPerformUpdate.IsEnabled = false;
 		}
 		
 		private void btnPerformUpdate_Click(object sender, RoutedEventArgs e)
 		{
-			var checkboxes = Extension.GetChildOfType<CheckBox>(treeUpdateSelectFiles);
+			/*var checkboxes = Extension.GetChildOfType<CheckBox>(treeUpdateSelectFiles);
 			var activeCount = 0;
 			foreach (var chk in checkboxes)
 			{
@@ -433,12 +433,12 @@ namespace PDTUtils
 				btnPerformUpdate.IsEnabled = false;
 			}
             
-			m_updateFiles.DoSoftwareUpdate();
+			m_updateFiles.DoSoftwareUpdate();*/
 		}
         
 		private void btnPerformUpdateCancel_Click(object sender, RoutedEventArgs e)
         {
-			m_updateFiles.DoCancelUpdate();
+		/*	m_updateFiles.DoCancelUpdate();
 			if (treeUpdateSelectFiles.Items.Count > 0)
 				treeUpdateSelectFiles.Items.Clear();
 		    
@@ -453,9 +453,9 @@ namespace PDTUtils
 			btnRollback.IsEnabled = true;
 			btnRollback.Visibility = Visibility.Visible;
 			btnUpdateFiles.IsEnabled = true;
-			btnUpdateFiles.Visibility = Visibility.Visible;
+			btnUpdateFiles.Visibility = Visibility.Visible;*/
 		}
-        //distinctly average imo. I just wanna sell out my funeral
+        
         private void btnScreenShots_Click(object sender, RoutedEventArgs e)
         {
             Enabler.ClearAll();

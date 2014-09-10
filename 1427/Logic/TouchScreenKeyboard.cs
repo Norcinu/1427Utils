@@ -3,7 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Markup;
 
+//I am going to get a taste of my medicine
 namespace PDTUtils.Logic
 {
     public class TouchScreenKeyboard : Window
@@ -175,8 +177,7 @@ namespace PDTUtils.Logic
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbMinus);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbPlus);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbBackspace);
-
-
+            
             CommandBinding CbTab = new CommandBinding(CmdTab, RunCommand);
             CommandBinding CbQ = new CommandBinding(CmdQ, RunCommand);
             CommandBinding Cbw = new CommandBinding(Cmdw, RunCommand);
@@ -217,12 +218,10 @@ namespace PDTUtils.Logic
             CommandBinding CbGreaterThan = new CommandBinding(CmdGreaterThan, RunCommand);
             CommandBinding CbLessThan = new CommandBinding(CmdLessThan, RunCommand);
             CommandBinding CbQuestion = new CommandBinding(CmdQuestion, RunCommand);
-
-
-
+            
             CommandBinding CbSpaceBar = new CommandBinding(CmdSpaceBar, RunCommand);
             CommandBinding CbClear = new CommandBinding(CmdClear, RunCommand);
-
+            
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbTab);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbQ);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cbw);
@@ -263,8 +262,6 @@ namespace PDTUtils.Logic
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbGreaterThan);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbLessThan);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbQuestion);
-
-
 
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbSpaceBar);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbClear);

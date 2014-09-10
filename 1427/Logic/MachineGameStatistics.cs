@@ -215,7 +215,7 @@ namespace PDTUtils
 								fieldCounter++;
 							}
 						}
-
+                        
 						if (fieldCounter >= generalFields && isGeneral == true)
 						{
 							isGeneral = false;

@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="PDTUtils.Views.UsbSoftwareUpdateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="600" d:DesignWidth="1024"> <!-- 800 -->
+    <Grid Background="Red">
+        <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
+            <StackPanel MinWidth="246"  VerticalAlignment="Stretch"  Name="stpUpdateBase" Background="Azure" Margin="0,0,5,0" MinHeight="150">
+                <Label Margin="5,5,5,0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque">Select Operation&#58;</Label>
+                <Button Margin="5,5,5,0" Name="btnUpdateFiles" Content="Update Files" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Button>
+                <Button Margin="5,5,5,5" Name="btnRollback" Content="RollBack to Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center"></Button>
+            </StackPanel>
+            
+            <StackPanel Name="stpUpdate" Background="Azure" Margin="0,0,5,0" Width="512"> <!-- 370 -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Name="RowOne" Height="82*" />
+                        <RowDefinition Name="RowTwo" Height="508" />
+                        <RowDefinition Name="RowThree" Height="*" />
+                    </Grid.RowDefinitions>
+                <Label Grid.Row="0"  FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque" Margin="0,5,0,5" Name="lblUpdateSelect" Content="Files to be updated." HorizontalAlignment="Center" />
+                    
+               <!-- <ScrollViewer>-->
+                    <TreeView  Name="treeUpdateSelectFiles" Margin="0,0,0,35" Grid.Row="1"
+                        ItemsSource="{Binding Path=Usd.FilesToUpdate}">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="-25,0,25,5">
+                                    <Image Width="32" Height="18" HorizontalAlignment="Right" Source="{Binding Path=Avatar}"
+               	                            VerticalAlignment="Center" Margin="0,0,25,0" />
+                                    <!--Source="{Binding Path=Avatar}"-->
+                                    <TextBlock Margin="2" Text="{Binding Path=Name}" VerticalAlignment="Center" FontWeight="Bold" />
+                                    <!-- Source="{Binding Path=Name}" -->
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                <!--</ScrollViewer>-->
+                    <Grid x:Name="ButtonGrid" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Name="ColumnOne" Width="256" />
+                            <ColumnDefinition Name="ColumnTwo" Width="256" />
+                    </Grid.ColumnDefinitions>
+                    <Button Width="75" Height="25" FontWeight="Bold" Name="btnPerformUpdate" Grid.Column="0" Margin="0,5,0,5">Update</Button>
+                    <Button Width="75" Height="25" FontWeight="Bold" Name="btnCancelUpdate" Grid.Column="1" Margin="0,5,0,5">Cancel</Button>
+                </Grid>
+                </Grid>
+            </StackPanel>
+            
+            <StackPanel Background="Azure" HorizontalAlignment="Stretch" Width="246"> <!-- 249 205 -->
+                <TextBlock Margin="5,5,5,0" Text="This is a textblock with lots of text. It will update the user with information." FontFamily="Verdana" FontSize="18" Background="Bisque" TextWrapping="Wrap" />
+            </StackPanel> 
+            
+            
+        </StackPanel>
+    </Grid>
+</UserControl>

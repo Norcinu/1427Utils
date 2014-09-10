@@ -20,8 +20,15 @@ namespace PDTUtils
 			Avatar = _av;
 			IsFile = null;
 		}
+        
+        public FileImpl(string _name, string _av, bool _isFile)
+        {
+            Name = _name;
+            Avatar = _av;
+            IsFile = _isFile;
+        }
 	}
-    //
+    
 	public class UserSoftwareUpdate : BaseNotifyPropertyChanged
 	{
 		string m_rollbackIni; 
@@ -30,7 +37,7 @@ namespace PDTUtils
 		DriveInfo m_updateDrive;
 		ObservableCollection<FileImpl> m_filesToUpdate = new ObservableCollection<FileImpl>();
 		ObservableCollection<string> m_filesNotCopied = new ObservableCollection<string>();
-
+        
 		#region PROPERTIES
 		public bool AllowUpdate { get; set; }
 		public uint FileCount { get; set; }
@@ -47,15 +54,15 @@ namespace PDTUtils
 			set { m_filesToUpdate = value; }
 		}
 		#endregion
-
+        //I think tomorrow I will work on getting a new UI for the software update.
+        //User Control 3 columed?
 		public UserSoftwareUpdate()
 		{
-
 		}
-
+        
 		public void DoRollBack()
 		{
-
+            throw new NotImplementedException("Something went wrong with the RollBack");
 		}
 		
 		/// <summary>
@@ -72,46 +79,49 @@ namespace PDTUtils
 				{
 					string[] folders_section = null;
 					string[] files_section = null;
-					bool[] quit = new bool[2] { false, false };
+                    bool  [] quit = new bool[2] { false, false };
 					
-					BoLib.setFileAction();
+					//BoLib.setFileAction();
                     
 					quit[0] = ReadIniSection(out folders_section, "Folders");
-					quit[1] = ReadIniSection(out files_section, "Files");
+                    quit[1] = ReadIniSection(out files_section, "Files");
 
-					BoLib.clearFileAction();
-
+					//BoLib.clearFileAction();
+                    
 					if (quit[0] || quit[1])
 						return false;
-					
+				    //I wish that I could be bothered to write some actual code.
 					foreach (var str in files_section)
 					{
 						var ret = GetImagePathString(str);
-						m_filesToUpdate.Add(new FileImpl(str, ret));
+						m_filesToUpdate.Add(new FileImpl(str, ret, true));
 						FileCount++;
 					}
-
-					foreach (var str in folders_section)
+                    
+                    foreach (var str in folders_section)
 					{
 						var ret = GetImagePathString(str);
-						m_filesToUpdate.Add(new FileImpl(str, ret));
+						m_filesToUpdate.Add(new FileImpl(str, ret, false));
 						FileCount++;
 					}
-
+                    
 					this.OnPropertyChanged("UpdateFiles");
+                    return true;
 				}
 			}
-			return true;
+            return false;
 		}
 		
-		/// <summary>
+        /// <summary>
 		/// Perform the necessary updates. 
         /// </summary>
 		/// <returns>True for success, False for failure.</returns>
 		public bool DoSoftwareUpdate()
 		{
-			if (m_filesToUpdate.Count > 0)
-				m_filesToUpdate.Clear();
+            if (m_filesToUpdate.Count > 0)
+            {
+                m_filesToUpdate.Clear();
+            }
             
             if (CanChangeToUsbDrive())
 			{
@@ -135,14 +145,14 @@ namespace PDTUtils
 					foreach (var str in files_section)
 					{
 						var ret = GetImagePathString(str);
-						m_filesToUpdate.Add(new FileImpl(str, ret));
+						m_filesToUpdate.Add(new FileImpl(str, ret, true));
 						DoCopyFile(str);
 					}
 					
 					foreach (var str in folders_section)
 					{
 						var ret = GetImagePathString(str);
-						m_filesToUpdate.Add(new FileImpl(str, ret));
+						m_filesToUpdate.Add(new FileImpl(str, ret, false));
 						DoCopyDirectory(str, 0);
 					}
                     
@@ -156,7 +166,7 @@ namespace PDTUtils
 			}
 			return false;
 		}
-        
+            
 		bool ReadIniSection(out string[] section, string field)
 		{
             bool? result = IniFileUtility.GetIniProfileSection(out section, field, m_updateIni);
@@ -183,14 +193,14 @@ namespace PDTUtils
 				Marshal.FreeCoTaskMem(retStringPtr);
 				return false;
 			}
-
+            
 			string retString = Marshal.PtrToStringAuto(retStringPtr, (int)bytesReturned - 1);
 			section = retString.Split('\0');
 			Marshal.FreeCoTaskMem(retStringPtr);
 			return true;
 		}
 		
-		bool CanChangeToUsbDrive()
+        bool CanChangeToUsbDrive()
 		{
 			var allDrives = DriveInfo.GetDrives();
 			foreach (var d in allDrives)
@@ -205,7 +215,7 @@ namespace PDTUtils
 			}
 			return false;
 		}
-
+        
 		public override void ParseGame(int gameNo)
 		{
 			throw new Exception("The method or operation is not implemented.");
@@ -233,11 +243,11 @@ namespace PDTUtils
 			{
 				Console.WriteLine(ex.Message);
 			}
-
+            
 			var source = m_updateDrive.Name + fileToCopy;
 			var destination = @"D:" + fileToCopy;
 			var rename = destination + "_old";
-
+            
 			try
 			{
 				if (File.Exists(destination) == false)
@@ -261,7 +271,7 @@ namespace PDTUtils
 					}
 					catch (Exception ex)
 					{
-						Console.WriteLine(ex.Message);
+						Console.WriteLine(ex.Message); 
 					}
 				}
 			}

@@ -4,6 +4,6 @@
              StartupUri="MainWindow.xaml"
              Exit="Application_Exit">
     <Application.Resources>
-        <ResourceDictionary Source="Theme.xaml" />
+        <ResourceDictionary Source="Theme.xaml"/>
     </Application.Resources>
 </Application>

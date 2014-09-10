@@ -105,6 +105,9 @@
     <Compile Include="TestSuiteWindow.xaml.cs">
       <DependentUpon>TestSuiteWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UsbSoftwareUpdateView.xaml.cs">
+      <DependentUpon>UsbSoftwareUpdateView.xaml</DependentUpon>
+    </Compile>
     <Page Include="IniSettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -147,6 +150,10 @@
     <Page Include="Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\UsbSoftwareUpdateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -213,9 +220,7 @@
   <ItemGroup>
     <None Include="Resources\util_click.WAV" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\PDTUtilsControlLib\PDTUtilsControlLib.csproj">
       <Project>{43D33559-0084-4250-AE6D-E38753097A57}</Project>

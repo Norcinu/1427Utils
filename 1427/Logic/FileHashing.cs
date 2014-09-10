@@ -20,9 +20,9 @@ namespace PDTUtils
 				hashData = hashData.Replace("-", "");
 				result = hashData;
 			}
-			catch (System.Exception)
+			catch (System.Exception ex)
 			{
-				result = "Could not find hash of filename: " + filename;
+				result = "Could not find hash of filename: " + filename + @"\n" + ex.Message;
 			}
 
 			return (result);
