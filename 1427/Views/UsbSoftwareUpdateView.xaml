@@ -16,7 +16,7 @@
             <StackPanel MinWidth="246"  VerticalAlignment="Stretch"  Name="stpUpdateBase" Background="Azure" Margin="0,0,5,0" MinHeight="150">
                 <Label Margin="5,5,5,0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque">Select Operation&#58;</Label>
                 <Button Margin="5,5,5,0" Name="btnUpdateFiles" Content="Update Files" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding UpdatePrep}"></Button>
-                <Button Margin="5,5,5,5" Name="btnRollback" Content="RollBack to Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center"></Button>
+                <Button Margin="5,5,5,5" Name="btnRollback" Content="RollBack to Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center" Command="{Binding Rollback}"></Button>
             </StackPanel>
             
             <StackPanel Name="stpUpdate" Background="Azure" Margin="0,0,5,0" Width="512">
@@ -40,14 +40,14 @@
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
-
+                    
                     <Grid x:Name="ButtonGrid" Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Name="ColumnOne" Width="256" />
                             <ColumnDefinition Name="ColumnTwo" Width="256" />
-                        </Grid.ColumnDefinitions>
-                        <Button Width="75" Height="25" FontWeight="Bold" Name="btnPerformUpdate" Grid.Column="0" Margin="0,5,0,5">Update</Button>
-                        <Button Width="75" Height="25" FontWeight="Bold" Name="btnCancelUpdate" Grid.Column="1" Margin="0,5,0,5">Cancel</Button>
+                        </Grid.ColumnDefinitions> 
+                        <Button Width="75" Height="25" FontWeight="Bold" Name="btnPerformUpdate" Grid.Column="0" Margin="0,5,0,5" Command="{Binding Update}">Update</Button>
+                        <Button Width="75" Height="25" FontWeight="Bold" Name="btnCancelUpdate" Grid.Column="1" Margin="0,5,0,5" Command="{Binding Cancel}">Cancel</Button>
                     </Grid>
                 </Grid>
             </StackPanel>
@@ -58,7 +58,7 @@
             <!-- File number x copied (update when each file is processed) --> 
             <!-- Finished. Please reboot the system. -->
             <StackPanel Background="Azure" HorizontalAlignment="Stretch" Width="246"> 
-                <TextBlock Margin="5,5,5,0" Text="This is a textblock with lots of text. It will update the user with information." FontFamily="Verdana" FontSize="18" Background="Bisque" TextWrapping="Wrap" />
+                <TextBlock Margin="5,5,5,0" Text="{Binding LogText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Verdana" FontSize="18" Background="Bisque" TextWrapping="Wrap" />
             </StackPanel> 
             
         </StackPanel>

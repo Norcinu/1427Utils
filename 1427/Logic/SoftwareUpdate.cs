@@ -3,10 +3,11 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.Native;
-using System.Windows.Input;
-using System.Windows;
+using System.Diagnostics;
 
 namespace PDTUtils
 {
@@ -56,31 +57,34 @@ namespace PDTUtils
 			get { return m_filesToUpdate; }
 			set { m_filesToUpdate = value; }
 		}
+
+        public string LogText { get; set; }
         #endregion
 
         public ICommand UpdatePrep { get; set; }
         public ICommand Update { get; set; }
         public ICommand Rollback { get; set; }
-
-		public UserSoftwareUpdate(FrameworkElement element)
+        public ICommand Cancel { get; set; }
+        
+        public UserSoftwareUpdate(FrameworkElement element)
 		{
-            UpdatePrep = new RoutedCommand();
-            Update = new RoutedCommand();
-            Rollback = new RoutedCommand();
+            UpdatePrep  = new RoutedCommand();
+            Update      = new RoutedCommand();
+            Rollback    = new RoutedCommand();
+            Cancel      = new RoutedCommand();
+
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(UpdatePrep, DoSoftwareUpdatePreparation));
-           // DoSoftwareUpdatePreparation();
+            CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Update, DoSoftwareUpdate));
+            CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Rollback, DoRollBack));
+            CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Cancel, DoCancelUpdate));
 		}
         
-		public void DoRollBack()
+		public void DoRollBack(object o, RoutedEventArgs e)
 		{
-            throw new NotImplementedException("Something went wrong with the RollBack");
+            LogText += "Performing RollBack.\r\n";
+            this.OnPropertyChanged("LogText");
 		}
 		
-		/// <summary>
-		/// Read update ini and populate the tree view with the necessary files.
-		/// Do not take any action.
-		/// </summary>
-		/// <returns>True or false on success or failure</returns>
 		public void DoSoftwareUpdatePreparation(object o, ExecutedRoutedEventArgs e)
 		{
 			if (CanChangeToUsbDrive())
@@ -101,37 +105,40 @@ namespace PDTUtils
                     
 					if (quit[0] || quit[1])
 						return;
-				    
+                    
+                    LogText = String.Format("Finding Files. {0} Total Files.\r\n", files_section.Length);
+                    this.OnPropertyChanged("LogText");
+                    
 					foreach (var str in files_section)
 					{
 						var ret = GetImagePathString(str);
 						m_filesToUpdate.Add(new FileImpl(str, ret, true));
 						FileCount++;
+                        this.OnPropertyChanged("UpdateFiles");
 					}
+                    
+                    LogText = String.Format("Finding Folders. {0} Total Folders.\r\n", folders_section.Length);
+                    this.OnPropertyChanged("LogText");
                     
                     foreach (var str in folders_section)
 					{
 						var ret = GetImagePathString(str);
 						m_filesToUpdate.Add(new FileImpl(str, ret, false));
 						FileCount++;
+                        this.OnPropertyChanged("UpdateFiles");
 					}
-                    
-					this.OnPropertyChanged("UpdateFiles");
-                    return;// true;
-				}
+
+                    this.OnPropertyChanged("UpdateFiles");
+                }
 			}
-            return;// false;
 		}
-		
-        /// <summary>
-		/// Perform the necessary updates. 
-        /// </summary>
-		/// <returns>True for success, False for failure.</returns>
-		public bool DoSoftwareUpdate()
+	    
+		public void DoSoftwareUpdate(object o, RoutedEventArgs e)
 		{
             if (m_filesToUpdate.Count > 0)
             {
                 m_filesToUpdate.Clear();
+                FileCount = 0;
             }
             
             if (CanChangeToUsbDrive())
@@ -142,22 +149,23 @@ namespace PDTUtils
 					string[] folders_section = null;
 					string[] files_section = null;
 					bool[] quit = new bool[2] { false, false };
-					
+				    
 					BoLib.setFileAction();
-
+                    
 					quit[0] = ReadIniSection(out folders_section, "Folders");
 					quit[1] = ReadIniSection(out files_section, "Files");
                     
 					BoLib.clearFileAction();
                     
 					if (quit[0] || quit[1])
-						return false;
+						return;
 					
 					foreach (var str in files_section)
 					{
 						var ret = GetImagePathString(str);
 						m_filesToUpdate.Add(new FileImpl(str, ret, true));
-						DoCopyFile(str);
+                        if (DoCopyFile(str))
+                            FileCount++;
 					}
 					
 					foreach (var str in folders_section)
@@ -171,11 +179,9 @@ namespace PDTUtils
 				}
 				else
 				{
-					return false;
+                    return;
 				}
-				return true;
 			}
-			return false;
 		}
             
 		bool ReadIniSection(out string[] section, string field)
@@ -241,7 +247,7 @@ namespace PDTUtils
 				NativeWinApi.WritePrivateProfileSection("Files", path, m_rollbackIni);
 			BoLib.clearFileAction();
 		}
-
+        
 		bool DoCopyFile(string fileToCopy)
 		{
 			try
@@ -252,7 +258,7 @@ namespace PDTUtils
 			}
 			catch (System.Exception ex)
 			{
-				Console.WriteLine(ex.Message);
+				Debug.WriteLine(ex.Message);
 			}
             
 			var source = m_updateDrive.Name + fileToCopy;
@@ -269,7 +275,7 @@ namespace PDTUtils
 					}
 					catch (Exception ex)
 					{
-						Console.WriteLine(ex.Message);
+						Debug.WriteLine(ex.Message);
 					}
 				}
 				else
@@ -282,13 +288,13 @@ namespace PDTUtils
 					}
 					catch (Exception ex)
 					{
-						Console.WriteLine(ex.Message); 
+						Debug.WriteLine(ex.Message); 
 					}
 				}
 			}
 			catch (System.Exception ex)
 			{
-				Console.WriteLine(ex.Message);
+				Debug.WriteLine(ex.Message);
 			}
 			
 			if (NativeMD5.CheckHash(source) || !NativeMD5.CheckFileType(source))
@@ -331,7 +337,7 @@ namespace PDTUtils
 				}
 				catch (System.Exception ex)
 				{
-					Console.WriteLine(ex.Message);
+					Debug.WriteLine(ex.Message);
 				}
 			}
 			else
@@ -344,61 +350,55 @@ namespace PDTUtils
 				{
 					// folder does exist move it to _old
 					// and create new folder
-					if (Directory.Exists(rename_folder))
-					{
-						Directory.Delete(rename_folder, true);
-						
-						Directory.Move(destination_folder, rename_folder);
-						Directory.CreateDirectory(destination_folder);
-						DirectoryInfo dstInfo = new DirectoryInfo(rename_folder);
+                    if (Directory.Exists(rename_folder))
+                    {
+                        Directory.Delete(rename_folder, true);
+                        
+                        Directory.Move(destination_folder, rename_folder);
+                        Directory.CreateDirectory(destination_folder);
+                        DirectoryInfo dstInfo = new DirectoryInfo(rename_folder);
 
-						foreach (string dirPath in Directory.GetDirectories(rename_folder, "*",
-							SearchOption.AllDirectories))
-							Directory.CreateDirectory(dirPath.Replace(rename_folder, destination_folder));
-
-						//Copy all the files & Replaces any files with the same name
-						foreach (string newPath in Directory.GetFiles(rename_folder, "*.*",
-							SearchOption.AllDirectories))
-							File.Copy(newPath, newPath.Replace(rename_folder, destination_folder), true);
-
-						DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
-						AddToRollBack(rename_folder, 0);
-
-						GetAndCopyAllFiles(srcInfo, destination_folder);
-					}
-					else
-					{
-					}
-					
+                        foreach (string dirPath in Directory.GetDirectories(rename_folder, "*",
+                                 SearchOption.AllDirectories))
+                                 Directory.CreateDirectory(dirPath.Replace(rename_folder, destination_folder));
+                        
+                        //Copy all the files & Replaces any files with the same name
+                        foreach (string newPath in Directory.GetFiles(rename_folder, "*.*",
+                                 SearchOption.AllDirectories))
+                                 File.Copy(newPath, newPath.Replace(rename_folder, destination_folder), true);
+                        
+                        DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
+                        AddToRollBack(rename_folder, 0);
+                        GetAndCopyAllFiles(srcInfo, destination_folder);
+                        
+                        DirectoryInfo d = new DirectoryInfo(source_folder);
+                        var files = d.GetFiles();
+                        foreach (var fi in files)
+                        {
+                            if (NativeMD5.CheckHash(source_folder + fi.Name) || !NativeMD5.CheckFileType(source_folder + fi.Name))
+                            {
+                                File.SetAttributes(destination_folder + fi.Name, FileAttributes.Normal);
+                                var destAttr = File.GetAttributes(destination_folder + fi.Name);
+                                if ((destAttr & FileAttributes.Normal) == FileAttributes.Normal)
+                                {
+                                    var retries = 10;
+                                    while (!NativeMD5.CheckHash(destination_folder + fi.Name) && retries > 0)
+                                    {
+                                        NativeMD5.AddHashToFile(destination_folder + fi.Name);
+                                        retries--;
+                                    }
+                                    return true;
+                                }
+                            }
+                        }
+                    }
 				}
 				catch (System.Exception ex)
 				{
-					Console.WriteLine(ex.Message);
+					Debug.WriteLine(ex.Message);
 				}
 			}
-			
-			DirectoryInfo d = new DirectoryInfo(source_folder);
-			
-			var files = d.GetFiles();
-			foreach (var fi in files)
-			{
-				if (NativeMD5.CheckHash(source_folder + fi.Name) || !NativeMD5.CheckFileType(source_folder + fi.Name))
-				{
-					File.SetAttributes(destination_folder + fi.Name, FileAttributes.Normal);
-					var destAttr = File.GetAttributes(destination_folder + fi.Name);
-					if ((destAttr & FileAttributes.Normal) == FileAttributes.Normal)
-					{
-						var retries = 10;
-						while (!NativeMD5.CheckHash(destination_folder + fi.Name) && retries > 0)
-						{
-							NativeMD5.AddHashToFile(destination_folder + fi.Name);
-							retries--;
-						}
-						return true;
-					}
-				}
-			}
-			
+            
 			return true;
 		}
 		
@@ -414,16 +414,18 @@ namespace PDTUtils
 			}
 			catch (System.Exception ex)
 			{
-				Console.WriteLine(ex.Message);
+				Debug.WriteLine(ex.Message);
 			}
 		}
 
-		public void DoCancelUpdate()
+		public void DoCancelUpdate(object o, RoutedEventArgs e)
 		{
 			AllowUpdate = false;
 			FileCount = 0;
 			m_filesToUpdate.Clear();
 			m_filesNotCopied.Clear();
+            LogText = "";
+            this.OnPropertyChanged("LogText");
 		}
 		
 		public void DeleteRollBack()

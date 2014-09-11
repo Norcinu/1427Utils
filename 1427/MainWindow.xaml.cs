@@ -34,14 +34,14 @@ namespace PDTUtils
 		MachineInfo m_machineData = new MachineInfo();
 		GamesList m_gamesList = new GamesList();
 		MachineLogsController m_logController = new MachineLogsController();
-        UserSoftwareUpdate m_updateFiles = null;// = new UserSoftwareUpdate(this);
+        UserSoftwareUpdate m_updateFiles = null;
 		
 		public MainWindow()
         {
 			try
 			{
               	InitializeComponent();
-
+                
 				Random r = new Random();
 				CultureInfo ci = null;
 				if (r.Next(2) == 0)
