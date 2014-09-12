@@ -156,7 +156,6 @@
             
         <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
             <TabItem Header="Machine Ini" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
-                <!-- <TabItem Header="Machine Ini" MinWidth="100"> -->
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged">
@@ -242,7 +241,7 @@
             <TabItem Header="System Time" MinWidth="100">
                 <TabControl>
                     <TabItem Header="System Time" MinWidth="150" >
-                        <uc:SetTimeControl Name="setTimeControl" />
+                        <!--<uc:SetTimeControl Name="setTimeControl" />-->
                     </TabItem>
                     <TabItem Header="Network" MinWidth="150">
                         
@@ -255,34 +254,7 @@
             </TabItem>
                         
             <TabItem Header="Software Update" MinWidth="100">
-                <view:UsbSoftwareUpdateView VerticalAlignment="Stretch" Margin="0,10,0,10"/>
-                <!--<StackPanel MinWidth="150"  VerticalAlignment="Top"  Name="stpUpdateBase" Background="Salmon" >
-                    <Button Name="btnRollback" Content="RollBack to Previous" FontWeight="Bold" MinWidth="150" MinHeight="50" FontSize="14" IsEnabled="False" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}"></Button>
-                    <Button Name="btnUpdateFiles" Content="Update Files" FontWeight="Bold" MinWidth="150" MinHeight="50" FontSize="14" Click="btnUpdateFiles_Click" IsEnabled="False" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}"></Button>
-
-                    <StackPanel Name="stpUpdate" IsEnabled="False" Visibility="Hidden" Background="Purple">
-                        <Label Name="lblUpdateSelect" Content="Files to be updated." FontSize="18" HorizontalAlignment="Center" HorizontalContentAlignment="Center" />
-                        
-                        
-                        <TreeView ItemsSource="{Binding Path=UpdateFiles.FilesToUpdate}" Name="treeUpdateSelectFiles" Margin="0,0,0,35">
-                            <TreeView.ItemTemplate>
-                                <HierarchicalDataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="-25,0,25,5">
-                                        <Image Width="32" Height="18" Source="{Binding Path=Avatar}"  HorizontalAlignment="Right" 
-               	                            VerticalAlignment="Center" Margin="0,0,25,0" />
-                                        <TextBlock Margin="2" Text="{Binding Path=Name}" VerticalAlignment="Center" FontWeight="Bold" />
-                                    </StackPanel>
-                                </HierarchicalDataTemplate>
-                            </TreeView.ItemTemplate>
-                        </TreeView>
-                        
-                        <DockPanel Width="{Binding Path=ActualWidth, ElementName=stpUpdate}" Background="BlanchedAlmond">
-                            <Button Width="75" Height="25" Margin="0,0,10,0" FontWeight="Bold" Name="btnPerformUpdate" DockPanel.Dock="Left"  Click="btnPerformUpdate_Click" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}">Update</Button>
-                            <Button Width="75" Height="25" Margin="85,0,0,0" FontWeight="Bold" Name="btnCancelUpdate" DockPanel.Dock="Right"  Click="btnPerformUpdateCancel_Click" Visibility="{Binding Path=IsEnabled, Converter={StaticResource BoolToVisConverter}}">Cancel</Button>
-                        </DockPanel>
-                        
-                    </StackPanel>
-                </StackPanel>-->
+                <view:UsbSoftwareUpdateView  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Margin="0,10,0,10"/>
             </TabItem>
         </TabControl>
         
@@ -295,12 +267,12 @@
                         <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
                             <GridViewColumn Header="Game Number" Width="Auto" DisplayMemberBinding="{Binding GameNumber}" />
                             <GridViewColumn Header="Icon" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Image Source="{Binding ImageSource}" />
-                                    </DataTemplate>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding ImageSource}" />
+                                </DataTemplate>
                                 </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
+                                </GridViewColumn>
                             <GridViewColumn Header="Model No." Width="100" DisplayMemberBinding="{Binding ModelNumber}" />
                             <GridViewColumn Header="Bets" Width="100" DisplayMemberBinding="{Binding Bets}"/>
                             <GridViewColumn Header="Wins" Width="100" DisplayMemberBinding="{Binding Wins}"/>
@@ -311,7 +283,7 @@
                 </ListView>
                 </TabItem>
                 <TabItem Header="{Binding MachineIniListView.SelectedItem}"  MinWidth="100">
-                    
+                                        
                 </TabItem>
             </TabControl>
         </StackPanel>

@@ -5,18 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Model="clr-namespace:PDTUtils"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="1024">
+             d:DesignHeight="600" d:DesignWidth="1200">
     
     <!--<UserControl.DataContext>
         <Model:UserSoftwareUpdate></Model:UserSoftwareUpdate>
     </UserControl.DataContext>-->
-    
-    <Grid Background="Red">
+
+    <Grid Background="Red" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"> 
         <StackPanel Orientation="Horizontal" Margin="5,5,5,5">
             <StackPanel MinWidth="246"  VerticalAlignment="Stretch"  Name="stpUpdateBase" Background="Azure" Margin="0,0,5,0" MinHeight="150">
                 <Label Margin="5,5,5,0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque">Select Operation&#58;</Label>
                 <Button Margin="5,5,5,0" Name="btnUpdateFiles" Content="Update Files" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding UpdatePrep}"></Button>
-                <Button Margin="5,5,5,5" Name="btnRollback" Content="RollBack to Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center" Command="{Binding Rollback}"></Button>
+                <Button Margin="5,5,5,5" Name="btnRollback" Content="RollBack to Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center" Command="{Binding Rollback}" IsEnabled="{Binding HasUpdateStarted}"></Button>
             </StackPanel>
             
             <StackPanel Name="stpUpdate" Background="Azure" Margin="0,0,5,0" Width="512">
@@ -26,6 +26,10 @@
                         <RowDefinition Name="RowTwo" Height="508" />
                         <RowDefinition Name="RowThree" Height="*" />
                     </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+                    </Grid.Resources>
+                    
                     <Label Grid.Row="0"  FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque" Margin="0,5,0,5" Name="lblUpdateSelect" Content="Files to be updated." HorizontalAlignment="Center" />
                     
                     <TreeView Name="treeUpdateSelectFiles" Margin="5,5,5,35" Grid.Row="1"
@@ -45,22 +49,30 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Name="ColumnOne" Width="256" />
                             <ColumnDefinition Name="ColumnTwo" Width="256" />
-                        </Grid.ColumnDefinitions> 
-                        <Button Width="75" Height="25" FontWeight="Bold" Name="btnPerformUpdate" Grid.Column="0" Margin="0,5,0,5" Command="{Binding Update}">Update</Button>
-                        <Button Width="75" Height="25" FontWeight="Bold" Name="btnCancelUpdate" Grid.Column="1" Margin="0,5,0,5" Command="{Binding Cancel}">Cancel</Button>
+                        </Grid.ColumnDefinitions>
+                        <Button Width="75" Height="25" FontWeight="Bold" Name="btnPerformUpdate" Grid.Column="0" 
+                                Margin="0,5,0,5" Command="{Binding Update}" Visibility="{Binding Path=HasUpdateStarted, Converter={StaticResource BoolToVis}}"> 
+                            <AccessText>_Update</AccessText>
+                        </Button>
+                        <Button Width="75" Height="25" FontWeight="Bold" Name="btnCancelUpdate" Grid.Column="1" 
+                                Margin="0,5,0,5" Command="{Binding Cancel}" Visibility="{Binding Path=HasUpdateStarted, Converter={StaticResource BoolToVis}}">
+                            <AccessText>_Cancel</AccessText>
+                        </Button>
                     </Grid>
                 </Grid>
             </StackPanel>
             
             <!-- I could use this to update the users progress. -->
             <!-- Creating Backup... (Done) -->
-            <!-- Starting Update -->
+            <!-- Starting Update (Done) -->
             <!-- File number x copied (update when each file is processed) --> 
             <!-- Finished. Please reboot the system. -->
-            <StackPanel Background="Azure" HorizontalAlignment="Stretch" Width="246"> 
-                <TextBlock Margin="5,5,5,0" Text="{Binding LogText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Verdana" FontSize="18" Background="Bisque" TextWrapping="Wrap" />
-            </StackPanel> 
-            
+            <ScrollViewer>
+                <StackPanel Background="Azure" HorizontalAlignment="Stretch" Width="246">
+                    <TextBlock Margin="5,5,5,0" Text="{Binding LogText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                               FontFamily="Verdana" FontSize="18" Background="Bisque" TextWrapping="Wrap" />
+                </StackPanel>
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </UserControl>

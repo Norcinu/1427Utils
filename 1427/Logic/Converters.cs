@@ -76,7 +76,7 @@ namespace PDTUtils
 		}
 	}
 
-	[ValueConversion(typeof(bool), typeof(Visibility))]
+    [ValueConversion(typeof(bool), typeof(Visibility))]
 	public sealed class BoolToVisibilityConverter : IValueConverter
 	{
 		public Visibility TrueValue { get; set; }

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System;
 
 namespace PDTUtils
 {
@@ -24,7 +24,7 @@ namespace PDTUtils
             Array.Sort(files, delegate(string str1, string str2)
             {
                 return File.GetCreationTime(str1).CompareTo(File.GetCreationTime(str2));
-            });            
+            });
 
             foreach (string path in Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly))
             {

@@ -20,7 +20,10 @@
     </StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <StartAction>Project</StartAction>
+    <StartAction>Program</StartAction>
+    <StartProgram>D:\1427\1427L27U010R.exe</StartProgram>
+    <RemoteDebugEnabled>true</RemoteDebugEnabled>
+    <RemoteDebugMachine>STEVETERMINAL01</RemoteDebugMachine>
   </PropertyGroup>
   <PropertyGroup>
     <ReferencePath>C:\Documents and Settings\Steve\My Documents\Visual Studio 2010\Projects\1427\</ReferencePath>
