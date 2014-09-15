@@ -204,12 +204,12 @@ namespace PDTUtils
                     m_keyDoorThread.Join();
                 }
             }
-            
+
             if (m_sharedMemoryOnline)
+            {
+                m_sharedMemoryOnline = false;
                 BoLib.closeSharedMemory();
-            
-         //   if (GetMachineIni.ChangesPending)
-         //       DiskCommit.RebootMachine();
+            }
         }
         
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
@@ -374,8 +374,8 @@ namespace PDTUtils
 		
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
-			GamesList.GetGamesList();
-			Enabler.EnableCategory(Categories.System);
+            GamesList.GetGamesList();
+            Enabler.EnableCategory(Categories.System);
 		}
         
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)

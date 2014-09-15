@@ -38,8 +38,6 @@ namespace PDTUtils
 		string m_updateIni;
 		
 		DriveInfo m_updateDrive;
-		//ObservableCollection<FileImpl> m_filesToUpdate = new ObservableCollection<FileImpl>();
-		//ObservableCollection<string> m_filesNotCopied = new ObservableCollection<string>();
         
 		#region PROPERTIES
 		public bool AllowUpdate { get; set; }
@@ -54,6 +52,8 @@ namespace PDTUtils
         ObservableCollection<string> FilesNotCopied;
 
         public bool HasUpdateStarted { get; set; }
+        public bool HasUpdateFinished { get; set; }
+
         public ObservableCollection<FileImpl> FilesToUpdate { get; set; }
         public string LogText { get; set; }
         #endregion
@@ -62,23 +62,27 @@ namespace PDTUtils
         public ICommand Update { get; set; }
         public ICommand Rollback { get; set; }
         public ICommand Cancel { get; set; }
-        
+        public ICommand Reboot { get; set; }
+
         public UserSoftwareUpdate(FrameworkElement element)
 		{
             FilesToUpdate = new ObservableCollection<FileImpl>();
             FilesNotCopied = new ObservableCollection<string>();
 
             HasUpdateStarted = false;
+            HasUpdateFinished = false;
 
             UpdatePrep  = new RoutedCommand();
             Update      = new RoutedCommand();
             Rollback    = new RoutedCommand();
             Cancel      = new RoutedCommand();
-            
+            Reboot      = new RoutedCommand();
+
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(UpdatePrep, DoSoftwareUpdatePreparation));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Update, DoSoftwareUpdate));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Rollback, DoRollBack));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Cancel, DoCancelUpdate));
+            CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Reboot, DoSaveReboot));
 		}
         
 		public void DoRollBack(object o, RoutedEventArgs e)
@@ -89,56 +93,64 @@ namespace PDTUtils
 		
 		public void DoSoftwareUpdatePreparation(object o, ExecutedRoutedEventArgs e)
 		{
-			if (CanChangeToUsbDrive())
-			{
-				// we can look for update.ini
-				if (File.Exists(m_updateIni))
-				{
+            if (CanChangeToUsbDrive())
+            {
+                // we can look for update.ini
+                if (File.Exists(m_updateIni))
+                {
                     HasUpdateStarted = true;
                     this.OnPropertyChanged("HasUpdateStarted");
+                    
+                    string[] folders_section = null;
+                    string[] files_section = null;
+                    bool[] quit = new bool[2] { false, false };
 
-					string[] folders_section = null;
-					string[] files_section = null;
-                    bool  [] quit = new bool[2] { false, false };
-					
-					BoLib.setFileAction(); 
-	                
+                    BoLib.setFileAction();
+
                     quit[0] = ReadIniSection(out folders_section, "Folders");
                     quit[1] = ReadIniSection(out files_section, "Files");
-					
+          
                     BoLib.clearFileAction();
-                    
-					if (quit[0] || quit[1])
-						return;
+          
+                    if (quit[0] || quit[1])
+                        return;
                     
                     LogText = String.Format("Finding Files. {0} Total Files.\r\n", files_section.Length);
                     this.OnPropertyChanged("LogText");
-                    
-					foreach (var str in files_section)
-					{
-						var ret = GetImagePathString(str);
-						FilesToUpdate.Add(new FileImpl(str, ret, true));
-						FileCount++;
+
+                    foreach (var str in files_section)
+                    {
+                        var ret = GetImagePathString(str);
+                        FilesToUpdate.Add(new FileImpl(str, ret, true));
+                        FileCount++;
                         this.OnPropertyChanged("UpdateFiles");
-					}
-                    
+                    }
+
                     LogText += String.Format("Finding Folders. {0} Total Folders.\r\n", folders_section.Length);
                     this.OnPropertyChanged("LogText");
-                    
+
                     foreach (var str in folders_section)
-					{
-						var ret = GetImagePathString(str);
-						FilesToUpdate.Add(new FileImpl(str, ret, false));
-						FileCount++;
+                    {
+                        var ret = GetImagePathString(str);
+                        FilesToUpdate.Add(new FileImpl(str, ret, false));
+                        FileCount++;
                         this.OnPropertyChanged("UpdateFiles");
-					}
-                    
+                    }
+
                     LogText += "Backup Created.\r\n----------------------------\r\n";
                     this.OnPropertyChanged("LogText");
                     this.OnPropertyChanged("UpdateFiles");
                 }
-			}
+            }
+            else
+                SetNoUSBDriveMessage();
 		}
+
+        private void SetNoUSBDriveMessage()
+        {
+            LogText = "USB Update Not Found.\r\nPlease connect USB device and try again.\r\n";
+            this.OnPropertyChanged("LogText");
+        }
 	    
 		public void DoSoftwareUpdate(object o, RoutedEventArgs e)
 		{
@@ -181,7 +193,8 @@ namespace PDTUtils
 						FilesToUpdate.Add(new FileImpl(str, ret, false));
 						DoCopyDirectory(str, 0);
 					}
-                    
+
+                    HasUpdateFinished = true;
 					this.OnPropertyChanged("UpdateFiles");
 				}
 				else
@@ -190,13 +203,13 @@ namespace PDTUtils
 				}
 			}
 		}
-            
-		bool ReadIniSection(out string[] section, string field)
+		
+        bool ReadIniSection(out string[] section, string field)
 		{
             bool? result = IniFileUtility.GetIniProfileSection(out section, field, m_updateIni);
 			if (result == false || section == null)
 				return true;
-			return false;
+            return false;
 		}
         
 		private static string GetImagePathString(string str)
@@ -433,8 +446,7 @@ namespace PDTUtils
             {
                 if (!File.Exists(f))
                 {
-                    File.Copy(path, source);
-                    
+                    File.Copy(path, source);    
                 }
             }
         }
@@ -442,11 +454,15 @@ namespace PDTUtils
         public void DoCancelUpdate(object o, RoutedEventArgs e)
 		{
 			AllowUpdate = false;
+            HasUpdateStarted = false;
+            HasUpdateFinished = false;
 			FileCount = 0;
 			FilesToUpdate.Clear();
 			FilesNotCopied.Clear();
             LogText = "";
             this.OnPropertyChanged("LogText");
+            this.OnPropertyChanged("HasUpdateStarted");
+            this.OnPropertyChanged("HasUpdateFinished");
 		}
 		
 		public void DeleteRollBack()
@@ -472,6 +488,13 @@ namespace PDTUtils
 			// delete rollback ini
 			// finish
 		}
+
+        public void DoSaveReboot(object o, ExecutedRoutedEventArgs e)
+        {
+            LogText = "Restarting Machine.\r\nPlease turn the Refill Key";
+            this.OnPropertyChanged("LogText");
+            DiskCommit.SaveAndReboot();
+        }
 	}
 }
 

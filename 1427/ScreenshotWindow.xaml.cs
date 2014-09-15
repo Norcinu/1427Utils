@@ -1,9 +1,15 @@
-﻿using System;
+﻿using SDL2;
+using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
-using System.Windows.Media.Imaging;
+
+
+
+/*  TODO:
+ *  Uses a massive amount of memory. Perhaps this should load an image on the fly
+ *  when a button is pressed rather than loading them all into memory. 
+ */
 
 namespace PDTUtils
 {
@@ -12,14 +18,38 @@ namespace PDTUtils
     /// </summary>
     public partial class ScreenshotWindow : Window
     {
-        List<System.Drawing.Image> images = new List<System.Drawing.Image>();
+        //List<System.Drawing.Image> images = new List<System.Drawing.Image>();
+        List<IntPtr> images = new List<IntPtr>();
         int currentImage = 0;
         int maxImages = 0;
 
         public ScreenshotWindow()
         {
             InitializeComponent();
-            DirectoryInfo di = new DirectoryInfo(@"D:\screenshots");
+            try
+            {
+                SDL2.SDL.SDL_Init(SDL.SDL_INIT_VIDEO);
+                SDL2.SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_JPG | SDL_image.IMG_InitFlags.IMG_INIT_PNG);
+                var files = Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly);
+                Array.Sort(files, delegate(string str1, string str2)
+                {
+                    return File.GetCreationTime(str1).CompareTo(File.GetCreationTime(str2));
+                });
+
+                foreach (string path in Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly))
+                {
+                    var ct = File.GetCreationTime(path);
+                    images.Add(SDL2.SDL_image.IMG_Load(path));
+                }
+
+                maxImages = images.Count - 1;
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message + "\n" + ex.StackTrace);
+            }
+          //  SDL2.SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_JPG | SDL_image.IMG_InitFlags.IMG_INIT_PNG);
+            /*DirectoryInfo di = new DirectoryInfo(@"D:\screenshots");
             var files = Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly);
             Array.Sort(files, delegate(string str1, string str2)
             {
@@ -32,21 +62,21 @@ namespace PDTUtils
                 images.Add(System.Drawing.Image.FromFile(path));
             }
 
-            maxImages = images.Count - 1;
+            maxImages = images.Count - 1;*/
             SetImageSource();
             UpdateLabel();
         }
         
         private void SetImageSource()
         {
-            BitmapImage bi = new BitmapImage();
+            /*BitmapImage bi = new BitmapImage();
             bi.BeginInit();
             MemoryStream ms = new MemoryStream();
             images[currentImage].Save(ms, ImageFormat.Png);
             ms.Seek(0, SeekOrigin.Begin);
             bi.StreamSource = ms;
             bi.EndInit();
-            image1.Source = bi;
+            image1.Source = bi;*/
         }
         
         private void button3_Click(object sender, RoutedEventArgs e)

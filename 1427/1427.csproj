@@ -60,6 +60,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationBuildTasks" />
+    <Reference Include="SDL2-CS">
+      <HintPath>..\..\..\..\..\Desktop\SDL2-CS\bin\Release\SDL2-CS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -107,6 +110,9 @@
     <Compile Include="TestSuiteWindow.xaml.cs">
       <DependentUpon>TestSuiteWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GameSettingsView.xaml.cs">
+      <DependentUpon>GameSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UsbSoftwareUpdateView.xaml.cs">
       <DependentUpon>UsbSoftwareUpdateView.xaml</DependentUpon>
     </Compile>
@@ -152,6 +158,10 @@
     <Page Include="Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GameSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UsbSoftwareUpdateView.xaml">
       <SubType>Designer</SubType>

@@ -79,6 +79,7 @@ namespace PDTUtils
     [ValueConversion(typeof(bool), typeof(Visibility))]
 	public sealed class BoolToVisibilityConverter : IValueConverter
 	{
+        public bool Reverse { get; set; }
 		public Visibility TrueValue { get; set; }
 		public Visibility FalseValue { get; set; }
 
@@ -92,9 +93,8 @@ namespace PDTUtils
 							  object parameter, CultureInfo culture)
 		{
 			if (!(value is bool))
-			{
 				return null;
-			}			
+
 			return (bool)value ? TrueValue : FalseValue;
 		}
 
@@ -108,9 +108,4 @@ namespace PDTUtils
 			return null;
 		}
 	}
-
-	/*public class CustomBoolToVisConverter : IValueConverter
-	{
-
-	}*/
 }
