@@ -113,6 +113,9 @@
     <Compile Include="Views\GameSettingsView.xaml.cs">
       <DependentUpon>GameSettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TestSuiteView.xaml.cs">
+      <DependentUpon>TestSuiteView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UsbSoftwareUpdateView.xaml.cs">
       <DependentUpon>UsbSoftwareUpdateView.xaml</DependentUpon>
     </Compile>
@@ -160,6 +163,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GameSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TestSuiteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

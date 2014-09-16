@@ -17,9 +17,9 @@ namespace PDTUtils
     public partial class MainWindow : Window
     {
 		bool m_requiresSave = false;
-		bool m_sharedMemoryOnline = false;
-		string m_errorMessage = "";
-		
+        bool m_sharedMemoryOnline = false;
+        string m_errorMessage = "";
+        public double WindowHeight { get; set; }
 		System.Timers.Timer m_doorStatusTimer;
 		System.Timers.Timer m_uiUpdateTimer;
 		Thread m_keyDoorThread;
@@ -54,6 +54,7 @@ namespace PDTUtils
                 
                 m_updateFiles = new UserSoftwareUpdate(this);
 
+                WindowHeight = this.Height;
                 InitialiseBoLib();
 			    m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
@@ -256,7 +257,7 @@ namespace PDTUtils
             var l = sender as ListView;
             var c = l.Items[l.SelectedIndex] as IniElement;
             var items = l.ItemsSource;
-            
+            MessageBox.Show(this.TabSetup.Items[0].ToString());
             IniSettingsWindow w = new IniSettingsWindow(c.Field, c.Value);
             if (w.ShowDialog() == false)
             {

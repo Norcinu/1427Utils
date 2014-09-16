@@ -75,6 +75,30 @@ namespace PDTUtils
 			throw new Exception("The method or operation is not implemented.");
 		}
 	}
+    
+    /// <summary>
+    /// Converts the screen height and scales the grid size.
+    /// </summary>
+    public class ConvertScreenHeight : IValueConverter
+    {
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            var screenHeight = SystemParameters.PrimaryScreenHeight;
+            if (screenHeight == 1080)
+                return 956;
+            else if (screenHeight == 768)
+                return 645;
+            else
+                return 479;
+        }
+        
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException("Method not implemented.");
+        }
+    }
 
     [ValueConversion(typeof(bool), typeof(Visibility))]
 	public sealed class BoolToVisibilityConverter : IValueConverter

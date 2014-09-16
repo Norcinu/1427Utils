@@ -40,7 +40,6 @@ namespace PDTUtils
 		DriveInfo m_updateDrive;
         
 		#region PROPERTIES
-		public bool AllowUpdate { get; set; }
 		public uint FileCount { get; set; }
 
 		public string UpdateIni
@@ -68,7 +67,7 @@ namespace PDTUtils
 		{
             FilesToUpdate = new ObservableCollection<FileImpl>();
             FilesNotCopied = new ObservableCollection<string>();
-
+            
             HasUpdateStarted = false;
             HasUpdateFinished = false;
 
@@ -77,21 +76,28 @@ namespace PDTUtils
             Rollback    = new RoutedCommand();
             Cancel      = new RoutedCommand();
             Reboot      = new RoutedCommand();
-
+            
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(UpdatePrep, DoSoftwareUpdatePreparation));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Update, DoSoftwareUpdate));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Rollback, DoRollBack));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Cancel, DoCancelUpdate));
-            CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Reboot, DoSaveReboot));
+            CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Reboot, DoSaveReboot));//
 		}
         
 		public void DoRollBack(object o, RoutedEventArgs e)
 		{
-            LogText += "Performing RollBack.\r\n";
+            LogText += "Performing RollBack.\r\n----------------------------\r\n";
             this.OnPropertyChanged("LogText");
+            FileCount = 0;
+            FilesToUpdate.Clear();
+            FilesNotCopied.Clear();
+            HasUpdateFinished = false;
+            HasUpdateStarted = false;
+            this.OnPropertyChanged("HasUpdateFinished");
+            this.OnPropertyChanged("HasUpdateStarted");
 		}
-		
-		public void DoSoftwareUpdatePreparation(object o, ExecutedRoutedEventArgs e)
+        
+        public void DoSoftwareUpdatePreparation(object o, ExecutedRoutedEventArgs e)
 		{
             if (CanChangeToUsbDrive())
             {
@@ -193,7 +199,7 @@ namespace PDTUtils
 						FilesToUpdate.Add(new FileImpl(str, ret, false));
 						DoCopyDirectory(str, 0);
 					}
-
+                    
                     HasUpdateFinished = true;
 					this.OnPropertyChanged("UpdateFiles");
 				}
@@ -453,7 +459,6 @@ namespace PDTUtils
 		
         public void DoCancelUpdate(object o, RoutedEventArgs e)
 		{
-			AllowUpdate = false;
             HasUpdateStarted = false;
             HasUpdateFinished = false;
 			FileCount = 0;

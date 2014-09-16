@@ -4,11 +4,12 @@
         xmlns:logic="clr-namespace:PDTUtils.Logic"
         xmlns:uc="clr-namespace:PDTUtilsControlLib;assembly=PDTUtilsControlLib"
         xmlns:view="clr-namespace:PDTUtils.Views"
+        xmlns:cv="clr-namespace:PDTUtils"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Background="{DynamicResource WindowBackgroundBrush}"
         Title="1427 Shell Utils" 
-        Height="1080" 
-        Width="1920" 
+        Height="{Binding SystemParameters.PrimaryScreenHeight}" 
+        Width="{Binding SystemParameters.PrimaryScreenWidth}" 
         Name="WindowMain" 
         WindowStyle="None" 
         Loaded="WindowMain_Loaded" 
@@ -20,19 +21,23 @@
         SizeToContent="Manual"
         >
     
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+            <cv:ConvertScreenHeight x:Key="ScaleScreenHeight" />
+        </Grid.Resources>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Name="ColumnOne" Width="207*" />
             <ColumnDefinition Name="ColumnTwo" Width="571*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Name="RowOne" Height="82*" />
-            <RowDefinition Name="RowTwo" Height="479*" />
+            <!--<RowDefinition Name="RowTwo" Height="479*" SharedSizeGroup="theRow"/> 956-->
+            <RowDefinition Name="RowTwo" Height="{Binding Path=Height,  Converter={StaticResource ScaleScreenHeight}}" SharedSizeGroup="theRow"/>
             <RowDefinition Name="RowThree" Height="52*" />
         </Grid.RowDefinitions>
-        <Grid.Resources>
-            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
-        </Grid.Resources>
+
         
         <!-- 2nd screenshot uses ColumnSpan and RowSpan -->
         <Label Name="lblTop" 
@@ -154,8 +159,9 @@
             </TabItem>
         </TabControl>
             
-        <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
-            <TabItem Header="Machine Ini" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
+        <!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
+        <TabControl Name="TabSetup" Grid.Row="1" Grid.Column="1" Height="{Binding Path=RowTwo.Height}" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
+            <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged">
@@ -283,7 +289,7 @@
                 </ListView>
                 </TabItem>
                 <TabItem Header="{Binding MachineIniListView.SelectedItem}"  MinWidth="100">
-                                        
+                    
                 </TabItem>
             </TabControl>
         </StackPanel>
