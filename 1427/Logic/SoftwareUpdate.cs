@@ -36,7 +36,7 @@ namespace PDTUtils
 	{
 		string m_rollbackIni; 
 		string m_updateIni;
-		
+        
 		DriveInfo m_updateDrive;
         
 		#region PROPERTIES
@@ -62,7 +62,7 @@ namespace PDTUtils
         public ICommand Rollback { get; set; }
         public ICommand Cancel { get; set; }
         public ICommand Reboot { get; set; }
-
+        
         public UserSoftwareUpdate(FrameworkElement element)
 		{
             FilesToUpdate = new ObservableCollection<FileImpl>();
@@ -142,7 +142,7 @@ namespace PDTUtils
                         FileCount++;
                         this.OnPropertyChanged("UpdateFiles");
                     }
-
+                    
                     LogText += "Backup Created.\r\n----------------------------\r\n";
                     this.OnPropertyChanged("LogText");
                     this.OnPropertyChanged("UpdateFiles");
@@ -179,12 +179,12 @@ namespace PDTUtils
 					
                     quit[0] = ReadIniSection(out folders_section, "Folders");
 					quit[1] = ReadIniSection(out files_section, "Files");
-                    
+                   
 					BoLib.clearFileAction();
                     
 					if (quit[0] || quit[1])
 						return;
-					
+                    
 					foreach (var str in files_section)
 					{
 						var ret = GetImagePathString(str);
@@ -193,23 +193,50 @@ namespace PDTUtils
                             FileCount++;
 					}
 					
-					foreach (var str in folders_section)
+                    foreach (var str in folders_section)
 					{
 						var ret = GetImagePathString(str);
 						FilesToUpdate.Add(new FileImpl(str, ret, false));
-						DoCopyDirectory(str, 0);
+                        new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(@"e:\1111", @"d:\1111_VB", true);
+                        //DoCopyDirectory(str, 0);
 					}
+
+                    // Move old files back.
+                    // Read rollback.ini.
+                    // That copy works nicely. Odd that there isnt a C# version.
+                    // Move old files back.
                     
                     HasUpdateFinished = true;
+                    this.OnPropertyChanged("HasUpdateFinished");
 					this.OnPropertyChanged("UpdateFiles");
-				}
-				else
-				{
-                    return;
+                    
+                    CleanUp();
 				}
 			}
 		}
-		
+        
+        void CleanUp()
+        {          
+            //run through looking for _old files + folders and delete them.
+            DirectoryInfo dDrive = new DirectoryInfo(@"D:\");
+            var fileList = dDrive.GetFiles();
+            var dirList = dDrive.GetDirectories();
+            foreach (var dir in dirList)
+            {
+                try
+                {
+                    if (dir.Name.Contains("_old"))
+                        dir.Delete(true);         
+                }
+                catch (Exception ex)
+                {
+                    LogText = ex.Message;
+                    this.OnPropertyChanged("LogText");
+                }
+            }
+            
+        }
+        
         bool ReadIniSection(out string[] section, string field)
 		{
             bool? result = IniFileUtility.GetIniProfileSection(out section, field, m_updateIni);
@@ -217,8 +244,8 @@ namespace PDTUtils
 				return true;
             return false;
 		}
-        
-		private static string GetImagePathString(string str)
+		
+        private static string GetImagePathString(string str)
 		{
 			CustomImagePathConverter conv = new CustomImagePathConverter();
 			var ret = conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture) as string;
@@ -236,13 +263,13 @@ namespace PDTUtils
 				Marshal.FreeCoTaskMem(retStringPtr);
 				return false;
 			}
-            
-			string retString = Marshal.PtrToStringAuto(retStringPtr, (int)bytesReturned - 1);
+			
+            string retString = Marshal.PtrToStringAuto(retStringPtr, (int)bytesReturned - 1);
 			section = retString.Split('\0');
 			Marshal.FreeCoTaskMem(retStringPtr);
 			return true;
 		}
-		
+        
         bool CanChangeToUsbDrive()
 		{
 			var allDrives = DriveInfo.GetDrives();
@@ -263,7 +290,7 @@ namespace PDTUtils
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
-
+        
 		void AddToRollBack(string path, int flag)
 		{
 			BoLib.setFileAction();
@@ -340,7 +367,7 @@ namespace PDTUtils
 			}
 			return false;
 		}
-
+        //hahahaha he rang them up
 		bool DoCopyDirectory(string path, int dirFlag)
 		{
 			string source_folder = m_updateDrive + path;
@@ -355,7 +382,7 @@ namespace PDTUtils
 					foreach (string dirPath in Directory.GetDirectories(source_folder, "*",
 						SearchOption.AllDirectories))
 						Directory.CreateDirectory(dirPath.Replace(source_folder, destination_folder));
-						
+				    
 					//Copy all the files & Replaces any files with the same name
 					foreach (string newPath in Directory.GetFiles(source_folder, "*.*",
 						SearchOption.AllDirectories))
@@ -383,7 +410,7 @@ namespace PDTUtils
                         Directory.Move(destination_folder, rename_folder);
                         Directory.CreateDirectory(destination_folder);
                         DirectoryInfo dstInfo = new DirectoryInfo(rename_folder);
-
+                        
                         foreach (string dirPath in Directory.GetDirectories(rename_folder, "*",
                                  SearchOption.AllDirectories))
                                  Directory.CreateDirectory(dirPath.Replace(rename_folder, destination_folder));
@@ -392,9 +419,9 @@ namespace PDTUtils
                         foreach (string newPath in Directory.GetFiles(rename_folder, "*.*",
                                  SearchOption.AllDirectories))
                                  File.Copy(newPath, newPath.Replace(rename_folder, destination_folder), true);
-                        
+                        //maybe just copy the files and folders over instead of moving.
                         DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
-                        AddToRollBack(rename_folder, 0);
+                        AddToRollBack(rename_folder, 1);
                         GetAndCopyAllFiles(srcInfo, destination_folder);
                         
                         DirectoryInfo d = new DirectoryInfo(source_folder);
@@ -427,7 +454,8 @@ namespace PDTUtils
             
 			return true;
 		}
-		
+
+		//its about not letting sadness win. but i got pictures in a draw.
 		void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destination_folder)
 		{
 			try 
@@ -452,7 +480,7 @@ namespace PDTUtils
             {
                 if (!File.Exists(f))
                 {
-                    File.Copy(path, source);    
+                    File.Copy(path, source);
                 }
             }
         }
@@ -467,7 +495,7 @@ namespace PDTUtils
             LogText = "";
             this.OnPropertyChanged("LogText");
             this.OnPropertyChanged("HasUpdateStarted");
-            this.OnPropertyChanged("HasUpdateFinished");
+            this.OnPropertyChanged("HasUpdateFinished"); 
 		}
 		
 		public void DeleteRollBack()
@@ -479,24 +507,20 @@ namespace PDTUtils
             bool? result = IniFileUtility.GetIniProfileSection(out folders_section, "folders", m_updateIni);
 			if (result != true)
 				return;
-
+            
             result = IniFileUtility.GetIniProfileSection(out files_section, "files", m_updateIni);
 			if (result != true)
 				return;
 			BoLib.clearFileAction();
-
-			// read rollback ini file
-			// get folders section
-			// delete folders
-			// get files section
-			// delete files
-			// delete rollback ini
-			// finish
 		}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
         public void DoSaveReboot(object o, ExecutedRoutedEventArgs e)
         {
-            LogText = "Restarting Machine.\r\nPlease turn the Refill Key";
+            LogText = "Restarting Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
             this.OnPropertyChanged("LogText");
             DiskCommit.SaveAndReboot();
         }
