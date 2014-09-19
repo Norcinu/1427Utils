@@ -88,7 +88,7 @@ namespace PDTUtils
 							}
 						}
 						else
-						{							
+						{				
 							if (m_doorStatus == false)
 							{
 								m_doorStatus = true;
@@ -102,7 +102,7 @@ namespace PDTUtils
 				Thread.Sleep(2);
 			}
 		}
-
+        
 		public void Clone(DoorAndKeyStatus kd)
 		{
 			this.DoorStatus = kd.DoorStatus;

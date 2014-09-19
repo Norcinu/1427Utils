@@ -27,6 +27,7 @@
             <Label Name="lblFilename" Content="Filename: I bet he aint briefed"/>
             <Label Name="lblDate" Content="Date: " />
             <Label Name="lblTime" Content="Time: " />
+            <Button Name="btnQuit" Content="Quit" Click="btnQuit_Click" />
         </StackPanel>
     </Grid>
 </Window>

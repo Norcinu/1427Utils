@@ -1,12 +1,9 @@
-﻿using SDL2;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using System.Drawing.Imaging;
-
-
 
 /*  TODO:
  *  Uses a massive amount of memory. Perhaps this should load an image on the fly
@@ -20,31 +17,31 @@ namespace PDTUtils
     /// </summary>
     public partial class ScreenshotWindow : Window
     {
-        List<string> images = new List<string>();
-        //List<System.Drawing.Image> images = new List<System.Drawing.Image>();
-        //List<IntPtr> images = new List<IntPtr>();
+        string[] files = new string[] { "" };
+        List<System.Drawing.Image> images = new List<System.Drawing.Image>();
         int currentImage = 0;
         int maxImages = 0;
-        
+        BitmapImage bi = new BitmapImage();
+        MemoryStream ms = new MemoryStream();
+
         public ScreenshotWindow()
         {
             InitializeComponent();
             try
             {
-                var files = Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly);
+                files = Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly);
                 Array.Sort(files, delegate(string str1, string str2)
                 {
                     return File.GetCreationTime(str1).CompareTo(File.GetCreationTime(str2));
                 });
                 
-                foreach (string path in Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly))
+                /*foreach (string path in Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly))
                 {
-                    //var ct = File.GetCreationTime(path);
-                    //images.Add(System.Drawing.Image.FromFile(path));
-                    //images.Add(SDL2.SDL_image.IMG_Load(path));
-                }
-                
-                maxImages = images.Count - 1;
+                    var ct = File.GetCreationTime(path);
+                    images.Add(System.Drawing.Image.FromFile(path));
+                }*/
+
+                maxImages = files.Length - 1;// images.Count - 1;
             }
             catch (System.Exception ex)
             {
@@ -53,30 +50,19 @@ namespace PDTUtils
             
             SetImageSource();
             UpdateLabel();
-        }        
+        }
         
         private void SetImageSource()
         {
-           /* using (MemoryStream ms = new MemoryStream())
-            {
-                if (image1.Source != null)
-                {
-                    var bmp = image1.Source as BitmapImage;
-                    bmp.StreamSource.Dispose();
-                    bmp.StreamSource = null;
-                    image1.Source = null;
-                }
-
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                images[currentImage].Save(ms, ImageFormat.Png);
-                ms.Seek(0, SeekOrigin.Begin);
-                bi.StreamSource = ms;
+            bi.BeginInit();
+            var image = System.Drawing.Image.FromFile(files[currentImage]);
+            image.Save(ms, ImageFormat.Png);
+            //images[currentImage].Save(ms, ImageFormat.Png);
+            ms.Seek(0, SeekOrigin.Begin);
+            bi.StreamSource = ms;
+            //if (bi != null)
                 bi.EndInit();
-                //images[currentImage>0?currentImage-1:currentImage].Dispose();
-                
-                image1.Source = bi;
-            }*/
+            image1.Source = bi;
         }
         
         private void button3_Click(object sender, RoutedEventArgs e)
@@ -97,7 +83,7 @@ namespace PDTUtils
                 SetImageSource();
                 UpdateLabel();
             }
-        } 
+        }
         
         private void button1_Click(object sender, RoutedEventArgs e)
         {
@@ -107,6 +93,7 @@ namespace PDTUtils
                 currentImage = 0;
             else
                 currentImage = 0;
+        
             SetImageSource();
             UpdateLabel();
         }
@@ -119,6 +106,7 @@ namespace PDTUtils
                 currentImage = maxImages;
             else
                 currentImage = maxImages;
+            
             SetImageSource();
             UpdateLabel();
         }
@@ -126,6 +114,15 @@ namespace PDTUtils
         private void UpdateLabel()
         {
             lblCount.Content = (currentImage + 1) + "/" + (maxImages + 1);
+        }
+        
+        private void btnQuit_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var img in images)
+            {
+                img.Dispose();
+            }
+            this.Close();
         }
     }
 }
