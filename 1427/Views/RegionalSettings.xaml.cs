@@ -10,19 +10,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PDTUtils.MVVM.ViewModels;
 
 namespace PDTUtils.Views
 {
     /// <summary>
-    /// Interaction logic for GameSettingsView.xaml
+    /// Interaction logic for RegionalSettings.xaml
     /// </summary>
-    public partial class GameSettingsView : UserControl
+    public partial class RegionalSettings : UserControl
     {
-        public GameSettingsView()
+        public RegionalSettings()
         {
             InitializeComponent();
-            this.DataContext = new GameSettingViewModel();
         }
     }
 }

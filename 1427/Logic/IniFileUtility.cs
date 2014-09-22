@@ -6,7 +6,7 @@ namespace PDTUtils.Logic
 {
     static class IniFileUtility
     {
-        public static bool GetIniProfileSection(out string[] section, string field, string file)
+        public static bool GetIniProfileSection(out string[] section, string field, string file, bool removeField=false)
         {
             uint bufferSize = 4048;
             IntPtr retStringPtr = Marshal.AllocCoTaskMem((int)bufferSize * sizeof(char));
@@ -19,7 +19,18 @@ namespace PDTUtils.Logic
             }
             
             string retString = Marshal.PtrToStringAuto(retStringPtr, bytesReturned - 1);
-            section = retString.Split('\0');
+            if (!removeField)
+                section = retString.Split('\0');
+            else
+            {
+                section = retString.Split('\0');
+                for (int i = 0; i < section.Length-1; i++)
+                {
+                    if (section[i].Length > 4 )
+                        section[i] = section[i].Substring(section[i].IndexOf("=")+1);
+                }
+             }
+
             Marshal.FreeCoTaskMem(retStringPtr);
             return true;
         }

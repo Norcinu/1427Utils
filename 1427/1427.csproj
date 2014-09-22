@@ -81,6 +81,9 @@
     <Compile Include="Logic\IniFile.cs" />
     <Compile Include="Logic\IniFileUtility.cs" />
     <Compile Include="Logic\TouchScreenKeyboard.cs" />
+    <Compile Include="MVVM\Models\GameSettingModel.cs" />
+    <Compile Include="MVVM\ObservableObject.cs" />
+    <Compile Include="MVVM\ViewModels\GameSettingViewModel.cs" />
     <Compile Include="Screenshot\ScreenshotModel.cs" />
     <Compile Include="Properties\Categories.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -99,7 +102,6 @@
     <Compile Include="Logic\RegionalSettings.cs" />
     <Compile Include="Logic\ServiceEnabler.cs" />
     <Compile Include="Logic\MachineMeters.cs" />
-    <Compile Include="Models\ViewModels\MainWindowViewModel.cs" />
     <Compile Include="BoLibNative\NativeWinApi.cs" />
     <Compile Include="BoLibNative\NativeMD5.cs" />
     <Compile Include="ScreenshotWindow.xaml.cs">
@@ -110,6 +112,9 @@
     </Compile>
     <Compile Include="Views\GameSettingsView.xaml.cs">
       <DependentUpon>GameSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RegionalSettings.xaml.cs">
+      <DependentUpon>RegionalSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestSuiteView.xaml.cs">
       <DependentUpon>TestSuiteView.xaml</DependentUpon>
@@ -161,6 +166,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\GameSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegionalSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

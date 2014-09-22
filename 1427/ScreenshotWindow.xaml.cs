@@ -55,12 +55,12 @@ namespace PDTUtils
         private void SetImageSource()
         {
             bi.BeginInit();
-            var image = System.Drawing.Image.FromFile(files[currentImage]);
-            image.Save(ms, ImageFormat.Png);
-            //images[currentImage].Save(ms, ImageFormat.Png);
+            images.Add(System.Drawing.Image.FromFile(files[currentImage]));
+            //image.Save(ms, ImageFormat.Png);
+            images[currentImage].Save(ms, ImageFormat.Png);
             ms.Seek(0, SeekOrigin.Begin);
             bi.StreamSource = ms;
-            //if (bi != null)
+            if (bi != null)
                 bi.EndInit();
             image1.Source = bi;
         }

@@ -183,42 +183,10 @@
             </TabItem>
             
             <TabItem Header="Regional Settings">
-                <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-                    <GroupBox>
-                        <GroupBox.Header>Select Play Stakes</GroupBox.Header>
-                        <StackPanel Margin="10,10,10,10">
-                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">20¢</CheckBox>
-                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">40¢</CheckBox>
-                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">50¢</CheckBox>
-                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">60¢</CheckBox>
-                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">80¢</CheckBox>
-                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">€1</CheckBox>
-                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">€2</CheckBox>
-                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">€3</CheckBox>
-                            <CheckBox MinHeight="40" FontSize="16" FontWeight="Bold">€6</CheckBox>
-                        </StackPanel>
-                    </GroupBox>
-
-                    <GroupBox>
-                        <GroupBox.Header>Max Stake Wins</GroupBox.Header>
-                        <StackPanel>
-                            <!-- ¢ = ALT + 0162, € = CTRL + ALT + 4 -->
-                            <uc:NumericalDisplay FormHeader="20¢"></uc:NumericalDisplay>
-                            <uc:NumericalDisplay FormHeader="40¢"></uc:NumericalDisplay>
-                            <uc:NumericalDisplay FormHeader="50¢"></uc:NumericalDisplay>
-                            <uc:NumericalDisplay FormHeader="60¢"></uc:NumericalDisplay>
-                            <uc:NumericalDisplay FormHeader="80¢"></uc:NumericalDisplay>
-                            <uc:NumericalDisplay FormHeader="€1"></uc:NumericalDisplay>
-                            <uc:NumericalDisplay FormHeader="€2"></uc:NumericalDisplay>
-                            <uc:NumericalDisplay FormHeader="€3"></uc:NumericalDisplay>
-                            <uc:NumericalDisplay FormHeader="€6"></uc:NumericalDisplay>
-                        </StackPanel>
-                    </GroupBox>
-                </StackPanel>
+                <view:GameSettingsView />
             </TabItem>
             
-            <TabItem Header="System Volume" MinWidth="100">
-            
+            <TabItem Header="System Volume" MinWidth="100">            
                  <StackPanel Name="stpVolume" VerticalAlignment="Top" Background="BlanchedAlmond">
                     <TextBlock FontSize="22" TextAlignment="Center" >Set Machine's Volume Level</TextBlock>
                     <Slider Height="50" 

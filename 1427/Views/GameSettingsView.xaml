@@ -5,9 +5,115 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1200">
+        
+    
+        <!-- 
+            TODO:
+    
+            UK Games do not need 6 POP's so perhaps the visibility of the POP's should be bound
+            to the country codes.
+             
+        -->
+
+
     <Grid>
+        
         <StackPanel>
-            
+            <ListView ItemsSource="{Binding Path=Settings}"  Width="1050" HorizontalContentAlignment="Center">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Game Name" Width="150" DisplayMemberBinding="{Binding Path=Title}"/>
+                        <GridViewColumn Header="Active" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsEnabled="{Binding Active}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!--<GridViewColumn Header="25p" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding StakeOne}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="50p" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding StakeTwo}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>-->
+                        
+                        <GridViewColumn Header="Set Stakes">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Expander Header="Staking Options" >
+                                        <StackPanel Margin="10,4,10,4">
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox Margin="4" Content="Option 1" />
+                                                <CheckBox Margin="4" Content="Option 2" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox Margin="4" Content="Option 3" />
+                                                <CheckBox Margin="4" Content="Option 4" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox Margin="4" Content="Option 5" />
+                                                <CheckBox Margin="4" Content="Option 6" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox Margin="4" Content="Option 7" />
+                                                <CheckBox Margin="4" Content="Option 8" />
+                                            </StackPanel>
+                                            <CheckBox Margin="4" Content="Option 9" />
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!--<GridViewColumn Header="£1.00" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding StakeThree}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="£2.00" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding StakeFour}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="£3.00" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding StakeFour}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="£5.00" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding StakeFour}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>-->
+                        <GridViewColumn Header="Promo" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding StakeFive}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Button Content="Load Game Settings" Width="150" Height="35" Command="{Binding SetGameOptions}" />
+            <Button Content="Save Changes" Width="150" Height="35" />
         </StackPanel>
+            
     </Grid>
 </UserControl>
