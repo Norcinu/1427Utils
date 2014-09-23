@@ -24,7 +24,7 @@ namespace PDTUtils.Logic
             else
             {
                 section = retString.Split('\0');
-                for (int i = 0; i < section.Length-1; i++)
+                for (int i = 0; i < section.Length; i++)
                 {
                     if (section[i].Length > 4 )
                         section[i] = section[i].Substring(section[i].IndexOf("=")+1);

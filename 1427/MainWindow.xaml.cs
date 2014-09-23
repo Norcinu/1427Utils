@@ -44,10 +44,10 @@ namespace PDTUtils
                 
 				Random r = new Random();
 				CultureInfo ci = null;
-				if (r.Next(2) == 0)
+			//	if (r.Next(2) == 0)
 					ci = new CultureInfo("es-ES"); // read this from config
-				else
-					ci = new CultureInfo("en-GB");
+			//	else
+			//		ci = new CultureInfo("en-GB");
 				
 		    	Thread.CurrentThread.CurrentCulture = ci;
 				Thread.CurrentThread.CurrentUICulture = ci;

@@ -100,6 +100,27 @@ namespace PDTUtils
         }
     }
 
+    public class CultureEnabled : IValueConverter
+    {
+        public CultureEnabled() { }
+
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            if (culture.TwoLetterISOLanguageName == "es")
+                return true;
+            else
+                return false;
+        }
+
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            return new NotImplementedException("Not Implemented");
+        }
+    }
+
+
     [ValueConversion(typeof(bool), typeof(Visibility))]
 	public sealed class BoolToVisibilityConverter : IValueConverter
 	{
