@@ -82,8 +82,10 @@
     <Compile Include="Logic\IniFileUtility.cs" />
     <Compile Include="Logic\TouchScreenKeyboard.cs" />
     <Compile Include="MVVM\Models\GameSettingModel.cs" />
+    <Compile Include="MVVM\Models\RegionalSettingsModel.cs" />
     <Compile Include="MVVM\ObservableObject.cs" />
     <Compile Include="MVVM\ViewModels\GameSettingViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\RegionalSettingsViewModel.cs" />
     <Compile Include="Screenshot\ScreenshotModel.cs" />
     <Compile Include="Properties\Categories.Designer.cs">
       <AutoGen>True</AutoGen>

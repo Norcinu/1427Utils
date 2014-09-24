@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
-using System.Globalization;
-using System;
 using PDTUtils.Native;
 
 namespace PDTUtils.MVVM.ViewModels
@@ -40,6 +40,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
 
+        public CultureInfo SettingsCulture { get { return _currentCulture; } }
         public IEnumerable<GameSettingModel> Settings { get { return _gameSettings; } }
 
         #endregion
@@ -63,9 +64,9 @@ namespace PDTUtils.MVVM.ViewModels
         
         public GameSettingViewModel()
         {
-            
+           
         }
-
+        
         public void AddGame()
         {
             if (_gameSettings.Count > 0)
@@ -75,12 +76,12 @@ namespace PDTUtils.MVVM.ViewModels
             
             string[] modelNumber;
             IniFileUtility.GetIniProfileSection(out modelNumber, "Models", _manifest, true);
-            _numberOfGames = 3;/*Convert.ToUInt32(modelNumber[0]);*/
+            _numberOfGames = Convert.ToUInt32(modelNumber[0]);
             
             for (int i = 0; i < _numberOfGames; i++)
             {
                 string[] models;
-                IniFileUtility.GetIniProfileSection(out models, "Model"+(i+1), _manifest, true);
+                IniFileUtility.GetIniProfileSection(out models, "Model" + (i + 1), _manifest, true);
                 
                 GameSettingModel m = new GameSettingModel();
                 m.ModelNumber = Convert.ToUInt32(models[0]);
@@ -103,7 +104,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _gameSettings.Add(m);
             }
         }
-
+        
         public void SaveChanges()
         {
             if (_gameSettings.Count > 0)
@@ -131,7 +132,7 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[11], (m.StakeNine * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[12], (m.StakeTen * 100).ToString(), _manifest);
                     //---- End of prices of play
-
+                    
                     NativeWinApi.WritePrivateProfileString(temp, _fields[13], m.Promo.ToString(), _manifest);                    
                 }
             }

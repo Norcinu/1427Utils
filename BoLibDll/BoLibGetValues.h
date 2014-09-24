@@ -1,6 +1,7 @@
 #define DllExport __declspec(dllexport)
 
 struct GamesInfo;
+struct SpanishRegional;
 
 typedef int BOOL;
 
@@ -106,3 +107,4 @@ extern "C" DllExport unsigned long	getReconciliationMeter(unsigned char offset);
 extern "C" DllExport void			getMemoryStatus(MEMORYSTATUS *memory);
 extern "C" DllExport unsigned int	getNumberOfGames();
 extern "C" DllExport unsigned int	getBoLibVersion();
+extern "C" DllExport void			getRegionalValues(int index, SpanishRegional *region);

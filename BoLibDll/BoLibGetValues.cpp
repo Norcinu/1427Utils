@@ -11,8 +11,8 @@
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
 
-extern int CoinConv[COIN_CNT][CC_CNT];
-extern int NoteValues[NOTE_CNT][CC_CNT];
+//extern int CoinConv[COIN_CNT][CC_CNT];
+//extern int NoteValues[NOTE_CNT][CC_CNT];
 
 const std::string MACHINE_INI = "D:\\machine\\machine.ini";
 char global_buffer[256] = {0};
@@ -344,7 +344,7 @@ unsigned long getCoinsIn(int meter)
 	auto coins = 0;
 	if (meter == MONEY_IN_LT) 
 	{
-		coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_LT);
+	/*	coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_LT);
 		coins += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_LT);
 		coins += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_LT);
 		coins += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_LT);
@@ -357,11 +357,11 @@ unsigned long getCoinsIn(int meter)
 		coins += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_LT);
 		coins += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_LT);
 		coins += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_LT);
-		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_LT);
+		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_LT);*/
 	}
 	else
 	{
-		coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_ST);
+		/*coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_ST);
 		coins += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_ST);
 		coins += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_ST);
 		coins += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_ST);
@@ -374,7 +374,7 @@ unsigned long getCoinsIn(int meter)
 		coins += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_ST);
 		coins += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_ST);
 		coins += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_ST);
-		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);
+		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);*/
 	}
 	return coins;
 }
@@ -388,7 +388,7 @@ unsigned long getCoinsOut(int meter)
 unsigned long getNotesIn(int meter)
 {
 	auto notes = 0;
-	if (meter == MONEY_IN_LT)
+	/*if (meter == MONEY_IN_LT)
 	{
 		notes += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_LT);
 		notes += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_LT);
@@ -405,14 +405,14 @@ unsigned long getNotesIn(int meter)
 		notes += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_ST);
 		notes += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_ST);
 		notes += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);
-	}
+	}*/
 	return notes;
 }
 
 unsigned long getNotesOut(int meter)
 {
 	auto notes = 0;
-	if (meter == MONEY_OUT_LT)
+	/*if (meter == MONEY_OUT_LT)
 	{
 		notes += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_OUT_LT);
 		notes += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_OUT_LT);
@@ -429,7 +429,7 @@ unsigned long getNotesOut(int meter)
 		notes += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_OUT_ST);
 		notes += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_OUT_ST);
 		notes += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_OUT_ST);
-	}
+	}*/
 	return notes;
 }
 
@@ -516,4 +516,120 @@ unsigned int getNumberOfGames()
 	unsigned int value = 0;
 	utils::FromString<unsigned int>(value, buffer, std::dec);
 	return value;
+}
+
+#define ESP_REGIONS						46
+//Defines to index VariableValueArray
+
+
+#define ESP_VARIABLES		            14
+
+struct SpanishRegional
+{
+	unsigned int MaxStake;
+	unsigned int MaxStakeFromBank;
+	unsigned int StakeInc;
+	unsigned int MaxWinPerStake;
+	unsigned int MaxCredit;
+	unsigned int MaxReserve;
+	unsigned int MaxBank;
+	unsigned int NoteEscrow;
+	unsigned int Rtp;
+	unsigned int Gtime;
+	unsigned int ChangeValue;
+	unsigned int MaxNote;
+	unsigned int CreditAndBank;
+	unsigned int ChargeConvertPoints;
+};
+
+unsigned long EspRegionalVariableValues[ESP_REGIONS][ESP_VARIABLES] =
+{
+	//	Max     Max			Max								Note			Change        Cred	Charge
+	//	Stake   Stake	    Win     Max		Max	    Max		Escrow		    >=	    Max   And   2Convert
+	//	From    From  Stake Stake*	Cred	Reserve	Bank		RTP	  Gtime	Value   Note  Bank  Play
+	//	Credits	Bank  Inc 	Value																Points
+	100,	100,	20,	   400,	1000,	 40000,	 40000,	0,	7000,	12,	  0,	2000,	1,	1,
+	60,	 60,	20,	   400,	1000,	 24000,	 24000,	0,	7000,	12,	  0,	2000,	1,	1,
+	100,	100,	20,	   500,	1000,	     0,	 50000,	0,	7500,	15,	100,	5000,	1,	1,
+	60,	 60,	20,	   400,	 500,	 24000,	 24000,	0,	7000,	12,	  0,	5000,	1,	1,
+	80,	100,	20,	 50000,	 500,	 50000,	 50000,	0,	7000,	12,	  0,	5000,	1,	1,
+	60,	 60,	20,	   400,	 500,	 24000,	 24000,	0,	7000,	12,	  0,	2000,	0,	1,
+	100,	100,	20,	   500,	1000,	 50000,	 50000,	0,	7000,	12,	  0,	5000,	1,	1,
+	60,	 60,	20,	   400,	1000,	 24000,	 24000,	1,	7000,	12,	  0,	2000,	1,	1,
+	100,	100,	20,	   500,	1000,	 50000,  50000,	0,	7000,	12,	  0,	5000,	1,	1,
+	50,     50,	10,    500, 1000,	 25000,	 25000,	0,	7000,	12,	  0,	5000,	1,	1,
+	60,	 60,	20,	   400,	 500,	 24000,	 24000,	1,	7000,	12,	  1,	2000,	0,	1,
+	100,	100,	20,	   500,	1000,	 50000,	 50000,	1,	7000,	12,	200,	2000,	1,	1,
+	60,	 60,	20,	   400,	 800,	 24000,	 24000,	1,	7000,	12,	  0,	2000,	1,	1,
+	100,	100,	20,	 50000,	1000,	 50000,	 50000,	0,	7000,	12,	  0,	5000,	1,	1,
+	100,	100,	20,	   400,	1000,	 40000,	 40000,	0,	7000,	12,	  0,	5000,	1,	1,
+	60,	 60,	20,	   400,	1000,	 24000,	 24000,	0,	7000,	12,	  0,	5000,	1,	1,
+	100,	100,	20,	   500,	1000,	 50000,	 50000,	0,	7000,	12,	  0,	5000,	1,	1,
+	10,	 10,	20,	 40000,	 500,	 24000,	  4000,	0,	7000,	12,	  0,	5000,	1,	1,
+	60,	 60,	20,	   400,	1000,	 24000,	 24000,	1,	7500,	12,	  1,	2000,	1,	1,
+	100,	100,	20,	   500,	2000,	 50000,	 50000,	0,	7000,	20,	100,	2000,	1,	1,
+	100,    100,	20,	  1000,	1000,	100000,	100000,	0,	7000,	12,	  0,	2000,	1,	1,
+	200,	200,	20,	  1000,	1000,	200000,	200000,	0,	7000,	12,	  0,	5000,	1,	1,
+	200,	200,	20,	  1000,	1000,	     0,	200000,	0,	8000,	15,	100,	5000,	1,	1,
+	100,	100,	20,	  1000,	 500,	100000,	100000,	0,	7000,	12,	  0,	5000,	1,	1,
+	300,	300,	20,	  1000,	 500,	300000,	300000,	0,	8000,	12,	  0,	5000,	1,	1,
+	200,	200,	20,	200000,	 500,	200000,	200000,	0,	7000,	12,	  0,	5000,	1,	1,
+	300,	300,	20,	300000,	 500,	300000,	300000,	0,	8200,	20,	  0,	5000,	1,	1,
+	100,	100,	20,	  1000,	 500,	100000,	100000,	0,	7000,	12,	  0,	2000,	0,	1,
+	200,	200,	20,	  1000,	2000,	200000,	200000,	0,	7000,	20,	  0,	5000,	1,	1,
+	600,	600,	10,	  1000,	2000,	600000,	600000,	0,	8000,	12,	  0,	5000,	1,	1,
+	100,	100,	20,	  1000,	1000,	100000,	100000,	1,	7000,	12,	  0,	2000,	1,	1,
+	200,	200,	20,	   500,	1000,	200000,	200000,	0,	8000,	20,	  0,	5000,	1,	1,
+	100,	100,	20,	  1000,	 500,	200000,	200000,	1,	7000,	12,	  0,	2000,	0,	1,
+	100,	100,	20,	  1000,	1000,	100000,	100000,	1,	7000,	12,	  1,	2000,	1,	1,
+	200,	200,	20,	  1000,	1000,	200000,	200000,	1,	7000,	12,	  1,	2000,	1,	1,
+	300,	300,	20,	  1000,	1000,	300000,	300000,	1,	7000,	12,	  1,	2000,	1,	1,
+	100,	100,	20,	  1000,	 800,	 60000,	 60000,	1,	7000,	20,	200,	2000,	1,	1,
+	600,	600,	20,	  1000,	 800,	600000,	600000,	1,	8000,	20,	200,	2000,	1,	1,
+	200,	200,	20,	  1000,	1000,	200000,	200000,	1,	7000,	20,	  0,	5000,	1,	1,
+	200,	200,	20,	  1000,	1000,	200000,	200000,	1,	7000,	12,	  0,	5000,	1,	1,
+	200,	200,	20,	  1000,	1000,	200000,	200000,	0,	7000,	20,	  0,	5000,	1,	1,
+	300,	300,	20,	  1000,	1000,	300000,	300000,	0,	7000,	20,	  0,	5000,	1,	1,
+	100,	100,	20,	 60000,	1000,	 60000,	 60000,	0,	7000,	20,	  0,	5000,	1,	1,
+	100,	100,	20,	  1000,	1000,	100000,	100000,	0,	7000,	20,	  0,	5000,	1,	1,
+	100,	100,	20,	  1000,	1000,	100000,	100000,	0,	7500,	12,	  1,	2000,	1,	1,
+	600,	600,	20,	   600,	2000,	360000,	360000,	1,	8000,	20,	100,	5000,	1,	1
+};
+
+#define ESP_MAX_STAKE_CREDITS			0
+#define ESP_MAX_STAKE_BANK				1
+#define ESP_STAKE_INC					2
+#define ESP_MAX_WIN_X					3
+#define ESP_MAX_CREDITS					4
+#define ESP_MAX_RESERVE_CREDITS			5	
+#define ESP_MAX_BANK					6
+#define ESP_BNV_ESCROW_STATE			7		
+#define ESP_RTP							8	
+#define ESP_GAMETIME					9	
+#define ESP_GIVE_CHANGE_THRESHOLD		10	
+#define ESP_MAX_BANKNOTE_VALUE			11
+#define ESP_USES_BANK_METER     		12	
+#define ESP_CHARGE_2CONVERTPLAYPOINTS	13
+
+void GetRegionalValues(int index, SpanishRegional *region)
+{
+	region->MaxStake			= EspRegionalVariableValues[index][ESP_MAX_STAKE_CREDITS];
+	region->MaxStakeFromBank	= EspRegionalVariableValues[index][ESP_MAX_STAKE_BANK];
+	region->StakeInc			= EspRegionalVariableValues[index][ESP_STAKE_INC];
+	region->MaxWinPerStake		= EspRegionalVariableValues[index][ESP_MAX_WIN_X];
+	region->MaxCredit			= EspRegionalVariableValues[index][ESP_MAX_CREDITS];
+	region->MaxReserve			= EspRegionalVariableValues[index][ESP_MAX_RESERVE_CREDITS];
+	region->MaxBank				= EspRegionalVariableValues[index][ESP_MAX_BANK];
+	region->NoteEscrow			= EspRegionalVariableValues[index][ESP_BNV_ESCROW_STATE];
+	region->Rtp					= EspRegionalVariableValues[index][ESP_RTP];
+	region->Gtime				= EspRegionalVariableValues[index][ESP_GAMETIME];
+	region->ChangeValue			= EspRegionalVariableValues[index][ESP_GIVE_CHANGE_THRESHOLD];
+	region->MaxNote				= EspRegionalVariableValues[index][ESP_MAX_BANKNOTE_VALUE];
+	region->CreditAndBank		= EspRegionalVariableValues[index][ESP_USES_BANK_METER];
+	region->ChargeConvertPoints = EspRegionalVariableValues[index][ESP_CHARGE_2CONVERTPLAYPOINTS];
+}
+
+void getRegionalValues(int index, SpanishRegional *region)
+{
+	GetRegionalValues(index, region);
 }

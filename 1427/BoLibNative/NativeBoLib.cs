@@ -18,6 +18,24 @@ namespace PDTUtils.Native
 		public string Path { get; set; }
 	}
 
+    struct SpanishRegional
+    {
+        uint MaxStake;
+        uint MaxStakeFromBank;
+        uint StakeInc;
+        uint MaxWinPerStake;
+        uint MaxCredit;
+        uint MaxReserve;
+        uint MaxBank;
+        uint NoteEscrow;
+        uint Rtp;
+        uint Gtime;
+        uint ChangeValue;
+        uint MaxNote;
+        uint CreditAndBank;
+        uint ChargeConvertPoints;
+    }
+
 	static class BoLib
 	{
 #if DEBUG
@@ -185,6 +203,9 @@ namespace PDTUtils.Native
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern uint getBoLibVersion();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void getRegionalValues(int index, ref SpanishRegional region);
 
 		/************************************************************************/
 		/*							Set methods                                 */

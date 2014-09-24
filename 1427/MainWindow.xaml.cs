@@ -65,6 +65,7 @@ namespace PDTUtils
 			{
 				MessageBox.Show("Error: " + err.ToString());
 			}
+
             RowOne.Height = new GridLength(75);
 			ColumnOne.Width = new GridLength(200);
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
@@ -144,14 +145,14 @@ namespace PDTUtils
 			Enabler.ClearAll();
 		}
 		
-		private void btnLogfiles_Click(object sender, RoutedEventArgs e)
+        private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
 			Enabler.EnableCategory(Categories.Logfile);
 			LogController.setErrorLog();
 			LogController.setPlayedLog();
 			LogController.setWinningLog();
 		}
-
+        
 		private void btnHopperOK_Click(object sender, RoutedEventArgs e)
 		{
 			var result = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
@@ -165,7 +166,7 @@ namespace PDTUtils
 			m_gameStatistics.ParsePerfLog();
 			Enabler.EnableCategory(Categories.GameStatistics);
 		}
-
+        
 		private void GetSystemUptime()
 		{
 			var ticks = Stopwatch.GetTimestamp();

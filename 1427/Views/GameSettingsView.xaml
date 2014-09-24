@@ -2,23 +2,21 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:conv="clr-namespace:PDTUtils"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1200">
         
-    
-        <!-- 
-            TODO:
-    
-            UK Games do not need 6 POP's so perhaps the visibility of the POP's should be bound
-            to the country codes.
-             
-        -->
 
-
-    <Grid>
-        
-        <StackPanel>
+    <UserControl.Resources>
+        <conv:IsEnglishCulture x:Key="IsEnglish"/>
+        <conv:IsSpanishCulture x:Key="IsSpanish"/>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+    
+    <Grid> 
+        <StackPanel IsEnabled="{Binding }"
+            Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVis}}"> <!-- Bind this to see what the machines culture is.  -->
             <ListView ItemsSource="{Binding Path=Settings}"  Width="1050" HorizontalContentAlignment="Center">
                 <ListView.View>
                     <GridView>
@@ -39,31 +37,19 @@
                                             <StackPanel Orientation="Horizontal">
                                                 <!-- need a converter for binding visibilty to whether stakeone is zero and culture == uk. if spain/region then display -->
                                                 <CheckBox Margin="4">
-                                                    <TextBlock Text="{Binding StakeOne, StringFormat={}{0:#,#.00}}"/> 
+                                                    <TextBlock Text="{Binding StakeOne, StringFormat=£{0:#,#.00}}"/> 
                                                 </CheckBox>
                                                 <CheckBox Margin="4">
-                                                    <TextBlock Text="{Binding StakeTwo, StringFormat={}{0:#,#.00}}"/>
+                                                    <TextBlock Text="{Binding StakeTwo, StringFormat=£{0:#,#.00}}"/>
                                                 </CheckBox>
                                             </StackPanel>
                                             <StackPanel Orientation="Horizontal">
                                                 <CheckBox Margin="4">
-                                                    <TextBlock Text="{Binding StakeThree, StringFormat={}{0:#,#.00}}"/>
+                                                    <TextBlock Text="{Binding StakeThree, StringFormat=£{0:#,#.00}}"/>
                                                 </CheckBox>
                                                 <CheckBox Margin="4">
-                                                    <TextBlock Text="{Binding StakeFour, StringFormat={}{0:#,#.00}}"/>
+                                                    <TextBlock Text="{Binding StakeFour, StringFormat=£{0:#,#.00}}"/>
                                                 </CheckBox>
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox Margin="4" Content="{Binding StakeFive, StringFormat={}{0:#,#.00}}" />
-                                                <CheckBox Margin="4" Content="{Binding StakeSix, StringFormat={}{0:#,#.00}}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox Margin="4" Content="{Binding StakeSeven, StringFormat={}{0:#,#.00}}" />
-                                                <CheckBox Margin="4" Content="{Binding StakeEight, StringFormat={}{0:#,#.00}}" />
-                                            </StackPanel>
-                                            <StackPanel Orientation="Horizontal">
-                                                <CheckBox Margin="4" Content="{Binding StakeNine, StringFormat={}{0:#,#.00}}" />
-                                                <CheckBox Margin="4" Content="{Binding StakeTen, StringFormat={}{0:#,#.00}}" />
                                             </StackPanel>
                                         </StackPanel>
                                     </Expander>
@@ -85,6 +71,77 @@
             <Button Content="Load Game Settings" Width="150" Height="35" Command="{Binding SetGameOptions}" />
             <Button Content="Save Changes" Width="150" Height="35" Command="{Binding SaveGameOptions}" />
         </StackPanel>
-            
+        
+        <!-- Spanish/Regional Options -->
+        <StackPanel> 
+            <ListView ItemsSource="{Binding Path=Settings}"  Width="1050" HorizontalContentAlignment="Center">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Game Name" Width="150" DisplayMemberBinding="{Binding Path=Title}"/>
+                        <GridViewColumn Header="Active" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Active}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                            
+                        <GridViewColumn Header="Set Stakes" Width="275">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Expander Header="Staking Options">
+                                        <StackPanel Margin="10,4,10,4">
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox Margin="4">
+                                                    <TextBlock Text="{Binding StakeOne, StringFormat=€{0:#,#.00}}"/>
+                                                </CheckBox>
+                                                <CheckBox Margin="4">
+                                                    <TextBlock Text="{Binding StakeTwo, StringFormat=€{0:#,#.00}}"/>
+                                                </CheckBox>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox Margin="4">
+                                                    <TextBlock Text="{Binding StakeThree, StringFormat=€{0:#,#.00}}"/>
+                                                </CheckBox>
+                                                <CheckBox Margin="4">
+                                                    <TextBlock Text="{Binding StakeFour, StringFormat=€{0:#,#.00}}"/>
+                                                </CheckBox>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox Margin="4" Content="{Binding StakeFive, StringFormat=€{0:#,#.00}}" />
+                                                <CheckBox Margin="4" Content="{Binding StakeSix, StringFormat=€{0:#,#.00}}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox Margin="4" Content="{Binding StakeSeven, StringFormat=€{0:#,#.00}}" />
+                                                <CheckBox Margin="4" Content="{Binding StakeEight, StringFormat=€{0:#,#.00}}" />
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox Margin="4" Content="{Binding StakeNine, StringFormat=€{0:#,#.00}}" />
+                                                <CheckBox Margin="4" Content="{Binding StakeTen, StringFormat=€{0:#,#.00}}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Expander>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                            
+                        <GridViewColumn Header="Promo" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding StakeFive}"></CheckBox>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Button Content="Load Game Settings" Width="150" Height="35" Command="{Binding SetGameOptions}" />
+            <Button Content="Save Changes" Width="150" Height="35" Command="{Binding SaveGameOptions}" />
+
+        </StackPanel>
+        
+        
+        
     </Grid>
 </UserControl>

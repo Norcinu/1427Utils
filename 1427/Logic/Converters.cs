@@ -100,14 +100,16 @@ namespace PDTUtils
         }
     }
 
-    public class CultureEnabled : IValueConverter
+    #region Yuk
+    //---- Yuk Yuk Yuk
+    public class IsEnglishCulture : IValueConverter
     {
-        public CultureEnabled() { }
+        public IsEnglishCulture() { }
 
         public object Convert(object value, Type targetType,
                               object parameter, CultureInfo culture)
         {
-            if (culture.TwoLetterISOLanguageName == "es")
+            if (culture.TwoLetterISOLanguageName == "en")
                 return true;
             else
                 return false;
@@ -120,6 +122,27 @@ namespace PDTUtils
         }
     }
 
+    public class IsSpanishCulture : IValueConverter
+    {
+        public IsSpanishCulture() { }
+        
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            if (culture.TwoLetterISOLanguageName == "es")
+                return true;
+            else
+                return false;
+        }
+        
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            return new NotImplementedException("Not Implemented");
+        }
+    }
+    //---- Yuk Yuk Yuk    
+    #endregion
 
     [ValueConversion(typeof(bool), typeof(Visibility))]
 	public sealed class BoolToVisibilityConverter : IValueConverter
