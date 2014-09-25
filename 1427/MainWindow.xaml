@@ -183,7 +183,8 @@
             </TabItem>
             
             <TabItem Header="Regional Settings">
-                <view:GameSettingsView />
+                <!--<view:GameSettingsView /> -->
+                <view:RegionalSettings />
             </TabItem>
             
             <TabItem Header="System Volume" MinWidth="100">            
@@ -334,7 +335,7 @@
                     <GridView>
                         <GridViewColumn Header="Game" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
                         <GridViewColumn Header="Executable Path" DisplayMemberBinding="{Binding Path=Path}"></GridViewColumn>
-                        <GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=Hash_code}"></GridViewColumn>
+                        <GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=HashCode}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

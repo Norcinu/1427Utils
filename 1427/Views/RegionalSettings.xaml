@@ -6,6 +6,71 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1200">
     <Grid>
-        
+        <TabControl>
+            <TabItem Header="Community Type">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10,10,10,10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                    <!--<StackPanel Orientation="Horizontal">-->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Name="RowOne" Height="500" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Name="ColumnOne" Width="628" />
+                            <ColumnDefinition Name="ColumnTwo" Width="620" />
+                        </Grid.ColumnDefinitions>
+
+                        <ListView ItemsSource="{Binding Street}" Margin="25,0,25,0" Grid.Column="0" Grid.Row="0">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="FontSize" Value="20" />
+                                    <Setter Property="MinWidth" Value="285" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Community" DisplayMemberBinding="{Binding Community}" Width="285" />
+                                    <GridViewColumn Header="Current Selection" Width="285">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Set Active Region" Height="35" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                                              
+                        
+                        <ListView ItemsSource="{Binding Arcades}" Margin="0, 0, 25,0" Grid.Column="1" Grid.Row="0">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="FontSize" Value="20" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Community" DisplayMemberBinding="{Binding Community}" Width="285"/>
+                                    <GridViewColumn Header="Current Selection" Width="285">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Set Active Region" Height="35"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                    </Grid>
+                    <!-- </StackPanel> -->
+                </StackPanel>
+            </TabItem>
+            
+            <!-- Maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaake me smiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiile -->
+            <TabItem Header="Community Settings"></TabItem>
+        </TabControl>    
     </Grid>
 </UserControl>

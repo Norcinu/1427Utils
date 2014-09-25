@@ -14,9 +14,9 @@
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
     </UserControl.Resources>
     
-    <Grid> 
-        <StackPanel IsEnabled="{Binding }"
-            Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVis}}"> <!-- Bind this to see what the machines culture is.  -->
+    <Grid>
+        <!--IsEnabled="{Binding }"-->
+        <StackPanel Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVis}}"> <!-- Bind this to see what the machines culture is.  -->
             <ListView ItemsSource="{Binding Path=Settings}"  Width="1050" HorizontalContentAlignment="Center">
                 <ListView.View>
                     <GridView>

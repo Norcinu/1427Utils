@@ -65,7 +65,7 @@ namespace PDTUtils
 			{
 				MessageBox.Show("Error: " + err.ToString());
 			}
-
+            
             RowOne.Height = new GridLength(75);
 			ColumnOne.Width = new GridLength(200);
 			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);

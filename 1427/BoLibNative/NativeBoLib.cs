@@ -14,26 +14,26 @@ namespace PDTUtils.Native
 		public string path;
 
 		public string Name { get; set; }
-		public string Hash_code { get; set; }
+		public string HashCode { get; set; }
 		public string Path { get; set; }
 	}
 
     struct SpanishRegional
     {
-        uint MaxStake;
-        uint MaxStakeFromBank;
-        uint StakeInc;
-        uint MaxWinPerStake;
-        uint MaxCredit;
-        uint MaxReserve;
-        uint MaxBank;
-        uint NoteEscrow;
-        uint Rtp;
-        uint Gtime;
-        uint ChangeValue;
-        uint MaxNote;
-        uint CreditAndBank;
-        uint ChargeConvertPoints;
+        public uint MaxStake;
+        public uint MaxStakeFromBank;
+        public uint StakeInc;
+        public uint MaxWinPerStake;
+        public uint MaxCredit;
+        public uint MaxReserve;
+        public uint MaxBank;
+        public uint NoteEscrow;
+        public uint Rtp;
+        public uint Gtime;
+        public uint ChangeValue;
+        public uint MaxNote;
+        public uint CreditAndBank;
+        public uint ChargeConvertPoints;
     }
 
 	static class BoLib
