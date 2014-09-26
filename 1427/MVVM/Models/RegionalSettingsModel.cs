@@ -13,7 +13,7 @@ namespace PDTUtils.MVVM.Models
         public string Community { get; set; }
         public string Index { get; set; }
     }
-
+    
     class SpanishRegionalModel
     {
         public uint MaxStakeFromCredits { get; set; }
@@ -31,7 +31,7 @@ namespace PDTUtils.MVVM.Models
         public uint CreditAndBank { get; set; }
         public uint ChargeConvertPoints { get; set; }
         public string Community { get; set; }
-
+        
         public SpanishRegionalModel(string community, SpanishRegional region)
         {
             this.Community = community;

@@ -92,7 +92,7 @@ namespace PDTUtils
 							if (m_doorStatus == false)
 							{
 								m_doorStatus = true;
-								m_hasChanged = true;
+								m_hasChanged = true; 
 								this.OnPropertyChanged("DoorStatus"); 
 								this.OnPropertyChanged("IsDoorClosed");
 							}
