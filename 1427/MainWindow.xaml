@@ -33,11 +33,9 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Name="RowOne" Height="82*" />
-            <!--<RowDefinition Name="RowTwo" Height="479*" SharedSizeGroup="theRow"/> 956-->
             <RowDefinition Name="RowTwo" Height="{Binding Path=Height,  Converter={StaticResource ScaleScreenHeight}}" SharedSizeGroup="theRow"/>
             <RowDefinition Name="RowThree" Height="52*" />
         </Grid.RowDefinitions>
-
         
         <!-- 2nd screenshot uses ColumnSpan and RowSpan -->
         <Label Name="lblTop" 
@@ -257,9 +255,14 @@
                     </ListView.View>
                 </ListView>
                 </TabItem>
-                <TabItem Header="{Binding MachineIniListView.SelectedItem}"  MinWidth="100">
-                    
+                
+                <TabItem Header="Game Selection">
+
                 </TabItem>
+                
+               <!--  <TabItem Header="{Binding MachineIniListView.SelectedItem}"  MinWidth="100">
+                    
+                </TabItem> -->
             </TabControl>
         </StackPanel>
         

@@ -21,7 +21,7 @@ namespace PDTUtils.MVVM.Models
         public string ModelDirectory { get; set; }
         public string Exe { get; set; }
         public string HashKey { get; set; }
-
+        
         public GameSettingModel()
         {
             Active = false;

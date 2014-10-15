@@ -29,9 +29,14 @@ namespace PDTUtils.Logic
                     if (section[i].Length > 4 )
                         section[i] = section[i].Substring(section[i].IndexOf("=")+1);
                 }
-             }
-
+            }
+            
             Marshal.FreeCoTaskMem(retStringPtr);
+            return true;
+        }
+        
+        public static bool WriteIniProfileSection(string[] section, string field, string file)
+        {
             return true;
         }
     }

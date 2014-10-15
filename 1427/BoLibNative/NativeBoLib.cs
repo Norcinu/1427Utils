@@ -228,6 +228,9 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern void setRequestEmptyRightHopper();
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void addCredit(int pennies);
+
 		/************************************************************************/
 		/* General methods                                                      */
 		/************************************************************************/

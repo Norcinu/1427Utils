@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using PDTUtils.Logic;
 using PDTUtils.Native;
 using PDTUtils.Properties;
+using PDTUtils.MVVM.ViewModels;
 
 namespace PDTUtils
 {
@@ -53,7 +54,6 @@ namespace PDTUtils
 				Thread.CurrentThread.CurrentUICulture = ci;
                 
                 m_updateFiles = new UserSoftwareUpdate(this);
-
                 WindowHeight = this.Height;
                 InitialiseBoLib();
 			    m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));

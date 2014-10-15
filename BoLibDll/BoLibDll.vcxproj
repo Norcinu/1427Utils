@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>C:\heber\Projects\Bo_Library\1224LibSource;$(IncludePath)</IncludePath>
+    <IncludePath>C:\heber\Projects\Bo_Library\1424LibSource;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Heber\Projects\Bo_Library\Lib;C:\Heber\DevSource\VC98\MFC\Lib\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
@@ -120,7 +120,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>1224D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>1424D.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>

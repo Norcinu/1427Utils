@@ -30,7 +30,7 @@
                             </ListView.ItemContainerStyle>
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Community" DisplayMemberBinding="{Binding Street.Community}" Width="285" />
+                                    <GridViewColumn Header="Community" DisplayMemberBinding="{Binding Community}" Width="285" />
                                     <GridViewColumn Header="Current Selection" Width="285">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -69,10 +69,9 @@
                 </StackPanel>
             </TabItem>
             
-            <!-- Maaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaake me smiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiile -->
             <TabItem Header="Community Settings">
                 <StackPanel>
-                    
+                    <!-- lol fuck off victor yeah mate?-->
                     <StackPanel Orientation="Horizontal">
                         <Button Content="Save Changes" />
                         <Button Content="Cancel" />

@@ -71,12 +71,12 @@ namespace PDTUtils.MVVM.ViewModels
         
         public void SaveChanges()
         {
-            int b = 0;
+     
         }
         
         public void LoadSettings()
         {
-            int a = 0;
+
         }
         
         public void SetRegion()

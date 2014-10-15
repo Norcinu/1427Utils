@@ -165,6 +165,15 @@ namespace PDTUtils.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\ModelManifest.ini.
+        /// </summary>
+        internal static string model_manifest {
+            get {
+                return ResourceManager.GetString("model_manifest", resourceCulture);
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream paytrans {
             get {
                 return ResourceManager.GetStream("paytrans", resourceCulture);
