@@ -29,6 +29,9 @@ namespace PDTUtils.MVVM.ViewModels
         };
 
         #region Properties
+        public bool FirstScreen { get; set; }
+        public bool SecondScreen { get; set; }
+        
         public IEnumerable<SpanishRegionalModel> Arcades { get { return _arcades; } }
         public IEnumerable<SpanishRegionalModel> Street { get { return _street; } }
         public SpainRegionSelection Selected { get { return _selected; } }
@@ -60,7 +63,7 @@ namespace PDTUtils.MVVM.ViewModels
             string[] temp;
             var c = IniFileUtility.GetIniProfileSection(out temp, "Current", _espRegionIni);
             _selected.Community = temp[0].Substring(7);
-                      
+            
             this.RaisePropertyChangedEvent("Arcades");
             this.RaisePropertyChangedEvent("Street");
             this.RaisePropertyChangedEvent("Selected");
