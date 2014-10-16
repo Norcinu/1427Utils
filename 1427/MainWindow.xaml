@@ -181,8 +181,8 @@
             </TabItem>
             
             <TabItem Header="Regional Settings">
-                <!--<view:GameSettingsView /> -->
-                <view:RegionalSettings />
+                <view:GameSettingsView />  <!--REINSTATE THIS TO SOMEWHERE ELSE!!! -->
+                <!-- <view:RegionalSettings /> -->
             </TabItem>
             
             <TabItem Header="System Volume" MinWidth="100">            

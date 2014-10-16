@@ -17,7 +17,7 @@ namespace PDTUtils.MVVM.ViewModels
         private string _errorText = "";
         private CultureInfo _currentCulture;
         private uint _numberOfGames = 0;
-        private string _manifest = @"D:\machine\ModelManifest.ini";
+        private string _manifest = Properties.Resources.model_manifest;
 
         #region properties
         public int Count 
@@ -86,7 +86,7 @@ namespace PDTUtils.MVVM.ViewModels
                 GameSettingModel m = new GameSettingModel();
                 m.ModelNumber = Convert.ToUInt32(models[0]);
                 m.Title = models[1];
-                m.Active = Convert.ToBoolean(models[2]);
+                m.Active = (models[2] == "True") ? true : false;
                 m.StakeOne = Convert.ToDecimal(models[3]) / 100;
                 m.StakeTwo = Convert.ToDecimal(models[4]) / 100;
                 m.StakeThree = Convert.ToDecimal(models[5]) / 100;
@@ -97,7 +97,7 @@ namespace PDTUtils.MVVM.ViewModels
                 m.StakeEight = Convert.ToDecimal(models[10]) / 100;
                 m.StakeNine = Convert.ToDecimal(models[11]) / 100;
                 m.StakeTen = Convert.ToDecimal(models[12]) / 100;
-                m.Promo = Convert.ToBoolean(models[13]);
+                m.Promo = (models[13] == "True") ? true : false;
                 m.ModelDirectory = models[14];
                 m.Exe = models[15];
                 m.HashKey = models[16];
@@ -136,6 +136,12 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[13], m.Promo.ToString(), _manifest);                    
                 }
             }
+        }
+
+        public ICommand ToggleStake { get { return new DelegateCommand(o => DoToggleStake()); } }
+        void DoToggleStake()
+        {
+            int a = 0;
         }
     }
 }

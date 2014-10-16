@@ -176,4 +176,21 @@ namespace PDTUtils
 			return null;
 		}
 	}
+
+    [ValueConversion(typeof(decimal), typeof(Visibility))]
+    public sealed class ConvertStakeVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is decimal))
+                return false;
+
+            return ((decimal)value == 0) ? Visibility.Hidden : Visibility.Visible;
+        }
+        
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new Exception("The method or operation is not implemented.");
+        }
+    }
 }
