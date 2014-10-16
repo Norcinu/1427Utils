@@ -4,7 +4,18 @@ namespace PDTUtils.MVVM.Models
 {
     class GameSettingModel
     {
-        public bool Active { get; set; }
+        public bool? Active
+        {
+            get { return this._active; }
+            set
+            {
+                if (value == null)
+                    this._active = false;
+                else
+                    this._active = value;
+            }
+        }
+        
         public bool Promo { get; set; }
         public uint ModelNumber { get; set; }
         public decimal StakeOne { get; set; }
@@ -22,6 +33,8 @@ namespace PDTUtils.MVVM.Models
         public string Exe { get; set; }
         public string HashKey { get; set; }
         
+        private bool? _active;
+
         public GameSettingModel()
         {
             Active = false;

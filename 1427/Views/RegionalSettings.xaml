@@ -71,7 +71,6 @@
             
             <TabItem Header="Community Settings">
                 <StackPanel>
-                    <!-- lol fuck off victor yeah mate?-->
                     <StackPanel Orientation="Horizontal">
                         <Button Content="Save Changes" />
                         <Button Content="Cancel" />

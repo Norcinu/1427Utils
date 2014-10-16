@@ -29,7 +29,7 @@ namespace PDTUtils.MVVM.ViewModels
                 this.RaisePropertyChangedEvent("Count");
             }
         }
-
+        
         public string ErrorText
         {
             get { return _errorText; }
@@ -138,10 +138,18 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
 
+
+        public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive()); } }
+        public void DoToggleActive()
+        {
+            System.Diagnostics.Debug.WriteLine("LOL WUTS UP BRUV?");
+        }
+
         public ICommand ToggleStake { get { return new DelegateCommand(o => DoToggleStake()); } }
         void DoToggleStake()
         {
             int a = 0;
+            int b = 0;
         }
     }
 }
