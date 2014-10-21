@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BoLibDll", "BoLibDll\BoLibD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDTUtilsControlLib", "PDTUtilsControlLib\PDTUtilsControlLib.csproj", "{43D33559-0084-4250-AE6D-E38753097A57}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1424_lib", "..\..\..\..\..\..\heber\Projects\Bo_Library\1424LibSource\bo_lib.vcxproj", "{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = 1427.vsmdi
@@ -148,42 +146,6 @@ Global
 		{43D33559-0084-4250-AE6D-E38753097A57}.SMfcRelease|Mixed Platforms.Build.0 = Release|Any CPU
 		{43D33559-0084-4250-AE6D-E38753097A57}.SMfcRelease|Win32.ActiveCfg = Release|Any CPU
 		{43D33559-0084-4250-AE6D-E38753097A57}.SMfcRelease|x86.ActiveCfg = Release|Any CPU
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug|Win32.ActiveCfg = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug|Win32.Build.0 = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug|x86.ActiveCfg = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug1224|Any CPU.ActiveCfg = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug1224|Mixed Platforms.ActiveCfg = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug1224|Mixed Platforms.Build.0 = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug1224|Win32.ActiveCfg = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug1224|Win32.Build.0 = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Debug1224|x86.ActiveCfg = Debug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.NoMfcDebug|Any CPU.ActiveCfg = NoMfcDebug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.NoMfcDebug|Mixed Platforms.ActiveCfg = NoMfcDebug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.NoMfcDebug|Mixed Platforms.Build.0 = NoMfcDebug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.NoMfcDebug|Win32.ActiveCfg = NoMfcDebug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.NoMfcDebug|Win32.Build.0 = NoMfcDebug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.NoMfcDebug|x86.ActiveCfg = NoMfcDebug|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release|Any CPU.ActiveCfg = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release|Win32.ActiveCfg = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release|Win32.Build.0 = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release|x86.ActiveCfg = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release1224|Any CPU.ActiveCfg = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release1224|Mixed Platforms.ActiveCfg = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release1224|Mixed Platforms.Build.0 = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release1224|Win32.ActiveCfg = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release1224|Win32.Build.0 = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.Release1224|x86.ActiveCfg = Release|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.SMfcRelease|Any CPU.ActiveCfg = SMfcRelease|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.SMfcRelease|Mixed Platforms.ActiveCfg = SMfcRelease|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.SMfcRelease|Mixed Platforms.Build.0 = SMfcRelease|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.SMfcRelease|Win32.ActiveCfg = SMfcRelease|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.SMfcRelease|Win32.Build.0 = SMfcRelease|Win32
-		{801BF0F9-1351-D69F-8F2C-9DC4BC3B5DFA}.SMfcRelease|x86.ActiveCfg = SMfcRelease|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

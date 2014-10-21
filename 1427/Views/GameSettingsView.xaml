@@ -83,16 +83,20 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding Active}" 
+                                              Command="{Binding ToggleActive}"
+                                              CommandParameter =" {"/>
+                                    <!--<CheckBox x:Name="checkbox1" IsChecked="{Binding Active}"
                                               Command="{Binding DataContext.ToggleActive,
-                                              RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                                              RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                              CommandParameter="{Binding ElementName=checkbox1}"/> -->
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-
+                        
                         <GridViewColumn Header="Stake 1">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
+                                    <CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
                                         <TextBlock Text="{Binding StakeOne, StringFormat=£{0:#,#.00}}"/>
                                     </CheckBox>
                                 </DataTemplate>

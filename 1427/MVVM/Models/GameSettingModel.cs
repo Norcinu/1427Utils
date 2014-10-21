@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace PDTUtils.MVVM.Models
 {
@@ -32,7 +33,7 @@ namespace PDTUtils.MVVM.Models
         public string ModelDirectory { get; set; }
         public string Exe { get; set; }
         public string HashKey { get; set; }
-        
+
         private bool? _active;
 
         public GameSettingModel()
@@ -54,6 +55,24 @@ namespace PDTUtils.MVVM.Models
             ModelDirectory = "";
             Exe = "";
             HashKey = "";
+        }
+        
+        public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive()); } }
+        public void DoToggleActive()
+        {
+            this.Active = !!this.Active;
+            System.Diagnostics.Debug.WriteLine(this.Active, "this.Active = {0}");
+        }
+        
+        public ICommand ToggleStake { get { return new DelegateCommand(o => DoToggleStake()); } }
+        void DoToggleStake()
+        {
+            if (this.StakeOne == 0)
+                this.StakeOne = 10;
+            else
+                this.StakeOne =  0;
+
+            System.Diagnostics.Debug.WriteLine(this.StakeOne, "this.StakeOne = {0}");
         }
     }
 }

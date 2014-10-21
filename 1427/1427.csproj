@@ -81,13 +81,17 @@
     <Compile Include="Logic\IniFile.cs" />
     <Compile Include="Logic\IniFileUtility.cs" />
     <Compile Include="Logic\TouchScreenKeyboard.cs" />
+    <Compile Include="MVVM\Models\CreditModel.cs" />
     <Compile Include="MVVM\Models\GameSelectionModel.cs" />
     <Compile Include="MVVM\Models\GameSettingModel.cs" />
     <Compile Include="MVVM\Models\RegionalSettingsModel.cs" />
+    <Compile Include="MVVM\Models\ScreenshotModel.cs" />
     <Compile Include="MVVM\ObservableObject.cs" />
+    <Compile Include="MVVM\ViewModels\CreditManagementViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameSelectionViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameSettingViewModel.cs" />
     <Compile Include="MVVM\ViewModels\RegionalSettingsViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ScreenshotViewModel.cs" />
     <Compile Include="Screenshot\ScreenshotModel.cs" />
     <Compile Include="Properties\Categories.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -114,6 +118,9 @@
     <Compile Include="TestSuiteWindow.xaml.cs">
       <DependentUpon>TestSuiteWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CreditManagementView.xaml.cs">
+      <DependentUpon>CreditManagementView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GameSelectionView.xaml.cs">
       <DependentUpon>GameSelectionView.xaml</DependentUpon>
     </Compile>
@@ -122,6 +129,9 @@
     </Compile>
     <Compile Include="Views\RegionalSettings.xaml.cs">
       <DependentUpon>RegionalSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScreenshotView.xaml.cs">
+      <DependentUpon>ScreenshotView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestSuiteView.xaml.cs">
       <DependentUpon>TestSuiteView.xaml</DependentUpon>
@@ -172,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\CreditManagementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GameSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -181,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RegionalSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScreenshotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,7 +18,7 @@ namespace PDTUtils.MVVM.ViewModels
         private CultureInfo _currentCulture;
         private uint _numberOfGames = 0;
         private string _manifest = Properties.Resources.model_manifest;
-
+        private int _currentModelID = -1;
         #region properties
         public int Count 
         { 
@@ -61,6 +61,8 @@ namespace PDTUtils.MVVM.ViewModels
             "Stake4", "Stake5", "Stake6", "Stake7", "Stake8", "Stake9", "Stake10", "Promo", "ModelDirectory",
             "Exe", "HashKey"
         };
+        
+        public object chk;
         
         public GameSettingViewModel()
         {
@@ -133,23 +135,21 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[12], (m.StakeTen * 100).ToString(), _manifest);
                     //---- End of prices of play
                     
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[13], m.Promo.ToString(), _manifest);                    
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[13], m.Promo.ToString(), _manifest);
                 }
             }
         }
-
-
-        public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive()); } }
-        public void DoToggleActive()
+        
+        public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive(chk)); } }
+        public void DoToggleActive(object chk)
         {
-            System.Diagnostics.Debug.WriteLine("LOL WUTS UP BRUV?");
+            
         }
-
+        
         public ICommand ToggleStake { get { return new DelegateCommand(o => DoToggleStake()); } }
         void DoToggleStake()
         {
-            int a = 0;
-            int b = 0;
+            System.Diagnostics.Debug.WriteLine("HELLO I'M JOHNNY CASH!");
         }
     }
 }

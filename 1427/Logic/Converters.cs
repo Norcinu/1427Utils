@@ -176,7 +176,7 @@ namespace PDTUtils
 			return null;
 		}
 	}
-
+    
     [ValueConversion(typeof(decimal), typeof(Visibility))]
     public sealed class ConvertStakeVisibility : IValueConverter
     {
@@ -185,12 +185,16 @@ namespace PDTUtils
             if (!(value is decimal))
                 return false;
 
-            return ((decimal)value == 0) ? Visibility.Hidden : Visibility.Visible;
+            return ((decimal)value == 0) ? false : true;
         }
         
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new Exception("The method or operation is not implemented.");
+            if (!(value is bool))
+                return false;
+
+            return ((bool)value == false) ? 0 : 1;
+            
         }
     }
 }

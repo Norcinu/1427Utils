@@ -9,6 +9,7 @@ using PDTUtils.Logic;
 using PDTUtils.Native;
 using PDTUtils.Properties;
 using PDTUtils.MVVM.ViewModels;
+using System.Windows.Input;
 
 namespace PDTUtils
 {
@@ -459,12 +460,23 @@ namespace PDTUtils
 			btnUpdateFiles.IsEnabled = true;
 			btnUpdateFiles.Visibility = Visibility.Visible;*/
 		}
-        
+
+        ICommand EnableScreenshot
+        {
+            get
+            {
+                return new DelegateCommand(o => DoScreenshot());
+            }
+        }
+
+        void DoScreenshot() { }
+
         private void btnScreenShots_Click(object sender, RoutedEventArgs e)
         {
-            Enabler.ClearAll();
-            ScreenshotWindow w = new ScreenshotWindow();
-            w.ShowDialog();
+
+            //Enabler.ClearAll();
+            //ScreenshotWindow w = new ScreenshotWindow();
+            //w.ShowDialog();
         }
 	}
 }
