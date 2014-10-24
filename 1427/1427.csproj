@@ -88,6 +88,7 @@
     <Compile Include="MVVM\Models\ScreenshotModel.cs" />
     <Compile Include="MVVM\ObservableObject.cs" />
     <Compile Include="MVVM\ViewModels\CreditManagementViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\ErrorStatusViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameSelectionViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameSettingViewModel.cs" />
     <Compile Include="MVVM\ViewModels\RegionalSettingsViewModel.cs" />
@@ -120,6 +121,9 @@
     </Compile>
     <Compile Include="Views\CreditManagementView.xaml.cs">
       <DependentUpon>CreditManagementView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorList.xaml.cs">
+      <DependentUpon>ErrorList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameSelectionView.xaml.cs">
       <DependentUpon>GameSelectionView.xaml</DependentUpon>
@@ -183,6 +187,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CreditManagementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ErrorList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

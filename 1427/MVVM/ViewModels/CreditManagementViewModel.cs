@@ -5,13 +5,16 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class CreditManagementViewModel : ObservableObject
     {
+        public int Bank { get; set; }
         public int Credits { get; set; }
-
+        
         public CreditManagementViewModel()
         {
             Credits = 0;
+            this.GetCredits();
+            this.RaisePropertyChangedEvent("Credits");
         }
-            
+        
         public ICommand GetCreditsLevel
         {
             get { return new DelegateCommand(o => GetCredits()); }
@@ -20,7 +23,16 @@ namespace PDTUtils.MVVM.ViewModels
         {
             Credits = BoLib.getCredit();
         }
-        
+
+        public ICommand GetBankLevel
+        {
+            get { return new DelegateCommand(o => GetBank()); }
+        }
+        void GetBank()
+        {
+            Bank = BoLib.getBank();
+        }
+
         public ICommand AddCreditsToBank
         {
             get { return new DelegateCommand(o => AddCredits()); }

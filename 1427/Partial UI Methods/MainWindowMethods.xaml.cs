@@ -20,12 +20,12 @@ namespace PDTUtils
 				{
 					m_sharedMemoryOnline = true;
 					
-					UpdateDoorStatusLabel();
+				//	UpdateDoorStatusLabel();
 					m_doorStatusTimer = new System.Timers.Timer(500);
 					m_doorStatusTimer.Elapsed += DoorTimerEvent;
 					m_doorStatusTimer.Enabled = true;
                     
-					GetSystemUptime();
+				//	GetSystemUptime();
 					m_uiUpdateTimer = new System.Timers.Timer(1000);
 					m_uiUpdateTimer.Elapsed += UpdateUiLabels;
 					m_uiUpdateTimer.Enabled = true;

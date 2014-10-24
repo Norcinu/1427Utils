@@ -42,6 +42,7 @@ namespace PDTUtils
         {
 			try
 			{
+                InitialiseBoLib();
               	InitializeComponent();
                 
 				Random r = new Random();
@@ -56,11 +57,11 @@ namespace PDTUtils
                 
                 m_updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = this.Height;
-                InitialiseBoLib();
+                /*InitialiseBoLib();
 			    m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive) ;
-				Thread.Sleep(2);
+				Thread.Sleep(2);*/
 			}
 			catch (Exception err)
 			{
@@ -181,7 +182,7 @@ namespace PDTUtils
 		{
 			try
 			{
-				InitialiseBoLib();
+			//	InitialiseBoLib();
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
@@ -460,7 +461,7 @@ namespace PDTUtils
 			btnUpdateFiles.IsEnabled = true;
 			btnUpdateFiles.Visibility = Visibility.Visible;*/
 		}
-
+        
         ICommand EnableScreenshot
         {
             get
@@ -473,10 +474,23 @@ namespace PDTUtils
 
         private void btnScreenShots_Click(object sender, RoutedEventArgs e)
         {
-
             //Enabler.ClearAll();
             //ScreenshotWindow w = new ScreenshotWindow();
             //w.ShowDialog();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCreditManage_Click(object sender, RoutedEventArgs e)
+        {
+            ucCredits.IsEnabled = !ucCredits.IsEnabled;
+            if (ucCredits.IsEnabled)
+                ucCredits.Visibility = Visibility.Visible;
+            else
+                ucCredits.Visibility = Visibility.Hidden;
         }
 	}
 }
