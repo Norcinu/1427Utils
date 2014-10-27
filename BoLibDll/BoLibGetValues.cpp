@@ -633,3 +633,68 @@ void getRegionalValues(int index, SpanishRegional *region)
 {
 	GetRegionalValues(index, region);
 }
+
+char *ErrorCodes[55] = {
+	"Unknown error",
+	"Comms buf critical full",
+	"Comms Barcode error",
+	"Comms Back office",
+	"Remote RN array empty",
+	"Critical MEM Corruption",
+	"Compensator Data Reset",
+	"Reel Position Data Reset",
+	"Credit Data Reset",
+	"Bank Data Reset",
+	"Printer not found",
+	"Printer failure",
+	"Printer out of paper",
+	"Game Data Reset",
+	"Max Win Bank Exceeded",
+	"Max Credits Exceeded",
+	"Max Win Exceeded",
+	"Comms Remote Credit",
+	"Comms Send Time Out",
+	"Comms Send Link Lost",
+	"Comms Send Data Invalid",
+	"Comms Fail Open Socket1",
+	"Comms Fail Open Socket2",
+	"Comms Winsock Wrong Vrn",
+	"Comms Rng Slow Fill",
+	"Comms BO BarCode Fail",
+	"NV LRC Removed",
+	"NV Stacker full",
+	"NV Safe jam",
+	"NV Unsafe jam",
+	"NV Fraud attempt",
+	"NV Software error",
+	"NV Note Rejected",
+	"Hopper opto fraud",
+	"Left hopper opto fail",
+	"Right hopper opto fail",
+	"Hopper short payout",
+	"Coin denomination wrong",
+	"Data pac coms failure",
+	"LeftHopper Tamper Detect",
+	"RightHopper Tamper Detect",
+	"Payout Interrupted",
+	"Ticket Print Interrupted",
+	"Remote Credit Too Large",
+	"NV Command Unknown",
+	"NV Parameter Count Wrong",
+	"NV Parameter Out Of Range",
+	"NV Cant Process Command",
+	"NV Software",
+	"NV SSP Fail",
+	"NV Key Not Set",
+	"Data Pac Running Slow",
+	"NV Recycler Removed",
+	"NV Recycler Emptied",
+	""
+};
+
+char *getErrorMessage(char *str, int code)
+{
+	auto length = strlen(ErrorCodes[code]) + 1;
+	strcpy_s(str, length, ErrorCodes[code]);
+	return str;
+}

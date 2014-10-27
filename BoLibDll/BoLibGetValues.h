@@ -108,3 +108,4 @@ extern "C" DllExport void			getMemoryStatus(MEMORYSTATUS *memory);
 extern "C" DllExport unsigned int	getNumberOfGames();
 extern "C" DllExport unsigned int	getBoLibVersion();
 extern "C" DllExport void			getRegionalValues(int index, SpanishRegional *region);
+extern "C" DllExport char 			*getErrorMessage(char *str, int code);

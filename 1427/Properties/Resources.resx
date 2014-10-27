@@ -201,4 +201,8 @@
     <value>D:\machine\ModelManifest.ini</value>
     <comment>The machines model manifest</comment>
   </data>
+  <data name="term_error_log" xml:space="preserve">
+    <value>D:\machine\GAME_DATA\TerminalErrLog.log</value>
+    <comment>Terminal Error Log</comment>
+  </data>
 </root>

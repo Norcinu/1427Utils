@@ -69,3 +69,8 @@ void setRequestEmptyRightHopper()
 	SetRequestEmptyRightHopper();
 }
 
+void setCriticalError(int code)
+{
+	if (!GetCurrentError())
+		SetCriticalError(code);
+}

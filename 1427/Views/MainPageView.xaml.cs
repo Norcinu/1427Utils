@@ -11,7 +11,7 @@ namespace PDTUtils.Views
         public ErrorList()
         {
             InitializeComponent();
-            this.DataContext = new ErrorStatusViewModel();
+            this.DataContext = new MainPageViewModel();
         }
     }
 }

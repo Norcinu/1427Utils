@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="PDTUtils.Views.ErrorList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+	
+	<Border BorderBrush="Cyan" BorderThickness="2">
+		<Grid HorizontalAlignment="Center">
+			<StackPanel>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Name="colOne" Width="333" />
+						<ColumnDefinition Name="colTwo" Width="333" />
+						<ColumnDefinition Name="colThree" Width="333" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Name="rowOne"  Height="150"/>
+						<RowDefinition Name="rowTwo"  Height="150"/>
+						<RowDefinition Name="rowThree" Height="150"/>
+					</Grid.RowDefinitions>
+
+					<StackPanel Grid.Row="0" Grid.Column="0">
+						<Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Credits</Label>
+						<Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Credits}" />
+					</StackPanel>
+
+					<StackPanel Grid.Row="0" Grid.Column="1">
+						<Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Bank</Label>
+						<Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Bank}" />
+					</StackPanel>
+
+					<StackPanel Grid.Column="2" Grid.RowSpan="2">
+						<Label HorizontalAlignment="Center">Options</Label>
+						<Button Width="100" Height="25" Command="{Binding ClearCredits}">Clear Credits</Button>
+						<Button Width="100" Height="25" Command="{Binding TransferBank}">Transfer Bank</Button>
+						<Button Width="100" Height="25" Command="{Binding AddCredits}">Add Credits</Button>
+					</StackPanel>
+				</Grid>
+			</StackPanel>
+
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15">
+				<Label Content="{Binding ErrorMessage}" FontSize="22" Foreground="PaleTurquoise" Background="Red"/>
+				<Button Content="Clear Error" FontSize="22" Width="150" Command="{Binding ClearCurrentError}" />
+			</StackPanel>
+		</Grid>
+	</Border>
+</UserControl>

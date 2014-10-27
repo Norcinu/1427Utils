@@ -19,7 +19,7 @@ namespace PDTUtils
 				if (shell == 0)
 				{
 					m_sharedMemoryOnline = true;
-					
+                    
 				//	UpdateDoorStatusLabel();
 					m_doorStatusTimer = new System.Timers.Timer(500);
 					m_doorStatusTimer.Elapsed += DoorTimerEvent;
@@ -29,7 +29,7 @@ namespace PDTUtils
 					m_uiUpdateTimer = new System.Timers.Timer(1000);
 					m_uiUpdateTimer.Elapsed += UpdateUiLabels;
 					m_uiUpdateTimer.Enabled = true;
-					
+                    
 					return;
 				}
 				else if (shell == 1)
@@ -54,7 +54,7 @@ namespace PDTUtils
 									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
 				{
 					Application.Current.Shutdown();
-					throw new System.Exception(); // is this needed?
+					//throw new System.Exception(); // is this needed?
 				}
 			}
 		}

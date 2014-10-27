@@ -44,8 +44,8 @@ namespace PDTUtils
 			{
                 InitialiseBoLib();
               	InitializeComponent();
-                
-				Random r = new Random();
+                				
+                Random r = new Random();
 				CultureInfo ci = null;
 			//	if (r.Next(2) == 0)
 					ci = new CultureInfo("es-ES"); // read this from config
@@ -57,6 +57,7 @@ namespace PDTUtils
                 
                 m_updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = this.Height;
+                
                 /*InitialiseBoLib();
 			    m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();

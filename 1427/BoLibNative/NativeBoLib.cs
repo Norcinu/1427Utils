@@ -207,6 +207,10 @@ namespace PDTUtils.Native
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void getRegionalValues(int index, ref SpanishRegional region);
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.LPStr)]
+        public unsafe static extern string getErrorMessage(string str, int code);
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/
@@ -230,6 +234,15 @@ namespace PDTUtils.Native
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void addCredit(int pennies);
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern int clearError();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void setCriticalError(int code);
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void transferBankToCredit();
 
 		/************************************************************************/
 		/* General methods                                                      */

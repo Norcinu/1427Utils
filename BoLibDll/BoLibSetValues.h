@@ -1,4 +1,6 @@
 #define DllExport __declspec(dllexport)
+#define DLLEXPORT extern "C" DllExport
+
 
 extern "C" DllExport int	setEnvironment();
 extern "C" DllExport void	closeSharedMemory();
@@ -12,3 +14,4 @@ extern "C" DllExport void	setLampStatus(unsigned char offset, unsigned char mask
 extern "C" DllExport void	setHopperFloatLevel(unsigned char hopper, unsigned int value);
 extern "C" DllExport void	setRequestEmptyLeftHopper();
 extern "C" DllExport void	setRequestEmptyRightHopper();
+DLLEXPORT void setCriticalError(int code);

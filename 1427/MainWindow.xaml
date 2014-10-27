@@ -346,6 +346,7 @@
 
 		<view:ScreenshotView x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/>
 		<view:CreditManagementView x:Name="ucCredits" IsEnabled="False"  Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
+		<view:ErrorList x:Name="ucErrorDisplay" Grid.Row="1" Grid.Column="1" />
 		
         <!-- End of System Info View -->
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
