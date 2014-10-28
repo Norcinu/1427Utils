@@ -1,28 +1,66 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Diagnostics;
+using System.Windows.Controls;
+using System.Windows.Input;
 using PDTUtils.Native;
 
 namespace PDTUtils.MVVM.ViewModels
 {
     class MainPageViewModel : ObservableObject
     {
+        public bool HandPayActive
+        {
+            get { return _handPayActive; }
+            set
+            {
+                _handPayActive = value;
+                if (_handPayActive && _addCreditsActive)
+                    _addCreditsActive = false;
+                this.RaisePropertyChangedEvent("HandPayActive");
+#if DEBUG
+                Debug.WriteLine("HandPayActive", _handPayActive.ToString());
+#endif
+            }
+        }
+
+        public bool AddCreditsActive
+        {
+            get { return _addCreditsActive; }
+            set 
+            { 
+                _addCreditsActive = value;
+                if (_addCreditsActive && _handPayActive)
+                    _handPayActive = false;
+                this.RaisePropertyChangedEvent("AddCreditsActive");
+#if DEBUG
+                Debug.WriteLine("AddCreditsActive", _addCreditsActive.ToString());
+#endif
+            }
+        }
+        
         public int Credits { get; set; }
         public int Bank { get; set; }
         public int Pennies { get; set; }
         
         public string ErrorMessage { get; set; }
+        bool _handPayActive;
+        bool _addCreditsActive;
+
         string _caption = "Warning";
         string _message = "Please Open the terminal door and try again.";
         WPFMessageBoxService _msgBoxService = new WPFMessageBoxService();
         
         public MainPageViewModel()
         {
+            HandPayActive = false;
             ErrorMessage = "";
             Credits = 0;
             Bank = 0;
             Pennies = 2000;
-            this.GetErrorMessage();
-            this.GetCreditLevel();
-            this.GetBankLevel();
+            
+            GetErrorMessage();
+            GetCreditLevel();
+            GetBankLevel();
         }
         
         public ICommand GetCredit
@@ -77,16 +115,16 @@ namespace PDTUtils.MVVM.ViewModels
 
         public ICommand AddCredits
         {
-            get { return new DelegateCommand(o => AddCreditsLevel()); }
+            get { return new DelegateCommand(o => AddCreditsActive = !AddCreditsActive); }//AddCreditsLevel()); }
         }
         
         void AddCreditsLevel()
         {
-            BoLib.addCredit(Pennies);
+           /* BoLib.addCredit(Pennies);
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
             this.RaisePropertyChangedEvent("Credits");
-            this.RaisePropertyChangedEvent("Bank");
+            this.RaisePropertyChangedEvent("Bank");*/
         }
 
         public ICommand GetError
@@ -132,6 +170,51 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 this.ShowMessageBox.Execute(null);
             }
+        }
+
+        public ICommand SetHandPay
+        {
+            get { return new DelegateCommand(o => HandPayActive = !HandPayActive); }
+        }
+
+        public ICommand HandPay
+        {
+            get { return new DelegateCommand(o => DoHandPay()); }
+        }
+        
+        void DoHandPay()
+        {
+            if (Bank + Credits > 0)
+            {
+                _msgBoxService.ShowMessage("HAND PAYING YO!", _caption);
+            }
+            else
+                _msgBoxService.ShowMessage("Not Eligible for HandPay, no credits.", _caption);
+        }
+        
+        public ICommand AddCreditSpecific
+        {
+            get { return new DelegateCommand(AddDenomButton); }
+        }
+        
+        void AddDenomButton(object button)
+        {
+            var b = button as Button;
+            string str = b.Content as string;
+
+            if (str[0] == '£' || str[0] == '€')
+            {
+                Pennies = Convert.ToInt32(str.Substring(1));
+                Pennies *= 100;
+            }
+            else
+                Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
+
+            BoLib.addCredit(Pennies);
+            Credits = BoLib.getCredit();
+            Bank = BoLib.getBank();
+            this.RaisePropertyChangedEvent("Credits");
+            this.RaisePropertyChangedEvent("Bank");
         }
     }
 }

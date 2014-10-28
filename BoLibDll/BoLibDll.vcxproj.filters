@@ -30,6 +30,12 @@
     <ClInclude Include="MD5.h">
       <Filter>MD5</Filter>
     </ClInclude>
+    <ClInclude Include="BoLibHandPay.h">
+      <Filter>BoLibHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="General.h">
+      <Filter>BoLibHeaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoLibGetValues.cpp">
@@ -43,6 +49,9 @@
     </ClCompile>
     <ClCompile Include="MD5.cpp">
       <Filter>MD5</Filter>
+    </ClCompile>
+    <ClCompile Include="BoLibHandPay.cpp">
+      <Filter>BoLibSource</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -8,6 +8,10 @@
 	
 	<Border BorderBrush="Cyan" BorderThickness="2">
 		<Grid HorizontalAlignment="Center">
+			<Grid.Resources>
+				<BooleanToVisibilityConverter x:Key="BoolToVis" />
+			</Grid.Resources>
+			
 			<StackPanel>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -16,9 +20,9 @@
 						<ColumnDefinition Name="colThree" Width="333" />
 					</Grid.ColumnDefinitions>
 					<Grid.RowDefinitions>
-						<RowDefinition Name="rowOne"  Height="150"/>
-						<RowDefinition Name="rowTwo"  Height="150"/>
-						<RowDefinition Name="rowThree" Height="150"/>
+						<RowDefinition Name="rowOne"  Height="200"/>
+						<RowDefinition Name="rowTwo"  Height="200"/>
+						<RowDefinition Name="rowThree" Height="200"/>
 					</Grid.RowDefinitions>
 
 					<StackPanel Grid.Row="0" Grid.Column="0">
@@ -30,18 +34,44 @@
 						<Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Bank</Label>
 						<Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Bank}" />
 					</StackPanel>
+					
+					<!-- <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
+						<Button Width="200" Height="40" FontSize="22" Command="{Binding HandPay}">Hand Pay</Button>	
+					</StackPanel> -->
 
-					<StackPanel Grid.Column="2" Grid.RowSpan="2">
-						<Label HorizontalAlignment="Center">Options</Label>
-						<Button Width="100" Height="25" Command="{Binding ClearCredits}">Clear Credits</Button>
-						<Button Width="100" Height="25" Command="{Binding TransferBank}">Transfer Bank</Button>
-						<Button Width="100" Height="25" Command="{Binding AddCredits}">Add Credits</Button>
+					<StackPanel Grid.Column="1" Grid.Row="1" 
+								VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding AddCreditsActive}" 
+								Visibility="{Binding AddCreditsActive, Converter={StaticResource BoolToVis}}">
+						<StackPanel Orientation="Horizontal">
+							<Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTenPence}" Name="btnTenPence">10p</Button>
+							<Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTwentyPence}" Name="btnTwentyPence">20p</Button>
+							<Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnFiftyPence}" Name="btnFiftyPence">50p</Button>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnOnePound}" Name="btnOnePound">£1</Button>
+							<Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTwoPounds}" Name="btnTwoPounds">£2</Button>
+							<Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnFivePounds}" Name="btnFivePounds">£5</Button>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTenPounds}" Name="btnTenPounds">£10</Button>
+							<Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTwentyPounds}" Name="btnTwentyPounds">£20</Button>
+							<Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnFiftyPounds}" Name="btnFiftyPounds">£50</Button>
+						</StackPanel>
+					</StackPanel>
+					
+					<StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="0,10,0,0">
+						<Button Width="200" Height="40" FontSize="22" Command="{Binding ClearCredits}" Margin="10">Clear Credits</Button>
+						<Button Width="200" Height="40" FontSize="22" Command="{Binding TransferBank}" Margin="10">Transfer Bank</Button>
+						<Button Width="200" Height="40"  FontSize="22" Command="{Binding AddCredits}" Margin="10">Add Credits</Button>
+						<Button Width="200" Height="40" FontSize="22" Command="{Binding SetHandPay}" Margin="10">Hand Pay</Button>
 					</StackPanel>
 				</Grid>
 			</StackPanel>
-
+			
 			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15">
-				<Label Content="{Binding ErrorMessage}" FontSize="22" Foreground="PaleTurquoise" Background="Red"/>
+				<Label Content="{Binding ErrorMessage}" FontSize="22" Foreground="PaleTurquoise" Background="Red" />
 				<Button Content="Clear Error" FontSize="22" Width="150" Command="{Binding ClearCurrentError}" />
 			</StackPanel>
 		</Grid>

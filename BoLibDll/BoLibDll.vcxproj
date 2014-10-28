@@ -173,12 +173,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BoLibGetValues.h" />
+    <ClInclude Include="BoLibHandPay.h" />
     <ClInclude Include="BoLibSetValues.h" />
     <ClInclude Include="BoLibGeneral.h" />
+    <ClInclude Include="General.h" />
     <ClInclude Include="MD5.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoLibGetValues.cpp" />
+    <ClCompile Include="BoLibHandPay.cpp" />
     <ClCompile Include="BoLibSetValues.cpp" />
     <ClCompile Include="BoLibGeneral.cpp" />
     <ClCompile Include="MD5.cpp" />

@@ -8,6 +8,8 @@
 #include "BoLibGetValues.h"
 #include "MD5.h"
 
+#define RELEASE_NUMBER	1427
+
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
 
@@ -697,4 +699,9 @@ char *getErrorMessage(char *str, int code)
 	auto length = strlen(ErrorCodes[code]) + 1;
 	strcpy_s(str, length, ErrorCodes[code]);
 	return str;
+}
+
+int getUtilsRelease()
+{
+	return RELEASE_NUMBER;
 }

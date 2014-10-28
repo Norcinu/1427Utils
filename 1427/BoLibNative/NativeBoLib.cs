@@ -211,6 +211,9 @@ namespace PDTUtils.Native
         [return: MarshalAs(UnmanagedType.LPStr)]
         public unsafe static extern string getErrorMessage(string str, int code);
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern int getUtilsRelease();
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/
@@ -293,5 +296,23 @@ namespace PDTUtils.Native
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern void clearFileAction();
+
+        /************************************************************************/
+        /* Hand Pay methods                                                     */
+        /************************************************************************/
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void setHandPayThreshold(uint value);
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern uint getHandPayThreshold();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern bool getHandPayActive();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void sendHandPayToServer(uint paid_out, uint release);
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void addHandPayToEDC(uint value);
 	}
 }
