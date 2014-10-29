@@ -1,6 +1,9 @@
 #include "BoLibHandPay.h"
 #include "General.h"
 
+extern unsigned long zero_cdeposit(void);
+extern unsigned long add_cdeposit(unsigned long value);
+
 void setHandPayThreshold(unsigned int value)
 {
 	SetHandPayThreshold(value);
@@ -24,4 +27,35 @@ void sendHandPayToServer(unsigned int paid_out, unsigned int release)
 void addHandPayToEDC(unsigned int value)
 {
 	HandPayToEdc += value;
+}
+
+void performHandPay()
+{
+	if (GetTerminalType() != PRINTER)
+	{
+		if ((GetHandPayActive()) || (GetCountry() == CC_EURO))
+		{
+			auto totalCredits = GetBankDeposit() + GetCredits();
+			SendHeaderOnly(HANDPAY_CONFIRM, 1);
+			AddToPerformanceMeters(HAND_PAY_LT, totalCredits);
+			SetMeterPulses(2, 1, totalCredits);
+			//HandPayToEdc += totalCredits;
+			addHandPayToEDC(totalCredits);
+			SendHandPay2Server(totalCredits, 1427);
+
+			if (GetInTournamentPlay())
+			{
+				AddToTPlayLog(totalCredits, TPLAY_SESSION_HAND_PAID);
+				ClearTPlaySessionActive();
+			}
+			
+			zero_cdeposit();
+			ZeroBankDeposit();
+		}
+	}
+}
+
+void cancelHandPay()
+{
+	SendHeaderOnly(HANDPAY_CANCEL, 1);
 }

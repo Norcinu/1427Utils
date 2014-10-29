@@ -7,6 +7,9 @@ using PDTUtils.Native;
 
 namespace PDTUtils
 {
+    /// <summary>
+    /// Handles status of door open/closed, key turns and card reader status.
+    /// </summary>
 	public class DoorAndKeyStatus : INotifyPropertyChanged
 	{
 		volatile bool m_doorStatus;

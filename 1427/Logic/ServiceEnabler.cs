@@ -51,6 +51,11 @@ namespace PDTUtils.Logic
 			get { return m_categories[Categories.Logfile]; }
 		}
 
+        public bool MainPage
+        {
+            get { return m_categories[Categories.MainPage]; }
+        }
+
 		#endregion
 
 		public ServiceEnabler()
@@ -71,8 +76,10 @@ namespace PDTUtils.Logic
 			this.OnPropertyChanged(Categories.Setup);
 			m_categories.Add(Categories.Logfile, false);
 			this.OnPropertyChanged(Categories.Logfile);
+            m_categories.Add(Categories.MainPage, true);
+            this.OnPropertyChanged(Categories.MainPage);
 		}
-
+        
 		#region Property Changed
 		public event PropertyChangedEventHandler PropertyChanged;
 		public void OnPropertyChanged(string name)
@@ -81,7 +88,7 @@ namespace PDTUtils.Logic
 				this.PropertyChanged(this, new PropertyChangedEventArgs(name));
 		}
 		#endregion
-
+        
 		/// <summary>
 		/// Sets the named category to active, sets everything else to inactive
 		/// </summary>
@@ -94,10 +101,10 @@ namespace PDTUtils.Logic
 			m_categories[name] = true;
 			this.OnPropertyChanged(name);
 		}
-
+        
 		public void ClearAll()
 		{
-			var keys = new List<string>(m_categories.Keys);
+            var keys = new List<string>(m_categories.Keys);
 			foreach (var key in keys)
 			{
 				m_categories[key] = false;

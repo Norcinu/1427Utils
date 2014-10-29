@@ -314,5 +314,11 @@ namespace PDTUtils.Native
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void addHandPayToEDC(uint value);
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void performHandPay();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void cancelHandPay();
 	}
 }

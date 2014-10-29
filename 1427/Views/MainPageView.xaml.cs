@@ -6,9 +6,9 @@ namespace PDTUtils.Views
     /// <summary>
     /// Interaction logic for ErrorList.xaml
     /// </summary>
-    public partial class ErrorList : UserControl
+    public partial class MainPage : UserControl
     {
-        public ErrorList()
+        public MainPage()
         {
             InitializeComponent();
             this.DataContext = new MainPageViewModel();

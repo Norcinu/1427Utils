@@ -150,4 +150,7 @@
   <data name="Volume" xml:space="preserve">
     <value>Volume</value>
   </data>
+  <data name="MainPage" xml:space="preserve">
+    <value>MainPage</value>
+  </data>
 </root>

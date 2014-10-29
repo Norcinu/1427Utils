@@ -5,11 +5,10 @@ using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.Native;
 using PDTUtils.Properties;
-using PDTUtils.MVVM.ViewModels;
-using System.Windows.Input;
 
 namespace PDTUtils
 {
@@ -390,7 +389,7 @@ namespace PDTUtils
 		//		MessageBox.Show("Could not find update.ini " + UpdateFiles.UpdateIni);
 		//	}
 		//	else
-		//	{
+		//	{   
                 /*btnUpdateFiles.IsEnabled = false;
 				btnUpdateFiles.Visibility = Visibility.Hidden;
 				btnRollback.IsEnabled = false;
@@ -484,14 +483,20 @@ namespace PDTUtils
         {
 
         }
-
+        
         private void btnCreditManage_Click(object sender, RoutedEventArgs e)
         {
-            ucCredits.IsEnabled = !ucCredits.IsEnabled;
+            /*ucCredits.IsEnabled = !ucCredits.IsEnabled;
             if (ucCredits.IsEnabled)
                 ucCredits.Visibility = Visibility.Visible;
             else
-                ucCredits.Visibility = Visibility.Hidden;
+                ucCredits.Visibility = Visibility.Hidden;*/
+
+            ucMainPage.IsEnabled = !ucMainPage.IsEnabled;
+            if (ucMainPage.IsEnabled)
+                ucMainPage.Visibility = Visibility.Visible;
+            else
+                ucMainPage.Visibility = Visibility.Hidden;
         }
 	}
 }

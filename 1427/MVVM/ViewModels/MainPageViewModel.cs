@@ -8,6 +8,8 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class MainPageViewModel : ObservableObject
     {
+        public bool IsEnabled { get; set; }
+
         public bool HandPayActive
         {
             get { return _handPayActive; }
@@ -15,14 +17,14 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 _handPayActive = value;
                 if (_handPayActive && _addCreditsActive)
-                    _addCreditsActive = false;
+                    AddCreditsActive = false;
                 this.RaisePropertyChangedEvent("HandPayActive");
 #if DEBUG
                 Debug.WriteLine("HandPayActive", _handPayActive.ToString());
 #endif
             }
         }
-
+        
         public bool AddCreditsActive
         {
             get { return _addCreditsActive; }
@@ -30,7 +32,7 @@ namespace PDTUtils.MVVM.ViewModels
             { 
                 _addCreditsActive = value;
                 if (_addCreditsActive && _handPayActive)
-                    _handPayActive = false;
+                    HandPayActive = false;
                 this.RaisePropertyChangedEvent("AddCreditsActive");
 #if DEBUG
                 Debug.WriteLine("AddCreditsActive", _addCreditsActive.ToString());
@@ -41,8 +43,9 @@ namespace PDTUtils.MVVM.ViewModels
         public int Credits { get; set; }
         public int Bank { get; set; }
         public int Pennies { get; set; }
-        
+        public int TotalCredits { get { return Credits + Bank; } }
         public string ErrorMessage { get; set; }
+        
         bool _handPayActive;
         bool _addCreditsActive;
 
@@ -52,6 +55,7 @@ namespace PDTUtils.MVVM.ViewModels
         
         public MainPageViewModel()
         {
+            IsEnabled = true;
             HandPayActive = false;
             ErrorMessage = "";
             Credits = 0;
@@ -78,18 +82,18 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => GetBankLevel()); }
         }
-
+        
         void GetBankLevel()
         {
             Bank = BoLib.getBank();
             this.RaisePropertyChangedEvent("Bank");
         }
-
+        
         public ICommand ClearCredits
         {
             get { return new DelegateCommand(o => ClearCreditLevel()); }
         }
-
+        
         void ClearCreditLevel()
         {
             BoLib.clearBankAndCredit();
@@ -98,7 +102,7 @@ namespace PDTUtils.MVVM.ViewModels
             this.RaisePropertyChangedEvent("Credits");
             this.RaisePropertyChangedEvent("Bank");
         }
-
+        
         public ICommand TransferBank
         {
             get { return new DelegateCommand(o => TransferBankCredits()); }
@@ -112,19 +116,10 @@ namespace PDTUtils.MVVM.ViewModels
             this.RaisePropertyChangedEvent("Credits");
             this.RaisePropertyChangedEvent("Bank");
         }
-
+        
         public ICommand AddCredits
         {
-            get { return new DelegateCommand(o => AddCreditsActive = !AddCreditsActive); }//AddCreditsLevel()); }
-        }
-        
-        void AddCreditsLevel()
-        {
-           /* BoLib.addCredit(Pennies);
-            Credits = BoLib.getCredit();
-            Bank = BoLib.getBank();
-            this.RaisePropertyChangedEvent("Credits");
-            this.RaisePropertyChangedEvent("Bank");*/
+            get { return new DelegateCommand(o => AddCreditsActive = !AddCreditsActive); }
         }
 
         public ICommand GetError
@@ -171,7 +166,7 @@ namespace PDTUtils.MVVM.ViewModels
                 this.ShowMessageBox.Execute(null);
             }
         }
-
+        
         public ICommand SetHandPay
         {
             get { return new DelegateCommand(o => HandPayActive = !HandPayActive); }
@@ -185,18 +180,19 @@ namespace PDTUtils.MVVM.ViewModels
         void DoHandPay()
         {
             if (Bank + Credits > 0)
-            {
-                _msgBoxService.ShowMessage("HAND PAYING YO!", _caption);
-            }
-            else
-                _msgBoxService.ShowMessage("Not Eligible for HandPay, no credits.", _caption);
+                BoLib.performHandPay();
+
+            Credits = BoLib.getCredit();
+            Bank = BoLib.getBank();
+            this.RaisePropertyChangedEvent("Credits");
+            this.RaisePropertyChangedEvent("Bank");
         }
         
         public ICommand AddCreditSpecific
         {
             get { return new DelegateCommand(AddDenomButton); }
         }
-        
+
         void AddDenomButton(object button)
         {
             var b = button as Button;
@@ -209,12 +205,28 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else
                 Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
-
+            
             BoLib.addCredit(Pennies);
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
             this.RaisePropertyChangedEvent("Credits");
             this.RaisePropertyChangedEvent("Bank");
+        }
+        
+        public ICommand CancelHandPay
+        {
+            get { return new DelegateCommand(o => DoCancelHandPay()); }
+        }
+        
+        void DoCancelHandPay()
+        {
+            HandPayActive = false;
+            BoLib.cancelHandPay();
+        }
+
+        public ICommand ToggleIsEnabled
+        {
+            get { return new DelegateCommand(o => IsEnabled = !IsEnabled); }
         }
     }
 }
