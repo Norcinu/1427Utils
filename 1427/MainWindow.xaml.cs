@@ -24,7 +24,7 @@ namespace PDTUtils
 		System.Timers.Timer m_doorStatusTimer;
 		System.Timers.Timer m_uiUpdateTimer;
 		Thread m_keyDoorThread;
-		
+	    
 		MachineErrorLog m_errorLogText = new MachineErrorLog();
 		MachineIni m_machineIni = new MachineIni();
 		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
@@ -497,6 +497,15 @@ namespace PDTUtils
                 ucMainPage.Visibility = Visibility.Visible;
             else
                 ucMainPage.Visibility = Visibility.Hidden;
+        }
+
+        private void btnDiagnostics_Click(object sender, RoutedEventArgs e)
+        {
+            ucDiagnostics.IsEnabled = !ucDiagnostics.IsEnabled;
+            if (ucDiagnostics.IsEnabled)
+                ucDiagnostics.Visibility = Visibility.Visible;
+            else
+                ucDiagnostics.Visibility = Visibility.Hidden;
         }
 	}
 }

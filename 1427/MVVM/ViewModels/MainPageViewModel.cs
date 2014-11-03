@@ -9,7 +9,18 @@ namespace PDTUtils.MVVM.ViewModels
     class MainPageViewModel : ObservableObject
     {
         public bool IsEnabled { get; set; }
-
+        public bool IsErrorSet
+        {
+            get
+            {
+                //BoLib.setCriticalError(116);
+                if (BoLib.getError() > 0)
+                    return true;
+                else 
+                    return false;
+            }
+        }
+        
         public bool HandPayActive
         {
             get { return _handPayActive; }
@@ -197,7 +208,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var b = button as Button;
             string str = b.Content as string;
-
+            
             if (str[0] == '£' || str[0] == '€')
             {
                 Pennies = Convert.ToInt32(str.Substring(1));

@@ -102,13 +102,13 @@
                FontSize="36" 
                IsEnabled="False" 
                Visibility="Collapsed" />
-
+	
 		<!-- Logfiles -->
-		<TabControl Name="MyLogfiles" Panel.ZIndex="5"  VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding Path=Enabler.Logfile}" Visibility="{Binding Path=Enabler.Logfile, Converter={StaticResource BoolToVisConverter}}">
-			<TabItem Header="Errors" MinWidth="150">
+		<TabControl Name="MyLogfiles" Panel.ZIndex="5"  VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding Path=Enabler.Logfile}" Visibility="{Binding Path=Enabler.Logfile, Converter={StaticResource BoolToVisConverter}}" MinHeight="1000">
+			<TabItem Header="Errors" MinWidth="150" HorizontalContentAlignment="Center">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 					<StackPanel>
-						<ListView ItemsSource="{Binding Path=LogController.ErrorLog}" MinHeight="650" FontSize="16">
+						<ListView ItemsSource="{Binding Path=LogController.ErrorLog}" MinHeight="650" FontSize="20">
 							<ListView.View>
 								<GridView AllowsColumnReorder="False">
 									<GridViewColumn Header="Date" Width="300" DisplayMemberBinding="{Binding Path=ErrorDate}" />
@@ -155,6 +155,10 @@
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
+			<TabItem Header="Image History" MinWidth="150">
+				<view:ScreenshotView x:Name="ucScreenshotView" Grid.Row="1" Grid.Column="1" />
+			</TabItem>
+		
 		</TabControl>
 
 		<!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
@@ -223,8 +227,8 @@
 				</TabControl>
 			</TabItem>
 
-			<TabItem Header="Hoppers" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
-
+			<TabItem Header="Hoppers" MinWidth="100"> <!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
+				<view:HopperAdminView />
 			</TabItem>
 
 			<TabItem Header="Software Update" MinWidth="100">
@@ -234,24 +238,29 @@
 
 		<StackPanel Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
 			<!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
-			<TabControl>
+			<TabControl Height="1000">
 				<TabItem Header="Games" MinWidth="100">
-					<ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="700" FontSize="16">
+					<ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1400" FontSize="22" Height="600">
 						<ListView.View>
 							<GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
-								<GridViewColumn Header="Game Number" Width="Auto" DisplayMemberBinding="{Binding GameNumber}" />
-								<GridViewColumn Header="Icon" Width="100">
+								<GridView.ColumnHeaderContainerStyle>
+									<Style>
+										<Setter Property="TextElement.FontSize" Value="16" />
+									</Style>
+								</GridView.ColumnHeaderContainerStyle>
+								<GridViewColumn Header="Game Number" Width="200" DisplayMemberBinding="{Binding GameNumber}" />
+								<GridViewColumn Header="Icon" Width="200">
 									<GridViewColumn.CellTemplate>
 										<DataTemplate>
 											<Image Source="{Binding ImageSource}" />
 										</DataTemplate>
 									</GridViewColumn.CellTemplate>
 								</GridViewColumn>
-								<GridViewColumn Header="Model No." Width="100" DisplayMemberBinding="{Binding ModelNumber}" />
-								<GridViewColumn Header="Bets" Width="100" DisplayMemberBinding="{Binding Bets}"/>
-								<GridViewColumn Header="Wins" Width="100" DisplayMemberBinding="{Binding Wins}"/>
-								<GridViewColumn Header="Percentage" Width="100" DisplayMemberBinding="{Binding Percentage}"/>
-								<GridViewColumn Header="Average Stake" Width="100" DisplayMemberBinding="{Binding AverageStake}" />
+								<GridViewColumn Header="Model No." Width="200" DisplayMemberBinding="{Binding ModelNumber}" />
+								<GridViewColumn Header="Bets" Width="200" DisplayMemberBinding="{Binding Bets}"/>
+								<GridViewColumn Header="Wins" Width="200" DisplayMemberBinding="{Binding Wins}"/>
+								<GridViewColumn Header="Percentage" Width="200" DisplayMemberBinding="{Binding Percentage}"/>
+								<GridViewColumn Header="Average Stake" Width="200" DisplayMemberBinding="{Binding AverageStake}" />
 							</GridView>
 						</ListView.View>
 					</ListView>
@@ -270,8 +279,9 @@
 		<!-- is this were all the binding errors come from? -->
 		<TabControl Name="tabMeters"  Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
 			<TabItem Header="LCD Meters">
-				<DockPanel LastChildFill="False">
-					<StackPanel DockPanel.Dock="Left">
+				<!--<DockPanel LastChildFill="False">-->
+				<StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal">
+					<StackPanel Margin="15"> <!-- DockPanel.Dock="Left"> -->
 						<Label FontSize="22" HorizontalContentAlignment="Center">Short Term Meters</Label>
 						<ListView ItemsSource="{Binding Path=ShortTerm.MeterDesc}" FontSize="18">
 							<ListView.View>
@@ -282,7 +292,7 @@
 							</ListView.View>
 						</ListView>
 					</StackPanel>
-					<StackPanel DockPanel.Dock="Right">
+					<StackPanel Margin="15"><!--  DockPanel.Dock="Right"> -->
 						<Label FontSize="22" HorizontalContentAlignment="Center">Long Term Meters</Label>
 						<ListView ItemsSource="{Binding Path=LongTerm.MeterDesc}" FontSize="18">
 							<ListView.View>
@@ -299,7 +309,8 @@
 							</ListView.View>
 						</ListView>
 					</StackPanel>
-				</DockPanel>
+				</StackPanel>
+				<!--</DockPanel>-->
 			</TabItem>
 			<TabItem Header="Cash Reconcilliation">
 				<TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
@@ -345,11 +356,11 @@
 			</ListView>
 		</StackPanel>
 
-
-		<view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/>
-		<view:CreditManagementView Panel.ZIndex="5" x:Name="ucCredits" IsEnabled="False"  Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
-		<view:MainPage Panel.ZIndex="1" x:Name="ucMainPage" IsEnabled="{Binding Enabler.MainPage}" Visibility="{Binding Path=Enabler.MainPage, Converter={StaticResource BoolToVisConverter}}"  Grid.Row="1" Grid.Column="1" />
-
+		<!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
+		<view:CreditManagementView Panel.ZIndex="5" x:Name="ucCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
+		<view:MainPage Panel.ZIndex="1" x:Name="ucMainPage" Grid.Row="1" Grid.Column="1" />
+		<view:Diagnostics Panel.ZIndex="5" x:Name="ucDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"  Visibility="Hidden" />
+		
 		<!-- End of System Info View -->
 		<StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
 			<Button Content="Hoppers" Height="35" HorizontalAlignment="Stretch" Name="btnHoppers" VerticalAlignment="Stretch" Width="170" Click="btnHoppers_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
@@ -358,13 +369,12 @@
 			<Button Content="Logfiles" Height="35" HorizontalAlignment="Stretch" Name="btnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Cash" Height="35" Name="btnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="btnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-			<Button Content="Performance" Height="35" HorizontalAlignment="Stretch" Name="button1" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+			<Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="btnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click" />
 			<Button Content="System Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-			<Button Content="Image History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />
+			<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />
 			<Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
 		</StackPanel>
 
 		<Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
 	</Grid>
-
 </Window>

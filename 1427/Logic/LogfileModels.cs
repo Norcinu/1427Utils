@@ -228,7 +228,7 @@ namespace PDTUtils
 				PlayedGames.Add(new PlayedGame(i));
 			}
 		}
-
+        
 		public void setWinningLog()
 		{
 			for (int i = 0; i < 10; i++)

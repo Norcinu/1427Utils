@@ -1,21 +1,33 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
 using PDTUtils.MVVM.Models;
 
 namespace PDTUtils.MVVM.ViewModels
 {
     class ScreenshotViewModel : ObservableObject
     {
-        public int CurrentImageID { get; set; }
-        public int NumberOfImages { get; set; }
+        int _currentImageID = 0;
+        int _numberOfImages = 0;
+
+        public int CurrentImageID
+        {
+            get { return _currentImageID; }
+            set { _currentImageID = value; this.RaisePropertyChangedEvent("CurrentImageID"); }
+        }
+
+        public int NumberOfImages
+        {
+            get { return _numberOfImages; }
+            set { _numberOfImages = value; this.RaisePropertyChangedEvent("NumberOfImages"); }
+        }
 
         ObservableCollection<ScreenshotModel> Files = new ObservableCollection<ScreenshotModel>();
-
+        
         public ScreenshotViewModel()
         {
             CurrentImageID = 0;
-            NumberOfImages = 0; 
+            NumberOfImages = 0;
         }
         
         public ICommand LoadImage { get { return new DelegateCommand(o => DoLoadImages()); } }
@@ -28,14 +40,14 @@ namespace PDTUtils.MVVM.ViewModels
                 NumberOfImages++;
             }
         }
-        
+
         public ICommand Forward { get { return new DelegateCommand(o => DoForwardImage()); } }
         void DoForwardImage()
         {
             if (CurrentImageID < NumberOfImages)
                 CurrentImageID++;
         }
-                
+
         public ICommand Back { get { return new DelegateCommand(o => DoBackwardImage()); } }
         void DoBackwardImage()
         {

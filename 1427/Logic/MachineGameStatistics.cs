@@ -180,7 +180,7 @@ namespace PDTUtils
 		{
 			if (m_fileLoaded == false)
 			{
-				/*using (FileStream fs = File.Open(m_perfLog, FileMode.Open, FileAccess.Read, FileShare.Read))
+				using (FileStream fs = File.Open(m_perfLog, FileMode.Open, FileAccess.Read, FileShare.Read))
 				using (BufferedStream bs = new BufferedStream(fs))
 				using (StreamReader sr = new StreamReader(bs))
 				{
@@ -233,7 +233,7 @@ namespace PDTUtils
 					m_totalWon = Convert.ToInt32(generalValues[3]);
 					m_totalGames = Convert.ToInt32(generalValues[4]);
 					m_numberOfGames = Convert.ToInt32(generalValues[5]);
-				}*/
+				}
 			}
 		}
 	}

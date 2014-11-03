@@ -95,7 +95,6 @@
     <Compile Include="MVVM\ViewModels\RegionalSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ScreenshotViewModel.cs" />
     <Compile Include="MVVM\WPFMessageBoxService.cs" />
-    <Compile Include="Screenshot\ScreenshotModel.cs" />
     <Compile Include="Properties\Categories.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -123,6 +122,12 @@
     </Compile>
     <Compile Include="Views\CreditManagementView.xaml.cs">
       <DependentUpon>CreditManagementView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Diagnostics.xaml.cs">
+      <DependentUpon>Diagnostics.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HopperAdminView.xaml.cs">
+      <DependentUpon>HopperAdminView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPageView.xaml.cs">
       <DependentUpon>MainPageView.xaml</DependentUpon>
@@ -189,6 +194,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CreditManagementView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Diagnostics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HopperAdminView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
