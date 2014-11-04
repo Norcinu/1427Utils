@@ -36,6 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -58,6 +60,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="SetDateControl.xaml.cs">
+      <DependentUpon>SetDateControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SetTimeControl.xaml.cs">
       <DependentUpon>SetTimeControl.xaml</DependentUpon>
     </Compile>
@@ -73,6 +78,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="NumericalDisplay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetDateControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

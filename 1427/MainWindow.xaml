@@ -190,7 +190,7 @@
 				<!-- <view:RegionalSettings /> -->
 			</TabItem>
 
-			<TabItem Header="System Volume" MinWidth="100">
+			<!-- TabItem Header="System Volume" MinWidth="100">
 				<StackPanel Name="stpVolume" VerticalAlignment="Top" Background="BlanchedAlmond">
 					<TextBlock FontSize="22" TextAlignment="Center" >Set Machine's Volume Level</TextBlock>
 					<Slider Height="50" 
@@ -209,26 +209,87 @@
 
 					<StackPanel Orientation="Horizontal" Margin="0,0,10,0">
 						<ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" Margin="5,0,5,5"/>
-						<!-- ***************** RE-INSTATE THIS DEBUG DEBUG ******************************************
+			
                         <TextBox Height="23" logic:TouchScreenKeyboard.TouchScreenKeyboard="True" HorizontalAlignment="Right" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" Margin="5,0,5,5"/>
-                        -->
+            
 					</StackPanel>
 				</StackPanel>
-			</TabItem>
+			</TabItem> -->
 
 			<TabItem Header="System Time" MinWidth="100">
 				<TabControl>
 					<TabItem Header="System Time" MinWidth="150" >
-						<!--<uc:SetTimeControl Name="setTimeControl" />-->
+						<StackPanel Orientation="Horizontal">
+							<uc:SetTimeControl Name="setTimeControl" Margin="30"/>
+							<uc:SetDateControl Name="setDateControl" Margin="30"/>
+						</StackPanel>
 					</TabItem>
-					<TabItem Header="Network" MinWidth="150">
+					<TabItem Header="System Volume" MinWidth="150">
+						<StackPanel Name="stpVolume" VerticalAlignment="Top" Background="BlanchedAlmond">
+							<TextBlock FontSize="22" TextAlignment="Center" >Set Machine's Volume Level</TextBlock>
+							<Slider Height="50" 
+								HorizontalAlignment="Center" 
+								IsSnapToTickEnabled="True" 
+								Name="MasterVolumeSlider" 
+								VerticalAlignment="Center" 
+								Width="500" 
+								TickFrequency="5" 
+								TickPlacement="Both" 
+								Maximum="100" 
+								ValueChanged="MasterVolumeSlider_ValueChanged" 
+								SmallChange="5" 
+								Margin="0,5,0,0" />
 
+
+							<StackPanel Orientation="Horizontal" Margin="0,0,10,0">
+								<ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" Margin="5,0,5,5"/>
+								<!-- ***************** RE-INSTATE THIS DEBUG DEBUG ******************************************
+                        <TextBox Height="23" logic:TouchScreenKeyboard.TouchScreenKeyboard="True" HorizontalAlignment="Right" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" Margin="5,0,5,5"/>
+                        -->
+							</StackPanel>
+						</StackPanel>
 					</TabItem>
 				</TabControl>
 			</TabItem>
 
 			<TabItem Header="Hoppers" MinWidth="100"> <!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
 				<view:HopperAdminView />
+			</TabItem>
+
+			<TabItem Header="Network">
+				<StackPanel HorizontalAlignment="Center">
+					<Label FontSize="48" HorizontalAlignment="Center">Network Information</Label>
+					
+					<StackPanel Orientation="Horizontal">
+						<Label FontSize="36" Content="IP Address:" Width="200" Margin="30"/>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
+						<TextBox  FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
+						<TextBox FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
+						<TextBox FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">3</TextBox>
+					</StackPanel>
+					
+					<StackPanel Orientation="Horizontal">
+						<Label FontSize="36" Content="Subnet Mask:" Width="200" Margin="30"/>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">255</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">255</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">0</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">0</TextBox>
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<Label FontSize="36" Content="Gateway:" Width="200"  Margin="30"/>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
+					</StackPanel>
+					
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+						<Button FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Set Network Info</Button>
+						<Button FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Clear Network Info</Button>
+					</StackPanel>
+				</StackPanel>	
+				
 			</TabItem>
 
 			<TabItem Header="Software Update" MinWidth="100">

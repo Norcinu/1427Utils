@@ -474,9 +474,9 @@ namespace PDTUtils
 
         private void btnScreenShots_Click(object sender, RoutedEventArgs e)
         {
-            //Enabler.ClearAll();
-            //ScreenshotWindow w = new ScreenshotWindow();
-            //w.ShowDialog();
+            Enabler.ClearAll();
+            ScreenshotWindow w = new ScreenshotWindow();
+            w.ShowDialog();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -486,12 +486,6 @@ namespace PDTUtils
         
         private void btnCreditManage_Click(object sender, RoutedEventArgs e)
         {
-            /*ucCredits.IsEnabled = !ucCredits.IsEnabled;
-            if (ucCredits.IsEnabled)
-                ucCredits.Visibility = Visibility.Visible;
-            else
-                ucCredits.Visibility = Visibility.Hidden;*/
-
             ucMainPage.IsEnabled = !ucMainPage.IsEnabled;
             if (ucMainPage.IsEnabled)
                 ucMainPage.Visibility = Visibility.Visible;
@@ -506,6 +500,11 @@ namespace PDTUtils
                 ucDiagnostics.Visibility = Visibility.Visible;
             else
                 ucDiagnostics.Visibility = Visibility.Hidden;
+        }
+
+        private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var tb = sender as TextBox;
         }
 	}
 }

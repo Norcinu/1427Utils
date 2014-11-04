@@ -213,9 +213,12 @@
 
     <!-- TabControlBrushes -->
 
-    <SolidColorBrush x:Key="TabControlHeaderBrush" Color="#FFBFDBFF"/>
+	<SolidColorBrush x:Key="TabControlHeaderBrush" Color="Black"/>
+	<SolidColorBrush x:Key="TabControlContentBrush" Color="#FFE0EAF6"/>
+	<SolidColorBrush x:Key="TabControlContentBorderBrush" Color="#FF9ABBE6"/>
+	<!-- <SolidColorBrush x:Key="TabControlHeaderBrush" Color="#FFBFDBFF"/>
     <SolidColorBrush x:Key="TabControlContentBrush" Color="#FFE0EAF6"/>
-    <SolidColorBrush x:Key="TabControlContentBorderBrush" Color="#FF9ABBE6"/>
+    <SolidColorBrush x:Key="TabControlContentBorderBrush" Color="#FF9ABBE6"/> -->
 
     <!-- TabItemBrushes -->
 
@@ -3622,7 +3625,7 @@
         <Setter Property="Padding" Value="2,0,2,0" />
         <Setter Property="Foreground" Value="#FF042271" />
         <Setter Property="FontFamily" Value="Trebuchet MS" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="22" /> <!-- 12 -->
         <Setter Property="Padding" Value="3" />
         <Setter Property="Template">
             <Setter.Value>

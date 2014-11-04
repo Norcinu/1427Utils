@@ -8,11 +8,47 @@
     <Grid>
 		<TabControl SelectionChanged="TabControl_SelectionChanged">
 			<TabItem Header="Software" MinWidth="150">
-				
+				<StackPanel Margin="10" HorizontalAlignment="Center">
+					<Label FontSize="46" Margin="10" HorizontalContentAlignment="Center">Machine Software</Label>
+					<ListView Margin="5" FontSize="22" ItemsSource="{Binding Software}">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="Game Number" DisplayMemberBinding="{Binding ModelNumber}" Width="300"/>
+								<GridViewColumn Header="MD5 Hash" DisplayMemberBinding="{Binding HashCode}" Width="300"/>
+								<GridViewColumn Header="Auth Status" DisplayMemberBinding="{Binding Authed}" Width="400"/>
+							</GridView>
+						</ListView.View>
+					</ListView>
+				</StackPanel>
 			</TabItem>
 			
 			<TabItem Header="Hardware" MinWidth="150">
-				
+				<StackPanel Margin="10" HorizontalAlignment="Center">
+					<Label FontSize="46" Margin="10" HorizontalContentAlignment="Center">Machine Hardware ID</Label>
+					<ListView Margin="5" FontSize="22" ItemsSource="{Binding Hardware}">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="Serial Key" DisplayMemberBinding="{Binding SerialKey}" Width="200"/>
+								<GridViewColumn Header="Machine Name" DisplayMemberBinding="{Binding MachineName}" Width="200"/>
+								<GridViewColumn Header="License Number" DisplayMemberBinding="{Binding License}" Width="200"/>
+								<GridViewColumn Header="Cpu Type" DisplayMemberBinding="{Binding CpuType}" Width="200"/>
+								<GridViewColumn Header="Cabinet Type" DisplayMemberBinding="{Binding CabinetType}" Width="200"/>
+							</GridView>
+						</ListView.View>
+					</ListView>
+
+					<Label FontSize="46" Margin="10,100,10,10" HorizontalContentAlignment="Center">Network Info</Label>
+					<ListView Margin="5" FontSize="22" ItemsSource="{Binding Hardware}">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="IP Address" DisplayMemberBinding="{Binding IPAddress}" Width="333"/>
+								<GridViewColumn Header="Subnet Mask" DisplayMemberBinding="{Binding Subnet}" Width="333"/>
+								<GridViewColumn Header="Default Gateway" DisplayMemberBinding="{Binding DefGateway}" Width="334"/>
+							</GridView>
+						</ListView.View>
+					</ListView>
+					
+				</StackPanel>
 			</TabItem>
 			
 			<TabItem Header="Hardware Test" MinWidth="150">

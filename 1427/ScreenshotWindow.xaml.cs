@@ -4,6 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
 
 /*  TODO:
  *  Uses a massive amount of memory. Perhaps this should load an image on the fly
@@ -18,28 +19,31 @@ namespace PDTUtils
     public partial class ScreenshotWindow : Window
     {
         string[] files = new string[] { "" };
+        string Filename { get; set; }
+        string FileDate { get; set; }
+        string FileTime { get; set; }
+        
         List<System.Drawing.Image> images = new List<System.Drawing.Image>();
         int currentImage = 0;
         int maxImages = 0;
-        BitmapImage bi = new BitmapImage();
-        MemoryStream ms = new MemoryStream();
+        
 
         public ScreenshotWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
+            
+            Filename = "";
+            FileDate = "";
+            FileTime = "";
+
             try
             {
-                files = Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly);
+                files = Directory.GetFiles(@"D:\GameHistory", "*.png", SearchOption.TopDirectoryOnly);
                 Array.Sort(files, delegate(string str1, string str2)
                 {
                     return File.GetCreationTime(str1).CompareTo(File.GetCreationTime(str2));
                 });
-                
-                /*foreach (string path in Directory.GetFiles(@"D:\screenshots", "*.png", SearchOption.TopDirectoryOnly))
-                {
-                    var ct = File.GetCreationTime(path);
-                    images.Add(System.Drawing.Image.FromFile(path));
-                }*/
 
                 maxImages = files.Length - 1;// images.Count - 1;
             }
@@ -54,15 +58,28 @@ namespace PDTUtils
         
         private void SetImageSource()
         {
-            bi.BeginInit();
-            images.Add(System.Drawing.Image.FromFile(files[currentImage]));
-            //image.Save(ms, ImageFormat.Png);
-            images[currentImage].Save(ms, ImageFormat.Png);
-            ms.Seek(0, SeekOrigin.Begin);
-            bi.StreamSource = ms;
-            if (bi != null)
+            try
+            {
+                BitmapImage bi = new BitmapImage();
+                MemoryStream ms = new MemoryStream();
+                bi.BeginInit();
+                var image = System.Drawing.Image.FromFile(files[currentImage]);
+                image.Save(ms, ImageFormat.Png);
+                ms.Seek(0, SeekOrigin.Begin);
+                bi.StreamSource = ms;
                 bi.EndInit();
-            image1.Source = bi;
+                image1.Source = bi;
+
+                this.Filename = files[currentImage];
+                lblFilename.Content = "Filename: " + files[currentImage];
+                var str = File.GetCreationTime(files[currentImage]);
+                lblDate.Content = "Game Date: " + str.Date.ToString(@"dd/MM/yyyy");
+                lblTime.Content = "Game Time: " + str.Hour + ":" + str.Minute + ":" + str.Second;
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
         
         private void button3_Click(object sender, RoutedEventArgs e)
