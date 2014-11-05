@@ -13,7 +13,7 @@ namespace PDTUtils
 		int m_modelNumber;
 		int m_bets;
 		int m_wins;
-		double m_percentage;
+		decimal m_percentage;
 		double m_averageStake;
 
 		#region Properties
@@ -41,7 +41,7 @@ namespace PDTUtils
 			set { m_wins = value; }
 		}
 		
-		public double Percentage
+		public decimal Percentage
 		{
 			get { return m_percentage; }
 			set { m_percentage = value; }
@@ -148,7 +148,7 @@ namespace PDTUtils
 
 		private void FillGameStats(string[] combo, ref GameStats gs)
 		{
-			if (combo[0] == "GameNo")
+			/*if (combo[0] == "GameNo")
 				gs.GameNumber = Convert.ToInt32(combo[1]);
 			else if (combo[0] == "ModelNo")
 			{
@@ -160,7 +160,21 @@ namespace PDTUtils
 			else if (combo[0] == "Wins")
 				gs.Wins = Convert.ToInt32(combo[1]);
 			else if (combo[0] == "Percentage")
-				gs.Percentage = Convert.ToDouble(combo[1]);
+				gs.Percentage = Convert.ToDouble(combo[1]);*/
+
+            if (combo[0] == "GameNo")
+				gs.GameNumber = Convert.ToInt32(combo[1]);
+			else if (combo[0] == "ModelNo")
+			{
+				gs.ModelNumber = Convert.ToInt32(combo[1]);
+				gs.ImageSource = @"D:\" + /*gs.ModelNumber.ToString()*/@"stats\" + /*@"\I" +*/ gs.ModelNumber.ToString() + ".png";
+			}
+			else if (combo[0] == "Bets")
+				gs.Bets = Convert.ToInt32(combo[1]);
+			else if (combo[0] == "Wins")
+				gs.Wins = Convert.ToInt32(combo[1]);
+			else if (combo[0] == "Percentage")
+				gs.Percentage = Convert.ToDecimal(combo[1]);
 		}
 		
 		public void ResetStats()
@@ -199,14 +213,20 @@ namespace PDTUtils
 								var splitLine = line.Split("=".ToCharArray());
 								generalValues[fieldCounter] = splitLine[1];
 								fieldCounter++;
+                           //     if (splitLine[0] == "GameCnt")
+                           //         gameCounter = Convert.ToInt32(splitLine[1]);
+
 							}
 						}
 						else
 						{
-							if (line.StartsWith("[") == false)
-							{
-								var outter = m_games[gameCounter];
-								FillGameStats(line.Split("=".ToCharArray()), ref outter);
+                            if (line.StartsWith("[") == false)
+                            {
+                                if (gameCounter < Convert.ToInt32(generalValues[5]))
+                                {
+                                    var outter = m_games[gameCounter];
+                                    FillGameStats(line.Split("=".ToCharArray()), ref outter);
+                                }
 							}
 							else
 							{

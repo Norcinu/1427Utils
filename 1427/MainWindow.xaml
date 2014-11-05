@@ -184,49 +184,29 @@
 				</ScrollViewer>
 			</TabItem>
 
-			<TabItem Header="Regional Settings">
-				<view:GameSettingsView />
-				<!--REINSTATE THIS TO SOMEWHERE ELSE!!! -->
-				<!-- <view:RegionalSettings /> -->
+			<TabItem Header="Local Settings">
+				<TabControl>
+					<TabItem Header="Region Settings">
+						<view:RegionalSettings />
+					</TabItem>
+
+					<TabItem Header="Game Settings">
+						<view:GameSettingsView />
+					</TabItem>
+				</TabControl>
 			</TabItem>
 
-			<!-- TabItem Header="System Volume" MinWidth="100">
-				<StackPanel Name="stpVolume" VerticalAlignment="Top" Background="BlanchedAlmond">
-					<TextBlock FontSize="22" TextAlignment="Center" >Set Machine's Volume Level</TextBlock>
-					<Slider Height="50" 
-                            HorizontalAlignment="Center" 
-                            IsSnapToTickEnabled="True" 
-                            Name="MasterVolumeSlider" 
-                            VerticalAlignment="Center" 
-                            Width="500" 
-                            TickFrequency="5" 
-                            TickPlacement="Both" 
-                            Maximum="100" 
-                            ValueChanged="MasterVolumeSlider_ValueChanged" 
-                            SmallChange="5" 
-                            Margin="0,5,0,0" />
-
-
-					<StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-						<ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" Margin="5,0,5,5"/>
-			
-                        <TextBox Height="23" logic:TouchScreenKeyboard.TouchScreenKeyboard="True" HorizontalAlignment="Right" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" Margin="5,0,5,5"/>
-            
-					</StackPanel>
-				</StackPanel>
-			</TabItem> -->
-
-			<TabItem Header="System Time" MinWidth="100">
+			<TabItem Header="System Settings" MinWidth="100">
 				<TabControl>
 					<TabItem Header="System Time" MinWidth="150" >
-						<StackPanel Orientation="Horizontal">
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="50">
 							<uc:SetTimeControl Name="setTimeControl" Margin="30"/>
 							<uc:SetDateControl Name="setDateControl" Margin="30"/>
 						</StackPanel>
 					</TabItem>
 					<TabItem Header="System Volume" MinWidth="150">
-						<StackPanel Name="stpVolume" VerticalAlignment="Top" Background="BlanchedAlmond">
-							<TextBlock FontSize="22" TextAlignment="Center" >Set Machine's Volume Level</TextBlock>
+						<StackPanel Name="stpVolume" Background="BlanchedAlmond" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"><!-- VerticalAlignment="Top" -->
+							<TextBlock FontSize="28" Margin="50" TextAlignment="Center" >Set Machine's Volume Level</TextBlock>
 							<Slider Height="50" 
 								HorizontalAlignment="Center" 
 								IsSnapToTickEnabled="True" 
@@ -238,15 +218,16 @@
 								Maximum="100" 
 								ValueChanged="MasterVolumeSlider_ValueChanged" 
 								SmallChange="5" 
-								Margin="0,5,0,0" />
+								Margin="25" />
 
-
-							<StackPanel Orientation="Horizontal" Margin="0,0,10,0">
-								<ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" Margin="5,0,5,5"/>
-								<!-- ***************** RE-INSTATE THIS DEBUG DEBUG ******************************************
-                        <TextBox Height="23" logic:TouchScreenKeyboard.TouchScreenKeyboard="True" HorizontalAlignment="Right" Name="txtVolumeSliderValue" VerticalAlignment="Center" Width="50" Text="{Binding ElementName=MasterVolumeSlider, Path=Value}" IsReadOnly="True" Margin="5,0,5,5"/>
-                        -->
-							</StackPanel>
+							<ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" HorizontalAlignment="Center"/>
+														
+							<StackPanel Orientation="Horizontal" Margin="25" HorizontalAlignment="Center">
+								<Label Content="Current Volume: " FontSize="28"/>
+								<Label Content="{Binding ElementName=MasterVolumeSlider, Path=Value}" FontSize="28"/>
+								<Label Content="%" FontSize="28"/>
+							</StackPanel> 
+							
 						</StackPanel>
 					</TabItem>
 				</TabControl>
@@ -304,12 +285,12 @@
 					<ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1400" FontSize="22" Height="600">
 						<ListView.View>
 							<GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
-								<GridView.ColumnHeaderContainerStyle>
+								<!--<GridView.ColumnHeaderContainerStyle>
 									<Style>
 										<Setter Property="TextElement.FontSize" Value="16" />
 									</Style>
-								</GridView.ColumnHeaderContainerStyle>
-								<GridViewColumn Header="Game Number" Width="200" DisplayMemberBinding="{Binding GameNumber}" />
+								</GridView.ColumnHeaderContainerStyle>-->
+								<GridViewColumn Header="Game Number" Width="150" DisplayMemberBinding="{Binding GameNumber}" />
 								<GridViewColumn Header="Icon" Width="200">
 									<GridViewColumn.CellTemplate>
 										<DataTemplate>
@@ -397,26 +378,31 @@
 
 		<!-- System Info View -->
 
-		<StackPanel Orientation="Horizontal" Panel.ZIndex="5" IsEnabled="{Binding DockSystem.IsEnabled}" Grid.Row="1" Grid.Column="1" Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" >
-			<ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="14" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<ListBoxItem Content="{Binding Field}"></ListBoxItem>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
+		<Border BorderThickness="5" Panel.ZIndex="5" BorderBrush="HotPink" Grid.Row="1" Grid.Column="1">
+			<StackPanel Orientation="Horizontal" Panel.ZIndex="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{Binding DockSystem.IsEnabled}"  Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" Grid.Row="1" Grid.Column="1">
+			<StackPanel HorizontalAlignment="Left">
+				<ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="22" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<ListBoxItem Content="{Binding Field}"></ListBoxItem>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</StackPanel>
 
-			<ListView DockPanel.Dock="Right" ItemsSource="{Binding Path=GamesList.GamesInfo}">
-				<ListView.View>
-					<GridView>
-						<GridViewColumn Header="Game" DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
-						<GridViewColumn Header="Executable Path" DisplayMemberBinding="{Binding Path=Path}"></GridViewColumn>
-						<GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=HashCode}"></GridViewColumn>
-					</GridView>
-				</ListView.View>
-			</ListView>
+				<StackPanel HorizontalAlignment="Right" Width >
+					<ListView ItemsSource="{Binding Path=GamesList.GamesInfo}" FontSize="22" Width="455" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn Header="Game" DisplayMemberBinding="{Binding Path=Name}" Width="150"></GridViewColumn>
+							<GridViewColumn Header="Executable Path" DisplayMemberBinding="{Binding Path=Path}" Width="150"></GridViewColumn>
+							<GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=HashCode}" Width="150"></GridViewColumn>
+						</GridView>
+					</ListView.View>
+				</ListView>
+			</StackPanel>
 		</StackPanel>
-
+		</Border>
 		<!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
 		<view:CreditManagementView Panel.ZIndex="5" x:Name="ucCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
 		<view:MainPage Panel.ZIndex="1" x:Name="ucMainPage" Grid.Row="1" Grid.Column="1" />
@@ -424,7 +410,7 @@
 		
 		<!-- End of System Info View -->
 		<StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
-			<Button Content="Hoppers" Height="35" HorizontalAlignment="Stretch" Name="btnHoppers" VerticalAlignment="Stretch" Width="170" Click="btnHoppers_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+			<!-- <Button Content="Hoppers" Height="35" HorizontalAlignment="Stretch" Name="btnHoppers" VerticalAlignment="Stretch" Width="170" Click="btnHoppers_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" /> -->
 			<Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="btnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Games" Height="35" HorizontalAlignment="Stretch" Name="btnGames" VerticalAlignment="Stretch" Width="170" Click="Games_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Logfiles" Height="35" HorizontalAlignment="Stretch" Name="btnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />

@@ -8,9 +8,9 @@
     <Grid>
         <StackPanel>
             <StackPanel x:Name="stpInfoText" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label x:Name="lblLeft">Poised to take the jump</Label>
-                <Label x:Name="lblWarning">Scrappeh!? Where are you scrappeh?</Label>
-                <Label x:Name="lblRight">I'm a terrible mess</Label>
+                <Label x:Name="lblLeft"></Label>
+                <Label x:Name="lblWarning"></Label>
+                <Label x:Name="lblRight"></Label>
             </StackPanel>
             <Image Width="640" Height="480" />
             <StackPanel HorizontalAlignment="Center">

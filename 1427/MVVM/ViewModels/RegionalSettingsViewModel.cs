@@ -4,6 +4,7 @@ using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
+using System.Windows.Forms;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -38,7 +39,7 @@ namespace PDTUtils.MVVM.ViewModels
         #endregion
         
         #region Commands
-        public ICommand SetActiveRegion { get { return new DelegateCommand(o => SetRegion()); } }
+        public ICommand SetActiveRegion { get { return new DelegateCommand(SetRegion); } }
         public ICommand Save { get { return new DelegateCommand(o => SaveChanges()); } }
         public ICommand Load { get { return new DelegateCommand(o => LoadSettings()); } }
         #endregion
@@ -79,9 +80,10 @@ namespace PDTUtils.MVVM.ViewModels
 
         }
         
-        public void SetRegion()
+        public void SetRegion(object button)
         {
-            
+            var b = button as Button;
+            int a = 9;
         }
     }
 }

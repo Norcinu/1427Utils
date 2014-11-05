@@ -7,23 +7,23 @@
              d:DesignHeight="270" d:DesignWidth="423">
     
     <Grid Width="423" Height="270">
-        <StackPanel VerticalAlignment="Center" Background="DimGray">
-            <TextBlock TextAlignment="Center" FontSize="36" FontWeight="Bold">Set System Clock</TextBlock>
+        <StackPanel VerticalAlignment="Center" Background="HotPink">
+            <TextBlock TextAlignment="Center" FontSize="36" FontWeight="Bold" Foreground="Yellow">Set System Clock</TextBlock>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0" Width="350" VerticalAlignment="Center">
                 <StackPanel VerticalAlignment="Center" Margin="0,0,30,0" MinWidth="90">
-                    <Label FontSize="26" FontWeight="Bold" HorizontalContentAlignment="Center">Hour</Label>
+                    <Label FontSize="26" FontWeight="Bold" HorizontalContentAlignment="Center" Foreground="Yellow">Hour</Label>
                     <Button Content="+" FontSize="26" Width="65" Click="Button_Click"></Button>
                     <TextBlock Name="txtHour" Text="00" FontSize="26" Margin="10" TextAlignment="Center"></TextBlock>
                     <Button Content="-" FontSize="26" Width="65" Click="Button_Click_1"></Button>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center" Margin="0,0,30,0" MinHeight="90">
-                    <Label FontSize="26" FontWeight="Bold">Minute</Label>
+                    <Label FontSize="26" FontWeight="Bold" Foreground="Yellow">Minute</Label>
                     <Button Name="btnMinuteInc" Content="+" FontSize="26" Width="65" Click="btnMinuteInc_Click"></Button>
                     <TextBlock Name="txtMinute" Text="00" FontSize="26" Margin="10" TextAlignment="Center"></TextBlock>
                     <Button Name="btnMinuteDec" Content="-" FontSize="26" Width="65" Click="btnMinuteDec_Click"></Button>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center" Margin="0,0,30,0" MinWidth="90">
-                    <Label FontSize="26" FontWeight="Bold">Seconds</Label>
+                    <Label FontSize="26" FontWeight="Bold" Foreground="Yellow">Seconds</Label>
                     <Button Name="btnSecondsInc" Content="+" FontSize="26" Width="65" IsEnabled="False"></Button>
                     <TextBlock Name="txtSeconds" FontSize="26" Margin="10" TextAlignment="Center" Text="{Binding Path=CurrentDate.Second}" Width="65"></TextBlock>
                     <Button Name="btnSecondsDec" Content="-" FontSize="26" Width="65" IsEnabled="False"></Button>

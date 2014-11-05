@@ -12,7 +12,7 @@
             <RowDefinition Name="RowOne" Height="480" />
             <RowDefinition Name="RowTwo"/>
         </Grid.RowDefinitions>
-        <Image Height="540" HorizontalAlignment="Left" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="960" />
+        <Image Height="540" HorizontalAlignment="Left" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="960" Margin="15"/>
         
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,15,0,15">
             <StackPanel Orientation="Horizontal">

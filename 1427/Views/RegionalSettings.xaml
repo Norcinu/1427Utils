@@ -11,8 +11,13 @@
             <TabItem Header="Community Type">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock Text="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10,10,10,10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                    <!--<StackPanel Orientation="Horizontal">-->
-                    <Grid>
+					<!-- <StackPanel Orientation="Horizontal"> -->
+					<DockPanel>
+						<Label DockPanel.Dock="Left"  FontSize="36" Margin="30">Street Market</Label>
+						<Label DockPanel.Dock="Right" FontSize="36" Margin="30">Arcade</Label>
+					</DockPanel>
+					<!-- </StackPanel> -->
+					<Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Name="RowOne" Height="500" />
                         </Grid.RowDefinitions>
@@ -20,8 +25,8 @@
                             <ColumnDefinition Name="ColumnOne" Width="628" />
                             <ColumnDefinition Name="ColumnTwo" Width="620" />
                         </Grid.ColumnDefinitions>
-                        
-                        <ListView ItemsSource="{Binding Street}"  Margin="25,25,25,25" Grid.Column="0" Grid.Row="0">
+						
+                        <ListView ItemsSource="{Binding Street}"  Margin="25" Grid.Column="0" Grid.Row="0">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -56,7 +61,7 @@
                                     <GridViewColumn Header="Current Selection" Width="285">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <Button Content="Set Active Region" Height="35" Command="{Binding Path=SetActiveRegion}"/>
+												<Button Content="Set Active Region" Height="35" Command="{Binding Path=SetActiveRegion}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
