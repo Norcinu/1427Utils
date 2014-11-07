@@ -13,7 +13,7 @@ namespace PDTUtils
 		int m_modelNumber;
 		int m_bets;
 		int m_wins;
-		decimal m_percentage;
+		string m_percentage;
 		double m_averageStake;
 
 		#region Properties
@@ -41,7 +41,7 @@ namespace PDTUtils
 			set { m_wins = value; }
 		}
 		
-		public decimal Percentage
+		public string Percentage
 		{
 			get { return m_percentage; }
 			set { m_percentage = value; }
@@ -68,7 +68,7 @@ namespace PDTUtils
 			m_modelNumber = 0;
 			m_bets = 0;
 			m_wins = 0;
-			m_percentage = 0;
+			m_percentage = "";
 			m_averageStake = 0.0;
 			ImageSource = "";
 		}
@@ -163,18 +163,22 @@ namespace PDTUtils
 				gs.Percentage = Convert.ToDouble(combo[1]);*/
 
             if (combo[0] == "GameNo")
-				gs.GameNumber = Convert.ToInt32(combo[1]);
-			else if (combo[0] == "ModelNo")
-			{
-				gs.ModelNumber = Convert.ToInt32(combo[1]);
-				gs.ImageSource = @"D:\" + /*gs.ModelNumber.ToString()*/@"stats\" + /*@"\I" +*/ gs.ModelNumber.ToString() + ".png";
-			}
-			else if (combo[0] == "Bets")
-				gs.Bets = Convert.ToInt32(combo[1]);
-			else if (combo[0] == "Wins")
-				gs.Wins = Convert.ToInt32(combo[1]);
-			else if (combo[0] == "Percentage")
-				gs.Percentage = Convert.ToDecimal(combo[1]);
+                gs.GameNumber = Convert.ToInt32(combo[1]);
+            else if (combo[0] == "ModelNo")
+            {
+                gs.ModelNumber = Convert.ToInt32(combo[1]);
+                gs.ImageSource = @"D:\" + /*gs.ModelNumber.ToString()*/@"stats\" + /*@"\I" +*/ gs.ModelNumber.ToString() + ".png";
+            }
+            else if (combo[0] == "Bets")
+                gs.Bets = Convert.ToInt32(combo[1]);
+            else if (combo[0] == "Wins")
+                gs.Wins = Convert.ToInt32(combo[1]);
+            else if (combo[0] == "Percentage")
+            {
+                gs.Percentage = combo[1].Trim() + "%";
+                //var l = combo[1].Trim();
+                //gs.Percentage = decimal.Parse(l); //Convert.ToDecimal(combo[1]);
+            }
 		}
 		
 		public void ResetStats()
@@ -225,6 +229,7 @@ namespace PDTUtils
                                 if (gameCounter < Convert.ToInt32(generalValues[5]))
                                 {
                                     var outter = m_games[gameCounter];
+                                    line = line.Trim();
                                     FillGameStats(line.Split("=".ToCharArray()), ref outter);
                                 }
 							}

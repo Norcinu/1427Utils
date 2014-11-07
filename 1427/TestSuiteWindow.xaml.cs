@@ -46,7 +46,7 @@ namespace PDTUtils
 		{
 			InitializeComponent();
 			m_labels = new Label[8]{label3, label4, label5, label6, label7, label8, label9, label10};
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 7; i++)
 				m_buttonsPressed[i] = 0;
 
 			startTimer.Elapsed += timer_CheckButton;
@@ -169,14 +169,14 @@ namespace PDTUtils
                 {
                     var converter = new BrushConverter();
                     m_labels[ctr].Foreground = Brushes.Green;
-                    m_labels[ctr].FontSize = 16;
+                  //  m_labels[ctr].FontSize = 16;
                     m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
                             new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " ON" });
                 }
                 else
                 {
                     m_labels[ctr].Foreground = Brushes.Red;
-                    m_labels[ctr].FontSize = 16;
+                  //  m_labels[ctr].FontSize = 16;
                     m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
                             new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " OFF" });
                 }
@@ -190,11 +190,11 @@ namespace PDTUtils
 			m_noteImpl.IsRunning = true;
 			BoLib.clearBankAndCredit();
 			BoLib.enableNoteValidator();
-			label1.FontSize = 16;
+			//label1.FontSize = 16;
 			label1.Background = Brushes.Black;
 			label1.Foreground = Brushes.Aqua;
 			label1.Content = "Please deposit coin into the machine.";
-			label3.FontSize = 16;
+			//label3.FontSize = 16;
 			startTimer.Enabled = true;
 			btnEndTest.IsEnabled = true;
 		}
@@ -204,23 +204,23 @@ namespace PDTUtils
 			m_noteImpl.IsRunning = true;
 			BoLib.clearBankAndCredit();
 			BoLib.enableNoteValidator();
-			label1.FontSize = 16;
+			//label1.FontSize = 16;
 			label1.Background = Brushes.Black;
 			label1.Foreground = Brushes.Aqua;
 			label1.Content = "Please insert note into Note Validator.";
-			label3.FontSize = 16;
+			//label3.FontSize = 16;
 			startTimer.Enabled = true;
 			btnEndTest.IsEnabled = true;
 		}
         
 		private void DoButtonTest()
 		{
-		    Label l = new Label();
+		  /*  Label l = new Label();
 		    l.FontSize = 22;
 		    l.Content = "Toggle Refill Key: ";
-		    l.Name = "PressButton";
+		    l.Name = "PressButton";*/
 				
-		    stpMainPanel.Children.Add(l);
+		    //stpMainPanel.Children.Add(l);
 		    for (int i = 0; i < 8; i++)
 			    m_buttonsPressed[i] = 0;
 			
@@ -237,7 +237,7 @@ namespace PDTUtils
 
 		private void timer_UpdateLabel(Label l)
 		{
-			l.Content = "m_termButton = " + m_termButtonList[m_currentButton];
+			l.Content = "SUCCESS " + m_termButtonList[m_currentButton] + " OK";
 		}
         
 		private void timer_UpdateSpecials(Label l)
@@ -264,14 +264,14 @@ namespace PDTUtils
 
         private void UpdateSpecialsError(Label l)
         {
-            l.Content = "Button NOT FITTED/ERROR";
+            l.Content = "**WARNING** Button NOT FITTED/ERROR";
         }
 
 		private void timer_buttonError(Label l)
 		{
 			l.Background = Brushes.Red;
 			l.Foreground = Brushes.Black;
-			l.Content = "m_termButton = " + m_termButtonList[m_currentButton] + " NOT FITTED/ERROR";
+			l.Content = "**WARNING** " + m_termButtonList[m_currentButton] + " NOT FITTED/ERROR";
 		}
         
 		private void timer_updateNoteVal(Label l, int v)
@@ -465,7 +465,7 @@ namespace PDTUtils
 				l.Content = "";
 				l.Foreground = null;
 				l.Background = null;
-				l.FontSize = 11;
+				l.FontSize = 22;
 			}
 		    
 			btnEndTest.IsEnabled = false;

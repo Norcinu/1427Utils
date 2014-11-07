@@ -6,12 +6,12 @@ using PDTUtils.Native;
 
 namespace PDTUtils.MVVM.Models
 {
-    enum ESiteType { StreetMarket = 1, Arcade }
+    public enum ESiteType { StreetMarket = 1, Arcade }
 
     class SpainRegionSelection
     {
         public string Community { get; set; }
-        public string Index { get; set; }
+        public string VenueType { get; set; }
     }
     
     class SpanishRegionalModel

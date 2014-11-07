@@ -13,8 +13,8 @@
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
 
-//extern int CoinConv[COIN_CNT][CC_CNT];
-//extern int NoteValues[NOTE_CNT][CC_CNT];
+extern int CoinConv[COIN_CNT][CC_CNT];
+extern int NoteValues[NOTE_CNT][CC_CNT];
 
 const std::string MACHINE_INI = "D:\\machine\\machine.ini";
 char global_buffer[256] = {0};
@@ -346,7 +346,7 @@ unsigned long getCoinsIn(int meter)
 	auto coins = 0;
 	if (meter == MONEY_IN_LT) 
 	{
-	/*	coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_LT);
+		coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_LT);
 		coins += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_LT);
 		coins += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_LT);
 		coins += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_LT);
@@ -359,11 +359,11 @@ unsigned long getCoinsIn(int meter)
 		coins += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_LT);
 		coins += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_LT);
 		coins += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_LT);
-		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_LT);*/
+		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_LT);
 	}
 	else
 	{
-		/*coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_ST);
+		coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_ST);
 		coins += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_ST);
 		coins += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_ST);
 		coins += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_ST);
@@ -376,7 +376,7 @@ unsigned long getCoinsIn(int meter)
 		coins += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_ST);
 		coins += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_ST);
 		coins += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_ST);
-		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);*/
+		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);
 	}
 	return coins;
 }
@@ -390,7 +390,7 @@ unsigned long getCoinsOut(int meter)
 unsigned long getNotesIn(int meter)
 {
 	auto notes = 0;
-	/*if (meter == MONEY_IN_LT)
+	if (meter == MONEY_IN_LT)
 	{
 		notes += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_LT);
 		notes += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_LT);
@@ -407,14 +407,14 @@ unsigned long getNotesIn(int meter)
 		notes += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_ST);
 		notes += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_ST);
 		notes += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);
-	}*/
+	}
 	return notes;
 }
 
 unsigned long getNotesOut(int meter)
 {
 	auto notes = 0;
-	/*if (meter == MONEY_OUT_LT)
+	if (meter == MONEY_OUT_LT)
 	{
 		notes += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_OUT_LT);
 		notes += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_OUT_LT);
@@ -431,7 +431,7 @@ unsigned long getNotesOut(int meter)
 		notes += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_OUT_ST);
 		notes += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_OUT_ST);
 		notes += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_OUT_ST);
-	}*/
+	}
 	return notes;
 }
 
@@ -521,9 +521,6 @@ unsigned int getNumberOfGames()
 }
 
 #define ESP_REGIONS						46
-//Defines to index VariableValueArray
-
-
 #define ESP_VARIABLES		            14
 
 struct SpanishRegional

@@ -18,8 +18,7 @@
         Foreground="#FF837C7C"  
         ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" 
-        SizeToContent="Manual"
-        >
+        SizeToContent="Manual">
 
 	<Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
 		<Grid.Resources>
@@ -71,16 +70,20 @@
                Grid.Row="2" 
                Grid.Column="1" 
                Height="48" 
-               VerticalAlignment="Bottom"></Label>
+               VerticalAlignment="Bottom" 
+			   HorizontalContentAlignment="Right"
+			   Margin="0,0,10,0"></Label>
 
 		<Label Grid.Column="2" 
                Height="39" 
                HorizontalAlignment="Right" 
-               Margin="0,12,0,0" 
+               Margin="0,10,0,0" 
                Name="lblDoorStatus" 
                VerticalAlignment="Top" 
                Width="275" 
-               FontWeight="Bold" FontSize="26" FontFamily="Cambria" Content="Door Status : Closed" />
+               FontWeight="Bold" FontSize="26" 
+			   FontFamily="Cambria" 
+			   Content="Door Status : Closed" />
 
 		<StackPanel Grid.Column="1" 
                     Grid.Row="1" 
@@ -121,10 +124,10 @@
 				</ScrollViewer>
 			</TabItem>
 
-			<TabItem Header="Games" MinWidth="150">
+			<TabItem Header="Games" MinWidth="150" HorizontalContentAlignment="Center">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<StackPanel  HorizontalAlignment="Left">
-						<ListView ItemsSource="{Binding Path=LogController.PlayedGames}" MinHeight="600">
+					<StackPanel>
+						<ListView ItemsSource="{Binding Path=LogController.PlayedGames}" MinHeight="600" FontSize="20">
 							<ListView.View>
 								<GridView AllowsColumnReorder="False">
 									<GridViewColumn Header="Game" Width="180" DisplayMemberBinding="{Binding Path=GameModel}" />
@@ -139,13 +142,14 @@
 				</ScrollViewer>
 			</TabItem>
 
-			<TabItem Header="Wins" MinWidth="150">
+			<TabItem Header="Wins" MinWidth="150" HorizontalContentAlignment="Center">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 					<StackPanel>
-						<ListView ItemsSource="{Binding Path=LogController.WinningGames}" MinHeight="600">
+						<ListView ItemsSource="{Binding Path=LogController.WinningGames}" MinHeight="600" FontSize="20">
 							<ListView.View>
 								<GridView AllowsColumnReorder="False">
 									<GridViewColumn Header="Date" Width="225" DisplayMemberBinding="{Binding Path=GameDate}" />
+									<GridViewColumn Header="Game" Width="225" DisplayMemberBinding="{Binding Path=GameModel}" />
 									<GridViewColumn Header="Stake" Width="225" DisplayMemberBinding="{Binding Path=Stake}" />
 									<GridViewColumn Header="Credits" Width="225" DisplayMemberBinding="{Binding Path=Credit}" />
 									<GridViewColumn Header="Win Amount" Width="225" DisplayMemberBinding="{Binding Path=WinAmount}" />
@@ -163,13 +167,13 @@
 
 		<!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
 		<TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Height="{Binding Path=RowTwo.Height}" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
-			<TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
+			<TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}"><!-- Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 					<StackPanel>
-						<ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged">
+						<ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged" FontSize="22">
 							<ListView.View>
 								<GridView>
-									<GridViewColumn Width="340" Header="Field" 
+									<GridViewColumn Width="340" Header="Field"
                                                     DisplayMemberBinding="{Binding Field}" />
 									<GridViewColumn Width="340" Header="Value"
                                                     DisplayMemberBinding="{Binding Value}" />
@@ -243,8 +247,8 @@
 					
 					<StackPanel Orientation="Horizontal">
 						<Label FontSize="36" Content="IP Address:" Width="200" Margin="30"/>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
-						<TextBox  FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
+						<TextBox FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
 						<TextBox FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
 						<TextBox FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">3</TextBox>
 					</StackPanel>
@@ -259,15 +263,15 @@
 
 					<StackPanel Orientation="Horizontal">
 						<Label FontSize="36" Content="Gateway:" Width="200"  Margin="30"/>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
 						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
 					</StackPanel>
 					
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-						<Button FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Set Network Info</Button>
-						<Button FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Clear Network Info</Button>
+						<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Set Network Info</Button>
+						<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Clear Network Info</Button>
 					</StackPanel>
 				</StackPanel>	
 				
@@ -301,7 +305,7 @@
 								<GridViewColumn Header="Model No." Width="200" DisplayMemberBinding="{Binding ModelNumber}" />
 								<GridViewColumn Header="Bets" Width="200" DisplayMemberBinding="{Binding Bets}"/>
 								<GridViewColumn Header="Wins" Width="200" DisplayMemberBinding="{Binding Wins}"/>
-								<GridViewColumn Header="Percentage" Width="200" DisplayMemberBinding="{Binding Percentage}"/>
+								<GridViewColumn Header="Percentage (%)" Width="200" DisplayMemberBinding="{Binding Percentage}"/>
 								<GridViewColumn Header="Average Stake" Width="200" DisplayMemberBinding="{Binding AverageStake}" />
 							</GridView>
 						</ListView.View>
@@ -378,31 +382,32 @@
 
 		<!-- System Info View -->
 
-		<Border BorderThickness="5" Panel.ZIndex="5" BorderBrush="HotPink" Grid.Row="1" Grid.Column="1">
+		<!-- <Border BorderThickness="5" Panel.ZIndex="5" BorderBrush="HotPink" Grid.Row="1" Grid.Column="1"> -->
 			<StackPanel Orientation="Horizontal" Panel.ZIndex="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{Binding DockSystem.IsEnabled}"  Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" Grid.Row="1" Grid.Column="1">
-			<StackPanel HorizontalAlignment="Left">
-				<ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="22" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<ListBoxItem Content="{Binding Field}"></ListBoxItem>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</StackPanel>
+				<StackPanel HorizontalAlignment="Left">
+					<ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="22" ScrollViewer.CanContentScroll="True"  ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<ListBoxItem Content="{Binding Field}"></ListBoxItem>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</StackPanel>
 
-				<StackPanel HorizontalAlignment="Right" Width >
-					<ListView ItemsSource="{Binding Path=GamesList.GamesInfo}" FontSize="22" Width="455" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-					<ListView.View>
-						<GridView>
-							<GridViewColumn Header="Game" DisplayMemberBinding="{Binding Path=Name}" Width="150"></GridViewColumn>
-							<GridViewColumn Header="Executable Path" DisplayMemberBinding="{Binding Path=Path}" Width="150"></GridViewColumn>
-							<GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=HashCode}" Width="150"></GridViewColumn>
-						</GridView>
-					</ListView.View>
-				</ListView>
+				<StackPanel HorizontalAlignment="Right">
+					<ListView ItemsSource="{Binding Path=GamesList.GamesInfo}" FontSize="22" Width="655" Height="400"  Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="Game" DisplayMemberBinding="{Binding Path=Name}" Width="150"></GridViewColumn>
+								<GridViewColumn Header="Executable Path" DisplayMemberBinding="{Binding Path=Path}" Width="250"></GridViewColumn>
+								<GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=HashCode}" Width="254"></GridViewColumn>
+							</GridView>
+						</ListView.View>
+					</ListView>
+				</StackPanel>
 			</StackPanel>
-		</StackPanel>
-		</Border>
+		<!-- </Border> HotPink!! -->
+		
 		<!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
 		<view:CreditManagementView Panel.ZIndex="5" x:Name="ucCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
 		<view:MainPage Panel.ZIndex="1" x:Name="ucMainPage" Grid.Row="1" Grid.Column="1" />
@@ -413,7 +418,7 @@
 			<!-- <Button Content="Hoppers" Height="35" HorizontalAlignment="Stretch" Name="btnHoppers" VerticalAlignment="Stretch" Width="170" Click="btnHoppers_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" /> -->
 			<Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="btnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Games" Height="35" HorizontalAlignment="Stretch" Name="btnGames" VerticalAlignment="Stretch" Width="170" Click="Games_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-			<Button Content="Logfiles" Height="35" HorizontalAlignment="Stretch" Name="btnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+			<Button Content="System History" Height="35" HorizontalAlignment="Stretch" Name="btnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Cash" Height="35" Name="btnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="btnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="btnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click" />

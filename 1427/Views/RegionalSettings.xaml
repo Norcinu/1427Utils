@@ -3,81 +3,70 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
+			 mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1200">
-    
+    	
     <Grid>
         <TabControl>
-            <TabItem Header="Community Type">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10,10,10,10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-					<!-- <StackPanel Orientation="Horizontal"> -->
-					<DockPanel>
-						<Label DockPanel.Dock="Left"  FontSize="36" Margin="30">Street Market</Label>
-						<Label DockPanel.Dock="Right" FontSize="36" Margin="30">Arcade</Label>
-					</DockPanel>
-					<!-- </StackPanel> -->
+			<TabItem Header="Community Type">
+				<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    
+					<TextBlock Text="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+					<TextBlock Text="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
+					
 					<Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Name="RowOne" Height="500" />
+                            <RowDefinition Name="RowOne" Height="380" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Name="ColumnOne" Width="628" />
-                            <ColumnDefinition Name="ColumnTwo" Width="620" />
+                            <ColumnDefinition Name="ColumnOne" Width="430" />
+                            <ColumnDefinition Name="ColumnTwo" Width="430" />
                         </Grid.ColumnDefinitions>
-						
-                        <ListView ItemsSource="{Binding Street}"  Margin="25" Grid.Column="0" Grid.Row="0">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="FontSize" Value="20" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Community" DisplayMemberBinding="{Binding Community}" Width="285" />
-                                    <GridViewColumn Header="Current Selection" Width="285">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Button Content="Set Active Region" Height="35" Command="{Binding SetActiveRegion}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        
-                        <ListView ItemsSource="{Binding Arcades}" Margin="0, 25, 25,25" Grid.Column="1" Grid.Row="0">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="FontSize" Value="20" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                                         
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Community" DisplayMemberBinding="{Binding Community}" Width="285"/>
-                                    <GridViewColumn Header="Current Selection" Width="285">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-												<Button Content="Set Active Region" Height="35" Command="{Binding Path=SetActiveRegion}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+
+						<ListView x:Name="lvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn Header="Street Market - Community" DisplayMemberBinding="{Binding Community}" Width="380" />
+								</GridView>
+							</ListView.View>
+						</ListView>
+
+						<ListView x:Name="lvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" Tag="2">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn Header="Arcade - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>
+								</GridView>
+							</ListView.View>
+						</ListView>
                         
                     </Grid>
-                    <!-- </StackPanel> -->
+					
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+						<Button x:Name="btnSetActive" Width="150" FontSize="18" Height="35" Margin="25"
+									Command="{Binding SetActiveRegion}"
+									CommandParameter="{Binding ElementName=lvStreetMarkets}"
+									Content="Set Street Market" />
+						
+						<Button x:Name="btnSetArcade" Width="150" FontSize="18" Height="35" Margin="25"
+									Command="{Binding SetActiveRegion}"
+									CommandParameter="{Binding ElementName=lvArcades}"
+									Content="Set Arcade" />
+					</StackPanel>
+
                 </StackPanel>
             </TabItem>
             
             <TabItem Header="Community Settings">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Content="Save Changes" />
+					<StackPanel Orientation="Horizontal">
+						<Label FontSize="18">Region:</Label>
+						<Label FontSize="18" Content="{Binding Selected.Community}"></Label>
+					</StackPanel>
+					
+					<!-- END -->
+					<StackPanel Orientation="Horizontal">	
+						<!-- <MediaElement Source="D:\hst_1.mpg"/> -->
+						<Button Content="Save Changes" />
                         <Button Content="Cancel" />
                     </StackPanel>
                 </StackPanel>

@@ -3487,7 +3487,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="FontFamily" Value="Trebuchet MS" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="20" />
         <Setter Property="BorderBrush" Value="#FFB1703C" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="1" />

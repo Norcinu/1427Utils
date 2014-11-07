@@ -3,9 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Markup;
 
-//I am going to get a taste of my medicine
 namespace PDTUtils.Logic
 {
     public class TouchScreenKeyboard : Window
@@ -130,7 +128,6 @@ namespace PDTUtils.Logic
 
         public static RoutedUICommand CmdSpaceBar = new RoutedUICommand();
         public static RoutedUICommand CmdClear = new RoutedUICommand();
-
 
 
         public TouchScreenKeyboard()

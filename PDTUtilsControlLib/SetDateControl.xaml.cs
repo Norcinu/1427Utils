@@ -59,34 +59,42 @@ namespace PDTUtilsControlLib
 			txtSeconds.Text = m_currentDate.Year.ToString("0000");
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void btnDayInc_Click(object sender, RoutedEventArgs e)
 		{
-			var hour = IncrementValue(txtHour);
+			var hour = Convert.ToInt32(txtHour.Text);
+            if (hour < 30)
+                hour++;
 			txtHour.Text = hour.ToString("00");
 		}
 
-		private void Button_Click_1(object sender, RoutedEventArgs e)
+		private void btnDayDec_Click_1(object sender, RoutedEventArgs e)
 		{
-			var hour = DecrementValue(txtHour);
+			var hour = Convert.ToInt32(txtHour.Text);
+            if (hour > 1)
+                hour--;
 			txtHour.Text = hour.ToString("00");
 		}
 
-		private void btnMinuteInc_Click(object sender, RoutedEventArgs e)
+		private void btnMonthInc_Click(object sender, RoutedEventArgs e)
 		{
-			var minute = IncrementValue(txtMinute, false);
-			txtMinute.Text = minute.ToString("00");
+            var minute = Convert.ToInt32(txtMinute.Text);
+            if (minute < 12)
+                minute++;
+            txtMinute.Text = minute.ToString("00");
 		}
 
-		private void btnMinuteDec_Click(object sender, RoutedEventArgs e)
+		private void btnMonthDec_Click(object sender, RoutedEventArgs e)
 		{
-			var minute = DecrementValue(txtMinute, false);
+            var minute = Convert.ToInt32(txtMinute.Text);
+            if (minute > 1)
+                minute--;
 			txtMinute.Text = minute.ToString("00");
 		}
 
 		int IncrementValue(TextBlock tb, bool hour = true)
 		{
 			var value = Convert.ToInt32(tb.Text);
-			var maxValue = (hour == true) ? 23 : 59;
+			var maxValue = (hour == true) ? 1 : 31;
 
 			if (value < maxValue)
 				value++;
@@ -136,9 +144,26 @@ namespace PDTUtilsControlLib
             short.TryParse(txtHour.Text, out hour);
             short minute = 0;
             short.TryParse(txtMinute.Text, out minute);
-            newTime.hour = hour;
-            newTime.minute = minute;
+            short year = 0;
+            short.TryParse(txtSeconds.Text, out year);
+            newTime.day = hour;
+            newTime.month = minute;
+            newTime.year = year;
             SetSystemTime(ref newTime);
+        }
+
+        private void btnSecondsInc_Click(object sender, RoutedEventArgs e)
+        {
+            var year = Convert.ToInt32(txtSeconds.Text);
+            year++;
+            txtSeconds.Text = year.ToString("0000");
+        }
+
+        private void btnSecondsDec_Click(object sender, RoutedEventArgs e)
+        {
+            var year = Convert.ToInt32(txtSeconds.Text);
+            year--;
+            txtSeconds.Text = year.ToString("0000");
         }
 	}
 }

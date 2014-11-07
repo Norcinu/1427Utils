@@ -75,7 +75,7 @@ namespace PDTUtils
 		{
 			lblBottom.FontSize = 22;
 			lblBottom.Foreground = Brushes.Pink;
-			lblBottom.Content = DateTime.Now.ToLongDateString() + " - " + DateTime.Now.ToLongTimeString() + "\t\t ::::\t\t Uptime ";
+			lblBottom.Content = DateTime.Now.ToLongDateString() + " - " + DateTime.Now.ToLongTimeString() + " :::: Uptime ";
 			var ticks = Stopwatch.GetTimestamp();
 			var uptime = ((double)ticks) / Stopwatch.Frequency;
 			var uptimeSpan = TimeSpan.FromSeconds(uptime);

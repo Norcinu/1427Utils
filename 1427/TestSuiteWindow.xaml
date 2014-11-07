@@ -1,7 +1,7 @@
 ﻿<Window x:Class="PDTUtils.TestSuiteWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Test Suite" Height="480" Width="640" Loaded="Window_Loaded" HorizontalAlignment="Center" VerticalAlignment="Center" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed" WindowState="Maximized" SizeToContent="Manual">
+        Title="Test Suite" Height="1000" Width="1000" Loaded="Window_Loaded" HorizontalAlignment="Center" VerticalAlignment="Center" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="Window_Closed" WindowState="Maximized" SizeToContent="Manual">
     <Grid HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="67*" />
@@ -9,19 +9,21 @@
             <RowDefinition Height="374*" />
         </Grid.RowDefinitions>
         <DockPanel LastChildFill="True" Height="30" Margin="12,12,12,0" Name="stpButtons" VerticalAlignment="Top" Width="600" HorizontalAlignment="Center" />
-        <Button Content="Exit" Height="23" HorizontalAlignment="Left" Margin="667,567,0,0" Name="btnExit" VerticalAlignment="Top" Width="75" Click="btnExit_Click" Grid.Row="2" />
-        <StackPanel Height="355" HorizontalAlignment="Center" Margin="12,48,12,0" Name="stpMainPanel" VerticalAlignment="Top" Width="600" Background="#FFDBC2C2" Grid.RowSpan="3">
-            <Label Height="28" Name="label1" HorizontalContentAlignment="Center" />
-            <Label Height="28" Name="label2" HorizontalContentAlignment="Center" />
-            <Label Height="28" Name="label3" HorizontalContentAlignment="Center" />
-            <Label Height="28" Name="label4" HorizontalContentAlignment="Center" />
-            <Label Height="28" Name="label5" HorizontalContentAlignment="Center" />
-            <Label Height="28" Name="label6" HorizontalContentAlignment="Center" />
-            <Label Height="28" Name="label7" HorizontalContentAlignment="Center" />
-            <Label Height="28" Name="label8" HorizontalContentAlignment="Center" />
-            <Label Height="28" Name="label9" HorizontalContentAlignment="Center" />
-            <Label Height="28" Name="label10" HorizontalContentAlignment="Center" />
-            <Button Content="End Test" Height="23" Name="btnEndTest" Width="75" IsEnabled="False" Margin="0,10,0,0" />
+        
+        <StackPanel Height="900" HorizontalAlignment="Center" Margin="12,48,12,0" Name="stpMainPanel" VerticalAlignment="Top" Width="600" Background="#FFDBC2C2" Grid.RowSpan="3">
+            <Label Height="80" Name="label1" HorizontalContentAlignment="Center" FontSize="22"/>
+			<Label Height="80" Name="label2" HorizontalContentAlignment="Center" FontSize="22"/>
+			<Label Height="80" Name="label3" HorizontalContentAlignment="Center" FontSize="22"/>
+			<Label Height="80" Name="label4" HorizontalContentAlignment="Center" FontSize="22"/>
+			<Label Height="80" Name="label5" HorizontalContentAlignment="Center" FontSize="22"/>
+			<Label Height="80" Name="label6" HorizontalContentAlignment="Center" FontSize="22"/>
+			<Label Height="80" Name="label7" HorizontalContentAlignment="Center" FontSize="22"/>
+			<Label Height="80" Name="label8" HorizontalContentAlignment="Center" FontSize="22"/>
+			<Label Height="80" Name="label9" HorizontalContentAlignment="Center" FontSize="22"/>
+			<Label Height="80" Name="label10" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Button Content="End Test" Height="23" Name="btnEndTest" Width="75" IsEnabled="False" Margin="10" />
+			<Button Content="Exit" Height="23" Name="btnExit"  Width="75" Click="btnExit_Click" />
         </StackPanel>
+		
     </Grid>
 </Window>
