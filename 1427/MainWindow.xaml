@@ -323,11 +323,31 @@
 		</StackPanel>
 
 		<!-- is this were all the binding errors come from? -->
+		<view:PerformanceView x:Name="ucPerformance" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
+		<!-- Meters
 		<TabControl Name="tabMeters"  Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
+			<TabItem Header="Performance">
+				<TabControl Name="tabPerformance">
+					<TabItem Header="Machine">
+						<ListView ItemsSource="{Binding TitoMeter.MeterDesc}" FontSize="18">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
+									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
+								</GridView>
+							</ListView.View>
+						</ListView>
+					</TabItem>
+					<TabItem Header="Games">
+						
+					</TabItem>
+				</TabControl>
+			</TabItem>
+			
 			<TabItem Header="LCD Meters">
-				<!--<DockPanel LastChildFill="False">-->
+
 				<StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal">
-					<StackPanel Margin="15"> <!-- DockPanel.Dock="Left"> -->
+					<StackPanel Margin="15">
 						<Label FontSize="22" HorizontalContentAlignment="Center">Short Term Meters</Label>
 						<ListView ItemsSource="{Binding Path=ShortTerm.MeterDesc}" FontSize="18">
 							<ListView.View>
@@ -337,8 +357,19 @@
 								</GridView>
 							</ListView.View>
 						</ListView>
+						
+						<Label FontSize="22" HorizontalContentAlignment="Center" Content="Tito Meter" Margin="25,25,25,0" />
+						<ListView ItemsSource="{Binding TitoMeter.MeterDesc}" FontSize="18">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
+									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
+								</GridView>
+							</ListView.View>
+						</ListView>
 					</StackPanel>
-					<StackPanel Margin="15"><!--  DockPanel.Dock="Right"> -->
+					
+					<StackPanel Margin="15">
 						<Label FontSize="22" HorizontalContentAlignment="Center">Long Term Meters</Label>
 						<ListView ItemsSource="{Binding Path=LongTerm.MeterDesc}" FontSize="18">
 							<ListView.View>
@@ -356,8 +387,9 @@
 						</ListView>
 					</StackPanel>
 				</StackPanel>
-				<!--</DockPanel>-->
+				
 			</TabItem>
+			
 			<TabItem Header="Cash Reconcilliation">
 				<TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -365,21 +397,14 @@
                         AncestorType={x:Type Window}}}">
 					<TabItem Header="Cash" MinWidth="150">
 						<DockPanel>
-							<ListBox ItemsSource="{Binding MachineData}" DockPanel.Dock="Left">
-								<ListBox.ItemTemplate>
-									<DataTemplate>
-										<ListBoxItem Content="{Binding Field}" />
-									</DataTemplate>
-								</ListBox.ItemTemplate>
-							</ListBox>
+							
 						</DockPanel>
 					</TabItem>
-					<TabItem Header="Attendant" MinWidth="100"/>
-					<TabItem Header="Book Levels" MinWidth="150"></TabItem>
+					<TabItem></TabItem>
 				</TabControl>
 			</TabItem>
-		</TabControl>
-
+		</TabControl> -->
+		
 		<!-- System Info View -->
 
 		<!-- <Border BorderThickness="5" Panel.ZIndex="5" BorderBrush="HotPink" Grid.Row="1" Grid.Column="1"> -->

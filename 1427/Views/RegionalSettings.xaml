@@ -22,7 +22,7 @@
                             <ColumnDefinition Name="ColumnOne" Width="430" />
                             <ColumnDefinition Name="ColumnTwo" Width="430" />
                         </Grid.ColumnDefinitions>
-
+						
 						<ListView x:Name="lvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1">
 							<ListView.View>
 								<GridView>
@@ -30,7 +30,7 @@
 								</GridView>
 							</ListView.View>
 						</ListView>
-
+							
 						<ListView x:Name="lvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" Tag="2">
 							<ListView.View>
 								<GridView>
@@ -59,15 +59,15 @@
             <TabItem Header="Community Settings">
                 <StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<Label FontSize="18">Region:</Label>
-						<Label FontSize="18" Content="{Binding Selected.Community}"></Label>
+						<Label FontSize="18" Margin="25">Edit Region:</Label>
+						<Label FontSize="18" Margin="25" Content="{Binding Selected.Community}"></Label>
 					</StackPanel>
 					
+					
 					<!-- END -->
-					<StackPanel Orientation="Horizontal">	
-						<!-- <MediaElement Source="D:\hst_1.mpg"/> -->
-						<Button Content="Save Changes" />
-                        <Button Content="Cancel" />
+					<StackPanel Orientation="Horizontal">
+						<Button Content="Save Changes" Margin="25" FontSize="20" Width="150" Height="35" />
+                        <Button Content="Cancel" Margin="25" FontSize="20" Width="150" Height="35" />
                     </StackPanel>
                 </StackPanel>
                 

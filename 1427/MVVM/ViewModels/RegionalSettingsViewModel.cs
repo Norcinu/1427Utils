@@ -17,19 +17,19 @@ namespace PDTUtils.MVVM.ViewModels
   
         SpainRegionSelection _selected = new SpainRegionSelection();      
         
-        readonly string[] _streetMarketRegions = new string[20] 
+        readonly string[] _streetMarketRegions = new string[20]
         {
             "Andalucia", "Aragón", "Asturias", "Baleares", "País Vasco", "Cantabria", "Castilla-La Mancha",
             "Castilla León", "Catalonia", "Catalonia Light", "Extremadura", "Madrid", "Murcia", "Navarra",
             "La Rioja", "Valencia", "Valencia 500", "Valencia Light", "Canarias", "Galicia"
         };
 
-        readonly string[] _arcadeRegions = new string[26] 
+        readonly string[] _arcadeRegions = new string[26]
         {
             "Andalucia", "Aragón", "Asturias", "Baleares", "Baleares (Special B)", "Basque (BS)", "Basque (Special BS)",
             "Cantabria", "Castilla-La Mancha", "Castilla-La Mancha (Special)", "Castilla León", "Catalonia", "Extremadura",
             "Madrid", "Madrid 2000", "Madrid 3000", "Murcia", "Murcia (arcade, reservate area)", "Navarra", "La Rioja",
-            "Valencia 2000", "Valencia 3000", "Valencia", "Valencia 1000", "Canarias", "Galicia",
+            "Valencia 2000", "Valencia 3000", "Valencia", "Valencia 1000", "Canarias", "Galicia"
         };
         
         #region Properties
@@ -62,7 +62,7 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.getRegionalValues(i, ref sr);
                 _street.Add(new SpanishRegionalModel(_streetMarketRegions[i], sr));
             }
-            
+
             int smLength = _streetMarketRegions.Length - 1;
             for (int i = 0; i < _arcadeRegions.Length - 1; i++)
             {

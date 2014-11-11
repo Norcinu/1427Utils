@@ -220,6 +220,15 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\TiTo.log.
+        /// </summary>
+        internal static string tito_log {
+            get {
+                return ResourceManager.GetString("tito_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D:\machine\updatekey.txt.
         /// </summary>
         internal static string update_log {

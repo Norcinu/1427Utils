@@ -32,7 +32,8 @@ namespace PDTUtils
 		ServiceEnabler m_enabler = new ServiceEnabler();
 		ShortTermMeters m_shortTerm = new ShortTermMeters();
 		LongTermMeters m_longTerm = new LongTermMeters();
-		MachineInfo m_machineData = new MachineInfo();
+        TitoMeters m_titoMeter = new TitoMeters();
+        MachineInfo m_machineData = new MachineInfo();
 		GamesList m_gamesList = new GamesList();
 		MachineLogsController m_logController = new MachineLogsController();
         UserSoftwareUpdate m_updateFiles = null;
@@ -46,22 +47,14 @@ namespace PDTUtils
                 				
                 Random r = new Random();
 				CultureInfo ci = null;
-			//	if (r.Next(2) == 0)
-					ci = new CultureInfo("es-ES"); // read this from config
-			//	else
-			//		ci = new CultureInfo("en-GB");
+
+				ci = new CultureInfo("es-ES"); // read this from config
 				
 		    	Thread.CurrentThread.CurrentCulture = ci;
 				Thread.CurrentThread.CurrentUICulture = ci;
                 
                 m_updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = this.Height;
-                
-                /*InitialiseBoLib();
-			    m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
-				m_keyDoorThread.Start();
-				while (!m_keyDoorThread.IsAlive) ;
-				Thread.Sleep(2);*/
 			}
 			catch (Exception err)
 			{
@@ -135,6 +128,12 @@ namespace PDTUtils
 			set { m_longTerm = value; }
 		}
 
+        public TitoMeters TitoMeter
+        {
+            get { return m_titoMeter; }
+            set { m_titoMeter = value; }
+        }
+
 		#endregion
 		
 		private void btnExit_Click(object sender, RoutedEventArgs e)
@@ -182,7 +181,6 @@ namespace PDTUtils
 		{
 			try
 			{
-			//	InitialiseBoLib();
 				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
 				m_keyDoorThread.Start();
 				while (!m_keyDoorThread.IsAlive);
@@ -362,9 +360,15 @@ namespace PDTUtils
 		
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
-			m_shortTerm.ReadMeter();
+            ucPerformance.IsEnabled = !ucPerformance.IsEnabled;
+            if (ucPerformance.IsEnabled)
+                ucPerformance.Visibility = Visibility.Visible;
+            else
+                ucPerformance.Visibility = Visibility.Hidden;
+			/*m_shortTerm.ReadMeter();
 			m_longTerm.ReadMeter();
-			Enabler.EnableCategory(Categories.Meters);
+            m_titoMeter.ReadMeter();
+			Enabler.EnableCategory(Categories.Meters);*/
 		}
 		
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)

@@ -37,7 +37,7 @@ namespace PDTUtils
 	public class CustomImagePathConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, 
-									   object parameter, CultureInfo culture)
+							  object parameter, CultureInfo culture)
 		{
 			string str = value as string;
 			if (str[str.Length - 4] != '.')
@@ -194,7 +194,6 @@ namespace PDTUtils
                 return false;
 
             return ((bool)value == false) ? 0 : 1;
-            
         }
     }
 
@@ -202,7 +201,7 @@ namespace PDTUtils
     {
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
-            return new object[] { value[0], value[1] };//value.ToArray();
+            return new object[] { value[0], value[1] };
         }
 
         public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
