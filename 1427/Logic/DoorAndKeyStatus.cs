@@ -76,7 +76,12 @@ namespace PDTUtils
 					{
 						if (BoLib.refillKeyStatus() == 0)
 						{
-							m_running = false;
+                            m_running = false;
+                            Application.Current.Dispatcher.Invoke(
+                                    DispatcherPriority.Normal, 
+                                    (ThreadStart)delegate {
+                                        System.Diagnostics.Debug.WriteLine("DISPATCHER INVOKE");
+                            });
 							Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 						}
                         

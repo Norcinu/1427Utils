@@ -39,10 +39,9 @@ void performHandPay()
 			SendHeaderOnly(HANDPAY_CONFIRM, 1);
 			AddToPerformanceMeters(HAND_PAY_LT, totalCredits);
 			SetMeterPulses(2, 1, totalCredits);
-			//HandPayToEdc += totalCredits;
 			addHandPayToEDC(totalCredits);
 			SendHandPay2Server(totalCredits, 1427);
-
+			
 			if (GetInTournamentPlay())
 			{
 				AddToTPlayLog(totalCredits, TPLAY_SESSION_HAND_PAID);

@@ -421,7 +421,7 @@ namespace PDTUtils
 		{
 			if (m_updateFiles.FileCount > 0)
 				m_updateFiles.FileCount--;
-
+            
 			//if (btnPerformUpdate.IsEnabled == true && m_updateFiles.FileCount == 0)
 			//	btnPerformUpdate.IsEnabled = false;
 		}

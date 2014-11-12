@@ -25,7 +25,7 @@
 			<BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
 			<cv:ConvertScreenHeight x:Key="ScaleScreenHeight" />
 		</Grid.Resources>
-
+		
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Name="ColumnOne" Width="207*" />
 			<ColumnDefinition Name="ColumnTwo" Width="571*" />
@@ -35,13 +35,14 @@
 			<RowDefinition Name="RowTwo" Height="{Binding Path=Height,  Converter={StaticResource ScaleScreenHeight}}" SharedSizeGroup="theRow"/>
 			<RowDefinition Name="RowThree" Height="52*" />
 		</Grid.RowDefinitions>
-
+		
 		<!-- 2nd screenshot uses ColumnSpan and RowSpan -->
 		<Label Name="lblTop" 
                Background="#336699"  
                BorderBrush="Black" 
                BorderThickness="2" 
-               Grid.ColumnSpan="2" VerticalContentAlignment="Center"></Label>
+               Grid.ColumnSpan="2" 
+			   VerticalContentAlignment="Center" />
 		<!--LightGoldenrodYellow"-->
 		<!-- columnspan="5" -->
 		<Label Name="lblLeft" 
@@ -49,7 +50,7 @@
                BorderBrush="Black" 
                BorderThickness="2" 
                Grid.Row="1" 
-               Grid.RowSpan="2" Margin="-5,2,6,-2"></Label>
+               Grid.RowSpan="2" Margin="-5,2,6,-2"/>
 
 		<!--Background="LightGreen"-->
 		<Label Name="lblRight" 
@@ -61,7 +62,7 @@
                Margin="0,0,0,47" 
                Grid.RowSpan="2" 
                Style="{Binding}" 
-               IsEnabled="True">Blue 1</Label>
+               IsEnabled="True" />
 
 		<Label Name="lblBottom" 
                Background="#FF336699" 
@@ -72,7 +73,7 @@
                Height="48" 
                VerticalAlignment="Bottom" 
 			   HorizontalContentAlignment="Right"
-			   Margin="0,0,10,0"></Label>
+			   Margin="0,0,10,0"/>
 
 		<Label Grid.Column="2" 
                Height="39" 
@@ -109,9 +110,9 @@
 		<!-- Logfiles -->
 		<TabControl Name="MyLogfiles" Panel.ZIndex="5"  VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding Path=Enabler.Logfile}" Visibility="{Binding Path=Enabler.Logfile, Converter={StaticResource BoolToVisConverter}}" MinHeight="1000">
 			<TabItem Header="Errors" MinWidth="150" HorizontalContentAlignment="Center">
-				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<StackPanel>
-						<ListView ItemsSource="{Binding Path=LogController.ErrorLog}" MinHeight="650" FontSize="20">
+				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
+					<StackPanel Margin="25">
+						<ListView ItemsSource="{Binding Path=LogController.ErrorLog}" MinHeight="600" FontSize="20"> <!-- 650 -->
 							<ListView.View>
 								<GridView AllowsColumnReorder="False">
 									<GridViewColumn Header="Date" Width="300" DisplayMemberBinding="{Binding Path=ErrorDate}" />
@@ -125,8 +126,8 @@
 			</TabItem>
 
 			<TabItem Header="Games" MinWidth="150" HorizontalContentAlignment="Center">
-				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<StackPanel>
+				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
+					<StackPanel Margin="25">
 						<ListView ItemsSource="{Binding Path=LogController.PlayedGames}" MinHeight="600" FontSize="20">
 							<ListView.View>
 								<GridView AllowsColumnReorder="False">
@@ -141,10 +142,10 @@
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
-
+			
 			<TabItem Header="Wins" MinWidth="150" HorizontalContentAlignment="Center">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<StackPanel>
+					<StackPanel Margin="25">
 						<ListView ItemsSource="{Binding Path=LogController.WinningGames}" MinHeight="600" FontSize="20">
 							<ListView.View>
 								<GridView AllowsColumnReorder="False">
@@ -160,7 +161,7 @@
 				</ScrollViewer>
 			</TabItem>
 			<TabItem Header="Image History" MinWidth="150">
-				<view:ScreenshotView x:Name="ucScreenshotView" Grid.Row="1" Grid.Column="1" />
+				<view:ScreenshotView x:Name="ucScreenshotView" Grid.Row="1" Grid.Column="1" Margin="25" />
 			</TabItem>
 		
 		</TabControl>
@@ -187,7 +188,7 @@
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
-
+			
 			<TabItem Header="Local Settings">
 				<TabControl>
 					<TabItem Header="Region Settings">
@@ -199,7 +200,7 @@
 					</TabItem>
 				</TabControl>
 			</TabItem>
-
+			
 			<TabItem Header="System Settings" MinWidth="100">
 				<TabControl>
 					<TabItem Header="System Time" MinWidth="150" >
@@ -321,7 +322,7 @@
                 </TabItem> -->
 			</TabControl>
 		</StackPanel>
-
+		
 		<!-- is this were all the binding errors come from? -->
 		<view:PerformanceView x:Name="ucPerformance" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
 		<!-- Meters

@@ -82,6 +82,7 @@
     <Compile Include="Logic\IniFileUtility.cs" />
     <Compile Include="Logic\TouchScreenKeyboard.cs" />
     <Compile Include="MVVM\IMessageBoxService.cs" />
+    <Compile Include="MVVM\Models\CashReconiliation.cs" />
     <Compile Include="MVVM\Models\CreditModel.cs" />
     <Compile Include="MVVM\Models\GameSelectionModel.cs" />
     <Compile Include="MVVM\Models\GameSettingModel.cs" />

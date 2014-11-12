@@ -5,11 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000"
-			 IsEnabled="False"
-			 >
+			 IsEnabled="False">
 	
     <Grid>
-		<TabControl Name="tabMeters"  Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto"> <!-- IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">-->
+		<TabControl Name="tabMeters" Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto"> <!-- IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">-->
 			<TabItem Header="Performance">
 				<TabControl Name="tabPerformance">
 					<TabItem Header="Machine">
@@ -22,28 +21,30 @@
 							</ListView.View>
 						</ListView>
 					</TabItem>
+						
 					<TabItem Header="Games">
-
+							
 					</TabItem>
 				</TabControl>
 			</TabItem>
-
+			
 			<TabItem Header="LCD Meters">
-				<!--<DockPanel LastChildFill="False">-->
+				
 				<StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal">
 					<StackPanel Margin="15">
+					
 						<Label FontSize="22" HorizontalContentAlignment="Center">Short Term Meters</Label>
-						<ListView FontSize="18">
+						<ListView FontSize="18" ItemsSource="{Binding Path=ShortTerm.MeterDesc}">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
 									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
 								</GridView>
 							</ListView.View>
-						</ListView>
-
+					</ListView>
+						
 						<Label FontSize="22" HorizontalContentAlignment="Center" Content="Tito Meter" Margin="25,25,25,0" />
-						<ListView FontSize="18">
+						<ListView FontSize="18" ItemsSource="{Binding TitoMeter.MeterDesc}">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
@@ -51,11 +52,13 @@
 								</GridView>
 							</ListView.View>
 						</ListView>
+					
 					</StackPanel>
-
+						
 					<StackPanel Margin="15">
+						
 						<Label FontSize="22" HorizontalContentAlignment="Center">Long Term Meters</Label>
-						<ListView FontSize="18">
+						<ListView FontSize="18" ItemsSource="{Binding LongTerm.MeterDesc}">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Header="Meter Type"  Width="150">
@@ -69,10 +72,10 @@
 								</GridView>
 							</ListView.View>
 						</ListView>
+					
 					</StackPanel>
 				</StackPanel>
 
-				<!--</DockPanel>-->
 			</TabItem>
 				
 			<TabItem Header="Cash Reconcilliation">
@@ -81,11 +84,22 @@
                         Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
                         AncestorType={x:Type Window}}}">
 					<TabItem Header="Cash" MinWidth="150">
-						<DockPanel>
-							
-						</DockPanel>
+						<StackPanel>
+							<Label FontSize="22" HorizontalContentAlignment="Center">Cash Reconciliation</Label>
+							<ListView FontSize="18" ItemsSource="{Binding CashRecon}">
+								<ListView.View>
+									<GridView>
+										<GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
+										<GridViewColumn Header="LongTerm" DisplayMemberBinding="{Binding Path=LongTermValue}"/>
+										<GridViewColumn Header="ShortTerm" DisplayMemberBinding="{Binding Path=ShortTermValue}"/>
+									</GridView>
+								</ListView.View>
+							</ListView>
+						</StackPanel>
 					</TabItem>
+					
 					<TabItem></TabItem>
+				
 				</TabControl>
 			</TabItem>
 		</TabControl>

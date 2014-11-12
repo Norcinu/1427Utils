@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using PDTUtils.Native;
 using PDTUtils.Logic;
+using PDTUtils.Native;
 using PDTUtils.Properties;
 
 namespace PDTUtils
@@ -22,10 +22,7 @@ namespace PDTUtils
 	abstract public class MachineMeters : INotifyPropertyChanged
 	{
 		public ObservableCollection<MeterDescription> m_meterDesc = new ObservableCollection<MeterDescription>();
-		public ObservableCollection<MeterDescription> MeterDesc
-		{
-			get { return m_meterDesc; }
-		}
+        public ObservableCollection<MeterDescription> MeterDesc { get { return m_meterDesc; } }
 
 		public MachineMeters()
 		{
@@ -49,8 +46,8 @@ namespace PDTUtils
 
 		public override void ReadMeter()
 		{
-			m_meterDesc.Add(new MeterDescription("Coins In", BoLib.getCoinsIn(BoLib.useMoneyInType(0)).ToString()));
-			m_meterDesc.Add(new MeterDescription("Coins Out", BoLib.getCoinsOut(BoLib.useMoneyOutType(0)).ToString()));
+			m_meterDesc.Add(new MeterDescription("Cash In", BoLib.getCoinsIn(BoLib.useMoneyInType(0)).ToString()));
+			m_meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCoinsOut(BoLib.useMoneyOutType(0)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(0)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Notes Out", BoLib.getNotesOut(BoLib.useMoneyOutType(0)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Refill", BoLib.getRefillValue(BoLib.useRefillType(0)).ToString()));
@@ -67,11 +64,11 @@ namespace PDTUtils
 		public LongTermMeters()
 		{
 		}
-
+        
 		public override void ReadMeter()
 		{
-			m_meterDesc.Add(new MeterDescription("Coins In", BoLib.getCoinsIn(BoLib.useMoneyInType(1)).ToString()));
-			m_meterDesc.Add(new MeterDescription("Coins Out", BoLib.getCoinsOut(BoLib.useMoneyOutType(1)).ToString()));
+			m_meterDesc.Add(new MeterDescription("Cash In", BoLib.getCoinsIn(BoLib.useMoneyInType(1)).ToString()));
+			m_meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCoinsOut(BoLib.useMoneyOutType(1)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(1)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Notes Out", BoLib.getNotesOut(BoLib.useMoneyOutType(1)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Refill", BoLib.getRefillValue(BoLib.useRefillType(1)).ToString()));
@@ -82,12 +79,11 @@ namespace PDTUtils
 			this.OnPropertyChanged("LongTerm");
 		}
     }
-
+    
     public class TitoMeters : MachineMeters
     {
         public TitoMeters()
         {
-
         }
 
         public override void ReadMeter()

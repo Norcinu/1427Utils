@@ -341,6 +341,12 @@ unsigned int getMinPayoutValue()
 	return GetMinPayoutValue();
 }
 
+unsigned long getSpecificCoinIn(int meter, int denom)
+{
+	return 0;
+//	return CoinConv[denom][GetCountry()] * GetReconciliationMeter()
+}
+
 unsigned long getCoinsIn(int meter)
 {
 	auto coins = 0;

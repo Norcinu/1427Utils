@@ -11,6 +11,7 @@ extern "C" DllExport unsigned long useVtpMeter(int value);
 extern "C" DllExport unsigned long useWonMeter(int value);
 extern "C" DllExport unsigned long useHandPayMeter(int meter);
 extern "C" DllExport unsigned long useTicketsMeter(int meter);
+extern "C" DllExport unsigned long useStackInMeter(int meter);
 extern "C" DllExport char *GetUniquePcbID(char TYPE);
 extern "C" DllExport void setFileAction();
 extern "C" DllExport void clearFileAction();

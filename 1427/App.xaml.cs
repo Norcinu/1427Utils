@@ -18,7 +18,9 @@ namespace PDTUtils
         
         void Application_Exit(object sender, ExitEventArgs e)
         {
+#if DEBUG
             System.Diagnostics.Debug.WriteLine("Exiting");
+#endif
         }
     }
 }

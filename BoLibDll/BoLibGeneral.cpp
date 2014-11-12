@@ -105,6 +105,20 @@ unsigned long useTicketsMeter(int value)
 	return (!value) ? TICKET_OUT_ST : TICKET_OUT_LT;
 }
 
+unsigned long useStackInMeter(int meter)
+{
+	if (!meter)
+	{
+		OutputDebugString("SHORT TERM METER");
+		return GetReconciliationMeter(COIN_8_ST);
+	}
+	else
+	{
+		OutputDebugString("LONG TERM METER");
+		return GetReconciliationMeter(COIN_8_LT);
+	}
+}
+
 char *GetUniquePcbID(char TYPE)
 {
 	unsigned char chipId[DPCI_IDPROM_ID_SIZE];

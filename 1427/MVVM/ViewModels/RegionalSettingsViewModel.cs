@@ -95,7 +95,7 @@ namespace PDTUtils.MVVM.ViewModels
         public void SetRegion(object listview)
         {
             var lv = listview as ListView;
-            if (lv.SelectedIndex == -1) 
+            if (lv.SelectedIndex == -1)
                 return;
 
             var name = lv.SelectedItem as SpanishRegionalModel;

@@ -287,6 +287,9 @@ namespace PDTUtils.Native
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern int useTicketsMeter(int meter);
 
+        [DllImport(dllName, CallingConvention=CallingConvention.Cdecl)]
+        public unsafe static extern ulong useStackInMeter(int meter);
+
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		[return: MarshalAs(UnmanagedType.LPStr)]
 		public unsafe static extern string GetUniquePcbID(byte TYPE);
