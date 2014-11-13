@@ -8,8 +8,8 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Background="{DynamicResource WindowBackgroundBrush}"
         Title="1427 Shell Utils" 
-        Height="{Binding SystemParameters.PrimaryScreenHeight}" 
-        Width="{Binding SystemParameters.PrimaryScreenWidth}" 
+        Height="1080" 
+        Width="1920" 
         Name="WindowMain" 
         WindowStyle="None" 
         Loaded="WindowMain_Loaded" 
@@ -19,6 +19,10 @@
         ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" 
         SizeToContent="Manual">
+
+<!-- 
+	Height="{Binding SystemParameters.PrimaryScreenHeight}" 
+        Width="{Binding SystemParameters.PrimaryScreenWidth}" -->
 
 	<Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
 		<Grid.Resources>
@@ -231,17 +235,17 @@
 								<Label Content="Current Volume: " FontSize="28"/>
 								<Label Content="{Binding ElementName=MasterVolumeSlider, Path=Value}" FontSize="28"/>
 								<Label Content="%" FontSize="28"/>
-							</StackPanel> 
+							</StackPanel>
 							
 						</StackPanel>
 					</TabItem>
 				</TabControl>
 			</TabItem>
-
+			
 			<TabItem Header="Hoppers" MinWidth="100"> <!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
 				<view:HopperAdminView />
 			</TabItem>
-
+			
 			<TabItem Header="Network">
 				<StackPanel HorizontalAlignment="Center">
 					<Label FontSize="48" HorizontalAlignment="Center">Network Information</Label>
@@ -314,7 +318,7 @@
 				</TabItem>
 
 				<TabItem Header="Game Selection">
-
+					
 				</TabItem>
 
 				<!--  <TabItem Header="{Binding MachineIniListView.SelectedItem}"  MinWidth="100">
@@ -322,7 +326,7 @@
                 </TabItem> -->
 			</TabControl>
 		</StackPanel>
-		
+			 
 		<!-- is this were all the binding errors come from? -->
 		<view:PerformanceView x:Name="ucPerformance" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
 		<!-- Meters

@@ -12,18 +12,26 @@
 			<TabItem Header="Performance">
 				<TabControl Name="tabPerformance">
 					<TabItem Header="Machine">
-						<ListView FontSize="18">
-							<ListView.View>
-								<GridView>
-									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
-									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
-								</GridView>
-							</ListView.View>
-						</ListView>
+						<StackPanel>
+							<ListView FontSize="18" ItemsSource="{Binding Performance}">
+								<ListView.View>
+									<GridView>
+										<GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="200" />
+										<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=ShortTermValue, StringFormat=£{0:0.00}}" Width="150" />
+										<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=LongTermValue, StringFormat=£{0:0.00}}" Width="150" />
+									</GridView>
+								</ListView.View>
+							</ListView>
+							<StackPanel Orientation="Horizontal">
+								<Label Content="Number Of Games: " FontSize="24" Margin="20"/>
+								<Label Content="{Binding NumberOfGames}" FontSize="24" Margin="20"/>
+								<Button Content="Clear ST Meters" FontSize="20" Width="150" Height="40" Margin="20" IsEnabled="True"/>
+							</StackPanel>
+						</StackPanel>
 					</TabItem>
 						
 					<TabItem Header="Games">
-							
+						
 					</TabItem>
 				</TabControl>
 			</TabItem>
@@ -41,8 +49,8 @@
 									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
 								</GridView>
 							</ListView.View>
-					</ListView>
-						
+						</ListView>
+
 						<Label FontSize="22" HorizontalContentAlignment="Center" Content="Tito Meter" Margin="25,25,25,0" />
 						<ListView FontSize="18" ItemsSource="{Binding TitoMeter.MeterDesc}">
 							<ListView.View>
@@ -75,9 +83,9 @@
 					
 					</StackPanel>
 				</StackPanel>
-
+			
 			</TabItem>
-				
+			
 			<TabItem Header="Cash Reconcilliation">
 				<TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -98,7 +106,9 @@
 						</StackPanel>
 					</TabItem>
 					
-					<TabItem></TabItem>
+					<TabItem>
+							
+					</TabItem>
 				
 				</TabControl>
 			</TabItem>

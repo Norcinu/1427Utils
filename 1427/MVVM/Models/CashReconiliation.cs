@@ -20,4 +20,25 @@ namespace PDTUtils.MVVM.Models
             ShortTermValue = s;
         }
     }
+
+    class PerformanceMeter
+    {
+        public string Name { get; set; }
+        public long LongTermValue { get; set; }
+        public long ShortTermValue { get; set; }
+
+        public PerformanceMeter()
+        {
+            Name = "";
+            ShortTermValue = 0;
+            LongTermValue = 0;
+        }
+
+        public PerformanceMeter(string n, long l, long s)
+        {
+            Name = n;
+            LongTermValue = l;
+            ShortTermValue = s;
+        }
+    }
 }

@@ -68,7 +68,7 @@ extern "C" DllExport int			getCountryCode();
 extern "C" DllExport char			*getCountryCodeStr();
 extern "C" DllExport const char		*getLastGame(int index);
 extern "C" DllExport unsigned long	getWinningGame(int index);
-extern "C" DllExport unsigned long	getPerformanceMeter(unsigned int Offset);
+extern "C" DllExport unsigned long	getPerformanceMeter(unsigned char Offset);
 extern "C" DllExport unsigned long	getGamePerformanceMeter(unsigned int Offset, unsigned int MeterType);
 extern "C" DllExport unsigned int	getLocalMasterVolume();
 extern "C" DllExport unsigned long	getGameModel(int index);

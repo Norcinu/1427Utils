@@ -37,33 +37,33 @@ namespace PDTUtils
 		GamesList m_gamesList = new GamesList();
 		MachineLogsController m_logController = new MachineLogsController();
         UserSoftwareUpdate m_updateFiles = null;
-		
-		public MainWindow()
-        {
-			try
-			{
-                InitialiseBoLib();
-              	InitializeComponent();
-                				
-                Random r = new Random();
-				CultureInfo ci = null;
 
-				ci = new CultureInfo("es-ES"); // read this from config
-				
-		    	Thread.CurrentThread.CurrentCulture = ci;
-				Thread.CurrentThread.CurrentUICulture = ci;
-                
+        public MainWindow()
+        {
+            try
+            {
+                InitialiseBoLib();
+                InitializeComponent();
+
+                Random r = new Random();
+                CultureInfo ci = null;
+
+                ci = new CultureInfo("es-ES"); // read this from config
+
+                Thread.CurrentThread.CurrentCulture = ci;
+                Thread.CurrentThread.CurrentUICulture = ci;
+
                 m_updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = this.Height;
-			}
-			catch (Exception err)
-			{
-				MessageBox.Show("Error: " + err.ToString());
-			}
-            
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Error: " + err.ToString());
+            }
+
             RowOne.Height = new GridLength(75);
-			ColumnOne.Width = new GridLength(200);
-			this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
+            ColumnOne.Width = new GridLength(200);
+            this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
         }
 		
 		#region Properties

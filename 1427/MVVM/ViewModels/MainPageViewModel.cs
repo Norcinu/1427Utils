@@ -13,7 +13,6 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get
             {
-                //BoLib.setCriticalError(116);
                 if (BoLib.getError() > 0)
                     return true;
                 else 
@@ -118,7 +117,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => TransferBankCredits()); }
         }
-
+        
         void TransferBankCredits()
         {
             BoLib.transferBankToCredit();
@@ -190,13 +189,34 @@ namespace PDTUtils.MVVM.ViewModels
         
         void DoHandPay()
         {
+            var oldCaption = _caption;
+            var oldMsg = _message;
+            
             if (Bank + Credits > 0)
-                BoLib.performHandPay();
+            {
+                if (!BoLib.performHandPay())
+                {
+                    _caption = "WARNING";
+                    _message = "SET HANDPAY THRESHOLD";
+                    this.ShowMessageBox.Execute(null);
+                    _caption = oldCaption;
+                    _message = oldMsg;
+                    return;
+                }
 
-            Credits = BoLib.getCredit();
-            Bank = BoLib.getBank();
-            this.RaisePropertyChangedEvent("Credits");
-            this.RaisePropertyChangedEvent("Bank");
+                Credits = BoLib.getCredit();
+                Bank = BoLib.getBank();
+                this.RaisePropertyChangedEvent("Credits");
+                this.RaisePropertyChangedEvent("Bank");
+            }
+            else
+            {
+                _caption = "WARNING";
+                _message = "NO CREDITS FOR HAND PAY";
+                this.ShowMessageBox.Execute(null);
+                _caption = oldCaption;
+                _message = oldMsg;
+            }
         }
         
         public ICommand AddCreditSpecific

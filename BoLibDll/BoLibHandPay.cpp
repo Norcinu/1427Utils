@@ -29,7 +29,7 @@ void addHandPayToEDC(unsigned int value)
 	HandPayToEdc += value;
 }
 
-void performHandPay()
+DLLEXPORT bool performHandPay()
 {
 	if (GetTerminalType() != PRINTER)
 	{
@@ -50,8 +50,10 @@ void performHandPay()
 			
 			zero_cdeposit();
 			ZeroBankDeposit();
+			return true;
 		}
 	}
+	return false;
 }
 
 void cancelHandPay()

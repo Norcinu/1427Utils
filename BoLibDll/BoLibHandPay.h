@@ -5,5 +5,5 @@ DLLEXPORT unsigned int getHandPayThreshold();
 DLLEXPORT bool getHandPayActive();
 DLLEXPORT void sendHandPayToServer(unsigned int paid_out, unsigned int release);
 DLLEXPORT void addHandPayToEDC(unsigned int value);
-DLLEXPORT void performHandPay();
+DLLEXPORT bool performHandPay();
 DLLEXPORT void cancelHandPay();

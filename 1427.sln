@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1427", "1427\1427.csproj", "{B2A85817-6C79-45B9-98D5-E645D0BE0F50}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0B6E237B-8610-4ACB-A71B-2FA019BEA249} = {0B6E237B-8610-4ACB-A71B-2FA019BEA249}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BoLibDll", "BoLibDll\BoLibDll.vcxproj", "{0B6E237B-8610-4ACB-A71B-2FA019BEA249}"
 EndProject
@@ -36,6 +39,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B2A85817-6C79-45B9-98D5-E645D0BE0F50}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{B2A85817-6C79-45B9-98D5-E645D0BE0F50}.Debug|Any CPU.Build.0 = Debug|x86
 		{B2A85817-6C79-45B9-98D5-E645D0BE0F50}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{B2A85817-6C79-45B9-98D5-E645D0BE0F50}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{B2A85817-6C79-45B9-98D5-E645D0BE0F50}.Debug|Win32.ActiveCfg = Debug|x86
@@ -72,11 +76,13 @@ Global
 		{B2A85817-6C79-45B9-98D5-E645D0BE0F50}.SMfcRelease|x86.ActiveCfg = Release|x86
 		{B2A85817-6C79-45B9-98D5-E645D0BE0F50}.SMfcRelease|x86.Build.0 = Release|x86
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug|Any CPU.Build.0 = Debug|Win32
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug|Win32.ActiveCfg = Debug|Win32
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug|Win32.Build.0 = Debug|Win32
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug|x86.ActiveCfg = Debug|Win32
+		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug|x86.Build.0 = Debug|Win32
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug1224|Any CPU.ActiveCfg = Debug1224|Win32
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug1224|Mixed Platforms.ActiveCfg = Debug1224|Win32
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249}.Debug1224|Mixed Platforms.Build.0 = Debug1224|Win32
@@ -113,6 +119,7 @@ Global
 		{43D33559-0084-4250-AE6D-E38753097A57}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{43D33559-0084-4250-AE6D-E38753097A57}.Debug|Win32.ActiveCfg = Debug|Any CPU
 		{43D33559-0084-4250-AE6D-E38753097A57}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43D33559-0084-4250-AE6D-E38753097A57}.Debug|x86.Build.0 = Debug|Any CPU
 		{43D33559-0084-4250-AE6D-E38753097A57}.Debug1224|Any CPU.ActiveCfg = Debug|Any CPU
 		{43D33559-0084-4250-AE6D-E38753097A57}.Debug1224|Any CPU.Build.0 = Debug|Any CPU
 		{43D33559-0084-4250-AE6D-E38753097A57}.Debug1224|Mixed Platforms.ActiveCfg = Debug|Any CPU

@@ -82,10 +82,10 @@ namespace PDTUtils.Native
 		public unsafe static extern UInt32 getWinningGame(int index);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern uint getPerformanceMeter(byte Offset);
+		public unsafe static extern ulong getPerformanceMeter(byte Offset);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern uint getGamePerformanceMeter(uint Offset, uint MeterType);
+		public unsafe static extern ulong getGamePerformanceMeter(uint Offset, uint MeterType);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern int getLocalMasterVolume();
@@ -288,7 +288,7 @@ namespace PDTUtils.Native
 		public unsafe static extern int useTicketsMeter(int meter);
 
         [DllImport(dllName, CallingConvention=CallingConvention.Cdecl)]
-        public unsafe static extern ulong useStackInMeter(int meter);
+        public unsafe static extern ulong useStakeInMeter(int meter);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
 		[return: MarshalAs(UnmanagedType.LPStr)]
@@ -319,7 +319,7 @@ namespace PDTUtils.Native
         public unsafe static extern void addHandPayToEDC(uint value);
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void performHandPay();
+        public unsafe static extern bool performHandPay();
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void cancelHandPay();

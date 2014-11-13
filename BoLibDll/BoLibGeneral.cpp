@@ -105,7 +105,7 @@ unsigned long useTicketsMeter(int value)
 	return (!value) ? TICKET_OUT_ST : TICKET_OUT_LT;
 }
 
-unsigned long useStackInMeter(int meter)
+unsigned long useStakeInMeter(int meter)
 {
 	if (!meter)
 	{
