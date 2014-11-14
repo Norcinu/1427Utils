@@ -110,3 +110,4 @@ extern "C" DllExport unsigned int	getBoLibVersion();
 extern "C" DllExport void			getRegionalValues(int index, SpanishRegional *region);
 extern "C" DllExport char 			*getErrorMessage(char *str, int code);
 extern "C" DllExport int			getUtilsRelease();
+extern "C" DllExport unsigned long  getTPlayMeter(unsigned char offset);

@@ -214,6 +214,9 @@ namespace PDTUtils.Native
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern int getUtilsRelease();
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern ulong getTPlayMeter(byte offset);
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/

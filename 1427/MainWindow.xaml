@@ -172,22 +172,38 @@
 
 		<!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
 		<TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Height="{Binding Path=RowTwo.Height}" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
-			<TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}"><!-- Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
+			<TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<StackPanel>
+					<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
+						<Label FontSize="28" HorizontalAlignment="Center" Margin="3">Proceed With Caution</Label>
+						<Label FontSize="22" HorizontalAlignment="Center" Margin="3">Touch Value to Change Value</Label>
 						<ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged" FontSize="22">
 							<ListView.View>
 								<GridView>
-									<GridViewColumn Width="340" Header="Field"
-                                                    DisplayMemberBinding="{Binding Field}" />
-									<GridViewColumn Width="340" Header="Value"
-                                                    DisplayMemberBinding="{Binding Value}" />
+									<GridViewColumn Width="340" Header="Field">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Field}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Width="340" Header="Value">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
 								</GridView>
 							</ListView.View>
 						</ListView>
 						<StackPanel Orientation="Horizontal" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center">
-							<Button Width="75">Save</Button>
-							<Button Width="75">Discard Changes</Button>
+							<Button Width="75" Height="35" FontSize="20"  Margin="25">Save</Button>
+							<Button Width="75" Height="35" FontSize="20" Margin="25">Discard Changes</Button>
 						</StackPanel>
 					</StackPanel>
 				</ScrollViewer>

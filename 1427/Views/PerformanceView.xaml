@@ -12,21 +12,33 @@
 			<TabItem Header="Performance">
 				<TabControl Name="tabPerformance">
 					<TabItem Header="Machine">
-						<StackPanel>
-							<ListView FontSize="18" ItemsSource="{Binding Performance}">
+						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
+							<ListView FontSize="22" ItemsSource="{Binding Performance}" Margin="25">
 								<ListView.View>
 									<GridView>
-										<GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="200" />
-										<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=ShortTermValue, StringFormat=£{0:0.00}}" Width="150" />
-										<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=LongTermValue, StringFormat=£{0:0.00}}" Width="150" />
+										<GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="250"/>
+										<GridViewColumn Header="Short Term Meter" Width="250">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Border BorderBrush="Black" BorderThickness="2">
+														<TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="Yellow" Foreground="Navy"/>
+													</Border>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										<GridViewColumn Header="Long Term Meter" Width="250">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Border BorderBrush="Black" BorderThickness="2">
+														<TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="Red" Foreground="White" />
+													</Border>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
 									</GridView>
 								</ListView.View>
 							</ListView>
-							<StackPanel Orientation="Horizontal">
-								<Label Content="Number Of Games: " FontSize="24" Margin="20"/>
-								<Label Content="{Binding NumberOfGames}" FontSize="24" Margin="20"/>
-								<Button Content="Clear ST Meters" FontSize="20" Width="150" Height="40" Margin="20" IsEnabled="True"/>
-							</StackPanel>
+							<Button Content="Clear ST Meters" FontSize="20" Width="150" Height="40" Margin="20" Command="{Binding ClearShortTerms}"/>
 						</StackPanel>
 					</TabItem>
 						

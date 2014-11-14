@@ -708,3 +708,8 @@ int getUtilsRelease()
 {
 	return RELEASE_NUMBER;
 }
+
+unsigned long getTPlayMeter(unsigned char offset)
+{
+	return GetTPlayMeter(offset);
+}

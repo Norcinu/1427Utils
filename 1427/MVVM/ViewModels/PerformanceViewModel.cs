@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Windows.Input;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
 
@@ -10,16 +12,17 @@ namespace PDTUtils.MVVM.ViewModels
         ShortTermMeters _shortTerm = new ShortTermMeters();
         TitoMeters _titoMeters = new TitoMeters(); 
         ObservableCollection<CashReconiliation> _cashRecon = new ObservableCollection<CashReconiliation>();
-        ObservableCollection<PerformanceMeter> _performance = new ObservableCollection<PerformanceMeter>();
+        ObservableCollection<CashReconiliation> _performance = new ObservableCollection<CashReconiliation>();
 
-        public int NumberOfGames { get; set; }
+        public int NumberOfGamesLt { get; set; }
+        public int NumberOfGamesSt { get; set; }
 
 #region Properties
         public LongTermMeters LongTerm { get { return _longTerm; } }
         public ShortTermMeters ShortTerm { get { return _shortTerm; } }
         public TitoMeters TitoMeter { get { return _titoMeters; } }
         public ObservableCollection<CashReconiliation> CashRecon { get { return _cashRecon; } }
-        public ObservableCollection<PerformanceMeter> Performance { get { return _performance; } }
+        public ObservableCollection<CashReconiliation> Performance { get { return _performance; } }
 #endregion
         
         public MetersViewModel()
@@ -27,9 +30,9 @@ namespace PDTUtils.MVVM.ViewModels
             _longTerm.ReadMeter();
             _shortTerm.ReadMeter();
             _titoMeters.ReadMeter();
-
-            NumberOfGames = 0;
-
+            
+            NumberOfGamesLt = 0;
+            
             this.ReadLCD();
             this.ReadPerformance();
             
@@ -37,6 +40,18 @@ namespace PDTUtils.MVVM.ViewModels
             this.RaisePropertyChangedEvent("ShortTerm");
             this.RaisePropertyChangedEvent("TitoMeters");
             this.RaisePropertyChangedEvent("NumberOfGames");
+        }
+
+        public ICommand ClearShortTerms
+        {
+            get { return new DelegateCommand(o => ClearShortTermMeters()); }
+        }
+
+        void ClearShortTermMeters()
+        {
+            Performance.Clear();
+            
+            ReadLCD();
         }
         
         public void ReadLCD()
@@ -68,43 +83,75 @@ namespace PDTUtils.MVVM.ViewModels
 
         void ReadPerformance()
         {
-            var longTermCashIn = BoLib.getPerformanceMeter(0) / 100;
-            var longTermCashOut = BoLib.getPerformanceMeter(1) / 100;
-            var longTermTotal = (longTermCashIn - longTermCashOut);
-            
-            var shortTermCashIn = BoLib.getPerformanceMeter(7) / 100;
-            var shortTermCashOut = BoLib.getPerformanceMeter(8) / 100;
-            var shortTermTotal = (shortTermCashIn - shortTermCashOut);
+            //Make this a property of viewmodel and set the culture when we read the shell.
+            NumberFormatInfo nfi = new CultureInfo("en-GB", false).NumberFormat;
 
-            var handPayLt = BoLib.getPerformanceMeter(2) / 100;
-            var handPaySt = BoLib.getPerformanceMeter(9) / 100;
+            decimal longTermCashIn = (int)BoLib.getPerformanceMeter(0) / 100.0M;
+            decimal longTermCashOut = (int)BoLib.getPerformanceMeter(1) / 100.0M;
+            decimal longTermTotal = longTermCashIn - longTermCashOut;
             
-            Performance.Add(new PerformanceMeter("Total Money in:",
-                                                   (long)longTermCashIn,
-                                                   (long)shortTermCashIn));
+            decimal shortTermCashIn = (int)BoLib.getPerformanceMeter(7) / 100.0M;
+            decimal shortTermCashOut = (int)BoLib.getPerformanceMeter(8) / 100.0M;
+            decimal shortTermTotal = shortTermCashIn - shortTermCashOut;
 
-            Performance.Add(new PerformanceMeter("Total Money Out:",
-                                                   (long)longTermCashOut,
-                                                   (long)shortTermCashOut));
-
-            Performance.Add(new PerformanceMeter("Gross Income:",
-                                                   (long)longTermTotal,
-                                                   (long)shortTermTotal));
-
-            Performance.Add(new PerformanceMeter("Hand Pay:", (long)handPayLt, (long)handPaySt));
+            decimal handPayLt = (int)BoLib.getPerformanceMeter(2) / 100.0M;
+            decimal handPaySt = (int)BoLib.getPerformanceMeter(9) / 100.0M;
             
-            var refillSt = BoLib.getReconciliationMeter(42) * 100 + BoLib.getReconciliationMeter(43) * 10;
-            var refillLt = BoLib.getReconciliationMeter(14) * 100 + BoLib.getReconciliationMeter(15) * 10;
-            Performance.Add(new PerformanceMeter("Refill:", refillLt, refillSt));
+            Performance.Add(new CashReconiliation("Total Money in:", longTermCashIn.ToString("C", nfi), shortTermCashIn.ToString("C", nfi)));
+            Performance.Add(new CashReconiliation("Total Money Out:", longTermCashOut.ToString("C", nfi), shortTermCashOut.ToString("C", nfi)));
+            Performance.Add(new CashReconiliation("Gross Income:", longTermTotal.ToString("C", nfi), shortTermTotal.ToString("C", nfi)));
+            Performance.Add(new CashReconiliation("Hand Pay:", handPayLt.ToString("C", nfi), handPaySt.ToString("C", nfi)));
 
-            int incomeLt = (int)(longTermCashIn - handPayLt);
-            int incomeSt = (int)(shortTermCashIn - handPaySt);
-            Performance.Add(new PerformanceMeter("Net Income:", incomeLt, incomeSt));
+            decimal incomeLt = longTermCashIn - handPayLt;
+            decimal incomeSt = shortTermCashIn - handPaySt;
+            Performance.Add(new CashReconiliation("Net Income:", incomeLt.ToString("C", nfi), incomeSt.ToString("C", nfi)));
             
-            NumberOfGames = (int)BoLib.getPerformanceMeter(4);
+            decimal refillSt = BoLib.getReconciliationMeter(42) * 100 + BoLib.getReconciliationMeter(43) * 10;
+            decimal refillLt = BoLib.getReconciliationMeter(14) * 100 + BoLib.getReconciliationMeter(15) * 10;
+            Performance.Add(new CashReconiliation("Refill:", refillLt.ToString("C", nfi), refillSt.ToString("C", nfi)));
             
+            NumberOfGamesLt = (int)BoLib.getPerformanceMeter(4);
+            NumberOfGamesSt = (int)BoLib.getPerformanceMeter(11);
+            Performance.Add(new CashReconiliation("Number of Games: ", NumberOfGamesLt.ToString(), NumberOfGamesSt.ToString()));
+
+            decimal totalBetsLt = (int)BoLib.getPerformanceMeter(5) / 100.0M;
+            decimal totalBetsSt = (int)BoLib.getPerformanceMeter(12) / 100.0M;
+            decimal totalWonLt = (int)BoLib.getPerformanceMeter(6) / 100.0M;
+            decimal totalWonSt = (int)BoLib.getPerformanceMeter(13) / 100.0M;
+
+            decimal percentageLt = (totalWonLt / totalBetsLt);
+            decimal percentageSt = (totalWonSt / totalBetsSt);   
+
+            decimal retainedPercLt = (int)BoLib.getPerformanceMeter(0) / 100;
+            decimal retainedPercSt = (int)BoLib.getPerformanceMeter(7) / 100;
+
+            if (retainedPercLt > 0)
+                retainedPercLt = ((retainedPercLt - (longTermCashOut + handPayLt)) / longTermTotal);
+
+            if (retainedPercSt > 0)
+                retainedPercSt = ((retainedPercSt - (shortTermCashOut + handPaySt)) / shortTermTotal);
+
+            Performance.Add(new CashReconiliation("(VTP) Total Bets:", totalBetsLt.ToString("C", nfi), totalBetsSt.ToString("C", nfi)));
+            Performance.Add(new CashReconiliation("Total Wins:", totalWonLt.ToString("C", nfi), totalWonSt.ToString("C", nfi)));
+            Performance.Add(new CashReconiliation("Payout Percentage:", percentageLt.ToString("P"), percentageSt.ToString("P")));
+            Performance.Add(new CashReconiliation("Retained Percentage:", retainedPercLt.ToString("P"), retainedPercSt.ToString("P")));
+
+            decimal tpCreditsLt = (int)BoLib.getTPlayMeter(2);
+            decimal tpCreditsSt = (int)BoLib.getTPlayMeter(5);
+
+            Performance.Add(new CashReconiliation("TPlay Total Credits:", tpCreditsLt.ToString("C", nfi), tpCreditsSt.ToString("C", nfi)));
+
+            int tpGamesLt = (int)BoLib.getTPlayMeter(1);
+            int tpGamesSt = (int)BoLib.getTPlayMeter(4);
+            Performance.Add(new CashReconiliation("TP Games Played:", tpGamesLt.ToString(), tpGamesSt.ToString()));
+
+            decimal tpMoneyOutLt = (int)BoLib.getTPlayMeter(0);
+            decimal tpMoneyOutSt = (int)BoLib.getTPlayMeter(3);
+            Performance.Add(new CashReconiliation("TPlay Cash Out:", tpMoneyOutLt.ToString("C", nfi), tpMoneyOutSt.ToString("C", nfi)));
+
             this.RaisePropertyChangedEvent("Performance");
-            this.RaisePropertyChangedEvent("NumberOfGames");
+            this.RaisePropertyChangedEvent("NumberOfGamesLt");
+            this.RaisePropertyChangedEvent("NumberOfGamesSt");
         }
     }
 }

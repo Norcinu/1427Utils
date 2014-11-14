@@ -4,7 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="270" d:DesignWidth="423">
+             d:DesignHeight="270" d:DesignWidth="423"
+			 BorderBrush="Black"
+			 BorderThickness="2"
+			 >
     
     <Grid Width="423" Height="270">
         <StackPanel VerticalAlignment="Center" Background="#FF898989">
