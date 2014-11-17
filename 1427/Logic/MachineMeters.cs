@@ -46,8 +46,8 @@ namespace PDTUtils
 
 		public override void ReadMeter()
 		{
-			m_meterDesc.Add(new MeterDescription("Cash In", BoLib.getCoinsIn(BoLib.useMoneyInType(0)).ToString()));
-			m_meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCoinsOut(BoLib.useMoneyOutType(0)).ToString()));
+			m_meterDesc.Add(new MeterDescription("Cash In", BoLib.getCashIn(BoLib.useMoneyInType(0)).ToString()));
+			m_meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCashOut(BoLib.useMoneyOutType(0)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(0)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Notes Out", BoLib.getNotesOut(BoLib.useMoneyOutType(0)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Refill", BoLib.getRefillValue(BoLib.useRefillType(0)).ToString()));
@@ -67,8 +67,8 @@ namespace PDTUtils
         
 		public override void ReadMeter()
 		{
-			m_meterDesc.Add(new MeterDescription("Cash In", BoLib.getCoinsIn(BoLib.useMoneyInType(1)).ToString()));
-			m_meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCoinsOut(BoLib.useMoneyOutType(1)).ToString()));
+			m_meterDesc.Add(new MeterDescription("Cash In", BoLib.getCashIn(BoLib.useMoneyInType(1)).ToString()));
+			m_meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCashOut(BoLib.useMoneyOutType(1)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(1)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Notes Out", BoLib.getNotesOut(BoLib.useMoneyOutType(1)).ToString()));
 			m_meterDesc.Add(new MeterDescription("Refill", BoLib.getRefillValue(BoLib.useRefillType(1)).ToString()));

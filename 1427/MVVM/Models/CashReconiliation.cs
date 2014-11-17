@@ -1,19 +1,19 @@
 ﻿
 namespace PDTUtils.MVVM.Models
 {
-    class CashReconiliation
+    class HelloImJohnnyCashMeters
     {
         public string Name { get; set; }
         public string LongTermValue { get; set; }
         public string ShortTermValue { get; set; }
 
-        public CashReconiliation()
+        public HelloImJohnnyCashMeters()
         {
             Name = "";
             LongTermValue = "";
         }
         
-        public CashReconiliation(string n, string l, string s)
+        public HelloImJohnnyCashMeters(string n, string l, string s)
         {
             Name = n;
             LongTermValue = l;

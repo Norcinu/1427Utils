@@ -16,7 +16,7 @@
 							<ListView FontSize="22" ItemsSource="{Binding Performance}" Margin="25">
 								<ListView.View>
 									<GridView>
-										<GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="250"/>
+										<GridViewColumn DisplayMemberBinding="{Binding Name}" Width="250"/>
 										<GridViewColumn Header="Short Term Meter" Width="250">
 											<GridViewColumn.CellTemplate>
 												<DataTemplate>
@@ -26,6 +26,7 @@
 												</DataTemplate>
 											</GridViewColumn.CellTemplate>
 										</GridViewColumn>
+										
 										<GridViewColumn Header="Long Term Meter" Width="250">
 											<GridViewColumn.CellTemplate>
 												<DataTemplate>
@@ -54,11 +55,27 @@
 					<StackPanel Margin="15">
 					
 						<Label FontSize="22" HorizontalContentAlignment="Center">Short Term Meters</Label>
-						<ListView FontSize="18" ItemsSource="{Binding Path=ShortTerm.MeterDesc}">
+						<ListView FontSize="18" ItemsSource="{Binding ShortTerm.MeterDesc}">
 							<ListView.View>
 								<GridView>
-									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
-									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
+									<GridViewColumn Header="Meter Type" Width="150">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Key}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Value" Width="150">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
 								</GridView>
 							</ListView.View>
 						</ListView>
@@ -67,15 +84,31 @@
 						<ListView FontSize="18" ItemsSource="{Binding TitoMeter.MeterDesc}">
 							<ListView.View>
 								<GridView>
-									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
-									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
+									<GridViewColumn Header="Meter Type" Width="150">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Key}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Value" Width="150">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
 								</GridView>
 							</ListView.View>
 						</ListView>
 					
 					</StackPanel>
 						
-					<StackPanel Margin="15">
+					<StackPanel Margin="15" HorizontalAlignment="Center" VerticalAlignment="Top">
 						
 						<Label FontSize="22" HorizontalContentAlignment="Center">Long Term Meters</Label>
 						<ListView FontSize="18" ItemsSource="{Binding LongTerm.MeterDesc}">
@@ -84,11 +117,21 @@
 									<GridViewColumn Header="Meter Type"  Width="150">
 										<GridViewColumn.CellTemplate>
 											<DataTemplate>
-												<TextBlock TextAlignment="Center" Text="{Binding Path=Key}"></TextBlock>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Key}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+												</Border>
 											</DataTemplate>
 										</GridViewColumn.CellTemplate>
 									</GridViewColumn>
-									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150"/>
+									<GridViewColumn Header="Value" Width="150">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
 								</GridView>
 							</ListView.View>
 						</ListView>
@@ -97,21 +140,82 @@
 				</StackPanel>
 			
 			</TabItem>
-			
-			<TabItem Header="Cash Reconcilliation">
-				<TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
+
+			<!-- Height="{Binding Path=ActualHeight,
                         RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                         Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
-                        AncestorType={x:Type Window}}}">
+                        AncestorType={x:Type Window}}}" -->
+
+			<TabItem Header="Cash Reconcilliation">
+				<TabControl Grid.Row="0" Grid.Column="0" MinWidth="50">
 					<TabItem Header="Cash" MinWidth="150">
-						<StackPanel>
+						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
 							<Label FontSize="22" HorizontalContentAlignment="Center">Cash Reconciliation</Label>
-							<ListView FontSize="18" ItemsSource="{Binding CashRecon}">
+							<ListView FontSize="18" ItemsSource="{Binding CashRecon}" Margin="25">
 								<ListView.View>
 									<GridView>
-										<GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}"/>
-										<GridViewColumn Header="LongTerm" DisplayMemberBinding="{Binding Path=LongTermValue}"/>
-										<GridViewColumn Header="ShortTerm" DisplayMemberBinding="{Binding Path=ShortTermValue}"/>
+										<GridViewColumn Header="Name" Width="250">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Border BorderBrush="Black" BorderThickness="2">
+														<TextBlock Text="{Binding Name}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+													</Border>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										<GridViewColumn Header="LongTerm" Width="250">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Border BorderBrush="Black" BorderThickness="2">
+														<TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+													</Border>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										<GridViewColumn Header="ShortTerm" Width="250">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Border BorderBrush="Black" BorderThickness="2">
+														<TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+													</Border>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+									</GridView>
+								</ListView.View>
+							</ListView>
+							
+							<Label FontSize="22" HorizontalContentAlignment="Center">Refill</Label>
+							<ListView FontSize="18" ItemsSource="{Binding Refill}" Margin="25">
+								<ListView.View>
+									<GridView>
+										<GridViewColumn Header="Name" Width="250">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Border BorderBrush="Black" BorderThickness="2">
+														<TextBlock Text="{Binding Name}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+													</Border>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										<GridViewColumn Header="LongTerm" Width="250">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Border BorderBrush="Black" BorderThickness="2">
+														<TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+													</Border>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										<GridViewColumn Header="ShortTerm" Width="250">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Border BorderBrush="Black" BorderThickness="2">
+														<TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+													</Border>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
 									</GridView>
 								</ListView.View>
 							</ListView>

@@ -3485,7 +3485,7 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="HorizontalContentAlignment" Value="Stretch" /> 
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="FontFamily" Value="Trebuchet MS" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="BorderBrush" Value="#FFB1703C" />

@@ -161,10 +161,10 @@ namespace PDTUtils.Native
 		public unsafe static extern uint getMinPayoutValue();
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 getCoinsIn(int meter);
+		public unsafe static extern UInt32 getCashIn(int meter);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
-		public unsafe static extern UInt32 getCoinsOut(int meter);
+		public unsafe static extern UInt32 getCashOut(int meter);
 
 		[DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
 		public unsafe static extern UInt32 getNotesIn(int meter);

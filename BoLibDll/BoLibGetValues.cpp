@@ -347,48 +347,52 @@ unsigned long getSpecificCoinIn(int meter, int denom)
 //	return CoinConv[denom][GetCountry()] * GetReconciliationMeter()
 }
 
-unsigned long getCoinsIn(int meter)
+unsigned long getCashIn(int meter)
 {
-	auto coins = 0;
+	auto HelloImJohnnyCash = 0;
 	if (meter == MONEY_IN_LT) 
 	{
-		coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_LT);
-		coins += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_LT);
-		coins += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_LT);
-		coins += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_LT);
-		coins += CoinConv[3][GetCountry()]*GetReconciliationMeter(COIN_3_LT);
-		coins += CoinConv[4][GetCountry()]*GetReconciliationMeter(COIN_2_LT);
-		coins += CoinConv[7][GetCountry()]*GetReconciliationMeter(COIN_1_LT);
+		HelloImJohnnyCash += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_LT);
+		HelloImJohnnyCash += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_LT);
+		HelloImJohnnyCash += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_LT);
+		HelloImJohnnyCash += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_LT);
+		HelloImJohnnyCash += CoinConv[3][GetCountry()]*GetReconciliationMeter(COIN_3_LT);
+		HelloImJohnnyCash += CoinConv[4][GetCountry()]*GetReconciliationMeter(COIN_2_LT);
+		HelloImJohnnyCash += CoinConv[7][GetCountry()]*GetReconciliationMeter(COIN_1_LT);
 
-		coins += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_LT);
-		coins += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_LT);
-		coins += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_LT);
-		coins += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_LT);
-		coins += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_LT);
-		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_LT);
+		HelloImJohnnyCash += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_LT);
+		HelloImJohnnyCash += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_LT);
+		HelloImJohnnyCash += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_LT);
+		HelloImJohnnyCash += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_LT);
+		HelloImJohnnyCash += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_LT);
+		HelloImJohnnyCash += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_LT);
+
+		HelloImJohnnyCash += GetReconciliationMeter(TITO_IN_LT);
 	}
 	else
 	{
-		coins += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_ST);
-		coins += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_ST);
-		coins += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_ST);
-		coins += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_ST);
-		coins += CoinConv[3][GetCountry()]*GetReconciliationMeter(COIN_3_ST);
-		coins += CoinConv[4][GetCountry()]*GetReconciliationMeter(COIN_2_ST);
-		coins += CoinConv[7][GetCountry()]*GetReconciliationMeter(COIN_1_ST);
+		HelloImJohnnyCash += CoinConv[8][GetCountry()]*GetReconciliationMeter(COIN_8_ST);
+		HelloImJohnnyCash += CoinConv[6][GetCountry()]*GetReconciliationMeter(COIN_6_ST);
+		HelloImJohnnyCash += CoinConv[1][GetCountry()]*GetReconciliationMeter(COIN_5_ST);
+		HelloImJohnnyCash += CoinConv[2][GetCountry()]*GetReconciliationMeter(COIN_4_ST);
+		HelloImJohnnyCash += CoinConv[3][GetCountry()]*GetReconciliationMeter(COIN_3_ST);
+		HelloImJohnnyCash += CoinConv[4][GetCountry()]*GetReconciliationMeter(COIN_2_ST);
+		HelloImJohnnyCash += CoinConv[7][GetCountry()]*GetReconciliationMeter(COIN_1_ST);
 
-		coins += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_ST);
-		coins += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_ST);
-		coins += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_ST);
-		coins += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_ST);
-		coins += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_ST);
-		coins += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);
+		HelloImJohnnyCash += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_ST);
+		HelloImJohnnyCash += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_ST);
+		HelloImJohnnyCash += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_ST);
+		HelloImJohnnyCash += NoteValues[2][GetCountry()]*GetReconciliationMeter(NOTE_3_ST);
+		HelloImJohnnyCash += NoteValues[1][GetCountry()]*GetReconciliationMeter(NOTE_2_ST);
+		HelloImJohnnyCash += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_ST);
+
+		HelloImJohnnyCash += GetReconciliationMeter(TITO_IN_ST);
 	}
-	return coins;
+	return HelloImJohnnyCash;
 }
 
 // MONEY_OUT_LT = 1, MONEY_OUT_ST = 8
-unsigned long getCoinsOut(int meter)
+unsigned long getCashOut(int meter)
 {
 	return GetPerformanceMeter(meter);
 }

@@ -7,7 +7,7 @@
         xmlns:cv="clr-namespace:PDTUtils"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Background="{DynamicResource WindowBackgroundBrush}"
-        Title="1427 Shell Utils" 
+        Title="1427 Shell Utils"
         Height="1080" 
         Width="1920" 
         Name="WindowMain" 
@@ -110,36 +110,100 @@
                FontSize="36" 
                IsEnabled="False" 
                Visibility="Collapsed" />
-	
+		
 		<!-- Logfiles -->
-		<TabControl Name="MyLogfiles" Panel.ZIndex="5"  VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding Path=Enabler.Logfile}" Visibility="{Binding Path=Enabler.Logfile, Converter={StaticResource BoolToVisConverter}}" MinHeight="1000">
+		<TabControl Name="MyLogfiles" Panel.ZIndex="5" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding Path=Enabler.Logfile}" Visibility="{Binding Path=Enabler.Logfile, Converter={StaticResource BoolToVisConverter}}" MinHeight="1000">
 			<TabItem Header="Errors" MinWidth="150" HorizontalContentAlignment="Center">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
 					<StackPanel Margin="25">
-						<ListView ItemsSource="{Binding Path=LogController.ErrorLog}" MinHeight="600" FontSize="20"> <!-- 650 -->
+						<ListView ItemsSource="{Binding LogController.ErrorLog}" MinHeight="600" FontSize="20">
 							<ListView.View>
 								<GridView AllowsColumnReorder="False">
-									<GridViewColumn Header="Date" Width="300" DisplayMemberBinding="{Binding Path=ErrorDate}" />
-									<GridViewColumn Header="Error Code" Width="300" DisplayMemberBinding="{Binding Path=ErrorCode}" />
-									<GridViewColumn Header="Description" Width="300" DisplayMemberBinding="{Binding Path=Description}" />
+									<GridViewColumn Header="Date" Width="300">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding ErrorDate}" TextAlignment="Center" Background="Moccasin" Foreground="Red"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Error Code" Width="300">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding ErrorCode}" TextAlignment="Center" Background="MintCream" Foreground="Red"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Description" Width="300">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Description}" TextAlignment="Center" Background="MintCream" Foreground="Red"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
 								</GridView>
 							</ListView.View>
 						</ListView>
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
-
+			
 			<TabItem Header="Games" MinWidth="150" HorizontalContentAlignment="Center">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
 					<StackPanel Margin="25">
 						<ListView ItemsSource="{Binding Path=LogController.PlayedGames}" MinHeight="600" FontSize="20">
 							<ListView.View>
 								<GridView AllowsColumnReorder="False">
-									<GridViewColumn Header="Game" Width="180" DisplayMemberBinding="{Binding Path=GameModel}" />
-									<GridViewColumn Header="Date" Width="180" DisplayMemberBinding="{Binding Path=LogDate}" />
-									<GridViewColumn Header="Game Stake" Width="180" DisplayMemberBinding="{Binding Path=Stake}" />
-									<GridViewColumn Header="Credits Before" Width="180" DisplayMemberBinding="{Binding Path=Credit}" />
-									<GridViewColumn Header="Win Amount" Width="180" DisplayMemberBinding="{Binding Path=WinAmount}" />
+									<GridViewColumn Header="Game" Width="180">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding GameModel}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Date" Width="180">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding LogDate}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Game Stake" Width="180">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Stake}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Credits Before" Width="180">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Credit}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Win Amount" Width="180">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding WinAmount}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
 								</GridView>
 							</ListView.View>
 						</ListView>
@@ -153,11 +217,51 @@
 						<ListView ItemsSource="{Binding Path=LogController.WinningGames}" MinHeight="600" FontSize="20">
 							<ListView.View>
 								<GridView AllowsColumnReorder="False">
-									<GridViewColumn Header="Date" Width="225" DisplayMemberBinding="{Binding Path=GameDate}" />
-									<GridViewColumn Header="Game" Width="225" DisplayMemberBinding="{Binding Path=GameModel}" />
-									<GridViewColumn Header="Stake" Width="225" DisplayMemberBinding="{Binding Path=Stake}" />
-									<GridViewColumn Header="Credits" Width="225" DisplayMemberBinding="{Binding Path=Credit}" />
-									<GridViewColumn Header="Win Amount" Width="225" DisplayMemberBinding="{Binding Path=WinAmount}" />
+									<GridViewColumn Header="Date" Width="225">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding GameDate}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Game" Width="225">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding GameModel}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Stake" Width="225">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Stake}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Credits" Width="225">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding Credit}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Header="Win Amount" Width="225">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<Border BorderBrush="Black" BorderThickness="2">
+													<TextBlock Text="{Binding WinAmount}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+												</Border>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
 								</GridView>
 							</ListView.View>
 						</ListView>
@@ -177,7 +281,7 @@
 					<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
 						<Label FontSize="28" HorizontalAlignment="Center" Margin="3">Proceed With Caution</Label>
 						<Label FontSize="22" HorizontalAlignment="Center" Margin="3">Touch Value to Change Value</Label>
-						<ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged" FontSize="22">
+						<ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Width="340" Header="Field">
@@ -214,7 +318,7 @@
 					<TabItem Header="Region Settings">
 						<view:RegionalSettings />
 					</TabItem>
-
+					
 					<TabItem Header="Game Settings">
 						<view:GameSettingsView />
 					</TabItem>
@@ -294,7 +398,7 @@
 						<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Set Network Info</Button>
 						<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Clear Network Info</Button>
 					</StackPanel>
-				</StackPanel>	
+				</StackPanel>
 				
 			</TabItem>
 
