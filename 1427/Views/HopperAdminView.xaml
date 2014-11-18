@@ -9,7 +9,7 @@
 			 >
     <Grid>
 		<TabControl FontSize="18">
-			<TabItem Header="Empty" MinWidth="250">
+			<TabItem Header="Empty" MinWidth="250"> 
 				<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
 					<ComboBox x:Name="cmbHoppers" Text="Select Hopper" Width="150" Height="35" VerticalAlignment="Top" FontSize="20" Margin="10" SelectionChanged="cmbHoppers_SelectionChanged">
 						<ComboBoxItem>Hopper #1</ComboBoxItem>

@@ -86,10 +86,12 @@
     <Compile Include="MVVM\Models\CreditModel.cs" />
     <Compile Include="MVVM\Models\GameSelectionModel.cs" />
     <Compile Include="MVVM\Models\GameSettingModel.cs" />
+    <Compile Include="MVVM\Models\HopperModel.cs" />
     <Compile Include="MVVM\Models\RegionalSettingsModel.cs" />
     <Compile Include="MVVM\Models\ScreenshotModel.cs" />
     <Compile Include="MVVM\ObservableObject.cs" />
     <Compile Include="MVVM\ViewModels\CreditManagementViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\HopperViewModel.cs" />
     <Compile Include="MVVM\ViewModels\MainPageViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameSelectionViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameSettingViewModel.cs" />

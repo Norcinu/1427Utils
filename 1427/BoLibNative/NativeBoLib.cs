@@ -250,6 +250,9 @@ namespace PDTUtils.Native
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void transferBankToCredit();
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void clearShortTermMeters();
+
 		/************************************************************************/
 		/* General methods                                                      */
 		/************************************************************************/

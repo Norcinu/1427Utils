@@ -74,3 +74,8 @@ void setCriticalError(int code)
 	if (!GetCurrentError())
 		SetCriticalError(code);
 }
+
+void clearShortTermMeters()
+{
+	ClearShortTermMeters();
+}

@@ -2,16 +2,17 @@
 #define DLLEXPORT extern "C" DllExport
 
 
-extern "C" DllExport int	setEnvironment();
-extern "C" DllExport void	closeSharedMemory();
-extern "C" DllExport void	clearBankAndCredit();
-extern "C" DllExport int	setCountryCode(int countryCode);
-extern "C" DllExport int	clearError();
-extern "C" DllExport void	transferBankToCredit();
-extern "C" DllExport void	setTargetPercentage(int Percentage);
-extern "C" DllExport void	setLocalMasterVolume(unsigned int val);
-extern "C" DllExport void	setLampStatus(unsigned char offset, unsigned char mask, unsigned char state);
-extern "C" DllExport void	setHopperFloatLevel(unsigned char hopper, unsigned int value);
-extern "C" DllExport void	setRequestEmptyLeftHopper();
-extern "C" DllExport void	setRequestEmptyRightHopper();
-DLLEXPORT void setCriticalError(int code);
+DLLEXPORT int	setEnvironment();
+DLLEXPORT void	closeSharedMemory();
+DLLEXPORT void	clearBankAndCredit();
+DLLEXPORT int	setCountryCode(int countryCode);
+DLLEXPORT int	clearError();
+DLLEXPORT void	transferBankToCredit();
+DLLEXPORT void	setTargetPercentage(int Percentage);
+DLLEXPORT void	setLocalMasterVolume(unsigned int val);
+DLLEXPORT void	setLampStatus(unsigned char offset, unsigned char mask, unsigned char state);
+DLLEXPORT void	setHopperFloatLevel(unsigned char hopper, unsigned int value);
+DLLEXPORT void	setRequestEmptyLeftHopper();
+DLLEXPORT void	setRequestEmptyRightHopper();
+DLLEXPORT void  setCriticalError(int code);
+DLLEXPORT void  clearShortTermMeters();

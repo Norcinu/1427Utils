@@ -7,12 +7,36 @@
              d:DesignHeight="600" d:DesignWidth="1000"
 			 IsEnabled="False">
 	
+	<UserControl.Resources>
+		<Style x:Key="StdLabel" TargetType="Label">
+			<Setter Property="Control.BorderBrush" Value="Black"/>
+			<Setter Property="Control.BorderThickness" Value="2"/>
+			<Setter Property="Control.Background" Value="AliceBlue"/>
+			<Setter Property="Control.FontFamily" Value="Calibri" />
+			<Setter Property="Control.FontWeight" Value="Bold" />
+			<Setter Property="Control.FontSize" Value="22"/>
+			<Setter Property="Control.HorizontalAlignment" Value="Center" />
+			<Setter Property="Control.HorizontalContentAlignment" Value="Center" />
+			<Setter Property="Control.Margin" Value="10"/>
+			<Setter Property="Control.MinWidth" Value="200"/>
+		</Style>
+		
+		<Style x:Key="StdTextBlock" TargetType="TextBlock">
+			<Setter Property="TextAlignment" Value="Center"/>
+			<Setter Property="Background" Value="Red"/> 
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Control.BorderBrush" Value="Black"/>
+			<Setter Property="Control.BorderThickness" Value="2"/>
+		</Style>
+	</UserControl.Resources>
+	
     <Grid>
 		<TabControl Name="tabMeters" Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto"> <!-- IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">-->
 			<TabItem Header="Performance">
 				<TabControl Name="tabPerformance">
 					<TabItem Header="Machine">
 						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
+							<Label Content="Machine Performance Log" Style="{StaticResource StdLabel}"/>
 							<ListView FontSize="22" ItemsSource="{Binding Performance}" Margin="25">
 								<ListView.View>
 									<GridView>
@@ -44,7 +68,47 @@
 					</TabItem>
 						
 					<TabItem Header="Games">
-						
+						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
+							<Label Content="Individual Game Stats" Style="{StaticResource StdLabel}"/>
+							<ListView FontSize="22" Margin="25" ItemsSource="{Binding GameStats}">
+								<ListView.View>
+									<GridView>
+										<GridViewColumn Header="Game" Width="145">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Image Source="{Binding Name}"></Image>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										
+										<GridViewColumn Header="Bet" Width="125">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<TextBlock Style="{StaticResource StdTextBlock}" Text="{Binding Bet}"></TextBlock>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										
+										<GridViewColumn Header="Winnings" Width="125">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<TextBlock Style="{StaticResource StdTextBlock}" Text="{Binding Won}"></TextBlock>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										
+										<GridViewColumn Header="Percentage" Width="125">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<TextBlock Style="{StaticResource StdTextBlock}" Text="{Binding Percentage}"></TextBlock>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										
+									</GridView>
+								</ListView.View>
+							</ListView>
+						</StackPanel>
 					</TabItem>
 				</TabControl>
 			</TabItem>
@@ -54,7 +118,7 @@
 				<StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal">
 					<StackPanel Margin="15">
 					
-						<Label FontSize="22" HorizontalContentAlignment="Center">Short Term Meters</Label>
+						<Label Style="{StaticResource StdLabel}">Short Term Meters</Label>
 						<ListView FontSize="18" ItemsSource="{Binding ShortTerm.MeterDesc}">
 							<ListView.View>
 								<GridView>
@@ -68,7 +132,7 @@
 										</GridViewColumn.CellTemplate>
 									</GridViewColumn>
 									<GridViewColumn Header="Value" Width="150">
-										<GridViewColumn.CellTemplate>
+										<GridViewColumn.CellTemplate> 
 											<DataTemplate>
 												<Border BorderBrush="Black" BorderThickness="2">
 													<TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
@@ -79,8 +143,8 @@
 								</GridView>
 							</ListView.View>
 						</ListView>
-
-						<Label FontSize="22" HorizontalContentAlignment="Center" Content="Tito Meter" Margin="25,25,25,0" />
+						
+						<Label Style="{StaticResource StdLabel}" Content="Tito Meter" />
 						<ListView FontSize="18" ItemsSource="{Binding TitoMeter.MeterDesc}">
 							<ListView.View>
 								<GridView>
@@ -109,8 +173,8 @@
 					</StackPanel>
 						
 					<StackPanel Margin="15" HorizontalAlignment="Center" VerticalAlignment="Top">
-						
-						<Label FontSize="22" HorizontalContentAlignment="Center">Long Term Meters</Label>
+
+						<Label Content="Long Term Meters" Style="{StaticResource StdLabel}"/> <!-- FontSize="22" HorizontalContentAlignment="Center" Content="Long Term Meters"> -->
 						<ListView FontSize="18" ItemsSource="{Binding LongTerm.MeterDesc}">
 							<ListView.View>
 								<GridView>
@@ -147,86 +211,81 @@
                         AncestorType={x:Type Window}}}" -->
 
 			<TabItem Header="Cash Reconcilliation">
-				<TabControl Grid.Row="0" Grid.Column="0" MinWidth="50">
-					<TabItem Header="Cash" MinWidth="150">
-						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
-							<Label FontSize="22" HorizontalContentAlignment="Center">Cash Reconciliation</Label>
-							<ListView FontSize="18" ItemsSource="{Binding CashRecon}" Margin="25">
-								<ListView.View>
-									<GridView>
-										<GridViewColumn Header="Name" Width="250">
-											<GridViewColumn.CellTemplate>
-												<DataTemplate>
-													<Border BorderBrush="Black" BorderThickness="2">
-														<TextBlock Text="{Binding Name}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
-													</Border>
-												</DataTemplate>
-											</GridViewColumn.CellTemplate>
-										</GridViewColumn>
-										<GridViewColumn Header="LongTerm" Width="250">
-											<GridViewColumn.CellTemplate>
-												<DataTemplate>
-													<Border BorderBrush="Black" BorderThickness="2">
-														<TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
-													</Border>
-												</DataTemplate>
-											</GridViewColumn.CellTemplate>
-										</GridViewColumn>
-										<GridViewColumn Header="ShortTerm" Width="250">
-											<GridViewColumn.CellTemplate>
-												<DataTemplate>
-													<Border BorderBrush="Black" BorderThickness="2">
-														<TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
-													</Border>
-												</DataTemplate>
-											</GridViewColumn.CellTemplate>
-										</GridViewColumn>
-									</GridView>
-								</ListView.View>
-							</ListView>
-							
-							<Label FontSize="22" HorizontalContentAlignment="Center">Refill</Label>
-							<ListView FontSize="18" ItemsSource="{Binding Refill}" Margin="25">
-								<ListView.View>
-									<GridView>
-										<GridViewColumn Header="Name" Width="250">
-											<GridViewColumn.CellTemplate>
-												<DataTemplate>
-													<Border BorderBrush="Black" BorderThickness="2">
-														<TextBlock Text="{Binding Name}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
-													</Border>
-												</DataTemplate>
-											</GridViewColumn.CellTemplate>
-										</GridViewColumn>
-										<GridViewColumn Header="LongTerm" Width="250">
-											<GridViewColumn.CellTemplate>
-												<DataTemplate>
-													<Border BorderBrush="Black" BorderThickness="2">
-														<TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
-													</Border>
-												</DataTemplate>
-											</GridViewColumn.CellTemplate>
-										</GridViewColumn>
-										<GridViewColumn Header="ShortTerm" Width="250">
-											<GridViewColumn.CellTemplate>
-												<DataTemplate>
-													<Border BorderBrush="Black" BorderThickness="2">
-														<TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
-													</Border>
-												</DataTemplate>
-											</GridViewColumn.CellTemplate>
-										</GridViewColumn>
-									</GridView>
-								</ListView.View>
-							</ListView>
-						</StackPanel>
-					</TabItem>
-					
-					<TabItem>
-							
-					</TabItem>
-				
-				</TabControl>
+				<!-- <TabControl Grid.Row="0" Grid.Column="0" MinWidth="50">
+					<TabItem Header="Cash" MinWidth="150"> -->
+				<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
+					<Label Style="{StaticResource StdLabel}">Cash Reconciliation</Label>
+					<ListView FontSize="18" ItemsSource="{Binding CashRecon}" Margin="25">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="Name" Width="250">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Border BorderBrush="Black" BorderThickness="2">
+												<TextBlock Text="{Binding Name}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+											</Border>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+								<GridViewColumn Header="ShortTerm" Width="250">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Border BorderBrush="Black" BorderThickness="2">
+												<TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+											</Border>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+								<GridViewColumn Header="LongTerm" Width="250">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Border BorderBrush="Black" BorderThickness="2">
+												<TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+											</Border>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+							</GridView>
+						</ListView.View>
+					</ListView>
+
+					<Label Style="{StaticResource StdLabel}">Refill</Label>
+					<ListView FontSize="18" ItemsSource="{Binding Refill}" Margin="25">
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="Name" Width="250">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Border BorderBrush="Black" BorderThickness="2">
+												<TextBlock Text="{Binding Name}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+											</Border>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+								<GridViewColumn Header="LongTerm" Width="250">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Border BorderBrush="Black" BorderThickness="2">
+												<TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+											</Border>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+								<GridViewColumn Header="ShortTerm" Width="250">
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Border BorderBrush="Black" BorderThickness="2">
+												<TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+											</Border>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+							</GridView>
+						</ListView.View>
+					</ListView>
+				</StackPanel>
+				<!-- 	</TabItem>				
+				</TabControl> -->
 			</TabItem>
 		</TabControl>
 	</Grid>
