@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
+using PDTUtils.MVVM.ViewModels;
 
 namespace PDTUtils.Views
 {
@@ -21,14 +11,15 @@ namespace PDTUtils.Views
         public HopperAdminView()
         {
             InitializeComponent();
+            this.DataContext = new HopperViewModel();
         }
-
+        
         private void cmbHoppers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //var str = cmbHoppers.SelectedValue.Content as string;
-            var cmb = sender as ComboBox;
+            /*var cmb = sender as ComboBox;
             var str = cmb.SelectedItem.ToString().Substring(cmb.SelectedItem.ToString().Length - 9);
-            txtSelHopper.Text = str;
+            txtSelHopper.Text = str;*/
         }
     }
 }

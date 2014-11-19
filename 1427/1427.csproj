@@ -76,6 +76,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommandBehaviours\CommandBehavior.cs" />
+    <Compile Include="CommandBehaviours\CommandBehaviorBinding.cs" />
+    <Compile Include="CommandBehaviours\EventHandlerGenerator.cs" />
     <Compile Include="Logic\AutoClosingMessageBox.cs" />
     <Compile Include="Logic\DelegateCommand.cs" />
     <Compile Include="Logic\IniFile.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="ScreenshotWindow.xaml.cs">
       <DependentUpon>ScreenshotWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CommandBehaviours\SimpleCommand.cs" />
     <Compile Include="TestSuiteWindow.xaml.cs">
       <DependentUpon>TestSuiteWindow.xaml</DependentUpon>
     </Compile>
