@@ -120,6 +120,21 @@ int getCountryCode()
 	return GetCountry();
 }
 
+int getUkCountryCodeB3()
+{
+	return CC_UKB3;
+}
+
+int getUkCountryCodeC()
+{
+	return CC_UKC;
+}
+
+int getSpainCountryCode()
+{
+	return CC_ESP;
+}
+
 char *getCountryCodeStr()
 {
 	//SetFileAction();

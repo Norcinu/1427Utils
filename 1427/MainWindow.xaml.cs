@@ -44,15 +44,18 @@ namespace PDTUtils
             {
                 InitialiseBoLib();
                 InitializeComponent();
-
+                
                 Random r = new Random();
                 CultureInfo ci = null;
 
-                ci = new CultureInfo("es-ES"); // read this from config
+                if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
+                    ci = new CultureInfo("es-ES");
+                else
+                    ci = new CultureInfo("en-GB");
 
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
-
+                
                 m_updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = this.Height;
             }

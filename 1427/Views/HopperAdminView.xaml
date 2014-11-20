@@ -15,36 +15,34 @@
 			<Setter Property="Control.BorderThickness" Value="2"/>
 		</Style>
 	</UserControl.Resources>
-		
+		 
 	<Grid>
-		<TabControl FontSize="18">
-			<TabItem Header="Empty" MinWidth="250" IsEnabled="{Binding NotRefilling}"> 
+		<TabControl FontSize="18" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" SelectionChanged="cmbHoppers_SelectionChanged">
+			<TabItem Header="Info" MinWidth="250">
+				
+			</TabItem>
+			
+			<TabItem Header="Empty" MinWidth="250" IsEnabled="{Binding NotRefilling}">
 				<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-					<ComboBox x:Name="cmbHoppers" Text="Select Hopper" Width="150" Height="35" VerticalAlignment="Top" FontSize="20" Margin="10" SelectionChanged="cmbHoppers_SelectionChanged">
-						<ComboBoxItem>Large Denom Hopper</ComboBoxItem>
-						<ComboBoxItem>Small Denom Hopper</ComboBoxItem>
+					<ComboBox x:Name="cmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top" 
+							  FontSize="20" Margin="10" IsEditable="True">
+						<ComboBoxItem Content="{Binding LargeHopper}"/>
+						<ComboBoxItem Content="{Binding SmallHopper}"/>
 					</ComboBox>
-					<!-- <StackPanel HorizontalAlignment="Center"> -->
-						<!-- <Label x:Name="labelST" Content="{Binding ElementName=cmbHoppers, Path=SelectedItem}"/> -->
-						<TextBlock MinWidth="150" MinHeight="35" Margin="10" Name="txtSelHopper" FontSize="20"/>
-						<Label Content="{Binding DumpSwitchMessage}" Style="{StaticResource StdTextBlock}"/>
-						<Button MinWidth="150" Margin="10" FontSize="20"
+					<TextBlock MinWidth="150" MinHeight="35" Margin="10" Name="txtSelHopper" FontSize="20"/>
+					<Label Content="{Binding DumpSwitchMessage}" Style="{StaticResource StdTextBlock}"/>
+					<Button MinWidth="150" Margin="10" FontSize="20"
 								Command="{Binding DoEmptyHopper}"
 								CommandParameter="{Binding ElementName=cmbHoppers}">Empty Hopper</Button>
-							<!-- DataContext="{Binding SelectedItem, ElementName=cmbHoppers}" 
-							Text="{Binding @Value}"></TextBlock> -->
-					<!-- </StackPanel> -->
 				</StackPanel>
 			</TabItem>
-			<TabItem Header="Info" MinWidth="250">
-					
-			</TabItem>
+			
 			<TabItem Header="Refill" MinWidth="250" FontSize="20" IsEnabled="{Binding NotRefilling}">
 				<StackPanel HorizontalAlignment="Center">
 					<Label FontSize="28" Background="AliceBlue" Foreground="DarkOrchid" HorizontalAlignment="Center">Refill Hoppers</Label>
-					<Label>Total Coins Added: € </Label>
-					<Label>Hopper #1 Added: €</Label>
-					<Label>Hopper #2 Added: €</Label>
+					<Label>Total Coins Added: €</Label>
+					<Label Content="{Binding LeftRefillMsg}"/>
+					<Label Content="{Binding RightRefillMsg}"/>
 					
 					<Button Margin="25" Command="{Binding ToggleRefillStatus}">Stop Refill</Button>
 				</StackPanel>

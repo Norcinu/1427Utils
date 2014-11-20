@@ -98,7 +98,9 @@ namespace PDTUtils
 		
 		public override void ParseGame(int gameNo)
 		{
-			CultureInfo ci = new CultureInfo("en-GB");
+			//CultureInfo ci = new CultureInfo("en-GB");
+            var ci = System.Threading.Thread.CurrentThread.CurrentCulture;
+            var cui = System.Threading.Thread.CurrentThread.CurrentUICulture;
 
 			var today = DateTime.Today;
 			var gameDate = BoLib.getGameDate(gameNo);

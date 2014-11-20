@@ -3,12 +3,13 @@ using System.Globalization;
 using System.Windows.Input;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
+using System.Threading;
 
 namespace PDTUtils.MVVM.ViewModels
 {
     class MetersViewModel : ObservableObject
     {
-        NumberFormatInfo nfi = new CultureInfo("en-GB", false).NumberFormat;
+        NumberFormatInfo nfi = Thread.CurrentThread.CurrentCulture.NumberFormat; /*new CultureInfo("en-GB", false).NumberFormat;*/
         LongTermMeters _longTerm = new LongTermMeters();
         ShortTermMeters _shortTerm = new ShortTermMeters();
         TitoMeters _titoMeters = new TitoMeters();
