@@ -9,7 +9,7 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class MetersViewModel : ObservableObject
     {
-        NumberFormatInfo nfi = Thread.CurrentThread.CurrentCulture.NumberFormat; /*new CultureInfo("en-GB", false).NumberFormat;*/
+        NumberFormatInfo nfi;// = Thread.CurrentThread.CurrentCulture.NumberFormat; /*new CultureInfo("en-GB", false).NumberFormat;*/
         LongTermMeters _longTerm = new LongTermMeters();
         ShortTermMeters _shortTerm = new ShortTermMeters();
         TitoMeters _titoMeters = new TitoMeters();
@@ -33,6 +33,11 @@ namespace PDTUtils.MVVM.ViewModels
         
         public MetersViewModel()
         {
+            if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
+                nfi = new CultureInfo("es-ES").NumberFormat;
+            else
+                nfi = new CultureInfo("en-GB").NumberFormat;
+
             _longTerm.ReadMeter();
             _shortTerm.ReadMeter();
             _titoMeters.ReadMeter();
@@ -185,7 +190,7 @@ namespace PDTUtils.MVVM.ViewModels
                 uint model = BoLib.getGameModel((int)i);
                 decimal bets = (int)BoLib.getGamePerformanceMeter(i, 0) / 100.0M;
                 decimal won = (int)BoLib.getGamePerformanceMeter(i, 1) / 100.0M;
-                decimal percentage = (won / bets);
+                decimal percentage = (won > 0 || bets > 0) ? (won / bets) : 0;
                 GameStats.Add(new GameStatMeter(model.ToString(), bets.ToString("C", nfi), won.ToString("C", nfi), percentage.ToString("P", nfi)));
             }
             

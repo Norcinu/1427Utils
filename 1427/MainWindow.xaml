@@ -365,7 +365,7 @@
 			<TabItem Header="Hoppers" MinWidth="100"> <!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
 				<view:HopperAdminView />
 			</TabItem>
-			
+				
 			<TabItem Header="Network">
 				<StackPanel HorizontalAlignment="Center">
 					<Label FontSize="48" HorizontalAlignment="Center">Network Information</Label>
@@ -373,28 +373,28 @@
 					<StackPanel Orientation="Horizontal">
 						<Label FontSize="36" Content="IP Address:" Width="200" Margin="30"/>
 						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
-						<TextBox FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
-						<TextBox FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
-						<TextBox FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">3</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">3</TextBox>
 					</StackPanel>
-					
+						
 					<StackPanel Orientation="Horizontal">
 						<Label FontSize="36" Content="Subnet Mask:" Width="200" Margin="30"/>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">255</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">255</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">0</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">0</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">255</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">255</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">0</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">0</TextBox>
 					</StackPanel>
-
+					
 					<StackPanel Orientation="Horizontal">
 						<Label FontSize="36" Content="Gateway:" Width="200"  Margin="30"/>
 						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
 						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
 						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="False" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
+						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
 					</StackPanel>
 					
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
 						<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Set Network Info</Button>
 						<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Clear Network Info</Button>
 					</StackPanel>

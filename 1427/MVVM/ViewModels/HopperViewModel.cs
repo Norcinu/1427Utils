@@ -13,12 +13,15 @@ namespace PDTUtils.MVVM.ViewModels
         int _selectedTabIndex;
         string _leftRefillMsg;
         string _rightRefillMsg;
+        string _leftCoinsAdded;
+        string _rightCoinsAdded;
 
         public System.Timers.Timer _emptyLeftTimer;
         public System.Timers.Timer _emptyRightTimer;
-
+        public System.Timers.Timer _refillTimer;
 
         #region Properties
+        public bool EndRefill { get; set; }
         public bool NotRefilling { get; set; }        // Disabling tabs.
         public HopperModel LeftHopper { get; set; }     // £1 Hopper
         public HopperModel RightHopper { get; set; }    // 10p Hopper
@@ -64,10 +67,12 @@ namespace PDTUtils.MVVM.ViewModels
                 this.RaisePropertyChangedEvent("RightRefillMsg");
             }
         }
+
         #endregion
 
         public HopperViewModel()
         {
+            EndRefill = false;
             _emptyingHoppers = false;
             NotRefilling = true;
             LeftHopper = new HopperModel();
@@ -119,7 +124,7 @@ namespace PDTUtils.MVVM.ViewModels
             if (cb.SelectedIndex == 0)
             {
                 System.Diagnostics.Debug.WriteLine("SELECTED LEFT HOPPER (£1)");
-                System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
+                System.Diagnostics.Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel(0)));
                 _emptyLeftTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
                 {
                     if (BoLib.getHopperDumpSwitchActive() > 0)
@@ -138,9 +143,9 @@ namespace PDTUtils.MVVM.ViewModels
                             Thread.Sleep(2);
                         }
                     }
-                    
+
                     if (BoLib.refillKeyStatus() > 0 && BoLib.getDoorStatus() > 0 && dumpSwitchPressed)
-                    {   
+                    {
                         BoLib.setRequestEmptyLeftHopper();
                         if (BoLib.getRequestEmptyLeftHopper() > 0 && BoLib.getHopperFloatLevel(0) > 0)
                         {
@@ -153,7 +158,7 @@ namespace PDTUtils.MVVM.ViewModels
                             this.RaisePropertyChangedEvent("DumpSwitchMessage");
                             var t = sender as System.Timers.Timer;
                             t.Enabled = false;
-                            dumpSwitchPressed = false;//needed?
+                            dumpSwitchPressed = false;
                         }
                     }
                 };
@@ -169,12 +174,35 @@ namespace PDTUtils.MVVM.ViewModels
                     _emptyRightTimer = new System.Timers.Timer(100.0);
                     _emptyRightTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
                     {
-                          
+                        
                     };
                 }
                 System.Diagnostics.Debug.WriteLine("SELECTED RIGHT HOPPER (10p)");
                 _emptyRightTimer.Enabled = true;
             }
+        }
+
+
+        public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
+        void DoRefillHopper()
+        {
+            ulong coins = BoLib.getReconciliationMeter(14) + BoLib.getReconciliationMeter(15);
+            
+        }
+
+       // public ICommand EndRefill { get { return DelegateCommand(o => DoEndRefill()); } }
+        void DoEndRefill()
+        {
+            NotRefilling = false;
+            _refillTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+            {
+                if (EndRefill)
+                {
+                    this.EndRefill = false;
+                    _refillTimer.Enabled = false;
+                    //dispatch timer to update labels every x milliseconds.
+                }
+            };
         }
     }
 }

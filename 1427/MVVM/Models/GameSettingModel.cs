@@ -70,7 +70,7 @@ namespace PDTUtils.MVVM.Models
             if (this.StakeOne == 0)
                 this.StakeOne = 10;
             else
-                this.StakeOne =  0;
+                this.StakeOne = 0;
 
             System.Diagnostics.Debug.WriteLine(this.StakeOne, "this.StakeOne = {0}");
         }

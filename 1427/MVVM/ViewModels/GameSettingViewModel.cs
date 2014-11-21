@@ -16,6 +16,12 @@ namespace PDTUtils.MVVM.ViewModels
         private int _count = 0;
         private string _errorText = "";
         private CultureInfo _currentCulture;
+        private NumberFormatInfo _nfi;
+        public System.Globalization.NumberFormatInfo Nfi
+        {
+            get { return _nfi; }
+            set { _nfi = value; }
+        }
         private uint _numberOfGames = 0;
         private string _manifest = Properties.Resources.model_manifest;
         private int _currentModelID = -1;
@@ -66,16 +72,22 @@ namespace PDTUtils.MVVM.ViewModels
         
         public GameSettingViewModel()
         {
-           
+            AddGame();
         }
         
         public void AddGame()
         {
             if (_gameSettings.Count > 0)
                 _gameSettings.Clear();
-            
-            _currentCulture = CultureInfo.CurrentCulture;
-            
+
+            if (BoLib.getCountryCode() == BoLib.getUkCountryCodeB3() || BoLib.getCountryCode() == BoLib.getUkCountryCodeC())
+                _currentCulture = new CultureInfo("en-GB");
+            else
+                _currentCulture = new CultureInfo("es-ES");
+                //_currentCulture = CultureInfo.CurrentCulture;
+
+            _nfi = _currentCulture.NumberFormat;
+
             string[] modelNumber;
             IniFileUtility.GetIniProfileSection(out modelNumber, "Models", _manifest, true);
             _numberOfGames = Convert.ToUInt32(modelNumber[0]);

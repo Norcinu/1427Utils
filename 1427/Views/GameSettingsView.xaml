@@ -98,8 +98,8 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeOne, StringFormat=€{0:#,#.00}}" FontSize="20"/>
-                                    </CheckBox>
+										<TextBlock Text="{Binding StakeOne, StringFormat=£{0:#,#.00}}" FontSize="20"/> <!-- , StringFormat=€{0:#,#.00}}" -->
+									</CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
