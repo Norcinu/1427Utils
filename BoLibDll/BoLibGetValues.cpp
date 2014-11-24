@@ -732,3 +732,13 @@ unsigned long getTPlayMeter(unsigned char offset)
 {
 	return GetTPlayMeter(offset);
 }
+
+unsigned int getTitoEnabledState()
+{
+	return (GetTiToEnabledState()) ? true : false;
+}
+
+unsigned char getRecyclerChannel()
+{
+	return GetRecyclerChannel();
+}

@@ -115,3 +115,5 @@ DLLEXPORT unsigned long getTPlayMeter(unsigned char offset);
 DLLEXPORT int			getUkCountryCodeB3();
 DLLEXPORT int			getUkCountryCodeC();
 DLLEXPORT int			getSpainCountryCode();
+DLLEXPORT unsigned int	getTitoEnabledState();
+DLLEXPORT unsigned char getRecyclerChannel();

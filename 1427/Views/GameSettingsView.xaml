@@ -14,7 +14,7 @@
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
         <conv:ConvertStakeVisibility x:Key="StakeVis"/>
     </UserControl.Resources>
-   
+		
     <Grid>
         <!--IsEnabled="{Binding }"-->
         <!-- <StackPanel Visibility="{Binding IsEnabled, Converter={StaticResource IsEnglishCulture}}">  Bind this to see what the machines culture is. 

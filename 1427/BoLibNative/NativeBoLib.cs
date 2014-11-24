@@ -226,6 +226,15 @@ namespace PDTUtils.Native
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern int getSpainCountryCode();
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern int getTargetPercentage();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern bool getTitoEnabledState();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern byte getRecyclerChannel();
+
 		/************************************************************************/
 		/*							Set methods                                 */
 		/************************************************************************/

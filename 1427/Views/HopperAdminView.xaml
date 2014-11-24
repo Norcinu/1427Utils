@@ -40,12 +40,12 @@
 			<TabItem Header="Refill" MinWidth="250" FontSize="20" IsEnabled="{Binding NotRefilling}">
 				<StackPanel HorizontalAlignment="Center">
 					<Label FontSize="28" Background="AliceBlue" Foreground="DarkOrchid" HorizontalAlignment="Center">Refill Hoppers</Label>
-					<Label>Total Coins Added: €</Label>
-					<Label Content="{Binding LeftRefillMsg}"/>
+					<Label>Total Coins Added: £</Label>
+					<Label Content="{Binding LeftRefillMsg}" IsEnabled="{Binding AreWeRefilling}"/>
 					<Label Content="{Binding RightRefillMsg}"/>
 					<StackPanel Orientation="Horizontal">
 						<Button Margin="25" Width="150" Command="{Binding RefillHopper}">Refill Hopper</Button>
-						<Button Margin="25" Width="150" Command="{Binding EndRefill}">Stop Refill</Button>
+						<Button Margin="25" Width="150" Command="{Binding EndRefillCommand}">Stop Refill</Button>
 					</StackPanel>
 				</StackPanel>
 			</TabItem>

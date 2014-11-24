@@ -359,6 +359,9 @@
 							
 						</StackPanel>
 					</TabItem>
+					<TabItem Header="General">
+						<view:GeneralSettings/>
+					</TabItem>
 				</TabControl>
 			</TabItem>
 			

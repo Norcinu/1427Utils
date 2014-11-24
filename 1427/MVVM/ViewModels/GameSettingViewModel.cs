@@ -24,7 +24,7 @@ namespace PDTUtils.MVVM.ViewModels
         }
         private uint _numberOfGames = 0;
         private string _manifest = Properties.Resources.model_manifest;
-        private int _currentModelID = -1;
+        //private int _currentModelID = -1;
         #region properties
         public int Count 
         { 

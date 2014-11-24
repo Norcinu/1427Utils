@@ -85,7 +85,7 @@ namespace PDTUtils.MVVM.ViewModels
             SmallHopper = "10p Hopper (RIGHT)";
             this.RaisePropertyChangedEvent("LargeHopper");
             this.RaisePropertyChangedEvent("SmallHopper");
-            
+            this.RaisePropertyChangedEvent("NotRefilling");
             LeftRefillMsg = "0.00";//Left Hopper Coins Added: " + (0.00).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
             RightRefillMsg = "0.00";//"Right Hopper Coins Added: " + (0.00).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
             //this.RaisePropertyChangedEvent("LeftRefillMsg");
@@ -125,6 +125,7 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 System.Diagnostics.Debug.WriteLine("SELECTED LEFT HOPPER (£1)");
                 System.Diagnostics.Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel(0)));
+                
                 _emptyLeftTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
                 {
                     if (BoLib.getHopperDumpSwitchActive() > 0)
@@ -181,18 +182,23 @@ namespace PDTUtils.MVVM.ViewModels
                 _emptyRightTimer.Enabled = true;
             }
         }
-
-
+        
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
             ulong coins = BoLib.getReconciliationMeter(14) + BoLib.getReconciliationMeter(15);
             
         }
-
-       // public ICommand EndRefill { get { return DelegateCommand(o => DoEndRefill()); } }
+        
+        public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }
         void DoEndRefill()
         {
+            if (_refillTimer == null)
+            {
+                _refillTimer = new System.Timers.Timer(100);
+                _refillTimer.Enabled = true;
+            }
+            
             NotRefilling = false;
             _refillTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
             {
