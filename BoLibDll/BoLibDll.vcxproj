@@ -176,6 +176,7 @@
     <ClInclude Include="BoLibHandPay.h" />
     <ClInclude Include="BoLibSetValues.h" />
     <ClInclude Include="BoLibGeneral.h" />
+    <ClInclude Include="BoLibTito.h" />
     <ClInclude Include="General.h" />
     <ClInclude Include="MD5.h" />
   </ItemGroup>
@@ -184,6 +185,7 @@
     <ClCompile Include="BoLibHandPay.cpp" />
     <ClCompile Include="BoLibSetValues.cpp" />
     <ClCompile Include="BoLibGeneral.cpp" />
+    <ClCompile Include="BoLibTito.cpp" />
     <ClCompile Include="MD5.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

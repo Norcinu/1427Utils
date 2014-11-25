@@ -24,6 +24,18 @@
 	Height="{Binding SystemParameters.PrimaryScreenHeight}" 
         Width="{Binding SystemParameters.PrimaryScreenWidth}" -->
 
+	<Window.Resources>
+		<Style x:Key="StdLabel" TargetType="Label">
+			<Setter Property="Control.Width" Value="335"/>
+			<Setter Property="Control.FontSize" Value="36"/>
+			<Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+			<Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+			<Setter Property="Control.Margin" Value="10"></Setter>
+			<Setter Property="Control.Foreground" Value="Yellow"/>
+		</Style>
+		
+	</Window.Resources>
+	
 	<Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
 		<Grid.Resources>
 			<BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
@@ -99,7 +111,10 @@
                     Orientation="Horizontal" 
                     ScrollViewer.HorizontalScrollBarVisibility="Visible" />
 
-		<Label Height="Auto" 
+		<Border BorderBrush="Azure" BorderThickness="3" Grid.Row="1" Grid.Column="1">
+			<Label Style="{StaticResource StdLabel}" Name="lblUptime" Grid.Row="1" Grid.Column="1" />
+		</Border>
+		<!-- <Label Height="Auto" 
                HorizontalAlignment="Left" 
                Margin="292,12,0,0" 
                Name="lblUptime" 
@@ -109,7 +124,7 @@
                Width="Auto" 
                FontSize="36" 
                IsEnabled="False" 
-               Visibility="Collapsed" />
+               Visibility="Collapsed" /> -->
 		
 		<!-- Logfiles -->
 		<TabControl Name="MyLogfiles" Panel.ZIndex="5" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding Path=Enabler.Logfile}" Visibility="{Binding Path=Enabler.Logfile, Converter={StaticResource BoolToVisConverter}}" MinHeight="1000">
@@ -360,7 +375,7 @@
 						</StackPanel>
 					</TabItem>
 					<TabItem Header="General">
-						<view:GeneralSettings/>
+						<view:GeneralSettingsView/>
 					</TabItem>
 				</TabControl>
 			</TabItem>

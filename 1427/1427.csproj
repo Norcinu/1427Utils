@@ -135,8 +135,8 @@
     <Compile Include="Views\Diagnostics.xaml.cs">
       <DependentUpon>Diagnostics.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GeneralSettings.xaml.cs">
-      <DependentUpon>GeneralSettings.xaml</DependentUpon>
+    <Compile Include="Views\GeneralSettingsView.xaml.cs">
+      <DependentUpon>GeneralSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HopperAdminView.xaml.cs">
       <DependentUpon>HopperAdminView.xaml</DependentUpon>
@@ -216,7 +216,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GeneralSettings.xaml">
+    <Page Include="Views\GeneralSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

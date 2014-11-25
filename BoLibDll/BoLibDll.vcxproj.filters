@@ -36,6 +36,9 @@
     <ClInclude Include="General.h">
       <Filter>BoLibHeaders</Filter>
     </ClInclude>
+    <ClInclude Include="BoLibTito.h">
+      <Filter>BoLibHeaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoLibGetValues.cpp">
@@ -51,6 +54,9 @@
       <Filter>MD5</Filter>
     </ClCompile>
     <ClCompile Include="BoLibHandPay.cpp">
+      <Filter>BoLibSource</Filter>
+    </ClCompile>
+    <ClCompile Include="BoLibTito.cpp">
       <Filter>BoLibSource</Filter>
     </ClCompile>
   </ItemGroup>

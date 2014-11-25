@@ -208,4 +208,7 @@
   <data name="tito_log" xml:space="preserve">
     <value>D:\machine\GAME_DATA\TiTo.log</value>
   </data>
+  <data name="birth_cert" xml:space="preserve">
+    <value>D:\BirthCert\BirthCert.ini</value>
+  </data>
 </root>

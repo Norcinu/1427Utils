@@ -72,6 +72,15 @@ namespace PDTUtils.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to D:\BirthCert\BirthCert.ini.
+        /// </summary>
+        internal static string birth_cert {
+            get {
+                return ResourceManager.GetString("birth_cert", resourceCulture);
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream exit {
             get {
                 return ResourceManager.GetStream("exit", resourceCulture);

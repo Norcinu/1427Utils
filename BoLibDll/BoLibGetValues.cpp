@@ -733,12 +733,17 @@ unsigned long getTPlayMeter(unsigned char offset)
 	return GetTPlayMeter(offset);
 }
 
-unsigned int getTitoEnabledState()
-{
-	return (GetTiToEnabledState()) ? true : false;
-}
-
 unsigned char getRecyclerChannel()
 {
 	return GetRecyclerChannel();
+}
+
+unsigned long getMaxHandPayThreshold()
+{
+	return GetVariableValue(MAX_HANDPAY_THRESHOLD);
+}
+
+unsigned int getCabinetType()
+{
+	return GetCabinetType();
 }

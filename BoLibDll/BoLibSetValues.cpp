@@ -79,3 +79,34 @@ void clearShortTermMeters()
 {
 	ClearShortTermMeters();
 }
+
+void setHopperDivertLevel(unsigned char hopper, unsigned int value)
+{
+	SetHopperDivertLevel(hopper, value);
+}
+
+void shellSendRecycleNote()
+{
+	Share2 |= 0x04;
+}
+
+void setTerminalType(unsigned char type)
+{
+	SetTerminalType(type);
+}
+
+void setPrinterType(unsigned char type)
+{
+	SetPrinterType(type);
+}
+
+void setRecyclerChannel(unsigned char value)
+{
+	SetRecyclerChannel(value);
+}
+
+void setBnvType(unsigned char value)
+{
+	SetBnvType(value);
+}
+

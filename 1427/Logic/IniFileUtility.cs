@@ -39,5 +39,30 @@ namespace PDTUtils.Logic
         {
             return true;
         }
+
+        public static void HashFile(string filename)
+        {
+            int retries = 10;
+            if (NativeMD5.CheckFileType(filename))
+            {
+                if (!NativeMD5.CheckHash(filename))
+                {
+                    //make sure file in not read-only
+                    if (NativeWinApi.SetFileAttributes(filename, NativeWinApi.FILE_ATTRIBUTE_NORMAL))
+                    {
+                        //delete [End] section
+                        NativeWinApi.WritePrivateProfileSection("End", "", filename);
+                        NativeWinApi.WritePrivateProfileSection("End", "", filename);
+
+                        do
+                        {
+                            NativeMD5.AddHashToFile(filename);
+                        }
+                        while (!NativeMD5.CheckHash(filename) && retries-- > 0);
+                    }
+                }
+            }
+        }
+    
     }
 }

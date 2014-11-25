@@ -6,9 +6,9 @@ namespace PDTUtils.Views
     /// <summary>
     /// Interaction logic for GeneralSettings.xaml
     /// </summary>
-    public partial class GeneralSettings : UserControl
+    public partial class GeneralSettingsView : UserControl
     {
-        public GeneralSettings()
+        public GeneralSettingsView()
         {
             InitializeComponent();
             this.DataContext = new GeneralSettingsViewModel();
