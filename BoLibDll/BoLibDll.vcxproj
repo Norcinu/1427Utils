@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>C:\heber\Projects\Bo_Library\1424LibSource_Native;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Heber\Projects\Bo_Library\Lib_Native;C:\Heber\DevSource\VC98\MFC\Lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\heber\Projects\Bo_Library\1524LibSource;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Heber\Projects\Bo_Library\Lib;C:\Heber\DevSource\VC98\MFC\Lib\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug1224|Win32'">
@@ -120,7 +120,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>1424D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>1524D_NATIVE.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>

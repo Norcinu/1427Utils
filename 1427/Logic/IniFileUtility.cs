@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using PDTUtils.Native;
+using System.IO;
 
 namespace PDTUtils.Logic
 {
@@ -42,6 +43,20 @@ namespace PDTUtils.Logic
 
         public static void HashFile(string filename)
         {
+            //warning warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //delete all garbage text after the [END] brackets before re-authing.
+
+            using (FileStream fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+			using (BufferedStream bs = new BufferedStream(fs))
+            using (StreamReader sr = new StreamReader(bs))
+            {
+                string line = "";
+                //static bool afterEnd = false;
+                while ((line = sr.ReadLine()) != null)
+                {
+                }
+            }
+
             int retries = 10;
             if (NativeMD5.CheckFileType(filename))
             {

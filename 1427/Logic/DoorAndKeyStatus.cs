@@ -85,7 +85,7 @@ namespace PDTUtils
 							Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 						}
                         
-						if (BoLib.getDoorStatus() == 0)
+                        if (BoLib.getDoorStatus() == 0)
 						{
 							if (m_doorStatus == true)
 							{

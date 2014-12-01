@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="PDTUtils.Views.NetworkSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:logic="clr-namespace:PDTUtils.Logic"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1200">
+
+	<UserControl.Resources>
+		<Style x:Key="StdLabel" TargetType="Label">
+			<Setter Property="Control.BorderBrush" Value="Black"/>
+			<Setter Property="Control.BorderThickness" Value="2"/>
+			<Setter Property="Control.Background" Value="AliceBlue"/>
+			<Setter Property="Control.FontFamily" Value="Calibri" />
+			<Setter Property="Control.HorizontalAlignment" Value="Center" />
+			<Setter Property="Control.HorizontalContentAlignment" Value="Center" />
+			<Setter Property="Control.VerticalContentAlignment" Value="Center" />
+			<Setter Property="Control.Margin" Value="10"/>
+			<Setter Property="Control.MinWidth" Value="200"/>
+		</Style>
+	</UserControl.Resources>
+	
+	<Grid>
+		<StackPanel HorizontalAlignment="Center">
+			<Label Style="{StaticResource StdLabel}" FontSize="48" HorizontalAlignment="Center" BorderBrush="AliceBlue" BorderThickness="2"
+						   Background="Red" Foreground="Peru">Network Information</Label>
+			
+			<StackPanel Orientation="Horizontal">
+				<Label FontSize="36" Content="IP Address:" Style="{StaticResource StdLabel}"/>
+				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding IPAddress}" IsEnabled="{Binding IPAddressActive}" />
+				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleIP}">SET IP</Button>
+			</StackPanel>
+				
+			<StackPanel Orientation="Horizontal">
+				<Label FontSize="36" Content="Subnet:" Style="{StaticResource StdLabel}" />
+				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SubnetAddress}" IsEnabled="{Binding SubnetActive}"/>
+				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleSubnet}">SET SUBNET</Button>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal">
+				<Label FontSize="36" Content="Gateway:" Style="{StaticResource StdLabel}"/>
+				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding DefaultGateway}" IsEnabled="{Binding DefaultActive}"/>
+				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleGateway}">SET GATEWAY</Button>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+				<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Set Network Info</Button>
+				<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Clear Network Info</Button>
+			</StackPanel>
+		</StackPanel>
+	</Grid>
+</UserControl>

@@ -195,7 +195,7 @@ namespace PDTUtils.MVVM.ViewModels
                     printerType = "3";
                 else
                     printerType = "4";
-
+                
                 NativeWinApi.WritePrivateProfileString("Config", "PrinterType", printerType, @Properties.Resources.birth_cert); // 3 = NV200_ST
                 BoLib.setPrinterType(Convert.ToByte(printerType));
                 NativeWinApi.WritePrivateProfileString("Config", "BnvType", bnvType, @Properties.Resources.birth_cert);
@@ -204,7 +204,6 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setRecyclerChannel(0);
 
                 BoLib.clearFileAction();
-
             }
             else // disable
             {

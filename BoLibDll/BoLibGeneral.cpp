@@ -129,7 +129,7 @@ char *GetUniquePcbID(char TYPE)
 
 	for (int i = 0; i < DPCI_IDPROM_ID_SIZE; i++)
 		chipId[i]=0;
-
+	
 	do
 	{
 		if (dpci_idprom_readid(chipId) == 0)
@@ -138,14 +138,14 @@ char *GetUniquePcbID(char TYPE)
 		Sleep(100);
 	}
 	while (--retries > 0);
-
+	
 	for (char a = 0; a < DPCI_IDPROM_ID_SIZE / 2; a++)
 	{
 		PromId1 += chipId[a];
 		if(a < ((DPCI_IDPROM_ID_SIZE / 2) - 1))
 			PromId1 = (PromId1 << 8);
 	}
-
+	
 	for (char a = DPCI_IDPROM_ID_SIZE / 2; a < DPCI_IDPROM_ID_SIZE; a++)
 	{
 		PromId2 += chipId[a];

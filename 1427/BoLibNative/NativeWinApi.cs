@@ -276,8 +276,17 @@ namespace PDTUtils.Native
 													uint dwFileAttributes);
         
 		public const int FILE_ATTRIBUTE_NORMAL = 0x80;
+
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
+        public static extern bool GetComputerName(StringBuilder lpBuffer, ref uint lpnSize);
+        [DllImport("Kernel32", CharSet = CharSet.Ansi)]
+        public static extern unsafe bool GetComputerName(byte* lpBuffer, long* nSize);
+        [DllImport("kernel32.dll")]
+        public static extern bool SetComputerName(string lpComputerName);
         
-		public struct SYSTEMTIME
+        
+        public struct SYSTEMTIME
 		{
 			public short year;
 			public short month;

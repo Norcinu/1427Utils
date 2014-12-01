@@ -7,7 +7,7 @@
         xmlns:cv="clr-namespace:PDTUtils"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Background="{DynamicResource WindowBackgroundBrush}"
-        Title="1427 Shell Utils"
+        Title="1527 Shell Utilities"
         Height="1080" 
         Width="1920" 
         Name="WindowMain" 
@@ -385,8 +385,11 @@
 			</TabItem>
 				
 			<TabItem Header="Network">
-				<StackPanel HorizontalAlignment="Center">
-					<Label FontSize="48" HorizontalAlignment="Center">Network Information</Label>
+				<view:NetworkSettingsView />
+				<!-- <StackPanel HorizontalAlignment="Center">
+					<Label FontSize="48" HorizontalAlignment="Center" BorderBrush="AliceBlue" BorderThickness="2"
+						   Background="Red" Foreground="Peru"
+						   >Network Information</Label>
 					
 					<StackPanel Orientation="Horizontal">
 						<Label FontSize="36" Content="IP Address:" Width="200" Margin="30"/>
@@ -416,7 +419,7 @@
 						<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Set Network Info</Button>
 						<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Clear Network Info</Button>
 					</StackPanel>
-				</StackPanel>
+				</StackPanel> -->
 				
 			</TabItem>
 

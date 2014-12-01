@@ -91,7 +91,7 @@ namespace PDTUtils.Logic
 			}
 			else
 				str.Append(errorString);
-			//do you unnserstand? yes yes I unnerstand
+			
 			str.Append("Bottom Screen:\t "); 
 			NativeWinApi.DEVMODE dm2 = new NativeWinApi.DEVMODE();
 			result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display1", 

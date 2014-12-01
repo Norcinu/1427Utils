@@ -53,7 +53,7 @@ namespace PDTUtils.MVVM.ViewModels
         public int Credits { get; set; }
         public int Bank { get; set; }
         public int Pennies { get; set; }
-        public int TotalCredits { get { return Credits + Bank; } }
+        public Decimal TotalCredits { get { return Credits + Bank; } }
         public string ErrorMessage { get; set; }
         
         bool _handPayActive;
@@ -125,6 +125,7 @@ namespace PDTUtils.MVVM.ViewModels
             Bank = BoLib.getBank();
             this.RaisePropertyChangedEvent("Credits");
             this.RaisePropertyChangedEvent("Bank");
+            this.RaisePropertyChangedEvent("TotalCredits");
         }
         
         public ICommand AddCredits
@@ -142,8 +143,9 @@ namespace PDTUtils.MVVM.ViewModels
             var errorCode = BoLib.getError();
             if (errorCode > 0)
             {
-                string last = BoLib.getErrorMessage("", BoLib.getError());
-                ErrorMessage = "Current Error : " + "[" + errorCode + "] " + last + "\nOpen Door and Press Button To Clear Error";
+            //    string last = BoLib.getErrorMessage("", BoLib.getError());
+            //    ErrorMessage = "Current Error : " + "[" + errorCode + "] " + last + "\nOpen Door and Press Button To Clear Error";
+                ErrorMessage = "";
             }
             else
                 ErrorMessage = "No Current Error";

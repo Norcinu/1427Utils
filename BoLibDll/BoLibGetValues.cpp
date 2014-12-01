@@ -8,7 +8,7 @@
 #include "BoLibGetValues.h"
 #include "MD5.h"
 
-#define RELEASE_NUMBER	1427
+#define RELEASE_NUMBER	1527
 
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
