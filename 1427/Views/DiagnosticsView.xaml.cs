@@ -55,9 +55,9 @@ namespace PDTUtils.Views
     /// <summary>
     /// Interaction logic for Diagnostics.xaml
     /// </summary>
-    public partial class Diagnostics : UserControl
+    public partial class DiagnosticsView : UserControl
     {
-        public Diagnostics()
+        public DiagnosticsView()
         {
             InitializeComponent();
             this.DataContext = this;

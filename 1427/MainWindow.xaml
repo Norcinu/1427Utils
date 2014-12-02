@@ -71,7 +71,7 @@
 		<!--Background="LightGreen"-->
 		<Label Name="lblRight" 
                Background="DimGray" 
-               BorderBrush="Black" 
+               BorderBrush="Azure" 
                BorderThickness="2" 
                Grid.Column="1" 
                Grid.Row="1" 
@@ -582,7 +582,7 @@
 		<!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
 		<view:CreditManagementView Panel.ZIndex="5" x:Name="ucCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
 		<view:MainPage Panel.ZIndex="1" x:Name="ucMainPage" Grid.Row="1" Grid.Column="1" />
-		<view:Diagnostics Panel.ZIndex="5" x:Name="ucDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"  Visibility="Hidden" />
+		<view:DiagnosticsView Panel.ZIndex="5" x:Name="ucDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"  Visibility="Hidden" />
 		
 		<!-- End of System Info View -->
 		<StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">

@@ -214,8 +214,10 @@
     <!-- TabControlBrushes -->
 
 	<SolidColorBrush x:Key="TabControlHeaderBrush" Color="Black"/>
-	<SolidColorBrush x:Key="TabControlContentBrush" Color="#FFE0EAF6"/>
+	<SolidColorBrush x:Key="TabControlContentBrush" Color="LightSlateGray"/>
 	<SolidColorBrush x:Key="TabControlContentBorderBrush" Color="#FF9ABBE6"/>
+	
+	
 	<!-- <SolidColorBrush x:Key="TabControlHeaderBrush" Color="#FFBFDBFF"/>
     <SolidColorBrush x:Key="TabControlContentBrush" Color="#FFE0EAF6"/>
     <SolidColorBrush x:Key="TabControlContentBorderBrush" Color="#FF9ABBE6"/> -->
@@ -2539,7 +2541,7 @@
 
 
 	<Style d:IsControlPart="True" TargetType="{x:Type TabItem}">
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Padding" Value="10,6,10,6" />
         <Setter Property="MinWidth" Value="5" />

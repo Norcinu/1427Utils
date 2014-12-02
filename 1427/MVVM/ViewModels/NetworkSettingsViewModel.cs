@@ -20,7 +20,7 @@ namespace PDTUtils.MVVM.ViewModels
 
         public NetworkSettingsViewModel()
         {
-            IPAddressActive = true;
+            IPAddressActive = false;
             SubnetActive = false;
             DefaultActive = false;
 
@@ -30,7 +30,7 @@ namespace PDTUtils.MVVM.ViewModels
             ComputerName = "";
             PopulateInfo();
         }
-
+        
         void PopulateInfo()
         {
             //IP Address
@@ -43,7 +43,7 @@ namespace PDTUtils.MVVM.ViewModels
 					{
 						if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
 						{
-							IPAddress += ip.Address.ToString();
+                            IPAddress = ip.Address.ToString();
                             SubnetAddress = ip.IPv4Mask.ToString();
                             DefaultGateway = ni.GetIPProperties().GatewayAddresses[0].Address.ToString();
 						}
@@ -52,6 +52,8 @@ namespace PDTUtils.MVVM.ViewModels
 			}
         
             ComputerName = System.Environment.MachineName;
+            
+            PingSites(0); //move this to a command. but the commands are firing at startup?
 
             RaisePropertyChangedEvent("IPAddressActive");
             RaisePropertyChangedEvent("SubnetActive");
@@ -62,17 +64,52 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("SubnetAddress");
             RaisePropertyChangedEvent("DefaultGateway");
         }
-
-        public ICommand ToggleIP
+        
+        public void PingSites(int index)
         {
-            get
+            try
             {
-                Action<object> clart = (object b) => this.IPAddressActive = !this.IPAddressActive;
-                RaisePropertyChangedEvent("IPAddressActive");
-                return new DelegateCommand(clart);
+                // ping google dns. Add more - non google sources?
+                System.Net.IPAddress[] addies = new System.Net.IPAddress[2]
+                {
+                    System.Net.IPAddress.Parse("8.8.8.8"),
+                    System.Net.IPAddress.Parse("8.8.4.4"),
+                };
+
+                Ping pinger = new Ping();
+                PingReply reply = pinger.Send(addies[index]);
+
+                if (reply.Status == IPStatus.Success)
+                {
+                    System.Diagnostics.Debug.WriteLine("Host Not Reached {0}", "[" + addies[index].ToString() + "]");
+                    if (index == 0)
+                        PingSites(index + 1); // Suck my recursion.
+                }
+            }
+            catch (Exception ex)
+            {
+                // put this message on screen.
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
-        public ICommand ToggleSubnet { get { return new DelegateCommand(o => this.SubnetActive = !this.SubnetActive); } }
-        public ICommand ToggleDefault { get { return new DelegateCommand(o => this.DefaultActive = !this.DefaultActive); } }
+        
+        public ICommand ToggleIP { get { return new DelegateCommand(o => DoToggleIP()); } }
+        void DoToggleIP()
+        {
+            IPAddressActive = !IPAddressActive;
+            RaisePropertyChangedEvent("IPAddressActive");
+        }
+        public ICommand ToggleSubnet { get { return new DelegateCommand(o => DoToggleSubnet()); } }
+        void DoToggleSubnet()
+        {
+            SubnetActive = !SubnetActive;
+            RaisePropertyChangedEvent("SubnetActive");
+        }
+        public ICommand ToggleDefault { get { return new DelegateCommand(o => DoToggleDefault()); } }
+        void DoToggleDefault()
+        {
+            DefaultActive = !DefaultActive;
+            RaisePropertyChangedEvent("DefaultActive");
+        }
     }
 }

@@ -133,8 +133,8 @@
     <Compile Include="Views\CreditManagementView.xaml.cs">
       <DependentUpon>CreditManagementView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Diagnostics.xaml.cs">
-      <DependentUpon>Diagnostics.xaml</DependentUpon>
+    <Compile Include="Views\DiagnosticsView.xaml.cs">
+      <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GeneralSettingsView.xaml.cs">
       <DependentUpon>GeneralSettingsView.xaml</DependentUpon>
@@ -216,7 +216,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Diagnostics.xaml">
+    <Page Include="Views\DiagnosticsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
