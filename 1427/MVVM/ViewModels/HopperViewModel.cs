@@ -79,8 +79,8 @@ namespace PDTUtils.MVVM.ViewModels
             RightHopper = new HopperModel();
             DumpSwitchMessage = "Empty Hopper";
             this.RaisePropertyChangedEvent("DumpSwitchMessage");
-            SelectedTabIndex = 2;
-
+            SelectedTabIndex = 0;
+            
             LargeHopper = "£1 Hopper (LEFT)";
             SmallHopper = "10p Hopper (RIGHT)";
             this.RaisePropertyChangedEvent("LargeHopper");

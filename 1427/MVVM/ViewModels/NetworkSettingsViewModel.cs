@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net.NetworkInformation;
-using PDTUtils.Native;
 using System.Windows.Input;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -12,11 +11,15 @@ namespace PDTUtils.MVVM.ViewModels
         public bool IPAddressActive { get; set; }
         public bool SubnetActive { get; set; }
         public bool DefaultActive { get; set; }
+        public bool PingTestRunning { get; set; }
 
         public string IPAddress { get; set; }
         public string SubnetAddress { get; set; }
         public string DefaultGateway { get; set; }
         public string ComputerName { get; set; }
+
+        public string PingOne { get; set; }
+        public string PingTwo { get; set; }
 
         public NetworkSettingsViewModel()
         {
@@ -28,9 +31,14 @@ namespace PDTUtils.MVVM.ViewModels
             SubnetAddress = "";
             DefaultGateway = "";
             ComputerName = "";
+
+            PingOne = "";
+            PingTwo = "*** Sending PING (Google DNS) ***";
+            PingTestRunning = false;
+
             PopulateInfo();
         }
-        
+        //
         void PopulateInfo()
         {
             //IP Address
@@ -53,22 +61,39 @@ namespace PDTUtils.MVVM.ViewModels
         
             ComputerName = System.Environment.MachineName;
             
-            PingSites(0); //move this to a command. but the commands are firing at startup?
+            //PingSites(0); //move this to a command. but the commands are firing at startup?
 
             RaisePropertyChangedEvent("IPAddressActive");
             RaisePropertyChangedEvent("SubnetActive");
             RaisePropertyChangedEvent("DefaultActive");
-            
+           
             RaisePropertyChangedEvent("IPAddress");
             RaisePropertyChangedEvent("ComputerName");
             RaisePropertyChangedEvent("SubnetAddress");
             RaisePropertyChangedEvent("DefaultGateway");
+            RaisePropertyChangedEvent("PingTestRunning");
         }
-        
-        public void PingSites(int index)
+
+        public delegate void SuckMyDelegate(string p, string text);
+        public void SuckTheDelegate(string p, string text)
+        {
+            p = text;
+            RaisePropertyChangedEvent("PingOne");
+        }
+
+        public ICommand PingSites { get { return new DelegateCommand(DoPingSites); } }
+        public void DoPingSites(object o)
+        {
+            Thread t = new Thread(() => _DoPingSite(o));
+            t.Start();
+        }
+
+        private void _DoPingSite(object o)
         {
             try
             {
+                int? indexer = o as int?;
+                int index = (indexer == null) ? 0 : indexer.Value;
                 // ping google dns. Add more - non google sources?
                 System.Net.IPAddress[] addies = new System.Net.IPAddress[2]
                 {
@@ -76,21 +101,44 @@ namespace PDTUtils.MVVM.ViewModels
                     System.Net.IPAddress.Parse("8.8.4.4"),
                 };
 
+                if (index == 0 && PingOne.Length > 0)
+                {
+                    PingOne = "";
+                    RaisePropertyChangedEvent("PingOne");
+                }
+                
+                PingTestRunning = true;
+                RaisePropertyChangedEvent("PingTestRunning");
+                
                 Ping pinger = new Ping();
                 PingReply reply = pinger.Send(addies[index]);
-
+                
                 if (reply.Status == IPStatus.Success)
                 {
+                    PingOne += "Ping to " + addies[index].ToString() + " OK - " + reply.Status.ToString() + "\n\n";
+                    RaisePropertyChangedEvent("PingOne");
+                }
+                else
+                {
+                    if (index == 1)
+                        PingOne += "\n\n";
+
                     System.Diagnostics.Debug.WriteLine("Host Not Reached {0}", "[" + addies[index].ToString() + "]");
+                    PingOne += "Ping to " + addies[index].ToString() + " FAILED - " + reply.Status.ToString();
+                    RaisePropertyChangedEvent("PingOne");
+                    
                     if (index == 0)
-                        PingSites(index + 1); // Suck my recursion.
+                        DoPingSites(index + 1);
                 }
             }
             catch (Exception ex)
             {
-                // put this message on screen.
                 System.Diagnostics.Debug.WriteLine(ex.Message);
+                PingOne = ex.Message;
+                RaisePropertyChangedEvent("PingOne");
             }
+            //PingTestRunning = false;
+            RaisePropertyChangedEvent("PingTestRunning");
         }
         
         public ICommand ToggleIP { get { return new DelegateCommand(o => DoToggleIP()); } }

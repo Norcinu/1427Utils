@@ -24,8 +24,7 @@
 			
 			<TabItem Header="Empty" MinWidth="250" IsEnabled="{Binding NotRefilling}">
 				<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-					<ComboBox x:Name="cmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top" 
-							  FontSize="20" Margin="10" IsEditable="True">
+					<ComboBox x:Name="cmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top" FontSize="20" Margin="10" IsEditable="True">
 						<ComboBoxItem Content="{Binding LargeHopper}"/>
 						<ComboBoxItem Content="{Binding SmallHopper}"/>
 					</ComboBox>

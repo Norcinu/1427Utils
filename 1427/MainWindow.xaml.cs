@@ -230,7 +230,18 @@ namespace PDTUtils
         
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
+            ucMainPage.IsEnabled = false;
+            ucMainPage.Visibility = Visibility.Hidden;
+
+            ucDiagnostics.IsEnabled = false;
+            ucDiagnostics.Visibility = Visibility.Hidden;
+
+            ucPerformance.IsEnabled = false;
+            ucPerformance.Visibility = Visibility.Hidden;
+
+            Enabler.ClearAll();
 			Enabler.EnableCategory(Categories.Setup);
+            
             TabSetup.SelectedIndex = 0;
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 			//if (MasterVolumeSlider.Value > 0) *************RE-INSTATE THIS DEBUG DEBUG ****************
@@ -363,6 +374,13 @@ namespace PDTUtils
 		
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
+            Enabler.ClearAll();
+            ucMainPage.IsEnabled = false;
+            ucMainPage.Visibility = Visibility.Hidden;
+
+            ucDiagnostics.IsEnabled = false;
+            ucDiagnostics.Visibility = Visibility.Hidden;
+
             ucPerformance.IsEnabled = !ucPerformance.IsEnabled;
             if (ucPerformance.IsEnabled)
                 ucPerformance.Visibility = Visibility.Visible;
@@ -377,6 +395,16 @@ namespace PDTUtils
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
 		{
 			m_enabler.ClearAll();
+
+            ucMainPage.IsEnabled = false;
+            ucMainPage.Visibility = Visibility.Hidden;
+
+            ucDiagnostics.IsEnabled = false;
+            ucDiagnostics.Visibility = Visibility.Hidden;
+
+            ucPerformance.IsEnabled = false;
+            ucPerformance.Visibility = Visibility.Hidden;
+
 			m_keyDoorWorker.TestSuiteRunning = true;
 			TestSuiteWindow ts = new TestSuiteWindow();
 			ts.ShowDialog();
@@ -386,6 +414,14 @@ namespace PDTUtils
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
             GamesList.GetGamesList();
+            
+            Enabler.ClearAll();
+            ucMainPage.IsEnabled = false;
+            ucMainPage.Visibility = Visibility.Hidden;
+
+            ucDiagnostics.IsEnabled = false;
+            ucDiagnostics.Visibility = Visibility.Hidden;
+
             Enabler.EnableCategory(Categories.System);
 		}
         
@@ -482,13 +518,18 @@ namespace PDTUtils
         private void btnScreenShots_Click(object sender, RoutedEventArgs e)
         {
             Enabler.ClearAll();
+
+            ucMainPage.IsEnabled = false;
+            ucMainPage.Visibility = Visibility.Hidden;
+
+            ucDiagnostics.IsEnabled = false;
+            ucDiagnostics.Visibility = Visibility.Hidden;
+
+            ucPerformance.IsEnabled = false;
+            ucPerformance.Visibility = Visibility.Hidden;
+
             ScreenshotWindow w = new ScreenshotWindow();
             w.ShowDialog();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
         
         private void btnCreditManage_Click(object sender, RoutedEventArgs e)
@@ -498,6 +539,14 @@ namespace PDTUtils
                 ucMainPage.Visibility = Visibility.Visible;
             else
                 ucMainPage.Visibility = Visibility.Hidden;
+
+            Enabler.ClearAll();
+
+            ucDiagnostics.IsEnabled = false;
+            ucDiagnostics.Visibility = Visibility.Hidden;
+
+            ucPerformance.IsEnabled = false;
+            ucPerformance.Visibility = Visibility.Hidden;
         }
 
         private void btnDiagnostics_Click(object sender, RoutedEventArgs e)
@@ -507,8 +556,16 @@ namespace PDTUtils
                 ucDiagnostics.Visibility = Visibility.Visible;
             else
                 ucDiagnostics.Visibility = Visibility.Hidden;
-        }
+            
+            Enabler.ClearAll();
 
+            ucMainPage.IsEnabled = false;
+            ucMainPage.Visibility = Visibility.Hidden;
+
+            ucPerformance.IsEnabled = false;
+            ucPerformance.Visibility = Visibility.Hidden;
+        }
+        
         private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             var tb = sender as TextBox;

@@ -13,7 +13,7 @@ namespace PDTUtils.Views
             InitializeComponent();
             this.DataContext = new HopperViewModel();
         }
-        //oh well, if he clears then yesh he must be fit.
+        
         private void cmbHoppers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var s = this.DataContext as HopperViewModel;

@@ -17,14 +17,16 @@
 			<Setter Property="Control.HorizontalContentAlignment" Value="Center" />
 			<Setter Property="Control.VerticalContentAlignment" Value="Center" />
 			<Setter Property="Control.Margin" Value="10"/>
-			<Setter Property="Control.MinWidth" Value="200"/>
+			<Setter Property="Control.MinWidth" Value="350"/>
 		</Style>
+
+		<BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
 	</UserControl.Resources>
 	
 	<Grid>
 		<StackPanel HorizontalAlignment="Center">
-			<Label Style="{StaticResource StdLabel}" FontSize="48" HorizontalAlignment="Center" BorderBrush="AliceBlue" BorderThickness="2"
-						   Background="Red" Foreground="Peru">Network Information</Label>
+			<Label Style="{StaticResource StdLabel}" FontSize="48" HorizontalAlignment="Center" BorderBrush="AliceBlue" 
+				   BorderThickness="2" Background="Red" Foreground="Peru" Margin="0,60,0,0">Network Information</Label>
 			
 			<StackPanel Orientation="Horizontal">
 				<Label FontSize="36" Content="IP Address:" Style="{StaticResource StdLabel}"/>
@@ -33,7 +35,7 @@
 			</StackPanel>
 				
 			<StackPanel Orientation="Horizontal">
-				<Label FontSize="36" Content="Subnet:" Style="{StaticResource StdLabel}" />
+				<Label FontSize="36" Content="Subnet:" Style="{StaticResource StdLabel}"/>
 				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SubnetAddress}" IsEnabled="{Binding SubnetActive}"/>
 				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleSubnet}">SET SUBNET</Button>
 			</StackPanel>
@@ -43,19 +45,21 @@
 				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding DefaultGateway}" IsEnabled="{Binding DefaultActive}"/>
 				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleDefault}">SET GATEWAY</Button>
 			</StackPanel>
-			
-			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-				<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Set Network Info</Button>
-				<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Clear Network Info</Button>
-				<Button x:Name="btnTestNetwork"	FontSize="24" Width="250" Margin="20">Test Network</Button>
-			</StackPanel>
-		
-			<StackPanel Margin="0,60,0,0">
 
-				<StackPanel>
-					<Label Style="{StaticResource StdLabel}">Pinging Address: 8.8.8.8</Label>
-					<Label Style="{StaticResource StdLabel}">Pinging Address: 8.8.4.4</Label>
-				</StackPanel>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+				<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20">Set Network Info</Button>
+				<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20">Clear Network Info</Button>
+				<Button x:Name="btnTestNetwork"	FontSize="24" Width="250" Margin="20" Command="{Binding PingSites}" CommandParameter="0">Test Network</Button>
+			</StackPanel>
+
+			<StackPanel Margin="0,60,0,0">
+				<Border Width="400" BorderBrush="Black" BorderThickness="2">
+					<StackPanel Width="400" Background="AliceBlue" IsEnabled="{Binding PingTestRunning}" 
+								Visibility="{Binding PingTestRunning, Converter={StaticResource BoolToVisConverter}}">
+						<Label  Style="{StaticResource StdLabel}" Width="350"  Content="{Binding PingTwo}" />
+						<Label Style="{StaticResource StdLabel}" Width="350"  Content="{Binding PingOne}" />
+					</StackPanel>
+				</Border>
 			</StackPanel>
 		</StackPanel>
 	</Grid>
