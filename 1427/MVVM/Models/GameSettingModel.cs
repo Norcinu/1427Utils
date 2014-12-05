@@ -19,7 +19,17 @@ namespace PDTUtils.MVVM.Models
         
         public bool Promo { get; set; }
         public uint ModelNumber { get; set; }
-        public decimal StakeOne { get; set; }
+        public string StakeOne { get; set; }
+        public string StakeTwo { get; set; }
+        public string StakeThree { get; set; }
+        public string StakeFour { get; set; }
+        public string StakeFive { get; set; }
+        public string StakeSix { get; set; }
+        public string StakeSeven { get; set; }
+        public string StakeEight { get; set; }
+        public string StakeNine { get; set; }
+        public string StakeTen { get; set; }
+       /* public decimal StakeOne { get; set; }
         public decimal StakeTwo { get; set; }
         public decimal StakeThree { get; set; }
         public decimal StakeFour { get; set; }
@@ -28,7 +38,7 @@ namespace PDTUtils.MVVM.Models
         public decimal StakeSeven { get; set; }
         public decimal StakeEight { get; set; }
         public decimal StakeNine { get; set; }
-        public decimal StakeTen { get; set; }
+        public decimal StakeTen { get; set; }*/
         public string Title { get; set; }
         public string ModelDirectory { get; set; }
         public string Exe { get; set; }
@@ -41,16 +51,16 @@ namespace PDTUtils.MVVM.Models
             Active = false;
             Promo = false;
             ModelNumber = 0;
-            StakeOne = 0;
-            StakeTwo = 0;
-            StakeThree = 0;
-            StakeFour = 0;
-            StakeFive = 0;
-            StakeSix = 0;
-            StakeSeven = 0;
-            StakeEight = 0;
-            StakeNine = 0;
-            StakeTen = 0;
+            StakeOne = "";
+            StakeTwo = "";
+            StakeThree = "";
+            StakeFour = "";
+            StakeFive = "";
+            StakeSix = "";
+            StakeSeven = "";
+            StakeEight = "";
+            StakeNine = "";
+            StakeTen = "";
             Title = "";
             ModelDirectory = "";
             Exe = "";
@@ -67,10 +77,10 @@ namespace PDTUtils.MVVM.Models
         public ICommand ToggleStake { get { return new DelegateCommand(o => DoToggleStake()); } }
         void DoToggleStake()
         {
-            if (this.StakeOne == 0)
-                this.StakeOne = 10;
+            if (this.StakeOne == "")
+                this.StakeOne = "10";
             else
-                this.StakeOne = 0;
+                this.StakeOne = "0";
 
             System.Diagnostics.Debug.WriteLine(this.StakeOne, "this.StakeOne = {0}");
         }

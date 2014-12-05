@@ -3,6 +3,7 @@ using System.Net.NetworkInformation;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Threading;
+using System.Management;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -38,7 +39,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             PopulateInfo();
         }
-        //
+        
         void PopulateInfo()
         {
             //IP Address
@@ -61,8 +62,6 @@ namespace PDTUtils.MVVM.ViewModels
         
             ComputerName = System.Environment.MachineName;
             
-            //PingSites(0); //move this to a command. but the commands are firing at startup?
-
             RaisePropertyChangedEvent("IPAddressActive");
             RaisePropertyChangedEvent("SubnetActive");
             RaisePropertyChangedEvent("DefaultActive");
@@ -158,6 +157,36 @@ namespace PDTUtils.MVVM.ViewModels
         {
             DefaultActive = !DefaultActive;
             RaisePropertyChangedEvent("DefaultActive");
+        }
+
+        public ICommand SaveNetworkInfo { get { return new DelegateCommand(o => DoSaveNetworkInfo()); } }
+        void DoSaveNetworkInfo()
+        {
+            ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            ManagementObjectCollection objMOC = objMC.GetInstances();
+            
+            foreach (ManagementObject objMO in objMOC)
+            {
+                if ((bool)objMO["IPEnabled"])
+                {
+                    try
+                    {
+                        ManagementBaseObject setIP;
+                        ManagementBaseObject newIP = objMO.GetMethodParameters("EnableStatic");
+                        
+                        newIP["IPAddress"] = new string[] { IPAddress };
+                        newIP["SubnetMask"] = new string[] { SubnetAddress };
+                        if ((string[])objMO["DefaultIPGateway"] != null)
+                            newIP["DefaultIPGateway"] = new string[] { DefaultGateway };
+                        
+                        setIP = objMO.InvokeMethod("EnableStatic", newIP, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                    }
+                }
+            } 
         }
     }
 }

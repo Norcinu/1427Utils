@@ -125,7 +125,7 @@ namespace PDTUtils
             btnEndTest.IsEnabled = true;
             label1.Dispatcher.Invoke((DelegateDil)label_updateMessage, new object[] { label1, "Testing Button Lamps" });
             
-            Thread.Sleep(3000);
+            Thread.Sleep(1200);
 
             for (short i = 128; i > 0; i /= 2)
             {
@@ -140,10 +140,10 @@ namespace PDTUtils
                 BoLib.setLampStatus(1, (byte)i, 1);
                 Thread.Sleep(200);
             }
-            
+
             for (short i = 128; i > 0; i /= 2)
                 BoLib.setLampStatus(1, (byte)i, 0);
-            
+
             for (int i = 0; i < m_visualButtonCount; i++)
                 stpButtons.Children[i].Dispatcher.Invoke((DelegateEnableBtn)timer_buttonEnable, new object[] { stpButtons.Children[i] });
             m_buttonEnabledCount = 6;
@@ -169,14 +169,12 @@ namespace PDTUtils
                 {
                     var converter = new BrushConverter();
                     m_labels[ctr].Foreground = Brushes.Green;
-                  //  m_labels[ctr].FontSize = 16;
                     m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
                             new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " ON" });
                 }
                 else
                 {
                     m_labels[ctr].Foreground = Brushes.Red;
-                  //  m_labels[ctr].FontSize = 16;
                     m_labels[ctr].Dispatcher.Invoke((DelegateDil)label_updateMessage,
                             new object[] { m_labels[ctr], "DIL SWITCH " + ctr.ToString() + " OFF" });
                 }
@@ -190,11 +188,9 @@ namespace PDTUtils
 			m_noteImpl.IsRunning = true;
 			BoLib.clearBankAndCredit();
 			BoLib.enableNoteValidator();
-			//label1.FontSize = 16;
 			label1.Background = Brushes.Black;
 			label1.Foreground = Brushes.Aqua;
 			label1.Content = "Please deposit coin into the machine.";
-			//label3.FontSize = 16;
 			startTimer.Enabled = true;
 			btnEndTest.IsEnabled = true;
 		}
@@ -204,23 +200,15 @@ namespace PDTUtils
 			m_noteImpl.IsRunning = true;
 			BoLib.clearBankAndCredit();
 			BoLib.enableNoteValidator();
-			//label1.FontSize = 16;
 			label1.Background = Brushes.Black;
 			label1.Foreground = Brushes.Aqua;
 			label1.Content = "Please insert note into Note Validator.";
-			//label3.FontSize = 16;
 			startTimer.Enabled = true;
 			btnEndTest.IsEnabled = true;
 		}
         
 		private void DoButtonTest()
 		{
-		  /*  Label l = new Label();
-		    l.FontSize = 22;
-		    l.Content = "Toggle Refill Key: ";
-		    l.Name = "PressButton";*/
-				
-		    //stpMainPanel.Children.Add(l);
 		    for (int i = 0; i < 8; i++)
 			    m_buttonsPressed[i] = 0;
 			
@@ -260,7 +248,6 @@ namespace PDTUtils
                 }
             }
 		}
-
 
         private void UpdateSpecialsError(Label l)
         {
@@ -313,7 +300,7 @@ namespace PDTUtils
                         var mask = m_specialMasks[0];
 						var status = BoLib.getSwitchStatus(2, mask);
                         if (status == 0)
-                        {
+                        { 
                             if (m_btnImpl.m_toggled[0] == false) // key toggled off
                                 m_btnImpl.m_toggled[0] = true;
                         }

@@ -394,21 +394,28 @@ namespace PDTUtils
 		
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
 		{
-			m_enabler.ClearAll();
+            if (BoLib.getDoorStatus() == 1)
+            {
+                m_enabler.ClearAll();
 
-            ucMainPage.IsEnabled = false;
-            ucMainPage.Visibility = Visibility.Hidden;
+                ucMainPage.IsEnabled = false;
+                ucMainPage.Visibility = Visibility.Hidden;
 
-            ucDiagnostics.IsEnabled = false;
-            ucDiagnostics.Visibility = Visibility.Hidden;
+                ucDiagnostics.IsEnabled = false;
+                ucDiagnostics.Visibility = Visibility.Hidden;
 
-            ucPerformance.IsEnabled = false;
-            ucPerformance.Visibility = Visibility.Hidden;
+                ucPerformance.IsEnabled = false;
+                ucPerformance.Visibility = Visibility.Hidden;
 
-			m_keyDoorWorker.TestSuiteRunning = true;
-			TestSuiteWindow ts = new TestSuiteWindow();
-			ts.ShowDialog();
-			m_keyDoorWorker.TestSuiteRunning = false;
+                m_keyDoorWorker.TestSuiteRunning = true;
+                TestSuiteWindow ts = new TestSuiteWindow();
+                ts.ShowDialog();
+                m_keyDoorWorker.TestSuiteRunning = false;
+            }
+            else
+            {
+                MessageBox.Show("Please Open Door.", "INFO", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+            }
 		}
 		
 		private void btnSystem_Click(object sender, RoutedEventArgs e)
@@ -569,6 +576,29 @@ namespace PDTUtils
         private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             var tb = sender as TextBox;
+        }
+
+        private void btnReboot_Click(object sender, RoutedEventArgs e)
+        {
+            m_keyDoorWorker.PrepareForReboot = true;
+            if (BoLib.refillKeyStatus() == 1 && BoLib.getDoorStatus() == 1)
+            {
+                MessageBox.Show("Please Turn Refill Key and Close Door", "INFO");
+            }
+            else if (BoLib.refillKeyStatus() == 1)
+            {
+                MessageBox.Show("Please Turn Refill Key.", "INFO");
+            }
+            else if (BoLib.getDoorStatus() == 1)
+            {
+                MessageBox.Show("Please Close the Door", "INFO");
+            }
+
+            if (BoLib.refillKeyStatus() == 0 && BoLib.getDoorStatus() == 0)
+            {
+                m_keyDoorWorker.PrepareForReboot = false;
+                DiskCommit.SaveAndReboot();
+            }
         }
 	}
 }

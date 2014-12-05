@@ -16,7 +16,9 @@ namespace PDTUtils
 		volatile bool m_running;
 		volatile bool m_hasChanged;
 		volatile bool m_isTestSuiteRunning;
-		System.Timers.Timer updateTimer;
+        volatile bool m_prepareForReboot;
+
+        System.Timers.Timer updateTimer;
 
 		#region Properties
 		public bool TestSuiteRunning
@@ -52,6 +54,12 @@ namespace PDTUtils
 			get { return m_running; }
 			set { m_running = value; }
 		}
+
+        public bool PrepareForReboot
+        {
+            get { return m_prepareForReboot; }
+            set { m_prepareForReboot = value; }
+        }
 		#endregion
         
 		public DoorAndKeyStatus()
@@ -74,7 +82,7 @@ namespace PDTUtils
 				{
 					if (m_isTestSuiteRunning == false)
 					{
-						if (BoLib.refillKeyStatus() == 0)
+						if (BoLib.refillKeyStatus() == 0 && !m_prepareForReboot)
 						{
                             m_running = false;
                             Application.Current.Dispatcher.Invoke(

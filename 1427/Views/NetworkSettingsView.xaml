@@ -47,7 +47,7 @@
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-				<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20">Set Network Info</Button>
+				<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" Command="{Binding SaveNetworkInfo}">Set Network Info</Button>
 				<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20">Clear Network Info</Button>
 				<Button x:Name="btnTestNetwork"	FontSize="24" Width="250" Margin="20" Command="{Binding PingSites}" CommandParameter="0">Test Network</Button>
 			</StackPanel>

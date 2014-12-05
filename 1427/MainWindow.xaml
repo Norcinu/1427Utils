@@ -12,14 +12,14 @@
         Width="1920" 
         Name="WindowMain" 
         WindowStyle="None" 
-        Loaded="WindowMain_Loaded" 
+        Loaded="WindowMain_Loaded"
         WindowState="Maximized" 
         Closing="WindowMain_Closing" 
         Foreground="#FF837C7C"  
         ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" 
         SizeToContent="Manual">
-
+		
 <!-- 
 	Height="{Binding SystemParameters.PrimaryScreenHeight}" 
         Width="{Binding SystemParameters.PrimaryScreenWidth}" -->
@@ -30,10 +30,9 @@
 			<Setter Property="Control.FontSize" Value="36"/>
 			<Setter Property="Control.VerticalContentAlignment" Value="Center"/>
 			<Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
-			<Setter Property="Control.Margin" Value="10"></Setter>
+			<Setter Property="Control.Margin" Value="10"/>
 			<Setter Property="Control.Foreground" Value="Yellow"/>
 		</Style>
-		
 	</Window.Resources>
 	
 	<Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
@@ -596,6 +595,7 @@
 			<Button Content="System Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />
 			<Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
+			<Button Content="Reboot" Name="btnReboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnReboot_Click"/>
 		</StackPanel>
 
 		<Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />

@@ -182,12 +182,14 @@ namespace PDTUtils
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is decimal))
+            if (!(value is string))
                 return false;
 
-            return ((decimal)value == 0) ? false : true;
+            string stripper = value as string;
+            string[] ss = stripper.Split("£$€".ToCharArray());
+            return (System.Convert.ToDecimal(ss[1]) == 0) ? false : true;  /*((decimal)value == 0) ? false : true;*/
         }
-        
+                
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is bool))
@@ -196,7 +198,7 @@ namespace PDTUtils
             return ((bool)value == false) ? 0 : 1;
         }
     }
-
+    
     public class MultibindConverter : IMultiValueConverter
     {
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Management;
+using System.Threading;
 
 namespace PDTUtils
 {
@@ -25,7 +26,7 @@ namespace PDTUtils
 			process.StartInfo = startInfo;
 			process.Start();
 		}
-
+        
         /// <summary>
         /// Forces the machine to reboot.
         /// </summary>
@@ -44,14 +45,16 @@ namespace PDTUtils
 
 				outParams = obj.InvokeMethod("Win32Shutdown", inParams, null);
 				result = Convert.ToInt32(outParams["returnValue"]);
-				if (result != 0) 
+				if (result != 0)
 					throw new Win32Exception(result);
 			}
 		}
         
         public static void SaveAndReboot()
         {
-            Save();
+            Thread t = new Thread(() => Save());
+            t.Start();
+            Thread.Sleep(2000);
             RebootMachine();
         }
 	}

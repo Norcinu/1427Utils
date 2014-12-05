@@ -98,7 +98,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeOne, StringFormat=£{0:#,#.00}}" FontSize="20"/> <!-- , StringFormat=€{0:#,#.00}}" -->
+										<TextBlock Text="{Binding StakeOne}" FontSize="20"/> <!-- , StringFormat=€{0:#,#.00}}" -->
 									</CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -107,8 +107,8 @@
 						<GridViewColumn Header="Stake 2" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
-										<TextBlock Text="{Binding StakeTwo, StringFormat=€{0:#,#.00}}" FontSize="20"/>
+									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
+										<TextBlock Text="{Binding StakeTwo}" FontSize="20"/>
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -117,8 +117,8 @@
 						<GridViewColumn Header="Stake 3" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
-										<TextBlock Text="{Binding StakeThree, StringFormat=€{0:#,#.00}}" FontSize="20"/>
+									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
+										<TextBlock Text="{Binding StakeThree}" FontSize="20"/>
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -127,8 +127,8 @@
 						<GridViewColumn Header="Stake 4" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
-										<TextBlock Text="{Binding StakeFour, StringFormat=€{0:#,#.00}}" FontSize="20"/>
+									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
+										<TextBlock Text="{Binding StakeFour}" FontSize="20"/>
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -137,8 +137,8 @@
 						<GridViewColumn Header="Stake 5" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
-										<TextBlock Text="{Binding StakeFive, StringFormat=€{0:#,#.00}}" FontSize="20"/>
+									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
+										<TextBlock Text="{Binding StakeFive}" FontSize="20"/>
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -147,8 +147,8 @@
 						<GridViewColumn Header="Stake 6" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
-										<TextBlock Text="{Binding StakeSix, StringFormat=€{0:#,#.00}}" FontSize="20"/>
+									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
+										<TextBlock Text="{Binding StakeSix}" FontSize="20"/>
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -157,8 +157,8 @@
 						<GridViewColumn Header="Stake 7" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
-										<TextBlock Text="{Binding StakeSeven, StringFormat=€{0:#,#.00}}" FontSize="20"/>
+									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
+										<TextBlock Text="{Binding StakeSeven}" FontSize="20"/>
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -167,8 +167,8 @@
 						<GridViewColumn Header="Stake 8" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
-										<TextBlock Text="{Binding StakeEight, StringFormat=€{0:#,#.00}}" FontSize="20"/>
+									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
+										<TextBlock Text="{Binding StakeEight}" FontSize="20"/>
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -177,8 +177,8 @@
 						<GridViewColumn Header="Stake 9" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
-										<TextBlock Text="{Binding StakeNine, StringFormat=€{0:#,#.00}}" FontSize="20"/>
+									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
+										<TextBlock Text="{Binding StakeNine}" FontSize="20"/>
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -187,8 +187,8 @@
 						<GridViewColumn Header="Stake 10" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox>
-										<TextBlock Text="{Binding StakeTen, StringFormat=€{0:#,#.00}}" FontSize="20"/>
+									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
+										<TextBlock Text="{Binding StakeTen}" FontSize="20"/>
                                     </CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -198,7 +198,7 @@
                         <GridViewColumn Header="Promo" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding StakeFive}"></CheckBox>
+                                    <CheckBox IsChecked="{Binding Promo}"></CheckBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -210,8 +210,5 @@
             <Button Content="Save Changes" Width="150" Height="35" Command="{Binding SaveGameOptions}" />
 
         </StackPanel>
-        
-        
-        
     </Grid>
 </UserControl>
