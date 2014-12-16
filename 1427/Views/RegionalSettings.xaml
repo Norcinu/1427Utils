@@ -5,6 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1200">
+    
+    <UserControl.Resources>
+        <Style x:Key="StdLabel" TargetType="Label">
+            <Setter Property="Control.Height" Value="38"/>
+            <Setter Property="Control.FontSize" Value="22"/>
+            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Control.Margin" Value="10"></Setter>
+            <Setter Property="Control.Foreground" Value="White"/>
+            <Setter Property="Control.Background" Value="Red"/>
+            <Setter Property="Control.BorderBrush" Value="Black"/>
+            <Setter Property="Control.BorderThickness" Value="2"/>
+            <Setter Property="Control.MinWidth" Value="200"/>
+        </Style>
+    </UserControl.Resources>
     	
     <Grid>
         <TabControl>
@@ -56,21 +71,101 @@
             </TabItem>
             
             <TabItem Header="Community Settings">
-                <StackPanel>
+                <StackPanel HorizontalAlignment="Center">
+                    
 					<StackPanel Orientation="Horizontal">
 						<Label FontSize="18" Margin="25">Edit Region:</Label>
 						<Label FontSize="18" Margin="25" Content="{Binding Selected.Community}"></Label>
-					</StackPanel>
-										
-					<!-- END -->
+					</StackPanel> 
+                        
+                    <StackPanel Orientation="Horizontal">
+                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
+                            <StackPanel>
+                                <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </Button>
+                        <StackPanel>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Max Credits</Label>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10"/><!-- Content="{Binding EditableLiveRegion.MaxCredits}" />-->
+                        </StackPanel>
+                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                            <StackPanel>
+                                <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </Button>
+                            
+                        <Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
+                            <StackPanel>
+                                <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </Button>
+                        <StackPanel>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Max Reserve</Label>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10"/><!-- Content="{Binding EditableLiveRegion.MaxReserveCredits}"/>-->
+                        </StackPanel>
+
+                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                            <StackPanel>
+                                <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </Button>
+                        
+                        <Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
+                            <StackPanel>
+                                <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </Button>
+                        <StackPanel>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Max Bank</Label>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10"/><!-- Content="{Binding EditableLiveRegion.MaxBank}" />-->
+                        </StackPanel>
+                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                            <StackPanel>
+                                <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <Border BorderBrush="Black" BorderThickness="2" Margin="5,10,50,10">
+                            <CheckBox FlowDirection="RightToLeft">
+                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Bill Escrow Enabled:</TextBox>
+                            </CheckBox>
+                        </Border>
+
+                        <Border BorderBrush="Black" BorderThickness="2" Margin="0,10,50,10">
+                            <CheckBox FlowDirection="RightToLeft">
+                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Return Change:</TextBox>
+                            </CheckBox>
+                        </Border>
+
+                        <Border BorderBrush="Black" BorderThickness="2" Margin="0,10,50,10">
+                            <CheckBox FlowDirection="RightToLeft">
+                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Accept £20:</TextBox>
+                            </CheckBox>
+                        </Border> 
+                        
+                        <Border BorderBrush="Black" BorderThickness="2" Margin="0,10, 50,10">
+                            <CheckBox FlowDirection="RightToLeft">
+                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Accept £50:</TextBox>
+                            </CheckBox>
+                        </Border>
+                        
+                        <Border BorderBrush="Black" BorderThickness="2" Margin="0,10, 50,10">
+                            <CheckBox FlowDirection="RightToLeft">
+                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Fast Transfer</TextBox>
+                            </CheckBox>
+                        </Border>
+                    </StackPanel>
+                    
+                    
+                    <!-- END -->
 					<StackPanel Orientation="Horizontal">
-						<Button Content="Save Changes" Margin="25" FontSize="20" Width="150" Height="35" />
+						<Button Content="Save Changes" Margin="25" FontSize="20" Width="150" Height="35" Command="{Binding Save}"/>
                         <Button Content="Cancel" Margin="25" FontSize="20" Width="150" Height="35" />
                     </StackPanel>
                 </StackPanel>
-                
             </TabItem>
-        </TabControl>    
+        </TabControl>
     </Grid>
-    
 </UserControl>

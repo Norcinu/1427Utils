@@ -81,6 +81,15 @@ namespace PDTUtils.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\EspLiveSettings.ini.
+        /// </summary>
+        internal static string esp_live_ini {
+            get {
+                return ResourceManager.GetString("esp_live_ini", resourceCulture);
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream exit {
             get {
                 return ResourceManager.GetStream("exit", resourceCulture);

@@ -39,6 +39,12 @@
     <ClInclude Include="BoLibTito.h">
       <Filter>BoLibHeaders</Filter>
     </ClInclude>
+    <ClInclude Include="BoLibEspRegion.h">
+      <Filter>BoLibHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\1524LibSource\EspRegionalValues.h">
+      <Filter>BoLibHeaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoLibGetValues.cpp">
@@ -57,6 +63,9 @@
       <Filter>BoLibSource</Filter>
     </ClCompile>
     <ClCompile Include="BoLibTito.cpp">
+      <Filter>BoLibSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\1524LibSource\EspRegionalValues.cpp">
       <Filter>BoLibSource</Filter>
     </ClCompile>
   </ItemGroup>

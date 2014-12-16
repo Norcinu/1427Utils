@@ -16,38 +16,44 @@ namespace PDTUtils.MVVM.Models
     
     class SpanishRegionalModel
     {
-        public uint MaxStakeFromCredits { get; set; }
-        public uint MaxStakeFromBank { get; set; }
-        public uint StakeInc { get; set; }
-        public uint MaxWinPerStake { get; set; }
-        public uint MaxCredit { get; set; }
-        public uint MaxReserve { get; set; }
+        public uint MaxStakeCredits { get; set; }
+        public uint MaxStakeBank { get; set; }
+        public uint StakeMask { get; set; }
+        public uint WinMax { get; set; }
+        public uint MaxCredits { get; set; }
+        public uint MaxReserveCredits { get; set; }
         public uint MaxBank { get; set; }
-        public uint NoteEscrow { get; set; }
+        public uint EscrowState { get; set; }
         public uint Rtp { get; set; }
-        public uint Gtime { get; set; }
-        public uint ChangeValue { get; set; }
-        public uint MaxNote { get; set; }
-        public uint CreditAndBank { get; set; }
-        public uint ChargeConvertPoints { get; set; }
+        public uint GameTime { get; set; }
+        public uint GiveChangeThreshold { get; set; }
+        public uint MaxBankNote { get; set; }
+        public uint AllowBank2Credit { get; set; }
+        public uint ConvertToPlay { get; set; }
+        public uint FastTransfer { get; set; }
+        public uint CycleSize { get; set; }
+        public uint MaxPlayerPoints { get; set; }
         public string Community { get; set; }
+	
         
         public SpanishRegionalModel(string community, SpanishRegional region)
         {
             this.Community = community;
-            this.ChangeValue = region.ChangeValue;
-            this.ChargeConvertPoints = region.ChargeConvertPoints;
-            this.CreditAndBank = region.CreditAndBank;
-            this.Gtime = region.Gtime;
+            this.GiveChangeThreshold = region.ChangeValue;
+            //this = region.ChargeConvertPoints;
+            //this = region.CreditAndBank;
+            this.CycleSize = region.CycleSize;
+            this.FastTransfer = region.FastTransfer;
+            this.GameTime = region.Gtime;
             this.MaxBank = region.MaxBank;
-            this.MaxCredit = region.MaxCredit;
-            this.MaxReserve = region.MaxReserve;
-            this.MaxStakeFromBank = region.MaxStakeFromBank;
-            this.MaxStakeFromCredits = region.MaxWinPerStake;
-            this.MaxWinPerStake = region.MaxWinPerStake;
-            this.NoteEscrow = region.NoteEscrow;
+            this.MaxCredits = region.MaxCredit;
+            this.MaxReserveCredits = region.MaxReserve;
+            this.MaxStakeBank = region.MaxStakeFromBank;
+            this.MaxStakeCredits = region.MaxWinPerStake;
+            //this.MaxWinPerStake = region.MaxWinPerStake;
+            this.EscrowState = region.NoteEscrow;
             this.Rtp = region.Rtp;
-            this.StakeInc = region.StakeInc;
+            this.StakeMask = region.StakeMask;
         }
     }
 }

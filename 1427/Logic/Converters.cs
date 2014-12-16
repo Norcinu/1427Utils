@@ -186,10 +186,20 @@ namespace PDTUtils
                 return false;
 
             string stripper = value as string;
-            string[] ss = stripper.Split("£$€".ToCharArray());
-            return (System.Convert.ToDecimal(ss[1]) == 0) ? false : true;  /*((decimal)value == 0) ? false : true;*/
+            string[] ss = stripper.Split("£$€,.".ToCharArray());
+            bool ret = false;
+            try
+            {
+                ret = System.Convert.ToDecimal(ss[1]) == 0 ? false : true;
+            }
+            catch(Exception ex)
+            {
+                ret = false;
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            return ret;   /*((decimal)value == 0) ? false : true;*/
         }
-                
+        
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is bool))

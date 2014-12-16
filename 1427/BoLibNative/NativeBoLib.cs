@@ -17,12 +17,12 @@ namespace PDTUtils.Native
 		public string HashCode { get; set; }
 		public string Path { get; set; }
 	}
-
+    
     struct SpanishRegional
     {
         public uint MaxStake;
         public uint MaxStakeFromBank;
-        public uint StakeInc;
+        public uint StakeMask;
         public uint MaxWinPerStake;
         public uint MaxCredit;
         public uint MaxReserve;
@@ -32,10 +32,13 @@ namespace PDTUtils.Native
         public uint Gtime;
         public uint ChangeValue;
         public uint MaxNote;
-        public uint CreditAndBank;
+        //public uint CreditAndBank;
+        public uint BankToCredits;
         public uint ChargeConvertPoints;
+        public uint CycleSize;
+        public uint FastTransfer;
     }
-
+    
     static class BoLib
     {
 #if DEBUG

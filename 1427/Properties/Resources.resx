@@ -211,4 +211,7 @@
   <data name="birth_cert" xml:space="preserve">
     <value>D:\BirthCert\BirthCert.ini</value>
   </data>
+  <data name="esp_live_ini" xml:space="preserve">
+    <value>D:\machine\EspLiveSettings.ini</value>
+  </data>
 </root>

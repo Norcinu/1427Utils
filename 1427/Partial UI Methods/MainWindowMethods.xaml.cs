@@ -62,8 +62,8 @@ namespace PDTUtils
 		public delegate void DelegateUpdate();
 		public void DoorTimerEvent(object sender, ElapsedEventArgs e)
 		{
-			this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
-			this.lblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
+		//	this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
+		//	this.lblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
 		}
         
 		public void UpdateUiLabels(object sender, ElapsedEventArgs e)

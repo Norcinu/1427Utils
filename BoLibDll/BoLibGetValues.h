@@ -109,6 +109,7 @@ DLLEXPORT void			getMemoryStatus(MEMORYSTATUS *memory);
 DLLEXPORT unsigned int	getNumberOfGames();
 DLLEXPORT unsigned int	getBoLibVersion();
 DLLEXPORT void			getRegionalValues(int index, SpanishRegional *region);
+DLLEXPORT void			getActiveRegionValues(int index, SpanishRegional *region);
 DLLEXPORT char 			*getErrorMessage(char *str, int code);
 DLLEXPORT int			getUtilsRelease();
 DLLEXPORT unsigned long getTPlayMeter(unsigned char offset);
