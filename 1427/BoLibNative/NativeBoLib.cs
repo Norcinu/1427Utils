@@ -211,6 +211,12 @@ namespace PDTUtils.Native
         public unsafe static extern void getRegionalValues(int index, ref SpanishRegional region);
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void getDefaultRegionValues(int index, ref SpanishRegional region);
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void getActiveRegionValues(int index, ref SpanishRegional region);
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.LPStr)]
         public unsafe static extern string getErrorMessage(string str, int code);
 

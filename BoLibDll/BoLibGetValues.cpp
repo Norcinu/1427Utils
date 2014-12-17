@@ -592,12 +592,9 @@ void getRegionalValues(int index, SpanishRegional *region)
 	region->FastTransfer        = EspRegionalVariableValues[index][ESP_FAST_TRANSFER];
 }
 
-void getActiveRegionValues(int index, SpanishRegional *region)
-{
-	GetActiveRegionValues(index, region);
-}
 
-char *ErrorCodes[55] = {
+char *ErrorCodes[55] = 
+{
 	"Unknown error",
 	"Comms buf critical full",
 	"Comms Barcode error",
