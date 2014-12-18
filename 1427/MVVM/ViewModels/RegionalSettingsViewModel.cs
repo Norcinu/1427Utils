@@ -18,7 +18,7 @@ namespace PDTUtils.MVVM.ViewModels
         SpanishRegionalModel _editableLiveRegion;
         SpainRegionSelection _selected = new SpainRegionSelection();
 
-        readonly string _espRegionIni = @"D:\1427\Config\EspRegional.ini";
+        readonly string _espRegionIni = Properties.Resources.esp_live_ini; //@"D:\1427\Config\EspRegional.ini";
         readonly string[] _streetMarketRegions = new string[20]
         {
             "Andalucia", "Aragón", "Asturias", "Baleares", "País Vasco", "Cantabria", "Castilla-La Mancha",
@@ -45,7 +45,7 @@ namespace PDTUtils.MVVM.ViewModels
         #region Properties
         public bool FirstScreen { get; set; }
         public bool SecondScreen { get; set; }
-        //off you go aswell victor. seriously dont be hanging around until 5:45. 
+        
         public IEnumerable<SpanishRegionalModel> Arcades { get { return _arcades; } }
         public IEnumerable<SpanishRegionalModel> Street { get { return _street; } }
         public SpainRegionSelection Selected
@@ -64,12 +64,14 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand SetActiveRegion { get { return new DelegateCommand(SetRegion); } }
         public ICommand Save { get { return new DelegateCommand(o => SaveChanges()); } }
         public ICommand Load { get { return new DelegateCommand(o => LoadSettings()); } }
+        public ICommand Increment { get { return new DelegateCommand(DoIncrement); } }
+        public ICommand Decrement { get { return new DelegateCommand(DoDecrement); } }
         #endregion
         
         public RegionalSettingsViewModel()
         {
-            System.Array.Sort(_streetMarketRegions);
-            System.Array.Sort(_arcadeRegions);
+            /*System.Array.Sort(_streetMarketRegions);
+            System.Array.Sort(_arcadeRegions);*/
             
             int i = 0;
             foreach (string s in _streetMarketRegions)
@@ -91,7 +93,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
 
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
-            
+                        
             this.LoadSettings();
 
             this.RaisePropertyChangedEvent("EditableLiveRegion");
@@ -102,36 +104,49 @@ namespace PDTUtils.MVVM.ViewModels
 
         public void SaveChanges()
         {
-            NativeWinApi.WritePrivateProfileString("Current", "Region", Selected.Community, _espRegionIni);
-            NativeWinApi.WritePrivateProfileString("Current", "VenueType", Selected.VenueType, _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("General", "Region", Selected.Community, _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("General", "VenueType", Selected.VenueType, _espRegionIni);
             
             int id = -1;
             if (Selected.VenueType == "Street Market")
                 id = Array.IndexOf(_streetMarketRegions, Selected.Community);
             else
-                id = Array.IndexOf(_arcadeRegions, Selected.Community);
-            
-            NativeWinApi.WritePrivateProfileString("Current", "Id", id.ToString(), _espRegionIni);//yeah but you know victor will stay late
-            //i'm s busy i aint go ot time for tha
-            
-            string espLiveSettings = @"D:\machine\EspLiveSettings.ini";
-            //NativeWinApi.WritePrivateProfileString("General", "MaxSta
-        }
+                id = Array.IndexOf(_arcadeRegions, Selected.Community) + _streetMarketRegions.Length;
 
+            NativeWinApi.WritePrivateProfileString("General", "CurrentRegion", id.ToString(), _espRegionIni);
+
+            NativeWinApi.WritePrivateProfileString("Settings", "MaxStakeCredits", _editableLiveRegion.MaxStakeCredits.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "MaxStakeBank", _editableLiveRegion.MaxStakeBank.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "StakeMask", _editableLiveRegion.StakeMask.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "WinMax", _editableLiveRegion.WinMax.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "MaxCredits", _editableLiveRegion.MaxCredits.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "MaxReserveCredits", _editableLiveRegion.MaxReserveCredits.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "MaxBank", _editableLiveRegion.MaxBank.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "EscrowState", _editableLiveRegion.EscrowState.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "Rtp", _editableLiveRegion.Rtp.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "GameTime", _editableLiveRegion.GameTime.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "GiveChangeThreshold", _editableLiveRegion.GiveChangeThreshold.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "MaxBankNote", _editableLiveRegion.MaxBankNote.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "AllowBank2Credit", _editableLiveRegion.AllowBank2Credit.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "ConvertToPlay", _editableLiveRegion.ConvertToPlay.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "FastTRansfer", _editableLiveRegion.FastTransfer.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "CycleSize", _editableLiveRegion.CycleSize.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "MaxPlayerPoints", _editableLiveRegion.MaxPlayerPoints.ToString(), _espRegionIni);
+            
+            IniFileUtility.HashFile(_espRegionIni);
+            RaisePropertyChangedEvent("EditableLiveRegion");
+        }
+        
         public void LoadSettings()
         {
             string[] temp;
-            var c = IniFileUtility.GetIniProfileSection(out temp, "Current", _espRegionIni);
-            _selected.Community = temp[0].Substring(7);
-            _selected.VenueType = temp[1].Substring(10);
-
-            //Live Config
-            string[] liveGeneral;
-            var general = IniFileUtility.GetIniProfileSection(out liveGeneral, "General", @"D:\machine\EspLiveSettings.ini");
+            var c = IniFileUtility.GetIniProfileSection(out temp, "General", _espRegionIni);
+            _selected.Community = temp[2].Substring(7); //0
+            _selected.VenueType = temp[3].Substring(10); //1
 
             string[] liveSettings;
-            var settings = IniFileUtility.GetIniProfileSection(out liveSettings, "Settings", @"D:\machine\EspLiveSettings.ini");
-
+            var settings = IniFileUtility.GetIniProfileSection(out liveSettings, "Settings", _espRegionIni);
+            
             _editableLiveRegion.MaxStakeCredits = Convert.ToUInt32(liveSettings[0].Substring(16));
             _editableLiveRegion.MaxStakeBank = Convert.ToUInt32(liveSettings[1].Substring(13));
             _editableLiveRegion.StakeMask = Convert.ToUInt32(liveSettings[2].Substring(10));
@@ -149,6 +164,7 @@ namespace PDTUtils.MVVM.ViewModels
             _editableLiveRegion.FastTransfer = Convert.ToUInt32(liveSettings[14].Substring(13).TrimStart());
             _editableLiveRegion.CycleSize = Convert.ToUInt32(liveSettings[15].Substring(10));
             _editableLiveRegion.MaxPlayerPoints = Convert.ToUInt32(liveSettings[16].Substring(16));
+            RaisePropertyChangedEvent("EditableLiveRegion");
         }
         
         public void SetRegion(object listview)
@@ -159,14 +175,61 @@ namespace PDTUtils.MVVM.ViewModels
             
             var name = lv.SelectedItem as SpanishRegionalModel;
             Selected.Community = name.Community;
+
+            int id = 0;
+            if (Selected.VenueType == "Street Market")
+                id = Array.IndexOf(_streetMarketRegions, Selected.Community);
+            else
+                id = Array.IndexOf(_arcadeRegions, Selected.Community) + _streetMarketRegions.Length;
+            
+            SpanishRegional sr = new SpanishRegional();
+            BoLib.getRegionalValues(id, ref sr);
+
+            _editableLiveRegion = new SpanishRegionalModel(Selected.Community, sr);
             
             if (System.Convert.ToInt32(lv.Tag) == (int)ESiteType.StreetMarket)
                 Selected.VenueType = "Street Market";
             else if (System.Convert.ToInt32(lv.Tag) == (int)ESiteType.Arcade)
                 Selected.VenueType = "Arcade";
 
-            this.RaisePropertyChangedEvent("Selected");
             this.SaveChanges();
+            this.LoadSettings();
+            this.RaisePropertyChangedEvent("Selected");
+            this.RaisePropertyChangedEvent("EditableLiveRegion");
+        }
+
+        void DoIncrement(object settingsName)
+        {
+            string setting = settingsName as string;
+            if (setting.Equals("MaxCredits"))
+                _editableLiveRegion.MaxCredits += 50;
+            else if (setting.Equals("MaxReserve"))
+                _editableLiveRegion.MaxReserveCredits += 50;
+            else if (setting.Equals("MaxBank"))
+                _editableLiveRegion.MaxBank += 50;
+            else if (setting.Equals("GameTime"))
+                _editableLiveRegion.GameTime += 5;
+            else if (setting.Equals("RTP") && _editableLiveRegion.Rtp < 10000)
+                _editableLiveRegion.Rtp += 100;
+            
+            RaisePropertyChangedEvent("EditableLiveRegion");
+        }
+
+        void DoDecrement(object settingsName)
+        {
+            string setting = settingsName as string;
+            if (setting.Equals("MaxCredits") && _editableLiveRegion.MaxCredits >= 100)
+                _editableLiveRegion.MaxCredits -= 50;
+            else if (setting.Equals("MaxReserve"))
+                _editableLiveRegion.MaxReserveCredits += 50;
+            else if (setting.Equals("MaxBank"))
+                _editableLiveRegion.MaxBank += 50;
+            else if (setting.Equals("GameTime"))
+                _editableLiveRegion.GameTime -= 5;
+            else if (setting.Equals("RTP") && _editableLiveRegion.Rtp > 100)
+                _editableLiveRegion.Rtp -= 100;
+
+            RaisePropertyChangedEvent("EditableLiveRegion");
         }
     }
 }

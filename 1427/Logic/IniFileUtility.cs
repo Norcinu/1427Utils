@@ -42,21 +42,21 @@ namespace PDTUtils.Logic
         }
 
         public static void HashFile(string filename)
-        {
-            //warning warning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //delete all garbage text after the [END] brackets before re-authing.
-
-            using (FileStream fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (BufferedStream bs = new BufferedStream(fs))
-            using (StreamReader sr = new StreamReader(bs))
+        {            
+            // delete garbage after [End] section.
+            var lines = System.IO.File.ReadAllLines(filename);
+            bool afterEnd = false;
+         
+            for (int i = 0; i < lines.Length; i++)
             {
-                string line = "";
-                //static bool afterEnd = false;
-                while ((line = sr.ReadLine()) != null)
-                {
-                }
+                if (lines[i] == "[End]")
+                    afterEnd = true;
+                if (lines[i] != "[End]" && afterEnd)
+                    lines[i] = "";
             }
-
+       
+            System.IO.File.WriteAllLines(filename, lines);
+            
             int retries = 10;
             if (NativeMD5.CheckFileType(filename))
             {
@@ -64,11 +64,7 @@ namespace PDTUtils.Logic
                 {
                     //make sure file in not read-only
                     if (NativeWinApi.SetFileAttributes(filename, NativeWinApi.FILE_ATTRIBUTE_NORMAL))
-                    {
-                        //delete [End] section
-                        NativeWinApi.WritePrivateProfileSection("End", "", filename);
-                        NativeWinApi.WritePrivateProfileSection("End", "", filename);
-
+                    {                        
                         do
                         {
                             NativeMD5.AddHashToFile(filename);
