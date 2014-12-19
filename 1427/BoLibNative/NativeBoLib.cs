@@ -212,7 +212,7 @@ namespace PDTUtils.Native
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void getDefaultRegionValues(int index, ref SpanishRegional region);
-
+        
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void getActiveRegionValues(int index, ref SpanishRegional region);
 

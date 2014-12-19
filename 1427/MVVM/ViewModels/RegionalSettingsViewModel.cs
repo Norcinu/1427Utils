@@ -6,7 +6,7 @@ using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
-using System.Xml;
+
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -16,6 +16,7 @@ namespace PDTUtils.MVVM.ViewModels
         ObservableCollection<SpanishRegionalModel> _arcades = new ObservableCollection<SpanishRegionalModel>();
         ObservableCollection<SpanishRegionalModel> _street = new ObservableCollection<SpanishRegionalModel>();
         SpanishRegionalModel _editableLiveRegion;
+        SpanishRegionalModel _regionBackup; // restore _editable to this if user presses cancel imo.
         SpainRegionSelection _selected = new SpainRegionSelection();
 
         readonly string _espRegionIni = Properties.Resources.esp_live_ini; //@"D:\1427\Config\EspRegional.ini";
@@ -35,7 +36,7 @@ namespace PDTUtils.MVVM.ViewModels
             "Murcia-6000-(arcade,reservate area)","Murcia-3000-(arcade,reservate area)","Murcia-arcade-500","Navarra-1000",
             "Navarra-2000","La Rioja-1000","La Rioja-2000","Valencia-2000","Valencia-3000","Valencia-600","Valencia-1000",
             "Canarias-1000","Galicia-3600","Galicia-1800"
-
+            
             /*"Andalucia", "Aragón", "Asturias", "Baleares", "Baleares (Special B)", "Basque (BS)", "Basque (Special BS)",
             "Cantabria", "Castilla-La Mancha", "Castilla-La Mancha (Special)", "Castilla León", "Catalonia", "Extremadura",
             "Madrid", "Madrid 2000", "Madrid 3000", "Murcia", "Murcia (arcade, reservate area)", "Navarra", "La Rioja",
@@ -45,7 +46,7 @@ namespace PDTUtils.MVVM.ViewModels
         #region Properties
         public bool FirstScreen { get; set; }
         public bool SecondScreen { get; set; }
-        
+        //
         public IEnumerable<SpanishRegionalModel> Arcades { get { return _arcades; } }
         public IEnumerable<SpanishRegionalModel> Street { get { return _street; } }
         public SpainRegionSelection Selected
@@ -81,13 +82,13 @@ namespace PDTUtils.MVVM.ViewModels
                 _street.Add(new SpanishRegionalModel(_streetMarketRegions[i], sr));
                 i++;
             }
-
+            
             int smLength = _streetMarketRegions.Length - 1;
             i = 0;
             foreach (string arcade in _arcadeRegions)
             {
                 SpanishRegional sr = new SpanishRegional();
-                BoLib.getRegionalValues(smLength + i, ref sr);
+                BoLib.getDefaultRegionValues(smLength + i, ref sr);
                 _arcades.Add(new SpanishRegionalModel(_arcadeRegions[i], sr));
                 i++;
             }
@@ -101,7 +102,7 @@ namespace PDTUtils.MVVM.ViewModels
             this.RaisePropertyChangedEvent("Street");
             this.RaisePropertyChangedEvent("Selected");
         }
-
+        
         public void SaveChanges()
         {
             NativeWinApi.WritePrivateProfileString("General", "Region", Selected.Community, _espRegionIni);
@@ -114,7 +115,7 @@ namespace PDTUtils.MVVM.ViewModels
                 id = Array.IndexOf(_arcadeRegions, Selected.Community) + _streetMarketRegions.Length;
 
             NativeWinApi.WritePrivateProfileString("General", "CurrentRegion", id.ToString(), _espRegionIni);
-
+            
             NativeWinApi.WritePrivateProfileString("Settings", "MaxStakeCredits", _editableLiveRegion.MaxStakeCredits.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "MaxStakeBank", _editableLiveRegion.MaxStakeBank.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "StakeMask", _editableLiveRegion.StakeMask.ToString(), _espRegionIni);
@@ -183,15 +184,15 @@ namespace PDTUtils.MVVM.ViewModels
                 id = Array.IndexOf(_arcadeRegions, Selected.Community) + _streetMarketRegions.Length;
             
             SpanishRegional sr = new SpanishRegional();
-            BoLib.getRegionalValues(id, ref sr);
+            BoLib.getActiveRegionValues(id, ref sr);
 
             _editableLiveRegion = new SpanishRegionalModel(Selected.Community, sr);
-            
+
             if (System.Convert.ToInt32(lv.Tag) == (int)ESiteType.StreetMarket)
                 Selected.VenueType = "Street Market";
             else if (System.Convert.ToInt32(lv.Tag) == (int)ESiteType.Arcade)
                 Selected.VenueType = "Arcade";
-
+            
             this.SaveChanges();
             this.LoadSettings();
             this.RaisePropertyChangedEvent("Selected");
@@ -214,7 +215,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
-
+        
         void DoDecrement(object settingsName)
         {
             string setting = settingsName as string;

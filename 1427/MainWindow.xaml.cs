@@ -37,7 +37,7 @@ namespace PDTUtils
 		GamesList m_gamesList = new GamesList();
 		MachineLogsController m_logController = new MachineLogsController();
         UserSoftwareUpdate m_updateFiles = null;
-
+        
         public MainWindow()
         {
             try
@@ -47,12 +47,12 @@ namespace PDTUtils
                 
                 Random r = new Random();
                 CultureInfo ci = null;
-
+                
                 if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
                     ci = new CultureInfo("es-ES");
                 else
                     ci = new CultureInfo("en-GB");
-
+                
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
                 
@@ -63,7 +63,7 @@ namespace PDTUtils
             {
                 MessageBox.Show("Error: " + err.ToString());
             }
-
+            
             RowOne.Height = new GridLength(75);
             ColumnOne.Width = new GridLength(200);
             this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
@@ -593,7 +593,7 @@ namespace PDTUtils
             {
                 MessageBox.Show("Please Close the Door", "INFO");
             }
-
+            
             if (BoLib.refillKeyStatus() == 0 && BoLib.getDoorStatus() == 0)
             {
                 m_keyDoorWorker.PrepareForReboot = false;
