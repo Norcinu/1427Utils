@@ -97,14 +97,20 @@ namespace PDTUtils.MVVM.ViewModels
         }
         public void DoChangeHandayThreshold(object o)
         {
+            if (BoLib.getTerminalType() == BoLib.printer())
+            {
+                if (!BoLib.getHandPayActive())
+                    return;
+            }
+
             string type = o as string;
             int current = (int)BoLib.getHandPayThreshold();
             int newVal = current;
-
+            
             int maxHandPay = (int)BoLib.getMaxHandPayThreshold();
             int denom = maxHandPay - current;
             int amount = (denom < 5000) ? denom : 5000;
-
+            
             if (type == "increment")
             {
                 BoLib.setHandPayThreshold((uint)current + (uint)amount);

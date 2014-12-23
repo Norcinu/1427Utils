@@ -110,3 +110,7 @@ void setBnvType(unsigned char value)
 	SetBnvType(value);
 }
 
+void setRebootRequired()
+{
+	SetRebootRequired();
+}

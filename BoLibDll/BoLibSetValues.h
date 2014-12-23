@@ -22,4 +22,5 @@ DLLEXPORT void  setTerminalType(unsigned char type);
 DLLEXPORT void	setPrinterType(unsigned char type);
 DLLEXPORT void	setRecyclerChannel(unsigned char value);
 DLLEXPORT void	setBnvType(unsigned char value);
+DLLEXPORT void	setRebootRequired();
 

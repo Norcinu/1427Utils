@@ -104,7 +104,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>C:\Heber\Projects\Bo_Library\1224LibSource;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Heber\Projects\Bo_Library\1524LibSource;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Heber\Projects\Bo_Library\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release1224|Win32'">
@@ -153,7 +153,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>1224R.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>1524R_Native.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(TargetPath)" "y:\1427"</Command>

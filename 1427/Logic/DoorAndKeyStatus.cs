@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using PDTUtils.Logic;
 using PDTUtils.Native;
 
 namespace PDTUtils
@@ -88,7 +89,8 @@ namespace PDTUtils
                             Application.Current.Dispatcher.Invoke(
                                     DispatcherPriority.Normal, 
                                     (ThreadStart)delegate {
-                                        System.Diagnostics.Debug.WriteLine("DISPATCHER INVOKE");
+                                        if (GlobalConfig.RebootRequired)
+                                            BoLib.setRebootRequired();
                             });
 							Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 						}
@@ -104,7 +106,7 @@ namespace PDTUtils
 							}
 						}
 						else
-						{				
+                        {
 							if (m_doorStatus == false)
 							{
 								m_doorStatus = true;

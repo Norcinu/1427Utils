@@ -683,3 +683,20 @@ unsigned int getCabinetType()
 {
 	return GetCabinetType();
 }
+
+unsigned char combined()
+{
+	return COMBINED;
+}
+
+unsigned char hopper()
+{
+	return HOPPER;
+}
+
+unsigned char printer()
+{
+	return PRINTER;
+}
+
+

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PDTUtils.Views.RegionalSettings"
+﻿<UserControl x:Class="PDTUtils.Views.RegionalSettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -34,14 +34,15 @@
     </UserControl.Resources>
     	
     <Grid>
-        <TabControl>
-			<TabItem Header="Community Type">
+        <!--<TabControl>
+			<TabItem Header="Community Type">-->
 				<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     
 					<TextBlock Text="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 					<TextBlock Text="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
-					
-					<Grid>
+
+            <StackPanel HorizontalAlignment="Center">
+                <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Name="RowOne" Height="380" />
                         </Grid.RowDefinitions>
@@ -49,8 +50,8 @@
                             <ColumnDefinition Name="ColumnOne" Width="430" />
                             <ColumnDefinition Name="ColumnTwo" Width="430" />
                         </Grid.ColumnDefinitions>
-						
-						<ListView x:Name="lvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1">
+                
+                    <ListView x:Name="lvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Header="Street Market - Community" DisplayMemberBinding="{Binding Community}" Width="380" />
@@ -64,10 +65,10 @@
 									<GridViewColumn Header="Arcade - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>
 								</GridView>
 							</ListView.View>
-						</ListView>
+						</ListView> 
                     </Grid>
-					
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 						<Button x:Name="btnSetActive" Width="150" FontSize="18" Height="35" Margin="25"
 									Command="{Binding SetActiveRegion}"
 									CommandParameter="{Binding ElementName=lvStreetMarkets}"
@@ -78,11 +79,59 @@
 									CommandParameter="{Binding ElementName=lvArcades}"
 									Content="Set Arcade" />
 					</StackPanel>
-					
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Height="75" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
+                    <StackPanel>
+                        <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                    </StackPanel>
+                </Button>
+                <StackPanel>
+                    <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Game Time</Label>
+                    <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
                 </StackPanel>
-            </TabItem>
+                <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                    <StackPanel>
+                        <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                    </StackPanel>
+                </Button>
+
+                <Button Height="75" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
+                    <StackPanel>
+                        <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                    </StackPanel>
+                </Button>
+                <StackPanel>
+                    <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Machine RTP</Label>
+                    <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
+                </StackPanel>
+
+                <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                    <StackPanel>
+                        <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                    </StackPanel>
+                </Button>
+
+                <Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
+                    <StackPanel>
+                        <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                    </StackPanel>
+                </Button>
+                <StackPanel>
+                    <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0"></Label>
+                    <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxBank}" />
+                </StackPanel>
+                <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                    <StackPanel>
+                        <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+            <!--</TabItem>-->
             
-            <TabItem Header="Community Settings">
+            <!--<TabItem Header="Community Settings">
                 <StackPanel HorizontalAlignment="Center">
                     <Border BorderBrush="Black" BorderThickness="2" Background="LightBlue">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25" Background="LightBlue">
@@ -155,7 +204,7 @@
                                 <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
-
+                        
                         <Button Height="75" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
                             <StackPanel>
                                 <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
@@ -190,7 +239,7 @@
 
 
 
-
+                    
 
 
 
@@ -243,13 +292,13 @@
                     </StackPanel>
                     
                     
-                    <!-- END -->
+                    
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 						<Button Content="Save Changes" Margin="25" FontSize="20" Width="150" Height="35" Command="{Binding Save}"/>
                         <Button Content="Cancel" Margin="25" FontSize="20" Width="150" Height="35" />
                     </StackPanel>
                 </StackPanel>
-            </TabItem>
-        </TabControl>
+            </TabItem>-->
+        <!--</TabControl>-->
     </Grid>
 </UserControl>

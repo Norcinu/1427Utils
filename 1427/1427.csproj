@@ -81,6 +81,7 @@
     <Compile Include="CommandBehaviours\EventHandlerGenerator.cs" />
     <Compile Include="Logic\AutoClosingMessageBox.cs" />
     <Compile Include="Logic\DelegateCommand.cs" />
+    <Compile Include="Logic\GlobalConfig.cs" />
     <Compile Include="Logic\IniFile.cs" />
     <Compile Include="Logic\IniFileUtility.cs" />
     <Compile Include="Logic\TouchScreenKeyboard.cs" />
@@ -157,8 +158,8 @@
     <Compile Include="Views\PerformanceView.xaml.cs">
       <DependentUpon>PerformanceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RegionalSettings.xaml.cs">
-      <DependentUpon>RegionalSettings.xaml</DependentUpon>
+    <Compile Include="Views\RegionalSettingsView.xaml.cs">
+      <DependentUpon>RegionalSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ScreenshotView.xaml.cs">
       <DependentUpon>ScreenshotView.xaml</DependentUpon>
@@ -248,7 +249,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RegionalSettings.xaml">
+    <Page Include="Views\RegionalSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

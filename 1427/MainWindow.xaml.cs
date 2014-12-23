@@ -200,7 +200,7 @@ namespace PDTUtils
         {
             if (m_keyDoorWorker.Running == true)
                 m_keyDoorWorker.Running = false;
-
+            
             if (m_keyDoorThread != null)
             {
                 if (m_keyDoorThread.IsAlive)
@@ -208,7 +208,10 @@ namespace PDTUtils
                     m_keyDoorThread.Abort();
                     m_keyDoorThread.Join();
                 }
-            }
+            } 
+            
+            if (GlobalConfig.RebootRequired)
+                BoLib.setRebootRequired();
 
             if (m_sharedMemoryOnline)
             {
@@ -227,7 +230,11 @@ namespace PDTUtils
                 MessageBox.Show("Cabinet restarting", "System Notice");
             }*/
 		}
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
             ucMainPage.IsEnabled = false;

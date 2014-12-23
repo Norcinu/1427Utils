@@ -22,7 +22,7 @@ namespace PDTUtils
                     
 				//	UpdateDoorStatusLabel();
 					m_doorStatusTimer = new System.Timers.Timer(500);
-					m_doorStatusTimer.Elapsed += DoorTimerEvent;
+                    m_doorStatusTimer.Elapsed += DoorTimerEvent;
 					m_doorStatusTimer.Enabled = true;
                     
 				//	GetSystemUptime();
@@ -54,21 +54,23 @@ namespace PDTUtils
 									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
 				{
 					Application.Current.Shutdown();
-					//throw new System.Exception(); // is this needed?
 				}
 			}
 		}
 
 		public delegate void DelegateUpdate();
-		public void DoorTimerEvent(object sender, ElapsedEventArgs e)
-		{
-			this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
-			this.lblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
-		}
+        public void DoorTimerEvent(object sender, ElapsedEventArgs e)
+        {
+            if (lblDoorStatus != null)
+                lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
+            if (lblBottom != null)
+                lblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
+        }
         
 		public void UpdateUiLabels(object sender, ElapsedEventArgs e)
 		{
-			this.lblUptime.Dispatcher.Invoke((DelegateUpdate)GetSystemUptime);
+            this.lblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
+            this.lblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
 		}
         
 		public void UpdateTimeAndDate()
@@ -114,7 +116,7 @@ namespace PDTUtils
 			}			
 			lblDoorStatus.Content = status;
 		}
-
+        
 		private void DetectDoorChange(object sender, ElapsedEventArgs e)
 		{
 			if (m_keyDoorWorker.HasChanged == true)
@@ -134,8 +136,8 @@ namespace PDTUtils
 		private void PlaySoundOnEvent(string filename)
 		{
 			// replace this with synth_sound? // if (AdjustingVolume) synth else soundplayer
-			SoundPlayer sound = new SoundPlayer(filename); 
-			sound.Play();
+			//SoundPlayer sound = new SoundPlayer(filename); 
+			//sound.Play();
 		}
 	}
 }

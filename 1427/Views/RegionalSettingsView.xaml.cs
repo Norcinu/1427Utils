@@ -6,9 +6,9 @@ namespace PDTUtils.Views
     /// <summary>
     /// Interaction logic for RegionalSettings.xaml
     /// </summary>
-    public partial class RegionalSettings : UserControl
+    public partial class RegionalSettingsView : UserControl
     {
-        public RegionalSettings()
+        public RegionalSettingsView()
         {
             InitializeComponent();
             this.DataContext = new RegionalSettingsViewModel();

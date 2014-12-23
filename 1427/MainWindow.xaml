@@ -330,7 +330,7 @@
 			<TabItem Header="Local Settings">
 				<TabControl>
 					<TabItem Header="Region Settings">
-						<view:RegionalSettings />
+						<view:RegionalSettingsView />
 					</TabItem>
 					
 					<TabItem Header="Game Settings">
