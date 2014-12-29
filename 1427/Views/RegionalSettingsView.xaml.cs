@@ -13,5 +13,10 @@ namespace PDTUtils.Views
             InitializeComponent();
             this.DataContext = new RegionalSettingsViewModel();
         }
+
+        private void lvStreetMarkets_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

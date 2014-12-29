@@ -13,6 +13,9 @@ namespace PDTUtils.MVVM.ViewModels
     class RegionalSettingsViewModel : ObservableObject
     {
         bool _liveHasBeenEdited = false;
+        int _arcadeSelectedIndex = -1;
+        int _marketSelectedIndex = -1;
+        
         ObservableCollection<SpanishRegionalModel> _arcades = new ObservableCollection<SpanishRegionalModel>();
         ObservableCollection<SpanishRegionalModel> _street = new ObservableCollection<SpanishRegionalModel>();
         SpanishRegionalModel _editableLiveRegion;
@@ -46,7 +49,7 @@ namespace PDTUtils.MVVM.ViewModels
         #region Properties
         public bool FirstScreen { get; set; }
         public bool SecondScreen { get; set; }
-        //
+        
         public IEnumerable<SpanishRegionalModel> Arcades { get { return _arcades; } }
         public IEnumerable<SpanishRegionalModel> Street { get { return _street; } }
         public SpainRegionSelection Selected
@@ -58,6 +61,32 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return _editableLiveRegion; }
             set { _editableLiveRegion = value; }
+        }
+        
+        public int ArcadeSelectedIndex
+        {
+            get { return _arcadeSelectedIndex; }
+            set
+            {
+                if (_marketSelectedIndex >= 0)
+                    MarketSelectedIndex = -1;
+                _arcadeSelectedIndex = value;
+                
+                RaisePropertyChangedEvent("ArcadeSelectedIndex");
+            }
+        }
+        
+        public int MarketSelectedIndex
+        {
+            get { return _marketSelectedIndex;}
+            set 
+            {
+                if (_arcadeSelectedIndex >= 0)
+                    ArcadeSelectedIndex = -1;
+                _marketSelectedIndex = value;
+                
+                RaisePropertyChangedEvent("MarketSelectedIndex");
+            }
         }
         #endregion
         
@@ -92,7 +121,6 @@ namespace PDTUtils.MVVM.ViewModels
                 _arcades.Add(new SpanishRegionalModel(_arcadeRegions[i], sr));
                 i++;
             }
-
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
                         
             this.LoadSettings();
@@ -231,6 +259,20 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.Rtp -= 100;
 
             RaisePropertyChangedEvent("EditableLiveRegion");
+        }
+
+        public ICommand ListBoxSelectionChange { get { return new DelegateCommand(DoListBoxSelectionChange); } }
+        public void DoListBoxSelectionChange(object theList)
+        {
+            var lb = theList as ListBox;
+            if (lb.Name == "lvStreetMarkets")
+            {
+                System.Diagnostics.Debug.WriteLine("HEAR ME NOW STREET MARKETS");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("HEAR ME NOW WITH DA ARCADES YO");
+            }
         }
     }
 }

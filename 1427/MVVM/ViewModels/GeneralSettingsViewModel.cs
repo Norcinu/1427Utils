@@ -125,7 +125,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
 
             IniFileUtility.HashFile(@Properties.Resources.birth_cert);
-
+            
             this.HandPayLevel = (newVal / 100).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
             this.RaisePropertyChangedEvent("HandPayLevel");
         }
