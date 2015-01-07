@@ -30,7 +30,7 @@
             <Setter Property="Control.Background" Value="LightBlue"/>
             <Setter Property="Control.MinWidth" Value="200"/>
         </Style>
-
+ 
     </UserControl.Resources>
     	
     <Grid>
@@ -39,8 +39,8 @@
 				<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     
 					<Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-					<TextBlock Text="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
-
+					<Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
+            
             <StackPanel HorizontalAlignment="Center">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -50,7 +50,7 @@
                         <ColumnDefinition Name="ColumnOne" Width="430" />
                         <ColumnDefinition Name="ColumnTwo" Width="430" />
                     </Grid.ColumnDefinitions>
-
+                    
                     <ListView x:Name="lvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1" SelectedIndex="{Binding MarketSelectedIndex}">
                         <ListView.View>
                             <GridView>
@@ -58,7 +58,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-
+                    
                     <ListView x:Name="lvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" Tag="2" SelectedIndex="{Binding ArcadeSelectedIndex}">
                         <ListView.View>
                             <GridView>
@@ -69,7 +69,7 @@
                 </Grid>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="btnSetActive" Width="150" FontSize="18" Height="35" Margin="25"
 									Command="{Binding SetActiveRegion}"
 									CommandParameter="{Binding ElementName=lvStreetMarkets}"
@@ -79,7 +79,7 @@
 									Command="{Binding SetActiveRegion}"
 									CommandParameter="{Binding ElementName=lvArcades}"
 									Content="Set Arcade" />
-            </StackPanel>
+            </StackPanel>-->
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Height="75" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
@@ -91,7 +91,7 @@
                     <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Game Time</Label>
                     <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
                 </StackPanel>
-                <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                <Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="GameTime">
                     <StackPanel>
                         <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
                     </StackPanel>
@@ -108,11 +108,12 @@
                     <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
                 </StackPanel>
 
-                <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                <Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP">
                     <StackPanel>
                         <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
                     </StackPanel>
                 </Button>
+                
                 <!--<Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
                     <StackPanel>
                         <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
@@ -128,7 +129,10 @@
                     </StackPanel>
                 </Button>-->
             </StackPanel>
-
+            <StackPanel Orientation="Horizontal">
+                <Label Margin="10" Height="35" HorizontalContentAlignment="Center">Load Region Default Settings:</Label>
+                <Button Height="35" Width="125" FontSize="24" Margin="10" Command="{Binding ResetLiveToDefault}">Default</Button>
+            </StackPanel>
         </StackPanel>
             <!--</TabItem>-->
             

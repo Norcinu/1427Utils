@@ -141,28 +141,28 @@ namespace PDTUtils.MVVM.ViewModels
             decimal incomeSt = shortTermCashIn - handPaySt;
             Performance.Add(new HelloImJohnnyCashMeters("Net Income:", incomeLt.ToString("C", nfi), incomeSt.ToString("C", nfi)));
             
-            decimal refillSt = BoLib.getReconciliationMeter(42) /** 100*/ + BoLib.getReconciliationMeter(43) /** 10*/;
-            decimal refillLt = BoLib.getReconciliationMeter(14) /** 100*/ + BoLib.getReconciliationMeter(15) /** 10*/;
+            decimal refillSt = BoLib.getReconciliationMeter(42) + BoLib.getReconciliationMeter(43);
+            decimal refillLt = BoLib.getReconciliationMeter(14) + BoLib.getReconciliationMeter(15);
             Performance.Add(new HelloImJohnnyCashMeters("Refill:", refillLt.ToString("C", nfi), refillSt.ToString("C", nfi)));
             
             NumberOfGamesLt = (int)BoLib.getPerformanceMeter(4);
             NumberOfGamesSt = (int)BoLib.getPerformanceMeter(11);
             Performance.Add(new HelloImJohnnyCashMeters("Number of Games: ", NumberOfGamesLt.ToString(), NumberOfGamesSt.ToString()));
-
-            decimal totalBetsLt = (int)BoLib.getPerformanceMeter(5) / 100.0M;
+            
+            decimal totalBetsLt = (int)BoLib.getPerformanceMeter(5)  / 100.0M;
             decimal totalBetsSt = (int)BoLib.getPerformanceMeter(12) / 100.0M;
-            decimal totalWonLt = (int)BoLib.getPerformanceMeter(6) / 100.0M;
-            decimal totalWonSt = (int)BoLib.getPerformanceMeter(13) / 100.0M;
+            decimal totalWonLt  = (int)BoLib.getPerformanceMeter(6)  / 100.0M;
+            decimal totalWonSt  = (int)BoLib.getPerformanceMeter(13) / 100.0M;
 
             decimal percentageLt = (totalWonLt > 0 && totalBetsLt > 0) ? (totalWonLt / totalBetsLt) : 0;
             decimal percentageSt = (totalWonSt > 0 && totalBetsSt > 0) ? (totalWonSt / totalBetsSt) : 0;
-                        
+            
             decimal retainedPercLt = (int)BoLib.getPerformanceMeter(0) / 100;
             decimal retainedPercSt = (int)BoLib.getPerformanceMeter(7) / 100;
             
             if (retainedPercLt > 0)
                 retainedPercLt = ((retainedPercLt - (longTermCashOut + handPayLt)) / longTermTotal);
-            
+                        
             if (retainedPercSt > 0)
                 retainedPercSt = ((retainedPercSt - (shortTermCashOut + handPaySt)) / shortTermTotal);
             
@@ -185,7 +185,7 @@ namespace PDTUtils.MVVM.ViewModels
             Performance.Add(new HelloImJohnnyCashMeters("TPlay Cash Out:", tpMoneyOutLt.ToString("C", nfi), tpMoneyOutSt.ToString("C", nfi)));
             
             //Read Game Stats meters
-            for (uint i = 0; i < BoLib.getNumberOfGames(); i++)
+            for (uint i = 0; i <= BoLib.getNumberOfGames(); i++) //shell as well as games
             {
                 uint model = BoLib.getGameModel((int)i);
                 decimal bets = (int)BoLib.getGamePerformanceMeter(i, 0) / 100.0M;
@@ -194,10 +194,10 @@ namespace PDTUtils.MVVM.ViewModels
                 GameStats.Add(new GameStatMeter(model.ToString(), bets.ToString("C", nfi), won.ToString("C", nfi), percentage.ToString("P", nfi)));
             }
             
-            this.RaisePropertyChangedEvent("CashRecon");
-            this.RaisePropertyChangedEvent("NumberOfGamesLt");
-            this.RaisePropertyChangedEvent("NumberOfGamesSt");
-            this.RaisePropertyChangedEvent("GameStats");
+            RaisePropertyChangedEvent("CashRecon");
+            RaisePropertyChangedEvent("NumberOfGamesLt");
+            RaisePropertyChangedEvent("NumberOfGamesSt");
+            RaisePropertyChangedEvent("GameStats");
         }
     }
 }

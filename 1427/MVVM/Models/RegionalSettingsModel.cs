@@ -10,12 +10,13 @@ namespace PDTUtils.MVVM.Models
 
     class SpainRegionSelection
     {
+        public int Id { get; set; }
         public string Community { get; set; }
         public string VenueType { get; set; }
     }
     
     class SpanishRegionalModel
-    {
+    {	
         public uint MaxStakeCredits { get; set; }
         public uint MaxStakeBank { get; set; }
         public uint StakeMask { get; set; }
@@ -23,6 +24,7 @@ namespace PDTUtils.MVVM.Models
         public uint MaxCredits { get; set; }
         public uint MaxReserveCredits { get; set; }
         public uint MaxBank { get; set; }
+        public uint MaxPlayerPoints { get; set; }
         public uint EscrowState { get; set; }
         public uint Rtp { get; set; }
         public uint GameTime { get; set; }
@@ -32,7 +34,7 @@ namespace PDTUtils.MVVM.Models
         public uint ConvertToPlay { get; set; }
         public uint FastTransfer { get; set; }
         public uint CycleSize { get; set; }
-        public uint MaxPlayerPoints { get; set; }
+        
         public string Community { get; set; }
 	
         
@@ -46,6 +48,7 @@ namespace PDTUtils.MVVM.Models
             this.FastTransfer = region.FastTransfer;
             this.GameTime = region.Gtime;
             this.MaxBank = region.MaxBank;
+            this.MaxPlayerPoints = region.MaxPlayerPoints;
             this.MaxCredits = region.MaxCredit;
             this.MaxReserveCredits = region.MaxReserve;
             this.MaxStakeBank = region.MaxStakeFromBank;

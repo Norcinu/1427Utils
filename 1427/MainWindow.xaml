@@ -166,8 +166,49 @@
 					</StackPanel>
 				</ScrollViewer>
 			</TabItem>
-			
-			<TabItem Header="Games" MinWidth="150" HorizontalContentAlignment="Center">
+
+            <TabItem Header="Warnings" MinWidth="150" HorizontalContentAlignment="Center">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
+                    <StackPanel Margin="25">
+                        <ListView ItemsSource="{Binding LogController.WarningLog}" MinHeight="600" FontSize="20">
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="False">
+                                    <GridViewColumn Header="Date" Width="300">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <TextBlock Text="{Binding ErrorDate}" TextAlignment="Center" Background="Moccasin" Foreground="Red"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Error Code" Width="300">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <TextBlock Text="{Binding ErrorCode}" TextAlignment="Center" Background="MintCream" Foreground="Red"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Description" Width="300">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <TextBlock Text="{Binding Description}" TextAlignment="Center" Background="MintCream" Foreground="Red"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+
+            <TabItem Header="Games" MinWidth="150" HorizontalContentAlignment="Center">
 				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
 					<StackPanel Margin="25">
 						<ListView ItemsSource="{Binding Path=LogController.PlayedGames}" MinHeight="600" FontSize="20">
@@ -468,90 +509,8 @@
 		</StackPanel>
 			 
 		<!-- is this were all the binding errors come from? -->
-		<view:PerformanceView x:Name="ucPerformance" Grid.Row="1" Grid.Column="1" Visibility="Hidden" />
-		<!-- Meters
-		<TabControl Name="tabMeters"  Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">
-			<TabItem Header="Performance">
-				<TabControl Name="tabPerformance">
-					<TabItem Header="Machine">
-						<ListView ItemsSource="{Binding TitoMeter.MeterDesc}" FontSize="18">
-							<ListView.View>
-								<GridView>
-									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
-									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
-								</GridView>
-							</ListView.View>
-						</ListView>
-					</TabItem>
-					<TabItem Header="Games">
-						
-					</TabItem>
-				</TabControl>
-			</TabItem>
-			
-			<TabItem Header="LCD Meters">
-
-				<StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal">
-					<StackPanel Margin="15">
-						<Label FontSize="22" HorizontalContentAlignment="Center">Short Term Meters</Label>
-						<ListView ItemsSource="{Binding Path=ShortTerm.MeterDesc}" FontSize="18">
-							<ListView.View>
-								<GridView>
-									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
-									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
-								</GridView>
-							</ListView.View>
-						</ListView>
-						
-						<Label FontSize="22" HorizontalContentAlignment="Center" Content="Tito Meter" Margin="25,25,25,0" />
-						<ListView ItemsSource="{Binding TitoMeter.MeterDesc}" FontSize="18">
-							<ListView.View>
-								<GridView>
-									<GridViewColumn Header="Meter Type" DisplayMemberBinding="{Binding Path=Key}" Width="150" />
-									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150" />
-								</GridView>
-							</ListView.View>
-						</ListView>
-					</StackPanel>
-					
-					<StackPanel Margin="15">
-						<Label FontSize="22" HorizontalContentAlignment="Center">Long Term Meters</Label>
-						<ListView ItemsSource="{Binding Path=LongTerm.MeterDesc}" FontSize="18">
-							<ListView.View>
-								<GridView>
-									<GridViewColumn Header="Meter Type"  Width="150">
-										<GridViewColumn.CellTemplate>
-											<DataTemplate>
-												<TextBlock TextAlignment="Center" Text="{Binding Path=Key}"></TextBlock>
-											</DataTemplate>
-										</GridViewColumn.CellTemplate>
-									</GridViewColumn>
-									<GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}" Width="150"/>
-								</GridView>
-							</ListView.View>
-						</ListView>
-					</StackPanel>
-				</StackPanel>
-				
-			</TabItem>
-			
-			<TabItem Header="Cash Reconcilliation">
-				<TabControl Grid.Row="0" Grid.Column="0" MinWidth="50" Height="{Binding Path=ActualHeight,
-                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                        Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, 
-                        AncestorType={x:Type Window}}}">
-					<TabItem Header="Cash" MinWidth="150">
-						<DockPanel>
-							
-						</DockPanel>
-					</TabItem>
-					<TabItem></TabItem>
-				</TabControl>
-			</TabItem>
-		</TabControl> -->
-		
-		<!-- System Info View -->
-
+        <view:PerformanceView x:Name="ucPerformance" Grid.Row="1" Grid.Column="1" IsEnabled="False" Visibility="Hidden"/> 
+ 
 		<!-- <Border BorderThickness="5" Panel.ZIndex="5" BorderBrush="HotPink" Grid.Row="1" Grid.Column="1"> -->
 			<StackPanel Orientation="Horizontal" Panel.ZIndex="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{Binding DockSystem.IsEnabled}"  Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" Grid.Row="1" Grid.Column="1">
 				<StackPanel HorizontalAlignment="Left">
@@ -592,7 +551,7 @@
 			<Button Content="Cash" Height="35" Name="btnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="btnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="btnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click" />
-			<Button Content="System Settings" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+			<Button Content="System Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />
 			<Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
 			<Button Content="Reboot" Name="btnReboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnReboot_Click"/>

@@ -18,6 +18,7 @@ namespace PDTUtils.Native
 		public string Path { get; set; }
 	}
     
+    [StructLayout(LayoutKind.Sequential)]
     struct SpanishRegional
     {
         public uint MaxStake;
@@ -27,12 +28,12 @@ namespace PDTUtils.Native
         public uint MaxCredit;
         public uint MaxReserve;
         public uint MaxBank;
+        public uint MaxPlayerPoints;
         public uint NoteEscrow;
         public uint Rtp;
         public uint Gtime;
         public uint ChangeValue;
         public uint MaxNote;
-        //public uint CreditAndBank;
         public uint BankToCredits;
         public uint ChargeConvertPoints;
         public uint CycleSize;
@@ -189,7 +190,7 @@ namespace PDTUtils.Native
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern UInt32 getTicketsPay(int meter);
-
+        
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.LPStr)]
         public unsafe static extern string getSerialNumber();
@@ -222,7 +223,7 @@ namespace PDTUtils.Native
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern int getUtilsRelease();
-
+        
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern ulong getTPlayMeter(byte offset);
 
@@ -258,6 +259,12 @@ namespace PDTUtils.Native
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern byte printer();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern uint getLiveElement(int index);
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern uint getDefaultElement(int region, int index);
 
         /************************************************************************/
         /*							Set methods                                 */

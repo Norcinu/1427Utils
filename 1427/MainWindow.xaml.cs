@@ -40,6 +40,7 @@ namespace PDTUtils
         
         public MainWindow()
         {
+            FullyLoaded = false;
             try
             {
                 InitialiseBoLib();
@@ -67,6 +68,7 @@ namespace PDTUtils
             RowOne.Height = new GridLength(75);
             ColumnOne.Width = new GridLength(200);
             this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
+            FullyLoaded = true;
         }
 		
 		#region Properties
@@ -136,6 +138,8 @@ namespace PDTUtils
             get { return m_titoMeter; }
             set { m_titoMeter = value; }
         }
+        
+        public bool FullyLoaded { get; set; }
 
 		#endregion
 		
@@ -151,10 +155,15 @@ namespace PDTUtils
 		
         private void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
-			Enabler.EnableCategory(Categories.Logfile);
-			LogController.setErrorLog();
-			LogController.setPlayedLog();
-			LogController.setWinningLog();
+            Enabler.EnableCategory(Categories.Logfile);
+            if (!LogController.IsLoaded)
+            {
+                LogController.setErrorLog();
+                LogController.setWarningLog();
+                LogController.setPlayedLog();
+                LogController.setWinningLog();
+                LogController.IsLoaded = true;
+            }
 		}
         
 		private void btnHopperOK_Click(object sender, RoutedEventArgs e)
@@ -195,12 +204,12 @@ namespace PDTUtils
 			}
 		}
 
-        // not called when turning the key
+        
         private void WindowMain_Closing(object sender, CancelEventArgs e)
         {
             if (m_keyDoorWorker.Running == true)
                 m_keyDoorWorker.Running = false;
-            
+                
             if (m_keyDoorThread != null)
             {
                 if (m_keyDoorThread.IsAlive)
@@ -208,11 +217,11 @@ namespace PDTUtils
                     m_keyDoorThread.Abort();
                     m_keyDoorThread.Join();
                 }
-            } 
+            }
             
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
-
+            
             if (m_sharedMemoryOnline)
             {
                 m_sharedMemoryOnline = false;
@@ -393,10 +402,6 @@ namespace PDTUtils
                 ucPerformance.Visibility = Visibility.Visible;
             else
                 ucPerformance.Visibility = Visibility.Hidden;
-			/*m_shortTerm.ReadMeter();
-			m_longTerm.ReadMeter();
-            m_titoMeter.ReadMeter();
-			Enabler.EnableCategory(Categories.Meters);*/
 		}
 		
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)

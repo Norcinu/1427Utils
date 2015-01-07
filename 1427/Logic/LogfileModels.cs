@@ -165,15 +165,19 @@ namespace PDTUtils
 		ObservableCollection<MachineErrorLog> m_errorLog = new ObservableCollection<MachineErrorLog>();
 		ObservableCollection<WinningGame> m_winningGames = new ObservableCollection<WinningGame>();
 		ObservableCollection<PlayedGame> m_playedGames = new ObservableCollection<PlayedGame>();
-		
+        ObservableCollection<MachineErrorLog> m_warningLog = new ObservableCollection<MachineErrorLog>();
+
 		public MachineLogsController()
-		{			
+		{
+            IsLoaded = false;
 		}
 	
 		#region Properties
+        public bool IsLoaded { get; set; }
 		public ObservableCollection<MachineErrorLog> ErrorLog { get { return m_errorLog; } }
 		public ObservableCollection<WinningGame> WinningGames { get { return m_winningGames; } }
 		public ObservableCollection<PlayedGame> PlayedGames { get { return m_playedGames; } }
+        public ObservableCollection<MachineErrorLog> WarningLog { get { return m_warningLog; } }
 		#endregion
 
 		public void setErrorLog()
@@ -222,7 +226,54 @@ namespace PDTUtils
 				Console.WriteLine(ex.Message);
 			}
 		}
-		
+
+        public void setWarningLog()
+        {
+            string errLogLocation = @"D:\machine\GAME_DATA\TerminalWarningLog.log";
+            try
+            {
+                string[] lines = System.IO.File.ReadAllLines(errLogLocation);
+                string[] reveresed = new string[lines.Length - 1];
+
+                int ctr = 0;
+                for (int i = lines.Length - 1; i > 0; i--)
+                {
+                    reveresed[ctr] = lines[i];
+                    ctr++;
+                }
+
+                foreach (string s in reveresed)
+                {
+                    try
+                    {
+                        var subStr = s.Split("\t".ToCharArray());
+                        bool? b = s.Contains("TimeStamp");
+                        if (b == false && s != "")
+                        {
+                            foreach (var ss in subStr)
+                            {
+                                if (ss != "")
+                                {
+                                    var timeAndDate = ss.Substring(0, 19).TrimStart(" \t".ToCharArray());
+                                    var errorCode = ss.Substring(21, 4).TrimStart(" \t".ToCharArray());
+                                    var desc = ss.Substring(26).TrimStart(" \t".ToCharArray());
+                                    WarningLog.Add(new MachineErrorLog(errorCode, desc, timeAndDate));
+                                }
+                            }
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
 		public void setPlayedLog()
 		{
 			for (int i = 0; i < 10; i++)

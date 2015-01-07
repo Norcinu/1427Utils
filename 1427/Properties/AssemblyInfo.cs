@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("1427 Shell Utility")]
+[assembly: AssemblyTitle("1527 Shell Utility")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Project Design Technology")]
 [assembly: AssemblyProduct("1427 Engineers Utilities")]
-[assembly: AssemblyCopyright("Copyright © PDT 2014")]
+[assembly: AssemblyCopyright("Copyright © PDT 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

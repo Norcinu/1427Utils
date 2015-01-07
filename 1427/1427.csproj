@@ -79,6 +79,9 @@
     <Compile Include="CommandBehaviours\CommandBehavior.cs" />
     <Compile Include="CommandBehaviours\CommandBehaviorBinding.cs" />
     <Compile Include="CommandBehaviours\EventHandlerGenerator.cs" />
+    <Compile Include="LoadingWindow.xaml.cs">
+      <DependentUpon>LoadingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Logic\AutoClosingMessageBox.cs" />
     <Compile Include="Logic\DelegateCommand.cs" />
     <Compile Include="Logic\GlobalConfig.cs" />
@@ -175,6 +178,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="HopperUtilsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoadingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -330,7 +337,6 @@
   <ItemGroup>
     <None Include="Resources\util_click.WAV" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\PDTUtilsControlLib\PDTUtilsControlLib.csproj">
       <Project>{43D33559-0084-4250-AE6D-E38753097A57}</Project>
