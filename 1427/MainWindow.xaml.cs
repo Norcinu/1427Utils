@@ -228,7 +228,7 @@ namespace PDTUtils
                 BoLib.closeSharedMemory();
             }
         }
-        
+        //1 coffee, she
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
 			/*m_machineIni.ParseIni();

@@ -4,26 +4,32 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using System.Threading;
 using System.Management;
+using System.Collections.Generic;
 
 namespace PDTUtils.MVVM.ViewModels
 {
     class NetworkSettingsViewModel : ObservableObject
     {
+        bool ChangesMade { get; set; }
+
         public bool IPAddressActive { get; set; }
         public bool SubnetActive { get; set; }
         public bool DefaultActive { get; set; }
         public bool PingTestRunning { get; set; }
-
+        
         public string IPAddress { get; set; }
         public string SubnetAddress { get; set; }
         public string DefaultGateway { get; set; }
         public string ComputerName { get; set; }
+        public string MacAddress { get; set; }
 
         public string PingOne { get; set; }
         public string PingTwo { get; set; }
 
         public NetworkSettingsViewModel()
         {
+            ChangesMade = false;
+
             IPAddressActive = false;
             SubnetActive = false;
             DefaultActive = false;
@@ -58,10 +64,15 @@ namespace PDTUtils.MVVM.ViewModels
 						}
 					}
 				}
+
+                if (ni.OperationalStatus == OperationalStatus.Up && MacAddress == null)
+                {
+                    MacAddress += ni.GetPhysicalAddress().ToString();
+                }
 			}
         
             ComputerName = System.Environment.MachineName;
-            
+
             RaisePropertyChangedEvent("IPAddressActive");
             RaisePropertyChangedEvent("SubnetActive");
             RaisePropertyChangedEvent("DefaultActive");
@@ -70,6 +81,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("ComputerName");
             RaisePropertyChangedEvent("SubnetAddress");
             RaisePropertyChangedEvent("DefaultGateway");
+            RaisePropertyChangedEvent("MacAddress");
             RaisePropertyChangedEvent("PingTestRunning");
         }
 
@@ -102,8 +114,10 @@ namespace PDTUtils.MVVM.ViewModels
 
                 if (index == 0 && PingOne.Length > 0)
                 {
+                    PingTwo = "*** Sending PING (Google DNS) ***";
                     PingOne = "";
                     RaisePropertyChangedEvent("PingOne");
+                    RaisePropertyChangedEvent("PingTwo");
                 }
                 
                 PingTestRunning = true;
@@ -120,7 +134,11 @@ namespace PDTUtils.MVVM.ViewModels
                 else
                 {
                     if (index == 1)
+                    {
                         PingOne += "\n\n";
+                        PingTwo = "*** Internet Ping Test Completed ***";
+                        RaisePropertyChangedEvent("PingTwo");
+                    }
 
                     System.Diagnostics.Debug.WriteLine("Host Not Reached {0}", "[" + addies[index].ToString() + "]");
                     PingOne += "Ping to " + addies[index].ToString() + " FAILED - " + reply.Status.ToString();
@@ -143,50 +161,59 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand ToggleIP { get { return new DelegateCommand(o => DoToggleIP()); } }
         void DoToggleIP()
         {
+            ChangesMade = true;
             IPAddressActive = !IPAddressActive;
             RaisePropertyChangedEvent("IPAddressActive");
         }
         public ICommand ToggleSubnet { get { return new DelegateCommand(o => DoToggleSubnet()); } }
         void DoToggleSubnet()
         {
+            ChangesMade = true;
             SubnetActive = !SubnetActive;
             RaisePropertyChangedEvent("SubnetActive");
         }
         public ICommand ToggleDefault { get { return new DelegateCommand(o => DoToggleDefault()); } }
         void DoToggleDefault()
         {
+            ChangesMade = true;
             DefaultActive = !DefaultActive;
             RaisePropertyChangedEvent("DefaultActive");
         }
-
+        
         public ICommand SaveNetworkInfo { get { return new DelegateCommand(o => DoSaveNetworkInfo()); } }
         void DoSaveNetworkInfo()
         {
             ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
             ManagementObjectCollection objMOC = objMC.GetInstances();
-            
-            foreach (ManagementObject objMO in objMOC)
+
+            if (ChangesMade)
             {
-                if ((bool)objMO["IPEnabled"])
+                foreach (ManagementObject objMO in objMOC)
                 {
-                    try
+                    if ((bool)objMO["IPEnabled"])
                     {
-                        ManagementBaseObject setIP;
-                        ManagementBaseObject newIP = objMO.GetMethodParameters("EnableStatic");
-                        
-                        newIP["IPAddress"] = new string[] { IPAddress };
-                        newIP["SubnetMask"] = new string[] { SubnetAddress };
-                        if ((string[])objMO["DefaultIPGateway"] != null)
-                            newIP["DefaultIPGateway"] = new string[] { DefaultGateway };
-                        
-                        setIP = objMO.InvokeMethod("EnableStatic", newIP, null);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                        try
+                        {
+                            ManagementBaseObject setIP;
+                            ManagementBaseObject newIP = objMO.GetMethodParameters("EnableStatic");
+                            ManagementBaseObject newGateway = objMO.GetMethodParameters("SetGateways");
+
+                            newIP["IPAddress"] = new string[] { IPAddress };
+                            newIP["SubnetMask"] = new string[] { SubnetAddress };
+                           // if ((string[])objMO["DefaultIPGateway"] != null)
+                           //     newIP["DefaultIPGateway"] = new string[] { DefaultGateway };
+
+                            setIP = objMO.InvokeMethod("EnableStatic", newIP, null);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine(ex.Message);
+                        }
                     }
                 }
-            } 
+                ChangesMade = false;
+                DiskCommit.Save();
+            }
         }
     }
 }

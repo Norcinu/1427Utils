@@ -121,13 +121,13 @@ namespace PDTUtils.MVVM.ViewModels
         
         void ReadPerformance()
         {
-            decimal longTermCashIn = (int)BoLib.getPerformanceMeter(0) / 100.0M;
+            decimal longTermCashIn  = (int)BoLib.getPerformanceMeter(0) / 100.0M;
             decimal longTermCashOut = (int)BoLib.getPerformanceMeter(1) / 100.0M;
-            decimal longTermTotal = longTermCashIn - longTermCashOut;
+            decimal longTermTotal   = longTermCashIn - longTermCashOut;
             
-            decimal shortTermCashIn = (int)BoLib.getPerformanceMeter(7) / 100.0M;
-            decimal shortTermCashOut = (int)BoLib.getPerformanceMeter(8) / 100.0M;
-            decimal shortTermTotal = shortTermCashIn - shortTermCashOut;
+            decimal shortTermCashIn     = (int)BoLib.getPerformanceMeter(7) / 100.0M;
+            decimal shortTermCashOut    = (int)BoLib.getPerformanceMeter(8) / 100.0M;
+            decimal shortTermTotal      = shortTermCashIn - shortTermCashOut;//t
 
             decimal handPayLt = (int)BoLib.getPerformanceMeter(2) / 100.0M;
             decimal handPaySt = (int)BoLib.getPerformanceMeter(9) / 100.0M;
@@ -193,7 +193,7 @@ namespace PDTUtils.MVVM.ViewModels
                 decimal percentage = (won > 0 || bets > 0) ? (won / bets) : 0;
                 GameStats.Add(new GameStatMeter(model.ToString(), bets.ToString("C", nfi), won.ToString("C", nfi), percentage.ToString("P", nfi)));
             }
-            
+
             RaisePropertyChangedEvent("CashRecon");
             RaisePropertyChangedEvent("NumberOfGamesLt");
             RaisePropertyChangedEvent("NumberOfGamesSt");

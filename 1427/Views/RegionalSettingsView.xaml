@@ -30,7 +30,7 @@
             <Setter Property="Control.Background" Value="LightBlue"/>
             <Setter Property="Control.MinWidth" Value="200"/>
         </Style>
- 
+    
     </UserControl.Resources>
     	
     <Grid>

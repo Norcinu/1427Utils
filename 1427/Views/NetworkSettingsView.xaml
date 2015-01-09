@@ -39,27 +39,39 @@
 				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SubnetAddress}" IsEnabled="{Binding SubnetActive}"/>
 				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleSubnet}">SET SUBNET</Button>
 			</StackPanel>
-
+                
 			<StackPanel Orientation="Horizontal">
 				<Label FontSize="36" Content="Gateway:" Style="{StaticResource StdLabel}"/>
 				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding DefaultGateway}" IsEnabled="{Binding DefaultActive}"/>
 				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleDefault}">SET GATEWAY</Button>
 			</StackPanel>
-
+            
+            <StackPanel Orientation="Horizontal">
+                <Label FontSize="36" Content="Mac Address:" Style="{StaticResource StdLabel}"/>
+                <TextBox  Background="White" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding MacAddress}" IsEnabled="True" IsReadOnly="True"/>
+            </StackPanel>
+            
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
 				<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" Command="{Binding SaveNetworkInfo}">Set Network Info</Button>
 				<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20">Clear Network Info</Button>
 				<Button x:Name="btnTestNetwork"	FontSize="24" Width="250" Margin="20" Command="{Binding PingSites}" CommandParameter="0">Test Network</Button>
 			</StackPanel>
-
+            
 			<StackPanel Margin="0,60,0,0">
-				<Border Width="400" BorderBrush="Black" BorderThickness="2">
-					<StackPanel Width="400" Background="AliceBlue" IsEnabled="{Binding PingTestRunning}" 
+				<Border Width="400" BorderBrush="Black" BorderThickness="2"> <!-- Width="800"-->
+                    <StackPanel Orientation="Horizontal">
+                        <!--<StackPanel Width="400" Background="AliceBlue" IsEnabled="{Binding PingTestRunning}" 
 								Visibility="{Binding PingTestRunning, Converter={StaticResource BoolToVisConverter}}">
-						<Label  Style="{StaticResource StdLabel}" Width="350"  Content="{Binding PingTwo}" />
-						<Label Style="{StaticResource StdLabel}" Width="350"  Content="{Binding PingOne}" />
-					</StackPanel>
-				</Border>
+                            <Label Style="{StaticResource StdLabel}" Width="350" Content="LOCAL PING IMO"/>
+                            <Label Style="{StaticResource StdLabel}" Width="350" Content="PINGED OK"/>
+                        </StackPanel>-->
+                        <StackPanel Width="400" Background="AliceBlue" IsEnabled="{Binding PingTestRunning}" 
+								Visibility="{Binding PingTestRunning, Converter={StaticResource BoolToVisConverter}}">
+                            <Label Style="{StaticResource StdLabel}" Width="350"  Content="{Binding PingTwo}" />
+                            <Label Style="{StaticResource StdLabel}" Width="350"  Content="{Binding PingOne}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
 			</StackPanel>
 		</StackPanel>
 	</Grid>

@@ -240,7 +240,7 @@ namespace PDTUtils.MVVM.ViewModels
         }
         
         void DoDecrement(object settingsName)
-        {
+        {   
             string setting = settingsName as string;
             if (setting.Equals("GameTime"))
             {
@@ -257,7 +257,7 @@ namespace PDTUtils.MVVM.ViewModels
                 if (_editableLiveRegion.Rtp < 10000)
                     _editableLiveRegion.Rtp += 100;
             }
-
+            
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
         

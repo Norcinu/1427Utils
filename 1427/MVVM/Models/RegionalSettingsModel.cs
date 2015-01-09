@@ -34,7 +34,6 @@ namespace PDTUtils.MVVM.Models
         public uint ConvertToPlay { get; set; }
         public uint FastTransfer { get; set; }
         public uint CycleSize { get; set; }
-        
         public string Community { get; set; }
 	
         
@@ -42,8 +41,6 @@ namespace PDTUtils.MVVM.Models
         {
             this.Community = community;
             this.GiveChangeThreshold = region.ChangeValue;
-            //this = region.ChargeConvertPoints;
-            //this = region.CreditAndBank;
             this.CycleSize = region.CycleSize;
             this.FastTransfer = region.FastTransfer;
             this.GameTime = region.Gtime;
@@ -53,7 +50,6 @@ namespace PDTUtils.MVVM.Models
             this.MaxReserveCredits = region.MaxReserve;
             this.MaxStakeBank = region.MaxStakeFromBank;
             this.MaxStakeCredits = region.MaxWinPerStake;
-            //this.MaxWinPerStake = region.MaxWinPerStake;
             this.EscrowState = region.NoteEscrow;
             this.Rtp = region.Rtp;
             this.StakeMask = region.StakeMask;

@@ -295,7 +295,7 @@ namespace PDTUtils.Native
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void setCriticalError(int code);
-
+        
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void transferBankToCredit();
 
