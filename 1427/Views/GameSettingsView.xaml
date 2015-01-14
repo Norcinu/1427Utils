@@ -6,15 +6,14 @@
              xmlns:conv="clr-namespace:PDTUtils"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1200">
-        
-
+       
     <UserControl.Resources>
         <conv:IsEnglishCulture x:Key="IsEnglish"/>
         <conv:IsSpanishCulture x:Key="IsSpanish"/>
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
         <conv:ConvertStakeVisibility x:Key="StakeVis"/>
     </UserControl.Resources>
-		
+        
     <Grid>
         <!--IsEnabled="{Binding }"-->
         <!-- <StackPanel Visibility="{Binding IsEnabled, Converter={StaticResource IsEnglishCulture}}">  Bind this to see what the machines culture is. 
@@ -75,9 +74,9 @@
         
         <!-- Spanish/Regional Options -->
         <StackPanel> 
-            <ListView ItemsSource="{Binding Path=Settings}"  Width="1500" HorizontalContentAlignment="Center" FontSize="20">
+            <ListView ItemsSource="{Binding Path=Settings}"  Width="375" HorizontalContentAlignment="Center" FontSize="20">
                 <ListView.View>
-                    <GridView>
+                    <GridView> 
                         <GridViewColumn Header="Game Name" Width="225" DisplayMemberBinding="{Binding Path=Title}"/>
                         <GridViewColumn Header="Active" Width="75">
                             <GridViewColumn.CellTemplate>
@@ -93,108 +92,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        
-                        <GridViewColumn Header="Stake 1" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeOne}" FontSize="20"/> <!-- , StringFormat=€{0:#,#.00}}" -->
-									</CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-						<GridViewColumn Header="Stake 2" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeTwo}" FontSize="20"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-						<GridViewColumn Header="Stake 3" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeThree}" FontSize="20"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-						<GridViewColumn Header="Stake 4" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeFour}" FontSize="20"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-						<GridViewColumn Header="Stake 5" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeFive}" FontSize="20"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-						<GridViewColumn Header="Stake 6" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeSix}" FontSize="20"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-						<GridViewColumn Header="Stake 7" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeSeven}" FontSize="20"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-						<GridViewColumn Header="Stake 8" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeEight}" FontSize="20"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-						<GridViewColumn Header="Stake 9" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeNine}" FontSize="20"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-						<GridViewColumn Header="Stake 10" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-									<CheckBox IsChecked="{Binding StakeOne, Converter={StaticResource StakeVis}}" Command="{Binding ToggleStake}">
-										<TextBlock Text="{Binding StakeTen}" FontSize="20"/>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-
+                         
                         <GridViewColumn Header="Promo" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>

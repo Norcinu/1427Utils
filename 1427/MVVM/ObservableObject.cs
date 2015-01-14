@@ -17,7 +17,7 @@ namespace PDTUtils.MVVM
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
+    
     public class DelegateCommand : ICommand
     {
         private readonly Action<object> _action;

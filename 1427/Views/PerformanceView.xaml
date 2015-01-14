@@ -64,7 +64,7 @@
                                     </GridView>
                                 </ListView.View>
                             </ListView>
-                            <Button Content="Clear ST Meters" FontSize="20" Width="150" Height="40" Margin="20" Command="{Binding ClearShortTerms}"/>
+                            <Button Content="Clear ST Meters" FontSize="20" IsEnabled="True" Width="150" Height="40" Margin="20" Command="{Binding ClearShortTerms}"/>
                         </StackPanel>
                     </TabItem>
 
