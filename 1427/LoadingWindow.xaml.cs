@@ -11,11 +11,9 @@ namespace PDTUtils
     public partial class LoadingWindow : Window
     {
         MainWindow mainWindow = new MainWindow();
-        int Counter { get; set; }
         public LoadingWindow()
         {
             InitializeComponent();
-            Counter = 0;
         }
         
         private void Window_ContentRendered(object sender, EventArgs e)
@@ -27,16 +25,10 @@ namespace PDTUtils
             
             worker.RunWorkerAsync();
         }
-        //if we weea
+        
         void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            while (Counter < 2000)
-            {
-                Counter += 100;
-                Thread.Sleep(100);
-            }
-
-            if (mainWindow.FullyLoaded)// && Counter >= 2000)
+            if (mainWindow.FullyLoaded)
             {
                 try
                 {
@@ -49,7 +41,6 @@ namespace PDTUtils
             }
             else
             {
-                Counter += 100;
                 Thread.Sleep(100);
             }
         }

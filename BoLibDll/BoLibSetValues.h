@@ -23,4 +23,5 @@ DLLEXPORT void	setPrinterType(unsigned char type);
 DLLEXPORT void	setRecyclerChannel(unsigned char value);
 DLLEXPORT void	setBnvType(unsigned char value);
 DLLEXPORT void	setRebootRequired();
-
+DLLEXPORT void	setUtilsAdd2CreditValue(unsigned int value);
+DLLEXPORT void	setRequestUtilsAdd2Credit();

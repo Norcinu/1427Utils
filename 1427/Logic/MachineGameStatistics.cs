@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Windows;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Collections.Generic;
+using PDTUtils.Native;
 
 namespace PDTUtils
 {
-	public class GameStats
+	public class GameStats : IComparable
 	{
 		int m_gameNumber;
 		int m_modelNumber;
@@ -61,7 +60,7 @@ namespace PDTUtils
 			set { m_imageSource = value; }*/
 		}
 		#endregion
-
+        
 		public GameStats()
 		{
 			m_gameNumber = 0;
@@ -72,6 +71,16 @@ namespace PDTUtils
 			m_averageStake = 0.0;
 			ImageSource = "";
 		}
+
+        public int CompareTo(object obj)
+        {
+            GameStats otherGame = obj as GameStats;
+            if (otherGame == null)
+            {
+                throw new ArgumentException("Object is not GameStats");
+            }
+            return this.GameNumber.CompareTo(otherGame.GameNumber);
+        }
 	}
 
 	/// <summary>
@@ -195,8 +204,43 @@ namespace PDTUtils
 		}
 		
 		public void ParsePerfLog()
-		{
-			if (m_fileLoaded == false)
+        {
+            if (m_games.Count > 0)
+                Extension.RemoveAll(m_games);
+
+            var moneyInLt = BoLib.getPerformanceMeter((byte)Performance.MONEY_IN_LT);
+            var moneyOutLt = BoLib.getPerformanceMeter((byte)Performance.MONEY_OUT_LT);
+            var moneyWageredLt = BoLib.getPerformanceMeter((byte)Performance.WAGERED_LT);
+            var wonLt = BoLib.getPerformanceMeter((byte)Performance.WON_LT);
+            var noGames = BoLib.getPerformanceMeter((byte)Performance.NO_GAMES_LT);
+
+            var gameCnt = BoLib.getTerminalFormat();
+
+            m_moneyIn = (int)moneyInLt;
+            m_moneyOut = (int)moneyOutLt;
+            m_totalBet = (int)moneyWageredLt;
+            m_totalWon = (int)wonLt;
+            m_totalGames = (int)noGames;
+            m_numberOfGames = (int)gameCnt + 1;
+
+            for (int i = 0; i < gameCnt + 1; i++)
+            {
+                var modelNo = BoLib.getGameModel(i);
+                var Bet = (uint)BoLib.getGamePerformanceMeter((uint)i, 0);
+                var Win = (int)BoLib.getGamePerformanceMeter((uint)i, 1);
+                var Perc = ((double)Win / (double)Bet) * 100;// *10000;
+                GameStats stats = new GameStats();
+                stats.GameNumber = i;
+                stats.ModelNumber = (int)modelNo;
+                stats.Bets = (int)Bet;
+                stats.Wins = Win;
+                stats.Percentage = (Perc > 0) ? Perc.ToString() + "%" : "0.00%";
+                stats.ImageSource = (modelNo == 1524) ? @"D:\1527\BMP\GameIconS.png" : @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png";
+                m_games.Add(stats);
+            }
+
+            #region lockoff
+            /*if (m_fileLoaded == false)
 			{
 				using (FileStream fs = File.Open(m_perfLog, FileMode.Open, FileAccess.Read, FileShare.Read))
 				using (BufferedStream bs = new BufferedStream(fs))
@@ -208,6 +252,7 @@ namespace PDTUtils
 					int generalFields = 6;
 					var generalValues = new string[generalFields];
 					string line = "";
+                    var sorted = new List<GameStats>();
 					while ((line = sr.ReadLine()) != null)
 					{
 						if (isGeneral == true)
@@ -228,7 +273,7 @@ namespace PDTUtils
                             {
                                 if (gameCounter < Convert.ToInt32(generalValues[5]))
                                 {
-                                    var outter = m_games[gameCounter];
+                                    var outter = sorted[gameCounter];//m_games[gameCounter];
                                     line = line.Trim();
                                     FillGameStats(line.Split("=".ToCharArray()), ref outter);
                                 }
@@ -247,10 +292,17 @@ namespace PDTUtils
 							fieldCounter = 0;
 							for (int i = 0; i < Convert.ToInt32(generalValues[5]); i++)
 							{
-								m_games.Add(new GameStats());
+                                sorted.Add(new GameStats());
 							}
 						}
 					}
+                    
+                    sorted.Sort();
+                    for (int i = 0; i < sorted.Count; i++)
+                    {
+                        m_games.Add(sorted[i]);
+                    }
+
 					m_fileLoaded = true;
 					m_moneyIn = Convert.ToInt32(generalValues[0]);
 					m_moneyOut = Convert.ToInt32(generalValues[1]);
@@ -259,7 +311,8 @@ namespace PDTUtils
 					m_totalGames = Convert.ToInt32(generalValues[4]);
 					m_numberOfGames = Convert.ToInt32(generalValues[5]);
 				}
-			}
-		}
+			}*/
+            #endregion
+        }
 	}
 }

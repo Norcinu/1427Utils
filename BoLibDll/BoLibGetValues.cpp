@@ -108,14 +108,30 @@ int getBank()
 int addCredit(int pennies)
 {
 	int toBank = 0;
-	if(pennies > GetVariableValue(MAX_WBANK_TRANSFER))
-	{
-		toBank = pennies - GetVariableValue(MAX_WBANK_TRANSFER);
-		pennies -= toBank;
-		AddToBankDeposit(toBank);
-	}
+	int cc = GetCountry();
+	int bankTransfer = (cc != CC_ESP) ? GetVariableValue(MAX_WBANK_TRANSFER) : GetEspRegionalValue(ESP_MAX_BANKNOTE_VALUE);
+	
 
-	return add_cdeposit(pennies);
+	//if (cc != CC_ESP)
+	//{
+		if(pennies > bankTransfer) //GetVariableValue(MAX_WBANK_TRANSFER))
+		{
+			toBank = pennies - bankTransfer;//GetVariableValue(MAX_WBANK_TRANSFER))
+			pennies -= toBank;
+			AddToBankDeposit(toBank);
+		}
+		return add_cdeposit(pennies);
+	//}
+	/*else
+	{
+		if (pennies > GetEspRegionalValue(ESP_MAX_BANKNOTE_VALUE)) //GetEspRegionalVariableValue(ESP_MAX_BANKNOTE_VALUE))
+		{
+			toBank = pennies - GetEspRegionalVariableValue(ESP_MAX_BANKNOTE_VALUE);
+			pennies -= toBank;
+			AddToBankDeposit(toBank);
+		}
+		return add_cdeposit(pennies);
+	}*/
 }
 
 int getCountryCode()
@@ -140,10 +156,10 @@ int getSpainCountryCode()
 
 char *getCountryCodeStr()
 {
-	//SetFileAction();
+	SetFileAction();
 	char buffer[32] = {0};
 	GetPrivateProfileSection("CountryCode", buffer, 32, MACHINE_INI.c_str());
-	//ClearFileAction();
+	ClearFileAction();
 	country_code_buffer = "Country Code: ";
 	country_code_buffer += buffer[0];
 	return (char *)country_code_buffer.c_str();
@@ -227,7 +243,7 @@ const char *getLastGame(int index)
 
 unsigned long getGameModel(int index)
 {
-	return LastGames[index][0];
+	return ModelNumbers[index];
 }
 
 unsigned int getGameTime(int index)
@@ -699,4 +715,13 @@ unsigned char printer()
 	return PRINTER;
 }
 
+unsigned char getTerminalFormat()
+{
+	return GetTerminalFormat();
+}
+
+unsigned int getUtilsAdd2CreditValue()
+{
+	return GetUtilsAdd2CreditValue();
+}
 

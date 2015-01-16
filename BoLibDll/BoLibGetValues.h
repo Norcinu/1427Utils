@@ -122,3 +122,7 @@ DLLEXPORT unsigned char combined();
 DLLEXPORT unsigned char hopper();
 DLLEXPORT unsigned char printer();
 DLLEXPORT unsigned int  getTerminalType();
+DLLEXPORT unsigned char getTerminalFormat();
+DLLEXPORT unsigned int	getUtilsAdd2CreditValue();
+
+

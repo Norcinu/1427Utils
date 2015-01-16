@@ -15,7 +15,7 @@ namespace PDTUtils.MVVM.ViewModels
         string _rightRefillMsg;
         string _leftCoinsAdded;
         string _rightCoinsAdded;
-        
+
         public System.Timers.Timer _emptyLeftTimer;
         public System.Timers.Timer _emptyRightTimer;
         public System.Timers.Timer _refillTimer;
@@ -69,7 +69,7 @@ namespace PDTUtils.MVVM.ViewModels
         }
 
         #endregion
-        
+
         public HopperViewModel()
         {
             EndRefill = false;
@@ -78,16 +78,17 @@ namespace PDTUtils.MVVM.ViewModels
             LeftHopper = new HopperModel();
             RightHopper = new HopperModel();
             DumpSwitchMessage = "Empty Hopper";
-            RaisePropertyChangedEvent("DumpSwitchMessage");
+            this.RaisePropertyChangedEvent("DumpSwitchMessage");
             SelectedTabIndex = 0;
             
             LargeHopper = "£1 Hopper (LEFT)";
             SmallHopper = "10p Hopper (RIGHT)";
-            RaisePropertyChangedEvent("LargeHopper");
-            RaisePropertyChangedEvent("SmallHopper");
-            RaisePropertyChangedEvent("NotRefilling");
-            LeftRefillMsg = "0.00";
-            RightRefillMsg = "0.00";
+            this.RaisePropertyChangedEvent("LargeHopper");
+            this.RaisePropertyChangedEvent("SmallHopper");
+            this.RaisePropertyChangedEvent("NotRefilling");
+            LeftRefillMsg = "0.00";//Left Hopper Coins Added: " + (0.00).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
+            RightRefillMsg = "0.00";//"Right Hopper Coins Added: " + (0.00).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
+            //this.RaisePropertyChangedEvent("LeftRefillMsg");
         }
         
         public ICommand ToggleRefillStatus
@@ -143,7 +144,7 @@ namespace PDTUtils.MVVM.ViewModels
                             Thread.Sleep(2);
                         }
                     }
-                    
+
                     if (BoLib.refillKeyStatus() > 0 && BoLib.getDoorStatus() > 0 && dumpSwitchPressed)
                     {
                         BoLib.setRequestEmptyLeftHopper();

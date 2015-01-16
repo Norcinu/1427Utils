@@ -97,7 +97,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1427\bmp\exe.bmp.
+        ///   Looks up a localized string similar to D:\1527\bmp\exe.bmp.
         /// </summary>
         internal static string FILE_TYPE_EXE {
             get {
@@ -106,7 +106,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1427\bmp\folder.bmp.
+        ///   Looks up a localized string similar to D:\1527\bmp\folder.bmp.
         /// </summary>
         internal static string FILE_TYPE_FOLDER {
             get {
@@ -115,7 +115,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1427\bmp\bitmap.bmp.
+        ///   Looks up a localized string similar to D:\1527\bmp\bitmap.bmp.
         /// </summary>
         internal static string FILE_TYPE_IMG {
             get {
@@ -124,7 +124,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1427\bmp\ini.bmp.
+        ///   Looks up a localized string similar to D:\1527\bmp\ini.bmp.
         /// </summary>
         internal static string FILE_TYPE_INI {
             get {
@@ -133,7 +133,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1427\bmp\unknown.bmp.
+        ///   Looks up a localized string similar to D:\1527\bmp\unknown.bmp.
         /// </summary>
         internal static string FILE_TYPE_UNKNOWN {
             get {
@@ -142,7 +142,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1427\bmp\wav.bmp.
+        ///   Looks up a localized string similar to D:\1527\bmp\wav.bmp.
         /// </summary>
         internal static string FILE_TYPE_WAV {
             get {

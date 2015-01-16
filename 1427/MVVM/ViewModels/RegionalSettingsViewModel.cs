@@ -13,6 +13,7 @@ namespace PDTUtils.MVVM.ViewModels
     class RegionalSettingsViewModel : ObservableObject
     {
         bool _liveHasBeenEdited = false;
+        bool _selectionChanged = false;
         int _arcadeSelectedIndex = -1;
         int _marketSelectedIndex = -1;
         
@@ -52,6 +53,7 @@ namespace PDTUtils.MVVM.ViewModels
             get { return _selected; }
             set { _selected = value; }
         }
+
         public SpanishRegionalModel EditableLiveRegion
         {
             get { return _editableLiveRegion; }
@@ -67,7 +69,7 @@ namespace PDTUtils.MVVM.ViewModels
                     MarketSelectedIndex = -1;
                 _arcadeSelectedIndex = value;
                 SetRegion();
-
+                
                 RaisePropertyChangedEvent("ArcadeSelectedIndex");
             }
         }
@@ -83,6 +85,16 @@ namespace PDTUtils.MVVM.ViewModels
                 SetRegion();
                 
                 RaisePropertyChangedEvent("MarketSelectedIndex");
+            }
+        }
+
+        public bool SelectionChanged
+        {
+            get { return _selectionChanged; }
+            set
+            {
+                _selectionChanged = value;
+                RaisePropertyChangedEvent("SelectionChanged");
             }
         }
         #endregion
@@ -116,7 +128,9 @@ namespace PDTUtils.MVVM.ViewModels
                 i++;
             }
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
-                    
+
+            SelectionChanged = false;
+        
             LoadSettings();        
             
             RaisePropertyChangedEvent("EditableLiveRegion");
@@ -140,7 +154,7 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Settings", "MaxStakeCredits", _editableLiveRegion.MaxStakeCredits.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "MaxStakeBank", _editableLiveRegion.MaxStakeBank.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "StakeMask", _editableLiveRegion.StakeMask.ToString(), _espRegionIni);
-            NativeWinApi.WritePrivateProfileString("Settings", "WinMax", _editableLiveRegion.WinMax.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "WinMax", _editableLiveRegion.MaxWinPerStake.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "MaxCredits", _editableLiveRegion.MaxCredits.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "MaxReserveCredits", _editableLiveRegion.MaxReserveCredits.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "MaxBank", _editableLiveRegion.MaxBank.ToString(), _espRegionIni);
@@ -164,8 +178,8 @@ namespace PDTUtils.MVVM.ViewModels
             string[] temp;
             var c = IniFileUtility.GetIniProfileSection(out temp, "General", _espRegionIni);
             _selected.Id = Convert.ToInt32(temp[1].Substring(14));
-            _selected.Community = temp[2].Substring(7); //0
-            _selected.VenueType = temp[3].Substring(10); //1
+            _selected.Community = temp[2].Substring(7).Trim(); //0
+            _selected.VenueType = temp[3].Substring(10).Trim(); //1
             
             string[] liveSettings;
             var settings = IniFileUtility.GetIniProfileSection(out liveSettings, "Settings", _espRegionIni);
@@ -173,7 +187,7 @@ namespace PDTUtils.MVVM.ViewModels
             _editableLiveRegion.MaxStakeCredits = Convert.ToUInt32(liveSettings[0].Substring(16));
             _editableLiveRegion.MaxStakeBank = Convert.ToUInt32(liveSettings[1].Substring(13));
             _editableLiveRegion.StakeMask = Convert.ToUInt32(liveSettings[2].Substring(10));
-            _editableLiveRegion.WinMax = Convert.ToUInt32(liveSettings[3].Substring(7));
+            _editableLiveRegion.MaxWinPerStake = Convert.ToUInt32(liveSettings[3].Substring(7));
             _editableLiveRegion.MaxCredits = Convert.ToUInt32(liveSettings[4].Substring(11));
             _editableLiveRegion.MaxReserveCredits = Convert.ToUInt32(liveSettings[5].Substring(18));
             _editableLiveRegion.MaxBank = Convert.ToUInt32(liveSettings[6].Substring(8));
@@ -212,8 +226,9 @@ namespace PDTUtils.MVVM.ViewModels
             
             SpanishRegional sr = new SpanishRegional();
             BoLib.getDefaultRegionValues(id, ref sr);
-             
+            
             _editableLiveRegion = new SpanishRegionalModel(Selected.Community, sr);
+            SelectionChanged = true;
 
             SaveChanges();
             LoadSettings();
@@ -254,8 +269,8 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else if (setting == "RTP")
             {
-                if (_editableLiveRegion.Rtp < 10000)
-                    _editableLiveRegion.Rtp += 100;
+                if (_editableLiveRegion.Rtp <= 10000)
+                    _editableLiveRegion.Rtp -= 100;
             }
             
             RaisePropertyChangedEvent("EditableLiveRegion");

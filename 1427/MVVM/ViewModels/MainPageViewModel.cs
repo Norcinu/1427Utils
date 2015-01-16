@@ -123,9 +123,9 @@ namespace PDTUtils.MVVM.ViewModels
             BoLib.transferBankToCredit();
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
-            this.RaisePropertyChangedEvent("Credits");
-            this.RaisePropertyChangedEvent("Bank");
-            this.RaisePropertyChangedEvent("TotalCredits");
+            RaisePropertyChangedEvent("Credits");
+            RaisePropertyChangedEvent("Bank");
+            RaisePropertyChangedEvent("TotalCredits");
         }
         
         public ICommand AddCredits
@@ -143,14 +143,14 @@ namespace PDTUtils.MVVM.ViewModels
             var errorCode = BoLib.getError();
             if (errorCode > 0)
             {
-            //    string last = BoLib.getErrorMessage("", BoLib.getError());
-            //    ErrorMessage = "Current Error : " + "[" + errorCode + "] " + last + "\nOpen Door and Press Button To Clear Error";
-                ErrorMessage = "";
+          //      string last = BoLib.getErrorMessage("", BoLib.getError());
+          //      ErrorMessage = "Current Error : " + "[" + errorCode + "] " + last + "\nOpen Door and Press Button To Clear Error";
+                ErrorMessage = "Press Button to clear error"; // Change this!!!!! DEBUG DEBUG **********
             }
             else
                 ErrorMessage = "No Current Error";
 
-            this.RaisePropertyChangedEvent("ErrorMessage");
+            RaisePropertyChangedEvent("ErrorMessage");
         }
         
         public ICommand ShowMessageBox
@@ -170,7 +170,7 @@ namespace PDTUtils.MVVM.ViewModels
                 if (BoLib.clearError() == 0)
                 {
                     ErrorMessage = "Error Cleared. Please Continue.";
-                    this.RaisePropertyChangedEvent("ErrorMessage");
+                    RaisePropertyChangedEvent("ErrorMessage");
                 }
             }
             else
@@ -239,7 +239,8 @@ namespace PDTUtils.MVVM.ViewModels
             else
                 Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
             
-            BoLib.addCredit(Pennies);
+            /*BoLib.addCredit(Pennies);*/
+            BoLib.setUtilsAdd2CreditValue((uint)Pennies);
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
             this.RaisePropertyChangedEvent("Credits");

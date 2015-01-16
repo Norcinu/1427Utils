@@ -52,11 +52,11 @@
 			</TabItem>
 			
 			<TabItem Header="Hardware Test" MinWidth="150">
-				PING SOME WELL KNOWN WEBSITES -> GOOGLE YAHOO BBC.
+				<!--PING SOME WELL KNOWN WEBSITES -> GOOGLE YAHOO BBC.-->
 			</TabItem>
 			
 			<TabItem Header="Network Info" MinWidth="150">
-				RENAME TO DIAGNOSTICSVIEW.
+				<!--RENAME TO DIAGNOSTICSVIEW.-->
 			</TabItem>
 		</TabControl>
     </Grid>

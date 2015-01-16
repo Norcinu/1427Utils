@@ -40,6 +40,24 @@ namespace PDTUtils.Native
         public uint FastTransfer;
     }
     
+    enum Performance
+    {
+        MONEY_IN_LT = 0,
+        MONEY_OUT_LT,
+        HAND_PAY_LT,
+        CASHBOX_LT,
+        NO_GAMES_LT,
+        WAGERED_LT,
+        WON_LT,
+        MONEY_IN_ST,
+        MONEY_OUT_ST,
+        HAND_PAY_ST,
+        CASHBOX_ST,
+        NO_GAMES_ST,
+        WAGERED_ST,
+        WON_ST
+    }
+
     static class BoLib
     {
 #if DEBUG
@@ -266,6 +284,12 @@ namespace PDTUtils.Native
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern uint getDefaultElement(int region, int index);
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern byte getTerminalFormat();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern uint getUtilsAdd2CreditValue();
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/
@@ -319,6 +343,12 @@ namespace PDTUtils.Native
 
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern void setRebootRequired();
+
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void setUtilsAdd2CreditValue(uint value);
+        
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern void setRequestUtilsAdd2Credit();
 
         /************************************************************************/
         /* General methods                                                      */

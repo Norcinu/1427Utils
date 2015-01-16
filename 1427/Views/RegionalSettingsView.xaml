@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 mc:Ignorable="d" 
+			 xmlns:c="clr-namespace:PDTUtils"
+             mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1200">
     
     <UserControl.Resources>
@@ -30,17 +31,25 @@
             <Setter Property="Control.Background" Value="LightBlue"/>
             <Setter Property="Control.MinWidth" Value="200"/>
         </Style>
-    
+
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+
     </UserControl.Resources>
     	
     <Grid>
         <!--<TabControl>
 			<TabItem Header="Community Type">-->
-				<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    
-					<Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-					<Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
-            
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <Label Style="{StaticResource StdHeaderLabel}" BorderBrush="Black" BorderThickness="2"  Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <Label Style="{StaticResource StdHeaderLabel}" Content=" - Reboot Required" FontSize="28" Margin="-20,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding SelectionChanged}"
+                           Visibility="{Binding SelectionChanged, Converter={StaticResource BoolToVisConverter}}"/>
+            </StackPanel>
+
+
             <StackPanel HorizontalAlignment="Center">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -84,7 +93,7 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Height="75" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
                     <StackPanel>
-                        <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                        <Image Source="D:/1527/bmp/up.png" Height="65" Width="65" />
                     </StackPanel>
                 </Button>
                 <StackPanel>
@@ -93,13 +102,13 @@
                 </StackPanel>
                 <Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="GameTime">
                     <StackPanel>
-                        <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                        <Image Source="D:/1527/bmp/down.png" Height="65" Width="65" />
                     </StackPanel>
                 </Button>
                 
                 <Button Height="75" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
                     <StackPanel>
-                        <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                        <Image Source="D:/1527/bmp/up.png" Height="65" Width="65" />
                     </StackPanel>
                 </Button>
                 
@@ -110,13 +119,13 @@
 
                 <Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP">
                     <StackPanel>
-                        <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                        <Image Source="D:/1527/bmp/down.png" Height="65" Width="65" />
                     </StackPanel>
                 </Button>
                 
                 <!--<Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
                     <StackPanel>
-                        <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                        <Image Source="D:/1527/bmp/up.png" Height="65" Width="65" />
                     </StackPanel>
                 </Button>
                 <StackPanel>
@@ -125,12 +134,12 @@
                 </StackPanel>
                 <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
                     <StackPanel>
-                        <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                        <Image Source="D:/1527/bmp/down.png" Height="65" Width="65" />
                     </StackPanel>
                 </Button>-->
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Label Margin="10" Height="35" HorizontalContentAlignment="Center">Load Region Default Settings:</Label>
+                <Label Margin="10" Height="35" BorderBrush="Black" BorderThickness="2" Style="{StaticResource StdHeaderLabel}" FontSize="18" HorizontalContentAlignment="Center">Load Region Default Settings:</Label>
                 <Button Height="35" Width="125" FontSize="24" Margin="10" Command="{Binding ResetLiveToDefault}">Default</Button>
             </StackPanel>
         </StackPanel>
@@ -147,7 +156,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Height="75" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="MaxCredits">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/up.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                         <StackPanel>
@@ -156,13 +165,13 @@
                         </StackPanel>
                         <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                             
                         <Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/up.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                         <StackPanel>
@@ -172,13 +181,13 @@
 
                         <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                         
                         <Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/up.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                         <StackPanel>
@@ -187,7 +196,7 @@
                         </StackPanel>
                         <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -197,7 +206,7 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Height="75" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/up.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                         <StackPanel>
@@ -206,13 +215,13 @@
                         </StackPanel>
                         <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                         
                         <Button Height="75" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/up.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                         <StackPanel>
@@ -222,13 +231,13 @@
 
                         <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
 
                         <Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/up.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/up.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                         <StackPanel>
@@ -237,7 +246,7 @@
                         </StackPanel>
                         <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
                             <StackPanel>
-                                <Image Source="D:/1427/bmp/down.png" Height="65" Width="65" />
+                                <Image Source="D:/1527/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
                         </Button>
                     </StackPanel>

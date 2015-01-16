@@ -114,3 +114,15 @@ void setRebootRequired()
 {
 	SetRebootRequired();
 }
+
+void setUtilsAdd2CreditValue(unsigned int value)
+{
+    SetUtilsAdd2CreditValue(value);
+}
+
+void setRequestUtilsAdd2Credit() 
+{
+    SetRequestUtilsAdd2Credit();
+}
+
+

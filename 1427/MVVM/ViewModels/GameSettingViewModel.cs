@@ -101,7 +101,7 @@ namespace PDTUtils.MVVM.ViewModels
                 m.ModelNumber       = Convert.ToUInt32(models[0]);
                 m.Title             = models[1];
                 m.Active            = (models[2] == "True") ? true : false;
-                m.StakeOne          = (Convert.ToDecimal(models[3]) / 100).ToString("C", _nfi);
+                /*m.StakeOne          = (Convert.ToDecimal(models[3]) / 100).ToString("C", _nfi);
                 m.StakeTwo          = (Convert.ToDecimal(models[4]) / 100).ToString("C", _nfi);
                 m.StakeThree        = (Convert.ToDecimal(models[5]) / 100).ToString("C", _nfi);
                 m.StakeFour         = (Convert.ToDecimal(models[6]) / 100).ToString("C", _nfi);
@@ -110,11 +110,11 @@ namespace PDTUtils.MVVM.ViewModels
                 m.StakeSeven        = (Convert.ToDecimal(models[9]) / 100).ToString("C", _nfi);
                 m.StakeEight        = (Convert.ToDecimal(models[10]) / 100).ToString("C", _nfi);
                 m.StakeNine         = (Convert.ToDecimal(models[11]) / 100).ToString("C", _nfi);
-                m.StakeTen          = (Convert.ToDecimal(models[12]) / 100).ToString("C", _nfi);
-                m.Promo             = (models[13] == "True") ? true : false;
-                m.ModelDirectory    = models[14];
-                m.Exe               = models[15];
-                m.HashKey           = models[16];
+                m.StakeTen          = (Convert.ToDecimal(models[12]) / 100).ToString("C", _nfi);*/
+                m.Promo             = (models[10] == "True") ? true : false;
+                m.ModelDirectory    = models[11];
+                m.Exe               = models[12];
+                m.HashKey           = models[13];
                 _gameSettings.Add(m);
             }
         }
@@ -147,7 +147,9 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[12], (m.StakeTen * 100).ToString(), _manifest);*/
                     //---- End of prices of play
                     
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[13], m.Promo.ToString(), _manifest);
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[10], m.Promo.ToString(), _manifest);
+
+                    IniFileUtility.HashFile(_manifest);
                 }
             }
         }

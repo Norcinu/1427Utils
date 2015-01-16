@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows.Input;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
+using System.Threading;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -126,7 +127,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             decimal shortTermCashIn     = (int)BoLib.getPerformanceMeter(7) / 100.0M;
             decimal shortTermCashOut    = (int)BoLib.getPerformanceMeter(8) / 100.0M;
-            decimal shortTermTotal      = shortTermCashIn - shortTermCashOut;
+            decimal shortTermTotal      = shortTermCashIn - shortTermCashOut;//t
 
             decimal handPayLt = (int)BoLib.getPerformanceMeter(2) / 100.0M;
             decimal handPaySt = (int)BoLib.getPerformanceMeter(9) / 100.0M;
@@ -174,11 +175,11 @@ namespace PDTUtils.MVVM.ViewModels
             decimal tpCreditsSt = (int)BoLib.getTPlayMeter(5);
 
             Performance.Add(new HelloImJohnnyCashMeters("TPlay Total Credits:", tpCreditsLt.ToString("C", nfi), tpCreditsSt.ToString("C", nfi)));
-            
+
             int tpGamesLt = (int)BoLib.getTPlayMeter(1);
             int tpGamesSt = (int)BoLib.getTPlayMeter(4);
             Performance.Add(new HelloImJohnnyCashMeters("TP Games Played:", tpGamesLt.ToString(), tpGamesSt.ToString()));
-            
+
             decimal tpMoneyOutLt = (int)BoLib.getTPlayMeter(0);
             decimal tpMoneyOutSt = (int)BoLib.getTPlayMeter(3);
             Performance.Add(new HelloImJohnnyCashMeters("TPlay Cash Out:", tpMoneyOutLt.ToString("C", nfi), tpMoneyOutSt.ToString("C", nfi)));
@@ -192,7 +193,7 @@ namespace PDTUtils.MVVM.ViewModels
                 decimal percentage = (won > 0 || bets > 0) ? (won / bets) : 0;
                 GameStats.Add(new GameStatMeter(model.ToString(), bets.ToString("C", nfi), won.ToString("C", nfi), percentage.ToString("P", nfi)));
             }
-            
+
             RaisePropertyChangedEvent("CashRecon");
             RaisePropertyChangedEvent("NumberOfGamesLt");
             RaisePropertyChangedEvent("NumberOfGamesSt");

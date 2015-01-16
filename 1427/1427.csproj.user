@@ -14,7 +14,7 @@
     <RemoteDebugEnabled>true</RemoteDebugEnabled>
     <RemoteDebugMachine>STEVETERMINAL01</RemoteDebugMachine>
     <StartAction>Program</StartAction>
-    <StartProgram>D:\1427\1427L28U010D.exe</StartProgram>
+    <StartProgram>D:\1527\1527L29U010D.exe</StartProgram>
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
     <StartWorkingDirectory>
     </StartWorkingDirectory>

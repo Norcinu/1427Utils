@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PDTUtils</RootNamespace>
-    <AssemblyName>1427L28U010D</AssemblyName>
+    <AssemblyName>1527L29U010D</AssemblyName>
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -36,7 +36,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Y:\1427\</OutputPath>
+    <OutputPath>Y:\1527\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -91,6 +91,7 @@
     <Compile Include="MVVM\IMessageBoxService.cs" />
     <Compile Include="MVVM\Models\CashReconiliation.cs" />
     <Compile Include="MVVM\Models\CreditModel.cs" />
+    <Compile Include="MVVM\Models\DiagnosticModel.cs" />
     <Compile Include="MVVM\Models\GameSelectionModel.cs" />
     <Compile Include="MVVM\Models\GameSettingModel.cs" />
     <Compile Include="MVVM\Models\HopperModel.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="MVVM\Models\ScreenshotModel.cs" />
     <Compile Include="MVVM\ObservableObject.cs" />
     <Compile Include="MVVM\ViewModels\CreditManagementViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\DiagnosticViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GeneralSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\HopperViewModel.cs" />
     <Compile Include="MVVM\ViewModels\MainPageViewModel.cs" />
@@ -295,6 +297,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

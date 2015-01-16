@@ -41,7 +41,7 @@ namespace PDTUtils.MVVM.Models
             ShortTermValue = s;
         }
     }
-
+    
     class GameStatMeter : HelloImJohnnyCashMeters
     {
         public string Bet { get; set; }
@@ -50,9 +50,13 @@ namespace PDTUtils.MVVM.Models
         
         public GameStatMeter(string n, string b, string w, string p)
         {
-            this.Name = @"D:\" + n + @"\BMP\" + n + ".png";
+            if (n.Equals("1524"))
+                this.Name = @"D:\1527\BMP\GameIconS.png";
+            else
+                this.Name = @"D:\" + n + @"\BMP\" + "GameIconS.png";
+            
             this.Bet = b;
-            this.Won = w; 
+            this.Won = w;
             this.Percentage = p;
         }
     }

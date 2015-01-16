@@ -20,7 +20,7 @@ namespace PDTUtils.MVVM.Models
         public uint MaxStakeCredits { get; set; }
         public uint MaxStakeBank { get; set; }
         public uint StakeMask { get; set; }
-        public uint WinMax { get; set; }
+        public uint MaxWinPerStake { get; set; }
         public uint MaxCredits { get; set; }
         public uint MaxReserveCredits { get; set; }
         public uint MaxBank { get; set; }
@@ -35,7 +35,7 @@ namespace PDTUtils.MVVM.Models
         public uint FastTransfer { get; set; }
         public uint CycleSize { get; set; }
         public string Community { get; set; }
-	
+	    
         
         public SpanishRegionalModel(string community, SpanishRegional region)
         {

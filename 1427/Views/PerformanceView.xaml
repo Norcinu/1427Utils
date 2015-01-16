@@ -27,6 +27,7 @@
 			<Setter Property="Foreground" Value="White"/>
 			<Setter Property="Control.BorderBrush" Value="Black"/>
 			<Setter Property="Control.BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="18"/>
 		</Style>
 	</UserControl.Resources>
 	
@@ -64,7 +65,7 @@
                                     </GridView>
                                 </ListView.View>
                             </ListView>
-                            <Button Content="Clear ST Meters" FontSize="20" IsEnabled="True" Width="150" Height="40" Margin="20" Command="{Binding ClearShortTerms}"/>
+                            <Button Content="Clear ST Meters" FontSize="20" Width="150" Height="40" Margin="20" Command="{Binding ClearShortTerms}"/>
                         </StackPanel>
                     </TabItem>
 
@@ -85,7 +86,9 @@
                                         <GridViewColumn Header="Bet" Width="125">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Style="{StaticResource StdTextBlock}" Text="{Binding Bet}"></TextBlock>
+                                                    <Border BorderBrush="{x:Null}" Background="Red" Height="100">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="24" Text="{Binding Bet}"></TextBlock>
+                                                    </Border>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
@@ -93,7 +96,9 @@
                                         <GridViewColumn Header="Winnings" Width="125">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Style="{StaticResource StdTextBlock}" Text="{Binding Won}"></TextBlock>
+                                                    <Border BorderBrush="{x:Null}" Background="Red" Height="100">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="24" Text="{Binding Won}"></TextBlock>
+                                                    </Border>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
@@ -101,11 +106,12 @@
                                         <GridViewColumn Header="Percentage" Width="125">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Style="{StaticResource StdTextBlock}" Text="{Binding Percentage}"></TextBlock>
+                                                    <Border BorderBrush="{x:Null}" Background="Red" Height="100">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="24" Text="{Binding Percentage}" />
+                                                    </Border>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
-
                                     </GridView>
                                 </ListView.View>
                             </ListView>
@@ -113,7 +119,7 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-
+            
             <TabItem Header="LCD Meters">
 
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal">

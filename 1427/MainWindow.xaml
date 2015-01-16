@@ -331,43 +331,6 @@
 
 		<!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
 		<TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Height="{Binding Path=RowTwo.Height}" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
-			<TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">
-				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-					<StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
-						<Label FontSize="28" HorizontalAlignment="Center" Margin="3">Proceed With Caution</Label>
-						<Label FontSize="22" HorizontalAlignment="Center" Margin="3">Touch Value to Change Value</Label>
-						<ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
-							<ListView.View>
-								<GridView>
-									<GridViewColumn Width="340" Header="Field">
-										<GridViewColumn.CellTemplate>
-											<DataTemplate>
-												<Border BorderBrush="Black" BorderThickness="2">
-													<TextBlock Text="{Binding Field}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-												</Border>
-											</DataTemplate>
-										</GridViewColumn.CellTemplate>
-									</GridViewColumn>
-									<GridViewColumn Width="340" Header="Value">
-										<GridViewColumn.CellTemplate>
-											<DataTemplate>
-												<Border BorderBrush="Black" BorderThickness="2">
-													<TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-												</Border>
-											</DataTemplate>
-										</GridViewColumn.CellTemplate>
-									</GridViewColumn>
-								</GridView>
-							</ListView.View>
-						</ListView>
-						<StackPanel Orientation="Horizontal" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center">
-							<Button Width="75" Height="35" FontSize="20"  Margin="25">Save</Button>
-							<Button Width="75" Height="35" FontSize="20" Margin="25">Discard Changes</Button>
-						</StackPanel>
-					</StackPanel>
-				</ScrollViewer>
-			</TabItem>
-			
 			<TabItem Header="Local Settings">
 				<TabControl>
 					<TabItem Header="Region Settings">
@@ -379,8 +342,46 @@
 					</TabItem>
 				</TabControl>
 			</TabItem>
-			
-			<TabItem Header="System Settings" MinWidth="100">
+
+            <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100"> <!--IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}">-->
+                <!--Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
+                        <Label FontSize="28" HorizontalAlignment="Center" Margin="3">Proceed With Caution</Label>
+                        <Label FontSize="22" HorizontalAlignment="Center" Margin="3">Touch Value to Change Value</Label>
+                        <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="340" Header="Field">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <TextBlock Text="{Binding Field}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Width="340" Header="Value">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <StackPanel Orientation="Horizontal" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Button Width="75" Height="35" FontSize="20"  Margin="25">Save</Button>
+                            <Button Width="75" Height="35" FontSize="20" Margin="25">Discard Changes</Button>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            
+            <TabItem Header="System Settings" MinWidth="100">
 				<TabControl>
 					<TabItem Header="System Time" MinWidth="150" >
 						<StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="50">
@@ -388,7 +389,7 @@
 							<uc:SetDateControl Name="setDateControl" Margin="30"/>
 						</StackPanel>
 					</TabItem>
-					<TabItem Header="System Volume" MinWidth="150">
+					<TabItem Header="System Volume" MinWidth="150"> <!-- gray -->
 						<StackPanel Name="stpVolume" Background="BlanchedAlmond" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"><!-- VerticalAlignment="Top" -->
 							<TextBlock FontSize="28" Margin="50" TextAlignment="Center" >Set Machine's Volume Level</TextBlock>
 							<Slider Height="50" 
@@ -426,60 +427,20 @@
 				
 			<TabItem Header="Network">
 				<view:NetworkSettingsView />
-				<!-- <StackPanel HorizontalAlignment="Center">
-					<Label FontSize="48" HorizontalAlignment="Center" BorderBrush="AliceBlue" BorderThickness="2"
-						   Background="Red" Foreground="Peru"
-						   >Network Information</Label>
-					
-					<StackPanel Orientation="Horizontal">
-						<Label FontSize="36" Content="IP Address:" Width="200" Margin="30"/>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">3</TextBox>
-					</StackPanel>
-						
-					<StackPanel Orientation="Horizontal">
-						<Label FontSize="36" Content="Subnet Mask:" Width="200" Margin="30"/>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">255</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">255</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">0</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">0</TextBox>
-					</StackPanel>
-					
-					<StackPanel Orientation="Horizontal">
-						<Label FontSize="36" Content="Gateway:" Width="200"  Margin="30"/>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">169</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">254</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
-						<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="36" Width="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">1</TextBox>
-					</StackPanel>
-					
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-						<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Set Network Info</Button>
-						<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20" logic:TouchScreenKeyboard.TouchScreenKeyboard="False">Clear Network Info</Button>
-					</StackPanel>
-				</StackPanel> -->
-				
-			</TabItem>
+            </TabItem>
 
 			<TabItem Header="Software Update" MinWidth="100">
 				<view:UsbSoftwareUpdateView  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Margin="0,10,0,10"/>
 			</TabItem>
 		</TabControl>
 
-		<StackPanel Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
+        <StackPanel Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
 			<!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
 			<TabControl Height="1000">
 				<TabItem Header="Games" MinWidth="100">
 					<ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1400" FontSize="22" Height="600">
 						<ListView.View>
 							<GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
-								<!--<GridView.ColumnHeaderContainerStyle>
-									<Style>
-										<Setter Property="TextElement.FontSize" Value="16" />
-									</Style>
-								</GridView.ColumnHeaderContainerStyle>-->
 								<GridViewColumn Header="Game Number" Width="150" DisplayMemberBinding="{Binding GameNumber}" />
 								<GridViewColumn Header="Icon" Width="200">
 									<GridViewColumn.CellTemplate>
@@ -501,10 +462,6 @@
 				<TabItem Header="Game Selection">
 					
 				</TabItem>
-
-				<!--  <TabItem Header="{Binding MachineIniListView.SelectedItem}"  MinWidth="100">
-                    
-                </TabItem> -->
 			</TabControl>
 		</StackPanel>
 			 
@@ -551,8 +508,8 @@
 			<Button Content="Cash" Height="35" Name="btnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="btnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="btnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click" />
-			<Button Content="System Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-			<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />
+			<!--<Button Content="System Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />-->
+			<!--<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />-->
 			<Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
 			<Button Content="Reboot" Name="btnReboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnReboot_Click"/>
 		</StackPanel>
