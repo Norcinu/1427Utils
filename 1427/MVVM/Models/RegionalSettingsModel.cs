@@ -53,6 +53,10 @@ namespace PDTUtils.MVVM.Models
             this.EscrowState = region.NoteEscrow;
             this.Rtp = region.Rtp;
             this.StakeMask = region.StakeMask;
+            this.MaxWinPerStake = region.MaxWinPerStake;
+            this.StakeMask = region.StakeMask;
+            this.AllowBank2Credit = region.BankToCredits;
+            this.ConvertToPlay = region.ChargeConvertPoints;
         }
     }
 }

@@ -158,11 +158,16 @@ namespace PDTUtils
             Enabler.EnableCategory(Categories.Logfile);
             if (!LogController.IsLoaded)
             {
-                LogController.setErrorLog();
-                LogController.setWarningLog();
-                LogController.setPlayedLog();
-                LogController.setWinningLog();
-                LogController.IsLoaded = true;
+            //    Thread t = new Thread(() =>
+            //    {
+                    LogController.setErrorLog();
+                    LogController.setWarningLog();
+                    LogController.setPlayedLog();
+                    LogController.setWinningLog();
+                    LogController.setHandPayLog();
+                    LogController.IsLoaded = true;
+              //  });
+              //  t.Start();
             }
 		}
         

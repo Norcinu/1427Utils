@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 using PDTUtils.Native;
@@ -109,8 +110,8 @@ namespace PDTUtils.MVVM.ViewModels
             BoLib.clearBankAndCredit();
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
-            this.RaisePropertyChangedEvent("Credits");
-            this.RaisePropertyChangedEvent("Bank");
+            RaisePropertyChangedEvent("Credits");
+            RaisePropertyChangedEvent("Bank");
         }
         
         public ICommand TransferBank
@@ -143,9 +144,9 @@ namespace PDTUtils.MVVM.ViewModels
             var errorCode = BoLib.getError();
             if (errorCode > 0)
             {
-          //      string last = BoLib.getErrorMessage("", BoLib.getError());
-          //      ErrorMessage = "Current Error : " + "[" + errorCode + "] " + last + "\nOpen Door and Press Button To Clear Error";
-                ErrorMessage = "Press Button to clear error"; // Change this!!!!! DEBUG DEBUG **********
+                string last = BoLib.getErrorMessage("", BoLib.getError());
+                ErrorMessage = "Current Error : " + "[" + errorCode + "] " + last + "\nOpen Door and Press Button To Clear Error";
+                //ErrorMessage = "Press Button to clear error"; // Change this!!!!! DEBUG DEBUG **********
             }
             else
                 ErrorMessage = "No Current Error";
@@ -191,10 +192,11 @@ namespace PDTUtils.MVVM.ViewModels
         
         void DoHandPay()
         {
-            var oldCaption = _caption;
-            var oldMsg = _message;
+            string oldCaption = _caption;
+            string oldMsg = _message;
             
-            if (Bank + Credits > 0)
+            int total = Bank + Credits;
+            if (total > 0)
             {
                 if (!BoLib.performHandPay())
                 {
@@ -206,6 +208,7 @@ namespace PDTUtils.MVVM.ViewModels
                     return;
                 }
 
+                WriteToHandPayLog(total);
                 Credits = BoLib.getCredit();
                 Bank = BoLib.getBank();
                 this.RaisePropertyChangedEvent("Credits");
@@ -221,11 +224,39 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
         
+        void WriteToHandPayLog(int total)
+        {
+            string filename = Properties.Resources.hand_pay_log;
+
+            if (!File.Exists(filename))
+            {
+                using (StreamWriter sw = File.CreateText(filename))
+                {
+                    DateTime now = DateTime.Now;
+                    int amount = total;
+                    sw.Write(now.ToShortDateString() + " ");
+                    sw.Write(now.ToLongTimeString() + " ");
+                    sw.Write((Convert.ToDecimal(amount) / 100).ToString("C") + "\r\n");
+                }
+            }
+            else
+            {
+                using (StreamWriter sw = File.AppendText(filename))
+                {
+                    DateTime now = DateTime.Now;
+                    int amount = total;
+                    sw.Write(now.ToShortDateString() + " ");
+                    sw.Write(now.ToLongTimeString() + "\t\t");
+                    sw.Write((Convert.ToDecimal(amount)/100).ToString("C") + "\r\n");
+                }
+            }
+        }
+        
         public ICommand AddCreditSpecific
         {
             get { return new DelegateCommand(AddDenomButton); }
         }
-
+        
         void AddDenomButton(object button)
         {
             var b = button as Button;
@@ -239,7 +270,6 @@ namespace PDTUtils.MVVM.ViewModels
             else
                 Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
             
-            /*BoLib.addCredit(Pennies);*/
             BoLib.setUtilsAdd2CreditValue((uint)Pennies);
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();

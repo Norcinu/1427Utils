@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using PDTUtils.Native;
 
 namespace PDTUtils
@@ -159,25 +160,53 @@ namespace PDTUtils
 			throw new NotImplementedException();
 		}
 	}
-	
+
+    public class HandPayLog : BaseNotifyPropertyChanged
+    {
+        public string Time { get; set; }
+        public string Amount { get; set; }
+        //public string Operator { get; set; }
+
+        public HandPayLog()
+        {
+            Time = "";
+            Amount = "";
+            //    Operator = "";
+        }
+
+        public override void ParseGame(int gameNo)
+        {
+
+        }
+
+        public HandPayLog(string time, string amount)
+        {
+            Time = time;
+            Amount = amount;
+            OnPropertyChanged("HandPayLogs");
+        }
+    }
+    
 	public class MachineLogsController
 	{
 		ObservableCollection<MachineErrorLog> m_errorLog = new ObservableCollection<MachineErrorLog>();
 		ObservableCollection<WinningGame> m_winningGames = new ObservableCollection<WinningGame>();
 		ObservableCollection<PlayedGame> m_playedGames = new ObservableCollection<PlayedGame>();
         ObservableCollection<MachineErrorLog> m_warningLog = new ObservableCollection<MachineErrorLog>();
-
-		public MachineLogsController()
+        ObservableCollection<HandPayLog> m_handPayLog = new ObservableCollection<HandPayLog>();
+        
+        public MachineLogsController()
 		{
             IsLoaded = false;
 		}
-	
+        
 		#region Properties
         public bool IsLoaded { get; set; }
 		public ObservableCollection<MachineErrorLog> ErrorLog { get { return m_errorLog; } }
 		public ObservableCollection<WinningGame> WinningGames { get { return m_winningGames; } }
 		public ObservableCollection<PlayedGame> PlayedGames { get { return m_playedGames; } }
         public ObservableCollection<MachineErrorLog> WarningLog { get { return m_warningLog; } }
+        public ObservableCollection<HandPayLog> HandPayLogs { get { return m_handPayLog; } }
 		#endregion
 
 		public void setErrorLog()
@@ -226,7 +255,7 @@ namespace PDTUtils
 				Console.WriteLine(ex.Message);
 			}
 		}
-
+        
         public void setWarningLog()
         {
             string errLogLocation = @"D:\machine\GAME_DATA\TerminalWarningLog.log";
@@ -241,7 +270,7 @@ namespace PDTUtils
                     reveresed[ctr] = lines[i];
                     ctr++;
                 }
-
+                
                 foreach (string s in reveresed)
                 {
                     try
@@ -297,5 +326,21 @@ namespace PDTUtils
 				}
 			}
 		}
+        
+        public void setHandPayLog()
+        {
+            string filename = Properties.Resources.hand_pay_log;
+            using (FileStream fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (BufferedStream bs = new BufferedStream(fs))
+            using (StreamReader sr = new StreamReader(bs))
+            {
+                string line = "";
+                while ((line = sr.ReadLine()) != null)
+                {
+                    string[] tokens = line.Split("-".ToCharArray());
+                    HandPayLogs.Add(new HandPayLog(tokens[0] + " " + tokens[1], tokens[2]));
+                }
+            }
+        }
 	}
 }

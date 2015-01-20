@@ -1,9 +1,11 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
-using System;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -20,6 +22,9 @@ namespace PDTUtils.MVVM.ViewModels
         public System.Timers.Timer _emptyRightTimer;
         public System.Timers.Timer _refillTimer;
 
+        NumberFormatInfo _nfi;
+        CultureInfo _currentCulture;
+        
         #region Properties
         public bool EndRefill { get; set; }
         public bool NotRefilling { get; set; }        // Disabling tabs.
@@ -43,6 +48,8 @@ namespace PDTUtils.MVVM.ViewModels
         public string LargeHopper { get; set; }
         public string SmallHopper { get; set; }
         //public string MiddleHopper { get; set; } not needed atm.
+        public List<string> HopperList { get; set; }
+
         public string LeftRefillMsg 
         {
             get
@@ -78,33 +85,56 @@ namespace PDTUtils.MVVM.ViewModels
             LeftHopper = new HopperModel();
             RightHopper = new HopperModel();
             DumpSwitchMessage = "Empty Hopper";
-            this.RaisePropertyChangedEvent("DumpSwitchMessage");
-            SelectedTabIndex = 0;
             
+            SelectedTabIndex = 0;
+
+            if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
+                _currentCulture = new CultureInfo("es-ES");
+            else
+                _currentCulture = new CultureInfo("en-GB");
+
+            _nfi = _currentCulture.NumberFormat;
+
             LargeHopper = "£1 Hopper (LEFT)";
             SmallHopper = "10p Hopper (RIGHT)";
-            this.RaisePropertyChangedEvent("LargeHopper");
-            this.RaisePropertyChangedEvent("SmallHopper");
-            this.RaisePropertyChangedEvent("NotRefilling");
-            LeftRefillMsg = "0.00";//Left Hopper Coins Added: " + (0.00).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
-            RightRefillMsg = "0.00";//"Right Hopper Coins Added: " + (0.00).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
-            //this.RaisePropertyChangedEvent("LeftRefillMsg");
+            RaisePropertyChangedEvent("DumpSwitchMessage");
+            RaisePropertyChangedEvent("LargeHopper");
+            RaisePropertyChangedEvent("SmallHopper");
+            RaisePropertyChangedEvent("NotRefilling");
+
+            HopperList = new List<string>();
+            HopperList.Add("£1 Hopper (LEFT)");
+            HopperList.Add("10p Hopper (RIGHT)");
+            RaisePropertyChangedEvent("HopperList");
+            
+            decimal _initial = 0.00M;
+            try
+            {
+                LeftRefillMsg = "Left Hopper Coins Added: " + _initial.ToString("C", _nfi);
+                RightRefillMsg = "Right Hopper Coins Added: " + _initial.ToString("C", _nfi);
+            }
+            catch (FormatException)
+            {
+                LeftRefillMsg = _initial.ToString();
+                RightRefillMsg = _initial.ToString();
+            }
         }
         
         public ICommand ToggleRefillStatus
         {
             get { return new DelegateCommand(o => this.NotRefilling = !this.NotRefilling); }
         }
-
+        
         public void TabControlSelectionChanged(object sender)
         {
-            
-        }
 
-        public ICommand OnSelectionChanged { get { return new DelegateCommand(ComboBox_OnSelectionChanged); } }
+        }
+        
+        public ICommand ChkOnSelectionChanged { get { return new DelegateCommand(ComboBox_OnSelectionChanged); } }
         public void ComboBox_OnSelectionChanged(object sender)
         {
-            //e.Handled = true;
+            /*var sendee = sender as */
+            int i = 0;
         }
         
         public ICommand DoEmptyHopper
@@ -115,6 +145,7 @@ namespace PDTUtils.MVVM.ViewModels
         void EmptyHopper(object hopper)
         {
             var cb = hopper as ComboBox;
+            string value = cb.SelectedValue as string;
             bool dumpSwitchPressed = false;
             _emptyingHoppers = true;
 
@@ -131,20 +162,20 @@ namespace PDTUtils.MVVM.ViewModels
                     if (BoLib.getHopperDumpSwitchActive() > 0)
                     {
                         DumpSwitchMessage = "Press Coin Dump Button to Continue";
-                        this.RaisePropertyChangedEvent("DumpSwitchMessage");
+                        RaisePropertyChangedEvent("DumpSwitchMessage");
                         
                         if (BoLib.refillKeyStatus() > 0 && BoLib.getDoorStatus() > 0)
                         {
                             if (BoLib.getSwitchStatus(2, 0x20) > 0)
                             {
                                 DumpSwitchMessage = "Dump Button Pressed OK";
-                                this.RaisePropertyChangedEvent("DumpSwitchMessage");
+                                RaisePropertyChangedEvent("DumpSwitchMessage");
                                 dumpSwitchPressed = true;
                             }
                             Thread.Sleep(2);
                         }
                     }
-
+                    
                     if (BoLib.refillKeyStatus() > 0 && BoLib.getDoorStatus() > 0 && dumpSwitchPressed)
                     {
                         BoLib.setRequestEmptyLeftHopper();
@@ -175,7 +206,40 @@ namespace PDTUtils.MVVM.ViewModels
                     _emptyRightTimer = new System.Timers.Timer(100.0);
                     _emptyRightTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
                     {
-                        
+                        if (BoLib.getHopperDumpSwitchActive() > 0)
+                        {
+                            DumpSwitchMessage = "Press Coin Dump Button to Continue";
+                            this.RaisePropertyChangedEvent("DumpSwitchMessage");
+
+                            if (BoLib.refillKeyStatus() > 0 && BoLib.getDoorStatus() > 0)
+                            {
+                                if (BoLib.getSwitchStatus(2, 0x20) > 0)
+                                {
+                                    DumpSwitchMessage = "Dump Button Pressed OK";
+                                    RaisePropertyChangedEvent("DumpSwitchMessage");
+                                    dumpSwitchPressed = true;
+                                }
+                                Thread.Sleep(2);
+                            }
+                        }
+
+                        if (BoLib.refillKeyStatus() > 0 && BoLib.getDoorStatus() > 0 && dumpSwitchPressed)
+                        {
+                            BoLib.setRequestEmptyRightHopper();
+                            if (BoLib.getRequestEmptyRightHopper() > 0 && BoLib.getHopperFloatLevel(2) > 0)
+                            {
+                                Thread.Sleep(2);
+                                System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(2));
+                            }
+                            else if (BoLib.getHopperFloatLevel(2) == 0)
+                            {
+                                DumpSwitchMessage = "Hopper Empty";
+                                RaisePropertyChangedEvent("DumpSwitchMessage");
+                                var t = sender as System.Timers.Timer;
+                                t.Enabled = false;
+                                dumpSwitchPressed = false;
+                            }
+                        }
                     };
                 }
                 System.Diagnostics.Debug.WriteLine("SELECTED RIGHT HOPPER (10p)");

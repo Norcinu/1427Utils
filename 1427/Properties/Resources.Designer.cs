@@ -166,6 +166,15 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\HandPay.log.
+        /// </summary>
+        internal static string hand_pay_log {
+            get {
+                return ResourceManager.GetString("hand_pay_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D:\machine\.
         /// </summary>
         internal static string machine {

@@ -214,4 +214,8 @@
   <data name="esp_live_ini" xml:space="preserve">
     <value>D:\machine\EspLiveSettings.ini</value>
   </data>
+  <data name="hand_pay_log" xml:space="preserve">
+    <value>D:\machine\GAME_DATA\HandPay.log</value>
+    <comment>Hand Pay log</comment>
+  </data>
 </root>

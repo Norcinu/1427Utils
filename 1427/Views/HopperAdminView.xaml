@@ -15,7 +15,7 @@
 			<Setter Property="Control.BorderThickness" Value="2"/>
 		</Style>
 	</UserControl.Resources>
-		 
+    
 	<Grid>
 		<TabControl FontSize="18" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" SelectionChanged="cmbHoppers_SelectionChanged">
 			<TabItem Header="Info" MinWidth="250">
@@ -23,14 +23,16 @@
 			</TabItem>
 			
 			<TabItem Header="Empty" MinWidth="250" IsEnabled="{Binding NotRefilling}">
-				<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
-					<ComboBox x:Name="cmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top" FontSize="20" Margin="10" IsEditable="True">
-						<ComboBoxItem Content="{Binding LargeHopper}"/>
-						<ComboBoxItem Content="{Binding SmallHopper}"/>
+				<StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <ComboBox x:Name="cmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top" 
+                              FontSize="20" Margin="10" IsEditable="True" ItemsSource="{Binding HopperList}"
+                              IsSynchronizedWithCurrentItem="True">
+                        <!--<ComboBoxItem Content="{Binding}"/> Text="Select Hopper"
+						<ComboBoxItem Content="{Binding SmallHopper}"/>--> <!-- will spanish machines have 3 hoppers? -->
 					</ComboBox>
 					<TextBlock MinWidth="150" MinHeight="35" Margin="10" Name="txtSelHopper" FontSize="20"/>
-					<Label Content="{Binding DumpSwitchMessage}" Style="{StaticResource StdTextBlock}"/>
-					<Button MinWidth="150" Margin="10" FontSize="20"
+					<Label Margin="10" MinHeight="35" Content="{Binding DumpSwitchMessage}" Style="{StaticResource StdTextBlock}"/>
+					<Button Width="250" Height="35" Margin="10" FontSize="20"
 								Command="{Binding DoEmptyHopper}"
 								CommandParameter="{Binding ElementName=cmbHoppers}">Empty Hopper</Button>
 				</StackPanel>

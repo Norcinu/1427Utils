@@ -93,9 +93,9 @@ namespace PDTUtils.MVVM.ViewModels
 
         public ICommand ChangeHandPayThreshold
         {
-            get { return new DelegateCommand(DoChangeHandayThreshold); }
+            get { return new DelegateCommand(DoChangeHandPayThreshold); }
         }
-        public void DoChangeHandayThreshold(object o)
+        public void DoChangeHandPayThreshold(object o)
         {
             if (BoLib.getTerminalType() == BoLib.printer())
             {

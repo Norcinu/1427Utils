@@ -37,22 +37,22 @@ namespace PDTUtils.MVVM.ViewModels
                 nfi = new CultureInfo("es-ES").NumberFormat;
             else
                 nfi = new CultureInfo("en-GB").NumberFormat;
-
+            
             _longTerm.ReadMeter();
             _shortTerm.ReadMeter();
             _titoMeters.ReadMeter();
             
             NumberOfGamesLt = 0;
            
-            this.ReadPerformance();
-            this.ReadCashRecon();
- 
-            this.RaisePropertyChangedEvent("LongTerm");
-            this.RaisePropertyChangedEvent("ShortTerm");
-            this.RaisePropertyChangedEvent("TitoMeters");
-            this.RaisePropertyChangedEvent("NumberOfGames");
+            ReadPerformance();
+            ReadCashRecon();
+            
+            RaisePropertyChangedEvent("LongTerm");
+            RaisePropertyChangedEvent("ShortTerm");
+            RaisePropertyChangedEvent("TitoMeters");
+            RaisePropertyChangedEvent("NumberOfGames");
         }
-
+        
         public ICommand ClearShortTerms
         {
             get { return new DelegateCommand(o => ClearShortTermMeters()); }

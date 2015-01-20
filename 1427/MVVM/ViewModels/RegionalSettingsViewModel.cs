@@ -127,11 +127,12 @@ namespace PDTUtils.MVVM.ViewModels
                 _arcades.Add(new SpanishRegionalModel(_arcadeRegions[i], sr));
                 i++;
             }
+            
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
 
             SelectionChanged = false;
-        
-            LoadSettings();        
+
+            LoadSettings();
             
             RaisePropertyChangedEvent("EditableLiveRegion");
             RaisePropertyChangedEvent("Arcades");
@@ -260,6 +261,7 @@ namespace PDTUtils.MVVM.ViewModels
             if (setting.Equals("GameTime"))
             {
                 uint time = BoLib.getDefaultElement(Selected.Id, 9);
+                var bubbalar = (int)EditableLiveRegion.GameTime - time;
                 if ((int)(time - EditableLiveRegion.GameTime) < 3)
                 {
                     EditableLiveRegion.GameTime -= 3;
