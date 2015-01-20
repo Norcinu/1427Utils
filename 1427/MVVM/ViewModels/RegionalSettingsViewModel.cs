@@ -251,7 +251,10 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else if (setting.Equals("RTP") && _editableLiveRegion.Rtp < 10000)
                 _editableLiveRegion.Rtp += 100;
-            
+
+            SaveChanges();
+            LoadSettings();
+
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
         
@@ -273,6 +276,9 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if (_editableLiveRegion.Rtp <= 10000)
                     _editableLiveRegion.Rtp -= 100;
+
+                SaveChanges();
+                LoadSettings();
             }
             
             RaisePropertyChangedEvent("EditableLiveRegion");
