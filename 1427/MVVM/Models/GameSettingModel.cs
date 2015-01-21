@@ -19,6 +19,7 @@ namespace PDTUtils.MVVM.Models
         
         public bool Promo { get; set; }
         public uint ModelNumber { get; set; }
+        public uint StakeMask { get; set; }
         /*public string StakeOne { get; set; }
         public string StakeTwo { get; set; }
         public string StakeThree { get; set; }
@@ -51,6 +52,7 @@ namespace PDTUtils.MVVM.Models
             Active = false;
             Promo = false;
             ModelNumber = 0;
+            StakeMask = 0;
             /*StakeOne = "";
             StakeTwo = "";
             StakeThree = "";

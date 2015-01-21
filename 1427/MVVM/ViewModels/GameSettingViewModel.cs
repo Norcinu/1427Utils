@@ -51,7 +51,7 @@ namespace PDTUtils.MVVM.ViewModels
 
         #endregion
 
-        #region commands
+        #region Commands
         public ICommand SetGameOptions
         {
             get { return new DelegateCommand(o => AddGame()); }
@@ -63,9 +63,11 @@ namespace PDTUtils.MVVM.ViewModels
         }
         #endregion
 
-        string[] _fields = new string[17] {"Number", "Title", "Active", "Stake1", "Stake2", "Stake3",
-            "Stake4", "Stake5", "Stake6", "Stake7", "Stake8", "Stake9", "Stake10", "Promo", "ModelDirectory",
-            "Exe", "HashKey"
+        string[] _fields = new string[18] 
+        {
+            "Number", "Title", "Active", "Stake1", "Stake2", "Stake3", "Stake4", "Stake5", 
+            "Stake6", "Stake7", "Stake8", "Stake9", "Stake10", "StakeMask", "Promo", 
+            "ModelDirectory", "Exe", "HashKey"
         };
         
         public object chk;
@@ -84,7 +86,6 @@ namespace PDTUtils.MVVM.ViewModels
                 _currentCulture = new CultureInfo("en-GB");
             else
                 _currentCulture = new CultureInfo("es-ES");
-                //_currentCulture = CultureInfo.CurrentCulture;
 
             _nfi = _currentCulture.NumberFormat;
 
@@ -99,7 +100,7 @@ namespace PDTUtils.MVVM.ViewModels
                 
                 GameSettingModel m  = new GameSettingModel();
                 m.ModelNumber       = Convert.ToUInt32(models[0]);
-                m.Title             = models[1];
+                m.Title             = models[1].Trim(" \"".ToCharArray());
                 m.Active            = (models[2] == "True") ? true : false;
                 /*m.StakeOne          = (Convert.ToDecimal(models[3]) / 100).ToString("C", _nfi);
                 m.StakeTwo          = (Convert.ToDecimal(models[4]) / 100).ToString("C", _nfi);
@@ -111,6 +112,7 @@ namespace PDTUtils.MVVM.ViewModels
                 m.StakeEight        = (Convert.ToDecimal(models[10]) / 100).ToString("C", _nfi);
                 m.StakeNine         = (Convert.ToDecimal(models[11]) / 100).ToString("C", _nfi);
                 m.StakeTen          = (Convert.ToDecimal(models[12]) / 100).ToString("C", _nfi);*/
+                m.StakeMask         = (Convert.ToUInt32(models[9]));
                 m.Promo             = (models[10] == "True") ? true : false;
                 m.ModelDirectory    = models[11];
                 m.Exe               = models[12];
@@ -136,7 +138,7 @@ namespace PDTUtils.MVVM.ViewModels
                     /*NativeWinApi.WritePrivateProfileString(temp, _fields[3], (m.StakeOne * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[4], (m.StakeTwo * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[5], (m.StakeThree * 100).ToString(), _manifest);
-
+                    
                     NativeWinApi.WritePrivateProfileString(temp, _fields[6], (m.StakeFour * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[7], (m.StakeFive * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[8], (m.StakeSix * 100).ToString(), _manifest);
