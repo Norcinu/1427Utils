@@ -22,11 +22,12 @@ namespace PDTUtils.MVVM.ViewModels
             get { return _nfi; }
             set { _nfi = value; }
         }
+        
         private uint _numberOfGames = 0;
         private string _manifest = Properties.Resources.model_manifest;
         //private int _currentModelID = -1;
         #region properties
-        public int Count 
+        public int ActiveCount
         { 
             get { return _count; }
             set
@@ -48,6 +49,73 @@ namespace PDTUtils.MVVM.ViewModels
 
         public CultureInfo SettingsCulture { get { return _currentCulture; } }
         public IEnumerable<GameSettingModel> Settings { get { return _gameSettings; } }
+        int _selectedIndex;
+        public bool SelectionChanged { get; set; }
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set
+            {
+                _selectedIndex = value;
+                if (_selectedIndex >= 0)
+                {
+                    SelectedModelNumber = _gameSettings[_selectedIndex].ModelNumber.ToString();
+                    SelectedGameName = _gameSettings[_selectedIndex].Title;
+                }
+            }
+        }
+
+        public string SelectedGameName
+        {
+            get 
+            {
+                if (_selectedIndex == -1)
+                    return "";
+                return _gameSettings[SelectedIndex].Title; 
+            }
+            set
+            {
+                _gameSettings[SelectedIndex].Title = value;
+                RaisePropertyChangedEvent("SelectedGameName");
+            }
+        }
+        
+        public string SelectedModelNumber
+        {
+            get 
+            {
+                if (SelectedIndex == -1)
+                    return "";
+                return _gameSettings[SelectedIndex].ModelNumber.ToString();
+            }
+            set
+            {
+                _gameSettings[SelectedIndex].ModelNumber = Convert.ToUInt32(value);
+                RaisePropertyChangedEvent("SelectedModelNumber");
+            }
+        }
+        
+        int _numberOfPromos = 0;
+        public int NumberOfPromos
+        {
+            get { return _numberOfPromos; }
+            set
+            {
+                _numberOfPromos = value;
+                RaisePropertyChangedEvent("NumberOfPromos");
+            }
+        }
+
+        bool _isBritish = false;
+        public bool IsBritishMachine
+        {
+            get { return _isBritish; }
+            set
+            {
+                _isBritish = value;
+                RaisePropertyChangedEvent("IsBritishMachine");
+            }
+        }
 
         #endregion
 
@@ -74,6 +142,8 @@ namespace PDTUtils.MVVM.ViewModels
         
         public GameSettingViewModel()
         {
+            SelectedIndex = -1;
+            SelectionChanged = false;
             AddGame();
         }
         
@@ -88,7 +158,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _currentCulture = new CultureInfo("es-ES");
 
             _nfi = _currentCulture.NumberFormat;
-
+            
             string[] modelNumber;
             IniFileUtility.GetIniProfileSection(out modelNumber, "Models", _manifest, true);
             _numberOfGames = Convert.ToUInt32(modelNumber[0]);
@@ -102,13 +172,13 @@ namespace PDTUtils.MVVM.ViewModels
                 m.ModelNumber       = Convert.ToUInt32(models[0]);
                 m.Title             = models[1].Trim(" \"".ToCharArray());
                 m.Active            = (models[2] == "True") ? true : false;
-                /*m.StakeOne          = (Convert.ToDecimal(models[3]) / 100).ToString("C", _nfi);
-                m.StakeTwo          = (Convert.ToDecimal(models[4]) / 100).ToString("C", _nfi);
-                m.StakeThree        = (Convert.ToDecimal(models[5]) / 100).ToString("C", _nfi);
-                m.StakeFour         = (Convert.ToDecimal(models[6]) / 100).ToString("C", _nfi);
-                m.StakeFive         = (Convert.ToDecimal(models[7]) / 100).ToString("C", _nfi);
-                m.StakeSix          = (Convert.ToDecimal(models[8]) / 100).ToString("C", _nfi);
-                m.StakeSeven        = (Convert.ToDecimal(models[9]) / 100).ToString("C", _nfi);
+                m.StakeOne          = (Convert.ToDecimal(models[3]) / 100);//.ToString("C", _nfi);
+                m.StakeTwo          = (Convert.ToDecimal(models[4]) / 100);//.ToString("C", _nfi);
+                m.StakeThree        = (Convert.ToDecimal(models[5]) / 100);//.ToString("C", _nfi);
+                m.StakeFour         = (Convert.ToDecimal(models[6]) / 100);//.ToString("C", _nfi);
+                m.StakeFive         = (Convert.ToDecimal(models[7]) / 100);//.ToString("C", _nfi);
+                m.StakeSix          = (Convert.ToDecimal(models[8]) / 100);//.ToString("C", _nfi);
+                /*m.StakeSeven        = (Convert.ToDecimal(models[9]) / 100).ToString("C", _nfi);
                 m.StakeEight        = (Convert.ToDecimal(models[10]) / 100).ToString("C", _nfi);
                 m.StakeNine         = (Convert.ToDecimal(models[11]) / 100).ToString("C", _nfi);
                 m.StakeTen          = (Convert.ToDecimal(models[12]) / 100).ToString("C", _nfi);*/
@@ -120,7 +190,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _gameSettings.Add(m);
             }
         }
-        
+        //wing co
         public void SaveChanges()
         {
             if (_gameSettings.Count > 0)
@@ -135,7 +205,7 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[2], m.Active.ToString(), _manifest);
                     
                     //---- Prices of play
-                    /*NativeWinApi.WritePrivateProfileString(temp, _fields[3], (m.StakeOne * 100).ToString(), _manifest);
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[3], (m.StakeOne * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[4], (m.StakeTwo * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[5], (m.StakeThree * 100).ToString(), _manifest);
                     
@@ -143,7 +213,7 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[7], (m.StakeFive * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[8], (m.StakeSix * 100).ToString(), _manifest);
                     
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[9], (m.StakeSeven * 100).ToString(), _manifest);
+                    /*NativeWinApi.WritePrivateProfileString(temp, _fields[9], (m.StakeSeven * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[10], (m.StakeEight * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[11], (m.StakeNine * 100).ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[12], (m.StakeTen * 100).ToString(), _manifest);*/
@@ -155,17 +225,28 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-        
+
         public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive(chk)); } }
         public void DoToggleActive(object chk)
         {
-            
+            _gameSettings[SelectedIndex].Active = !_gameSettings[SelectedIndex].Active;
+            SaveChanges();
         }
         
-        public ICommand ToggleStake { get { return new DelegateCommand(o => DoToggleStake()); } }
-        void DoToggleStake()
+        public ICommand ToggleStake { get { return new DelegateCommand(DoToggleStake); } }
+        void DoToggleStake(object amount)
         {
-            System.Diagnostics.Debug.WriteLine("HELLO I'M JOHNNY CASH!");
+            int? a = amount as int?;
+            if (a == 25)
+                _gameSettings[SelectedIndex].StakeOne = a;
+            else if (a == 50)
+                _gameSettings[SelectedIndex].StakeTwo = a;
+            else if (a == 100)
+                _gameSettings[SelectedIndex].StakeThree = a;
+            else if (a == 200)
+                _gameSettings[SelectedIndex].StakeFour = a;
+
+            SaveChanges();
         }
     }
 }

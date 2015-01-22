@@ -108,15 +108,9 @@ unsigned long useTicketsMeter(int value)
 unsigned long useStakeInMeter(int meter)
 {
 	if (!meter)
-	{
-		OutputDebugString("SHORT TERM METER");
 		return GetReconciliationMeter(COIN_8_ST);
-	}
 	else
-	{
-		OutputDebugString("LONG TERM METER");
 		return GetReconciliationMeter(COIN_8_LT);
-	}
 }
 
 char *GetUniquePcbID(char TYPE)

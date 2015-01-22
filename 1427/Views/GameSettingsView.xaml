@@ -18,30 +18,90 @@
             <Setter Property="Control.FontSize" Value="24"/>
             <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
             <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Margin" Value="10,0,0,10" />
+            <Setter Property="Control.Background" Value="LightGray"/>
+            <Setter Property="Control.Width" Value="295"/>
+        </Style>
+        
+        <Style x:Key="StdCheckBox" TargetType="CheckBox">
+            <Setter Property="Control.FontSize" Value="24"/>
             <Setter Property="Control.Foreground" Value="Navy"/>
             <Setter Property="Control.Background" Value="LightGray"/>
-            <Setter Property="Control.MinWidth" Value="200"/>
+            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
         </Style>
     </UserControl.Resources>
 		
     <Grid>
         <StackPanel>
-            <ListView Width="300" ItemsSource="{Binding Settings}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Game Name" Width="295">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <ListView Width="300" ItemsSource="{Binding Settings}" SelectedIndex="{Binding SelectedIndex}" Margin="2,2,20,2" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Game Name" Width="290">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                
+                <StackPanel Margin="0,10,0,10">
+
+                    <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                            <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedGameName}" Margin="15,0,10,0"/>
+                            <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedModelNumber}" Margin="15,0,10,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,0">
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                            <CheckBox Margin="10,0,10,0">
+                                <TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Active Game</TextBox>
+                            </CheckBox>
+
+                            <CheckBox>
+                                <TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Promo Game</TextBox>
+                            </CheckBox>
+                        </StackPanel>
+                    </Border>
+                    <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2">
+                        <StackPanel Orientation="Horizontal" Margin="0,10,100,10">
+                            <CheckBox Margin="10,10,100,10" Command="{Binding ToggleStake}" CommandParameter="25">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                                <Label Content="25p" Style="{StaticResource StdHeaderLabel}" Width="50"/>
+                            </CheckBox>
+                            <CheckBox Margin="10,10,100,10" Command="{Binding ToggleStake}" CommandParameter="50">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                                <Label Content="50p" Style="{StaticResource StdHeaderLabel}" Width="50"/>
+                            </CheckBox>
+                            <CheckBox Margin="10,10,100,10" Command="{Binding ToggleStake}" CommandParameter="100">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                                <Label Content="£1" Style="{StaticResource StdHeaderLabel}" Width="50"/>
+                            </CheckBox>
+                            <CheckBox Margin="10,10,0,10" Command="{Binding ToggleStake}" CommandParameter="200">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                </CheckBox.LayoutTransform>
+                                <Label Content="£2" Style="{StaticResource StdHeaderLabel}" Width="50"/>
+                            </CheckBox>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
             
-            
-            <!--<ListView ItemsSource="{Binding Path=Settings}"  Width="500" HorizontalContentAlignment="Center" FontSize="20">
+            <!--<ListView ItemsSource="{Binding Path=Settings}" Width="500" HorizontalContentAlignment="Center" FontSize="20">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Game Name" Width="225" DisplayMemberBinding="{Binding Path=Title}"/>
@@ -70,7 +130,7 @@
 
             <Button Content="Load Game Settings" Width="150" Height="35" Command="{Binding SetGameOptions}" />
             <Button Content="Save Changes" Width="150" Height="35" Command="{Binding SaveGameOptions}" />
-
         </StackPanel>
+
     </Grid>
 </UserControl>
