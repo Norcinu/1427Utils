@@ -7,13 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1200">
         
-
+    
     <UserControl.Resources>
         <conv:IsEnglishCulture x:Key="IsEnglish"/>
         <conv:IsSpanishCulture x:Key="IsSpanish"/>
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
         <conv:ConvertStakeVisibility x:Key="StakeVis"/>
-
+        
         <Style x:Key="StdHeaderLabel" TargetType="Label">
             <Setter Property="Control.FontSize" Value="24"/>
             <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
@@ -32,7 +32,7 @@
             <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
         </Style>
     </UserControl.Resources>
-		
+        
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -53,14 +53,14 @@
                 <StackPanel Margin="0,10,0,10">
 
                     <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,0">
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10" HorizontalAlignment="Center">
                             <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedGameName}" Margin="15,0,10,0"/>
                             <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedModelNumber}" Margin="15,0,10,0"/>
                         </StackPanel>
                     </Border>
 
                     <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,0">
-                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,10"  HorizontalAlignment="Center">
                             <CheckBox Margin="10,0,10,0">
                                 <TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Active Game</TextBox>
                             </CheckBox>
@@ -70,21 +70,22 @@
                             </CheckBox>
                         </StackPanel>
                     </Border>
-                    <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2">
-                        <StackPanel Orientation="Horizontal" Margin="0,10,100,10">
+                    
+                    <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" Visibility="{Binding IsBritishMachine, Converter={StaticResource BoolToVis}}">
+                        <StackPanel Orientation="Horizontal" Margin="0,10,10,10"  HorizontalAlignment="Center">
                             <CheckBox Margin="10,10,100,10" Command="{Binding ToggleStake}" CommandParameter="25">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                                 <Label Content="25p" Style="{StaticResource StdHeaderLabel}" Width="50"/>
                             </CheckBox>
-                            <CheckBox Margin="10,10,100,10" Command="{Binding ToggleStake}" CommandParameter="50">
+                            <CheckBox Margin="10,10,10,10" Command="{Binding ToggleStake}" CommandParameter="50">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                                 <Label Content="50p" Style="{StaticResource StdHeaderLabel}" Width="50"/>
                             </CheckBox>
-                            <CheckBox Margin="10,10,100,10" Command="{Binding ToggleStake}" CommandParameter="100">
+                            <CheckBox Margin="10,10,10,10" Command="{Binding ToggleStake}" CommandParameter="100">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>

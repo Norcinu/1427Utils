@@ -329,17 +329,27 @@ namespace PDTUtils
         
         public void setHandPayLog()
         {
-            string filename = Properties.Resources.hand_pay_log;
-            using (FileStream fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (BufferedStream bs = new BufferedStream(fs))
-            using (StreamReader sr = new StreamReader(bs))
+            try
             {
-                string line = "";
-                while ((line = sr.ReadLine()) != null)
+                string filename = Properties.Resources.hand_pay_log;
+                if (!File.Exists(filename))
+                    File.Create(filename);
+
+                using (FileStream fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (BufferedStream bs = new BufferedStream(fs))
+                using (StreamReader sr = new StreamReader(bs))
                 {
-                    string[] tokens = line.Split("-".ToCharArray());
-                    HandPayLogs.Add(new HandPayLog(tokens[0] + " " + tokens[1], tokens[2]));
+                    string line = "";
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        string[] tokens = line.Split("-".ToCharArray());
+                        HandPayLogs.Add(new HandPayLog(tokens[0] + " " + tokens[1], tokens[2]));
+                    }
                 }
+            }
+            catch (Exception ex) // come back to this and pass message back to the user.
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
 	}

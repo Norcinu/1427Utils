@@ -105,7 +105,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("NumberOfPromos");
             }
         }
-
+        
         bool _isBritish = false;
         public bool IsBritishMachine
         {
@@ -116,7 +116,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("IsBritishMachine");
             }
         }
-
+        
         #endregion
 
         #region Commands
@@ -139,17 +139,21 @@ namespace PDTUtils.MVVM.ViewModels
         };
         
         public object chk;
-        
+         
         public GameSettingViewModel()
         {
             SelectedIndex = -1;
             SelectionChanged = false;
+            if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
+                IsBritishMachine = false;
+            else
+                IsBritishMachine = true;
             AddGame();
         }
         
         public void AddGame()
         {
-            if (_gameSettings.Count > 0)
+            if (_gameSettings.Count > 0)//good service my jacksy imo
                 _gameSettings.Clear();
 
             if (BoLib.getCountryCode() == BoLib.getUkCountryCodeB3() || BoLib.getCountryCode() == BoLib.getUkCountryCodeC())
@@ -172,16 +176,12 @@ namespace PDTUtils.MVVM.ViewModels
                 m.ModelNumber       = Convert.ToUInt32(models[0]);
                 m.Title             = models[1].Trim(" \"".ToCharArray());
                 m.Active            = (models[2] == "True") ? true : false;
-                m.StakeOne          = (Convert.ToDecimal(models[3]) / 100);//.ToString("C", _nfi);
-                m.StakeTwo          = (Convert.ToDecimal(models[4]) / 100);//.ToString("C", _nfi);
-                m.StakeThree        = (Convert.ToDecimal(models[5]) / 100);//.ToString("C", _nfi);
-                m.StakeFour         = (Convert.ToDecimal(models[6]) / 100);//.ToString("C", _nfi);
-                m.StakeFive         = (Convert.ToDecimal(models[7]) / 100);//.ToString("C", _nfi);
-                m.StakeSix          = (Convert.ToDecimal(models[8]) / 100);//.ToString("C", _nfi);
-                /*m.StakeSeven        = (Convert.ToDecimal(models[9]) / 100).ToString("C", _nfi);
-                m.StakeEight        = (Convert.ToDecimal(models[10]) / 100).ToString("C", _nfi);
-                m.StakeNine         = (Convert.ToDecimal(models[11]) / 100).ToString("C", _nfi);
-                m.StakeTen          = (Convert.ToDecimal(models[12]) / 100).ToString("C", _nfi);*/
+                m.StakeOne          = Convert.ToInt32(models[3]);
+                m.StakeTwo          = Convert.ToInt32(models[4]);
+                m.StakeThree        = Convert.ToInt32(models[5]);
+                m.StakeFour         = Convert.ToInt32(models[6]);
+                /*m.StakeFive         = Convert.ToInt32(models[7]);
+                m.StakeSix          = Convert.ToInt32(models[8]);*/
                 m.StakeMask         = (Convert.ToUInt32(models[9]));
                 m.Promo             = (models[10] == "True") ? true : false;
                 m.ModelDirectory    = models[11];
@@ -190,11 +190,26 @@ namespace PDTUtils.MVVM.ViewModels
                 _gameSettings.Add(m);
             }
         }
-        //wing co
+        
         public void SaveChanges()
         {
             if (_gameSettings.Count > 0)
             {
+                int promoCount = 0;
+                foreach (var g in _gameSettings)
+                {
+                    if (g.Promo && promoCount < 2)
+                        ++promoCount;
+                    else
+                        g.Promo = false;
+                }
+                //
+                if (promoCount == 0)
+                {
+                    Random r = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+                    _gameSettings[r.Next(_gameSettings.Count - 1)].Promo = true;
+                }
+                
                 for (int i = 0; i < _numberOfGames; i++)
                 {
                     var m = _gameSettings[i];
@@ -203,50 +218,48 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[1], m.Title, _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[2], m.Active.ToString(), _manifest);
-                    
-                    //---- Prices of play
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[3], (m.StakeOne * 100).ToString(), _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[4], (m.StakeTwo * 100).ToString(), _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[5], (m.StakeThree * 100).ToString(), _manifest);
-                    
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[6], (m.StakeFour * 100).ToString(), _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[7], (m.StakeFive * 100).ToString(), _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[8], (m.StakeSix * 100).ToString(), _manifest);
-                    
-                    /*NativeWinApi.WritePrivateProfileString(temp, _fields[9], (m.StakeSeven * 100).ToString(), _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[10], (m.StakeEight * 100).ToString(), _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[11], (m.StakeNine * 100).ToString(), _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[12], (m.StakeTen * 100).ToString(), _manifest);*/
-                    //---- End of prices of play
-                    
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[10], m.Promo.ToString(), _manifest);
 
+                    if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
+                    {
+                        //---- Prices of play
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[3], (m.StakeOne * 100).ToString(), _manifest);
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[4], (m.StakeTwo * 100).ToString(), _manifest);
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[5], (m.StakeThree * 100).ToString(), _manifest);
+
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[6], (m.StakeFour * 100).ToString(), _manifest);
+                    }
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[10], m.Promo.ToString(), _manifest);
+                    
                     IniFileUtility.HashFile(_manifest);
                 }
             }
         }
-
+        
         public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive(chk)); } }
         public void DoToggleActive(object chk)
         {
             _gameSettings[SelectedIndex].Active = !_gameSettings[SelectedIndex].Active;
-            SaveChanges();
         }
         
         public ICommand ToggleStake { get { return new DelegateCommand(DoToggleStake); } }
         void DoToggleStake(object amount)
         {
-            int? a = amount as int?;
-            if (a == 25)
-                _gameSettings[SelectedIndex].StakeOne = a;
-            else if (a == 50)
-                _gameSettings[SelectedIndex].StakeTwo = a;
-            else if (a == 100)
-                _gameSettings[SelectedIndex].StakeThree = a;
-            else if (a == 200)
-                _gameSettings[SelectedIndex].StakeFour = a;
-
-            SaveChanges();
+            if (SelectedIndex >= 0)
+            {
+                string str = amount as string;
+                if (str != "")
+                {
+                    int stake = Convert.ToInt32(amount);
+                    if (stake == 25)
+                        _gameSettings[SelectedIndex].StakeOne = (_gameSettings[SelectedIndex].StakeOne > 0) ? stake : 0;
+                    else if (stake == 50)
+                        _gameSettings[SelectedIndex].StakeTwo = (_gameSettings[SelectedIndex].StakeTwo > 0) ? stake : 0;
+                    else if (stake == 100)
+                        _gameSettings[SelectedIndex].StakeThree = (_gameSettings[SelectedIndex].StakeThree > 0) ? stake : 0;
+                    else if (stake == 200)
+                        _gameSettings[SelectedIndex].StakeFour = (_gameSettings[SelectedIndex].StakeFour > 0) ? stake : 0;
+                }
+            }
         }
     }
 }

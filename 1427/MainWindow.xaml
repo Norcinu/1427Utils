@@ -7,7 +7,7 @@
         xmlns:cv="clr-namespace:PDTUtils"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Background="{DynamicResource WindowBackgroundBrush}"
-        Title="1527 Shell Utilities"
+        Title="1525 Shell Utilities"
         Height="1080" 
         Width="1920" 
         Name="WindowMain" 

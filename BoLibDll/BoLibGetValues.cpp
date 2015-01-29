@@ -9,7 +9,7 @@
 #include "MD5.h"
 
 
-#define RELEASE_NUMBER	1527
+#define RELEASE_NUMBER	1525
 
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
@@ -156,10 +156,10 @@ int getSpainCountryCode()
 
 char *getCountryCodeStr()
 {
-	SetFileAction();
+	//SetFileAction();
 	char buffer[32] = {0};
 	GetPrivateProfileSection("CountryCode", buffer, 32, MACHINE_INI.c_str());
-	ClearFileAction();
+	//ClearFileAction();
 	country_code_buffer = "Country Code: ";
 	country_code_buffer += buffer[0];
 	return (char *)country_code_buffer.c_str();

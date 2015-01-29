@@ -127,14 +127,7 @@ namespace PDTUtils.MVVM.ViewModels
         
         public void TabControlSelectionChanged(object sender)
         {
-
-        }
-        
-        public ICommand ChkOnSelectionChanged { get { return new DelegateCommand(ComboBox_OnSelectionChanged); } }
-        public void ComboBox_OnSelectionChanged(object sender)
-        {
-            /*var sendee = sender as */
-            int i = 0;
+            
         }
         
         public ICommand DoEmptyHopper

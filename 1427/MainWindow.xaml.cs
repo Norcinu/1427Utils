@@ -217,10 +217,17 @@ namespace PDTUtils
                 
             if (m_keyDoorThread != null)
             {
-                if (m_keyDoorThread.IsAlive)
+                try
                 {
-                    m_keyDoorThread.Abort();
-                    m_keyDoorThread.Join();
+                    if (m_keyDoorThread.IsAlive)
+                    {
+                        //m_keyDoorThread.Abort();
+                        m_keyDoorThread.Join();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
             }
             

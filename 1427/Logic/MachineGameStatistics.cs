@@ -235,7 +235,7 @@ namespace PDTUtils
                 stats.Bets = (int)Bet;
                 stats.Wins = Win;
                 stats.Percentage = (Perc > 0) ? Perc.ToString() + "%" : "0.00%";
-                stats.ImageSource = (modelNo == 1524) ? @"D:\1527\BMP\GameIconS.png" : @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png";
+                stats.ImageSource = (modelNo == 1524) ? @"D:\1525\BMP\GameIconS.png" : @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png";
                 m_games.Add(stats);
             }
 

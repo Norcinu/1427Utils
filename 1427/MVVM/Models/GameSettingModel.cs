@@ -20,12 +20,12 @@ namespace PDTUtils.MVVM.Models
         public bool Promo { get; set; }
         public uint ModelNumber { get; set; }
         public uint StakeMask { get; set; }
-        public decimal StakeOne { get; set; }
-        public decimal StakeTwo { get; set; }
-        public decimal StakeThree { get; set; }
-        public decimal StakeFour { get; set; }
-        public decimal StakeFive { get; set; }
-        public decimal StakeSix { get; set; }
+        public int? StakeOne { get; set; }
+        public int? StakeTwo { get; set; }
+        public int? StakeThree { get; set; }
+        public int? StakeFour { get; set; }
+        public int? StakeFive { get; set; }
+        public int? StakeSix { get; set; }
         /*public string StakeSeven { get; set; }
         public string StakeEight { get; set; }
         public string StakeNine { get; set; }
@@ -83,7 +83,7 @@ namespace PDTUtils.MVVM.Models
                 this.StakeOne = "10";
             else
                 this.StakeOne = "0";
-
+            
             System.Diagnostics.Debug.WriteLine(this.StakeOne, "this.StakeOne = {0}");*/
         }
     }
