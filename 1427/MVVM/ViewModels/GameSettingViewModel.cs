@@ -13,6 +13,7 @@ namespace PDTUtils.MVVM.ViewModels
     {
         private readonly ObservableCollection<GameSettingModel> _gameSettings
             = new ObservableCollection<GameSettingModel>();
+        private readonly int[] _ukStakeValues = new int[4] { 25, 50, 100, 200 };        
         private int _count = 0;
         private string _errorText = "";
         private CultureInfo _currentCulture;
@@ -61,6 +62,12 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     SelectedModelNumber = _gameSettings[_selectedIndex].ModelNumber.ToString();
                     SelectedGameName = _gameSettings[_selectedIndex].Title;
+                    RaisePropertyChangedEvent("IsActiveGame");
+                    RaisePropertyChangedEvent("IsPromoGame");
+                    RaisePropertyChangedEvent("StakeOne");
+                    RaisePropertyChangedEvent("StakeTwo");
+                    RaisePropertyChangedEvent("StakeThree");
+                    RaisePropertyChangedEvent("StakeFour");
                 }
             }
         }
@@ -116,7 +123,137 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("IsBritishMachine");
             }
         }
-        
+
+        public bool IsActiveGame
+        {
+            get
+            {
+                if (SelectedIndex >= 0)
+                    return (bool)_gameSettings[SelectedIndex].Active;
+                else
+                    return false;
+            }
+            set
+            {
+                if (SelectedIndex >= 0)
+                {
+                    _gameSettings[SelectedIndex].Active = value;
+                    RaisePropertyChangedEvent("IsActiveGame");
+                }
+            }
+        }
+
+        public bool IsPromoGame
+        {
+            get
+            {
+                if (SelectedIndex >= 0)
+                    return _gameSettings[SelectedIndex].Promo;
+                else
+                    return false;
+            }
+            set
+            {
+                if (SelectedIndex >= 0)
+                {
+                    _gameSettings[SelectedIndex].Promo = value;
+                    RaisePropertyChangedEvent("IsPromoGame");
+                }
+            }
+        }
+
+        public bool StakeOne
+        {
+            get
+            {
+                if (SelectedIndex >= 0)
+                {
+                    if (_gameSettings[SelectedIndex].StakeOne > 0 && _gameSettings[SelectedIndex] != null)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            set
+            {
+                if (value && SelectedIndex >= 0)
+                    _gameSettings[SelectedIndex].StakeOne = _ukStakeValues[0];
+                else if (!value && SelectedIndex >= 0)
+                    _gameSettings[SelectedIndex].StakeOne = 0;
+            }
+        }
+
+        public bool StakeTwo
+        {
+            get
+            {
+                if (SelectedIndex >= 0)
+                {
+                    if (_gameSettings[SelectedIndex].StakeTwo > 0 && _gameSettings[SelectedIndex] != null)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            set
+            {
+                if (value && SelectedIndex >= 0)
+                    _gameSettings[SelectedIndex].StakeTwo = _ukStakeValues[1];
+                else if (!value && SelectedIndex >= 0)
+                    _gameSettings[SelectedIndex].StakeTwo = 0;
+            }
+        }
+
+        public bool StakeThree
+        {
+            get
+            {
+                if (SelectedIndex >= 0)
+                {
+                    if (_gameSettings[SelectedIndex].StakeThree > 0 && _gameSettings[SelectedIndex] != null)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            set
+            {
+                if (value && SelectedIndex >= 0)
+                    _gameSettings[SelectedIndex].StakeThree = _ukStakeValues[2];
+                else if (!value && SelectedIndex >= 0)
+                    _gameSettings[SelectedIndex].StakeThree = 0;
+            }
+        }
+
+        public bool StakeFour
+        {
+            get
+            {
+                if (SelectedIndex >= 0)
+                {
+                    if (_gameSettings[SelectedIndex].StakeFour > 0 && _gameSettings[SelectedIndex] != null)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    return false;
+            }
+            set
+            {
+                if (value && SelectedIndex >= 0)
+                    _gameSettings[SelectedIndex].StakeFour = _ukStakeValues[3];
+                else if (!value && SelectedIndex >= 0)
+                    _gameSettings[SelectedIndex].StakeFour = 0;
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -131,10 +268,10 @@ namespace PDTUtils.MVVM.ViewModels
         }
         #endregion
 
-        string[] _fields = new string[18] 
+        string[] _fields = new string[12] 
         {
-            "Number", "Title", "Active", "Stake1", "Stake2", "Stake3", "Stake4", "Stake5", 
-            "Stake6", "Stake7", "Stake8", "Stake9", "Stake10", "StakeMask", "Promo", 
+            "Number", "Title", "Active", "Stake1", "Stake2", "Stake3", "Stake4", /*"Stake5", 
+            "Stake6", "Stake7", "Stake8", "Stake9", "Stake10",*/ "StakeMask", "Promo", 
             "ModelDirectory", "Exe", "HashKey"
         };
         
@@ -142,18 +279,22 @@ namespace PDTUtils.MVVM.ViewModels
          
         public GameSettingViewModel()
         {
-            SelectedIndex = -1;
             SelectionChanged = false;
             if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
                 IsBritishMachine = false;
             else
                 IsBritishMachine = true;
             AddGame();
+
+            if (_gameSettings.Count > 0)
+                SelectedIndex = 0;
+            else
+                SelectedIndex = -1;
         }
         
         public void AddGame()
         {
-            if (_gameSettings.Count > 0)//good service my jacksy imo
+            if (_gameSettings.Count > 0)
                 _gameSettings.Clear();
 
             if (BoLib.getCountryCode() == BoLib.getUkCountryCodeB3() || BoLib.getCountryCode() == BoLib.getUkCountryCodeC())
@@ -179,9 +320,7 @@ namespace PDTUtils.MVVM.ViewModels
                 m.StakeOne          = Convert.ToInt32(models[3]);
                 m.StakeTwo          = Convert.ToInt32(models[4]);
                 m.StakeThree        = Convert.ToInt32(models[5]);
-                m.StakeFour         = Convert.ToInt32(models[6]);
-                /*m.StakeFive         = Convert.ToInt32(models[7]);
-                m.StakeSix          = Convert.ToInt32(models[8]);*/
+                m.StakeFour         = Convert.ToInt32(models[6]);                
                 m.StakeMask         = (Convert.ToUInt32(models[9]));
                 m.Promo             = (models[10] == "True") ? true : false;
                 m.ModelDirectory    = models[11];
@@ -200,14 +339,14 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     if (g.Promo && promoCount < 2)
                         ++promoCount;
-                    else
+                   else if (promoCount >= 2)
                         g.Promo = false;
                 }
-                //
+                
                 if (promoCount == 0)
                 {
                     Random r = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
-                    _gameSettings[r.Next(_gameSettings.Count - 1)].Promo = true;
+                    _gameSettings[r.Next(_gameSettings.Count)].Promo = true;
                 }
                 
                 for (int i = 0; i < _numberOfGames; i++)
@@ -218,18 +357,17 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[1], m.Title, _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[2], m.Active.ToString(), _manifest);
-
+                    
                     if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
                     {
-                        //---- Prices of play
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[3], (m.StakeOne * 100).ToString(), _manifest);
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[4], (m.StakeTwo * 100).ToString(), _manifest);
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[5], (m.StakeThree * 100).ToString(), _manifest);
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[3], m.StakeOne.ToString(), _manifest);
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[4], m.StakeTwo.ToString(), _manifest);
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[5], m.StakeThree.ToString(), _manifest);
 
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[6], (m.StakeFour * 100).ToString(), _manifest);
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[6], m.StakeFour.ToString(), _manifest);
                     }
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[10], m.Promo.ToString(), _manifest);
                     
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[8], m.Promo.ToString(), _manifest);
                     IniFileUtility.HashFile(_manifest);
                 }
             }

@@ -32,7 +32,7 @@
             <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
         </Style>
     </UserControl.Resources>
-        
+
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -42,7 +42,7 @@
                             <GridViewColumn Header="Game Name" Width="290">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}"/>
+                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}" Margin="5"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -51,47 +51,49 @@
                 </ListView>
                 
                 <StackPanel Margin="0,10,0,10">
-
+                    
                     <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,0">
                         <StackPanel Orientation="Horizontal" Margin="0,10,0,10" HorizontalAlignment="Center">
-                            <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedGameName}" Margin="15,0,10,0"/>
-                            <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedModelNumber}" Margin="15,0,10,0"/>
+                            <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedGameName}" Margin="35,0,10,0"/>
+                            <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedModelNumber}" Margin="55,0,10,0"/>
                         </StackPanel>
                     </Border>
 
                     <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,0">
                         <StackPanel Orientation="Horizontal" Margin="0,10,0,10"  HorizontalAlignment="Center">
-                            <CheckBox Margin="10,0,10,0">
-                                <TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Active Game</TextBox>
+                            <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsActiveGame, Mode=TwoWay}">
+                                <!--<TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Active Game</TextBox>-->
+                                <Label Style="{StaticResource StdHeaderLabel}" Content="Is Active Game" Margin="15,0,10,0"/>
                             </CheckBox>
 
-                            <CheckBox>
-                                <TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Promo Game</TextBox>
+                            <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsPromoGame, Mode=TwoWay}">
+                                <!--<TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Promo Game</TextBox>-->
+                                <Label Style="{StaticResource StdHeaderLabel}" Content="Is Promo Game" Margin="15,0,10,0"/>
                             </CheckBox>
                         </StackPanel>
                     </Border>
                     
                     <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" Visibility="{Binding IsBritishMachine, Converter={StaticResource BoolToVis}}">
-                        <StackPanel Orientation="Horizontal" Margin="0,10,10,10"  HorizontalAlignment="Center">
-                            <CheckBox Margin="10,10,100,10" Command="{Binding ToggleStake}" CommandParameter="25">
+                        <StackPanel Orientation="Horizontal" Margin="0,10,10,10" HorizontalAlignment="Center">
+                            <CheckBox Margin="10,10,100,10" IsChecked="{Binding StakeOne, Mode=TwoWay}">  <!--="{Binding ToggleStake}" CommandParameter="25">-->
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                                 <Label Content="25p" Style="{StaticResource StdHeaderLabel}" Width="50"/>
                             </CheckBox>
-                            <CheckBox Margin="10,10,10,10" Command="{Binding ToggleStake}" CommandParameter="50">
+                            <CheckBox Margin="10,10,10,10" IsChecked="{Binding StakeTwo, Mode=TwoWay}">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                                 <Label Content="50p" Style="{StaticResource StdHeaderLabel}" Width="50"/>
                             </CheckBox>
-                            <CheckBox Margin="10,10,10,10" Command="{Binding ToggleStake}" CommandParameter="100">
+                            <CheckBox Margin="10,10,10,10" IsChecked="{Binding StakeThree, Mode=TwoWay}">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
                                 <Label Content="£1" Style="{StaticResource StdHeaderLabel}" Width="50"/>
                             </CheckBox>
-                            <CheckBox Margin="10,10,0,10" Command="{Binding ToggleStake}" CommandParameter="200">
+                            <CheckBox Margin="10,10,0,10" IsChecked="{Binding StakeFour, Mode=TwoWay}">
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
@@ -129,8 +131,10 @@
                 </ListView.View>
             </ListView> -->
 
-            <Button Content="Load Game Settings" Width="150" Height="35" Command="{Binding SetGameOptions}" />
-            <Button Content="Save Changes" Width="150" Height="35" Command="{Binding SaveGameOptions}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <!--<Button Content="Load Game Settings" Width="200" Height="50" FontSize="24" Command="{Binding SetGameOptions}" Margin="10" />-->
+                <Button Content="Save Changes" Width="200" Height="50" FontSize="24" Command="{Binding SaveGameOptions}" Margin="10,50,10,10" />
+            </StackPanel>
         </StackPanel>
 
     </Grid>

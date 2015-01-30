@@ -5,7 +5,7 @@ namespace PDTUtils.MVVM.Models
 {
     class GameSettingModel
     {
-        public bool? Active
+        /*public bool? Active
         {
             get { return this._active; }
             set
@@ -15,8 +15,8 @@ namespace PDTUtils.MVVM.Models
                 else
                     this._active = value;
             }
-        }
-        
+        }*/
+        public bool Active { get; set; }       
         public bool Promo { get; set; }
         public uint ModelNumber { get; set; }
         public uint StakeMask { get; set; }
@@ -45,7 +45,7 @@ namespace PDTUtils.MVVM.Models
         public string Exe { get; set; }
         public string HashKey { get; set; }
 
-        private bool? _active;
+        //private bool? _active;
 
         public GameSettingModel()
         {
@@ -67,24 +67,6 @@ namespace PDTUtils.MVVM.Models
             ModelDirectory = "";
             Exe = "";
             HashKey = "";
-        }
-        
-        public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive()); } }
-        public void DoToggleActive()
-        {
-            this.Active = !!this.Active;
-            System.Diagnostics.Debug.WriteLine(this.Active, "this.Active = {0}");
-        }
-        
-        public ICommand ToggleStake { get { return new DelegateCommand(o => DoToggleStake()); } }
-        void DoToggleStake()
-        {
-            /*if (this.StakeOne == "")
-                this.StakeOne = "10";
-            else
-                this.StakeOne = "0";
-            
-            System.Diagnostics.Debug.WriteLine(this.StakeOne, "this.StakeOne = {0}");*/
         }
     }
 }
