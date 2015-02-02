@@ -85,6 +85,7 @@ namespace PDTUtils.Logic
         
 		/// <summary>
 		/// Read Machine and parse accordingly.
+        /// *** Refactor this to use the native INI functions ***
 		/// </summary>
 		/// <returns></returns>
         public bool ParseIni()

@@ -216,8 +216,12 @@ namespace PDTUtils.Native
        
        
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        public static extern int GetPrivateProfileSectionNames(IntPtr lpszReturnBuffer,
-                                                               uint nSize,
+        //public static extern int GetPrivateProfileSectionNames(IntPtr lpszReturnBuffer,
+        //                                                       uint nSize,
+        //                                                       string lpFileName);
+
+        public static extern int GetPrivateProfileSectionNames(byte[] lpszReturnBuffer, 
+                                                               int nSize, 
                                                                string lpFileName);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]

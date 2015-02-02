@@ -300,7 +300,7 @@ namespace PDTUtils
             var l = sender as ListView;
             var c = l.Items[l.SelectedIndex] as IniElement;
             var items = l.ItemsSource;
-         //   MessageBox.Show(this.TabSetup.Items[0].ToString());
+
             IniSettingsWindow w = new IniSettingsWindow(c.Field, c.Value);
             if (w.ShowDialog() == false)
             {

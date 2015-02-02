@@ -8,16 +8,16 @@
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         Background="{DynamicResource WindowBackgroundBrush}"
         Title="1525 Shell Utilities"
-        Height="1080" 
-        Width="1920" 
-        Name="WindowMain" 
-        WindowStyle="None" 
+        Height="1080"
+        Width="1920"
+        Name="WindowMain"
+        WindowStyle="None"
         Loaded="WindowMain_Loaded"
-        WindowState="Maximized" 
-        Closing="WindowMain_Closing" 
-        Foreground="#FF837C7C"  
-        ResizeMode="NoResize" 
-        WindowStartupLocation="CenterScreen" 
+        WindowState="Maximized"
+        Closing="WindowMain_Closing"
+        Foreground="#FF837C7C"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         SizeToContent="Manual">
 		
 <!-- 
@@ -385,6 +385,9 @@
 				</TabControl>
 			</TabItem>
 
+            <TabItem Header="Birth Cert" MinWidth="100">
+                <view:BirthCertView />
+            </TabItem>
             <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100"> <!--IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}">-->
                 <!--Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">

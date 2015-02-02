@@ -197,7 +197,7 @@ namespace PDTUtils
                 ret = false;
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
-            return ret;   /*((decimal)value == 0) ? false : true;*/
+            return ret;
         }
         
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

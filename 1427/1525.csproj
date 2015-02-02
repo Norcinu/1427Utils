@@ -89,6 +89,7 @@
     <Compile Include="Logic\IniFileUtility.cs" />
     <Compile Include="Logic\TouchScreenKeyboard.cs" />
     <Compile Include="MVVM\IMessageBoxService.cs" />
+    <Compile Include="MVVM\Models\BirthCertModel.cs" />
     <Compile Include="MVVM\Models\CashReconiliation.cs" />
     <Compile Include="MVVM\Models\CreditModel.cs" />
     <Compile Include="MVVM\Models\DiagnosticModel.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="MVVM\Models\RegionalSettingsModel.cs" />
     <Compile Include="MVVM\Models\ScreenshotModel.cs" />
     <Compile Include="MVVM\ObservableObject.cs" />
+    <Compile Include="MVVM\ViewModels\BirthCertViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CreditManagementViewModel.cs" />
     <Compile Include="MVVM\ViewModels\DiagnosticViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GeneralSettingsViewModel.cs" />
@@ -135,6 +137,9 @@
     <Compile Include="CommandBehaviours\SimpleCommand.cs" />
     <Compile Include="TestSuiteWindow.xaml.cs">
       <DependentUpon>TestSuiteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BirthCertView.xaml.cs">
+      <DependentUpon>BirthCertView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CreditManagementView.xaml.cs">
       <DependentUpon>CreditManagementView.xaml</DependentUpon>
@@ -221,6 +226,10 @@
     <Page Include="Theme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BirthCertView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CreditManagementView.xaml">
       <SubType>Designer</SubType>

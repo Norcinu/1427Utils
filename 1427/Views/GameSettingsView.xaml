@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1200">
         
-    
+        
     <UserControl.Resources>
         <conv:IsEnglishCulture x:Key="IsEnglish"/>
         <conv:IsSpanishCulture x:Key="IsSpanish"/>
@@ -32,7 +32,7 @@
             <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
         </Style>
     </UserControl.Resources>
-
+        
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -42,16 +42,16 @@
                             <GridViewColumn Header="Game Name" Width="290">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}" Margin="5"/>
+                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}" Margin="15" BorderBrush="Black" BorderThickness="2" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                         </GridView>
                     </ListView.View>
                 </ListView>
-                
+
                 <StackPanel Margin="0,10,0,10">
-                    
+
                     <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,0">
                         <StackPanel Orientation="Horizontal" Margin="0,10,0,10" HorizontalAlignment="Center">
                             <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedGameName}" Margin="35,0,10,0"/>
@@ -72,10 +72,12 @@
                             </CheckBox>
                         </StackPanel>
                     </Border>
-                    
-                    <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" Visibility="{Binding IsBritishMachine, Converter={StaticResource BoolToVis}}">
+
+                    <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" Visibility="{Binding IsBritishMachine, 
+                        Converter={StaticResource BoolToVis}}">
                         <StackPanel Orientation="Horizontal" Margin="0,10,10,10" HorizontalAlignment="Center">
-                            <CheckBox Margin="10,10,100,10" IsChecked="{Binding StakeOne, Mode=TwoWay}">  <!--="{Binding ToggleStake}" CommandParameter="25">-->
+                            <CheckBox Margin="10,10,100,10" IsChecked="{Binding StakeOne, Mode=TwoWay}">
+                                <!--="{Binding ToggleStake}" CommandParameter="25">-->
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                 </CheckBox.LayoutTransform>
