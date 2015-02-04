@@ -21,7 +21,7 @@ namespace PDTUtils.MVVM.ViewModels
         public System.Timers.Timer _emptyLeftTimer;
         public System.Timers.Timer _emptyRightTimer;
         public System.Timers.Timer _refillTimer;
-
+        
         NumberFormatInfo _nfi;
         CultureInfo _currentCulture;
         
@@ -75,8 +75,10 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
 
-        #endregion
+        public bool AreWeRefilling { get; set; }
 
+        #endregion
+        
         public HopperViewModel()
         {
             EndRefill = false;
@@ -85,7 +87,7 @@ namespace PDTUtils.MVVM.ViewModels
             LeftHopper = new HopperModel();
             RightHopper = new HopperModel();
             DumpSwitchMessage = "Empty Hopper";
-            
+            AreWeRefilling = false;    
             SelectedTabIndex = 0;
 
             if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
@@ -94,17 +96,21 @@ namespace PDTUtils.MVVM.ViewModels
                 _currentCulture = new CultureInfo("en-GB");
 
             _nfi = _currentCulture.NumberFormat;
-
+            
             LargeHopper = "£1 Hopper (LEFT)";
             SmallHopper = "10p Hopper (RIGHT)";
+            
             RaisePropertyChangedEvent("DumpSwitchMessage");
             RaisePropertyChangedEvent("LargeHopper");
             RaisePropertyChangedEvent("SmallHopper");
             RaisePropertyChangedEvent("NotRefilling");
+            RaisePropertyChangedEvent("AreWeReflling");
 
             HopperList = new List<string>();
-            HopperList.Add("£1 Hopper (LEFT)");
-            HopperList.Add("10p Hopper (RIGHT)");
+            string leftHopperText = (BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "LEFT SPAIN HOPPER" : "£1 Hopper (LEFT)";
+            string rightHopperText = (BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "RIGHT SPANISH HOPPER" : "£2 Hopper (RIGHT)";
+            HopperList.Add(leftHopperText);
+            HopperList.Add(rightHopperText);
             RaisePropertyChangedEvent("HopperList");
             
             decimal _initial = 0.00M;

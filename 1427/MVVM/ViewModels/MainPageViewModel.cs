@@ -269,12 +269,15 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else
                 Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
-            
-            BoLib.setUtilsAdd2CreditValue((uint)Pennies);
+
+            var ___pennies = (uint)Pennies;
+            BoLib.setUtilsAdd2CreditValue(___pennies);// (uint)Pennies);
+            BoLib.setRequestUtilsAdd2Credit();
+            System.Threading.Thread.Sleep(250);
             Credits = BoLib.getCredit();
-            Bank = BoLib.getBank();
-            this.RaisePropertyChangedEvent("Credits");
-            this.RaisePropertyChangedEvent("Bank");
+            Bank = BoLib.getBank(); 
+            RaisePropertyChangedEvent("Credits");
+            RaisePropertyChangedEvent("Bank");
         }
         
         public ICommand CancelHandPay

@@ -58,6 +58,9 @@
   <PropertyGroup>
     <StartupObject>PDTUtils.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="PresentationBuildTasks" />
@@ -354,6 +357,9 @@
       <Project>{43D33559-0084-4250-AE6D-E38753097A57}</Project>
       <Name>PDTUtilsControlLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

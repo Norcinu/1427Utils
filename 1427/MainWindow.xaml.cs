@@ -45,10 +45,9 @@ namespace PDTUtils
             {
                 InitialiseBoLib();
                 InitializeComponent();
-                
                 Random r = new Random();
                 CultureInfo ci = null;
-                
+                //novamatic... the fuck bruv?
                 if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
                     ci = new CultureInfo("es-ES");
                 else
@@ -67,7 +66,7 @@ namespace PDTUtils
             
             RowOne.Height = new GridLength(75);
             ColumnOne.Width = new GridLength(200);
-            this.Loaded += new RoutedEventHandler(WindowMain_Loaded);
+            Loaded += new RoutedEventHandler(WindowMain_Loaded);
             FullyLoaded = true;
         }
 		

@@ -17,7 +17,7 @@ namespace PDTUtils.MVVM.ViewModels
         }
 
         public ObservableCollection<BirthCertModel> Values { get { return _values; } }
-        
+
         public ICommand Parse { get { return new DelegateCommand(o => ParseIni()); } }
         void ParseIni()
         {
@@ -34,10 +34,6 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
             RaisePropertyChangedEvent("Values");
-        }
-        
-        public void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
         }
     }
 }

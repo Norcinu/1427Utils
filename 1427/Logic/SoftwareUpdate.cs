@@ -87,14 +87,14 @@ namespace PDTUtils
 		public void DoRollBack(object o, RoutedEventArgs e)
 		{
             LogText += "Performing RollBack.\r\n----------------------------\r\n";
-            this.OnPropertyChanged("LogText");
+            OnPropertyChanged("LogText");
             FileCount = 0;
             FilesToUpdate.Clear();
             FilesNotCopied.Clear();
             HasUpdateFinished = false;
             HasUpdateStarted = false;
-            this.OnPropertyChanged("HasUpdateFinished");
-            this.OnPropertyChanged("HasUpdateStarted");
+            OnPropertyChanged("HasUpdateFinished");
+            OnPropertyChanged("HasUpdateStarted");
 		}
         
         public void DoSoftwareUpdatePreparation(object o, ExecutedRoutedEventArgs e)
@@ -105,7 +105,7 @@ namespace PDTUtils
                 if (File.Exists(m_updateIni))
                 {
                     HasUpdateStarted = true;
-                    this.OnPropertyChanged("HasUpdateStarted");
+                    OnPropertyChanged("HasUpdateStarted");
                     
                     string[] folders_section = null;
                     string[] files_section = null;
@@ -122,30 +122,30 @@ namespace PDTUtils
                         return;
                     
                     LogText = String.Format("Finding Files. {0} Total Files.\r\n", files_section.Length);
-                    this.OnPropertyChanged("LogText");
+                    OnPropertyChanged("LogText");
 
                     foreach (var str in files_section)
                     {
                         var ret = GetImagePathString(str);
                         FilesToUpdate.Add(new FileImpl(str, ret, true));
                         FileCount++;
-                        this.OnPropertyChanged("UpdateFiles");
+                        OnPropertyChanged("UpdateFiles");
                     }
 
                     LogText += String.Format("Finding Folders. {0} Total Folders.\r\n", folders_section.Length);
-                    this.OnPropertyChanged("LogText");
+                    OnPropertyChanged("LogText");
 
                     foreach (var str in folders_section)
                     {
                         var ret = GetImagePathString(str);
                         FilesToUpdate.Add(new FileImpl(str, ret, false));
                         FileCount++;
-                        this.OnPropertyChanged("UpdateFiles");
+                        OnPropertyChanged("UpdateFiles");
                     }
                     
                     LogText += "Backup Created.\r\n----------------------------\r\n";
-                    this.OnPropertyChanged("LogText");
-                    this.OnPropertyChanged("UpdateFiles");
+                    OnPropertyChanged("LogText");
+                    OnPropertyChanged("UpdateFiles");
                 }
             }
             else
@@ -155,7 +155,7 @@ namespace PDTUtils
         private void SetNoUSBDriveMessage()
         {
             LogText = "USB Update Not Found.\r\nPlease connect USB device and try again.\r\n";
-            this.OnPropertyChanged("LogText");
+            OnPropertyChanged("LogText");
         }
 	    
 		public void DoSoftwareUpdate(object o, RoutedEventArgs e)
@@ -197,8 +197,8 @@ namespace PDTUtils
 					{
 						var ret = GetImagePathString(str);
 						FilesToUpdate.Add(new FileImpl(str, ret, false));
-                        new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(@"e:\1111", @"d:\1111_VB", true);
-                        //DoCopyDirectory(str, 0);
+                        //new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(@"e:\1111", @"d:\1111_VB", true);
+                        DoCopyDirectory(str, 0);
 					}
 
                     // Move old files back.
@@ -207,8 +207,8 @@ namespace PDTUtils
                     // Move old files back.
                     
                     HasUpdateFinished = true;
-                    this.OnPropertyChanged("HasUpdateFinished");
-					this.OnPropertyChanged("UpdateFiles");
+                    OnPropertyChanged("HasUpdateFinished");
+					OnPropertyChanged("UpdateFiles");
                     
                     CleanUp();
 				}
@@ -231,7 +231,7 @@ namespace PDTUtils
                 catch (Exception ex)
                 {
                     LogText = ex.Message;
-                    this.OnPropertyChanged("LogText");
+                    OnPropertyChanged("LogText");
                 }
             }
             
@@ -367,7 +367,7 @@ namespace PDTUtils
 			}
 			return false;
 		}
-        //hahahaha he rang them up
+        
 		bool DoCopyDirectory(string path, int dirFlag)
 		{
 			string source_folder = m_updateDrive + path;
@@ -455,7 +455,6 @@ namespace PDTUtils
 			return true;
 		}
 
-		//its about not letting sadness win. but i got pictures in a draw.
 		void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destination_folder)
 		{
 			try 
@@ -493,9 +492,9 @@ namespace PDTUtils
 			FilesToUpdate.Clear();
 			FilesNotCopied.Clear();
             LogText = "";
-            this.OnPropertyChanged("LogText");
-            this.OnPropertyChanged("HasUpdateStarted");
-            this.OnPropertyChanged("HasUpdateFinished"); 
+            OnPropertyChanged("LogText");
+            OnPropertyChanged("HasUpdateStarted");
+            OnPropertyChanged("HasUpdateFinished"); 
 		}
 		
 		public void DeleteRollBack()
@@ -513,17 +512,12 @@ namespace PDTUtils
 				return;
 			BoLib.clearFileAction();
 		}
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="e"></param>
+        
         public void DoSaveReboot(object o, ExecutedRoutedEventArgs e)
         {
             LogText = "Restarting Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
-            this.OnPropertyChanged("LogText");
+            OnPropertyChanged("LogText");
             DiskCommit.SaveAndReboot();
         }
 	}
 }
-

@@ -667,9 +667,12 @@ char *ErrorCodes[55] =
 	"NV Recycler Emptied",
 	""
 };
-
+//one two one two the atari crew. look ramjam you have no business coming over here so fuck off, yeah?
 char *getErrorMessage(char *str, int code)
 {
+	if (code >= 55)
+		return "Unknown Error";
+	
 	auto length = strlen(ErrorCodes[code]) + 1;
 	strcpy_s(str, length, ErrorCodes[code]);
 	return str;

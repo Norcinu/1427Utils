@@ -21,32 +21,34 @@
 			<TabItem Header="Info" MinWidth="250">
 				
 			</TabItem>
-			
-			<TabItem Header="Empty" MinWidth="250" IsEnabled="{Binding NotRefilling}">
-				<StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+            
+            <TabItem Header="Empty" MinWidth="250" IsEnabled="{Binding NotRefilling}">
+                <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Stretch" Background="AliceBlue">
                     <ComboBox x:Name="cmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top" 
                               FontSize="20" Margin="10" IsEditable="True" ItemsSource="{Binding HopperList}"
                               IsSynchronizedWithCurrentItem="True">
                         <!--<ComboBoxItem Content="{Binding}"/> Text="Select Hopper"
-						<ComboBoxItem Content="{Binding SmallHopper}"/>--> <!-- will spanish machines have 3 hoppers? -->
-					</ComboBox>
-					<TextBlock MinWidth="150" MinHeight="35" Margin="10" Name="txtSelHopper" FontSize="20"/>
-					<Label Margin="10" MinHeight="35" Content="{Binding DumpSwitchMessage}" Style="{StaticResource StdTextBlock}"/>
-					<Button Width="250" Height="35" Margin="10" FontSize="20"
-								Command="{Binding DoEmptyHopper}"
-								CommandParameter="{Binding ElementName=cmbHoppers}">Empty Hopper</Button>
-				</StackPanel>
-			</TabItem>
-				 
-			<TabItem Header="Refill" MinWidth="250" FontSize="20" IsEnabled="{Binding NotRefilling}">
-				<StackPanel HorizontalAlignment="Center">
+						<ComboBoxItem Content="{Binding SmallHopper}"/>-->
+                        <!-- will spanish machines have 3 hoppers? -->
+                    </ComboBox>
+                    
+                    <TextBlock MinWidth="150" MinHeight="35" Margin="10" Name="txtSelHopper" FontSize="20"/>
+                    <Label Margin="10" MinHeight="35" Content="{Binding DumpSwitchMessage}" Style="{StaticResource StdTextBlock}"/>
+                    <Button Width="250" Height="35" Margin="10" FontSize="20"
+						    Command="{Binding DoEmptyHopper}"
+							CommandParameter="{Binding ElementName=cmbHoppers}">Empty Hopper</Button>
+                </StackPanel>
+            </TabItem>
+                
+            <TabItem Header="Refill" MinWidth="250" FontSize="20" IsEnabled="{Binding NotRefilling}">
+				<StackPanel HorizontalAlignment="Center" Background="AliceBlue">
 					<Label FontSize="28" Background="AliceBlue" Foreground="DarkOrchid" HorizontalAlignment="Center">Refill Hoppers</Label>
-					<Label>Total Coins Added: £</Label>
-					<Label Content="{Binding LeftRefillMsg}" IsEnabled="{Binding AreWeRefilling}"/>
-					<Label Content="{Binding RightRefillMsg}"/>
+					<Label Margin="5">Total Coins Added: £</Label>
+					<Label Margin="5" Content="{Binding LeftRefillMsg}" IsEnabled="{Binding AreWeRefilling}"/>
+					<Label Margin="5" Content="{Binding RightRefillMsg}" IsEnabled="{Binding AreWeRefilling}"/>
 					<StackPanel Orientation="Horizontal">
-						<Button Margin="25" Width="150" Command="{Binding RefillHopper}">Refill Hopper</Button>
-						<Button Margin="25" Width="150" Command="{Binding EndRefillCommand}">Stop Refill</Button>
+						<Button Margin="25" Width="160" Height="35" FontSize="24" Command="{Binding RefillHopper}">Refill Hopper</Button>
+						<Button Margin="25" Width="160" Height="35" FontSize="24" Command="{Binding EndRefillCommand}">Stop Refill</Button>
 					</StackPanel>
 				</StackPanel>
 			</TabItem>
