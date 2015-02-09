@@ -123,7 +123,7 @@ namespace PDTUtils
                     
                     LogText = String.Format("Finding Files. {0} Total Files.\r\n", files_section.Length);
                     OnPropertyChanged("LogText");
-
+                    
                     foreach (var str in files_section)
                     {
                         var ret = GetImagePathString(str);

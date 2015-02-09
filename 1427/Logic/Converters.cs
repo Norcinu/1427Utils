@@ -50,12 +50,14 @@ namespace PDTUtils
 				return @Resources.FILE_TYPE_INI;
 			else if (str.ToString().Contains(".exe") == true)
 				return @Resources.FILE_TYPE_EXE;
+            else if (str.ToString().Contains(".raw") == true)
+                return @Resources.FILE_TYPE_RAW;
 			else
 				return @Resources.FILE_TYPE_UNKNOWN;
 		}
 
 		public object ConvertBack(object value, Type targetType, 
-										   object parameter, CultureInfo culture)
+                                  object parameter, CultureInfo culture)
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
@@ -64,13 +66,13 @@ namespace PDTUtils
 	public class CheckStringIsFileOrPath : IValueConverter
 	{
 		public object Convert(object value, Type targetType, 
-									   object parameter, CultureInfo culture)
+							  object parameter, CultureInfo culture)
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
 
 		public object ConvertBack(object value, Type targetType, 
-										   object parameter, CultureInfo culture)
+				                  object parameter, CultureInfo culture)
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}
@@ -165,7 +167,7 @@ namespace PDTUtils
 
 			return (bool)value ? TrueValue : FalseValue;
 		}
-
+        
 		public object ConvertBack(object value, Type targetType,
 								  object parameter, CultureInfo culture)
 		{
@@ -176,6 +178,39 @@ namespace PDTUtils
 			return null;
 		}
 	}
+
+    [ValueConversion(typeof(bool), typeof(Visibility))]
+    public sealed class FalseToHiddenConv : IValueConverter
+    {
+        public bool Reverse { get; set; }
+        public Visibility TrueValue { get; set; }
+        public Visibility FalseValue { get; set; }
+
+        public FalseToHiddenConv()
+        {
+            TrueValue = Visibility.Visible;
+            FalseValue = Visibility.Collapsed;
+        }
+
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            if (!(value is bool))
+                return null;
+
+            return !(bool)value ? TrueValue : FalseValue;
+        }
+
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            if (Equals(value, TrueValue))
+                return true;
+            if (Equals(value, FalseValue))
+                return false;
+            return null;
+        }
+    }
     
     [ValueConversion(typeof(decimal), typeof(Visibility))]
     public sealed class ConvertStakeVisibility : IValueConverter

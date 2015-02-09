@@ -180,22 +180,22 @@
     <value>..\Resources\volume.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="FILE_TYPE_EXE" xml:space="preserve">
-    <value>D:\1525\bmp\exe.bmp</value>
+    <value>D:\1525\bmp\exe.png</value>
   </data>
   <data name="FILE_TYPE_FOLDER" xml:space="preserve">
-    <value>D:\1525\bmp\folder.bmp</value>
+    <value>D:\1525\bmp\folder.png</value>
   </data>
   <data name="FILE_TYPE_IMG" xml:space="preserve">
-    <value>D:\1525\bmp\bitmap.bmp</value>
+    <value>D:\1525\bmp\png.png</value>
   </data>
   <data name="FILE_TYPE_INI" xml:space="preserve">
-    <value>D:\1525\bmp\ini.bmp</value>
+    <value>D:\1525\bmp\ini.png</value>
   </data>
   <data name="FILE_TYPE_UNKNOWN" xml:space="preserve">
-    <value>D:\1525\bmp\unknown.bmp</value>
+    <value>D:\1525\bmp\unknown.png</value>
   </data>
   <data name="FILE_TYPE_WAV" xml:space="preserve">
-    <value>D:\1525\bmp\wav.bmp</value>
+    <value>D:\1525\bmp\wav.png</value>
   </data>
   <data name="model_manifest" xml:space="preserve">
     <value>D:\machine\ModelManifest.ini</value>
@@ -218,8 +218,10 @@
     <value>D:\machine\GAME_DATA\HandPay.log</value>
     <comment>Hand Pay log</comment>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Icon1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Icon1.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FILE_TYPE_RAW" xml:space="preserve">
+    <value>D:\1525\bmp\raw.png</value>
   </data>
 </root>

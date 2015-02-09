@@ -101,8 +101,8 @@ namespace PDTUtils
 							{
 								m_doorStatus = false;
 								m_hasChanged = true;
-								this.OnPropertyChanged("DoorStatus");
-								this.OnPropertyChanged("IsDoorClosed");
+								OnPropertyChanged("DoorStatus");
+								OnPropertyChanged("IsDoorClosed");
 							}
 						}
 						else
@@ -111,8 +111,8 @@ namespace PDTUtils
 							{
 								m_doorStatus = true;
 								m_hasChanged = true;
-								this.OnPropertyChanged("DoorStatus");
-								this.OnPropertyChanged("IsDoorClosed");
+								OnPropertyChanged("DoorStatus");
+								OnPropertyChanged("IsDoorClosed");
 							}
 						}
 					}

@@ -48,6 +48,7 @@
 	<Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
 		<Grid.Resources>
 			<BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+            <cv:FalseToHiddenConv x:Key="FalseToVis" />
 			<cv:ConvertScreenHeight x:Key="ScaleScreenHeight" />
 		</Grid.Resources>
 		
@@ -595,11 +596,11 @@
 		<!-- End of System Info View -->
 		<StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
 			<!-- <Button Content="Hoppers" Height="35" HorizontalAlignment="Stretch" Name="btnHoppers" VerticalAlignment="Stretch" Width="170" Click="btnHoppers_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" /> -->
-			<Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="btnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="btnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
 			<Button Content="Games" Height="35" HorizontalAlignment="Stretch" Name="btnGames" VerticalAlignment="Stretch" Width="170" Click="Games_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="System History" Height="35" HorizontalAlignment="Stretch" Name="btnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
 			<Button Content="Cash" Height="35" Name="btnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-			<Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="btnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="btnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
 			<Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="btnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click" />
 			<!--<Button Content="System Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />-->
 			<!--<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />-->

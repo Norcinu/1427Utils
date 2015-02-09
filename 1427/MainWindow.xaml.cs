@@ -47,7 +47,7 @@ namespace PDTUtils
                 InitializeComponent();
                 Random r = new Random();
                 CultureInfo ci = null;
-                //novamatic... the fuck bruv?
+
                 if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
                     ci = new CultureInfo("es-ES");
                 else
@@ -239,7 +239,7 @@ namespace PDTUtils
                 BoLib.closeSharedMemory();
             }
         }
-        //1 coffee, she
+        
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
 			/*m_machineIni.ParseIni();
@@ -250,11 +250,7 @@ namespace PDTUtils
                 MessageBox.Show("Cabinet restarting", "System Notice");
             }*/
 		}
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
             ucMainPage.IsEnabled = false;
@@ -271,17 +267,6 @@ namespace PDTUtils
             
             TabSetup.SelectedIndex = 0;
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
-			//if (MasterVolumeSlider.Value > 0) *************RE-INSTATE THIS DEBUG DEBUG ****************
-			//	txtVolumeSliderValue.Text = Convert.ToString(MasterVolumeSlider.Value);
-			//btnUpdateFiles.IsEnabled = true;
-			//btnRollback.IsEnabled = true;
-            
-          /* 
-           * Save and reboot machine
-           * Thread saver = new Thread(new ThreadStart(DiskCommit.SaveAndReboot));
-           * saver.Start();
-           * AutoClosingMessageBox.Show("Rebooting System in 5 seconds.", "Rebooting", 5000);
-           */
 		}
 		
 		private bool ValidateNewIniSetting()

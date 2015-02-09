@@ -97,7 +97,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\exe.bmp.
+        ///   Looks up a localized string similar to D:\1525\bmp\exe.png.
         /// </summary>
         internal static string FILE_TYPE_EXE {
             get {
@@ -106,7 +106,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\folder.bmp.
+        ///   Looks up a localized string similar to D:\1525\bmp\folder.png.
         /// </summary>
         internal static string FILE_TYPE_FOLDER {
             get {
@@ -115,7 +115,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\bitmap.bmp.
+        ///   Looks up a localized string similar to D:\1525\bmp\png.png.
         /// </summary>
         internal static string FILE_TYPE_IMG {
             get {
@@ -124,7 +124,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\ini.bmp.
+        ///   Looks up a localized string similar to D:\1525\bmp\ini.png.
         /// </summary>
         internal static string FILE_TYPE_INI {
             get {
@@ -133,7 +133,16 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\unknown.bmp.
+        ///   Looks up a localized string similar to D:\1525\bmp\raw.png.
+        /// </summary>
+        internal static string FILE_TYPE_RAW {
+            get {
+                return ResourceManager.GetString("FILE_TYPE_RAW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1525\bmp\unknown.png.
         /// </summary>
         internal static string FILE_TYPE_UNKNOWN {
             get {
@@ -142,7 +151,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\wav.bmp.
+        ///   Looks up a localized string similar to D:\1525\bmp\wav.png.
         /// </summary>
         internal static string FILE_TYPE_WAV {
             get {

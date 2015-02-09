@@ -23,7 +23,7 @@
                     <StackPanel MinWidth="246"  VerticalAlignment="Top"  Name="stpUpdateBase" Background="Azure" Margin="0,0,5,0" MinHeight="150">
                         <Label Margin="5,5,5,0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque">Select Operation&#58;</Label>
                         <Button Margin="5,5,5,0" Name="btnUpdateFiles" Content="Update Files" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding UpdatePrep}"></Button>
-                        <Button Margin="5,5,5,5" Name="btnRollback" Content="RollBack to Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center" Command="{Binding Rollback}" IsEnabled="{Binding HasUpdateStarted}"></Button>
+                        <Button Margin="5,5,5,5" Name="btnRollback" Content="Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center" Command="{Binding Rollback}" IsEnabled="{Binding HasUpdateStarted}"></Button>
                     </StackPanel>
                 </Border>
                 
@@ -37,7 +37,7 @@
                         
                         <Label Grid.Row="0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque" Margin="0,5,0,5" Name="lblUpdateSelect" Content="Files to be updated." HorizontalAlignment="Center" />
 
-                        <TreeView Name="treeUpdateSelectFiles" Margin="5,5,5,35" Grid.Row="1" ItemsSource="{Binding Path=FilesToUpdate}" Height="200" VerticalAlignment="Top">
+                        <TreeView Name="treeUpdateSelectFiles" Margin="5,5,5,35" Grid.Row="1" ItemsSource="{Binding Path=FilesToUpdate}" Height="200" VerticalAlignment="Top" Background="Honeydew">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="-25,0,25,5" >

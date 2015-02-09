@@ -77,12 +77,21 @@ namespace PDTUtils.MVVM.ViewModels
             GetCreditLevel();
             GetBankLevel();
         }
+
+        public bool DoorOpen
+        {
+            get
+            {
+                return false;
+                //return (bool)BoLib.getDoorStatus();
+            }
+        }
         
         public ICommand GetCredit
         {
             get { return new DelegateCommand(o => GetCreditLevel()); }
         }
-
+        
         void GetCreditLevel()
         {
             Credits = BoLib.getCredit();
@@ -104,7 +113,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => ClearCreditLevel()); }
         }
-        
+
         void ClearCreditLevel()
         {
             BoLib.clearBankAndCredit();
@@ -133,7 +142,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => AddCreditsActive = !AddCreditsActive); }
         }
-
+        
         public ICommand GetError
         {
             get { return new DelegateCommand(o => GetErrorMessage()); }
@@ -146,7 +155,6 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 string last = BoLib.getErrorMessage("", BoLib.getError());
                 ErrorMessage = "Current Error : " + "[" + errorCode + "] " + last + "\nOpen Door and Press Button To Clear Error";
-                //ErrorMessage = "Press Button to clear error"; // Change this!!!!! DEBUG DEBUG **********
             }
             else
                 ErrorMessage = "No Current Error";
@@ -270,8 +278,7 @@ namespace PDTUtils.MVVM.ViewModels
             else
                 Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
 
-            var ___pennies = (uint)Pennies;
-            BoLib.setUtilsAdd2CreditValue(___pennies);// (uint)Pennies);
+            BoLib.setUtilsAdd2CreditValue((uint)Pennies);
             BoLib.setRequestUtilsAdd2Credit();
             System.Threading.Thread.Sleep(250);
             Credits = BoLib.getCredit();
