@@ -87,10 +87,10 @@ namespace PDTUtils
 						{
                             m_running = false;
                             Application.Current.Dispatcher.Invoke(
-                                    DispatcherPriority.Normal, 
-                                    (ThreadStart)delegate {
-                                        if (GlobalConfig.RebootRequired)
-                                            BoLib.setRebootRequired();
+                                DispatcherPriority.Normal,
+                                (ThreadStart)delegate {
+                                    if (GlobalConfig.RebootRequired)
+                                        BoLib.setRebootRequired();
                             });
 							Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 						}

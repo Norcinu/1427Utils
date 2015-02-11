@@ -45,7 +45,6 @@ namespace PDTUtils
             {
                 InitialiseBoLib();
                 InitializeComponent();
-                Random r = new Random();
                 CultureInfo ci = null;
 
                 if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
@@ -62,6 +61,7 @@ namespace PDTUtils
             catch (Exception err)
             {
                 MessageBox.Show("Error: " + err.ToString());
+                Application.Current.Shutdown();
             }
             
             RowOne.Height = new GridLength(75);
@@ -554,7 +554,7 @@ namespace PDTUtils
                 ucMainPage.Visibility = Visibility.Visible;
             else
                 ucMainPage.Visibility = Visibility.Hidden;
-
+            
             Enabler.ClearAll();
 
             ucDiagnostics.IsEnabled = false;
@@ -585,7 +585,7 @@ namespace PDTUtils
         {
             var tb = sender as TextBox;
         }
-
+        
         private void btnReboot_Click(object sender, RoutedEventArgs e)
         {
             m_keyDoorWorker.PrepareForReboot = true;

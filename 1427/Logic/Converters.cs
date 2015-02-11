@@ -33,7 +33,7 @@ namespace PDTUtils
 			return new NotImplementedException();
 		}
 	}
-
+    
 	public class CustomImagePathConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, 

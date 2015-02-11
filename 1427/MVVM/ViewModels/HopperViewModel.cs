@@ -186,7 +186,7 @@ namespace PDTUtils.MVVM.ViewModels
                         else if (BoLib.getHopperFloatLevel(0) == 0)
                         {
                             DumpSwitchMessage = "Hopper Empty";
-                            this.RaisePropertyChangedEvent("DumpSwitchMessage");
+                            RaisePropertyChangedEvent("DumpSwitchMessage");
                             var t = sender as System.Timers.Timer;
                             t.Enabled = false;
                             dumpSwitchPressed = false;
@@ -197,7 +197,7 @@ namespace PDTUtils.MVVM.ViewModels
 #if DEBUG
                 System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
 #endif
-            }
+            }//sounds ok
             else if (cb.SelectedIndex == 1)
             {
                 if (_emptyRightTimer == null)

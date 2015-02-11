@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cv="clr-namespace:PDTUtils"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="1000">
-
+             d:DesignHeight="900" d:DesignWidth="1000">
+    
 	<UserControl.Resources>
 		<Style x:Key="StdTextBlock" TargetType="Label">
 			<Setter Property="Control.Background" Value="Red"/>
@@ -20,6 +21,7 @@
     <Grid HorizontalAlignment="Center">
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <cv:FalseToHiddenConv x:Key="FalseToVis" />
         </Grid.Resources>
 
         <StackPanel x:Name="stpMainView">
@@ -30,32 +32,36 @@
                     <ColumnDefinition Name="colThree" Width="333"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Name="rowOne" Height="200"/>
-                    <RowDefinition Name="rowTwo"  Height="200"/>
-                    <RowDefinition Name="rowThree" Height="200"/>
+                    <RowDefinition Name="rowOne" Height="300"/> <!-- 200 -->
+                    <RowDefinition Name="rowTwo"  Height="300"/>
+                    <RowDefinition Name="rowThree" Height="300"/>
                 </Grid.RowDefinitions>
 
 
                 <!--<Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,0" BorderBrush="Black" BorderThickness="3" CornerRadius="8" HorizontalAlignment="Left">-->
-                <Rectangle Grid.ColumnSpan="3" Fill="Gray" Margin="10"></Rectangle>
+                <Rectangle Grid.ColumnSpan="3" Fill="Gray" Margin="10" />
                 <!--</Border>-->
-                <StackPanel Grid.Row="0" Grid.Column="0" Margin="20">
+                <Border Grid.Row="0" Grid.Column="0" Margin="20" BorderBrush="AliceBlue" BorderThickness="2">
+                    <!-- this was in stackpanel -->
+                    <StackPanel >
                     <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Credits</Label>
                     <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Credits}" />
                 </StackPanel>
+                </Border>
 
-
-                <StackPanel Grid.Column="1" Margin="20">
+                <Border Grid.Column="1" Margin="20" BorderBrush="AliceBlue" BorderThickness="2"> <!-- this was in stackpanel -->
+                <StackPanel >
                     <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Bank</Label>
                     <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Bank}" />
                 </StackPanel>
-
+                </Border>
                 <!-- <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
 						<Button Width="200" Height="40" FontSize="22" Command="{Binding HandPay}">Hand Pay</Button>	
 					</StackPanel> -->
-
-                <Border BorderBrush="PaleGoldenrod" BorderThickness="2" CornerRadius="8" Grid.Column="1" Grid.Row="1" Margin="20,0,20,0" IsEnabled="{Binding AddCreditsActive}" 
-								Visibility="{Binding AddCreditsActive, Converter={StaticResource BoolToVis}}" >
+                
+                <Border BorderBrush="PaleGoldenrod" BorderThickness="2" CornerRadius="8" Grid.Column="1" Grid.Row="1" 
+                        IsEnabled="{Binding AddCreditsActive}" Visibility="{Binding AddCreditsActive, Converter={StaticResource BoolToVis}}" >
+                    <!--Margin="20,0,20,0"-->
                     <StackPanel x:Name="stpAddCredit" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Azure">
                         <StackPanel Orientation="Horizontal">
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTenPence}" Name="btnTenPence">10p</Button>
@@ -68,7 +74,7 @@
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTwoPounds}" Name="btnTwoPounds">£2</Button>
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnFivePounds}" Name="btnFivePounds">£5</Button>
                         </StackPanel>
-
+                            
                         <StackPanel Orientation="Horizontal">
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTenPounds}" Name="btnTenPounds">£10</Button>
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTwentyPounds}" Name="btnTwentyPounds">£20</Button>
@@ -76,10 +82,10 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-
+                
                 <StackPanel x:Name="stpHandPay" Grid.Column="1" Grid.Row="1"
-								VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding HandPayActive}"
-								Visibility="{Binding HandPayActive, Converter={StaticResource BoolToVis}}">
+							VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding HandPayActive}"
+							Visibility="{Binding HandPayActive, Converter={StaticResource BoolToVis}}">
 
                     <Border BorderBrush="Gray" BorderThickness="2">
                         <StackPanel HorizontalAlignment="Stretch" Background="Black">
@@ -92,19 +98,33 @@
                     </Border>
                 </StackPanel>
 
+                <StackPanel HorizontalAlignment="Center" Background="AliceBlue" Visibility="Hidden" IsEnabled="False">
+                    <!-- DEBUG DEBUG!!! -->
+                    <Label FontSize="28" Background="AliceBlue" Foreground="DarkOrchid" HorizontalAlignment="Center">Refill Hoppers</Label>
+                    <Label Margin="5">Total Coins Added: £</Label>
+                    <Label Margin="5" Content="{Binding LeftRefillMsg}" IsEnabled="{Binding AreWeRefilling}"/>
+                    <Label Margin="5" Content="{Binding RightRefillMsg}" IsEnabled="{Binding AreWeRefilling}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Margin="25" Width="160" Height="35" FontSize="24" Command="{Binding RefillHopper}">Refill Hopper</Button>
+                        <Button Margin="25" Width="160" Height="35" FontSize="24" Command="{Binding EndRefillCommand}">Stop Refill</Button>
+                    </StackPanel>
+                </StackPanel>
+
 
                 <!-- <GroupBox Background="HotPink"> -->
                 <StackPanel x:Name="stpErrorBox" Grid.Column="2" VerticalAlignment="Stretch" Background="Gray" Margin="10" >
                     <Label Background="NavajoWhite" HorizontalAlignment="Center" Foreground="YellowGreen" Margin="10"  FontSize="36">Actions</Label>
                     <!--<Button Width="200" Height="40" FontSize="22" Command="{Binding ClearCredits}" Margin="10">Clear Credits</Button>
 								<Button Width="200" Height="40" FontSize="22" Command="{Binding TransferBank}" Margin="10">Transfer Bank</Button>-->
-                    <Button Width="200" Height="40"  FontSize="22" Command="{Binding AddCredits}" Margin="5" Visibility="{Binding DoorOpen, Converter={StaticResource BoolTovIS}}">Add Credits</Button>
+                    <Button Width="200" Height="40" FontSize="22" Command="{Binding AddCredits}" Margin="5" Visibility="{Binding DoorOpen, Converter={StaticResource FalseToVis}}">Add Credits</Button>
+                    <Button Width="200" Height="40" FontSize="22" Command="{Binding RefillHopper}" Margin="5">Refill Hoppers</Button>
                     <Button Width="200" Height="40" FontSize="22" Command="{Binding SetHandPay}" Margin="5">Hand Pay</Button>
                 </StackPanel>
                 <!-- </GroupBox> -->
 
             </Grid>
         </StackPanel>
+
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15">
             <Label Content="{Binding ErrorMessage}" FontSize="22" Foreground="PaleTurquoise" Background="Red" />

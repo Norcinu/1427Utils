@@ -468,7 +468,7 @@ unsigned long getNotesOut(int meter)
 		notes += NoteValues[0][GetCountry()]*GetReconciliationMeter(NOTE_1_OUT_LT);
 	}
 	else
-	{
+	{	
 		notes += NoteValues[5][GetCountry()]*GetReconciliationMeter(NOTE_6_OUT_ST);
 		notes += NoteValues[4][GetCountry()]*GetReconciliationMeter(NOTE_5_OUT_ST);
 		notes += NoteValues[3][GetCountry()]*GetReconciliationMeter(NOTE_4_OUT_ST);
@@ -479,7 +479,7 @@ unsigned long getNotesOut(int meter)
 	return notes;
 }
 
-unsigned long getRefillValue(int meter)
+unsigned long getRefillValue(int meter)//
 {
 	if (meter == REFILL_L_LT)
 		return (GetReconciliationMeter(REFILL_L_LT)*COINVALUELEFT + 

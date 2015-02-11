@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 using PDTUtils.Native;
+using System.Threading;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -54,7 +55,18 @@ namespace PDTUtils.MVVM.ViewModels
         public int Credits { get; set; }
         public int Bank { get; set; }
         public int Pennies { get; set; }
-        public Decimal TotalCredits { get { return Credits + Bank; } }
+        public Decimal TotalCredits 
+        { 
+            get 
+            {
+                return _totalCredits; 
+            }
+            set 
+            { 
+                _totalCredits = Credits + Bank;
+                RaisePropertyChangedEvent("TotalCredits");
+            } 
+        }
         public string ErrorMessage { get; set; }
         
         bool _handPayActive;
@@ -63,7 +75,9 @@ namespace PDTUtils.MVVM.ViewModels
         string _caption = "Warning";
         string _message = "Please Open the terminal door and try again.";
         WPFMessageBoxService _msgBoxService = new WPFMessageBoxService();
-        
+        public System.Timers.Timer _refillTimer;
+        Decimal _totalCredits = 0;
+
         public MainPageViewModel()
         {
             IsEnabled = true;
@@ -72,7 +86,8 @@ namespace PDTUtils.MVVM.ViewModels
             Credits = 0;
             Bank = 0;
             Pennies = 2000;
-            
+            NotRefilling = true;
+
             GetErrorMessage();
             GetCreditLevel();
             GetBankLevel();
@@ -86,6 +101,8 @@ namespace PDTUtils.MVVM.ViewModels
                 //return (bool)BoLib.getDoorStatus();
             }
         }
+
+        public bool NotRefilling { get; set; }
         
         public ICommand GetCredit
         {
@@ -133,9 +150,9 @@ namespace PDTUtils.MVVM.ViewModels
             BoLib.transferBankToCredit();
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
+            TotalCredits = Bank + Credits;
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");
-            RaisePropertyChangedEvent("TotalCredits");
         }
         
         public ICommand AddCredits
@@ -200,10 +217,12 @@ namespace PDTUtils.MVVM.ViewModels
         
         void DoHandPay()
         {
+          //  RaisePropertyChangedEvent("TotalCredits"); // credit value not updating if add credit from 0 and then handpay
             string oldCaption = _caption;
             string oldMsg = _message;
             
             int total = Bank + Credits;
+            
             if (total > 0)
             {
                 if (!BoLib.performHandPay())
@@ -215,12 +234,15 @@ namespace PDTUtils.MVVM.ViewModels
                     _message = oldMsg;
                     return;
                 }
-
+                
+                BoLib.clearBankAndCredit();
                 WriteToHandPayLog(total);
                 Credits = BoLib.getCredit();
                 Bank = BoLib.getBank();
-                this.RaisePropertyChangedEvent("Credits");
-                this.RaisePropertyChangedEvent("Bank");
+                TotalCredits = 0;
+                
+                RaisePropertyChangedEvent("Credits");
+                RaisePropertyChangedEvent("Bank");
             }
             else
             {
@@ -282,7 +304,8 @@ namespace PDTUtils.MVVM.ViewModels
             BoLib.setRequestUtilsAdd2Credit();
             System.Threading.Thread.Sleep(250);
             Credits = BoLib.getCredit();
-            Bank = BoLib.getBank(); 
+            Bank = BoLib.getBank();
+            TotalCredits = Bank + Credits;
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");
         }
@@ -302,5 +325,41 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => IsEnabled = !IsEnabled); }
         }
+
+        public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
+        void DoRefillHopper()
+        {
+            
+            
+            //BoLib.disableNoteValidator();
+            //while (true)
+            {
+                //BoLib.enableNoteValidator();
+                //ulong coins = BoLib.getReconciliationMeter(14) + BoLib.getReconciliationMeter(15);
+                //Thread.Sleep(300);
+            }
+        }
+
+        public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }
+        void DoEndRefill()
+        {
+            if (_refillTimer == null)
+            {
+                _refillTimer = new System.Timers.Timer(100);
+                _refillTimer.Enabled = true;
+            }
+            //just breathe 
+            NotRefilling = false;
+            _refillTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+            {
+             //   if (EndRefill)
+                {
+             //       this.EndRefill = false;
+                    _refillTimer.Enabled = false;
+                    //dispatch timer to update labels every x milliseconds.
+                }
+            };
+        }
+
     }
 }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 mc:Ignorable="d"
+			 mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="755"
 			 x:Name="ucHopperConfig">
 
@@ -40,7 +40,7 @@
                 </StackPanel>
             </TabItem>
                 
-            <TabItem Header="Refill" MinWidth="250" FontSize="20" IsEnabled="{Binding NotRefilling}">
+       <!--     <TabItem Header="Refill" MinWidth="250" FontSize="20" IsEnabled="{Binding NotRefilling}">
 				<StackPanel HorizontalAlignment="Center" Background="AliceBlue">
 					<Label FontSize="28" Background="AliceBlue" Foreground="DarkOrchid" HorizontalAlignment="Center">Refill Hoppers</Label>
 					<Label Margin="5">Total Coins Added: £</Label>
@@ -51,7 +51,7 @@
 						<Button Margin="25" Width="160" Height="35" FontSize="24" Command="{Binding EndRefillCommand}">Stop Refill</Button>
 					</StackPanel>
 				</StackPanel>
-			</TabItem>
+			</TabItem>-->
 		</TabControl>
     </Grid>
 </UserControl>
