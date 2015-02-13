@@ -40,7 +40,7 @@ namespace PDTUtils.MVVM.ViewModels
             ComputerName = "";
 
             PingOne = "";
-            PingTwo = "*** Sending PING (Google DNS) ***";
+            PingTwo = "* Sending PING (Google DNS) #1 *";
             PingTestRunning = false;
 
             PopulateInfo();
@@ -112,11 +112,17 @@ namespace PDTUtils.MVVM.ViewModels
                     System.Net.IPAddress.Parse("8.8.4.4"),
                 };
 
+
                 if (index == 0 && PingOne.Length > 0)
                 {
-                    PingTwo = "*** Sending PING (Google DNS) ***";
+                    PingTwo = "* Sending PING (Google DNS) #1 *";
                     PingOne = "";
                     RaisePropertyChangedEvent("PingOne");
+                    RaisePropertyChangedEvent("PingTwo");
+                }
+                else if (index == 1 && PingOne.Length > 0)
+                {
+                    PingTwo = "* Sending PING (Google DNS) #2 *";
                     RaisePropertyChangedEvent("PingTwo");
                 }
                 

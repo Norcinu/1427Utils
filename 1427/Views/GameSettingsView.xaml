@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1200">
         
-        
+    
     <UserControl.Resources>
         <conv:IsEnglishCulture x:Key="IsEnglish"/>
         <conv:IsSpanishCulture x:Key="IsSpanish"/>
@@ -65,6 +65,11 @@
                                 <!--<TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Active Game</TextBox>-->
                                 <Label Style="{StaticResource StdHeaderLabel}" Content="Is Active Game" Margin="15,0,10,0"/>
                             </CheckBox>
+
+                            <ComboBox IsEnabled="{Binding IsGameActive}" Visibility="{Binding IsGameActive, Converter={StaticResource BoolToVis}}" >
+                                <ComboBoxItem>Methusaleh</ComboBoxItem>
+                                <ComboBoxItem>Rookie Card</ComboBoxItem>
+                            </ComboBox>
 
                             <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsPromoGame, Mode=TwoWay}">
                                 <!--<TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Promo Game</TextBox>-->

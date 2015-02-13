@@ -235,7 +235,7 @@ const char *getLastGame(int index)
 		game_info += fields[i];
 	
     int field_length = game_info.size()-1;
-	char buffer[512] = {0}; // erm? it only uses 44 chars and the rest dont get set to 0?
+	char buffer[512] = {0}; 
 	
 	strncpy_s(buffer, game_info.c_str(), 511);
 	return buffer;
@@ -515,9 +515,11 @@ unsigned long getTicketsPay(int meter)
 char *getSerialNumber()
 {
 	GetPrivateProfileString("Keys", "Serial", "~", global_buffer, 256, MACHINE_INI.c_str());
-	std::string pre = "Serial Number: ";
+	//std::string pre = "Serial Number: ";
+	std::string pre = "";
 	char final[272] = {0};
 	strncat_s(final, pre.c_str(), pre.length());
+	//char final[8] = {0};
 	strncat_s(final, global_buffer, 256);
 	return final;
 }

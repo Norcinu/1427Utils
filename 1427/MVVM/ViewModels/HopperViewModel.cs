@@ -50,7 +50,7 @@ namespace PDTUtils.MVVM.ViewModels
         //public string MiddleHopper { get; set; } not needed atm.
         public List<string> HopperList { get; set; }
 
-        public string LeftRefillMsg 
+        public string LeftRefillMsg
         {
             get
             {
@@ -58,8 +58,9 @@ namespace PDTUtils.MVVM.ViewModels
             }
             set
             {
-                _leftRefillMsg = "Left Hopper Coins Added: " + Convert.ToDecimal(value).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
-                this.RaisePropertyChangedEvent("LeftRefillMsg");
+                _leftRefillMsg = "Left Hopper Coins Added: " + Convert.ToDecimal(value).ToString("C",
+                    Thread.CurrentThread.CurrentCulture.NumberFormat);
+                RaisePropertyChangedEvent("LeftRefillMsg");
             }
         }
         public string RightRefillMsg
@@ -71,7 +72,7 @@ namespace PDTUtils.MVVM.ViewModels
             set
             {
                 _rightRefillMsg = "Right Hopper Coins Added: " + Convert.ToDecimal(value).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
-                this.RaisePropertyChangedEvent("RightRefillMsg");
+                RaisePropertyChangedEvent("RightRefillMsg");
             }
         }
 
@@ -135,13 +136,14 @@ namespace PDTUtils.MVVM.ViewModels
         {
             
         }
-        
+        //shaking trees, bring smiling face, startled eyes through smokey haze. 
+        //shake
         public ICommand DoEmptyHopper
         {
             get { return new DelegateCommand(EmptyHopper); }
         }
         
-        void EmptyHopper(object hopper)
+        void EmptyHopper(object hopper)    
         {
             var cb = hopper as ComboBox;
             string value = cb.SelectedValue as string;
@@ -250,7 +252,6 @@ namespace PDTUtils.MVVM.ViewModels
         void DoRefillHopper()
         {
             ulong coins = BoLib.getReconciliationMeter(14) + BoLib.getReconciliationMeter(15);
-            
         }
         
         public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }

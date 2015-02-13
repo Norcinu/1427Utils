@@ -172,8 +172,10 @@ namespace PDTUtils.MVVM.ViewModels
 
             IniFileUtility.HashFile(_espRegionIni);
             RaisePropertyChangedEvent("EditableLiveRegion");
+
+            GlobalConfig.RebootRequired = true;
         }
-        //ists very 
+        
         public void LoadSettings()
         {
             string[] temp;

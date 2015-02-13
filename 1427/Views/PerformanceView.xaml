@@ -29,7 +29,16 @@
 			<Setter Property="Control.BorderThickness" Value="2"/>
             <Setter Property="FontSize" Value="18"/>
 		</Style>
-	</UserControl.Resources>
+
+        <Style x:Key="StdButtonBlock" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Control.BorderBrush" Value="Black"/>
+            <Setter Property="Control.BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+    </UserControl.Resources>
 	
     <Grid>
         <TabControl Name="tabMeters" Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto">
@@ -65,7 +74,13 @@
                                     </GridView>
                                 </ListView.View>
                             </ListView>
-                            <Button Content="Clear ST Meters" FontSize="20" Width="150" Height="40" Margin="20" Command="{Binding ClearShortTerms}"/>
+                            <Button FontSize="20" Width="150" Height="40" Margin="20" Command="{Binding ClearShortTerms}">
+                                <Border BorderBrush="Black" BorderThickness="2">
+                                <TextBlock Style="{StaticResource StdButtonBlock}">
+                                    Clear ST Meters
+                                </TextBlock>
+                                </Border>
+                            </Button>
                         </StackPanel>
                     </TabItem>
 
@@ -86,8 +101,8 @@
                                         <GridViewColumn Header="Bet" Width="125">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Border BorderBrush="{x:Null}" Background="Red" Height="100">
-                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="24" Text="{Binding Bet}"></TextBlock>
+                                                    <Border BorderBrush="{x:Null}" Background="LightGray" Height="100">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Navy" FontSize="24" Text="{Binding Bet}"></TextBlock>
                                                     </Border>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
@@ -96,8 +111,8 @@
                                         <GridViewColumn Header="Winnings" Width="125">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Border BorderBrush="{x:Null}" Background="Red" Height="100">
-                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="24" Text="{Binding Won}"></TextBlock>
+                                                    <Border BorderBrush="{x:Null}" Background="LightGray" Height="100">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Navy" FontSize="24" Text="{Binding Won}"></TextBlock>
                                                     </Border>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
@@ -106,8 +121,8 @@
                                         <GridViewColumn Header="Percentage" Width="125">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Border BorderBrush="{x:Null}" Background="Red" Height="100">
-                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="24" Text="{Binding Percentage}" />
+                                                    <Border BorderBrush="{x:Null}" Background="LightGray" Height="100">
+                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Navy" FontSize="24" Text="{Binding Percentage}" />
                                                     </Border>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>

@@ -31,15 +31,15 @@ namespace PDTUtils.MVVM.Models
 
         public HardwareInfo(string sk, string mn, string l, string cpu, string ct)
         {
-            this.SerialKey = sk;
-            this.MachineName = mn;
-            this.License = l;
-            this.CpuType = cpu;
-            this.CabinetType = ct;
+            SerialKey = sk;
+            MachineName = mn;
+            License = l;
+            CpuType = cpu;
+            CabinetType = ct;
 
-            this.IPAddress = "192.168.1.3";
-            this.Subnet = "255.255.0.0";
-            this.DefGateway = "169.254.1.1";
+            IPAddress = "192.168.1.3";
+            Subnet = "255.255.0.0";
+            DefGateway = "169.254.1.1";
         }
     }
 }

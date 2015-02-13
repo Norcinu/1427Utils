@@ -342,7 +342,7 @@ namespace PDTUtils
                     string line = "";
                     while ((line = sr.ReadLine()) != null)
                     {
-                        string[] tokens = line.Split("-".ToCharArray());
+                        string[] tokens = line.Split("-\t".ToCharArray());
                         HandPayLogs.Add(new HandPayLog(tokens[0] + " " + tokens[1], tokens[2]));
                     }
                 }

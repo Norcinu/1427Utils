@@ -193,7 +193,7 @@ namespace PDTUtils.MVVM.ViewModels
                 decimal percentage = (won > 0 || bets > 0) ? (won / bets) : 0;
                 GameStats.Add(new GameStatMeter(model.ToString(), bets.ToString("C", nfi), won.ToString("C", nfi), percentage.ToString("P", nfi)));
             }
-
+            
             RaisePropertyChangedEvent("CashRecon");
             RaisePropertyChangedEvent("NumberOfGamesLt");
             RaisePropertyChangedEvent("NumberOfGamesSt");

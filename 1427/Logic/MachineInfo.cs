@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
-using System.Management;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text;

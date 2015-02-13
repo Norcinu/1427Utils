@@ -310,22 +310,25 @@ namespace PDTUtils.MVVM.ViewModels
             
             for (int i = 0; i < _numberOfGames; i++)
             {
-                string[] models;
-                IniFileUtility.GetIniProfileSection(out models, "Model" + (i + 1), _manifest, true);
-                
+                string[] model;
+                IniFileUtility.GetIniProfileSection(out model, "Model" + (i + 1), _manifest, true);
+                System.Text.StringBuilder sb = new System.Text.StringBuilder(8);
+                NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "Promo", "", sb, 8, @Properties.Resources.machine_ini);
+                string isPromo = sb.ToString();
+
                 GameSettingModel m  = new GameSettingModel();
-                m.ModelNumber       = Convert.ToUInt32(models[0]);
-                m.Title             = models[1].Trim(" \"".ToCharArray());
-                m.Active            = (models[2] == "True") ? true : false;
-                m.StakeOne          = Convert.ToInt32(models[3]);
-                m.StakeTwo          = Convert.ToInt32(models[4]);
-                m.StakeThree        = Convert.ToInt32(models[5]);
-                m.StakeFour         = Convert.ToInt32(models[6]);                
-                m.StakeMask         = (Convert.ToUInt32(models[9]));
-                m.Promo             = (models[10] == "True") ? true : false;
-                m.ModelDirectory    = models[11];
-                m.Exe               = models[12];
-                m.HashKey           = models[13];
+                m.ModelNumber       = Convert.ToUInt32(model[0]);
+                m.Title             = model[1].Trim(" \"".ToCharArray());
+                m.Active            = (model[2] == "1") ? true : false;
+                m.StakeOne          = Convert.ToInt32(model[3]);
+                m.StakeTwo          = Convert.ToInt32(model[4]);
+                m.StakeThree        = Convert.ToInt32(model[5]);
+                m.StakeFour         = Convert.ToInt32(model[6]);                
+                m.StakeMask         = (Convert.ToUInt32(model[9]));
+                m.Promo             = (isPromo == "100" || isPromo == "200") ? true : false;
+                m.ModelDirectory    = model[11];
+                m.Exe               = model[12];
+                m.HashKey           = model[13];
                 _gameSettings.Add(m);
             }
         }
