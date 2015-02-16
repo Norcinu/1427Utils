@@ -17,7 +17,7 @@ namespace PDTUtils.MVVM.ViewModels
         ObservableCollection<HelloImJohnnyCashMeters> _performance = new ObservableCollection<HelloImJohnnyCashMeters>();
         ObservableCollection<HelloImJohnnyCashMeters> _refill = new ObservableCollection<HelloImJohnnyCashMeters>();
         ObservableCollection<GameStatMeter> _gameStats = new ObservableCollection<GameStatMeter>();
-
+        
         public int NumberOfGamesLt { get; set; }
         public int NumberOfGamesSt { get; set; }
 

@@ -18,6 +18,8 @@ namespace PDTUtils.MVVM.Models
         }*/
         public bool Active { get; set; }       
         public bool Promo { get; set; }
+        public bool IsFirstPromo { get; set; }
+        public bool IsSecondPromo { get; set; }
         public uint ModelNumber { get; set; }
         public uint StakeMask { get; set; }
         public int? StakeOne { get; set; }
@@ -26,26 +28,11 @@ namespace PDTUtils.MVVM.Models
         public int? StakeFour { get; set; }
         public int? StakeFive { get; set; }
         public int? StakeSix { get; set; }
-        /*public string StakeSeven { get; set; }
-        public string StakeEight { get; set; }
-        public string StakeNine { get; set; }
-        public string StakeTen { get; set; }
-        public decimal StakeOne { get; set; }
-        public decimal StakeTwo { get; set; }
-        public decimal StakeThree { get; set; }
-        public decimal StakeFour { get; set; }
-        public decimal StakeFive { get; set; }
-        public decimal StakeSix { get; set; }
-        public decimal StakeSeven { get; set; }
-        public decimal StakeEight { get; set; }
-        public decimal StakeNine { get; set; }
-        public decimal StakeTen { get; set; }*/
         public string Title { get; set; }
         public string ModelDirectory { get; set; }
         public string Exe { get; set; }
         public string HashKey { get; set; }
 
-        //private bool? _active;
 
         public GameSettingModel()
         {
@@ -67,6 +54,8 @@ namespace PDTUtils.MVVM.Models
             ModelDirectory = "";
             Exe = "";
             HashKey = "";
+            IsFirstPromo = false;
+            IsSecondPromo = false;
         }
     }
 }

@@ -102,6 +102,25 @@ namespace PDTUtils
         }
     }
 
+    public class NegateBoolValue : IValueConverter
+    {
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            bool? conversion = value as bool?;
+            if (conversion == true)
+                return false;
+            else
+                return true;
+        }
+
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException("Method not implemented.");
+        }
+    }
+
     #region Yuk
     //---- Yuk Yuk Yuk
     public class IsEnglishCulture : IValueConverter
@@ -190,7 +209,7 @@ namespace PDTUtils
         {
             TrueValue = Visibility.Visible;
             FalseValue = Visibility.Collapsed;
-        }
+        }//bomb patrol
 
         public object Convert(object value, Type targetType,
                               object parameter, CultureInfo culture)

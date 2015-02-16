@@ -173,6 +173,7 @@ namespace PDTUtils.Logic
                         found = !found;
                     }
                 }
+                HashMachineIni();
             }
         }
         

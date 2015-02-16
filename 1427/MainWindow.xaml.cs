@@ -328,11 +328,10 @@ namespace PDTUtils
                 
                 GetMachineIni.WriteMachineIni(current.Category, current.Field);
                 GetMachineIni.ChangesPending = true;
-                //dump to file.
             }
         }
         
-        private void CommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
+        void CommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var listView = sender as ListView;
             var current = listView.Items[listView.SelectedIndex] as IniElement;
@@ -348,18 +347,18 @@ namespace PDTUtils
                 GetMachineIni.ChangesPending = true;
             }
         }
-        
+
         private void UnCommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var listView = sender as ListView;
             var current = listView.Items[listView.SelectedIndex] as IniElement;
-
+            
             if (current.Field[0] == '#')
             {
                 listView.Items.Refresh();
                 GetMachineIni.WriteMachineIni(current.Category, current.Field);
                 GetMachineIni.ChangesPending = true;
-
+                
                 current.Field = current.Field.Substring(1);
 
                 listView.Items.Refresh();

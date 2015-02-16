@@ -118,7 +118,6 @@ namespace PDTUtilsControlLib
 
 		[DllImport("kernel32.dll")]
 		private extern static uint SetSystemTime(ref SYSTEMTIME lpSystemTime);
-
 		private void btnSaveTime_Click(object sender, RoutedEventArgs e)
 		{
 			SYSTEMTIME newTime = new SYSTEMTIME();

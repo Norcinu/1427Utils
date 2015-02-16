@@ -6,29 +6,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000">
 			 <!--IsEnabled="False">-->
-	
-	<UserControl.Resources>
-		<Style x:Key="StdLabel" TargetType="Label">
-			<Setter Property="Control.BorderBrush" Value="Black"/>
-			<Setter Property="Control.BorderThickness" Value="2"/>
-			<Setter Property="Control.Background" Value="AliceBlue"/>
-			<Setter Property="Control.FontFamily" Value="Calibri" />
-			<Setter Property="Control.FontWeight" Value="Bold" />
-			<Setter Property="Control.FontSize" Value="22"/>
-			<Setter Property="Control.HorizontalAlignment" Value="Center" />
-			<Setter Property="Control.HorizontalContentAlignment" Value="Center" />
-			<Setter Property="Control.Margin" Value="10"/>
-			<Setter Property="Control.MinWidth" Value="200"/>
-		</Style>
-		
-		<Style x:Key="StdTextBlock" TargetType="TextBlock">
-			<Setter Property="TextAlignment" Value="Center"/>
-			<Setter Property="Background" Value="Red"/> 
-			<Setter Property="Foreground" Value="White"/>
-			<Setter Property="Control.BorderBrush" Value="Black"/>
-			<Setter Property="Control.BorderThickness" Value="2"/>
+
+    <UserControl.Resources>
+        <Style x:Key="StdLabel" TargetType="Label">
+            <Setter Property="Control.BorderBrush" Value="Black"/>
+            <Setter Property="Control.BorderThickness" Value="2"/>
+            <Setter Property="Control.Background" Value="AliceBlue"/>
+            <Setter Property="Control.FontFamily" Value="Calibri" />
+            <Setter Property="Control.FontWeight" Value="Bold" />
+            <Setter Property="Control.FontSize" Value="22"/>
+            <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Control.Margin" Value="10"/>
+            <Setter Property="Control.MinWidth" Value="200"/>
+        </Style>
+
+        <Style x:Key="StdTextBlock" TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Control.BorderBrush" Value="Black"/>
+            <Setter Property="Control.BorderThickness" Value="2"/>
             <Setter Property="FontSize" Value="18"/>
-		</Style>
+        </Style>
 
         <Style x:Key="StdButtonBlock" TargetType="TextBlock">
             <Setter Property="TextAlignment" Value="Center"/>

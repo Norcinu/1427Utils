@@ -268,15 +268,15 @@ namespace PDTUtils.MVVM.ViewModels
         }
         #endregion
 
-        string[] _fields = new string[12] 
+        string[] _fields = new string[12]
         {
-            "Number", "Title", "Active", "Stake1", "Stake2", "Stake3", "Stake4", /*"Stake5", 
-            "Stake6", "Stake7", "Stake8", "Stake9", "Stake10",*/ "StakeMask", "Promo", 
+            "Number", "Title", "Active", "Stake1", "Stake2", "Stake3", "Stake4", /*"Stake5",
+            "Stake6", "Stake7", "Stake8", "Stake9", "Stake10",*/ "StakeMask", "Promo",
             "ModelDirectory", "Exe", "HashKey"
         };
         
         public object chk;
-         
+        
         public GameSettingViewModel()
         {
             SelectionChanged = false;
@@ -315,7 +315,7 @@ namespace PDTUtils.MVVM.ViewModels
                 System.Text.StringBuilder sb = new System.Text.StringBuilder(8);
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "Promo", "", sb, 8, @Properties.Resources.machine_ini);
                 string isPromo = sb.ToString();
-
+                
                 GameSettingModel m  = new GameSettingModel();
                 m.ModelNumber       = Convert.ToUInt32(model[0]);
                 m.Title             = model[1].Trim(" \"".ToCharArray());
@@ -325,11 +325,26 @@ namespace PDTUtils.MVVM.ViewModels
                 m.StakeThree        = Convert.ToInt32(model[5]);
                 m.StakeFour         = Convert.ToInt32(model[6]);                
                 m.StakeMask         = (Convert.ToUInt32(model[9]));
-                m.Promo             = (isPromo == "100" || isPromo == "200") ? true : false;
+                //m.Promo             = (isPromo == "100" || isPromo == "200") ? true : false;
                 m.ModelDirectory    = model[11];
                 m.Exe               = model[12];
                 m.HashKey           = model[13];
                 _gameSettings.Add(m);
+
+                if (isPromo == "100")
+                {
+                    m.Promo = true;
+                    m.IsFirstPromo = true;
+                    //RaisePropertyChangedEvent("IsFirstPromo");
+                }
+                else if (isPromo == "200")
+                {
+                    m.Promo = true;
+                    m.IsSecondPromo = true;
+                    //RaisePropertyChangedEvent("IsSecondPromo");
+                }
+                else
+                    m.Promo = false;
             }
         }
         

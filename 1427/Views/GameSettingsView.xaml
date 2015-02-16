@@ -13,6 +13,7 @@
         <conv:IsSpanishCulture x:Key="IsSpanish"/>
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
         <conv:ConvertStakeVisibility x:Key="StakeVis"/>
+        <conv:NegateBoolValue x:Key="Negate"/>
         
         <Style x:Key="StdHeaderLabel" TargetType="Label">
             <Setter Property="Control.FontSize" Value="24"/>
@@ -31,18 +32,21 @@
             <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
             <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
         </Style>
+        
+        
+        
     </UserControl.Resources>
         
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <ListView Width="300" ItemsSource="{Binding Settings}" SelectedIndex="{Binding SelectedIndex}" Margin="2,2,20,2" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <ListView Width="305" ItemsSource="{Binding Settings}" SelectedIndex="{Binding SelectedIndex}" Margin="2,2,20,2" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Game Name" Width="290">
+                            <GridViewColumn Header="Game Name" Width="295">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}" Margin="15" BorderBrush="Black" BorderThickness="2" />
+                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}" Margin="5" Width="290" BorderBrush="Black" BorderThickness="2" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -66,15 +70,17 @@
                                 <Label Style="{StaticResource StdHeaderLabel}" Content="Is Active Game" Margin="15,0,10,0"/>
                             </CheckBox>
 
-                            <ComboBox IsEnabled="{Binding IsGameActive}" Visibility="{Binding IsGameActive, Converter={StaticResource BoolToVis}}" >
-                                <ComboBoxItem>Methusaleh</ComboBoxItem>
-                                <ComboBoxItem>Rookie Card</ComboBoxItem>
-                            </ComboBox>
-
                             <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsPromoGame, Mode=TwoWay}">
                                 <!--<TextBox FontSize="24" FlowDirection="LeftToRight" MinWidth="280" Foreground="Navy" HorizontalContentAlignment="Center" Background="LightGray">Is Promo Game</TextBox>-->
                                 <Label Style="{StaticResource StdHeaderLabel}" Content="Is Promo Game" Margin="15,0,10,0"/>
                             </CheckBox>
+
+                            <!--Visibility="{Binding IsGameActive, Converter={StaticResource BoolToVis}}"-->
+                            <ComboBox IsEnabled="{Binding IsGameActive}" Width="200" Margin="0,0,10,0" FontSize="24" Visibility="{Binding IsGameActive, Converter={StaticResource BoolToVis}}" >
+                                <ComboBoxItem IsSelected="{Binding IsPromoGame, Converter={StaticResource Negate}}">Not Promo</ComboBoxItem>
+                                <ComboBoxItem IsSelected="{Binding IsFirstPromo}">First Promo</ComboBoxItem>
+                                <ComboBoxItem IsSelected="{Binding IsSecondPromo}">Second Promo</ComboBoxItem>
+                            </ComboBox>
                         </StackPanel>
                     </Border>
 
