@@ -254,6 +254,26 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
 
+        public bool IsFirstPromo
+        {
+            get { return _gameSettings[SelectedIndex].IsFirstPromo; }
+            set
+            {
+                _gameSettings[SelectedIndex].IsFirstPromo = value;
+                RaisePropertyChangedEvent("IsFirstPromo");
+            }
+        }//i instatnylu felt like an idiot
+        
+        public bool IsSecondPromo
+        {
+            get { return _gameSettings[SelectedIndex].IsSecondPromo; }
+            set
+            {
+                _gameSettings[SelectedIndex].IsSecondPromo = value;
+                RaisePropertyChangedEvent("IsSecondPromo");
+            }
+        }
+        
         #endregion
 
         #region Commands
@@ -270,11 +290,10 @@ namespace PDTUtils.MVVM.ViewModels
 
         string[] _fields = new string[12]
         {
-            "Number", "Title", "Active", "Stake1", "Stake2", "Stake3", "Stake4", /*"Stake5",
-            "Stake6", "Stake7", "Stake8", "Stake9", "Stake10",*/ "StakeMask", "Promo",
-            "ModelDirectory", "Exe", "HashKey"
+            "Number", "Title", "Active", "Stake1", "Stake2", "Stake3", "Stake4", 
+            "StakeMask", "Promo", "ModelDirectory", "Exe", "HashKey"
         };
-        
+
         public object chk;
         
         public GameSettingViewModel()
@@ -325,7 +344,6 @@ namespace PDTUtils.MVVM.ViewModels
                 m.StakeThree        = Convert.ToInt32(model[5]);
                 m.StakeFour         = Convert.ToInt32(model[6]);                
                 m.StakeMask         = (Convert.ToUInt32(model[9]));
-                //m.Promo             = (isPromo == "100" || isPromo == "200") ? true : false;
                 m.ModelDirectory    = model[11];
                 m.Exe               = model[12];
                 m.HashKey           = model[13];
@@ -335,13 +353,11 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     m.Promo = true;
                     m.IsFirstPromo = true;
-                    //RaisePropertyChangedEvent("IsFirstPromo");
                 }
                 else if (isPromo == "200")
                 {
                     m.Promo = true;
                     m.IsSecondPromo = true;
-                    //RaisePropertyChangedEvent("IsSecondPromo");
                 }
                 else
                     m.Promo = false;
@@ -360,34 +376,42 @@ namespace PDTUtils.MVVM.ViewModels
                    else if (promoCount >= 2)
                         g.Promo = false;
                 }
-                
+                               
                 if (promoCount == 0)
                 {
                     Random r = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
                     _gameSettings[r.Next(_gameSettings.Count)].Promo = true;
                 }
-                
+
                 for (int i = 0; i < _numberOfGames; i++)
                 {
                     var m = _gameSettings[i];
-
+                    
                     string temp = "Model" + (i + 1);
+                    int active = (m.Active) ? 1 : 0;
                     NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[1], m.Title, _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[2], m.Active.ToString(), _manifest);
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[2], active.ToString(), _manifest);
                     
                     if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
                     {
                         NativeWinApi.WritePrivateProfileString(temp, _fields[3], m.StakeOne.ToString(), _manifest);
                         NativeWinApi.WritePrivateProfileString(temp, _fields[4], m.StakeTwo.ToString(), _manifest);
                         NativeWinApi.WritePrivateProfileString(temp, _fields[5], m.StakeThree.ToString(), _manifest);
-
                         NativeWinApi.WritePrivateProfileString(temp, _fields[6], m.StakeFour.ToString(), _manifest);
                     }
                     
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[8], m.Promo.ToString(), _manifest);
-                    IniFileUtility.HashFile(_manifest);
+                    if (m.Promo)
+                    {
+                        if (m.IsFirstPromo)
+                            NativeWinApi.WritePrivateProfileString(temp, _fields[8], "100", _manifest);
+                        else if (m.IsSecondPromo)
+                            NativeWinApi.WritePrivateProfileString(temp, _fields[8], "200", _manifest);
+                    }
+                    else
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[8], "0", _manifest);
                 }
+                IniFileUtility.HashFile(_manifest);
             }
         }
         
