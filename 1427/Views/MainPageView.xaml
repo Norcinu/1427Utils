@@ -6,18 +6,18 @@
              xmlns:cv="clr-namespace:PDTUtils"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1000">
-    
-	<UserControl.Resources>
-		<Style x:Key="StdTextBlock" TargetType="Label">
-			<Setter Property="Control.Background" Value="Red"/>
-			<Setter Property="Control.Foreground" Value="White"/>
-			<Setter Property="Control.BorderBrush" Value="Black"/>
-			<Setter Property="Control.BorderThickness" Value="2"/>
-			<Setter Property="Control.FontSize" Value="22"/>
-			<Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
-		</Style>
-	</UserControl.Resources>
-    
+
+    <UserControl.Resources>
+        <Style x:Key="StdTextBlock" TargetType="Label">
+            <Setter Property="Control.Background" Value="Red"/>
+            <Setter Property="Control.Foreground" Value="White"/>
+            <Setter Property="Control.BorderBrush" Value="Black"/>
+            <Setter Property="Control.BorderThickness" Value="2"/>
+            <Setter Property="Control.FontSize" Value="22"/>
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+
     <Grid HorizontalAlignment="Center">
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />

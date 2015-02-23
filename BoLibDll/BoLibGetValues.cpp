@@ -246,6 +246,11 @@ unsigned long getGameModel(int index)
 	return ModelNumbers[index];
 }
 
+unsigned long getLastGameModel(int index)
+{
+	return LastGames[index][0];
+}
+
 unsigned int getGameTime(int index)
 {
 				  //       hour							minute

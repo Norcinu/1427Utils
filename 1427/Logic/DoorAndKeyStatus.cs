@@ -96,25 +96,25 @@ namespace PDTUtils
 						}
                         
                         if (BoLib.getDoorStatus() == 0)
-						{
-							if (m_doorStatus == true)
-							{
-								m_doorStatus = false;
-								m_hasChanged = true;
-								OnPropertyChanged("DoorStatus");
-								OnPropertyChanged("IsDoorClosed");
-							}
-						}
-						else
                         {
-							if (m_doorStatus == false)
-							{
-								m_doorStatus = true;
-								m_hasChanged = true;
-								OnPropertyChanged("DoorStatus");
-								OnPropertyChanged("IsDoorClosed");
-							}
-						}
+                            if (m_doorStatus == true)
+                            {
+                                m_doorStatus = false;
+                                m_hasChanged = true;
+                                OnPropertyChanged("DoorStatus");
+                                OnPropertyChanged("IsDoorClosed");
+                            }
+                        }
+                        else
+                        {
+                            if (m_doorStatus == false)
+                            {
+                                m_doorStatus = true;
+                                m_hasChanged = true;
+                                OnPropertyChanged("DoorStatus");
+                                OnPropertyChanged("IsDoorClosed");
+                            }
+                        }
 					}
 				}
 				Thread.Sleep(2);

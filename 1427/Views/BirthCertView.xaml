@@ -11,8 +11,7 @@
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
                 <Label FontSize="28" HorizontalAlignment="Center" Margin="3">Proceed With Caution</Label>
                 <Label FontSize="22" HorizontalAlignment="Center" Margin="3">Touch Value to Change Value</Label>
-                <ListView ItemsSource="{Binding Values}" HorizontalContentAlignment="Center"  FontSize="22" AlternationCount="2">
-                    <!-- SelectionChanged="ListBoxSelectionChanged"-->
+                <ListView ItemsSource="{Binding Values}" HorizontalContentAlignment="Center"  SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="340" Header="Field">
@@ -38,6 +37,6 @@
                 </ListView>
             </StackPanel>
         </ScrollViewer>
-        <Button Width="120" Height="35" Margin="20" FontSize="24" Content="Load Birth Cert" Command="{Binding Parse}"/>
+        <!--<Button Width="120" Height="35" Margin="20" FontSize="24" Content="Load Birth Cert" Command="{Binding Parse}"/>-->
     </Grid>
 </UserControl>

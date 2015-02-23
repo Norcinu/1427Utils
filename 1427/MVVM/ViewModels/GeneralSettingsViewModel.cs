@@ -32,12 +32,12 @@ namespace PDTUtils.MVVM.ViewModels
 
                 if (BoLib.getCountryCode() != BoLib.getUkCountryCodeC())
                 {
-                    this.RtpMessage = "CAT C NOT ENABLED";
-                    this.IsCatC = false;
+                    RtpMessage = "CAT C NOT ENABLED";
+                    IsCatC = false;
                 }
                 else
                 {
-                    this.RtpMessage = BoLib.getTargetPercentage().ToString() + "%";
+                    RtpMessage = BoLib.getTargetPercentage().ToString() + "%";
                     IsCatC = true;
                 }
 
@@ -66,12 +66,12 @@ namespace PDTUtils.MVVM.ViewModels
                 System.Diagnostics.Debug.WriteLine(e.Message);
             }
 
-            this.RaisePropertyChangedEvent("HasRecycler");
-            this.RaisePropertyChangedEvent("IsCatC");
-            this.RaisePropertyChangedEvent("HandPayLevel");
-            this.RaisePropertyChangedEvent("DivertMessage");
-            this.RaisePropertyChangedEvent("RecyclerMessage");
-            this.RaisePropertyChangedEvent("TerminalAssetMsg");
+            RaisePropertyChangedEvent("HasRecycler");
+            RaisePropertyChangedEvent("IsCatC");
+            RaisePropertyChangedEvent("HandPayLevel");
+            RaisePropertyChangedEvent("DivertMessage");
+            RaisePropertyChangedEvent("RecyclerMessage");
+            RaisePropertyChangedEvent("TerminalAssetMsg");
         }
 
         public ICommand SetRTP
@@ -86,8 +86,8 @@ namespace PDTUtils.MVVM.ViewModels
                 NativeWinApi.WritePrivateProfileString("Datapack", "DPercentage", rtp.ToString(), @Properties.Resources.machine_ini);
                 IniFileUtility.HashFile(@Properties.Resources.machine_ini);
                 
-                this.RtpMessage = rtp.ToString() + "%";
-                this.RaisePropertyChangedEvent("RtpMessage");
+                RtpMessage = rtp.ToString() + "%";
+                RaisePropertyChangedEvent("RtpMessage");
             }
         }
 
@@ -126,10 +126,10 @@ namespace PDTUtils.MVVM.ViewModels
 
             IniFileUtility.HashFile(@Properties.Resources.birth_cert);
             
-            this.HandPayLevel = (newVal / 100).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
-            this.RaisePropertyChangedEvent("HandPayLevel");
+            HandPayLevel = (newVal / 100).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
+            RaisePropertyChangedEvent("HandPayLevel");
         }
-
+        //I'm losing you and its effort less.
         public ICommand ChangeDivert { get { return new DelegateCommand(DoChangeDivert); } }
         public void DoChangeDivert(object o)
         {
@@ -155,8 +155,8 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), @Properties.Resources.birth_cert);
             IniFileUtility.HashFile(@Properties.Resources.birth_cert);
 
-            this.DivertMessage = (newValue).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
-            this.RaisePropertyChangedEvent("DivertMessage");
+            DivertMessage = (newValue).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
+            RaisePropertyChangedEvent("DivertMessage");
         }
 
         public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
@@ -227,7 +227,7 @@ namespace PDTUtils.MVVM.ViewModels
                     printerType = "3";
                 else
                     printerType = "4";
-
+                
                 NativeWinApi.WritePrivateProfileString("Config", "PrinterType", printerType, @Properties.Resources.birth_cert); // 3 = NV200_ST
                 BoLib.setPrinterType(Convert.ToByte(printerType));
                 NativeWinApi.WritePrivateProfileString("Config", "BnvType", bnvType, @Properties.Resources.birth_cert);
@@ -246,7 +246,7 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand TitoUpdate { get { return new DelegateCommand(DoTitoUpdate); } }
         public void DoTitoUpdate(object o)
         {
-
+            
         }
     }
 }

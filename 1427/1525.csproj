@@ -363,8 +363,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy Y:\1525\1525L29U010D.exe Y:\1525\1525L29U010D_Copy.exe
+C:\Tool_MD5_Append -s=Y:\1525\1525L29U010D_Copy.exe -d=Y:\1525\1525L29U010D.exe &gt;CRCLog.txt</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

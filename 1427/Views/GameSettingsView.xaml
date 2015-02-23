@@ -69,7 +69,7 @@
                             <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsPromoGame, Mode=TwoWay}">
                                 <Label Style="{StaticResource StdHeaderLabel}" Content="Is Promo Game" Margin="15,0,10,0"/>
                             </CheckBox>
-//da romford pussyclart
+
                             <ComboBox HorizontalContentAlignment="Center" IsEnabled="{Binding IsActiveGame}" Width="200" Margin="0,0,10,0" FontSize="24" Text="Not Promo">
                                 <!--<ComboBoxItem HorizontalContentAlignment="Center" IsSelected="{Binding IsPromoGame, Converter={StaticResource Negate}}">Not Promo</ComboBoxItem>-->
                                 <ComboBoxItem HorizontalContentAlignment="Center" IsSelected="{Binding IsFirstPromo}">First Promo</ComboBoxItem>

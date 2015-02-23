@@ -70,7 +70,7 @@ namespace PDTUtils
 			string date = DateTime.Now.ToString();
 			DateTime.TryParse(date, ci, DateTimeStyles.None, out logDate);
 
-			GameModel = BoLib.getGameModel(gameNo);
+            GameModel = (uint)BoLib.getLastGameModel(gameNo);// .getGameModel(gameNo);
 			stake = BoLib.getGameWager(gameNo);
 			var tempGameDate = BoLib.getGameDate(gameNo);
 			var today = (int)tempGameDate >> 16;
@@ -115,24 +115,24 @@ namespace PDTUtils
 			var year = DateTime.Now.Year;
 			if (month > DateTime.Now.Month)
 				--year;
-			
-			string error_str="";
-			try
-			{
-				string ds = day + @"/" + month + @"/" + year + " " + hour + " " + ":" + minute;
-				error_str = ds;
-				credit = BoLib.getGameCreditLevel(gameNo);
-				stake = BoLib.getGameWager(gameNo);
-				GameModel = BoLib.getGameModel(gameNo);
-					
-				logDate = DateTime.Parse(ds, ci);
-				winAmount = BoLib.getWinningGame(gameNo);
-				this.OnPropertyChanged("PlayedGames");
-			}
-			catch (System.Exception ex)
-			{
-				Console.WriteLine(ex.Message);
-			}
+            
+            string error_str = "";
+            try
+            {
+                string ds = day + @"/" + month + @"/" + year + " " + hour + " " + ":" + minute;
+                error_str = ds;
+                credit = BoLib.getGameCreditLevel(gameNo);
+                stake = BoLib.getGameWager(gameNo);
+                GameModel = (uint)BoLib.getLastGameModel(gameNo);
+                
+                logDate = DateTime.Parse(ds, ci);
+                winAmount = BoLib.getWinningGame(gameNo);
+                OnPropertyChanged("PlayedGames");
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 		}
 	}
 	

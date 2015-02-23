@@ -101,16 +101,16 @@ namespace PDTUtils.Logic
                     if (File.Exists(BackUpFile))
                         RemoveBackupFile();
                     File.Copy(IniPath, BackUpFile);
-                    
+
                     char[] first = new char[10];
-                	sr.Read(first, 0, 7);
+                    sr.Read(first, 0, 7);
                     _firstLine = new string(first).Trim('\0');
                 }
                 catch (System.Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);	
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
-                
+
                 while ((line = sr.ReadLine()) != null)
                 {
                     if (line.Equals(EndOfIni))
@@ -118,7 +118,7 @@ namespace PDTUtils.Logic
                     else if (line.StartsWith("[") && !LineContainsCategories(line) && line.Equals("") != true)
                     {
                         category = line.Trim("[]".ToCharArray());
-                        
+
                         string[] str;
                         IniFileUtility.GetIniProfileSection(out str, category, IniPath);
                         if (str != null)
@@ -136,7 +136,7 @@ namespace PDTUtils.Logic
                 }
             }
             
-            string[] models;
+            string[] models; 
             IniFileUtility.GetIniProfileSection(out models, "Models", IniPath);
             foreach (var m in models)
             {
@@ -209,6 +209,7 @@ namespace PDTUtils.Logic
             }
             
             HashMachineIni();
+            GlobalConfig.RebootRequired = true;
         }
         
 		public void HashMachineIni()
@@ -219,7 +220,7 @@ namespace PDTUtils.Logic
 				if (NativeMD5.CheckHash(IniPath) != true)
 				{
 					if (NativeWinApi.SetFileAttributes(IniPath, NativeWinApi.FILE_ATTRIBUTE_NORMAL))
-					{
+					{   
 						NativeWinApi.WritePrivateProfileSection("End", null, IniPath);
 						NativeWinApi.WritePrivateProfileSection("End", "", IniPath);
                         

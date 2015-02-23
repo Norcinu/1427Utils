@@ -51,7 +51,7 @@
             <cv:FalseToHiddenConv x:Key="FalseToVis" />
             <cv:ConvertScreenHeight x:Key="ScaleScreenHeight" />
         </Grid.Resources>
-
+            //my name is tony the pony.
         <Grid.ColumnDefinitions>
             <ColumnDefinition Name="ColumnOne" Width="207*" />
             <ColumnDefinition Name="ColumnTwo" Width="571*" />
@@ -67,8 +67,8 @@
                Background="#336699"  
                BorderBrush="Black" 
                BorderThickness="2" 
-               VerticalContentAlignment="Center"
-               Grid.ColumnSpan="2" />
+               Grid.ColumnSpan="2" 
+			   VerticalContentAlignment="Center" />
         <!--LightGoldenrodYellow"-->
         <!-- columnspan="5" -->
         <Label Name="lblLeft" 
@@ -421,7 +421,7 @@
                             </ListView.View>
                         </ListView>
                         <StackPanel Orientation="Horizontal" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Button Width="75" Height="35" FontSize="20" Margin="25">Save</Button>
+                            <Button Width="75" Height="35" FontSize="20"  Margin="25">Save</Button>
                             <Button Width="75" Height="35" FontSize="20" Margin="25">Discard Changes</Button>
                         </StackPanel>
                     </StackPanel>
@@ -609,7 +609,7 @@
             <!--<Button Content="System Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />-->
             <!--<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />-->
             <Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
-            <!--<Button Content="Reboot" Name="btnReboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnReboot_Click"/>-->
+            <Button Content="Reboot" Name="btnReboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnReboot_Click"/>
         </StackPanel>
 
         <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />

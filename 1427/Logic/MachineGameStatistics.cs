@@ -199,10 +199,10 @@ namespace PDTUtils
 			m_totalGames = 0;
 			m_numberOfGames = 0;
 			m_fileLoaded = false;
-
+            
 			Extension.RemoveAll(m_games);
 		}
-		
+        
 		public void ParsePerfLog()
         {
             if (m_games.Count > 0)
@@ -238,7 +238,7 @@ namespace PDTUtils
                 stats.ImageSource = (modelNo == 1524) ? @"D:\1525\BMP\GameIconS.png" : @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png";
                 m_games.Add(stats);
             }
-
+            
             #region lockoff
             /*if (m_fileLoaded == false)
 			{

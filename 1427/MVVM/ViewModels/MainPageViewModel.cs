@@ -123,7 +123,7 @@ namespace PDTUtils.MVVM.ViewModels
         void GetBankLevel()
         {
             Bank = BoLib.getBank();
-            this.RaisePropertyChangedEvent("Bank");
+            RaisePropertyChangedEvent("Bank");
         }
         
         public ICommand ClearCredits
@@ -277,7 +277,7 @@ namespace PDTUtils.MVVM.ViewModels
                     int amount = total;
                     sw.Write(now.ToShortDateString() + " ");
                     sw.Write(now.ToLongTimeString() + "\t\t");
-                    sw.Write((Convert.ToDecimal(amount)/100).ToString("C") + "\r\n");
+                    sw.Write((Convert.ToDecimal(amount) / 100).ToString("C") + "\r\n");
                 }
             }
         }

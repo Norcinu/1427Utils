@@ -6,21 +6,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="605">
     <Grid>
-		<TabControl SelectionChanged="TabControl_SelectionChanged">
-			<TabItem Header="Software" MinWidth="150">
-				<StackPanel Margin="10" HorizontalAlignment="Center">
-					<Label FontSize="46" Margin="10" HorizontalContentAlignment="Center">Machine Software</Label>
-					<ListView Margin="5" FontSize="22" ItemsSource="{Binding Software}">
-						<ListView.View>
-							<GridView>
-								<GridViewColumn Header="Game Number" DisplayMemberBinding="{Binding ModelNumber}" Width="300"/>
-								<GridViewColumn Header="MD5 Hash" DisplayMemberBinding="{Binding HashCode}" Width="300"/>
-								<GridViewColumn Header="Auth Status" DisplayMemberBinding="{Binding Authed}" Width="400"/>
-							</GridView>
-						</ListView.View>
-					</ListView>
-				</StackPanel>
-			</TabItem>
+        <TabControl SelectionChanged="TabControl_SelectionChanged">
+            <TabItem Header="Software" MinWidth="150">
+                <StackPanel Margin="10" HorizontalAlignment="Center">
+                    <Label FontSize="46" Margin="10" HorizontalContentAlignment="Center">Machine Software</Label>
+                    <ListView Margin="5" FontSize="22" ItemsSource="{Binding Software}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Game Number" DisplayMemberBinding="{Binding ModelNumber}" Width="300"/>
+                                <GridViewColumn Header="MD5 Hash" DisplayMemberBinding="{Binding HashCode}" Width="300"/>
+                                <GridViewColumn Header="Auth Status" DisplayMemberBinding="{Binding Authed}" Width="400"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </TabItem>
 
             <TabItem Header="Hardware" MinWidth="150">
                 <StackPanel Margin="10" HorizontalAlignment="Center">
@@ -52,12 +52,12 @@
             </TabItem>
 
             <TabItem Header="Hardware Test" MinWidth="150">
-				<!--PING SOME WELL KNOWN WEBSITES -> GOOGLE YAHOO BBC.-->
-			</TabItem>
-			
-			<TabItem Header="Network Info" MinWidth="150">
-				<!--RENAME TO DIAGNOSTICSVIEW.-->
-			</TabItem>
-		</TabControl>
+                <!--PING SOME WELL KNOWN WEBSITES -> GOOGLE YAHOO BBC.-->
+            </TabItem>
+
+            <TabItem Header="Network Info" MinWidth="150">
+                <!--RENAME TO DIAGNOSTICSVIEW.-->
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>

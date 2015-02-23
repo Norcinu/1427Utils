@@ -124,5 +124,5 @@ DLLEXPORT unsigned char printer();
 DLLEXPORT unsigned int  getTerminalType();
 DLLEXPORT unsigned char getTerminalFormat();
 DLLEXPORT unsigned int	getUtilsAdd2CreditValue();
-
+DLLEXPORT unsigned long getLastGameModel(int index);
 

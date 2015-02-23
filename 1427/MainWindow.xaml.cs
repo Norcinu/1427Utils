@@ -282,9 +282,12 @@ namespace PDTUtils
         private void UpdateIniItem(object sender)
         {
             var l = sender as ListView;
+            if (l.SelectedIndex == -1)
+                return;
+            
             var c = l.Items[l.SelectedIndex] as IniElement;
             var items = l.ItemsSource;
-
+            
             IniSettingsWindow w = new IniSettingsWindow(c.Field, c.Value);
             if (w.ShowDialog() == false)
             {
@@ -304,6 +307,7 @@ namespace PDTUtils
                     default:
                         break;
                 }
+                l.SelectedIndex = -1;
             }
         }
         
@@ -585,6 +589,8 @@ namespace PDTUtils
             var tb = sender as TextBox;
         }
         
+        // refactor this
+        // set globalconfig.reboot = true
         private void btnReboot_Click(object sender, RoutedEventArgs e)
         {
             m_keyDoorWorker.PrepareForReboot = true;
@@ -604,7 +610,7 @@ namespace PDTUtils
             if (BoLib.refillKeyStatus() == 0 && BoLib.getDoorStatus() == 0)
             {
                 m_keyDoorWorker.PrepareForReboot = false;
-                DiskCommit.SaveAndReboot();
+                DiskCommit.SaveAndReboot(); 
             }
         }
 	}

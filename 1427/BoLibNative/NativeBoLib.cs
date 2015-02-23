@@ -307,6 +307,9 @@ namespace PDTUtils.Native
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern uint getUtilsAdd2CreditValue();
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern ulong getLastGameModel(int index);
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/

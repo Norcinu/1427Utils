@@ -44,7 +44,7 @@ namespace PDTUtils
 		{
 		}
         
-        private void btnComment_Click(object sender, RoutedEventArgs e)
+        void btnComment_Click(object sender, RoutedEventArgs e)
         {
             if (OptionField[0] == '#')
             {
