@@ -111,27 +111,14 @@ int addCredit(int pennies)
 	int cc = GetCountry();
 	int bankTransfer = (cc != CC_ESP) ? GetVariableValue(MAX_WBANK_TRANSFER) : GetEspRegionalValue(ESP_MAX_BANKNOTE_VALUE);
 	
-
-	//if (cc != CC_ESP)
-	//{
-		if(pennies > bankTransfer) //GetVariableValue(MAX_WBANK_TRANSFER))
-		{
-			toBank = pennies - bankTransfer;//GetVariableValue(MAX_WBANK_TRANSFER))
-			pennies -= toBank;
-			AddToBankDeposit(toBank);
-		}
-		return add_cdeposit(pennies);
-	//}
-	/*else
+	if(pennies > bankTransfer)
 	{
-		if (pennies > GetEspRegionalValue(ESP_MAX_BANKNOTE_VALUE)) //GetEspRegionalVariableValue(ESP_MAX_BANKNOTE_VALUE))
-		{
-			toBank = pennies - GetEspRegionalVariableValue(ESP_MAX_BANKNOTE_VALUE);
-			pennies -= toBank;
-			AddToBankDeposit(toBank);
-		}
-		return add_cdeposit(pennies);
-	}*/
+		toBank = pennies - bankTransfer;
+		pennies -= toBank;
+		AddToBankDeposit(toBank);
+	}
+	
+	return add_cdeposit(pennies);
 }
 
 int getCountryCode()
@@ -520,11 +507,9 @@ unsigned long getTicketsPay(int meter)
 char *getSerialNumber()
 {
 	GetPrivateProfileString("Keys", "Serial", "~", global_buffer, 256, MACHINE_INI.c_str());
-	//std::string pre = "Serial Number: ";
 	std::string pre = "";
 	char final[272] = {0};
 	strncat_s(final, pre.c_str(), pre.length());
-	//char final[8] = {0};
 	strncat_s(final, global_buffer, 256);
 	return final;
 }
@@ -674,7 +659,7 @@ char *ErrorCodes[55] =
 	"NV Recycler Emptied",
 	""
 };
-//one two one two the atari crew. look ramjam you have no business coming over here so fuck off, yeah?
+
 char *getErrorMessage(char *str, int code)
 {
 	if (code >= 55)
@@ -735,3 +720,7 @@ unsigned int getUtilsAdd2CreditValue()
 	return GetUtilsAdd2CreditValue();
 }
 
+unsigned long getReserveCredits()
+{
+	return GetReserveCredits();
+}

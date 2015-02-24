@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Windows.Input;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
-using System.Threading;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -52,7 +51,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("TitoMeters");
             RaisePropertyChangedEvent("NumberOfGames");
         }
-
+        
         public ICommand ClearShortTerms
         {
             get { return new DelegateCommand(o => ClearShortTermMeters()); }
@@ -71,7 +70,7 @@ namespace PDTUtils.MVVM.ViewModels
             ReadPerformance();
             ReadCashRecon();
         }
-
+        
         public void ReadCashRecon()
         {
             string[] note_headers = new string[] { "£50 NOTES IN", "£20 NOTES IN", "£10 NOTES IN", "£5 NOTES IN" };
@@ -94,7 +93,7 @@ namespace PDTUtils.MVVM.ViewModels
                                                            BoLib.getReconciliationMeter(perfSt[ctr]).ToString()));
                 ctr++;
             }
-
+            
             // corresponding to recon meter #defines in the bo lib.
             byte[] perfCoinLt = new byte[] { 8, 9, 10, 11, 12 };
             byte[] perfCoinSt = new byte[] { 36, 37, 38, 39, 40 };
@@ -148,7 +147,7 @@ namespace PDTUtils.MVVM.ViewModels
             NumberOfGamesLt = (int)BoLib.getPerformanceMeter(4);
             NumberOfGamesSt = (int)BoLib.getPerformanceMeter(11);
             Performance.Add(new HelloImJohnnyCashMeters("Number of Games: ", NumberOfGamesLt.ToString(), NumberOfGamesSt.ToString()));
-
+            
             decimal totalBetsLt = (int)BoLib.getPerformanceMeter(5) / 100.0M;
             decimal totalBetsSt = (int)BoLib.getPerformanceMeter(12) / 100.0M;
             decimal totalWonLt = (int)BoLib.getPerformanceMeter(6) / 100.0M;
@@ -159,13 +158,13 @@ namespace PDTUtils.MVVM.ViewModels
 
             decimal retainedPercLt = (int)BoLib.getPerformanceMeter(0) / 100;
             decimal retainedPercSt = (int)BoLib.getPerformanceMeter(7) / 100;
-
+            
             if (retainedPercLt > 0)
                 retainedPercLt = ((retainedPercLt - (longTermCashOut + handPayLt)) / longTermTotal);
 
             if (retainedPercSt > 0)
                 retainedPercSt = ((retainedPercSt - (shortTermCashOut + handPaySt)) / shortTermTotal);
-
+            
             Performance.Add(new HelloImJohnnyCashMeters("(VTP) Total Bets:", totalBetsLt.ToString("C", nfi), totalBetsSt.ToString("C", nfi)));
             Performance.Add(new HelloImJohnnyCashMeters("Total Wins:", totalWonLt.ToString("C", nfi), totalWonSt.ToString("C", nfi)));
             Performance.Add(new HelloImJohnnyCashMeters("Payout Percentage:", percentageLt.ToString("P"), percentageSt.ToString("P")));
@@ -179,7 +178,7 @@ namespace PDTUtils.MVVM.ViewModels
             int tpGamesLt = (int)BoLib.getTPlayMeter(1);
             int tpGamesSt = (int)BoLib.getTPlayMeter(4);
             Performance.Add(new HelloImJohnnyCashMeters("TP Games Played:", tpGamesLt.ToString(), tpGamesSt.ToString()));
-
+            
             decimal tpMoneyOutLt = (int)BoLib.getTPlayMeter(0);
             decimal tpMoneyOutSt = (int)BoLib.getTPlayMeter(3);
             Performance.Add(new HelloImJohnnyCashMeters("TPlay Cash Out:", tpMoneyOutLt.ToString("C", nfi), tpMoneyOutSt.ToString("C", nfi)));

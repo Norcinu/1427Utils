@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cv="clr-namespace:PDTUtils"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="1000">
+             d:DesignHeight="900" d:DesignWidth="1340">
 
     <UserControl.Resources>
         <Style x:Key="StdTextBlock" TargetType="Label">
@@ -23,13 +23,14 @@
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
             <cv:FalseToHiddenConv x:Key="FalseToVis" />
         </Grid.Resources>
-
+        
         <StackPanel x:Name="stpMainView">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Name="colOne" Width="333"/>
                     <ColumnDefinition Name="colTwo" Width="333"/>
                     <ColumnDefinition Name="colThree" Width="333"/>
+                    <ColumnDefinition Name="colFour" Width="333"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Name="rowOne" Height="300"/> <!-- 200 -->
@@ -54,6 +55,14 @@
                     <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Bank</Label>
                     <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Bank}" />
                 </StackPanel>
+                </Border>
+
+                <Border Grid.Column="2" Margin="20" BorderBrush="AliceBlue" BorderThickness="2">
+                    <!-- this was in stackpanel -->
+                    <StackPanel >
+                        <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Reserve</Label>
+                        <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Reserve}" />
+                    </StackPanel>
                 </Border>
                 <!-- <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
 						<Button Width="200" Height="40" FontSize="22" Command="{Binding HandPay}">Hand Pay</Button>	
@@ -112,7 +121,7 @@
 
 
                 <!-- <GroupBox Background="HotPink"> -->
-                <StackPanel x:Name="stpErrorBox" Grid.Column="2" VerticalAlignment="Stretch" Background="Gray" Margin="10" >
+                <StackPanel x:Name="stpErrorBox" Grid.Column="3" VerticalAlignment="Stretch" Background="Gray" Margin="10" >
                     <Label Background="NavajoWhite" HorizontalAlignment="Center" Foreground="YellowGreen" Margin="10"  FontSize="36">Actions</Label>
                     <!--<Button Width="200" Height="40" FontSize="22" Command="{Binding ClearCredits}" Margin="10">Clear Credits</Button>
 								<Button Width="200" Height="40" FontSize="22" Command="{Binding TransferBank}" Margin="10">Transfer Bank</Button>-->

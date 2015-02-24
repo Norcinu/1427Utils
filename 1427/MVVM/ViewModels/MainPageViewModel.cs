@@ -54,7 +54,11 @@ namespace PDTUtils.MVVM.ViewModels
         
         public int Credits { get; set; }
         public int Bank { get; set; }
+        public int Reserve { get; set; }
         public int Pennies { get; set; }
+
+        public bool CanPayFifty { get; set; }
+
         public Decimal TotalCredits 
         { 
             get 
@@ -63,7 +67,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
             set 
             { 
-                _totalCredits = Credits + Bank;
+                _totalCredits = Credits + Bank + Reserve;
                 RaisePropertyChangedEvent("TotalCredits");
             } 
         }
@@ -85,12 +89,14 @@ namespace PDTUtils.MVVM.ViewModels
             ErrorMessage = "";
             Credits = 0;
             Bank = 0;
+            Reserve = 0;
             Pennies = 2000;
             NotRefilling = true;
 
             GetErrorMessage();
             GetCreditLevel();
             GetBankLevel();
+            GetReserveLevel();
         }
 
         public bool DoorOpen
@@ -125,7 +131,18 @@ namespace PDTUtils.MVVM.ViewModels
             Bank = BoLib.getBank();
             RaisePropertyChangedEvent("Bank");
         }
-        
+
+        public ICommand GetReserve
+        {
+            get { return new DelegateCommand(o => GetReserveLevel()); }
+        }
+
+        void GetReserveLevel()
+        {
+            Reserve = (int)BoLib.getReserveCredits();
+            RaisePropertyChangedEvent("Reserve");
+        }
+
         public ICommand ClearCredits
         {
             get { return new DelegateCommand(o => ClearCreditLevel()); }
@@ -239,10 +256,12 @@ namespace PDTUtils.MVVM.ViewModels
                 WriteToHandPayLog(total);
                 Credits = BoLib.getCredit();
                 Bank = BoLib.getBank();
+                Reserve = (int)BoLib.getReserveCredits();
                 TotalCredits = 0;
                 
                 RaisePropertyChangedEvent("Credits");
                 RaisePropertyChangedEvent("Bank");
+                RaisePropertyChangedEvent("Reserve");
             }
             else
             {
@@ -305,9 +324,11 @@ namespace PDTUtils.MVVM.ViewModels
             System.Threading.Thread.Sleep(250);
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
-            TotalCredits = Bank + Credits;
+            Reserve = (int)BoLib.getReserveCredits();
+            TotalCredits = Bank + Credits + Reserve;
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");
+            RaisePropertyChangedEvent("Reserve");
         }
         
         public ICommand CancelHandPay

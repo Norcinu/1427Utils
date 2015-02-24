@@ -57,8 +57,9 @@ namespace PDTUtils
                     object o2 = o[j];
                     if (((IComparable)o1).CompareTo(o2) > 0) 
                     {
-                    //    o.Remove(o1);
-                    //    o.Insert(j, o1);
+                        var o1Copy = o1 as PlayedGame;
+                        //o.Remove(o1Copy);
+                        //o.Insert(j, o1Copy);
                     }
                 }
             }

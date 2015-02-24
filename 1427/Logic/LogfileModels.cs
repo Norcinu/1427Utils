@@ -12,7 +12,7 @@ namespace PDTUtils
 		public BaseNotifyPropertyChanged()
 		{
 		}
-
+        
 		public abstract void ParseGame(int gameNo);
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -23,7 +23,7 @@ namespace PDTUtils
 		}
 	}
 	
-	public abstract class BaseGameLog : BaseNotifyPropertyChanged
+	public abstract class BaseGameLog : BaseNotifyPropertyChanged, IComparable
 	{
 		public string GameDate
 		{
@@ -52,6 +52,17 @@ namespace PDTUtils
 			stake = 0;
 			credit = 0;
 		}
+
+        public int CompareTo(object obj)
+        {
+            if (obj is PlayedGame)
+            {
+                
+            }
+
+            return 0;
+        }
+       
 	}
 
 	public class WinningGame : BaseGameLog
@@ -81,41 +92,41 @@ namespace PDTUtils
 			this.OnPropertyChanged("WinningGames");
 		}
 	}
-	
-	public class PlayedGame : BaseGameLog
-	{
-		public string WinAmount { get { return (winAmount / 100).ToString("c2"); } }
-		private decimal winAmount;
+    
+    public class PlayedGame : BaseGameLog
+    {
+        public string WinAmount { get { return (winAmount / 100).ToString("c2"); } }
+        private decimal winAmount;
 
-		public PlayedGame()
-		{
-
-		}
-		
-		public PlayedGame(int gameNo)
-		{
-			ParseGame(gameNo);
-		}
-		
-		public override void ParseGame(int gameNo)
-		{
-			//CultureInfo ci = new CultureInfo("en-GB");
+        public PlayedGame()
+        {
+            
+        }
+        
+        public PlayedGame(int gameNo)
+        {
+            ParseGame(gameNo);
+        }
+        
+        public override void ParseGame(int gameNo)
+        {
+            //CultureInfo ci = new CultureInfo("en-GB");
             var ci = System.Threading.Thread.CurrentThread.CurrentCulture;
             var cui = System.Threading.Thread.CurrentThread.CurrentUICulture;
 
-			var today = DateTime.Today;
-			var gameDate = BoLib.getGameDate(gameNo);
-			var time = BoLib.getGameTime(gameNo);
+            var today = DateTime.Today;
+            var gameDate = BoLib.getGameDate(gameNo);
+            var time = BoLib.getGameTime(gameNo);
 
-			var hour = time >> 16;
-			var minute = time & 0x0000FFFF;
+            var hour = time >> 16;
+            var minute = time & 0x0000FFFF;
 
-			var month = gameDate & 0x0000FFFF;
-			var day = gameDate >> 16;
-			var year = DateTime.Now.Year;
-			if (month > DateTime.Now.Month)
-				--year;
-            
+            var month = gameDate & 0x0000FFFF;
+            var day = gameDate >> 16;
+            var year = DateTime.Now.Year;
+            if (month > DateTime.Now.Month)
+                --year;
+
             string error_str = "";
             try
             {
@@ -124,17 +135,18 @@ namespace PDTUtils
                 credit = BoLib.getGameCreditLevel(gameNo);
                 stake = BoLib.getGameWager(gameNo);
                 GameModel = (uint)BoLib.getLastGameModel(gameNo);
-                
+
                 logDate = DateTime.Parse(ds, ci);
                 winAmount = BoLib.getWinningGame(gameNo);
+
                 OnPropertyChanged("PlayedGames");
             }
             catch (System.Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-		}
-	}
+        }
+    }
 	
 	public class MachineErrorLog : BaseGameLog
 	{
@@ -160,7 +172,7 @@ namespace PDTUtils
 			throw new NotImplementedException();
 		}
 	}
-
+    
     public class HandPayLog : BaseNotifyPropertyChanged
     {
         public string Time { get; set; }
@@ -309,6 +321,7 @@ namespace PDTUtils
 			{
 				PlayedGames.Add(new PlayedGame(i));
 			}
+            Extension.BubbleSort(PlayedGames);
 		}
         
 		public void setWinningLog()

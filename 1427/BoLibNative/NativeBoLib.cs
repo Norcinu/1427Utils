@@ -310,6 +310,9 @@ namespace PDTUtils.Native
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern ulong getLastGameModel(int index);
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public unsafe static extern ulong getReserveCredits();
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/
