@@ -32,8 +32,8 @@ namespace PDTUtils.MVVM.Models
         public uint MaxBankNote { get; set; }
         public uint AllowBank2Credit { get; set; }
         public uint ConvertToPlay { get; set; }
-        public uint FastTransfer { get; set; }
         public uint CycleSize { get; set; }
+        public uint FastTransfer { get; set; }
         public string Community { get; set; }
 	    
         
@@ -57,6 +57,7 @@ namespace PDTUtils.MVVM.Models
             this.StakeMask = region.StakeMask;
             this.AllowBank2Credit = region.BankToCredits;
             this.ConvertToPlay = region.ChargeConvertPoints;
+            this.MaxBankNote = region.MaxNote;
         }
     }
 }

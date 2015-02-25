@@ -366,9 +366,42 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Image History" MinWidth="150">
-                <view:ScreenshotView x:Name="ucScreenshotView" Grid.Row="1" Grid.Column="1" Margin="25" />
+            
+            <TabItem Header="TiTo" MinWidth="150">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
+                    <StackPanel Margin="25">
+                        <ListView ItemsSource="{Binding Path=LogController.CashLess}" MinHeight="600" FontSize="20">
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="False">
+                                    <GridViewColumn Header="Game" Width="180">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <TextBlock Text="{Binding Date}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Date" Width="180">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <TextBlock Text="{Binding Message}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
+            
+            <TabItem Header="VizTech" MinWidth="150"></TabItem>
+            <!--<TabItem Header="Image History" MinWidth="150">
+                <view:ScreenshotView x:Name="ucScreenshotView" Grid.Row="1" Grid.Column="1" Margin="25" />
+            </TabItem>-->
 
         </TabControl>
 

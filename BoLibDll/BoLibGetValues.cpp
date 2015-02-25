@@ -556,7 +556,7 @@ unsigned int getNumberOfGames()
 	return value;
 }
 
-struct SpanishRegional
+/*struct SpanishRegional
 {
 	unsigned int MaxStake;
 	unsigned int MaxStakeFromBank;
@@ -598,7 +598,7 @@ void getRegionalValues(int index, SpanishRegional *region)
 	region->ChargeConvertPoints = EspRegionalVariableValues[index][ESP_CHARGE_2CONVERTPLAYPOINTS];
 	region->CycleSize			= EspRegionalVariableValues[index][ESP_CYCLE];
 	region->FastTransfer        = EspRegionalVariableValues[index][ESP_FAST_TRANSFER];
-}
+}*/
 
 
 char *ErrorCodes[55] = 

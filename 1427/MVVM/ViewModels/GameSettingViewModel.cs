@@ -313,6 +313,13 @@ namespace PDTUtils.MVVM.ViewModels
         
         public void AddGame()
         {
+            if (!System.IO.File.Exists(_manifest))
+            {
+                WPFMessageBoxService msg = new WPFMessageBoxService();
+                msg.ShowMessage("Cannot find ModelManifest.ini", "ERROR");
+                return;
+            }
+
             if (_gameSettings.Count > 0)
                 _gameSettings.Clear();
 

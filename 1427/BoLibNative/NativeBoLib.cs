@@ -18,42 +18,43 @@ namespace PDTUtils.Native
 		public string Path { get; set; }
 	}
     
-    [StructLayout(LayoutKind.Explicit)]
+    //[StructLayout(LayoutKind.Explicit)]
+    [StructLayout(LayoutKind.Sequential)]
     struct SpanishRegional
     {
-        [FieldOffset(0)]
+        //[FieldOffset(0)]
         public uint MaxStake;
-        [FieldOffset(4)]
+        //[FieldOffset(4)]
         public uint MaxStakeFromBank;
-        [FieldOffset(8)]
+        //[FieldOffset(8)]
         public uint StakeMask;
-        [FieldOffset(12)]
+        //[FieldOffset(12)]
         public uint MaxWinPerStake;
-        [FieldOffset(16)]
+        //[FieldOffset(16)]
         public uint MaxCredit;
-        [FieldOffset(20)]
+        //[FieldOffset(20)]
         public uint MaxReserve;
-        [FieldOffset(24)]
+        //[FieldOffset(24)]
         public uint MaxBank;
-        [FieldOffset(28)]
+        //[FieldOffset(28)]
         public uint MaxPlayerPoints;
-        [FieldOffset(32)]
+        //[FieldOffset(32)]
         public uint NoteEscrow;
-        [FieldOffset(36)]
+        //[FieldOffset(36)]
         public uint Rtp;
-        [FieldOffset(40)]
+        //[FieldOffset(40)]
         public uint Gtime;
-        [FieldOffset(44)]
+        //[FieldOffset(44)]
         public uint ChangeValue;
-        [FieldOffset(48)]
+        //[FieldOffset(48)]
         public uint MaxNote;
-        [FieldOffset(52)]
+        //[FieldOffset(52)]
         public uint BankToCredits;
-        [FieldOffset(56)]
+        //[FieldOffset(56)]
         public uint ChargeConvertPoints;
-        [FieldOffset(60)]
+        //[FieldOffset(60)]
         public uint CycleSize;
-        [FieldOffset(64)]
+        //[FieldOffset(64)]
         public uint FastTransfer;
     }
     

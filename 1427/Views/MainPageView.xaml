@@ -87,7 +87,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTenPounds}" Name="btnTenPounds">£10</Button>
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnTwentyPounds}" Name="btnTwentyPounds">£20</Button>
-                            <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnFiftyPounds}" Name="btnFiftyPounds">£50</Button>
+                            <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=btnFiftyPounds}" Name="btnFiftyPounds" IsEnabled="{Binding CanPayFifty}">£50</Button>
                         </StackPanel>
                     </StackPanel>
                 </Border>

@@ -226,13 +226,18 @@ namespace PDTUtils
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    Debug.WriteLine(ex.Message);
                 }
             }
             
+
+#if DEBUG
+            if (GlobalConfig.RebootRequired)
+                Debug.WriteLine("WE SHOULD BE RE-BOOTING.");
+#else
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
-            
+#endif       
             if (m_sharedMemoryOnline)
             {
                 m_sharedMemoryOnline = false;

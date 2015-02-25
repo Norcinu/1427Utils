@@ -174,7 +174,7 @@ namespace PDTUtils.MVVM.ViewModels
             decimal tpCreditsSt = (int)BoLib.getTPlayMeter(5);
 
             Performance.Add(new HelloImJohnnyCashMeters("TPlay Total Credits:", tpCreditsLt.ToString("C", nfi), tpCreditsSt.ToString("C", nfi)));
-
+            
             int tpGamesLt = (int)BoLib.getTPlayMeter(1);
             int tpGamesSt = (int)BoLib.getTPlayMeter(4);
             Performance.Add(new HelloImJohnnyCashMeters("TP Games Played:", tpGamesLt.ToString(), tpGamesSt.ToString()));

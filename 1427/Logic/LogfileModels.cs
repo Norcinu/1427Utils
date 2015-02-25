@@ -169,6 +169,7 @@ namespace PDTUtils
 
 		public override void ParseGame(int gameNo)
 		{
+
 			throw new NotImplementedException();
 		}
 	}
@@ -198,7 +199,26 @@ namespace PDTUtils
             OnPropertyChanged("HandPayLogs");
         }
     }
-    
+
+    public class CashlessLibLog : BaseNotifyPropertyChanged
+    {
+        public string Time { get; set; }
+        public string Message { get; set; }
+
+        public CashlessLibLog()
+        {
+            Time = "";
+            Message = "";
+        }
+
+        public override void ParseGame(int gameNo)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+
 	public class MachineLogsController
 	{
 		ObservableCollection<MachineErrorLog> m_errorLog = new ObservableCollection<MachineErrorLog>();
@@ -206,7 +226,8 @@ namespace PDTUtils
 		ObservableCollection<PlayedGame> m_playedGames = new ObservableCollection<PlayedGame>();
         ObservableCollection<MachineErrorLog> m_warningLog = new ObservableCollection<MachineErrorLog>();
         ObservableCollection<HandPayLog> m_handPayLog = new ObservableCollection<HandPayLog>();
-        
+        ObservableCollection<CashlessLibLog> m_cashLess = new ObservableCollection<CashlessLibLog>();
+
         public MachineLogsController()
 		{
             IsLoaded = false;
@@ -219,6 +240,7 @@ namespace PDTUtils
 		public ObservableCollection<PlayedGame> PlayedGames { get { return m_playedGames; } }
         public ObservableCollection<MachineErrorLog> WarningLog { get { return m_warningLog; } }
         public ObservableCollection<HandPayLog> HandPayLogs { get { return m_handPayLog; } }
+        public ObservableCollection<CashlessLibLog> CashLess { get { return m_cashLess; } }
 		#endregion
 
 		public void setErrorLog()
@@ -363,6 +385,24 @@ namespace PDTUtils
             catch (Exception ex) // come back to this and pass message back to the user.
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
+
+        public void setCashlessLibLog()
+        {
+            try
+            {
+                string filename = @Properties.Resources.cashless_log + "nf";
+                using (FileStream fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (BufferedStream bs = new BufferedStream(fs))
+                using (StreamReader sr = new StreamReader(bs))
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+                MVVM.WPFMessageBoxService box = new MVVM.WPFMessageBoxService();
+                box.ShowMessage(ex.Message, "Exception Caught");
             }
         }
 	}

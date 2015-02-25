@@ -12,7 +12,7 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class RegionalSettingsViewModel : ObservableObject
     {
-        bool _liveHasBeenEdited = false;
+        //bool _liveHasBeenEdited = false;
         bool _selectionChanged = false;
         int _arcadeSelectedIndex = -1;
         int _marketSelectedIndex = -1;
@@ -20,7 +20,7 @@ namespace PDTUtils.MVVM.ViewModels
         ObservableCollection<SpanishRegionalModel> _arcades = new ObservableCollection<SpanishRegionalModel>();
         ObservableCollection<SpanishRegionalModel> _street = new ObservableCollection<SpanishRegionalModel>();
         SpanishRegionalModel _editableLiveRegion;
-        SpanishRegionalModel _regionBackup; // restore _editable to this if user presses cancel imo.
+        //SpanishRegionalModel _regionBackup; // restore _editable to this if user presses cancel imo.
         SpainRegionSelection _selected = new SpainRegionSelection();
 
         readonly string _espRegionIni = Properties.Resources.esp_live_ini;
@@ -218,13 +218,13 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 Selected.VenueType = "Arcade";
                 Selected.Community = _arcadeRegions[_arcadeSelectedIndex];
-                id = Array.IndexOf(_arcadeRegions, Selected.Community) + _streetMarketRegions.Length;
+                id = Array.IndexOf(_arcadeRegions, Selected.Community) + (_streetMarketRegions.Length + 1);
             }
             else
             {
                 Selected.VenueType = "Street Market";
                 Selected.Community = _streetMarketRegions[_marketSelectedIndex];
-                id = Array.IndexOf(_streetMarketRegions, Selected.Community) + 1;
+                id = Array.IndexOf(_streetMarketRegions, Selected.Community);// +1;
             }
 
             SpanishRegional sr = new SpanishRegional();

@@ -82,6 +82,15 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\Cashless.log.
+        /// </summary>
+        internal static string cashless_log {
+            get {
+                return ResourceManager.GetString("cashless_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D:\machine\EspLiveSettings.ini.
         /// </summary>
         internal static string esp_live_ini {
@@ -304,6 +313,15 @@ namespace PDTUtils.Properties {
         internal static System.IO.UnmanagedMemoryStream util_exit {
             get {
                 return ResourceManager.GetStream("util_exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\VizTechError.log.
+        /// </summary>
+        internal static string viz_tech_log {
+            get {
+                return ResourceManager.GetString("viz_tech_log", resourceCulture);
             }
         }
         

@@ -57,8 +57,16 @@ namespace PDTUtils.MVVM.ViewModels
         public int Reserve { get; set; }
         public int Pennies { get; set; }
 
-        public bool CanPayFifty { get; set; }
-
+        public bool CanPayFifty
+        {
+            get { return _canPayFifty; }
+            set
+            {
+                _canPayFifty = value;
+                RaisePropertyChangedEvent("CanPayFifty");
+            }
+        }
+        
         public Decimal TotalCredits 
         { 
             get 
@@ -75,6 +83,7 @@ namespace PDTUtils.MVVM.ViewModels
         
         bool _handPayActive;
         bool _addCreditsActive;
+        bool _canPayFifty;
 
         string _caption = "Warning";
         string _message = "Please Open the terminal door and try again.";
@@ -92,11 +101,12 @@ namespace PDTUtils.MVVM.ViewModels
             Reserve = 0;
             Pennies = 2000;
             NotRefilling = true;
-
+            
             GetErrorMessage();
             GetCreditLevel();
             GetBankLevel();
             GetReserveLevel();
+            GetMaxNoteValue();
         }
 
         public bool DoorOpen
@@ -107,7 +117,7 @@ namespace PDTUtils.MVVM.ViewModels
                 //return (bool)BoLib.getDoorStatus();
             }
         }
-
+        
         public bool NotRefilling { get; set; }
         
         public ICommand GetCredit
@@ -170,6 +180,15 @@ namespace PDTUtils.MVVM.ViewModels
             TotalCredits = Bank + Credits;
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");
+        }
+
+        void GetMaxNoteValue()
+        {
+            uint maxValue = BoLib.getLiveElement(11); //ESP_MAX_BANKNOTE_VALUE 
+            if (maxValue > 2000)
+                CanPayFifty = true;
+            else
+                CanPayFifty = false;
         }
         
         public ICommand AddCredits

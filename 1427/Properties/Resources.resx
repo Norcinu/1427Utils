@@ -224,4 +224,10 @@
   <data name="FILE_TYPE_RAW" xml:space="preserve">
     <value>D:\1525\bmp\raw.png</value>
   </data>
+  <data name="cashless_log" xml:space="preserve">
+    <value>D:\machine\GAME_DATA\Cashless.log</value>
+  </data>
+  <data name="viz_tech_log" xml:space="preserve">
+    <value>D:\machine\GAME_DATA\VizTechError.log</value>
+  </data>
 </root>
