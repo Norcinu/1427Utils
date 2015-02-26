@@ -724,3 +724,13 @@ unsigned long getReserveCredits()
 {
 	return GetReserveCredits();
 }
+
+bool isBackOfficeAvilable()
+{
+	char str[32];
+	DWORD result = GetPrivateProfileString("Server", "Server IP", "", str, 32, MACHINE_INI.c_str());
+	if (result == 0) // entry is commented out. back office set.
+		return false;
+	else			 
+		return true;
+}

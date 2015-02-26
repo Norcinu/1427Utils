@@ -314,6 +314,9 @@ namespace PDTUtils.Native
         [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
         public unsafe static extern ulong getReserveCredits();
 
+        [DllImport(dllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool isBackOfficeAvilable();
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/

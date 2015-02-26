@@ -26,22 +26,22 @@
 
     <Window.Resources>
         <Style x:Key="StdLabel" TargetType="Label">
-            <Setter Property="Control.Width" Value="335"/>
-            <Setter Property="Control.FontSize" Value="36"/>
-            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Control.Margin" Value="10"/>
-            <Setter Property="Control.Foreground" Value="Yellow"/>
+            <Setter Property="Width" Value="335"/>
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Foreground" Value="Yellow"/>
         </Style>
 
         <Style x:Key="StatsLabel" TargetType="Label">
-            <Setter Property="Control.Foreground" Value="Navy"/>
-            <Setter Property="Control.Background" Value="LightGray"/>
-            <Setter Property="Control.FontSize" Value="36" />
-            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Control.Height" Value="130"/>
-            <Setter Property="Control.Width" Value="200"/>
+            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="FontSize" Value="36" />
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="130"/>
+            <Setter Property="Width" Value="200"/>
         </Style>
     </Window.Resources>
 
@@ -63,7 +63,7 @@
         </Grid.RowDefinitions>
 
         <!-- 2nd screenshot uses ColumnSpan and RowSpan -->
-        <Label Name="lblTop" 
+        <Label Name="lblTop"
                Background="#336699"  
                BorderBrush="Black" 
                BorderThickness="2" 
@@ -406,7 +406,8 @@
         </TabControl>
 
         <!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
-        <TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Height="{Binding Path=RowTwo.Height}" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
+        <!--  Height="{Binding Path=RowTwo.Height}" -->
+        <TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
             <TabItem Header="Local Settings">
                 <TabControl>
                     <TabItem Header="Region Settings">
