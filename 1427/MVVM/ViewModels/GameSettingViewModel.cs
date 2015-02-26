@@ -294,7 +294,7 @@ namespace PDTUtils.MVVM.ViewModels
             "StakeMask", "Promo", "ModelDirectory", "Exe", "HashKey"
         };
 
-        public object chk;
+        public object Chk;
         
         public GameSettingViewModel()
         {
@@ -315,7 +315,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (!System.IO.File.Exists(_manifest))
             {
-                WPFMessageBoxService msg = new WPFMessageBoxService();
+                WpfMessageBoxService msg = new WpfMessageBoxService();
                 msg.ShowMessage("Cannot find ModelManifest.ini", "ERROR");
                 return;
             }
@@ -422,7 +422,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
         
-        public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive(chk)); } }
+        public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive(Chk)); } }
         public void DoToggleActive(object chk)
         {
             _gameSettings[SelectedIndex].Active = !_gameSettings[SelectedIndex].Active;

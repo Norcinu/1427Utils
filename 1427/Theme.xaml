@@ -4153,7 +4153,7 @@
                                                 </StackPanel>
                                             </Button>
 
-                                            <Button Style="{StaticResource InformButton}" Command="local:TouchScreenKeyboard.CmdOR"   VerticalContentAlignment="Top" HorizontalContentAlignment="Left"  Width="77.5" Height="50">
+                                            <Button Style="{StaticResource InformButton}" Command="local:TouchScreenKeyboard.CmdOr"   VerticalContentAlignment="Top" HorizontalContentAlignment="Left"  Width="77.5" Height="50">
                                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" >
                                                     <TextBlock    HorizontalAlignment="Left" VerticalAlignment="Top"   >|</TextBlock>
                                                     <TextBlock HorizontalAlignment="Left" VerticalAlignment="Bottom"   >\</TextBlock>

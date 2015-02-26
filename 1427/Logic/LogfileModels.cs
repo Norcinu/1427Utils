@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 using PDTUtils.MVVM;
 using PDTUtils.Native;
 using PDTUtils.Properties;
@@ -25,36 +26,36 @@ namespace PDTUtils
     
     public abstract class BaseGameLog : BaseNotifyPropertyChanged, IComparable
     {
-        private readonly NumberFormatInfo nfi;
-        private CultureInfo ci = new CultureInfo("en-GB");
+        private readonly NumberFormatInfo _nfi;
+        private CultureInfo _ci = new CultureInfo("en-GB");
         
         protected BaseGameLog()
         {
             //CultureInfo ci = new CultureInfo("en-GB");//"es-ES");
-            nfi = (NumberFormatInfo) CultureInfo.CurrentCulture.NumberFormat.Clone();
-            nfi.CurrencySymbol = "£";
-            stake = 0;
-            credit = 0;
+            _nfi = (NumberFormatInfo) CultureInfo.CurrentCulture.NumberFormat.Clone();
+            _nfi.CurrencySymbol = "£";
+            _stake = 0;
+            _credit = 0;
         }
         
         public string GameDate
         {
-            get { return logDate.ToString("dd/MM/yyyy HH:mm"); }
+            get { return _logDate.ToString("dd/MM/yyyy HH:mm"); }
         }
 
         public string LogDate
         {
-            get { return logDate.ToString("dd/MM/yyyy HH:mm"); }
+            get { return _logDate.ToString("dd/MM/yyyy HH:mm"); }
         }
 
         public string Stake
         {
-            get { return (stake/100m).ToString("c2"); }
+            get { return (_stake/100m).ToString("c2"); }
         }
 
         public string Credit
         {
-            get { return (credit/100m).ToString("c2"); }
+            get { return (_credit/100m).ToString("c2"); }
         }
 
         protected uint GameModel { get; set; }
@@ -63,23 +64,24 @@ namespace PDTUtils
         {
             if (obj is PlayedGame)
             {
+                //i stink dont I? got the bad aids imo.
             }
 
             return 0;
         }
         
         #region Private Variables
-
-        protected DateTime logDate;
-        protected decimal credit;
-        protected decimal stake;
+        
+        protected DateTime _logDate;
+        protected decimal _credit;
+        protected decimal _stake;
 
         #endregion
     }
-
+    
     public class WinningGame : BaseGameLog
     {
-        private Decimal winAmount;
+        private Decimal _winAmount;
 
         public WinningGame(int gameNo)
         {
@@ -88,34 +90,34 @@ namespace PDTUtils
 
         public string WinAmount
         {
-            get { return (winAmount/100m).ToString("c2"); }
+            get { return (_winAmount/100m).ToString("c2"); }
         }
 
         public override void ParseGame(int gameNo)
         {
             var ci = new CultureInfo("en-GB"); // en-GB
             var date = DateTime.Now.ToString();
-            DateTime.TryParse(date, ci, DateTimeStyles.None, out logDate);
+            DateTime.TryParse(date, ci, DateTimeStyles.None, out _logDate);
             
             GameModel = (uint) BoLib.getLastGameModel(gameNo); // .getGameModel(gameNo);
-            stake = BoLib.getGameWager(gameNo);
+            _stake = BoLib.getGameWager(gameNo);
             var tempGameDate = BoLib.getGameDate(gameNo);
             var today = (int) tempGameDate >> 16;
             var month = (int) tempGameDate & 0x0000FFFF;
-            logDate = new DateTime(2014, month, today);
-            winAmount = BoLib.getWinningGame(gameNo);
-            credit = BoLib.getGameCreditLevel(gameNo);
+            _logDate = new DateTime(2014, month, today);
+            _winAmount = BoLib.getWinningGame(gameNo);
+            _credit = BoLib.getGameCreditLevel(gameNo);
             OnPropertyChanged("WinningGames");
         }
     }
 
     public class PlayedGame : BaseGameLog
     {
-        private decimal winAmount;
+        private decimal _winAmount;
 
         public PlayedGame()
         {
-            winAmount = 0;
+            _winAmount = 0;
         }
 
         public PlayedGame(int gameNo)
@@ -125,7 +127,7 @@ namespace PDTUtils
 
         public string WinAmount
         {
-            get { return (winAmount/100).ToString("c2"); }
+            get { return (_winAmount/100).ToString("c2"); }
         }
 
         public override void ParseGame(int gameNo)
@@ -150,12 +152,12 @@ namespace PDTUtils
             try
             {
                 var ds = day + @"/" + month + @"/" + year + " " + hour + " " + ":" + minute;
-                credit = BoLib.getGameCreditLevel(gameNo);
-                stake = BoLib.getGameWager(gameNo);
+                _credit = BoLib.getGameCreditLevel(gameNo);
+                _stake = BoLib.getGameWager(gameNo);
                 GameModel = (uint) BoLib.getLastGameModel(gameNo);
 
-                logDate = DateTime.Parse(ds, ci);
-                winAmount = BoLib.getWinningGame(gameNo);
+                _logDate = DateTime.Parse(ds, ci);
+                _winAmount = BoLib.getWinningGame(gameNo);
 
                 OnPropertyChanged("PlayedGames");
             }
@@ -237,22 +239,22 @@ namespace PDTUtils
 
     public class MachineLogsController
     {
-        private readonly ObservableCollection<CashlessLibLog> m_cashLess = new ObservableCollection<CashlessLibLog>();
-        private readonly ObservableCollection<MachineErrorLog> m_errorLog = new ObservableCollection<MachineErrorLog>();
-        private readonly ObservableCollection<HandPayLog> m_handPayLog = new ObservableCollection<HandPayLog>();
-        private readonly ObservableCollection<PlayedGame> m_playedGames = new ObservableCollection<PlayedGame>();
+        private readonly ObservableCollection<CashlessLibLog> _cashLess = new ObservableCollection<CashlessLibLog>();
+        private readonly ObservableCollection<MachineErrorLog> _errorLog = new ObservableCollection<MachineErrorLog>();
+        private readonly ObservableCollection<HandPayLog> _handPayLog = new ObservableCollection<HandPayLog>();
+        private readonly ObservableCollection<PlayedGame> _playedGames = new ObservableCollection<PlayedGame>();
 
-        private readonly ObservableCollection<MachineErrorLog> m_warningLog =
+        private readonly ObservableCollection<MachineErrorLog> _warningLog =
             new ObservableCollection<MachineErrorLog>();
 
-        private readonly ObservableCollection<WinningGame> m_winningGames = new ObservableCollection<WinningGame>();
+        private readonly ObservableCollection<WinningGame> _winningGames = new ObservableCollection<WinningGame>();
 
         public MachineLogsController()
         {
             IsLoaded = false;
         }
 
-        public void setErrorLog()
+        public void SetErrorLog()
         {
             var errLogLocation = @"D:\machine\GAME_DATA\TerminalErrLog.log";
             try
@@ -299,7 +301,7 @@ namespace PDTUtils
             }
         }
 
-        public void setWarningLog()
+        public void SetWarningLog()
         {
             var errLogLocation = @"D:\machine\GAME_DATA\TerminalWarningLog.log";
             try
@@ -346,7 +348,7 @@ namespace PDTUtils
             }
         }
 
-        public void setPlayedLog()
+        public void SetPlayedLog()
         {
             for (var i = 0; i < 10; i++)
             {
@@ -355,7 +357,7 @@ namespace PDTUtils
             PlayedGames.BubbleSort();
         }
 
-        public void setWinningLog()
+        public void SetWinningLog()
         {
             for (var i = 0; i < 10; i++)
             {
@@ -371,7 +373,7 @@ namespace PDTUtils
             }
         }
 
-        public void setHandPayLog()
+        public void SetHandPayLog()
         {
             try
             {
@@ -397,7 +399,7 @@ namespace PDTUtils
             }
         }
 
-        public void setCashlessLibLog()
+        public void SetCashlessLibLog()
         {
             try
             {
@@ -410,7 +412,7 @@ namespace PDTUtils
             }
             catch (Exception ex)
             {
-                var box = new WPFMessageBoxService();
+                var box = new WpfMessageBoxService();
                 box.ShowMessage(ex.Message, "Exception Caught");
             }
         }
@@ -421,32 +423,32 @@ namespace PDTUtils
 
         public ObservableCollection<MachineErrorLog> ErrorLog
         {
-            get { return m_errorLog; }
+            get { return _errorLog; }
         }
 
         public ObservableCollection<WinningGame> WinningGames
         {
-            get { return m_winningGames; }
+            get { return _winningGames; }
         }
 
         public ObservableCollection<PlayedGame> PlayedGames
         {
-            get { return m_playedGames; }
+            get { return _playedGames; }
         }
 
         public ObservableCollection<MachineErrorLog> WarningLog
         {
-            get { return m_warningLog; }
+            get { return _warningLog; }
         }
 
         public ObservableCollection<HandPayLog> HandPayLogs
         {
-            get { return m_handPayLog; }
+            get { return _handPayLog; }
         }
 
         public ObservableCollection<CashlessLibLog> CashLess
         {
-            get { return m_cashLess; }
+            get { return _cashLess; }
         }
 
         #endregion

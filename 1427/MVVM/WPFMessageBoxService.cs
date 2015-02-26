@@ -2,7 +2,7 @@
 
 namespace PDTUtils.MVVM
 {
-    class WPFMessageBoxService : IMessageBoxService
+    class WpfMessageBoxService : IMessageBoxService
     {
         public bool ShowMessage(string text, string caption)
         {

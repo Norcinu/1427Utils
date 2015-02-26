@@ -37,17 +37,17 @@ namespace PDTUtils.Views
             var items = l.ItemsSource;
 
             IniSettingsWindow w = new IniSettingsWindow(c.Field, c.Value);
-            w.btnComment.IsEnabled = false;
-            w.btnComment.Visibility = Visibility.Hidden;
+            w.BtnComment.IsEnabled = false;
+            w.BtnComment.Visibility = Visibility.Hidden;
             if (w.ShowDialog() == false)
             {
                 switch (w.RetChangeType)
                 {
-                    case ChangeType.AMEND:
+                    case ChangeType.Amend:
                         AmendOption(w, sender, ref c);
                         l.SelectedIndex = -1;
                         break;
-                    case ChangeType.CANCEL:
+                    case ChangeType.Cancel:
                         l.SelectedIndex = -1;
                         break;
                     default:

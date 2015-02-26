@@ -9,59 +9,59 @@ namespace PDTUtils.Logic
     public class TouchScreenKeyboard : Window
     {
         #region Property & Variable & Constructor
-        private static double m_widthTouchKeyboard = 830;
+        private static double _widthTouchKeyboard = 830;
 
         public static double WidthTouchKeyboard
         {
-            get { return m_widthTouchKeyboard; }
-            set { m_widthTouchKeyboard = value; }
+            get { return _widthTouchKeyboard; }
+            set { _widthTouchKeyboard = value; }
 
         }
-        private static bool m_shiftFlag;
+        private static bool _shiftFlag;
 
         protected static bool ShiftFlag
         {
-            get { return m_shiftFlag; }
-            set { m_shiftFlag = value; }
+            get { return _shiftFlag; }
+            set { _shiftFlag = value; }
         }
 
-        private static bool m_capsLockFlag;
+        private static bool _capsLockFlag;
 
         protected static bool CapsLockFlag
         {
-            get { return TouchScreenKeyboard.m_capsLockFlag; }
-            set { TouchScreenKeyboard.m_capsLockFlag = value; }
+            get { return TouchScreenKeyboard._capsLockFlag; }
+            set { TouchScreenKeyboard._capsLockFlag = value; }
         }
         
-        private static Window m_instanceObject;
-        private static Brush m_previousTextBoxBackgroundBrush = null;
-        private static Brush m_previousTextBoxBorderBrush = null;
-        private static Thickness m_previousTextBoxBorderThickness;
+        private static Window _instanceObject;
+        private static Brush _previousTextBoxBackgroundBrush = null;
+        private static Brush _previousTextBoxBorderBrush = null;
+        private static Thickness _previousTextBoxBorderThickness;
 
-        private static Control m_currentControl;
+        private static Control _currentControl;
         public static string TouchScreenText
         {
             get
             {
-                if (m_currentControl is TextBox)
+                if (_currentControl is TextBox)
                 {
-                    return ((TextBox)m_currentControl).Text;
+                    return ((TextBox)_currentControl).Text;
                 }
-                else if (m_currentControl is PasswordBox)
+                else if (_currentControl is PasswordBox)
                 {
-                    return ((PasswordBox)m_currentControl).Password;
+                    return ((PasswordBox)_currentControl).Password;
                 }
                 else return "";
             }
             set
             {
-                if (m_currentControl is TextBox)
+                if (_currentControl is TextBox)
                 {
-                    ((TextBox)m_currentControl).Text = value;
+                    ((TextBox)_currentControl).Text = value;
                 }
-                else if (m_currentControl is PasswordBox)
+                else if (_currentControl is PasswordBox)
                 {
-                    ((PasswordBox)m_currentControl).Password = value;
+                    ((PasswordBox)_currentControl).Password = value;
                 }
             }
 
@@ -96,7 +96,7 @@ namespace PDTUtils.Logic
         public static RoutedUICommand CmdP = new RoutedUICommand();
         public static RoutedUICommand CmdOpenCrulyBrace = new RoutedUICommand();
         public static RoutedUICommand CmdEndCrultBrace = new RoutedUICommand();
-        public static RoutedUICommand CmdOR = new RoutedUICommand();
+        public static RoutedUICommand CmdOr = new RoutedUICommand();
 
         public static RoutedUICommand CmdCapsLock = new RoutedUICommand();
         public static RoutedUICommand CmdA = new RoutedUICommand();
@@ -145,123 +145,123 @@ namespace PDTUtils.Logic
         #region CommandRelatedCode
         private static void SetCommandBinding()
         {
-            CommandBinding CbTlide = new CommandBinding(CmdTlide, RunCommand);
-            CommandBinding Cb1 = new CommandBinding(Cmd1, RunCommand);
-            CommandBinding Cb2 = new CommandBinding(Cmd2, RunCommand);
-            CommandBinding Cb3 = new CommandBinding(Cmd3, RunCommand);
-            CommandBinding Cb4 = new CommandBinding(Cmd4, RunCommand);
-            CommandBinding Cb5 = new CommandBinding(Cmd5, RunCommand);
-            CommandBinding Cb6 = new CommandBinding(Cmd6, RunCommand);
-            CommandBinding Cb7 = new CommandBinding(Cmd7, RunCommand);
-            CommandBinding Cb8 = new CommandBinding(Cmd8, RunCommand);
-            CommandBinding Cb9 = new CommandBinding(Cmd9, RunCommand);
-            CommandBinding Cb0 = new CommandBinding(Cmd0, RunCommand);
-            CommandBinding CbMinus = new CommandBinding(CmdMinus, RunCommand);
-            CommandBinding CbPlus = new CommandBinding(CmdPlus, RunCommand);
-            CommandBinding CbBackspace = new CommandBinding(CmdBackspace, RunCommand);
+            CommandBinding cbTlide = new CommandBinding(CmdTlide, RunCommand);
+            CommandBinding cb1 = new CommandBinding(Cmd1, RunCommand);
+            CommandBinding cb2 = new CommandBinding(Cmd2, RunCommand);
+            CommandBinding cb3 = new CommandBinding(Cmd3, RunCommand);
+            CommandBinding cb4 = new CommandBinding(Cmd4, RunCommand);
+            CommandBinding cb5 = new CommandBinding(Cmd5, RunCommand);
+            CommandBinding cb6 = new CommandBinding(Cmd6, RunCommand);
+            CommandBinding cb7 = new CommandBinding(Cmd7, RunCommand);
+            CommandBinding cb8 = new CommandBinding(Cmd8, RunCommand);
+            CommandBinding cb9 = new CommandBinding(Cmd9, RunCommand);
+            CommandBinding cb0 = new CommandBinding(Cmd0, RunCommand);
+            CommandBinding cbMinus = new CommandBinding(CmdMinus, RunCommand);
+            CommandBinding cbPlus = new CommandBinding(CmdPlus, RunCommand);
+            CommandBinding cbBackspace = new CommandBinding(CmdBackspace, RunCommand);
 
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbTlide);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb1);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb2);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb3);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb4);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb5);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb6);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb7);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb8);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb9);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cb0);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbMinus);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbPlus);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbBackspace);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbTlide);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb1);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb2);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb3);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb4);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb5);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb6);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb7);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb8);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb9);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb0);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbMinus);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbPlus);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbBackspace);
             
-            CommandBinding CbTab = new CommandBinding(CmdTab, RunCommand);
-            CommandBinding CbQ = new CommandBinding(CmdQ, RunCommand);
-            CommandBinding Cbw = new CommandBinding(Cmdw, RunCommand);
-            CommandBinding CbE = new CommandBinding(CmdE, RunCommand);
-            CommandBinding CbR = new CommandBinding(CmdR, RunCommand);
-            CommandBinding CbT = new CommandBinding(CmdT, RunCommand);
-            CommandBinding CbY = new CommandBinding(CmdY, RunCommand);
-            CommandBinding CbU = new CommandBinding(CmdU, RunCommand);
-            CommandBinding CbI = new CommandBinding(CmdI, RunCommand);
-            CommandBinding Cbo = new CommandBinding(CmdO, RunCommand);
-            CommandBinding CbP = new CommandBinding(CmdP, RunCommand);
-            CommandBinding CbOpenCrulyBrace = new CommandBinding(CmdOpenCrulyBrace, RunCommand);
-            CommandBinding CbEndCrultBrace = new CommandBinding(CmdEndCrultBrace, RunCommand);
-            CommandBinding CbOR = new CommandBinding(CmdOR, RunCommand);
+            CommandBinding cbTab = new CommandBinding(CmdTab, RunCommand);
+            CommandBinding cbQ = new CommandBinding(CmdQ, RunCommand);
+            CommandBinding cbw = new CommandBinding(Cmdw, RunCommand);
+            CommandBinding cbE = new CommandBinding(CmdE, RunCommand);
+            CommandBinding cbR = new CommandBinding(CmdR, RunCommand);
+            CommandBinding cbT = new CommandBinding(CmdT, RunCommand);
+            CommandBinding cbY = new CommandBinding(CmdY, RunCommand);
+            CommandBinding cbU = new CommandBinding(CmdU, RunCommand);
+            CommandBinding cbI = new CommandBinding(CmdI, RunCommand);
+            CommandBinding cbo = new CommandBinding(CmdO, RunCommand);
+            CommandBinding cbP = new CommandBinding(CmdP, RunCommand);
+            CommandBinding cbOpenCrulyBrace = new CommandBinding(CmdOpenCrulyBrace, RunCommand);
+            CommandBinding cbEndCrultBrace = new CommandBinding(CmdEndCrultBrace, RunCommand);
+            CommandBinding cbOr = new CommandBinding(CmdOr, RunCommand);
 
-            CommandBinding CbCapsLock = new CommandBinding(CmdCapsLock, RunCommand);
-            CommandBinding CbA = new CommandBinding(CmdA, RunCommand);
-            CommandBinding CbS = new CommandBinding(CmdS, RunCommand);
-            CommandBinding CbD = new CommandBinding(CmdD, RunCommand);
-            CommandBinding CbF = new CommandBinding(CmdF, RunCommand);
-            CommandBinding CbG = new CommandBinding(CmdG, RunCommand);
-            CommandBinding CbH = new CommandBinding(CmdH, RunCommand);
-            CommandBinding CbJ = new CommandBinding(CmdJ, RunCommand);
-            CommandBinding CbK = new CommandBinding(CmdK, RunCommand);
-            CommandBinding CbL = new CommandBinding(CmdL, RunCommand);
-            CommandBinding CbColon = new CommandBinding(CmdColon, RunCommand);
-            CommandBinding CbDoubleInvertedComma = new CommandBinding(CmdDoubleInvertedComma, RunCommand);
-            CommandBinding CbEnter = new CommandBinding(CmdEnter, RunCommand);
+            CommandBinding cbCapsLock = new CommandBinding(CmdCapsLock, RunCommand);
+            CommandBinding cbA = new CommandBinding(CmdA, RunCommand);
+            CommandBinding cbS = new CommandBinding(CmdS, RunCommand);
+            CommandBinding cbD = new CommandBinding(CmdD, RunCommand);
+            CommandBinding cbF = new CommandBinding(CmdF, RunCommand);
+            CommandBinding cbG = new CommandBinding(CmdG, RunCommand);
+            CommandBinding cbH = new CommandBinding(CmdH, RunCommand);
+            CommandBinding cbJ = new CommandBinding(CmdJ, RunCommand);
+            CommandBinding cbK = new CommandBinding(CmdK, RunCommand);
+            CommandBinding cbL = new CommandBinding(CmdL, RunCommand);
+            CommandBinding cbColon = new CommandBinding(CmdColon, RunCommand);
+            CommandBinding cbDoubleInvertedComma = new CommandBinding(CmdDoubleInvertedComma, RunCommand);
+            CommandBinding cbEnter = new CommandBinding(CmdEnter, RunCommand);
 
-            CommandBinding CbShift = new CommandBinding(CmdShift, RunCommand);
-            CommandBinding CbZ = new CommandBinding(CmdZ, RunCommand);
-            CommandBinding CbX = new CommandBinding(CmdX, RunCommand);
-            CommandBinding CbC = new CommandBinding(CmdC, RunCommand);
-            CommandBinding CbV = new CommandBinding(CmdV, RunCommand);
-            CommandBinding CbB = new CommandBinding(CmdB, RunCommand);
-            CommandBinding CbN = new CommandBinding(CmdN, RunCommand);
-            CommandBinding CbM = new CommandBinding(CmdM, RunCommand);
-            CommandBinding CbGreaterThan = new CommandBinding(CmdGreaterThan, RunCommand);
-            CommandBinding CbLessThan = new CommandBinding(CmdLessThan, RunCommand);
-            CommandBinding CbQuestion = new CommandBinding(CmdQuestion, RunCommand);
+            CommandBinding cbShift = new CommandBinding(CmdShift, RunCommand);
+            CommandBinding cbZ = new CommandBinding(CmdZ, RunCommand);
+            CommandBinding cbX = new CommandBinding(CmdX, RunCommand);
+            CommandBinding cbC = new CommandBinding(CmdC, RunCommand);
+            CommandBinding cbV = new CommandBinding(CmdV, RunCommand);
+            CommandBinding cbB = new CommandBinding(CmdB, RunCommand);
+            CommandBinding cbN = new CommandBinding(CmdN, RunCommand);
+            CommandBinding cbM = new CommandBinding(CmdM, RunCommand);
+            CommandBinding cbGreaterThan = new CommandBinding(CmdGreaterThan, RunCommand);
+            CommandBinding cbLessThan = new CommandBinding(CmdLessThan, RunCommand);
+            CommandBinding cbQuestion = new CommandBinding(CmdQuestion, RunCommand);
             
-            CommandBinding CbSpaceBar = new CommandBinding(CmdSpaceBar, RunCommand);
-            CommandBinding CbClear = new CommandBinding(CmdClear, RunCommand);
+            CommandBinding cbSpaceBar = new CommandBinding(CmdSpaceBar, RunCommand);
+            CommandBinding cbClear = new CommandBinding(CmdClear, RunCommand);
             
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbTab);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbQ);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cbw);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbE);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbR);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbT);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbY);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbU);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbI);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), Cbo);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbP);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbOpenCrulyBrace);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbEndCrultBrace);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbOR);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbTab);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbQ);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbw);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbE);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbR);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbT);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbY);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbU);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbI);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbo);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbP);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbOpenCrulyBrace);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbEndCrultBrace);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbOr);
 
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbCapsLock);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbA);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbS);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbD);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbF);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbG);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbH);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbJ);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbK);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbL);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbColon);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbDoubleInvertedComma);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbEnter);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbCapsLock);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbA);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbS);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbD);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbF);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbG);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbH);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbJ);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbK);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbL);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbColon);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbDoubleInvertedComma);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbEnter);
 
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbShift);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbZ);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbX);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbC);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbV);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbB);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbN);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbM);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbGreaterThan);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbLessThan);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbQuestion);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbShift);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbZ);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbX);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbC);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbV);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbB);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbN);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbM);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbGreaterThan);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbLessThan);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbQuestion);
 
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbSpaceBar);
-            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), CbClear);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbSpaceBar);
+            CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbClear);
 
         }
         static void RunCommand(object sender, ExecutedRoutedEventArgs e)
@@ -514,7 +514,7 @@ namespace PDTUtils.Logic
                     ShiftFlag = false;
                 }
             }
-            else if (e.Command == CmdOR)
+            else if (e.Command == CmdOr)
             {
                 if (!ShiftFlag)
                 {
@@ -603,12 +603,12 @@ namespace PDTUtils.Logic
             }
             else if (e.Command == CmdEnter)
             {
-                if (m_instanceObject != null)
+                if (_instanceObject != null)
                 {
-                    m_instanceObject.Close();
-                    m_instanceObject = null;
+                    _instanceObject.Close();
+                    _instanceObject = null;
                 }
-                m_currentControl.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                _currentControl.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
 
 
             }
@@ -735,21 +735,21 @@ namespace PDTUtils.Logic
             }
         }
         
-        private static void syncchild()
+        private static void Syncchild()
         {
             try
             {
-	            if (m_currentControl != null && m_instanceObject != null)
+	            if (_currentControl != null && _instanceObject != null)
 	            {
 	
-	                Point virtualpoint = new Point(0, m_currentControl.ActualHeight + 3);
-	                Point Actualpoint = m_currentControl.PointToScreen(virtualpoint);
+	                Point virtualpoint = new Point(0, _currentControl.ActualHeight + 3);
+	                Point actualpoint = _currentControl.PointToScreen(virtualpoint);
 	
 	                var screens = System.Windows.Forms.Screen.AllScreens;
 	                
-	                m_instanceObject.Left = (screens[0].Bounds.Right / 2) - (WidthTouchKeyboard / 2);
-                    m_instanceObject.Top = Actualpoint.Y + 50;
-	                m_instanceObject.Show();
+	                _instanceObject.Left = (screens[0].Bounds.Right / 2) - (WidthTouchKeyboard / 2);
+                    _instanceObject.Top = actualpoint.Y + 50;
+	                _instanceObject.Show();
 	            }
             }
             catch (System.Exception ex)
@@ -794,17 +794,17 @@ namespace PDTUtils.Logic
         {
             Control host = sender as Control;
 
-            m_previousTextBoxBackgroundBrush = host.Background;
-            m_previousTextBoxBorderBrush = host.BorderBrush;
-            m_previousTextBoxBorderThickness = host.BorderThickness;
+            _previousTextBoxBackgroundBrush = host.Background;
+            _previousTextBoxBorderBrush = host.BorderBrush;
+            _previousTextBoxBorderThickness = host.BorderThickness;
 
             host.Background = Brushes.Yellow;
             host.BorderBrush = Brushes.Red;
             host.BorderThickness = new Thickness(4);
 
-            m_currentControl = host;
+            _currentControl = host;
 
-            if (m_instanceObject == null)
+            if (_instanceObject == null)
             {
                 FrameworkElement ct = host;
                 while (true)
@@ -819,12 +819,12 @@ namespace PDTUtils.Logic
                     ct = (FrameworkElement)ct.Parent;
                 }
 
-                m_instanceObject = new TouchScreenKeyboard();
-                m_instanceObject.AllowsTransparency = true;
-                m_instanceObject.WindowStyle = WindowStyle.None;
-                m_instanceObject.ShowInTaskbar = false;
-                m_instanceObject.ShowInTaskbar = false;
-                m_instanceObject.Topmost = true;
+                _instanceObject = new TouchScreenKeyboard();
+                _instanceObject.AllowsTransparency = true;
+                _instanceObject.WindowStyle = WindowStyle.None;
+                _instanceObject.ShowInTaskbar = false;
+                _instanceObject.ShowInTaskbar = false;
+                _instanceObject.Topmost = true;
 
                 host.LayoutUpdated += new EventHandler(tb_LayoutUpdated);
             }
@@ -832,42 +832,42 @@ namespace PDTUtils.Logic
 
         static void TouchScreenKeyboard_Deactivated(object sender, EventArgs e)
         {
-            if (m_instanceObject != null)
+            if (_instanceObject != null)
             {
-                m_instanceObject.Topmost = false;
+                _instanceObject.Topmost = false;
             }
         }
 
         static void TouchScreenKeyboard_Activated(object sender, EventArgs e)
         {
-            if (m_instanceObject != null)
+            if (_instanceObject != null)
             {
-                m_instanceObject.Topmost = true;
+                _instanceObject.Topmost = true;
             }
         }
 
         static void TouchScreenKeyboard_LocationChanged(object sender, EventArgs e)
         {
-            syncchild();
+            Syncchild();
         }
 
         static void tb_LayoutUpdated(object sender, EventArgs e)
         {
-            syncchild();
+            Syncchild();
         }
 
         static void OnLostFocus(object sender, RoutedEventArgs e)
         {
 
             Control host = sender as Control;
-            host.Background = m_previousTextBoxBackgroundBrush;
-            host.BorderBrush = m_previousTextBoxBorderBrush;
-            host.BorderThickness = m_previousTextBoxBorderThickness;
+            host.Background = _previousTextBoxBackgroundBrush;
+            host.BorderBrush = _previousTextBoxBorderBrush;
+            host.BorderThickness = _previousTextBoxBorderThickness;
 
-            if (m_instanceObject != null)
+            if (_instanceObject != null)
             {
-                m_instanceObject.Close();
-                m_instanceObject = null;
+                _instanceObject.Close();
+                _instanceObject = null;
             }
         }
 

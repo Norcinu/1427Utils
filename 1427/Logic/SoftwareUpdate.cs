@@ -17,38 +17,38 @@ namespace PDTUtils
         public string Avatar { get; set; }
 		public bool? IsFile { get; set; }
 
-		public FileImpl(string _name, string _av)
+		public FileImpl(string name, string av)
 		{
-			Name = _name;
-			Avatar = _av;
+			Name = name;
+			Avatar = av;
 			IsFile = null;
 		}
         
-        public FileImpl(string _name, string _av, bool _isFile)
+        public FileImpl(string name, string av, bool isFile)
         {
-            Name = _name;
-            Avatar = _av;
-            IsFile = _isFile;
+            Name = name;
+            Avatar = av;
+            IsFile = isFile;
         }
 	}
     
 	public class UserSoftwareUpdate : BaseNotifyPropertyChanged
 	{
-		string m_rollbackIni; 
-		string m_updateIni;
+		string _rollbackIni; 
+		string _updateIni;
         
-		DriveInfo m_updateDrive;
+		DriveInfo _updateDrive;
         
 		#region PROPERTIES
 		public uint FileCount { get; set; }
 
 		public string UpdateIni
 		{
-			get { return m_updateIni; }
-			set { m_updateIni = value; }
+			get { return _updateIni; }
+			set { _updateIni = value; }
 		}
 
-        ObservableCollection<string> FilesNotCopied;
+        ObservableCollection<string> _filesNotCopied;
 
         public bool HasUpdateStarted { get; set; }
         public bool HasUpdateFinished { get; set; }
@@ -66,7 +66,7 @@ namespace PDTUtils
         public UserSoftwareUpdate(FrameworkElement element)
 		{
             FilesToUpdate = new ObservableCollection<FileImpl>();
-            FilesNotCopied = new ObservableCollection<string>();
+            _filesNotCopied = new ObservableCollection<string>();
             
             HasUpdateStarted = false;
             HasUpdateFinished = false;
@@ -90,7 +90,7 @@ namespace PDTUtils
             OnPropertyChanged("LogText");
             FileCount = 0;
             FilesToUpdate.Clear();
-            FilesNotCopied.Clear();
+            _filesNotCopied.Clear();
             HasUpdateFinished = false;
             HasUpdateStarted = false;
             OnPropertyChanged("HasUpdateFinished");
@@ -102,29 +102,29 @@ namespace PDTUtils
             if (CanChangeToUsbDrive())
             {
                 // we can look for update.ini
-                if (File.Exists(m_updateIni))
+                if (File.Exists(_updateIni))
                 {
                     HasUpdateStarted = true;
                     OnPropertyChanged("HasUpdateStarted");
                     
-                    string[] folders_section = null;
-                    string[] files_section = null;
+                    string[] foldersSection = null;
+                    string[] filesSection = null;
                     bool[] quit = new bool[2] { false, false };
 
                     BoLib.setFileAction();
 
-                    quit[0] = ReadIniSection(out folders_section, "Folders");
-                    quit[1] = ReadIniSection(out files_section, "Files");
+                    quit[0] = ReadIniSection(out foldersSection, "Folders");
+                    quit[1] = ReadIniSection(out filesSection, "Files");
           
                     BoLib.clearFileAction();
           
                     if (quit[0] || quit[1])
                         return;
                     
-                    LogText = String.Format("Finding Files. {0} Total Files.\r\n", files_section.Length);
+                    LogText = String.Format("Finding Files. {0} Total Files.\r\n", filesSection.Length);
                     OnPropertyChanged("LogText");
                     
-                    foreach (var str in files_section)
+                    foreach (var str in filesSection)
                     {
                         var ret = GetImagePathString(str);
                         FilesToUpdate.Add(new FileImpl(str, ret, true));
@@ -132,10 +132,10 @@ namespace PDTUtils
                         OnPropertyChanged("UpdateFiles");
                     }
 
-                    LogText += String.Format("Finding Folders. {0} Total Folders.\r\n", folders_section.Length);
+                    LogText += String.Format("Finding Folders. {0} Total Folders.\r\n", foldersSection.Length);
                     OnPropertyChanged("LogText");
 
-                    foreach (var str in folders_section)
+                    foreach (var str in foldersSection)
                     {
                         var ret = GetImagePathString(str);
                         FilesToUpdate.Add(new FileImpl(str, ret, false));
@@ -149,10 +149,10 @@ namespace PDTUtils
                 }
             }
             else
-                SetNoUSBDriveMessage();
+                SetNoUsbDriveMessage();
 		}
 
-        private void SetNoUSBDriveMessage()
+        private void SetNoUsbDriveMessage()
         {
             LogText = "USB Update Not Found.\r\nPlease connect USB device and try again.\r\n";
             OnPropertyChanged("LogText");
@@ -169,23 +169,23 @@ namespace PDTUtils
             if (CanChangeToUsbDrive())
 			{
 				// we can look for update.ini
-				if (File.Exists(m_updateIni))
+				if (File.Exists(_updateIni))
 				{
-					string[] folders_section = null;
-					string[] files_section = null;
+					string[] foldersSection = null;
+					string[] filesSection = null;
 					bool[] quit = new bool[2] { false, false };
 				    
 					BoLib.setFileAction();
 					
-                    quit[0] = ReadIniSection(out folders_section, "Folders");
-					quit[1] = ReadIniSection(out files_section, "Files");
+                    quit[0] = ReadIniSection(out foldersSection, "Folders");
+					quit[1] = ReadIniSection(out filesSection, "Files");
                    
 					BoLib.clearFileAction();
                     
 					if (quit[0] || quit[1])
 						return;
                     
-					foreach (var str in files_section)
+					foreach (var str in filesSection)
 					{
 						var ret = GetImagePathString(str);
 						FilesToUpdate.Add(new FileImpl(str, ret, true));
@@ -193,7 +193,7 @@ namespace PDTUtils
                             FileCount++;
 					}
 					
-                    foreach (var str in folders_section)
+                    foreach (var str in foldersSection)
 					{
 						var ret = GetImagePathString(str);
 						FilesToUpdate.Add(new FileImpl(str, ret, false));
@@ -239,7 +239,7 @@ namespace PDTUtils
         
         bool ReadIniSection(out string[] section, string field)
 		{
-            bool? result = IniFileUtility.GetIniProfileSection(out section, field, m_updateIni);
+            bool? result = IniFileUtility.GetIniProfileSection(out section, field, _updateIni);
 			if (result == false || section == null)
 				return true;
             return false;
@@ -256,7 +256,7 @@ namespace PDTUtils
 		{
 			uint bufferSize = 4048;
 			IntPtr retStringPtr = Marshal.AllocCoTaskMem((int)bufferSize * sizeof(char));
-			var bytesReturned = NativeWinApi.GetPrivateProfileSection(field, retStringPtr, bufferSize, m_updateIni);
+			var bytesReturned = NativeWinApi.GetPrivateProfileSection(field, retStringPtr, bufferSize, _updateIni);
 			if ((bytesReturned == bufferSize - 2) || (bytesReturned == 0))
 			{
 				section = null;
@@ -277,9 +277,9 @@ namespace PDTUtils
 			{
 				if (d.Name[0] > 'D' && d.DriveType == DriveType.Removable)
 				{
-					m_rollbackIni = d.Name + @"rollback.ini";
-					m_updateIni = d.Name + "update.ini";
-					m_updateDrive = new DriveInfo(d.Name);
+					_rollbackIni = d.Name + @"rollback.ini";
+					_updateIni = d.Name + "update.ini";
+					_updateDrive = new DriveInfo(d.Name);
 					return true;
 				}
 			}
@@ -295,9 +295,9 @@ namespace PDTUtils
 		{
 			BoLib.setFileAction();
 			if (flag == 1)
-				NativeWinApi.WritePrivateProfileSection("Folders", path, m_rollbackIni);
+				NativeWinApi.WritePrivateProfileSection("Folders", path, _rollbackIni);
 			else
-				NativeWinApi.WritePrivateProfileSection("Files", path, m_rollbackIni);
+				NativeWinApi.WritePrivateProfileSection("Files", path, _rollbackIni);
 			BoLib.clearFileAction();
 		}
         
@@ -314,7 +314,7 @@ namespace PDTUtils
                 Debug.WriteLine(ex.Message);
 			}
             
-			var source = m_updateDrive.Name + fileToCopy;
+			var source = _updateDrive.Name + fileToCopy;
 			var destination = @"D:" + fileToCopy;
 			var rename = destination + "_old";
             
@@ -370,23 +370,23 @@ namespace PDTUtils
         
 		bool DoCopyDirectory(string path, int dirFlag)
 		{
-			string source_folder = m_updateDrive + path;
-			string destination_folder = @"d:\" + path;//no path?
-			string rename_folder = destination_folder + @"_old";
+			string sourceFolder = _updateDrive + path;
+			string destinationFolder = @"d:\" + path;//no path?
+			string renameFolder = destinationFolder + @"_old";
 			
-			if (!Directory.Exists(destination_folder))
+			if (!Directory.Exists(destinationFolder))
 			{
 				try
 				{
-					DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
-					foreach (string dirPath in Directory.GetDirectories(source_folder, "*",
+					DirectoryInfo srcInfo = new DirectoryInfo(sourceFolder);
+					foreach (string dirPath in Directory.GetDirectories(sourceFolder, "*",
 						SearchOption.AllDirectories))
-						Directory.CreateDirectory(dirPath.Replace(source_folder, destination_folder));
+						Directory.CreateDirectory(dirPath.Replace(sourceFolder, destinationFolder));
 				    
 					//Copy all the files & Replaces any files with the same name
-					foreach (string newPath in Directory.GetFiles(source_folder, "*.*",
+					foreach (string newPath in Directory.GetFiles(sourceFolder, "*.*",
 						SearchOption.AllDirectories))
-						File.Copy(newPath, newPath.Replace(source_folder, destination_folder), true);
+						File.Copy(newPath, newPath.Replace(sourceFolder, destinationFolder), true);
 				}
 				catch (System.Exception ex)
 				{
@@ -403,41 +403,41 @@ namespace PDTUtils
 				{
 					// folder does exist move it to _old
 					// and create new folder
-                    if (Directory.Exists(rename_folder))
+                    if (Directory.Exists(renameFolder))
                     {
-                        Directory.Delete(rename_folder, true);
+                        Directory.Delete(renameFolder, true);
                         
-                        Directory.Move(destination_folder, rename_folder);
-                        Directory.CreateDirectory(destination_folder);
-                        DirectoryInfo dstInfo = new DirectoryInfo(rename_folder);
+                        Directory.Move(destinationFolder, renameFolder);
+                        Directory.CreateDirectory(destinationFolder);
+                        DirectoryInfo dstInfo = new DirectoryInfo(renameFolder);
                         
-                        foreach (string dirPath in Directory.GetDirectories(rename_folder, "*",
+                        foreach (string dirPath in Directory.GetDirectories(renameFolder, "*",
                                  SearchOption.AllDirectories))
-                                 Directory.CreateDirectory(dirPath.Replace(rename_folder, destination_folder));
+                                 Directory.CreateDirectory(dirPath.Replace(renameFolder, destinationFolder));
                         
                         //Copy all the files & Replaces any files with the same name
-                        foreach (string newPath in Directory.GetFiles(rename_folder, "*.*",
+                        foreach (string newPath in Directory.GetFiles(renameFolder, "*.*",
                                  SearchOption.AllDirectories))
-                                 File.Copy(newPath, newPath.Replace(rename_folder, destination_folder), true);
+                                 File.Copy(newPath, newPath.Replace(renameFolder, destinationFolder), true);
                         //maybe just copy the files and folders over instead of moving.
-                        DirectoryInfo srcInfo = new DirectoryInfo(source_folder);
-                        AddToRollBack(rename_folder, 1);
-                        GetAndCopyAllFiles(srcInfo, destination_folder);
+                        DirectoryInfo srcInfo = new DirectoryInfo(sourceFolder);
+                        AddToRollBack(renameFolder, 1);
+                        GetAndCopyAllFiles(srcInfo, destinationFolder);
                         
-                        DirectoryInfo d = new DirectoryInfo(source_folder);
+                        DirectoryInfo d = new DirectoryInfo(sourceFolder);
                         var files = d.GetFiles();
                         foreach (var fi in files)
                         {
-                            if (NativeMD5.CheckHash(source_folder + fi.Name) || !NativeMD5.CheckFileType(source_folder + fi.Name))
+                            if (NativeMD5.CheckHash(sourceFolder + fi.Name) || !NativeMD5.CheckFileType(sourceFolder + fi.Name))
                             {
-                                File.SetAttributes(destination_folder + fi.Name, FileAttributes.Normal);
-                                var destAttr = File.GetAttributes(destination_folder + fi.Name);
+                                File.SetAttributes(destinationFolder + fi.Name, FileAttributes.Normal);
+                                var destAttr = File.GetAttributes(destinationFolder + fi.Name);
                                 if ((destAttr & FileAttributes.Normal) == FileAttributes.Normal)
                                 {
                                     var retries = 10;
-                                    while (!NativeMD5.CheckHash(destination_folder + fi.Name) && retries > 0)
+                                    while (!NativeMD5.CheckHash(destinationFolder + fi.Name) && retries > 0)
                                     {
-                                        NativeMD5.AddHashToFile(destination_folder + fi.Name);
+                                        NativeMD5.AddHashToFile(destinationFolder + fi.Name);
                                         retries--;
                                     }
                                     return true;
@@ -455,14 +455,14 @@ namespace PDTUtils
 			return true;
 		}
 
-		void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destination_folder)
+		void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destinationFolder)
 		{
 			try 
 			{
 				var files = srcInfo.GetFiles();
 				foreach (var f in files)
 				{
-					f.CopyTo(Path.Combine(destination_folder, f.Name));
+					f.CopyTo(Path.Combine(destinationFolder, f.Name));
 				}
 			}
 			catch (System.Exception ex)
@@ -490,7 +490,7 @@ namespace PDTUtils
             HasUpdateFinished = false;
 			FileCount = 0;
 			FilesToUpdate.Clear();
-			FilesNotCopied.Clear();
+			_filesNotCopied.Clear();
             LogText = "";
             OnPropertyChanged("LogText");
             OnPropertyChanged("HasUpdateStarted");
@@ -499,15 +499,15 @@ namespace PDTUtils
 		
 		public void DeleteRollBack()
 		{
-			string[] folders_section = null;
-			string[] files_section = null;
+			string[] foldersSection = null;
+			string[] filesSection = null;
             
 			BoLib.setFileAction();
-            bool? result = IniFileUtility.GetIniProfileSection(out folders_section, "folders", m_updateIni);
+            bool? result = IniFileUtility.GetIniProfileSection(out foldersSection, "folders", _updateIni);
 			if (result != true)
 				return;
             
-            result = IniFileUtility.GetIniProfileSection(out files_section, "files", m_updateIni);
+            result = IniFileUtility.GetIniProfileSection(out filesSection, "files", _updateIni);
 			if (result != true)
 				return;
 			BoLib.clearFileAction();

@@ -95,14 +95,14 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button Height="75" Width="70"  Margin="0,10,0,10" FontSize="30"
 						IsEnabled="{Binding IsCatC}"
-						Command="{Binding SetRTP}"
+						Command="{Binding SetRtp}"
 						CommandParameter="88">88%</Button>
                 <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
                     <Label Style="{StaticResource StdLabel}">CAT C RTP</Label>
                 </Border>
                 <Button Height="75" Width="70"  Margin="0,10,100,10" FontSize="30"
 						IsEnabled="{Binding IsCatC}"
-						Command="{Binding SetRTP}"
+						Command="{Binding SetRtp}"
 						CommandParameter="90">90%</Button>
 
                 <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">

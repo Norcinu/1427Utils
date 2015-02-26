@@ -8,67 +8,67 @@ namespace PDTUtils
 {
 	public class GameStats : IComparable
 	{
-		int m_gameNumber;
-		int m_modelNumber;
-		int m_bets;
-		int m_wins;
-		string m_percentage;
-		double m_averageStake;
+		int _gameNumber;
+		int _modelNumber;
+		int _bets;
+		int _wins;
+		string _percentage;
+		double _averageStake;
 
 		#region Properties
 		public int GameNumber
 		{
-			get { return m_gameNumber; }
-			set { m_gameNumber = value; }
+			get { return _gameNumber; }
+			set { _gameNumber = value; }
 		}
 		
 		public int ModelNumber
 		{
-			get { return m_modelNumber; }
-			set { m_modelNumber = value; }
+			get { return _modelNumber; }
+			set { _modelNumber = value; }
 		}
 		
 		public int Bets
 		{
-			get { return m_bets; }
-			set { m_bets = value; }
+			get { return _bets; }
+			set { _bets = value; }
 		}
 		
 		public int Wins
 		{
-			get { return m_wins; }
-			set { m_wins = value; }
+			get { return _wins; }
+			set { _wins = value; }
 		}
 		
 		public string Percentage
 		{
-			get { return m_percentage; }
-			set { m_percentage = value; }
+			get { return _percentage; }
+			set { _percentage = value; }
 		}
 		
 		public double AverageStake
 		{
-			get { return m_averageStake; }
-			set { m_averageStake = value; }
+			get { return _averageStake; }
+			set { _averageStake = value; }
 		}
 		
 		public string ImageSource
 		{
 			get;
 			set;
-			/*get { return m_imageSource; }
-			set { m_imageSource = value; }*/
+			/*get { return _imageSource; }
+			set { _imageSource = value; }*/
 		}
 		#endregion
         
 		public GameStats()
 		{
-			m_gameNumber = 0;
-			m_modelNumber = 0;
-			m_bets = 0;
-			m_wins = 0;
-			m_percentage = "";
-			m_averageStake = 0.0;
+			_gameNumber = 0;
+			_modelNumber = 0;
+			_bets = 0;
+			_wins = 0;
+			_percentage = "";
+			_averageStake = 0.0;
 			ImageSource = "";
 		}
 
@@ -89,61 +89,61 @@ namespace PDTUtils
 	/// </summary>
 	public class MachineGameStatistics 
 	{
-		ObservableCollection<GameStats> m_games = new ObservableCollection<GameStats>();
-		string m_perfLog = PDTUtils.Properties.Resources.perf_log;
-		int m_moneyIn = 0;
-		int m_moneyOut = 0;
-		int m_totalBet = 0;
-		int m_totalWon = 0;
-		int m_totalGames = 0;
-		int m_numberOfGames = 0;
-		bool m_fileLoaded = false;
+		ObservableCollection<GameStats> _games = new ObservableCollection<GameStats>();
+		string _perfLog = PDTUtils.Properties.Resources.perf_log;
+		int _moneyIn = 0;
+		int _moneyOut = 0;
+		int _totalBet = 0;
+		int _totalWon = 0;
+		int _totalGames = 0;
+		int _numberOfGames = 0;
+		bool _fileLoaded = false;
 
 		#region Properties
 		public ObservableCollection<GameStats> Games
 		{
-			get { return m_games; }
+			get { return _games; }
 		}
 
 		public int LoadedGameCount
 		{
-			get { return m_games.Count; }
+			get { return _games.Count; }
 		}
 
 		public int MoneyIn
 		{
-			get { return m_moneyIn; }
-			set { m_moneyIn = value; }
+			get { return _moneyIn; }
+			set { _moneyIn = value; }
 		}
 
 		public int MoneyOut
 		{
-			get { return m_moneyOut; }
-			set { m_moneyOut = value; }
+			get { return _moneyOut; }
+			set { _moneyOut = value; }
 		}
 
 		public int TotalBet
 		{
-			get { return m_totalBet; }
-			set { m_totalBet = value; }
+			get { return _totalBet; }
+			set { _totalBet = value; }
 		}
 
 		public int TotalWon
 		{
-			get { return m_totalWon; }
-			set { m_totalWon = value; }
+			get { return _totalWon; }
+			set { _totalWon = value; }
 		}
 
 		public int TotalGames
 		{
-			get { return m_totalGames; }
-			set { m_totalGames = value; }
+			get { return _totalGames; }
+			set { _totalGames = value; }
 		}
 
 		public int NumberOfGames
 		{
-			get { return m_numberOfGames; }
-			set { m_numberOfGames = value; }
+			get { return _numberOfGames; }
+			set { _numberOfGames = value; }
 		}
 		#endregion
 
@@ -192,57 +192,57 @@ namespace PDTUtils
 		
 		public void ResetStats()
 		{
-			m_moneyIn = 0;
-			m_moneyOut = 0;
-			m_totalBet = 0;
-			m_totalWon = 0;
-			m_totalGames = 0;
-			m_numberOfGames = 0;
-			m_fileLoaded = false;
+			_moneyIn = 0;
+			_moneyOut = 0;
+			_totalBet = 0;
+			_totalWon = 0;
+			_totalGames = 0;
+			_numberOfGames = 0;
+			_fileLoaded = false;
             
-			Extension.RemoveAll(m_games);
+			Extension.RemoveAll(_games);
 		}
         
 		public void ParsePerfLog()
         {
-            if (m_games.Count > 0)
-                Extension.RemoveAll(m_games);
+            if (_games.Count > 0)
+                Extension.RemoveAll(_games);
 
-            var moneyInLt = BoLib.getPerformanceMeter((byte)Performance.MONEY_IN_LT);
-            var moneyOutLt = BoLib.getPerformanceMeter((byte)Performance.MONEY_OUT_LT);
-            var moneyWageredLt = BoLib.getPerformanceMeter((byte)Performance.WAGERED_LT);
-            var wonLt = BoLib.getPerformanceMeter((byte)Performance.WON_LT);
-            var noGames = BoLib.getPerformanceMeter((byte)Performance.NO_GAMES_LT);
+            var moneyInLt = BoLib.getPerformanceMeter((byte)Performance.MoneyInLt);
+            var moneyOutLt = BoLib.getPerformanceMeter((byte)Performance.MoneyOutLt);
+            var moneyWageredLt = BoLib.getPerformanceMeter((byte)Performance.WageredLt);
+            var wonLt = BoLib.getPerformanceMeter((byte)Performance.WonLt);
+            var noGames = BoLib.getPerformanceMeter((byte)Performance.NoGamesLt);
 
             var gameCnt = BoLib.getTerminalFormat();
 
-            m_moneyIn = (int)moneyInLt;
-            m_moneyOut = (int)moneyOutLt;
-            m_totalBet = (int)moneyWageredLt;
-            m_totalWon = (int)wonLt;
-            m_totalGames = (int)noGames;
-            m_numberOfGames = (int)gameCnt + 1;
+            _moneyIn = (int)moneyInLt;
+            _moneyOut = (int)moneyOutLt;
+            _totalBet = (int)moneyWageredLt;
+            _totalWon = (int)wonLt;
+            _totalGames = (int)noGames;
+            _numberOfGames = (int)gameCnt + 1;
 
             for (int i = 0; i < gameCnt + 1; i++)
             {
                 var modelNo = BoLib.getGameModel(i);
-                var Bet = (uint)BoLib.getGamePerformanceMeter((uint)i, 0);
-                var Win = (int)BoLib.getGamePerformanceMeter((uint)i, 1);
-                var Perc = ((double)Win / (double)Bet) * 100;// *10000;
+                var bet = (uint)BoLib.getGamePerformanceMeter((uint)i, 0);
+                var win = (int)BoLib.getGamePerformanceMeter((uint)i, 1);
+                var perc = ((double)win / (double)bet) * 100;// *10000;
                 GameStats stats = new GameStats();
                 stats.GameNumber = i;
                 stats.ModelNumber = (int)modelNo;
-                stats.Bets = (int)Bet;
-                stats.Wins = Win;
-                stats.Percentage = (Perc > 0) ? Perc.ToString() + "%" : "0.00%";
+                stats.Bets = (int)bet;
+                stats.Wins = win;
+                stats.Percentage = (perc > 0) ? perc.ToString() + "%" : "0.00%";
                 stats.ImageSource = (modelNo == 1524) ? @"D:\1525\BMP\GameIconS.png" : @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png";
-                m_games.Add(stats);
+                _games.Add(stats);
             }
             
             #region lockoff
-            /*if (m_fileLoaded == false)
+            /*if (_fileLoaded == false)
 			{
-				using (FileStream fs = File.Open(m_perfLog, FileMode.Open, FileAccess.Read, FileShare.Read))
+				using (FileStream fs = File.Open(_perfLog, FileMode.Open, FileAccess.Read, FileShare.Read))
 				using (BufferedStream bs = new BufferedStream(fs))
 				using (StreamReader sr = new StreamReader(bs))
 				{
@@ -273,7 +273,7 @@ namespace PDTUtils
                             {
                                 if (gameCounter < Convert.ToInt32(generalValues[5]))
                                 {
-                                    var outter = sorted[gameCounter];//m_games[gameCounter];
+                                    var outter = sorted[gameCounter];//_games[gameCounter];
                                     line = line.Trim();
                                     FillGameStats(line.Split("=".ToCharArray()), ref outter);
                                 }
@@ -300,16 +300,16 @@ namespace PDTUtils
                     sorted.Sort();
                     for (int i = 0; i < sorted.Count; i++)
                     {
-                        m_games.Add(sorted[i]);
+                        _games.Add(sorted[i]);
                     }
 
-					m_fileLoaded = true;
-					m_moneyIn = Convert.ToInt32(generalValues[0]);
-					m_moneyOut = Convert.ToInt32(generalValues[1]);
-					m_totalBet = Convert.ToInt32(generalValues[2]);
-					m_totalWon = Convert.ToInt32(generalValues[3]);
-					m_totalGames = Convert.ToInt32(generalValues[4]);
-					m_numberOfGames = Convert.ToInt32(generalValues[5]);
+					_fileLoaded = true;
+					_moneyIn = Convert.ToInt32(generalValues[0]);
+					_moneyOut = Convert.ToInt32(generalValues[1]);
+					_totalBet = Convert.ToInt32(generalValues[2]);
+					_totalWon = Convert.ToInt32(generalValues[3]);
+					_totalGames = Convert.ToInt32(generalValues[4]);
+					_numberOfGames = Convert.ToInt32(generalValues[5]);
 				}
 			}*/
             #endregion

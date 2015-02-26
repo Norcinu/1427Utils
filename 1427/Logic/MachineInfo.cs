@@ -35,7 +35,7 @@ namespace PDTUtils.Logic
 			
 		}
 
-		private string GetMachineIP()
+		private string GetMachineIp()
 		{
 			string address = "IP Address: ";
 			foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
@@ -62,13 +62,13 @@ namespace PDTUtils.Logic
 
 		public string GetMemoryInfo()
 		{
-			NativeWinApi.MEMORYSTATUS ms = new NativeWinApi.MEMORYSTATUS();
+			NativeWinApi.Memorystatus ms = new NativeWinApi.Memorystatus();
 			NativeWinApi.GlobalMemoryStatus(ref ms);
 
-			var str = new StringBuilder("Total Physical Memory: " + (ms.dwTotalPhys / 1024) / 1024 + " MB");
-			str.Append("\tFree Physical Memory: " + (ms.dwAvailPhys / 1024) / 1024 + " MB");
-			str.Append("\nTotal Virtual Memory: " + (ms.dwTotalVirtual / 1024) / 1024 + " MB");
-			str.Append("\tFree Virtual Memory: " + (ms.dwAvailVirtual / 1024) / 1024 + " MB");
+			var str = new StringBuilder("Total Physical Memory: " + (ms.DwTotalPhys / 1024) / 1024 + " MB");
+			str.Append("\tFree Physical Memory: " + (ms.DwAvailPhys / 1024) / 1024 + " MB");
+			str.Append("\nTotal Virtual Memory: " + (ms.DwTotalVirtual / 1024) / 1024 + " MB");
+			str.Append("\tFree Virtual Memory: " + (ms.DwAvailVirtual / 1024) / 1024 + " MB");
 
 			return str.ToString();
 		}
@@ -78,10 +78,10 @@ namespace PDTUtils.Logic
 			string errorString = "Screen Not Active/Fitted.\n";
 
 			var str = new StringBuilder("Top Screen:\t "); 
-			NativeWinApi.DEVMODE dm = new NativeWinApi.DEVMODE();
+			NativeWinApi.Devmode dm = new NativeWinApi.Devmode();
 
 			var result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display2", 
-				(int)NativeWinApi.ModeNum.ENUM_CURRENT_SETTINGS, ref dm);
+				(int)NativeWinApi.ModeNum.EnuCurrentSettings, ref dm);
 			
 			if (result == true)
 			{
@@ -92,9 +92,9 @@ namespace PDTUtils.Logic
 				str.Append(errorString);
 			
 			str.Append("Bottom Screen:\t "); 
-			NativeWinApi.DEVMODE dm2 = new NativeWinApi.DEVMODE();
+			NativeWinApi.Devmode dm2 = new NativeWinApi.Devmode();
 			result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display1", 
-				(int)NativeWinApi.ModeNum.ENUM_CURRENT_SETTINGS, ref dm2);
+				(int)NativeWinApi.ModeNum.EnuCurrentSettings, ref dm2);
 			
 			if (result == true)
 			{
@@ -112,12 +112,12 @@ namespace PDTUtils.Logic
 			return BoLib.getSerialNumber();
 		}
 
-		public string GetCpuID()
+		public string GetCpuId()
 		{
 			return "CPU-ID: " + BoLib.GetUniquePcbID(0);
 		}
 
-		public string GetEDC()
+		public string GetEdc()
 		{
 			return BoLib.getEDCTypeStr();
 		}
@@ -136,13 +136,13 @@ namespace PDTUtils.Logic
 
 		public string GetOsVersion()
 		{
-			NativeWinApi.OSVERSIONINFO os = new NativeWinApi.OSVERSIONINFO();
-			os.dwOSVersionInfoSize = (uint)Marshal.SizeOf(os);
+			NativeWinApi.Osversioninfo os = new NativeWinApi.Osversioninfo();
+			os.DwOsVersionInfoSize = (uint)Marshal.SizeOf(os);
 			NativeWinApi.GetVersionEx(ref os);
-			return "OS Version:\nWindows XPe - " + os.szCSDVersion.ToString();
+			return "OS Version:\nWindows XPe - " + os.SzCsdVersion.ToString();
 		}
 
-		public string GetLastMD5Check()
+		public string GetLastMd5Check()
 		{
 			return ReadFileLine(Resources.security_log);
 		}
@@ -185,17 +185,17 @@ namespace PDTUtils.Logic
 		public void QueryMachine()
 		{
 			Add(new SystemInfo(GetComputerName()));
-			Add(new SystemInfo(GetMachineIP()));
+			Add(new SystemInfo(GetMachineIp()));
 			Add(new SystemInfo(GetMachineSerial()));
 			Add(new SystemInfo(GetMemoryInfo()));
 			Add(new SystemInfo(GetScreenResolution()));
-			Add(new SystemInfo(GetCpuID()));
+			Add(new SystemInfo(GetCpuId()));
 			Add(new SystemInfo("Game Provider: Project Coin"));
 			Add(new SystemInfo(GetOsVersion()));
-			Add(new SystemInfo(GetLastMD5Check()));
+			Add(new SystemInfo(GetLastMd5Check()));
 			Add(new SystemInfo(GetUpdateKey()));
 			Add(new SystemInfo(GetCountryCode()));
-			Add(new SystemInfo(GetEDC()));
+			Add(new SystemInfo(GetEdc()));
 						
 			// 20 fields platform -> utils.
 			// x games is seperate. + maybe include shell, utils + menu here. if so above will be 17 fields.

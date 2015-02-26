@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Controls;
 using System.Windows.Input;
 using PDTUtils.Native;
-using System.Threading;
+
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -30,7 +30,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _handPayActive = value;
                 if (_handPayActive && _addCreditsActive)
                     AddCreditsActive = false;
-                this.RaisePropertyChangedEvent("HandPayActive");
+                RaisePropertyChangedEvent("HandPayActive");
 #if DEBUG
                 Debug.WriteLine("HandPayActive", _handPayActive.ToString());
 #endif
@@ -45,7 +45,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _addCreditsActive = value;
                 if (_addCreditsActive && _handPayActive)
                     HandPayActive = false;
-                this.RaisePropertyChangedEvent("AddCreditsActive");
+                RaisePropertyChangedEvent("AddCreditsActive");
 #if DEBUG
                 Debug.WriteLine("AddCreditsActive", _addCreditsActive.ToString());
 #endif
@@ -87,8 +87,10 @@ namespace PDTUtils.MVVM.ViewModels
 
         string _caption = "Warning";
         string _message = "Please Open the terminal door and try again.";
-        WPFMessageBoxService _msgBoxService = new WPFMessageBoxService();
-        public System.Timers.Timer _refillTimer;
+        readonly  PDTUtils.MVVM.WpfMessageBoxService _msgBoxService = new PDTUtils.MVVM.WpfMessageBoxService();
+        
+ 
+        System.Timers.Timer RefillTimer;
         Decimal _totalCredits = 0;
 
         public MainPageViewModel()
@@ -128,7 +130,7 @@ namespace PDTUtils.MVVM.ViewModels
         void GetCreditLevel()
         {
             Credits = BoLib.getCredit();
-            this.RaisePropertyChangedEvent("Credits");
+            RaisePropertyChangedEvent("Credits");
         }
 
         public ICommand GetBank
@@ -184,13 +186,10 @@ namespace PDTUtils.MVVM.ViewModels
 
         void GetMaxNoteValue()
         {
-            uint maxValue = BoLib.getLiveElement(11); //ESP_MAX_BANKNOTE_VALUE 
-            if (maxValue > 2000)
-                CanPayFifty = true;
-            else
-                CanPayFifty = false;
+            var maxValue = BoLib.getLiveElement(11); //ESP_MAX_BANKNOTE_VALUE 
+            CanPayFifty = maxValue > 2000;
         }
-        
+
         public ICommand AddCredits
         {
             get { return new DelegateCommand(o => AddCreditsActive = !AddCreditsActive); }
@@ -206,7 +205,7 @@ namespace PDTUtils.MVVM.ViewModels
             var errorCode = BoLib.getError();
             if (errorCode > 0)
             {
-                string last = BoLib.getErrorMessage("", BoLib.getError());
+                var last = BoLib.getErrorMessage("", BoLib.getError());
                 ErrorMessage = "Current Error : " + "[" + errorCode + "] " + last + "\nOpen Door and Press Button To Clear Error";
             }
             else
@@ -383,19 +382,19 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }
         void DoEndRefill()
         {
-            if (_refillTimer == null)
+            if (RefillTimer == null)
             {
-                _refillTimer = new System.Timers.Timer(100);
-                _refillTimer.Enabled = true;
+                RefillTimer = new System.Timers.Timer(100);
+                RefillTimer.Enabled = true;
             }
             //just breathe 
             NotRefilling = false;
-            _refillTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+            RefillTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
             {
              //   if (EndRefill)
                 {
              //       this.EndRefill = false;
-                    _refillTimer.Enabled = false;
+                    RefillTimer.Enabled = false;
                     //dispatch timer to update labels every x milliseconds.
                 }
             };

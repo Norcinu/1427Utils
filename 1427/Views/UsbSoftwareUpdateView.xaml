@@ -20,14 +20,14 @@
             <!-- <Border BorderBrush="Black" Margin="2" BorderThickness="2"> this one needs to go imo -->
             <StackPanel Orientation="Horizontal" Margin="5,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Border BorderBrush="Black" Margin="2" BorderThickness="2">
-                    <StackPanel MinWidth="246"  VerticalAlignment="Top"  Name="stpUpdateBase" Background="Azure" Margin="0,0,5,0" MinHeight="150">
+                    <StackPanel MinWidth="246"  VerticalAlignment="Top"  Name="StpUpdateBase" Background="Azure" Margin="0,0,5,0" MinHeight="150">
                         <Label Margin="5,5,5,0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque">Select Operation&#58;</Label>
-                        <Button Margin="5,5,5,0" Name="btnUpdateFiles" Content="Update Files" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding UpdatePrep}"></Button>
-                        <Button Margin="5,5,5,5" Name="btnRollback" Content="Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center" Command="{Binding Rollback}" IsEnabled="{Binding HasUpdateStarted}"></Button>
+                        <Button Margin="5,5,5,0" Name="BtnUpdateFiles" Content="Update Files" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding UpdatePrep}"></Button>
+                        <Button Margin="5,5,5,5" Name="BtnRollback" Content="Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center" Command="{Binding Rollback}" IsEnabled="{Binding HasUpdateStarted}"></Button>
                     </StackPanel>
                 </Border>
                 
-                <StackPanel Name="stpUpdate"  Background="Azure" Margin="0,0,5,0" Width="512" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <StackPanel Name="StpUpdate"  Background="Azure" Margin="0,0,5,0" Width="512" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <Grid Background="LightGray">
                         <Grid.RowDefinitions>
                             <RowDefinition Name="RowOne" Height="82*"/>
@@ -35,9 +35,9 @@
                             <RowDefinition Name="RowThree" Height="*" />
                         </Grid.RowDefinitions>
                         
-                        <Label Grid.Row="0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque" Margin="0,5,0,5" Name="lblUpdateSelect" Content="Files to be updated." HorizontalAlignment="Center" />
+                        <Label Grid.Row="0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque" Margin="0,5,0,5" Name="LblUpdateSelect" Content="Files to be updated." HorizontalAlignment="Center" />
 
-                        <TreeView Name="treeUpdateSelectFiles" Margin="5,5,5,35" Grid.Row="1" ItemsSource="{Binding Path=FilesToUpdate}" Height="200" VerticalAlignment="Top" Background="Honeydew">
+                        <TreeView Name="TreeUpdateSelectFiles" Margin="5,5,5,35" Grid.Row="1" ItemsSource="{Binding Path=FilesToUpdate}" Height="200" VerticalAlignment="Top" Background="Honeydew">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="-25,0,25,5" >
@@ -55,12 +55,12 @@
                                 <ColumnDefinition Name="ColumnTwo" Width="256" />
                             </Grid.ColumnDefinitions>
 
-                            <Button Width="75" Height="25" FontWeight="Bold" Name="btnPerformUpdate" Grid.Column="0" 
+                            <Button Width="75" Height="25" FontWeight="Bold" Name="BtnPerformUpdate" Grid.Column="0" 
                                         Margin="0,5,0,5" Command="{Binding Update}" Visibility="{Binding Path=HasUpdateStarted, Converter={StaticResource BoolToVis}}">
                                 <AccessText>_Update</AccessText>
                             </Button>
                             
-                            <Button Width="75" Height="25" FontWeight="Bold" Name="btnCancelUpdate" Grid.Column="1" 
+                            <Button Width="75" Height="25" FontWeight="Bold" Name="BtnCancelUpdate" Grid.Column="1" 
                                         Margin="0,5,0,5" Command="{Binding Cancel}" Visibility="{Binding Path=HasUpdateStarted, Converter={StaticResource BoolToVis}}">
                                 <AccessText>_Cancel</AccessText>
                             </Button>

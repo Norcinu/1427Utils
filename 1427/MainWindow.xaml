@@ -63,23 +63,21 @@
         </Grid.RowDefinitions>
 
         <!-- 2nd screenshot uses ColumnSpan and RowSpan -->
-        <Label Name="lblTop"
+        <Label Name="LblTop"
                Background="#336699"  
                BorderBrush="Black" 
                BorderThickness="2" 
                VerticalContentAlignment="Center"
                Grid.ColumnSpan="2" />
-        <!--LightGoldenrodYellow"-->
-        <!-- columnspan="5" -->
-        <Label Name="lblLeft" 
+
+        <Label Name="LblLeft" 
                Background="DimGray" 
                BorderBrush="Black" 
                BorderThickness="2" 
                Grid.Row="1" 
                Grid.RowSpan="2" Margin="-5,2,6,-2"/>
 
-        <!--Background="LightGreen"-->
-        <Label Name="lblRight" 
+        <Label Name="LblRight" 
                Background="DimGray" 
                BorderBrush="Azure" 
                BorderThickness="2" 
@@ -90,7 +88,7 @@
                Style="{Binding}" 
                IsEnabled="True" />
 
-        <Label Name="lblBottom" 
+        <Label Name="LblBottom" 
                Background="#FF336699" 
                BorderBrush="Black" 
                BorderThickness="2" 
@@ -105,7 +103,7 @@
                Height="39" 
                HorizontalAlignment="Right" 
                Margin="0,10,0,0" 
-               Name="lblDoorStatus" 
+               Name="LblDoorStatus" 
                VerticalAlignment="Top" 
                Width="275" 
                FontWeight="Bold" FontSize="26" 
@@ -116,25 +114,14 @@
                     Grid.Row="1" 
                     HorizontalAlignment="Center" 
                     Margin="0,6,0,0" 
-                    Name="stpButtonPanel" 
+                    Name="StpButtonPanel" 
                     VerticalAlignment="Top" 
                     Orientation="Horizontal" 
                     ScrollViewer.HorizontalScrollBarVisibility="Visible" />
 
         <Border BorderBrush="Azure" BorderThickness="3" Grid.Row="1" Grid.Column="1">
-            <Label Style="{StaticResource StdLabel}" Name="lblUptime" Grid.Row="1" Grid.Column="1" />
+            <Label Style="{StaticResource StdLabel}" Name="LblUptime" Grid.Row="1" Grid.Column="1" />
         </Border>
-        <!-- <Label Height="Auto" 
-               HorizontalAlignment="Left" 
-               Margin="292,12,0,0" 
-               Name="lblUptime" 
-               VerticalAlignment="Top" 
-               Grid.Column="1" 
-               Grid.Row="1" 
-               Width="Auto" 
-               FontSize="36" 
-               IsEnabled="False" 
-               Visibility="Collapsed" /> -->
 
         <!-- Logfiles -->
         <TabControl Name="MyLogfiles" Panel.ZIndex="5" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding Path=Enabler.Logfile}" Visibility="{Binding Path=Enabler.Logfile, Converter={StaticResource BoolToVisConverter}}" MinHeight="1000">
@@ -466,13 +453,13 @@
                 <TabControl>
                     <TabItem Header="System Time" MinWidth="150" >
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="50">
-                            <uc:SetTimeControl Name="setTimeControl" Margin="30"/>
-                            <uc:SetDateControl Name="setDateControl" Margin="30"/>
+                            <uc:SetTimeControl Name="SetTimeControl" Margin="30"/>
+                            <uc:SetDateControl Name="SetDateControl" Margin="30"/>
                         </StackPanel>
                     </TabItem>
                     <TabItem Header="System Volume" MinWidth="150">
                         <!-- gray -->
-                        <StackPanel Name="stpVolume" Background="BlanchedAlmond" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <StackPanel Name="StpVolume" Background="BlanchedAlmond" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <!-- VerticalAlignment="Top" -->
                             <TextBlock FontSize="28" Margin="50" TextAlignment="Center" >Set Machine's Volume Level</TextBlock>
                             <Slider Height="50" 
@@ -488,7 +475,7 @@
 								SmallChange="5" 
 								Margin="25" />
 
-                            <ProgressBar Height="10" Name="progressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" HorizontalAlignment="Center"/>
+                            <ProgressBar Height="10" Name="ProgressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" HorizontalAlignment="Center"/>
 
                             <StackPanel Orientation="Horizontal" Margin="25" HorizontalAlignment="Center">
                                 <Label Content="Current Volume: " FontSize="28"/>
@@ -518,7 +505,7 @@
             </TabItem>
         </TabControl>
 
-        <StackPanel Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" Name="stpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
+        <StackPanel Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" Name="StpGameStatsView" IsEnabled="{Binding Path=Enabler.GameStatistics}" Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
             <!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
             <TabControl Height="1000">
                 <TabItem Header="Games" MinWidth="100">
@@ -598,7 +585,7 @@
         </StackPanel>
 
         <!-- is this were all the binding errors come from? -->
-        <view:PerformanceView x:Name="ucPerformance" Grid.Row="1" Grid.Column="1" IsEnabled="False" Visibility="Hidden"/>
+        <view:PerformanceView x:Name="UcPerformance" Grid.Row="1" Grid.Column="1" IsEnabled="False" Visibility="Hidden"/>
 
         <!-- <Border BorderThickness="5" Panel.ZIndex="5" BorderBrush="HotPink" Grid.Row="1" Grid.Column="1"> -->
         <StackPanel Orientation="Horizontal" Panel.ZIndex="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="{Binding DockSystem.IsEnabled}"  Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" Grid.Row="1" Grid.Column="1">
@@ -627,25 +614,25 @@
         <!-- </Border> HotPink!! -->
 
         <!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
-        <view:CreditManagementView Panel.ZIndex="5" x:Name="ucCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
-        <view:MainPage Panel.ZIndex="1" x:Name="ucMainPage" Grid.Row="1" Grid.Column="1" />
-        <view:DiagnosticsView Panel.ZIndex="5" x:Name="ucDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"  Visibility="Hidden" />
+        <view:CreditManagementView Panel.ZIndex="5" x:Name="UcCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
+        <view:MainPage Panel.ZIndex="1" x:Name="UcMainPage" Grid.Row="1" Grid.Column="1" />
+        <view:DiagnosticsView Panel.ZIndex="5" x:Name="UcDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"  Visibility="Hidden" />
 
         <!-- End of System Info View -->
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
             <!-- <Button Content="Hoppers" Height="35" HorizontalAlignment="Stretch" Name="btnHoppers" VerticalAlignment="Stretch" Width="170" Click="btnHoppers_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" /> -->
-            <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="btnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
-            <Button Content="Games" Height="35" HorizontalAlignment="Stretch" Name="btnGames" VerticalAlignment="Stretch" Width="170" Click="Games_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-            <Button Content="System History" Height="35" HorizontalAlignment="Stretch" Name="btnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-            <Button Content="Cash" Height="35" Name="btnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-            <Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="btnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
-            <Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="btnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
-            <!--<Button Content="System Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSystem_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />-->
+            <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="BtnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
+            <Button Content="Games" Height="35" HorizontalAlignment="Stretch" Name="BtnGames" VerticalAlignment="Stretch" Width="170" Click="Games_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="System History" Height="35" HorizontalAlignment="Stretch" Name="BtnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Cash" Height="35" Name="BtnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
+            <Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="BtnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
+            <Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="BtnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
+            <!--<Button Content="System Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSyste_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />-->
             <!--<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />-->
             <Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
             <!--<Button Content="Reboot" Name="btnReboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnReboot_Click"/>-->
         </StackPanel>
 
-        <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="btnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
+        <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="BtnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
     </Grid>
 </Window>

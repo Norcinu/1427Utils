@@ -54,7 +54,7 @@ namespace PDTUtils
         
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            pbStatus.Value = e.ProgressPercentage;
+            PbStatus.Value = e.ProgressPercentage;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace PDTUtils
 {
-    public enum ChangeType { AMEND, COMMENT, UNCOMMENT, CANCEL, NONE };
+    public enum ChangeType { Amend, Comment, Uncomment, Cancel, None };
 	public partial class IniSettingsWindow : Window
 	{
 		#region options
@@ -23,20 +23,20 @@ namespace PDTUtils
             InitializeComponent();
             OptionField = f;
             OptionValue = v;
-            txtNewValue.Text = OptionValue;
-            RetChangeType = ChangeType.NONE;
+            TxtNewValue.Text = OptionValue;
+            RetChangeType = ChangeType.None;
         }
         
         private void button2_Click(object sender, RoutedEventArgs e)
 		{
-            RetChangeType = ChangeType.CANCEL;
+            RetChangeType = ChangeType.Cancel;
 			this.Close();
 		}
         
         private void btnSave_Click(object sender, RoutedEventArgs e)
 		{
-            RetChangeType = ChangeType.AMEND;
-			OptionValue = txtNewValue.Text;
+            RetChangeType = ChangeType.Amend;
+			OptionValue = TxtNewValue.Text;
 			this.Close();
 		}
         
@@ -49,13 +49,13 @@ namespace PDTUtils
             if (OptionField[0] == '#')
             {
                 OptionField = OptionField.Substring(1);
-                RetChangeType = ChangeType.UNCOMMENT;
+                RetChangeType = ChangeType.Uncomment;
                 this.Close();
             }
             else
             {
                 OptionField = OptionField.Insert(0, "#");
-                RetChangeType = ChangeType.COMMENT;
+                RetChangeType = ChangeType.Comment;
                 this.Close();
             }
         }

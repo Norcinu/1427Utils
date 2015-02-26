@@ -265,9 +265,9 @@ namespace PDTUtils.Properties {
         /// <summary>
         ///   Looks up a localized string similar to D:\machine\GAME_DATA\TerminalErrLog.log.
         /// </summary>
-        internal static string term_error_log {
+        internal static string ter_error_log {
             get {
-                return ResourceManager.GetString("term_error_log", resourceCulture);
+                return ResourceManager.GetString("ter_error_log", resourceCulture);
             }
         }
         

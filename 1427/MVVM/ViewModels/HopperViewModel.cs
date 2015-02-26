@@ -18,9 +18,9 @@ namespace PDTUtils.MVVM.ViewModels
         string _leftCoinsAdded;
         string _rightCoinsAdded;
 
-        public System.Timers.Timer _emptyLeftTimer;
-        public System.Timers.Timer _emptyRightTimer;
-        public System.Timers.Timer _refillTimer;
+        public System.Timers.Timer EmptyLeftTimer;
+        public System.Timers.Timer EmptyRightTimer;
+        public System.Timers.Timer RefillTimer;
         
         NumberFormatInfo _nfi;
         CultureInfo _currentCulture;
@@ -114,16 +114,16 @@ namespace PDTUtils.MVVM.ViewModels
             HopperList.Add(rightHopperText);
             RaisePropertyChangedEvent("HopperList");
             
-            decimal _initial = 0.00M;
+            decimal initial = 0.00M;
             try
             {
-                LeftRefillMsg = "Left Hopper Coins Added: " + _initial.ToString("C", _nfi);
-                RightRefillMsg = "Right Hopper Coins Added: " + _initial.ToString("C", _nfi);
+                LeftRefillMsg = "Left Hopper Coins Added: " + initial.ToString("C", _nfi);
+                RightRefillMsg = "Right Hopper Coins Added: " + initial.ToString("C", _nfi);
             }
             catch (FormatException)
             {
-                LeftRefillMsg = _initial.ToString();
-                RightRefillMsg = _initial.ToString();
+                LeftRefillMsg = initial.ToString();
+                RightRefillMsg = initial.ToString();
             }
         }
         
@@ -150,15 +150,15 @@ namespace PDTUtils.MVVM.ViewModels
             bool dumpSwitchPressed = false;
             _emptyingHoppers = true;
 
-            if (_emptyLeftTimer == null)
-                _emptyLeftTimer = new System.Timers.Timer(100.0);
+            if (EmptyLeftTimer == null)
+                EmptyLeftTimer = new System.Timers.Timer(100.0);
             
             if (cb.SelectedIndex == 0)
             {
                 System.Diagnostics.Debug.WriteLine("SELECTED LEFT HOPPER (£1)");
                 System.Diagnostics.Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel(0)));
                 
-                _emptyLeftTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+                EmptyLeftTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
                 {
                     if (BoLib.getHopperDumpSwitchActive() > 0)
                     {
@@ -195,17 +195,17 @@ namespace PDTUtils.MVVM.ViewModels
                         }
                     }
                 };
-                _emptyLeftTimer.Enabled = true;
+                EmptyLeftTimer.Enabled = true;
 #if DEBUG
                 System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
 #endif
             }//sounds ok
             else if (cb.SelectedIndex == 1)
             {
-                if (_emptyRightTimer == null)
+                if (EmptyRightTimer == null)
                 {
-                    _emptyRightTimer = new System.Timers.Timer(100.0);
-                    _emptyRightTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+                    EmptyRightTimer = new System.Timers.Timer(100.0);
+                    EmptyRightTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
                     {
                         if (BoLib.getHopperDumpSwitchActive() > 0)
                         {
@@ -244,7 +244,7 @@ namespace PDTUtils.MVVM.ViewModels
                     };
                 }
                 System.Diagnostics.Debug.WriteLine("SELECTED RIGHT HOPPER (10p)");
-                _emptyRightTimer.Enabled = true;
+                EmptyRightTimer.Enabled = true;
             }
         }
         
@@ -257,19 +257,19 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }
         void DoEndRefill()
         {
-            if (_refillTimer == null)
+            if (RefillTimer == null)
             {
-                _refillTimer = new System.Timers.Timer(100);
-                _refillTimer.Enabled = true;
+                RefillTimer = new System.Timers.Timer(100);
+                RefillTimer.Enabled = true;
             }
             
             NotRefilling = false;
-            _refillTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+            RefillTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
             {
                 if (EndRefill)
                 {
                     this.EndRefill = false;
-                    _refillTimer.Enabled = false;
+                    RefillTimer.Enabled = false;
                     //dispatch timer to update labels every x milliseconds.
                 }
             };

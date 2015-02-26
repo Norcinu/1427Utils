@@ -26,20 +26,20 @@
             <RowDefinition Height="0*"/>
             <RowDefinition Height="374*"/>
         </Grid.RowDefinitions>
-        <DockPanel LastChildFill="True" Height="30" Margin="12,12,12,0" Name="stpButtons" VerticalAlignment="Top" Width="600" HorizontalAlignment="Center" />
-        <StackPanel Height="950" HorizontalAlignment="Center" Margin="12,48,12,0" Name="stpMainPanel" VerticalAlignment="Top" Width="600" Background="#FFDBC2C2" Grid.RowSpan="3">
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label1" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label2" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label3" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label4" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label5" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label6" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label7" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label8" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label9" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Label Style="{StaticResource StdLabel}" Height="80" Name="label10" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Button Content="End Test" Height="23" Name="btnEndTest" Width="75" IsEnabled="False" Margin="10" />
-            <Button Content="Exit" Height="23" Name="btnExit"  Width="75" Click="btnExit_Click" />
+        <DockPanel LastChildFill="True" Height="30" Margin="12,12,12,0" Name="StpButtons" VerticalAlignment="Top" Width="600" HorizontalAlignment="Center" />
+        <StackPanel Height="950" HorizontalAlignment="Center" Margin="12,48,12,0" Name="StpMainPanel" VerticalAlignment="Top" Width="600" Background="#FFDBC2C2" Grid.RowSpan="3">
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label1" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label2" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label3" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label4" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label5" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label6" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label7" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label8" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label9" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Label Style="{StaticResource StdLabel}" Height="80" Name="Label10" HorizontalContentAlignment="Center" FontSize="22"/>
+            <Button Content="End Test" Height="23" Name="BtnEndTest" Width="75" IsEnabled="False" Margin="10" />
+            <Button Content="Exit" Height="23" Name="BtnExit"  Width="75" Click="btnExit_Click" />
         </StackPanel>
     </Grid>
 </Window>

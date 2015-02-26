@@ -30,8 +30,8 @@
 			
 			<StackPanel Orientation="Horizontal">
 				<Label FontSize="36" Content="IP Address:" Style="{StaticResource StdLabel}"/>
-				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding IPAddress}" IsEnabled="{Binding IPAddressActive}" />
-				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleIP}">SET IP</Button>
+				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding IpAddress}" IsEnabled="{Binding IpAddressActive}" />
+				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleIp}">SET IP</Button>
 			</StackPanel>
 				
 			<StackPanel Orientation="Horizontal">
@@ -52,9 +52,9 @@
             </StackPanel>
             
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-				<Button x:Name="btnSaveNetwork" FontSize="24" Width="250" Margin="20" Command="{Binding SaveNetworkInfo}">Set Network Info</Button>
-				<Button x:Name="btnClearNetwork" FontSize="24" Width="250" Margin="20">Clear Network Info</Button>
-				<Button x:Name="btnTestNetwork"	FontSize="24" Width="250" Margin="20" Command="{Binding PingSites}" CommandParameter="0">Test Network</Button>
+				<Button x:Name="BtnSaveNetwork" FontSize="24" Width="250" Margin="20" Command="{Binding SaveNetworkInfo}">Set Network Info</Button>
+				<Button x:Name="BtnClearNetwork" FontSize="24" Width="250" Margin="20">Clear Network Info</Button>
+				<Button x:Name="BtnTestNetwork"	FontSize="24" Width="250" Margin="20" Command="{Binding PingSites}" CommandParameter="0">Test Network</Button>
 			</StackPanel>
             
 			<StackPanel Margin="0,60,0,0">

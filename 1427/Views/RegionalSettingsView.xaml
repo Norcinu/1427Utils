@@ -60,7 +60,7 @@
                         <ColumnDefinition Name="ColumnTwo" Width="430" />
                     </Grid.ColumnDefinitions>
                     
-                    <ListView x:Name="lvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1" SelectedIndex="{Binding MarketSelectedIndex}">
+                    <ListView x:Name="LvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1" SelectedIndex="{Binding MarketSelectedIndex}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Street Market - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>
@@ -68,7 +68,7 @@
                         </ListView.View>
                     </ListView>
                     
-                    <ListView x:Name="lvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" Tag="2" SelectedIndex="{Binding ArcadeSelectedIndex}">
+                    <ListView x:Name="LvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" Tag="2" SelectedIndex="{Binding ArcadeSelectedIndex}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Arcade - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>

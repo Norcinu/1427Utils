@@ -60,21 +60,21 @@ namespace PDTUtils
         {
             try
             {
-                BitmapImage bi = new BitmapImage();
-                MemoryStream ms = new MemoryStream();
+                var bi = new BitmapImage();
+                var ms = new MemoryStream();
                 bi.BeginInit();
                 var image = System.Drawing.Image.FromFile(files[currentImage]);
                 image.Save(ms, ImageFormat.Png);
                 ms.Seek(0, SeekOrigin.Begin);
                 bi.StreamSource = ms;
                 bi.EndInit();
-                image1.Source = bi;
+                Image1.Source = bi;
 
-                this.Filename = files[currentImage];
-                lblFilename.Content = "Filename: " + files[currentImage];
+                Filename = files[currentImage];
+                LblFilename.Content = "Filename: " + files[currentImage];
                 var str = File.GetCreationTime(files[currentImage]);
-                lblDate.Content = "Game Date: " + str.Date.ToString(@"dd/MM/yyyy");
-                lblTime.Content = "Game Time: " + str.Hour + ":" + str.Minute + ":" + str.Second;
+                LblDate.Content = "Game Date: " + str.Date.ToString(@"dd/MM/yyyy");
+                LblTime.Content = "Game Time: " + str.Hour + ":" + str.Minute + ":" + str.Second;
             }
             catch (System.Exception ex)
             {
@@ -130,7 +130,7 @@ namespace PDTUtils
         
         private void UpdateLabel()
         {
-            lblCount.Content = (currentImage + 1) + "/" + (maxImages + 1);
+            LblCount.Content = (currentImage + 1) + "/" + (maxImages + 1);
         }
         
         private void btnQuit_Click(object sender, RoutedEventArgs e)
@@ -139,7 +139,7 @@ namespace PDTUtils
             {
                 img.Dispose();
             }
-            this.Close();
+            Close();
         }
     }
 }

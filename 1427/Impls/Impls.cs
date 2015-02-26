@@ -6,99 +6,99 @@ namespace PDTUtils.Impls
 {
 	public class Impl
 	{
-		bool m_isRunning;
-		string m_name = "";
+		bool _isRunning;
+		string _name = "";
 
 		#region Properties
 		public bool IsRunning { get; set; }
 		public string Name
 		{
-			get { return m_name; }
-			set { m_name = value; }
+			get { return _name; }
+			set { _name = value; }
 		}
 		#endregion
 
 		public Impl()
 		{
-			this.m_isRunning = false;
-			this.m_name = "";
+			this._isRunning = false;
+			this._name = "";
 		}
 	}
     
 	public class ButtonTestImpl : Impl
     {
         #region Properties
-        public bool m_doSpecials;
+        public bool _doSpecials;
 		public bool DoSpecials
 		{
-			get { return m_doSpecials; }
-			set { m_doSpecials = value; }
+			get { return _doSpecials; }
+			set { _doSpecials = value; }
 		}
-		public bool[] m_toggled;
+		public bool[] _toggled;
 		public bool[] Toggled
 		{
-			get { return m_toggled; }
-			set { m_toggled = value; }
+			get { return _toggled; }
+			set { _toggled = value; }
 		}
-		public int m_currentButton;
+		public int _currentButton;
 		public int CurrentButton
 		{
-			get { return m_currentButton; }
-			set { m_currentButton = value; }
+			get { return _currentButton; }
+			set { _currentButton = value; }
 		}
-		public int m_numberOfButtons;
+		public int _numberOfButtons;
 		public int NumberOfButtons
 		{
-			get { return m_numberOfButtons; }
-			set { m_numberOfButtons = value; }
+			get { return _numberOfButtons; }
+			set { _numberOfButtons = value; }
 		}
-		public int m_specials;
+		public int _specials;
 		public int Specials
 		{
-			get { return m_specials; }
-			set { m_specials = value; }
+			get { return _specials; }
+			set { _specials = value; }
 		}
-		public int m_currentSpecial;
+		public int _currentSpecial;
 		public int CurrentSpecial
 		{
-			get { return m_currentSpecial; }
-			set { m_currentSpecial = value; }
+			get { return _currentSpecial; }
+			set { _currentSpecial = value; }
 		}
         #endregion
         
         public ButtonTestImpl()
 		{
-			m_doSpecials = true;
-			m_toggled = new bool[2] { false, false };
-			m_currentButton = 0;
-			m_numberOfButtons = 8;
-			m_specials = 2;
-			m_currentSpecial = 0;
+			_doSpecials = true;
+			_toggled = new bool[2] { false, false };
+			_currentButton = 0;
+			_numberOfButtons = 8;
+			_specials = 2;
+			_currentSpecial = 0;
 		}
 	}
     
 	public class CoinNoteValImpl : Impl
 	{
-		public bool m_isCoinTest;
+		public bool IsCoinTest;
 
 		public CoinNoteValImpl()
 		{
-			m_isCoinTest = false;
+			IsCoinTest = false;
 		}
 
 		public CoinNoteValImpl(bool coinTest) 
 		{
-			m_isCoinTest = coinTest;
+			IsCoinTest = coinTest;
 		}
 	}
     
 	public class HopperImpl : Impl
 	{
-		public bool m_dumpSwitchPressed = false;
+		public bool _dumpSwitchPressed = false;
 		public bool DumpSwitchPressed
 		{
-			get { return m_dumpSwitchPressed; }
-			set { m_dumpSwitchPressed = value; }
+			get { return _dumpSwitchPressed; }
+			set { _dumpSwitchPressed = value; }
 		}
 		public HopperImpl() : base() { }
 	}

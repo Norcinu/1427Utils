@@ -41,10 +41,10 @@
     </UserControl.Resources>
 	
     <Grid>
-        <TabControl Name="tabMeters" Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto">
+        <TabControl Name="TabMeters" Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto">
             <!-- IsEnabled="{Binding Enabler.Meters}" Visibility="{Binding Path=Enabler.Meters, Converter={StaticResource BoolToVisConverter}}">-->
             <TabItem Header="Performance">
-                <TabControl Name="tabPerformance">
+                <TabControl Name="TabPerformance">
                     <TabItem Header="Machine">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
                             <Label Content="Machine Performance Log" Style="{StaticResource StdLabel}"/>

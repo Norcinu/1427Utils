@@ -15,7 +15,7 @@ namespace PDTUtils.MVVM.ViewModels
         ObservableCollection<HardwareInfo> _hardware = new ObservableCollection<HardwareInfo>();
         public ObservableCollection<HardwareInfo> Hardware { get { return _hardware; } }
 
-        PDTUtils.Logic.MachineInfo m_machineData = new PDTUtils.Logic.MachineInfo();
+        PDTUtils.Logic.MachineInfo _machineData = new PDTUtils.Logic.MachineInfo();
 
         public DiagnosticViewModel()
         {

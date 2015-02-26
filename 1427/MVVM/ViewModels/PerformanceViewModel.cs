@@ -8,7 +8,7 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class MetersViewModel : ObservableObject
     {
-        NumberFormatInfo nfi;// = Thread.CurrentThread.CurrentCulture.NumberFormat; /*new CultureInfo("en-GB", false).NumberFormat;*/
+        NumberFormatInfo _nfi;// = Thread.CurrentThread.CurrentCulture.NumberFormat; /*new CultureInfo("en-GB", false).NumberFormat;*/
         LongTermMeters _longTerm = new LongTermMeters();
         ShortTermMeters _shortTerm = new ShortTermMeters();
         TitoMeters _titoMeters = new TitoMeters();
@@ -33,9 +33,9 @@ namespace PDTUtils.MVVM.ViewModels
         public MetersViewModel()
         {
             if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
-                nfi = new CultureInfo("es-ES").NumberFormat;
+                _nfi = new CultureInfo("es-ES").NumberFormat;
             else
-                nfi = new CultureInfo("en-GB").NumberFormat;
+                _nfi = new CultureInfo("en-GB").NumberFormat;
 
             _longTerm.ReadMeter();
             _shortTerm.ReadMeter();
@@ -73,9 +73,9 @@ namespace PDTUtils.MVVM.ViewModels
         
         public void ReadCashRecon()
         {
-            string[] note_headers = new string[] { "£50 NOTES IN", "£20 NOTES IN", "£10 NOTES IN", "£5 NOTES IN" };
-            string[] cash_headers = new string[] { "TOTAL CASH IN", "TOTAL CASH OUT", "TOTAL" };
-            string[] coin_headers = new string[] { "£2 COINS IN", "£1 COINS IN", "50p COINS IN", "20p COINS IN", "10p COINS IN", "5p COINS IN" };
+            string[] noteHeaders = new string[] { "£50 NOTES IN", "£20 NOTES IN", "£10 NOTES IN", "£5 NOTES IN" };
+            string[] cashHeaders = new string[] { "TOTAL CASH IN", "TOTAL CASH OUT", "TOTAL" };
+            string[] coinHeaders = new string[] { "£2 COINS IN", "£1 COINS IN", "50p COINS IN", "20p COINS IN", "10p COINS IN", "5p COINS IN" };
 
             _cashRecon.Add(new HelloImJohnnyCashMeters("STAKE IN",
                                                        ((int)BoLib.useStakeInMeter(0)).ToString(),
@@ -88,7 +88,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             for (int i = 2; i <= 5; i++)
             {
-                _cashRecon.Add(new HelloImJohnnyCashMeters(note_headers[i - 2],
+                _cashRecon.Add(new HelloImJohnnyCashMeters(noteHeaders[i - 2],
                                                            BoLib.getReconciliationMeter(perfLt[ctr]).ToString(),
                                                            BoLib.getReconciliationMeter(perfSt[ctr]).ToString()));
                 ctr++;
@@ -100,7 +100,7 @@ namespace PDTUtils.MVVM.ViewModels
             ctr = 0;
             for (int i = 8; i <= 12; i++)
             {
-                _cashRecon.Add(new HelloImJohnnyCashMeters(coin_headers[i - 8],
+                _cashRecon.Add(new HelloImJohnnyCashMeters(coinHeaders[i - 8],
                                                            BoLib.getReconciliationMeter(perfCoinLt[ctr]).ToString(),
                                                            BoLib.getReconciliationMeter(perfCoinSt[ctr]).ToString()));
                 ctr++;
@@ -131,18 +131,18 @@ namespace PDTUtils.MVVM.ViewModels
             decimal handPayLt = (int)BoLib.getPerformanceMeter(2) / 100.0M;
             decimal handPaySt = (int)BoLib.getPerformanceMeter(9) / 100.0M;
 
-            Performance.Add(new HelloImJohnnyCashMeters("Total Money in:", longTermCashIn.ToString("C", nfi), shortTermCashIn.ToString("C", nfi)));
-            Performance.Add(new HelloImJohnnyCashMeters("Total Money Out:", longTermCashOut.ToString("C", nfi), shortTermCashOut.ToString("C", nfi)));
-            Performance.Add(new HelloImJohnnyCashMeters("Gross Income:", longTermTotal.ToString("C", nfi), shortTermTotal.ToString("C", nfi)));
-            Performance.Add(new HelloImJohnnyCashMeters("Hand Pay:", handPayLt.ToString("C", nfi), handPaySt.ToString("C", nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("Total Money in:", longTermCashIn.ToString("C", _nfi), shortTermCashIn.ToString("C", _nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("Total Money Out:", longTermCashOut.ToString("C", _nfi), shortTermCashOut.ToString("C", _nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("Gross Income:", longTermTotal.ToString("C", _nfi), shortTermTotal.ToString("C", _nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("Hand Pay:", handPayLt.ToString("C", _nfi), handPaySt.ToString("C", _nfi)));
 
             decimal incomeLt = longTermCashIn - handPayLt;
             decimal incomeSt = shortTermCashIn - handPaySt;
-            Performance.Add(new HelloImJohnnyCashMeters("Net Income:", incomeLt.ToString("C", nfi), incomeSt.ToString("C", nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("Net Income:", incomeLt.ToString("C", _nfi), incomeSt.ToString("C", _nfi)));
 
             decimal refillSt = BoLib.getReconciliationMeter(42) + BoLib.getReconciliationMeter(43);
             decimal refillLt = BoLib.getReconciliationMeter(14) + BoLib.getReconciliationMeter(15);
-            Performance.Add(new HelloImJohnnyCashMeters("Refill:", refillLt.ToString("C", nfi), refillSt.ToString("C", nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("Refill:", refillLt.ToString("C", _nfi), refillSt.ToString("C", _nfi)));
 
             NumberOfGamesLt = (int)BoLib.getPerformanceMeter(4);
             NumberOfGamesSt = (int)BoLib.getPerformanceMeter(11);
@@ -165,15 +165,15 @@ namespace PDTUtils.MVVM.ViewModels
             if (retainedPercSt > 0)
                 retainedPercSt = ((retainedPercSt - (shortTermCashOut + handPaySt)) / shortTermTotal);
             
-            Performance.Add(new HelloImJohnnyCashMeters("(VTP) Total Bets:", totalBetsLt.ToString("C", nfi), totalBetsSt.ToString("C", nfi)));
-            Performance.Add(new HelloImJohnnyCashMeters("Total Wins:", totalWonLt.ToString("C", nfi), totalWonSt.ToString("C", nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("(VTP) Total Bets:", totalBetsLt.ToString("C", _nfi), totalBetsSt.ToString("C", _nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("Total Wins:", totalWonLt.ToString("C", _nfi), totalWonSt.ToString("C", _nfi)));
             Performance.Add(new HelloImJohnnyCashMeters("Payout Percentage:", percentageLt.ToString("P"), percentageSt.ToString("P")));
             Performance.Add(new HelloImJohnnyCashMeters("Retained Percentage:", retainedPercLt.ToString("P"), retainedPercSt.ToString("P")));
 
             decimal tpCreditsLt = (int)BoLib.getTPlayMeter(2);
             decimal tpCreditsSt = (int)BoLib.getTPlayMeter(5);
 
-            Performance.Add(new HelloImJohnnyCashMeters("TPlay Total Credits:", tpCreditsLt.ToString("C", nfi), tpCreditsSt.ToString("C", nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("TPlay Total Credits:", tpCreditsLt.ToString("C", _nfi), tpCreditsSt.ToString("C", _nfi)));
             
             int tpGamesLt = (int)BoLib.getTPlayMeter(1);
             int tpGamesSt = (int)BoLib.getTPlayMeter(4);
@@ -181,7 +181,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             decimal tpMoneyOutLt = (int)BoLib.getTPlayMeter(0);
             decimal tpMoneyOutSt = (int)BoLib.getTPlayMeter(3);
-            Performance.Add(new HelloImJohnnyCashMeters("TPlay Cash Out:", tpMoneyOutLt.ToString("C", nfi), tpMoneyOutSt.ToString("C", nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("TPlay Cash Out:", tpMoneyOutLt.ToString("C", _nfi), tpMoneyOutSt.ToString("C", _nfi)));
 
             //Read Game Stats meters
             for (uint i = 0; i <= BoLib.getNumberOfGames(); i++) //shell as well as games
@@ -190,7 +190,7 @@ namespace PDTUtils.MVVM.ViewModels
                 decimal bets = (int)BoLib.getGamePerformanceMeter(i, 0) / 100.0M;
                 decimal won = (int)BoLib.getGamePerformanceMeter(i, 1) / 100.0M;
                 decimal percentage = (won > 0 || bets > 0) ? (won / bets) : 0;
-                GameStats.Add(new GameStatMeter(model.ToString(), bets.ToString("C", nfi), won.ToString("C", nfi), percentage.ToString("C", nfi)));
+                GameStats.Add(new GameStatMeter(model.ToString(), bets.ToString("C", _nfi), won.ToString("C", _nfi), percentage.ToString("C", _nfi)));
             }
 
             RaisePropertyChangedEvent("CashRecon");

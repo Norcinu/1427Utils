@@ -26,14 +26,14 @@ namespace PDTUtils
         {
             IntPtr mbWnd = FindWindow(null, _caption);
             if (mbWnd != IntPtr.Zero)
-                SendMessage(mbWnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+                SendMessage(mbWnd, WClose, IntPtr.Zero, IntPtr.Zero);
             _timeoutTimer.Dispose();
         }
         
-        const int WM_CLOSE = 0x0010;
+        const int WClose = 0x0010;
         [DllImport("user32.dll", SetLastError = true)]
         static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
+        static extern IntPtr SendMessage(IntPtr hWnd, UInt32 msg, IntPtr wParam, IntPtr lParam);
     }
 }

@@ -17,26 +17,26 @@ namespace PDTUtils
     /// </summary>
     public partial class MainWindow : Window
     {
-		bool m_requiresSave = false;
-        bool m_sharedMemoryOnline = false;
-        string m_errorMessage = "";
+		bool _requiresSave = false;
+        bool _sharedMemoryOnline = false;
+        string _errorMessage = "";
         public double WindowHeight { get; set; }
-		System.Timers.Timer m_doorStatusTimer;
-		System.Timers.Timer m_uiUpdateTimer;
-		Thread m_keyDoorThread;
+		System.Timers.Timer _doorStatusTimer;
+		System.Timers.Timer _uiUpdateTimer;
+		Thread _keyDoorThread;
 	    
-		MachineErrorLog m_errorLogText = new MachineErrorLog();
-		MachineIni m_machineIni = new MachineIni();
-		UniqueIniCategory m_uniqueIniCategory = new UniqueIniCategory();
-		MachineGameStatistics m_gameStatistics = new MachineGameStatistics();
-		ServiceEnabler m_enabler = new ServiceEnabler();
-		ShortTermMeters m_shortTerm = new ShortTermMeters();
-		LongTermMeters m_longTerm = new LongTermMeters();
-        TitoMeters m_titoMeter = new TitoMeters();
-        MachineInfo m_machineData = new MachineInfo();
-		GamesList m_gamesList = new GamesList();
-		MachineLogsController m_logController = new MachineLogsController();
-        UserSoftwareUpdate m_updateFiles = null;
+		MachineErrorLog _errorLogText = new MachineErrorLog();
+		MachineIni _machineIni = new MachineIni();
+		UniqueIniCategory _uniqueIniCategory = new UniqueIniCategory();
+		MachineGameStatistics _gameStatistics = new MachineGameStatistics();
+		ServiceEnabler _enabler = new ServiceEnabler();
+		ShortTermMeters _shortTerm = new ShortTermMeters();
+		LongTermMeters _longTerm = new LongTermMeters();
+        TitoMeters _titoMeter = new TitoMeters();
+        MachineInfo _machineData = new MachineInfo();
+		GamesList _gamesList = new GamesList();
+		MachineLogsController _logController = new MachineLogsController();
+        UserSoftwareUpdate _updateFiles = null;
         
         public MainWindow()
         {
@@ -55,7 +55,7 @@ namespace PDTUtils
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
                 
-                m_updateFiles = new UserSoftwareUpdate(this);
+                _updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = this.Height;
             }
             catch (Exception err)
@@ -72,70 +72,70 @@ namespace PDTUtils
 		
 		#region Properties
 		
-		public MachineLogsController LogController { get { return m_logController; } }
-		public UserSoftwareUpdate UpdateFiles { get { return m_updateFiles; } }
+		public MachineLogsController LogController { get { return _logController; } }
+		public UserSoftwareUpdate UpdateFiles { get { return _updateFiles; } }
 		
 		public GamesList GamesList
 		{
-			get { return m_gamesList; }
+			get { return _gamesList; }
 		}
 		
-		DoorAndKeyStatus m_keyDoorWorker = new DoorAndKeyStatus();
+		DoorAndKeyStatus _keyDoorWorker = new DoorAndKeyStatus();
 		public DoorAndKeyStatus KeyDoorWorker
 		{
-			get { return m_keyDoorWorker; }
-			private set { m_keyDoorWorker = value; }
+			get { return _keyDoorWorker; }
+			private set { _keyDoorWorker = value; }
 		}
 		
 		public MachineInfo MachineData
 		{
-			get { return m_machineData; }
-			set { m_machineData = value; }
+			get { return _machineData; }
+			set { _machineData = value; }
 		}
 
 		public bool RequiresSave
 		{
-			get { return m_requiresSave; }
-			set { m_requiresSave = value; }
+			get { return _requiresSave; }
+			set { _requiresSave = value; }
 		}
 
 		public MachineIni GetMachineIni
 		{ 
-			get { return m_machineIni; } 
+			get { return _machineIni; } 
 		}
 
 		public UniqueIniCategory GetUniqueCategories
 		{
-			get { return m_uniqueIniCategory; }
+			get { return _uniqueIniCategory; }
 		}
 
 		public ServiceEnabler Enabler
 		{
-			get { return m_enabler; }
+			get { return _enabler; }
 		}
 
 		public MachineGameStatistics GameStatistics
 		{
-			get { return m_gameStatistics; }
-			set { m_gameStatistics = value; }
+			get { return _gameStatistics; }
+			set { _gameStatistics = value; }
 		}
 
 		public ShortTermMeters ShortTerm
 		{
-			get { return m_shortTerm; }
-			set { m_shortTerm = value; }
+			get { return _shortTerm; }
+			set { _shortTerm = value; }
 		}
 
 		public LongTermMeters LongTerm
 		{
-			get { return m_longTerm; }
-			set { m_longTerm = value; }
+			get { return _longTerm; }
+			set { _longTerm = value; }
 		}
 
         public TitoMeters TitoMeter
         {
-            get { return m_titoMeter; }
-            set { m_titoMeter = value; }
+            get { return _titoMeter; }
+            set { _titoMeter = value; }
         }
         
         public bool FullyLoaded { get; set; }
@@ -159,11 +159,11 @@ namespace PDTUtils
             {
             //    Thread t = new Thread(() =>
             //    {
-                    LogController.setErrorLog();
-                    LogController.setWarningLog();
-                    LogController.setPlayedLog();
-                    LogController.setWinningLog();
-                    LogController.setHandPayLog();
+                    LogController.SetErrorLog();
+                    LogController.SetWarningLog();
+                    LogController.SetPlayedLog();
+                    LogController.SetWinningLog();
+                    LogController.SetHandPayLog();
                     LogController.IsLoaded = true;
               //  });
               //  t.Start();
@@ -180,7 +180,7 @@ namespace PDTUtils
 		
 		private void Games_Click(object sender, RoutedEventArgs e)
 		{
-			m_gameStatistics.ParsePerfLog();
+			_gameStatistics.ParsePerfLog();
 			Enabler.EnableCategory(Categories.GameStatistics);
 		}
         
@@ -190,16 +190,16 @@ namespace PDTUtils
 			var uptime = ((double)ticks) / Stopwatch.Frequency;
 			var uptimeSpan = TimeSpan.FromSeconds(uptime);
 			var u = uptimeSpan.ToString().Split(".".ToCharArray());
-			lblUptime.Content = u[0];
+			LblUptime.Content = u[0];
 		}
 		
 		private void WindowMain_Loaded(object sender, RoutedEventArgs e)
 		{
 			try
 			{
-				m_keyDoorThread = new Thread(new ThreadStart(m_keyDoorWorker.Run));
-				m_keyDoorThread.Start();
-				while (!m_keyDoorThread.IsAlive);
+				_keyDoorThread = new Thread(new ThreadStart(_keyDoorWorker.Run));
+				_keyDoorThread.Start();
+				while (!_keyDoorThread.IsAlive);
 				Thread.Sleep(2);
 			}
 			catch (Exception err)
@@ -211,17 +211,17 @@ namespace PDTUtils
         
         private void WindowMain_Closing(object sender, CancelEventArgs e)
         {
-            if (m_keyDoorWorker.Running == true)
-                m_keyDoorWorker.Running = false;
+            if (_keyDoorWorker.Running == true)
+                _keyDoorWorker.Running = false;
                 
-            if (m_keyDoorThread != null)
+            if (_keyDoorThread != null)
             {
                 try
                 {
-                    if (m_keyDoorThread.IsAlive)
+                    if (_keyDoorThread.IsAlive)
                     {
-                        //m_keyDoorThread.Abort();
-                        m_keyDoorThread.Join();
+                        //_keyDoorThread.Abort();
+                        _keyDoorThread.Join();
                     }
                 }
                 catch (Exception ex)
@@ -238,17 +238,17 @@ namespace PDTUtils
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
 #endif       
-            if (m_sharedMemoryOnline)
+            if (_sharedMemoryOnline)
             {
-                m_sharedMemoryOnline = false;
+                _sharedMemoryOnline = false;
                 BoLib.closeSharedMemory();
             }
         }
         
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
 		{
-			/*m_machineIni.ParseIni();
-            if (m_machineIni.ChangesPending == false)
+			/*_machineIni.ParseIni();
+            if (_machineIni.ChangesPending == false)
             {
                 // commit changes to memory
                 Thread saver = new Thread(new ThreadStart(DiskCommit.SaveAndReboot));
@@ -258,14 +258,14 @@ namespace PDTUtils
 
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
-            ucMainPage.IsEnabled = false;
-            ucMainPage.Visibility = Visibility.Hidden;
+            UcMainPage.IsEnabled = false;
+            UcMainPage.Visibility = Visibility.Hidden;
 
-            ucDiagnostics.IsEnabled = false;
-            ucDiagnostics.Visibility = Visibility.Hidden;
+            UcDiagnostics.IsEnabled = false;
+            UcDiagnostics.Visibility = Visibility.Hidden;
 
-            ucPerformance.IsEnabled = false;
-            ucPerformance.Visibility = Visibility.Hidden;
+            UcPerformance.IsEnabled = false;
+            UcPerformance.Visibility = Visibility.Hidden;
 
             Enabler.ClearAll();
 			Enabler.EnableCategory(Categories.Setup);
@@ -298,15 +298,15 @@ namespace PDTUtils
             {
                 switch (w.RetChangeType)
                 {
-                    case ChangeType.AMEND:
+                    case ChangeType.Amend:
                         AmendOption(w, sender, ref c);
                         break;
-                    case ChangeType.CANCEL:
+                    case ChangeType.Cancel:
                         break;
-                    case ChangeType.COMMENT:
+                    case ChangeType.Comment:
                         CommentEntry(w, sender, ref c);
                         break;
-                    case ChangeType.UNCOMMENT:
+                    case ChangeType.Uncomment:
                         UnCommentEntry(w, sender, ref c);
                         break;
                     default:
@@ -378,10 +378,10 @@ namespace PDTUtils
         
 		private void RemoveChildrenFromStackPanel()
 		{
-			int childCount = stpButtonPanel.Children.Count;
+			int childCount = StpButtonPanel.Children.Count;
 			if (childCount > 0)
 			{
-				stpButtonPanel.Children.RemoveRange(0, childCount);
+				StpButtonPanel.Children.RemoveRange(0, childCount);
 			}
 		}
 		
@@ -395,38 +395,38 @@ namespace PDTUtils
 		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
             Enabler.ClearAll();
-            ucMainPage.IsEnabled = false;
-            ucMainPage.Visibility = Visibility.Hidden;
+            UcMainPage.IsEnabled = false;
+            UcMainPage.Visibility = Visibility.Hidden;
 
-            ucDiagnostics.IsEnabled = false;
-            ucDiagnostics.Visibility = Visibility.Hidden;
+            UcDiagnostics.IsEnabled = false;
+            UcDiagnostics.Visibility = Visibility.Hidden;
 
-            ucPerformance.IsEnabled = !ucPerformance.IsEnabled;
-            if (ucPerformance.IsEnabled)
-                ucPerformance.Visibility = Visibility.Visible;
+            UcPerformance.IsEnabled = !UcPerformance.IsEnabled;
+            if (UcPerformance.IsEnabled)
+                UcPerformance.Visibility = Visibility.Visible;
             else
-                ucPerformance.Visibility = Visibility.Hidden;
+                UcPerformance.Visibility = Visibility.Hidden;
 		}
 		
 		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
 		{
             if (BoLib.getDoorStatus() == 1)
             {
-                m_enabler.ClearAll();
+                _enabler.ClearAll();
 
-                ucMainPage.IsEnabled = false;
-                ucMainPage.Visibility = Visibility.Hidden;
+                UcMainPage.IsEnabled = false;
+                UcMainPage.Visibility = Visibility.Hidden;
 
-                ucDiagnostics.IsEnabled = false;
-                ucDiagnostics.Visibility = Visibility.Hidden;
+                UcDiagnostics.IsEnabled = false;
+                UcDiagnostics.Visibility = Visibility.Hidden;
 
-                ucPerformance.IsEnabled = false;
-                ucPerformance.Visibility = Visibility.Hidden;
+                UcPerformance.IsEnabled = false;
+                UcPerformance.Visibility = Visibility.Hidden;
 
-                m_keyDoorWorker.TestSuiteRunning = true;
+                _keyDoorWorker.TestSuiteRunning = true;
                 TestSuiteWindow ts = new TestSuiteWindow();
                 ts.ShowDialog();
-                m_keyDoorWorker.TestSuiteRunning = false;
+                _keyDoorWorker.TestSuiteRunning = false;
             }
             else
             {
@@ -434,23 +434,23 @@ namespace PDTUtils
             }
 		}
 		
-		private void btnSystem_Click(object sender, RoutedEventArgs e)
+		private void btnSyste_Click(object sender, RoutedEventArgs e)
 		{
             GamesList.GetGamesList();
             
             Enabler.ClearAll();
-            ucMainPage.IsEnabled = false;
-            ucMainPage.Visibility = Visibility.Hidden;
+            UcMainPage.IsEnabled = false;
+            UcMainPage.Visibility = Visibility.Hidden;
 
-            ucDiagnostics.IsEnabled = false;
-            ucDiagnostics.Visibility = Visibility.Hidden;
+            UcDiagnostics.IsEnabled = false;
+            UcDiagnostics.Visibility = Visibility.Hidden;
 
             Enabler.EnableCategory(Categories.System);
 		}
         
 		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
 		{
-		//	if (m_updateFiles.DoSoftwareUpdatePreparation() == false)
+		//	if (_updateFiles.DoSoftwareUpdatePreparation() == false)
 		//	{
 		//		MessageBox.Show("Could not find update.ini " + UpdateFiles.UpdateIni);
 		//	}
@@ -481,10 +481,10 @@ namespace PDTUtils
 		
 		private void UpdateCheckBoxSelected_UnChecked(object sender, RoutedEventArgs e)
 		{
-			if (m_updateFiles.FileCount > 0)
-				m_updateFiles.FileCount--;
+			if (_updateFiles.FileCount > 0)
+				_updateFiles.FileCount--;
             
-			//if (btnPerformUpdate.IsEnabled == true && m_updateFiles.FileCount == 0)
+			//if (btnPerformUpdate.IsEnabled == true && _updateFiles.FileCount == 0)
 			//	btnPerformUpdate.IsEnabled = false;
 		}
 		
@@ -505,12 +505,12 @@ namespace PDTUtils
 				btnPerformUpdate.IsEnabled = false;
 			}
             
-			m_updateFiles.DoSoftwareUpdate();*/
+			_updateFiles.DoSoftwareUpdate();*/
 		}
         
 		private void btnPerformUpdateCancel_Click(object sender, RoutedEventArgs e)
         {
-		/*	m_updateFiles.DoCancelUpdate();
+		/*	_updateFiles.DoCancelUpdate();
 			if (treeUpdateSelectFiles.Items.Count > 0)
 				treeUpdateSelectFiles.Items.Clear();
 		    
@@ -542,14 +542,14 @@ namespace PDTUtils
         {
             Enabler.ClearAll();
 
-            ucMainPage.IsEnabled = false;
-            ucMainPage.Visibility = Visibility.Hidden;
+            UcMainPage.IsEnabled = false;
+            UcMainPage.Visibility = Visibility.Hidden;
 
-            ucDiagnostics.IsEnabled = false;
-            ucDiagnostics.Visibility = Visibility.Hidden;
+            UcDiagnostics.IsEnabled = false;
+            UcDiagnostics.Visibility = Visibility.Hidden;
 
-            ucPerformance.IsEnabled = false;
-            ucPerformance.Visibility = Visibility.Hidden;
+            UcPerformance.IsEnabled = false;
+            UcPerformance.Visibility = Visibility.Hidden;
 
             ScreenshotWindow w = new ScreenshotWindow();
             w.ShowDialog();
@@ -557,36 +557,36 @@ namespace PDTUtils
         
         private void btnCreditManage_Click(object sender, RoutedEventArgs e)
         {
-            ucMainPage.IsEnabled = !ucMainPage.IsEnabled;
-            if (ucMainPage.IsEnabled)
-                ucMainPage.Visibility = Visibility.Visible;
+            UcMainPage.IsEnabled = !UcMainPage.IsEnabled;
+            if (UcMainPage.IsEnabled)
+                UcMainPage.Visibility = Visibility.Visible;
             else
-                ucMainPage.Visibility = Visibility.Hidden;
+                UcMainPage.Visibility = Visibility.Hidden;
             
             Enabler.ClearAll();
 
-            ucDiagnostics.IsEnabled = false;
-            ucDiagnostics.Visibility = Visibility.Hidden;
+            UcDiagnostics.IsEnabled = false;
+            UcDiagnostics.Visibility = Visibility.Hidden;
 
-            ucPerformance.IsEnabled = false;
-            ucPerformance.Visibility = Visibility.Hidden;
+            UcPerformance.IsEnabled = false;
+            UcPerformance.Visibility = Visibility.Hidden;
         }
 
         private void btnDiagnostics_Click(object sender, RoutedEventArgs e)
         {
-            ucDiagnostics.IsEnabled = !ucDiagnostics.IsEnabled;
-            if (ucDiagnostics.IsEnabled)
-                ucDiagnostics.Visibility = Visibility.Visible;
+            UcDiagnostics.IsEnabled = !UcDiagnostics.IsEnabled;
+            if (UcDiagnostics.IsEnabled)
+                UcDiagnostics.Visibility = Visibility.Visible;
             else
-                ucDiagnostics.Visibility = Visibility.Hidden;
+                UcDiagnostics.Visibility = Visibility.Hidden;
             
             Enabler.ClearAll();
 
-            ucMainPage.IsEnabled = false;
-            ucMainPage.Visibility = Visibility.Hidden;
+            UcMainPage.IsEnabled = false;
+            UcMainPage.Visibility = Visibility.Hidden;
 
-            ucPerformance.IsEnabled = false;
-            ucPerformance.Visibility = Visibility.Hidden;
+            UcPerformance.IsEnabled = false;
+            UcPerformance.Visibility = Visibility.Hidden;
         }
         
         private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -598,7 +598,7 @@ namespace PDTUtils
         // set globalconfig.reboot = true
         private void btnReboot_Click(object sender, RoutedEventArgs e)
         {
-            m_keyDoorWorker.PrepareForReboot = true;
+            _keyDoorWorker.PrepareForReboot = true;
             if (BoLib.refillKeyStatus() == 1 && BoLib.getDoorStatus() == 1)
             {
                 MessageBox.Show("Please Turn Refill Key and Close Door", "INFO");
@@ -614,7 +614,7 @@ namespace PDTUtils
             
             if (BoLib.refillKeyStatus() == 0 && BoLib.getDoorStatus() == 0)
             {
-                m_keyDoorWorker.PrepareForReboot = false;
+                _keyDoorWorker.PrepareForReboot = false;
                 DiskCommit.SaveAndReboot(); 
             }
         }

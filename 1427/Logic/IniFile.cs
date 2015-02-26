@@ -96,7 +96,7 @@ namespace PDTUtils.Logic
         #endregion
 
 		//The path of the file we are operating on.
-		private readonly string m_path;
+		private readonly string _path;
 
 		/// <summary>
         /// Initializes a new instance of the <see cref="IniFile"/> class.
@@ -109,7 +109,7 @@ namespace PDTUtils.Logic
             // root Windows directory if it is not specified.  By calling 
             // GetFullPath, we make sure we are always passing the full path
             // the win32 functions.
-            m_path = System.IO.Path.GetFullPath(path);
+            _path = System.IO.Path.GetFullPath(path);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace PDTUtils.Logic
         {
             get
             {
-                return m_path;
+                return _path;
             }
         }
 
@@ -159,7 +159,7 @@ namespace PDTUtils.Logic
                                                   defaultValue, 
                                                   retval,
                                                   IniFile.MaxSectionSize, 
-                                                  m_path);
+                                                  _path);
 
             return retval.ToString();
         }
@@ -209,7 +209,7 @@ namespace PDTUtils.Logic
             if (keyName == null)
                 throw new ArgumentNullException("keyName");
 
-            return NativeMethods.GetPrivateProfileInt(sectionName, keyName, defaultValue, m_path);
+            return NativeMethods.GetPrivateProfileInt(sectionName, keyName, defaultValue, _path);
         }
 
         /// <summary>
@@ -311,7 +311,7 @@ namespace PDTUtils.Logic
                 int len = NativeMethods.GetPrivateProfileSection(sectionName,
                                                                  ptr,
                                                                  IniFile.MaxSectionSize,
-                                                                 m_path);
+                                                                 _path);
 
                 keyValuePairs = ConvertNullSeperatedStringToStringArray(ptr, len);
             }
@@ -418,7 +418,7 @@ namespace PDTUtils.Logic
                                                             null, 
                                                             ptr,
                                                             IniFile.MaxSectionSize, 
-                                                            m_path);
+                                                            _path);
 
                 retval = ConvertNullSeperatedStringToStringArray(ptr, len);
             }
@@ -451,7 +451,7 @@ namespace PDTUtils.Logic
             {
                 //Get the section names into the buffer.
                 len = NativeMethods.GetPrivateProfileSectionNames(ptr, 
-                    IniFile.MaxSectionSize, m_path);
+                    IniFile.MaxSectionSize, _path);
 
                 retval = ConvertNullSeperatedStringToStringArray(ptr, len);
             }
@@ -512,7 +512,7 @@ namespace PDTUtils.Logic
         /// </exception>
         private void WriteValueInternal(string sectionName, string keyName, string value)
         {
-            if (!NativeMethods.WritePrivateProfileString(sectionName, keyName, value, m_path))
+            if (!NativeMethods.WritePrivateProfileString(sectionName, keyName, value, _path))
             {
                 throw new System.ComponentModel.Win32Exception();
             }

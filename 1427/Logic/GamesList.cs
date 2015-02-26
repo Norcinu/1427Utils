@@ -11,10 +11,10 @@ namespace PDTUtils.Logic
 		{
 		}
 
-		ObservableCollection<GamesInfo> m_gamesInfo = new ObservableCollection<GamesInfo>();
+		ObservableCollection<GamesInfo> _gamesInfo = new ObservableCollection<GamesInfo>();
 		public ObservableCollection<GamesInfo> GamesInfo
 		{
-			get { return m_gamesInfo; }
+			get { return _gamesInfo; }
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -27,8 +27,8 @@ namespace PDTUtils.Logic
         
 		public void GetGamesList()
 		{
-			if (m_gamesInfo.Count > 0)
-				m_gamesInfo.RemoveAll();
+			if (_gamesInfo.Count > 0)
+				_gamesInfo.RemoveAll();
             //
 			var numGames = BoLib.getNumberOfGames();
 			for (int i = 0; i < numGames; i++)
@@ -54,7 +54,7 @@ namespace PDTUtils.Logic
 				g.Path = g.path;
 				g.HashCode = g.hash_code; 
 
-				m_gamesInfo.Add(g);
+				_gamesInfo.Add(g);
                 
 				this.OnPropertyChanged("Name");
 				this.OnPropertyChanged("Path");

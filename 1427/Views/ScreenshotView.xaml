@@ -7,18 +7,18 @@
              d:DesignHeight="600" d:DesignWidth="1000">
     <Grid>
         <StackPanel>
-            <StackPanel x:Name="stpInfoText" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label x:Name="lblLeft"></Label>
-                <Label x:Name="lblWarning"></Label>
-                <Label x:Name="lblRight"></Label>
+            <StackPanel x:Name="StpInfoText" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label x:Name="LblLeft"></Label>
+                <Label x:Name="LblWarning"></Label>
+                <Label x:Name="LblRight"></Label>
             </StackPanel>
             <Image Width="640" Height="480" />
             <StackPanel HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="&lt;&lt;" Height="23" Name="btnFront" Width="47" FontWeight="Bold" Margin="15,0,5,0"/>
-                    <Button Content="&lt;" Height="23" Name="btnBack" Width="47" FontWeight="Bold" Margin="0,0,30,0"/>
-                    <Button Content="&gt;" Height="23" Name="btnForward" Width="47" FontWeight="Bold" Margin="0,0,5,0"/>
-                    <Button Content="&gt;&gt;" Height="23" Name="btnEnd" Width="47" FontWeight="Bold" Margin="0,0,15,0"/>
+                    <Button Content="&lt;&lt;" Height="23" Name="BtnFront" Width="47" FontWeight="Bold" Margin="15,0,5,0"/>
+                    <Button Content="&lt;" Height="23" Name="BtnBack" Width="47" FontWeight="Bold" Margin="0,0,30,0"/>
+                    <Button Content="&gt;" Height="23" Name="BtnForward" Width="47" FontWeight="Bold" Margin="0,0,5,0"/>
+                    <Button Content="&gt;&gt;" Height="23" Name="BtnEnd" Width="47" FontWeight="Bold" Margin="0,0,15,0"/>
                 </StackPanel>
 				<Label>Image 0/200</Label>
             </StackPanel>

@@ -74,11 +74,11 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("TerminalAssetMsg");
         }
 
-        public ICommand SetRTP
+        public ICommand SetRtp
         {
-            get { return new DelegateCommand(ChangeRTP); }
+            get { return new DelegateCommand(ChangeRtp); }
         }
-        void ChangeRTP(object newRtp)
+        void ChangeRtp(object newRtp)
         {
             if (BoLib.getCountryCode() == BoLib.getUkCountryCodeC())
             {

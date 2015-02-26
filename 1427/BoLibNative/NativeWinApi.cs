@@ -9,12 +9,12 @@ namespace PDTUtils.Native
 	{
 		public class GameInfo
 		{
-			public string name = "";
-			public string hash_code = "";
-			public string path = "";
+			string name = "";
+			string _hashCode = "";
+			string path = "";
 
 			public string Name { get { return name; } }
-			public string Hash_code { get { return hash_code; } }
+			public string HashCode { get { return _hashCode; } }
 			public string Path { get { return path; } }
 		}
 	}
@@ -25,41 +25,41 @@ namespace PDTUtils.Native
 	{
 		public enum ModeNum : int
 		{
-			ENUM_CURRENT_SETTINGS = -1,
-			ENUM_REGISTRY_SETTINGS = -2
+			EnuCurrentSettings = -1,
+			EnuRegistrySettings = -2
 		}
         
-		public struct MEMORYSTATUS
+		public struct Memorystatus
 		{
-			public uint dwLength;
-			public uint dwMemoryLoad;
-			public uint dwTotalPhys;
-			public uint dwAvailPhys;
-			public uint dwTotalPageFile;
-			public uint dwAvailPageFile;
-			public uint dwTotalVirtual;
-			public uint dwAvailVirtual;
+			public uint DwLength;
+			public uint DwMemoryLoad;
+			public uint DwTotalPhys;
+			public uint DwAvailPhys;
+			public uint DwTotalPageFile;
+			public uint DwAvailPageFile;
+			public uint DwTotalVirtual;
+			public uint DwAvailVirtual;
 		}
 
 		[DllImport("kernel32.dll")]
-		public static extern void GlobalMemoryStatus(ref MEMORYSTATUS lpBuffer);
+		public static extern void GlobalMemoryStatus(ref Memorystatus lpBuffer);
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct POINTL
+		public struct Pointl
 		{
 			public int x;
 			public int y;
 		}
 
-		internal enum DMCOLOR : short
+		internal enum Dmcolor : short
 		{
-			DMCOLOR_UNKNOWN = 0,
-			DMCOLOR_MONOCHROME = 1,
-			DMCOLOR_COLOR = 2
+			DmcolorUnknown = 0,
+			DmcolorMonochrome = 1,
+			DmcolorColor = 2
 		}
 
 		[Flags()]
-		public enum DM : int
+		public enum Dm : int
 		{
 			Orientation = 0x1,
 			PaperSize = 0x2,
@@ -67,7 +67,7 @@ namespace PDTUtils.Native
 			PaperWidth = 0x8,
 			Scale = 0x10,
 			Position = 0x20,
-			NUP = 0x40,
+			Nup = 0x40,
 			DisplayOrientation = 0x80,
 			Copies = 0x100,
 			DefaultSource = 0x200,
@@ -75,7 +75,7 @@ namespace PDTUtils.Native
 			Color = 0x800,
 			Duplex = 0x1000,
 			YResolution = 0x2000,
-			TTOption = 0x4000,
+			TtOption = 0x4000,
 			Collate = 0x8000,
 			FormName = 0x10000,
 			LogPixels = 0x20000,
@@ -84,8 +84,8 @@ namespace PDTUtils.Native
 			PelsHeight = 0x100000,
 			DisplayFlags = 0x200000,
 			DisplayFrequency = 0x400000,
-			ICMMethod = 0x800000,
-			ICMIntent = 0x1000000,
+			IcmMethod = 0x800000,
+			IcmIntent = 0x1000000,
 			MediaType = 0x2000000,
 			DitherType = 0x4000000,
 			PanningWidth = 0x8000000,
@@ -96,26 +96,26 @@ namespace PDTUtils.Native
 		/// <summary>
 		/// Specifies whether collation should be used when printing multiple copies.
 		/// </summary>
-		internal enum DMCOLLATE : short
+		internal enum Dmcollate : short
 		{
 			/// <summary>
 			/// Do not collate when printing multiple copies.
 			/// </summary>
-			DMCOLLATE_FALSE = 0,
+			DmcollateFalse = 0,
 
 			/// <summary>
 			/// Collate when printing multiple copies.
 			/// </summary>
-			DMCOLLATE_TRUE = 1
+			DmcollateTrue = 1
 		}
 
 		[StructLayout(LayoutKind.Explicit, CharSet = CharSet.Ansi)]
-		public struct DEVMODE
+		public struct Devmode
 		{
-			public const int CCHDEVICENAME = 32;
-			public const int CCHFORMNAME = 32;
+			public const int Cchdevicename = 32;
+			public const int Cchformname = 32;
 
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHDEVICENAME)]
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Cchdevicename)]
 			[FieldOffset(0)]
 			public string dmDeviceName;
 			[FieldOffset(32)]
@@ -127,7 +127,7 @@ namespace PDTUtils.Native
 			[FieldOffset(38)]
 			public Int16 dmDriverExtra;
 			[FieldOffset(40)]
-			public DM dmFields;
+			public Dm dmFields;
 
 			[FieldOffset(44)]
 			Int16 dmOrientation;
@@ -147,7 +147,7 @@ namespace PDTUtils.Native
 			Int16 dmPrintQuality;
 
 			[FieldOffset(44)]
-			public POINTL dmPosition;
+			public Pointl dmPosition;
 			[FieldOffset(52)]
 			public Int32 dmDisplayOrientation;
 			[FieldOffset(56)]
@@ -164,7 +164,7 @@ namespace PDTUtils.Native
 			[FieldOffset(68)]
 			public short dmCollate; // See note below!
 			[FieldOffset(72)]
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = CCHFORMNAME)]
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = Cchformname)]
 			public string dmFormName;
 			[FieldOffset(102)]
 			public Int16 dmLogPixels;
@@ -183,36 +183,36 @@ namespace PDTUtils.Native
 		}
 
 		[DllImport("user32.dll")]
-		public static extern bool EnumDisplaySettings(string deviceName, int modeNum, ref DEVMODE devMode);
+		public static extern bool EnumDisplaySettings(string deviceName, int modeNum, ref Devmode devMode);
 
 		[DllImport("user32.dll")]
-		public static extern int ChangeDisplaySettings(ref DEVMODE devMode, int flags);
+		public static extern int ChangeDisplaySettings(ref Devmode devMode, int flags);
         
-		public const int ENUM_CURRENT_SETTINGS = -1;
-		public const int CDS_UPDATEREGISTRY = 0x01;
-		public const int CDS_TEST = 0x02;
-		public const int DISP_CHANGE_SUCCESSFUL = 0;
-		public const int DISP_CHANGE_RESTART = 1;
-		public const int DISP_CHANGE_FAILED = -1;
+		public const int EnuCurrentSettings = -1;
+		public const int CdsUpdateregistry = 0x01;
+		public const int CdsTest = 0x02;
+		public const int DispChangeSuccessful = 0;
+		public const int DispChangeRestart = 1;
+		public const int DispChangeFailed = -1;
         
-		public struct OSVERSIONINFO
+		public struct Osversioninfo
 		{
-			public uint dwOSVersionInfoSize;
-			public uint dwMajorVersion;
-			public uint dwMinorVersion;
-			public uint dwBuildNumber;
-			public uint dwPlatformId;
+			public uint DwOsVersionInfoSize;
+			public uint DwMajorVersion;
+			public uint DwMinorVersion;
+			public uint DwBuildNumber;
+			public uint DwPlatformId;
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-			public string szCSDVersion;
-			public Int16 wServicePackMajor;
-			public Int16 wServicePackMinor;
-			public Int16 wSuiteMask;
-			public Byte wProductType;
-			public Byte wReserved;
+			public string SzCsdVersion;
+			public Int16 WServicePackMajor;
+			public Int16 WServicePackMinor;
+			public Int16 WSuiteMask;
+			public Byte WProductType;
+			public Byte WReserved;
 		}
 
 		[DllImport("kernel32")]
-		public static extern bool GetVersionEx(ref OSVERSIONINFO osvi);
+		public static extern bool GetVersionEx(ref Osversioninfo osvi);
        
        
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
@@ -279,7 +279,7 @@ namespace PDTUtils.Native
 		public static extern bool SetFileAttributes(string lpFileName, 
 													uint dwFileAttributes);
         
-		public const int FILE_ATTRIBUTE_NORMAL = 0x80;
+		public const int FileAttributeNormal = 0x80;
 
 
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
@@ -290,23 +290,23 @@ namespace PDTUtils.Native
         public static extern bool SetComputerName(string lpComputerName);
         
         
-        public struct SYSTEMTIME
+        public struct Systemtime
 		{
-			public short year;
-			public short month;
-			public short dayOfWeek;
-			public short day;
-			public short hour;
-			public short minute;
-			public short second;
-			public short milliseconds;
+			public short Year;
+			public short Month;
+			public short DayOfWeek;
+			public short Day;
+			public short Hour;
+			public short Minute;
+			public short Second;
+			public short Milliseconds;
 		}
         
 		[DllImport("coredll.dll")]
-		private extern static void GetSystemTime(ref SYSTEMTIME lpSystemTime);
+		private extern static void GetSystemTime(ref Systemtime lpSystemTime);
 
 		[DllImport("coredll.dll")]
-		private extern static uint SetSystemTime(ref SYSTEMTIME lpSystemTime);
+		private extern static uint SetSystemTime(ref Systemtime lpSystemTime);
 
 		[DllImport("kernel32.dll")]
 		public static extern bool MoveFile(string lpExistingFileName, string lpNewFileName);

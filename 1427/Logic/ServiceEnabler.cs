@@ -8,75 +8,75 @@ namespace PDTUtils.Logic
 {
 	public class ServiceEnabler : INotifyPropertyChanged
 	{
-		Dictionary<string, bool> m_categories = new Dictionary<string, bool>();
+		Dictionary<string, bool> _categories = new Dictionary<string, bool>();
 
 		#region Properties
 		public bool GameStatistics
 		{
-			get { return m_categories[Categories.GameStatistics]; }
+			get { return _categories[Categories.GameStatistics]; }
 		}
 
 		public bool MachineIni
 		{
-			get { return m_categories[Categories.MachineIni]; }
+			get { return _categories[Categories.MachineIni]; }
 		}
 
 		public bool Volume
 		{
-			get { return m_categories[Categories.Volume]; }
+			get { return _categories[Categories.Volume]; }
 		}
 
 		public bool Meters
 		{
-			get { return m_categories[Categories.Meters]; }
+			get { return _categories[Categories.Meters]; }
 		}
 
 		public bool Performance
 		{
-			get { return m_categories[Categories.Performance]; }
+			get { return _categories[Categories.Performance]; }
 		}
 
 		public bool System
 		{
-			get { return m_categories[Categories.System]; }
+			get { return _categories[Categories.System]; }
 		}
 
 		public bool Setup
 		{
-			get { return m_categories[Categories.Setup]; }
+			get { return _categories[Categories.Setup]; }
 		}
 
 		public bool Logfile
 		{
-			get { return m_categories[Categories.Logfile]; }
+			get { return _categories[Categories.Logfile]; }
 		}
 
         public bool MainPage
         {
-            get { return m_categories[Categories.MainPage]; }
+            get { return _categories[Categories.MainPage]; }
         }
 
 		#endregion
 
 		public ServiceEnabler()
 		{
-			m_categories.Add(Categories.GameStatistics, false);
+			_categories.Add(Categories.GameStatistics, false);
 			this.OnPropertyChanged(Categories.GameStatistics);
-			m_categories.Add(Categories.MachineIni, false);
+			_categories.Add(Categories.MachineIni, false);
 			this.OnPropertyChanged(Categories.MachineIni);
-			m_categories.Add(Categories.Volume, false);
+			_categories.Add(Categories.Volume, false);
 			this.OnPropertyChanged(Categories.Volume);
-			m_categories.Add(Categories.Meters, false);
+			_categories.Add(Categories.Meters, false);
 			this.OnPropertyChanged(Categories.Meters);
-			m_categories.Add(Categories.Performance, false);
+			_categories.Add(Categories.Performance, false);
 			this.OnPropertyChanged(Categories.Performance);
-			m_categories.Add(Categories.System, false);
+			_categories.Add(Categories.System, false);
 			this.OnPropertyChanged(Categories.System);
-			m_categories.Add(Categories.Setup, false);
+			_categories.Add(Categories.Setup, false);
 			this.OnPropertyChanged(Categories.Setup);
-			m_categories.Add(Categories.Logfile, false);
+			_categories.Add(Categories.Logfile, false);
 			this.OnPropertyChanged(Categories.Logfile);
-            m_categories.Add(Categories.MainPage, true);
+            _categories.Add(Categories.MainPage, true);
             this.OnPropertyChanged(Categories.MainPage);
 		}
         
@@ -95,19 +95,19 @@ namespace PDTUtils.Logic
 		/// <param name="name">Name of the key to enable</param>
 		public void EnableCategory(string name)
 		{
-			if (m_categories.Keys.Count == 0 || name == "")
+			if (_categories.Keys.Count == 0 || name == "")
 				return;
 			ClearAll();
-			m_categories[name] = true;
+			_categories[name] = true;
 			this.OnPropertyChanged(name);
 		}
         
 		public void ClearAll()
 		{
-            var keys = new List<string>(m_categories.Keys);
+            var keys = new List<string>(_categories.Keys);
 			foreach (var key in keys)
 			{
-				m_categories[key] = false;
+				_categories[key] = false;
 				this.OnPropertyChanged(key);
 			}
 		}

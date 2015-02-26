@@ -8,42 +8,42 @@ namespace PDTUtils.Logic
 {
 	public class IniElement
 	{
-		private string m_category;
-		private string m_field;
-		private string m_value;
+		private string _category;
+		private string _field;
+		private string _value;
 
 		#region Properties
 		public string Category
 		{
-			get { return m_category; }
-			set { m_category = value; }
+			get { return _category; }
+			set { _category = value; }
 		}
 
 		public string Field
 		{
-			get { return m_field; }
-			set { m_field = value; }
+			get { return _field; }
+			set { _field = value; }
 		}
 		
 		public string Value
 		{
-			get { return m_value; }
-			set { m_value = value; }
+			get { return _value; }
+			set { _value = value; }
 		}
 		#endregion
 		
 		public IniElement(string category, string field, string value)
 		{
-			m_category = category;
-			m_field = field;
-			m_value = value;
+			_category = category;
+			_field = field;
+			_value = value;
 		}
 	}
     
 	//  need to check for duplicates, remove etc...
 	public class UniqueIniCategory : ObservableCollection<IniElement>
 	{ 
-		private List<string> uniqueEntries = new List<string>();
+		private List<string> _uniqueEntries = new List<string>();
 		public UniqueIniCategory()
 		{
 		}
@@ -219,7 +219,7 @@ namespace PDTUtils.Logic
 			{
 				if (NativeMD5.CheckHash(IniPath) != true)
 				{
-					if (NativeWinApi.SetFileAttributes(IniPath, NativeWinApi.FILE_ATTRIBUTE_NORMAL))
+					if (NativeWinApi.SetFileAttributes(IniPath, NativeWinApi.FileAttributeNormal))
 					{   
 						NativeWinApi.WritePrivateProfileSection("End", null, IniPath);
 						NativeWinApi.WritePrivateProfileSection("End", "", IniPath);

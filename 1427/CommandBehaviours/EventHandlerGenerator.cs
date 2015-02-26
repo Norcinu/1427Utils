@@ -35,33 +35,33 @@ namespace AttachedCommandBehavior
             DynamicMethod handler = new DynamicMethod("", null,
                 hookupParameters, typeof(EventHandlerGenerator));
 
-            ILGenerator eventIL = handler.GetILGenerator();
+            ILGenerator eventIl = handler.GetILGenerator();
 
             //load the parameters or everything will just BAM :)
-            LocalBuilder local = eventIL.DeclareLocal(typeof(object[]));
-            eventIL.Emit(OpCodes.Ldc_I4, delegateParameters.Length + 1);
-            eventIL.Emit(OpCodes.Newarr, typeof(object));
-            eventIL.Emit(OpCodes.Stloc, local);
+            LocalBuilder local = eventIl.DeclareLocal(typeof(object[]));
+            eventIl.Emit(OpCodes.Ldc_I4, delegateParameters.Length + 1);
+            eventIl.Emit(OpCodes.Newarr, typeof(object));
+            eventIl.Emit(OpCodes.Stloc, local);
 
             //start from 1 because the first item is the instance. Load up all the arguments
             for (int i = 1; i < delegateParameters.Length + 1; i++)
             {
-                eventIL.Emit(OpCodes.Ldloc, local);
-                eventIL.Emit(OpCodes.Ldc_I4, i);
-                eventIL.Emit(OpCodes.Ldarg, i);
-                eventIL.Emit(OpCodes.Stelem_Ref);
+                eventIl.Emit(OpCodes.Ldloc, local);
+                eventIl.Emit(OpCodes.Ldc_I4, i);
+                eventIl.Emit(OpCodes.Ldarg, i);
+                eventIl.Emit(OpCodes.Stelem_Ref);
             }
 
-            eventIL.Emit(OpCodes.Ldloc, local);
+            eventIl.Emit(OpCodes.Ldloc, local);
 
             //Load as first argument the instance of the object for the methodToInvoke i.e methodInvoker
-            eventIL.Emit(OpCodes.Ldarg_0);
+            eventIl.Emit(OpCodes.Ldarg_0);
 
             //Now that we have it all set up call the actual method that we want to call for the binding
-            eventIL.EmitCall(OpCodes.Call, methodToInvoke, null);
+            eventIl.EmitCall(OpCodes.Call, methodToInvoke, null);
 
-            eventIL.Emit(OpCodes.Pop);
-            eventIL.Emit(OpCodes.Ret);
+            eventIl.Emit(OpCodes.Pop);
+            eventIl.Emit(OpCodes.Ret);
 
             //create a delegate from the dynamic method
             return handler.CreateDelegate(eventHandlerType, methodInvoker);

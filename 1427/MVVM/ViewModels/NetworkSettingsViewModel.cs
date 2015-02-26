@@ -17,11 +17,11 @@ namespace PDTUtils.MVVM.ViewModels
         {
             ChangesMade = false;
 
-            IPAddressActive = false;
+            IpAddressActive = false;
             SubnetActive = false;
             DefaultActive = false;
 
-            IPAddress = "";
+            IpAddress = "";
             SubnetAddress = "";
             DefaultGateway = "";
             ComputerName = "";
@@ -34,11 +34,11 @@ namespace PDTUtils.MVVM.ViewModels
         }
 
         private bool ChangesMade { get; set; }
-        public bool IPAddressActive { get; set; }
+        public bool IpAddressActive { get; set; }
         public bool SubnetActive { get; set; }
         public bool DefaultActive { get; set; }
         public bool PingTestRunning { get; set; }
-        public string IPAddress { get; set; }
+        public string IpAddress { get; set; }
         public string SubnetAddress { get; set; }
         public string DefaultGateway { get; set; }
         public string ComputerName { get; set; }
@@ -51,9 +51,9 @@ namespace PDTUtils.MVVM.ViewModels
             get { return new DelegateCommand(DoPingSites); }
         }
 
-        public ICommand ToggleIP
+        public ICommand ToggleIp
         {
-            get { return new DelegateCommand(o => DoToggleIP()); }
+            get { return new DelegateCommand(o => DoToggleIp()); }
         }
 
         public ICommand ToggleSubnet
@@ -83,7 +83,7 @@ namespace PDTUtils.MVVM.ViewModels
                     {
                         if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
                         {
-                            IPAddress = ip.Address.ToString();
+                            IpAddress = ip.Address.ToString();
                             SubnetAddress = ip.IPv4Mask.ToString();
                             DefaultGateway = ni.GetIPProperties().GatewayAddresses[0].Address.ToString();
                         }
@@ -199,10 +199,10 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("PingTestRunning");
         }
 
-        private void DoToggleIP()
+        private void DoToggleIp()
         {
             ChangesMade = true;
-            IPAddressActive = !IPAddressActive;
+            IpAddressActive = !IpAddressActive;
             RaisePropertyChangedEvent("IPAddressActive");
         }
 
@@ -222,27 +222,27 @@ namespace PDTUtils.MVVM.ViewModels
 
         private void DoSaveNetworkInfo()
         {
-            var objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
-            var objMOC = objMC.GetInstances();
+            var objMc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            var objMoc = objMc.GetInstances();
 
             if (ChangesMade)
             {
-                foreach (ManagementObject objMO in objMOC)
+                foreach (ManagementObject objMo in objMoc)
                 {
-                    if ((bool) objMO["IPEnabled"])
+                    if ((bool) objMo["IPEnabled"])
                     {
                         try
                         {
-                            ManagementBaseObject setIP;
-                            var newIP = objMO.GetMethodParameters("EnableStatic");
-                            var newGateway = objMO.GetMethodParameters("SetGateways");
+                            ManagementBaseObject setIp;
+                            var newIp = objMo.GetMethodParameters("EnableStatic");
+                            var newGateway = objMo.GetMethodParameters("SetGateways");
 
-                            newIP["IPAddress"] = new[] {IPAddress};
-                            newIP["SubnetMask"] = new[] {SubnetAddress};
+                            newIp["IPAddress"] = new[] {IpAddress};
+                            newIp["SubnetMask"] = new[] {SubnetAddress};
                             // if ((string[])objMO["DefaultIPGateway"] != null)
                             //     newIP["DefaultIPGateway"] = new string[] { DefaultGateway };
 
-                            setIP = objMO.InvokeMethod("EnableStatic", newIP, null);
+                            setIp = objMo.InvokeMethod("EnableStatic", newIp, null);
                         }
                         catch (Exception ex)
                         {

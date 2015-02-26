@@ -13,33 +13,33 @@ namespace PDTUtils
     /// </summary>
 	public class DoorAndKeyStatus : INotifyPropertyChanged
 	{
-		volatile bool m_doorStatus;
-		volatile bool m_running;
-		volatile bool m_hasChanged;
-		volatile bool m_isTestSuiteRunning;
-        volatile bool m_prepareForReboot;
+		volatile bool _doorStatus;
+		volatile bool _running;
+		volatile bool _hasChanged;
+		volatile bool _isTestSuiteRunning;
+        volatile bool _prepareForReboot;
 
-        System.Timers.Timer updateTimer;
+        System.Timers.Timer _updateTimer;
 
 		#region Properties
 		public bool TestSuiteRunning
 		{
-			get { return m_isTestSuiteRunning; }
-			set { m_isTestSuiteRunning = value; }
+			get { return _isTestSuiteRunning; }
+			set { _isTestSuiteRunning = value; }
 		}
 
 		public bool HasChanged
 		{
-			get { return m_hasChanged; }
-			set { m_hasChanged = value; }
+			get { return _hasChanged; }
+			set { _hasChanged = value; }
 		}
 
 		public bool DoorStatus
 		{
-			get { return m_doorStatus; }
+			get { return _doorStatus; }
 			set
 			{
-				m_doorStatus = value;
+				_doorStatus = value;
 				this.OnPropertyChanged("DoorStatus");
 				this.OnPropertyChanged("IsDoorClosed");
 			}
@@ -47,45 +47,45 @@ namespace PDTUtils
 
 		public bool IsDoorClosed
 		{
-			get { return !m_doorStatus; }
+			get { return !_doorStatus; }
 		}
 
 		public bool Running
 		{
-			get { return m_running; }
-			set { m_running = value; }
+			get { return _running; }
+			set { _running = value; }
 		}
 
         public bool PrepareForReboot
         {
-            get { return m_prepareForReboot; }
-            set { m_prepareForReboot = value; }
+            get { return _prepareForReboot; }
+            set { _prepareForReboot = value; }
         }
 		#endregion
         
 		public DoorAndKeyStatus()
 		{
-			m_doorStatus = false;
-			m_running = true;
-			m_hasChanged = false;
-			m_isTestSuiteRunning = false;
+			_doorStatus = false;
+			_running = true;
+			_hasChanged = false;
+			_isTestSuiteRunning = false;
 
-			updateTimer = new System.Timers.Timer(1000);
-			updateTimer.Enabled = true;
+			_updateTimer = new System.Timers.Timer(1000);
+			_updateTimer.Enabled = true;
 		}
         
         public void Run()
 		{
-			while (m_running)
+			while (_running)
 			{
 				Random r = new Random();
 				if (r.Next(1000) < 100)
 				{
-					if (m_isTestSuiteRunning == false)
+					if (_isTestSuiteRunning == false)
 					{
-						if (BoLib.refillKeyStatus() == 0 && !m_prepareForReboot)
+						if (BoLib.refillKeyStatus() == 0 && !_prepareForReboot)
 						{
-                            m_running = false;
+                            _running = false;
                             Application.Current.Dispatcher.Invoke(
                                 DispatcherPriority.Normal,
                                 (ThreadStart)delegate {
@@ -97,20 +97,20 @@ namespace PDTUtils
                         
                         if (BoLib.getDoorStatus() == 0)
                         {
-                            if (m_doorStatus == true)
+                            if (_doorStatus == true)
                             {
-                                m_doorStatus = false;
-                                m_hasChanged = true;
+                                _doorStatus = false;
+                                _hasChanged = true;
                                 OnPropertyChanged("DoorStatus");
                                 OnPropertyChanged("IsDoorClosed");
                             }
                         }
                         else
                         {
-                            if (m_doorStatus == false)
+                            if (_doorStatus == false)
                             {
-                                m_doorStatus = true;
-                                m_hasChanged = true;
+                                _doorStatus = true;
+                                _hasChanged = true;
                                 OnPropertyChanged("DoorStatus");
                                 OnPropertyChanged("IsDoorClosed");
                             }
