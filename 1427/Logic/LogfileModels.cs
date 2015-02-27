@@ -15,7 +15,7 @@ namespace PDTUtils
     public abstract class BaseNotifyPropertyChanged : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public abstract void ParseGame(int gameNo);
+        protected abstract void ParseGame(int gameNo);
         
         protected void OnPropertyChanged(string name)
         {
@@ -58,24 +58,23 @@ namespace PDTUtils
             get { return (_credit/100m).ToString("c2"); }
         }
 
-        protected uint GameModel { get; set; }
-
+        public uint GameModel { get; set; }
+        
         public int CompareTo(object obj)
         {
             if (obj is PlayedGame)
             {
-                //i stink dont I? got the bad aids imo.
             }
-
+            
             return 0;
         }
-        
+
         #region Private Variables
         
         protected DateTime _logDate;
         protected decimal _credit;
         protected decimal _stake;
-
+        
         #endregion
     }
     
@@ -93,7 +92,7 @@ namespace PDTUtils
             get { return (_winAmount/100m).ToString("c2"); }
         }
 
-        public override void ParseGame(int gameNo)
+        protected override void ParseGame(int gameNo)
         {
             var ci = new CultureInfo("en-GB"); // en-GB
             var date = DateTime.Now.ToString();
@@ -130,7 +129,7 @@ namespace PDTUtils
             get { return (_winAmount/100).ToString("c2"); }
         }
 
-        public override void ParseGame(int gameNo)
+        protected override void ParseGame(int gameNo)
         {
             //CultureInfo ci = new CultureInfo("en-GB");
             var ci = Thread.CurrentThread.CurrentCulture;
@@ -187,7 +186,7 @@ namespace PDTUtils
         public string Description { get; set; }
         public string ErrorDate { get; set; }
 
-        public override void ParseGame(int gameNo)
+        protected override void ParseGame(int gameNo)
         {
             throw new NotImplementedException();
         }
@@ -214,7 +213,7 @@ namespace PDTUtils
         public string Time { get; set; }
         public string Amount { get; set; }
 
-        public override void ParseGame(int gameNo)
+        protected override void ParseGame(int gameNo)
         {
         }
     }
@@ -227,36 +226,56 @@ namespace PDTUtils
             Message = "";
         }
 
+        public CashlessLibLog(string message)
+        {
+            Time = "";
+            Message = message;
+            OnPropertyChanged("CashLess");
+        }
+
+        public CashlessLibLog(string time, string msg)
+        {
+            Time = time;
+            Message = msg;
+            OnPropertyChanged("CashLess");
+        }
+
         public string Time { get; set; }
         public string Message { get; set; }
 
-        public override void ParseGame(int gameNo)
+        protected override void ParseGame(int gameNo)
         {
             throw new NotImplementedException();
         }
     }
 
 
+    public class VizTechLog : BaseNotifyPropertyChanged
+    {
+        protected override void ParseGame(int gameNo)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class MachineLogsController
     {
-        private readonly ObservableCollection<CashlessLibLog> _cashLess = new ObservableCollection<CashlessLibLog>();
-        private readonly ObservableCollection<MachineErrorLog> _errorLog = new ObservableCollection<MachineErrorLog>();
-        private readonly ObservableCollection<HandPayLog> _handPayLog = new ObservableCollection<HandPayLog>();
-        private readonly ObservableCollection<PlayedGame> _playedGames = new ObservableCollection<PlayedGame>();
-
-        private readonly ObservableCollection<MachineErrorLog> _warningLog =
-            new ObservableCollection<MachineErrorLog>();
-
-        private readonly ObservableCollection<WinningGame> _winningGames = new ObservableCollection<WinningGame>();
-
+        readonly ObservableCollection<CashlessLibLog> _cashLess = new ObservableCollection<CashlessLibLog>();
+        readonly ObservableCollection<MachineErrorLog> _errorLog = new ObservableCollection<MachineErrorLog>();
+        readonly ObservableCollection<HandPayLog> _handPayLog = new ObservableCollection<HandPayLog>();
+        readonly ObservableCollection<PlayedGame> _playedGames = new ObservableCollection<PlayedGame>();
+        readonly ObservableCollection<MachineErrorLog> _warningLog = new ObservableCollection<MachineErrorLog>();
+        readonly ObservableCollection<WinningGame> _winningGames = new ObservableCollection<WinningGame>();
+        readonly ObservableCollection<VizTechLog> _vizTechLog = new ObservableCollection<VizTechLog>();
+          
         public MachineLogsController()
         {
             IsLoaded = false;
         }
-
+        
         public void SetErrorLog()
         {
-            var errLogLocation = @"D:\machine\GAME_DATA\TerminalErrLog.log";
+            const string errLogLocation = @"D:\machine\GAME_DATA\TerminalErrLog.log";
             try
             {
                 var lines = File.ReadAllLines(errLogLocation);
@@ -300,7 +319,7 @@ namespace PDTUtils
                 Console.WriteLine(ex.Message);
             }
         }
-
+        
         public void SetWarningLog()
         {
             var errLogLocation = @"D:\machine\GAME_DATA\TerminalWarningLog.log";
@@ -401,14 +420,55 @@ namespace PDTUtils
 
         public void SetCashlessLibLog()
         {
-            try
-            {
-                var filename = Resources.cashless_log + "nf";
-                using (var fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+            //try
+            //{
+                CashLess.Add(new CashlessLibLog("NOT IMPLEMENTED UNTIL LOGFILES ARE CULLED"));
+                /*var filename = Resources.cashless_log;
+                var worker = new BackgroundWorker();
+                using (var fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (var bs = new BufferedStream(fs))
                 using (var sr = new StreamReader(bs))
                 {
+                    while (!sr.EndOfStream)
+                    {
+                        //var ending = sr.ReadToEnd();
+                        //var all = ending.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        var line = sr.ReadLine();
+                        //foreach (var line in all)
+                        {
+                            CashLess.Add(new CashlessLibLog(line));
+                        }
+                    }
+
                 }
+            }
+            catch (Exception ex)
+            {
+                var box = new WpfMessageBoxService();
+                box.ShowMessage(ex.Message, "Exception Caught");
+            }*/
+        }
+
+        public void SetVizTechLog()
+        {
+            try
+            {
+                var filename = Resources.viz_tech_log;
+                using (var sr = new StreamReader(filename))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        //var ending = sr.ReadToEnd();
+                        //var all = ending.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        var line = sr.ReadLine();
+                        //foreach (var line in all)
+                        {
+                            Viz.Add(new CashlessLibLog(line));
+                        }
+                    }
+
+                }
+
             }
             catch (Exception ex)
             {
@@ -449,6 +509,11 @@ namespace PDTUtils
         public ObservableCollection<CashlessLibLog> CashLess
         {
             get { return _cashLess; }
+        }
+
+        public ObservableCollection<VizTechLog> VizTechLogs
+        {
+            get { return _vizTechLog; }
         }
 
         #endregion

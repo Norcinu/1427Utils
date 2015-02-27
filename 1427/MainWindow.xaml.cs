@@ -159,14 +159,15 @@ namespace PDTUtils
             {
             //    Thread t = new Thread(() =>
             //    {
-                    LogController.SetErrorLog();
-                    LogController.SetWarningLog();
-                    LogController.SetPlayedLog();
-                    LogController.SetWinningLog();
-                    LogController.SetHandPayLog();
-                    LogController.IsLoaded = true;
-              //  });
-              //  t.Start();
+                LogController.SetErrorLog();
+                LogController.SetWarningLog();
+                LogController.SetPlayedLog();
+                LogController.SetWinningLog();
+                LogController.SetHandPayLog();
+                LogController.SetCashlessLibLog();
+                LogController.IsLoaded = true;
+                //  });
+                //  t.Start();
             }
 		}
         

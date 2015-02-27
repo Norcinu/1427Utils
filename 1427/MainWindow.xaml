@@ -19,10 +19,7 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         SizeToContent="Manual">
-		
-<!-- 
-	Height="{Binding SystemParameters.PrimaryScreenHeight}" 
-        Width="{Binding SystemParameters.PrimaryScreenWidth}" -->
+    
 
     <Window.Resources>
         <Style x:Key="StdLabel" TargetType="Label">
@@ -357,19 +354,10 @@
             <TabItem Header="TiTo" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
-                        <ListView ItemsSource="{Binding Path=LogController.CashLess}" MinHeight="600" FontSize="20">
+                        <ListView ItemsSource="{Binding Path=LogController.CashLess}" MinHeight="600" Width="710" FontSize="20">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
-                                    <GridViewColumn Header="Game" Width="180">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Date}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Date" Width="180">
+                                    <GridViewColumn Header="Timestamp" Width="700">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
@@ -378,6 +366,15 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
+                                    <!--<GridViewColumn Header="Message" Width="200">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <TextBlock Text="{Binding Message}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>-->
                                 </GridView>
                             </ListView.View>
                         </ListView>

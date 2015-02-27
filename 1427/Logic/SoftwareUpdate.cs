@@ -285,8 +285,8 @@ namespace PDTUtils
 			}
 			return false;
 		}
-        
-		public override void ParseGame(int gameNo)
+
+	    protected override void ParseGame(int gameNo)
 		{
 			throw new Exception("The method or operation is not implemented.");
 		}

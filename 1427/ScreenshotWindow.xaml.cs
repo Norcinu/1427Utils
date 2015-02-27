@@ -25,13 +25,13 @@ namespace PDTUtils
         
         List<System.Drawing.Image> images = new List<System.Drawing.Image>();
         int currentImage = 0;
-        int maxImages = 0;
+        readonly int maxImages = 0;
         
 
         public ScreenshotWindow()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
             
             Filename = "";
             FileDate = "";
@@ -40,11 +40,7 @@ namespace PDTUtils
             try
             {
                 files = Directory.GetFiles(@"D:\GameHistory", "*.png", SearchOption.TopDirectoryOnly);
-                Array.Sort(files, delegate(string str1, string str2)
-                {
-                    return File.GetCreationTime(str1).CompareTo(File.GetCreationTime(str2));
-                });
-
+                Array.Sort(files, (str1, str2) => File.GetCreationTime(str1).CompareTo(File.GetCreationTime(str2)));
                 maxImages = files.Length - 1;// images.Count - 1;
             }
             catch (System.Exception ex)

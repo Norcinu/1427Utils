@@ -228,15 +228,13 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (BoLib.getDoorStatus() > 0)
             {
-                if (BoLib.clearError() == 0)
-                {
-                    ErrorMessage = "Error Cleared. Please Continue.";
-                    RaisePropertyChangedEvent("ErrorMessage");
-                }
+                if (BoLib.clearError() != 0) return;
+                ErrorMessage = "Error Cleared. Please Continue.";
+                RaisePropertyChangedEvent("ErrorMessage");
             }
             else
             {
-                this.ShowMessageBox.Execute(null);
+                ShowMessageBox.Execute(null);
             }
         }
         
@@ -264,7 +262,7 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     _caption = "WARNING";
                     _message = "SET HANDPAY THRESHOLD";
-                    this.ShowMessageBox.Execute(null);
+                    ShowMessageBox.Execute(null);
                     _caption = oldCaption;
                     _message = oldMsg;
                     return;
@@ -285,7 +283,7 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 _caption = "WARNING";
                 _message = "NO CREDITS FOR HAND PAY";
-                this.ShowMessageBox.Execute(null);
+                ShowMessageBox.Execute(null);
                 _caption = oldCaption;
                 _message = oldMsg;
             }
@@ -368,15 +366,6 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
-            
-            
-            //BoLib.disableNoteValidator();
-            //while (true)
-            {
-                //BoLib.enableNoteValidator();
-                //ulong coins = BoLib.getReconciliationMeter(14) + BoLib.getReconciliationMeter(15);
-                //Thread.Sleep(300);
-            }
         }
 
         public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }
@@ -387,16 +376,11 @@ namespace PDTUtils.MVVM.ViewModels
                 RefillTimer = new System.Timers.Timer(100);
                 RefillTimer.Enabled = true;
             }
-            //just breathe 
+            
             NotRefilling = false;
-            RefillTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+            RefillTimer.Elapsed += (sender, e) =>
             {
-             //   if (EndRefill)
-                {
-             //       this.EndRefill = false;
-                    RefillTimer.Enabled = false;
-                    //dispatch timer to update labels every x milliseconds.
-                }
+                RefillTimer.Enabled = false;
             };
         }
 

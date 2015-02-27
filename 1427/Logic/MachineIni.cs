@@ -82,13 +82,13 @@ namespace PDTUtils.Logic
                 }
             }
         }
-        
-		/// <summary>
-		/// Read Machine and parse accordingly.
+
+        /// <summary>
+        /// Read Machine and parse accordingly.
         /// *** Refactor this to use the native INI functions ***
-		/// </summary>
-		/// <returns></returns>
-        public bool ParseIni()
+        /// </summary>
+        /// <returns></returns>
+        void ParseIni()
         {
             using (FileStream fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.Read))
             using (BufferedStream bs = new BufferedStream(fs))
@@ -110,28 +110,24 @@ namespace PDTUtils.Logic
                 {
                     System.Diagnostics.Debug.WriteLine(ex.Message);
                 }
-
+                
                 while ((line = sr.ReadLine()) != null)
                 {
                     if (line.Equals(EndOfIni))
                         break;
-                    else if (line.StartsWith("[") && !LineContainsCategories(line) && line.Equals("") != true)
-                    {
-                        category = line.Trim("[]".ToCharArray());
 
-                        string[] str;
-                        IniFileUtility.GetIniProfileSection(out str, category, IniPath);
-                        if (str != null)
-                        {
-                            foreach (var val in str)
-                            {
-                                if (val.Contains("="))
-                                {
-                                    var options = val.Split("=".ToCharArray());
-                                    Add(new IniElement(category, options[0], options[1]));
-                                }
-                            }
-                        }
+                    if (!line.StartsWith("[") || LineContainsCategories(line) || line.Equals("")) continue;
+                    category = line.Trim("[]".ToCharArray());
+                        
+                    string[] str;
+                    IniFileUtility.GetIniProfileSection(out str, category, IniPath);
+                    if (str == null) continue;
+                    
+                    foreach (var val in str)
+                    {
+                        if (!val.Contains("=")) continue;
+                        var options = val.Split("=".ToCharArray());
+                        Add(new IniElement(category, options[0], options[1]));
                     }
                 }
             }
@@ -142,8 +138,6 @@ namespace PDTUtils.Logic
             {
                 _models.Add(new IniElement("Models", m, ""));
             }
-            
-            return true;
         }
         
         private static bool LineContainsCategories(string line)

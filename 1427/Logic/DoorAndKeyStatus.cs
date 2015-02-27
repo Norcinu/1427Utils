@@ -123,9 +123,9 @@ namespace PDTUtils
         
 		public void Clone(DoorAndKeyStatus kd)
 		{
-			this.DoorStatus = kd.DoorStatus;
-			this.HasChanged = kd.HasChanged;
-			this.Running = kd.Running;
+			DoorStatus = kd.DoorStatus;
+			HasChanged = kd.HasChanged;
+			Running = kd.Running;
 		}
 
 		#region Property Changed events
