@@ -152,22 +152,19 @@ namespace PDTUtils
 			Enabler.ClearAll();
 		}
 		
-        private void btnLogfiles_Click(object sender, RoutedEventArgs e)
+        void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
             Enabler.EnableCategory(Categories.Logfile);
             if (!LogController.IsLoaded)
             {
-            //    Thread t = new Thread(() =>
-            //    {
                 LogController.SetErrorLog();
                 LogController.SetWarningLog();
                 LogController.SetPlayedLog();
                 LogController.SetWinningLog();
                 LogController.SetHandPayLog();
                 LogController.SetCashlessLibLog();
+                LogController.SetVizTechLog();
                 LogController.IsLoaded = true;
-                //  });
-                //  t.Start();
             }
 		}
         

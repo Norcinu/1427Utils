@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using PDTUtils.MVVM;
@@ -249,9 +250,17 @@ namespace PDTUtils
         }
     }
 
-
     public class VizTechLog : BaseNotifyPropertyChanged
     {
+        public string Date { get; set; }
+        public string Message { get; set; }
+
+        public VizTechLog(string date, string message)
+        {
+            Date = date;
+            Message = message;
+        }
+
         protected override void ParseGame(int gameNo)
         {
             throw new NotImplementedException();
@@ -268,11 +277,19 @@ namespace PDTUtils
         readonly ObservableCollection<WinningGame> _winningGames = new ObservableCollection<WinningGame>();
         readonly ObservableCollection<VizTechLog> _vizTechLog = new ObservableCollection<VizTechLog>();
           
+        public bool AreLogsBeingViewed { get; set; }
+
         public MachineLogsController()
         {
             IsLoaded = false;
+            AreLogsBeingViewed = false;
         }
-        
+
+        public void ClearAllLogs()
+        {
+            
+        }
+
         public void SetErrorLog()
         {
             const string errLogLocation = @"D:\machine\GAME_DATA\TerminalErrLog.log";
@@ -391,7 +408,7 @@ namespace PDTUtils
                 }
             }
         }
-
+        
         public void SetHandPayLog()
         {
             try
@@ -412,7 +429,7 @@ namespace PDTUtils
                     }
                 }
             }
-            catch (Exception ex) // come back to this and pass message back to the user.
+            catch (Exception ex) 
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -420,35 +437,27 @@ namespace PDTUtils
 
         public void SetCashlessLibLog()
         {
-            //try
-            //{
-                CashLess.Add(new CashlessLibLog("NOT IMPLEMENTED UNTIL LOGFILES ARE CULLED"));
-                /*var filename = Resources.cashless_log;
-                var worker = new BackgroundWorker();
+            try
+            {
+                var filename = Resources.cashless_log;
                 using (var fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (var bs = new BufferedStream(fs))
                 using (var sr = new StreamReader(bs))
                 {
                     while (!sr.EndOfStream)
                     {
-                        //var ending = sr.ReadToEnd();
-                        //var all = ending.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         var line = sr.ReadLine();
-                        //foreach (var line in all)
-                        {
-                            CashLess.Add(new CashlessLibLog(line));
-                        }
+                        CashLess.Add(new CashlessLibLog(line));
                     }
-
                 }
             }
             catch (Exception ex)
             {
                 var box = new WpfMessageBoxService();
                 box.ShowMessage(ex.Message, "Exception Caught");
-            }*/
+            }
         }
-
+        
         public void SetVizTechLog()
         {
             try
@@ -458,15 +467,10 @@ namespace PDTUtils
                 {
                     while (!sr.EndOfStream)
                     {
-                        //var ending = sr.ReadToEnd();
-                        //var all = ending.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                         var line = sr.ReadLine();
-                        //foreach (var line in all)
-                        {
-                            Viz.Add(new CashlessLibLog(line));
-                        }
+                        var split = Regex.Split(line, "ERROR");
+                        VizTechLogs.Add(new VizTechLog(split[0], split[1]));
                     }
-
                 }
 
             }
