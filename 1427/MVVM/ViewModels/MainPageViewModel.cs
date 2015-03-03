@@ -15,13 +15,10 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get
             {
-                if (BoLib.getError() > 0)
-                    return true;
-                else 
-                    return false;
+                return BoLib.getError() > 0;
             }
         }
-        
+
         public bool HandPayActive
         {
             get { return _handPayActive; }
@@ -36,7 +33,7 @@ namespace PDTUtils.MVVM.ViewModels
 #endif
             }
         }
-        
+
         public bool AddCreditsActive
         {
             get { return _addCreditsActive; }
@@ -66,7 +63,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("CanPayFifty");
             }
         }
-        
+
         public Decimal TotalCredits 
         { 
             get 
@@ -87,14 +84,14 @@ namespace PDTUtils.MVVM.ViewModels
 
         string _caption = "Warning";
         string _message = "Please Open the terminal door and try again.";
-        readonly  PDTUtils.MVVM.WpfMessageBoxService _msgBoxService = new PDTUtils.MVVM.WpfMessageBoxService();
+        readonly  WpfMessageBoxService _msgBoxService = new WpfMessageBoxService();
         
- 
-        System.Timers.Timer RefillTimer;
+        System.Timers.Timer _refillTimer;
         Decimal _totalCredits = 0;
 
         public MainPageViewModel()
         {
+            DoorOpen = false;
             IsEnabled = true;
             HandPayActive = false;
             ErrorMessage = "";
@@ -111,15 +108,8 @@ namespace PDTUtils.MVVM.ViewModels
             GetMaxNoteValue();
         }
 
-        public bool DoorOpen
-        {
-            get
-            {
-                return false;
-                //return (bool)BoLib.getDoorStatus();
-            }
-        }
-        
+        public bool DoorOpen { get; set; }
+
         public bool NotRefilling { get; set; }
         
         public ICommand GetCredit
@@ -154,7 +144,7 @@ namespace PDTUtils.MVVM.ViewModels
             Reserve = (int)BoLib.getReserveCredits();
             RaisePropertyChangedEvent("Reserve");
         }
-
+       
         public ICommand ClearCredits
         {
             get { return new DelegateCommand(o => ClearCreditLevel()); }
@@ -173,7 +163,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => TransferBankCredits()); }
         }
-        
+
         void TransferBankCredits()
         {
             BoLib.transferBankToCredit();
@@ -194,7 +184,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => AddCreditsActive = !AddCreditsActive); }
         }
-        
+
         public ICommand GetError
         {
             get { return new DelegateCommand(o => GetErrorMessage()); }
@@ -251,33 +241,34 @@ namespace PDTUtils.MVVM.ViewModels
         void DoHandPay()
         {
           //  RaisePropertyChangedEvent("TotalCredits"); // credit value not updating if add credit from 0 and then handpay
-            string oldCaption = _caption;
-            string oldMsg = _message;
+            var oldCaption = _caption;
+            var oldMsg = _message;
             
-            int total = Bank + Credits;
+            var total = Bank + Credits;
             
             if (total > 0)
             {
-                if (!BoLib.performHandPay())
+                if (BoLib.performHandPay())
+                {
+                    BoLib.clearBankAndCredit();
+                    WriteToHandPayLog(total);
+                    Credits = BoLib.getCredit();
+                    Bank = BoLib.getBank();
+                    Reserve = (int) BoLib.getReserveCredits();
+                    TotalCredits = 0;
+
+                    RaisePropertyChangedEvent("Credits");
+                    RaisePropertyChangedEvent("Bank");
+                    RaisePropertyChangedEvent("Reserve");
+                }
+                else
                 {
                     _caption = "WARNING";
                     _message = "SET HANDPAY THRESHOLD";
                     ShowMessageBox.Execute(null);
                     _caption = oldCaption;
                     _message = oldMsg;
-                    return;
                 }
-                
-                BoLib.clearBankAndCredit();
-                WriteToHandPayLog(total);
-                Credits = BoLib.getCredit();
-                Bank = BoLib.getBank();
-                Reserve = (int)BoLib.getReserveCredits();
-                TotalCredits = 0;
-                
-                RaisePropertyChangedEvent("Credits");
-                RaisePropertyChangedEvent("Bank");
-                RaisePropertyChangedEvent("Reserve");
             }
             else
             {
@@ -291,14 +282,14 @@ namespace PDTUtils.MVVM.ViewModels
         
         void WriteToHandPayLog(int total)
         {
-            string filename = Properties.Resources.hand_pay_log;
+            var filename = Properties.Resources.hand_pay_log;
 
             if (!File.Exists(filename))
             {
-                using (StreamWriter sw = File.CreateText(filename))
+                using (var sw = File.CreateText(filename))
                 {
-                    DateTime now = DateTime.Now;
-                    int amount = total;
+                    var now = DateTime.Now;
+                    var amount = total;
                     sw.Write(now.ToShortDateString() + " ");
                     sw.Write(now.ToLongTimeString() + " ");
                     sw.Write((Convert.ToDecimal(amount) / 100).ToString("C") + "\r\n");
@@ -306,10 +297,10 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else
             {
-                using (StreamWriter sw = File.AppendText(filename))
+                using (var sw = File.AppendText(filename))
                 {
-                    DateTime now = DateTime.Now;
-                    int amount = total;
+                    var now = DateTime.Now;
+                    var amount = total;
                     sw.Write(now.ToShortDateString() + " ");
                     sw.Write(now.ToLongTimeString() + "\t\t");
                     sw.Write((Convert.ToDecimal(amount) / 100).ToString("C") + "\r\n");
@@ -325,15 +316,15 @@ namespace PDTUtils.MVVM.ViewModels
         void AddDenomButton(object button)
         {
             var b = button as Button;
-            string str = b.Content as string;
-            
-            if (str[0] == '£' || str[0] == '€')
+            var str = b.Content as string;
+
+            if (str[0] != '£' && str[0] != '€')
+                Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
+            else
             {
                 Pennies = Convert.ToInt32(str.Substring(1));
                 Pennies *= 100;
             }
-            else
-                Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
 
             BoLib.setUtilsAdd2CreditValue((uint)Pennies);
             BoLib.setRequestUtilsAdd2Credit();
@@ -366,21 +357,21 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
-        }
 
+        }
+        
         public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }
         void DoEndRefill()
         {
-            if (RefillTimer == null)
+            if (_refillTimer == null)
             {
-                RefillTimer = new System.Timers.Timer(100);
-                RefillTimer.Enabled = true;
+                _refillTimer = new System.Timers.Timer(100) {Enabled = true};
             }
             
             NotRefilling = false;
-            RefillTimer.Elapsed += (sender, e) =>
+            _refillTimer.Elapsed += (sender, e) =>
             {
-                RefillTimer.Enabled = false;
+                _refillTimer.Enabled = false;
             };
         }
 

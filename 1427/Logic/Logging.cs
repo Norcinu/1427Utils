@@ -11,7 +11,7 @@ namespace PDTUtils.Logic
 		public static void WriteToFile(string filename, T theOutput)
 		{
 #if DEBUG
-			using (StreamWriter writer = new StreamWriter(filename, true))
+			using (var writer = new StreamWriter(filename, true))
 			{
 				writer.WriteLine(theOutput.ToString());
 			}
@@ -21,7 +21,7 @@ namespace PDTUtils.Logic
 		public static void WriteCollectionToFile(string filename, T[] theOutput)
 		{
 #if DEBUG
-			using (StreamWriter writer = new StreamWriter(filename))
+			using (var writer = new StreamWriter(filename))
 			{
 				foreach (var s in theOutput)
 				{

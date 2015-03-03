@@ -31,19 +31,19 @@ namespace PDTUtils.Logic
 				_gamesInfo.RemoveAll();
             //
 			var numGames = BoLib.getNumberOfGames();
-			for (int i = 0; i < numGames; i++)
+			for (var i = 0; i < numGames; i++)
 			{
-				GamesInfo g = new GamesInfo();
+				var g = new GamesInfo();
 			    
-				StringBuilder sb = new StringBuilder(500);
-				var res = NativeWinApi.GetPrivateProfileString("Game" + (i + 1).ToString(), "Exe", "", sb, sb.Capacity, @"D:\machine\machine.ini");
+				var sb = new StringBuilder(500);
+				NativeWinApi.GetPrivateProfileString("Game" + (i + 1).ToString(), "Exe", "", sb, sb.Capacity, @"D:\machine\machine.ini");
 				g.path = sb.ToString();
 				var modelNo = sb.ToString().Substring(0, 4);
 				g.name = @"D:\" + modelNo + @"\" + modelNo + ".png";
                 
-				if (NativeMD5.CheckHash(@"d:\" + modelNo + @"\" + sb.ToString()) == true)
+				if (NativeMD5.CheckHash(@"d:\" + modelNo + @"\" + sb))
 				{
-					var hash = NativeMD5.CalcHashFromFile(@"d:\" + modelNo + @"\" + sb.ToString());
+					var hash = NativeMD5.CalcHashFromFile(@"d:\" + modelNo + @"\" + sb);
 					var hex = NativeMD5.HashToHex(hash);
 					g.hash_code = hex;
 				}
@@ -56,9 +56,9 @@ namespace PDTUtils.Logic
 
 				_gamesInfo.Add(g);
                 
-				this.OnPropertyChanged("Name");
-				this.OnPropertyChanged("Path");
-				this.OnPropertyChanged("Hash_code");
+				OnPropertyChanged("Name");
+				OnPropertyChanged("Path");
+				OnPropertyChanged("Hash_code");
 			}
 		}
 	}

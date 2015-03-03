@@ -145,20 +145,20 @@ namespace PDTUtils.Logic
         #region CommandRelatedCode
         private static void SetCommandBinding()
         {
-            CommandBinding cbTlide = new CommandBinding(CmdTlide, RunCommand);
-            CommandBinding cb1 = new CommandBinding(Cmd1, RunCommand);
-            CommandBinding cb2 = new CommandBinding(Cmd2, RunCommand);
-            CommandBinding cb3 = new CommandBinding(Cmd3, RunCommand);
-            CommandBinding cb4 = new CommandBinding(Cmd4, RunCommand);
-            CommandBinding cb5 = new CommandBinding(Cmd5, RunCommand);
-            CommandBinding cb6 = new CommandBinding(Cmd6, RunCommand);
-            CommandBinding cb7 = new CommandBinding(Cmd7, RunCommand);
-            CommandBinding cb8 = new CommandBinding(Cmd8, RunCommand);
-            CommandBinding cb9 = new CommandBinding(Cmd9, RunCommand);
-            CommandBinding cb0 = new CommandBinding(Cmd0, RunCommand);
-            CommandBinding cbMinus = new CommandBinding(CmdMinus, RunCommand);
-            CommandBinding cbPlus = new CommandBinding(CmdPlus, RunCommand);
-            CommandBinding cbBackspace = new CommandBinding(CmdBackspace, RunCommand);
+            var cbTlide = new CommandBinding(CmdTlide, RunCommand);
+            var cb1 = new CommandBinding(Cmd1, RunCommand);
+            var cb2 = new CommandBinding(Cmd2, RunCommand);
+            var cb3 = new CommandBinding(Cmd3, RunCommand);
+            var cb4 = new CommandBinding(Cmd4, RunCommand);
+            var cb5 = new CommandBinding(Cmd5, RunCommand);
+            var cb6 = new CommandBinding(Cmd6, RunCommand);
+            var cb7 = new CommandBinding(Cmd7, RunCommand);
+            var cb8 = new CommandBinding(Cmd8, RunCommand);
+            var cb9 = new CommandBinding(Cmd9, RunCommand);
+            var cb0 = new CommandBinding(Cmd0, RunCommand);
+            var cbMinus = new CommandBinding(CmdMinus, RunCommand);
+            var cbPlus = new CommandBinding(CmdPlus, RunCommand);
+            var cbBackspace = new CommandBinding(CmdBackspace, RunCommand);
 
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbTlide);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cb1);
@@ -175,49 +175,49 @@ namespace PDTUtils.Logic
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbPlus);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbBackspace);
             
-            CommandBinding cbTab = new CommandBinding(CmdTab, RunCommand);
-            CommandBinding cbQ = new CommandBinding(CmdQ, RunCommand);
-            CommandBinding cbw = new CommandBinding(Cmdw, RunCommand);
-            CommandBinding cbE = new CommandBinding(CmdE, RunCommand);
-            CommandBinding cbR = new CommandBinding(CmdR, RunCommand);
-            CommandBinding cbT = new CommandBinding(CmdT, RunCommand);
-            CommandBinding cbY = new CommandBinding(CmdY, RunCommand);
-            CommandBinding cbU = new CommandBinding(CmdU, RunCommand);
-            CommandBinding cbI = new CommandBinding(CmdI, RunCommand);
-            CommandBinding cbo = new CommandBinding(CmdO, RunCommand);
-            CommandBinding cbP = new CommandBinding(CmdP, RunCommand);
-            CommandBinding cbOpenCrulyBrace = new CommandBinding(CmdOpenCrulyBrace, RunCommand);
-            CommandBinding cbEndCrultBrace = new CommandBinding(CmdEndCrultBrace, RunCommand);
-            CommandBinding cbOr = new CommandBinding(CmdOr, RunCommand);
+            var cbTab = new CommandBinding(CmdTab, RunCommand);
+            var cbQ = new CommandBinding(CmdQ, RunCommand);
+            var cbw = new CommandBinding(Cmdw, RunCommand);
+            var cbE = new CommandBinding(CmdE, RunCommand);
+            var cbR = new CommandBinding(CmdR, RunCommand);
+            var cbT = new CommandBinding(CmdT, RunCommand);
+            var cbY = new CommandBinding(CmdY, RunCommand);
+            var cbU = new CommandBinding(CmdU, RunCommand);
+            var cbI = new CommandBinding(CmdI, RunCommand);
+            var cbo = new CommandBinding(CmdO, RunCommand);
+            var cbP = new CommandBinding(CmdP, RunCommand);
+            var cbOpenCrulyBrace = new CommandBinding(CmdOpenCrulyBrace, RunCommand);
+            var cbEndCrultBrace = new CommandBinding(CmdEndCrultBrace, RunCommand);
+            var cbOr = new CommandBinding(CmdOr, RunCommand);
 
-            CommandBinding cbCapsLock = new CommandBinding(CmdCapsLock, RunCommand);
-            CommandBinding cbA = new CommandBinding(CmdA, RunCommand);
-            CommandBinding cbS = new CommandBinding(CmdS, RunCommand);
-            CommandBinding cbD = new CommandBinding(CmdD, RunCommand);
-            CommandBinding cbF = new CommandBinding(CmdF, RunCommand);
-            CommandBinding cbG = new CommandBinding(CmdG, RunCommand);
-            CommandBinding cbH = new CommandBinding(CmdH, RunCommand);
-            CommandBinding cbJ = new CommandBinding(CmdJ, RunCommand);
-            CommandBinding cbK = new CommandBinding(CmdK, RunCommand);
-            CommandBinding cbL = new CommandBinding(CmdL, RunCommand);
-            CommandBinding cbColon = new CommandBinding(CmdColon, RunCommand);
-            CommandBinding cbDoubleInvertedComma = new CommandBinding(CmdDoubleInvertedComma, RunCommand);
-            CommandBinding cbEnter = new CommandBinding(CmdEnter, RunCommand);
+            var cbCapsLock = new CommandBinding(CmdCapsLock, RunCommand);
+            var cbA = new CommandBinding(CmdA, RunCommand);
+            var cbS = new CommandBinding(CmdS, RunCommand);
+            var cbD = new CommandBinding(CmdD, RunCommand);
+            var cbF = new CommandBinding(CmdF, RunCommand);
+            var cbG = new CommandBinding(CmdG, RunCommand);
+            var cbH = new CommandBinding(CmdH, RunCommand);
+            var cbJ = new CommandBinding(CmdJ, RunCommand);
+            var cbK = new CommandBinding(CmdK, RunCommand);
+            var cbL = new CommandBinding(CmdL, RunCommand);
+            var cbColon = new CommandBinding(CmdColon, RunCommand);
+            var cbDoubleInvertedComma = new CommandBinding(CmdDoubleInvertedComma, RunCommand);
+            var cbEnter = new CommandBinding(CmdEnter, RunCommand);
 
-            CommandBinding cbShift = new CommandBinding(CmdShift, RunCommand);
-            CommandBinding cbZ = new CommandBinding(CmdZ, RunCommand);
-            CommandBinding cbX = new CommandBinding(CmdX, RunCommand);
-            CommandBinding cbC = new CommandBinding(CmdC, RunCommand);
-            CommandBinding cbV = new CommandBinding(CmdV, RunCommand);
-            CommandBinding cbB = new CommandBinding(CmdB, RunCommand);
-            CommandBinding cbN = new CommandBinding(CmdN, RunCommand);
-            CommandBinding cbM = new CommandBinding(CmdM, RunCommand);
-            CommandBinding cbGreaterThan = new CommandBinding(CmdGreaterThan, RunCommand);
-            CommandBinding cbLessThan = new CommandBinding(CmdLessThan, RunCommand);
-            CommandBinding cbQuestion = new CommandBinding(CmdQuestion, RunCommand);
+            var cbShift = new CommandBinding(CmdShift, RunCommand);
+            var cbZ = new CommandBinding(CmdZ, RunCommand);
+            var cbX = new CommandBinding(CmdX, RunCommand);
+            var cbC = new CommandBinding(CmdC, RunCommand);
+            var cbV = new CommandBinding(CmdV, RunCommand);
+            var cbB = new CommandBinding(CmdB, RunCommand);
+            var cbN = new CommandBinding(CmdN, RunCommand);
+            var cbM = new CommandBinding(CmdM, RunCommand);
+            var cbGreaterThan = new CommandBinding(CmdGreaterThan, RunCommand);
+            var cbLessThan = new CommandBinding(CmdLessThan, RunCommand);
+            var cbQuestion = new CommandBinding(CmdQuestion, RunCommand);
             
-            CommandBinding cbSpaceBar = new CommandBinding(CmdSpaceBar, RunCommand);
-            CommandBinding cbClear = new CommandBinding(CmdClear, RunCommand);
+            var cbSpaceBar = new CommandBinding(CmdSpaceBar, RunCommand);
+            var cbClear = new CommandBinding(CmdClear, RunCommand);
             
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbTab);
             CommandManager.RegisterClassCommandBinding(typeof(TouchScreenKeyboard), cbQ);
@@ -742,8 +742,8 @@ namespace PDTUtils.Logic
 	            if (_currentControl != null && _instanceObject != null)
 	            {
 	
-	                Point virtualpoint = new Point(0, _currentControl.ActualHeight + 3);
-	                Point actualpoint = _currentControl.PointToScreen(virtualpoint);
+	                var virtualpoint = new Point(0, _currentControl.ActualHeight + 3);
+	                var actualpoint = _currentControl.PointToScreen(virtualpoint);
 	
 	                var screens = System.Windows.Forms.Screen.AllScreens;
 	                
@@ -781,7 +781,7 @@ namespace PDTUtils.Logic
 
         static void TouchScreenKeyboardPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            FrameworkElement host = sender as FrameworkElement;
+            var host = sender as FrameworkElement;
             if (host != null)
             {
                 host.GotFocus += new RoutedEventHandler(OnGotFocus);
@@ -792,7 +792,7 @@ namespace PDTUtils.Logic
 
         static void OnGotFocus(object sender, RoutedEventArgs e)
         {
-            Control host = sender as Control;
+            var host = sender as Control;
 
             _previousTextBoxBackgroundBrush = host.Background;
             _previousTextBoxBorderBrush = host.BorderBrush;
@@ -859,7 +859,7 @@ namespace PDTUtils.Logic
         static void OnLostFocus(object sender, RoutedEventArgs e)
         {
 
-            Control host = sender as Control;
+            var host = sender as Control;
             host.Background = _previousTextBoxBackgroundBrush;
             host.BorderBrush = _previousTextBoxBorderBrush;
             host.BorderThickness = _previousTextBoxBorderThickness;

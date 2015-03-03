@@ -1,43 +1,45 @@
 using System;
 using System.Diagnostics;
-using System.Media;
 using System.Timers;
 using System.Windows;
 using System.Windows.Media;
 using PDTUtils.Native;
 
-
 namespace PDTUtils
 {
-	public partial class MainWindow : Window
+	public partial class MainWindow
 	{
 		private void InitialiseBoLib()
 		{
 			try
 			{
-				int shell = BoLib.setEnvironment();
-				if (shell == 0)
+				var shell = BoLib.setEnvironment();
+				switch (shell)
 				{
-					_sharedMemoryOnline = true;
+				    case 0:
+				        _sharedMemoryOnline = true;
                     
-				//	UpdateDoorStatusLabel();
-					_doorStatusTimer = new System.Timers.Timer(500);
-                    _doorStatusTimer.Elapsed += DoorTimerEvent;
-					_doorStatusTimer.Enabled = true;
+				        //	UpdateDoorStatusLabel();
+				        _doorStatusTimer = new Timer(500);
+				        _doorStatusTimer.Elapsed += DoorTimerEvent;
+				        _doorStatusTimer.Enabled = true;
                     
-				//	GetSystemUptime();
-					_uiUpdateTimer = new System.Timers.Timer(1000);
-					_uiUpdateTimer.Elapsed += UpdateUiLabels;
-					_uiUpdateTimer.Enabled = true;
+				        //	GetSystemUptime();
+				        _uiUpdateTimer = new Timer(1000);
+				        _uiUpdateTimer.Elapsed += UpdateUiLabels;
+				        _uiUpdateTimer.Enabled = true;
                     
-					return;
+				        return;
+				    case 1:
+				        _errorMessage = "Shell Out of Date. Check If Running.";
+				        break;
+				    case 2:
+				        _errorMessage = "Bo Lib Out of Date.";
+				        break;
+				    default:
+				        _errorMessage = "Unknown Error Occurred.";
+				        break;
 				}
-				else if (shell == 1)
-					_errorMessage = "Shell Out of Date. Check If Running.";
-				else if (shell == 2)
-					_errorMessage = "Bo Lib Out of Date.";
-				else
-					_errorMessage = "Unknown Error Occurred.";
 
 				_errorMessage += "\nFix the issue and restart program.";
 
@@ -45,7 +47,7 @@ namespace PDTUtils
 									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
 				{
 					Application.Current.Shutdown();
-					throw new System.Exception();
+					throw new Exception();
 				}
 			}
 			catch (Exception ex)
@@ -58,19 +60,20 @@ namespace PDTUtils
 			}
 		}
 
-		public delegate void DelegateUpdate();
-        public void DoorTimerEvent(object sender, ElapsedEventArgs e)
+	    private delegate void DelegateUpdate();
+
+	    private void DoorTimerEvent(object sender, ElapsedEventArgs e)
         {
             if (LblDoorStatus != null)
                 LblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
             if (LblBottom != null)
                 LblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
         }
-        
-		public void UpdateUiLabels(object sender, ElapsedEventArgs e)
+
+	    private void UpdateUiLabels(object sender, ElapsedEventArgs e)
 		{
-            this.LblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
-            this.LblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
+            LblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
+            LblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
 		}
         
 		public void UpdateTimeAndDate()
@@ -81,16 +84,16 @@ namespace PDTUtils
 			var ticks = Stopwatch.GetTimestamp();
 			var uptime = ((double)ticks) / Stopwatch.Frequency;
 			var uptimeSpan = TimeSpan.FromSeconds(uptime);
-			string s = string.Format("{0:H:mm:ss}", new DateTime(uptimeSpan.Ticks));
+			var s = string.Format("{0:H:mm:ss}", new DateTime(uptimeSpan.Ticks));
 			LblBottom.Content += s;
 		}
 		
 		void UpdateDoorStatusLabel()
 		{
-			string status = "Door Status : ";
+			var status = "Door Status : ";
 			if (BoLib.getDoorStatus() == 0)
 			{
-				if (_keyDoorWorker.HasChanged == true)
+				if (_keyDoorWorker.HasChanged)
 				{
 					BoLib.enableNoteValidator();
 					_keyDoorWorker.HasChanged = false;
@@ -103,14 +106,14 @@ namespace PDTUtils
 			}
 			else
 			{
-				if (_keyDoorWorker.HasChanged == true)
+				if (_keyDoorWorker.HasChanged)
 				{
 					BoLib.disableNoteValidator();
 					_keyDoorWorker.HasChanged = false;
 				}
 				//DetectDoorChange(@"./wav/util_exit.wav");
 				status += "Open";
-				LblDoorStatus.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+				LblDoorStatus.HorizontalContentAlignment = HorizontalAlignment.Center;
 				LblDoorStatus.Background = Brushes.Aquamarine;
 				LblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
 			}			
@@ -119,18 +122,16 @@ namespace PDTUtils
         
 		private void DetectDoorChange(object sender, ElapsedEventArgs e)
 		{
-			if (_keyDoorWorker.HasChanged == true)
-			{
-				PlaySoundOnEvent(Properties.Resources.util_exit.ToString());
-				_keyDoorWorker.HasChanged = false;
-				if (_keyDoorWorker.DoorStatus == false)
-					BoLib.disableNoteValidator();
-			}
+		    if (!_keyDoorWorker.HasChanged) return;
+		    PlaySoundOnEvent(Properties.Resources.util_exit.ToString());
+		    _keyDoorWorker.HasChanged = false;
+		    if (_keyDoorWorker.DoorStatus == false)
+		        BoLib.disableNoteValidator();
 		}
 		
 		private void ChangeVolume(int newVolume)
 		{
-			int volume = BoLib.getLocalMasterVolume();
+			var volume = BoLib.getLocalMasterVolume();
 		}
 		
 		private void PlaySoundOnEvent(string filename)

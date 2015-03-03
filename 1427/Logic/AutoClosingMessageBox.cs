@@ -24,7 +24,7 @@ namespace PDTUtils
         
         void OnTimerElapsed(object state)
         {
-            IntPtr mbWnd = FindWindow(null, _caption);
+            var mbWnd = FindWindow(null, _caption);
             if (mbWnd != IntPtr.Zero)
                 SendMessage(mbWnd, WClose, IntPtr.Zero, IntPtr.Zero);
             _timeoutTimer.Dispose();

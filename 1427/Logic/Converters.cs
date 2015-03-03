@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
-using System.Windows;
-using PDTUtils.Logic;
 using PDTUtils.Properties;
 
 namespace PDTUtils
@@ -17,17 +17,20 @@ namespace PDTUtils
 		public object Convert(object value, Type targetType, 
 							  object parameter, CultureInfo culture)
 		{
-			var input = value as string;
-			
-			if (input == "ERROR: NOT AUTHORISED") // Make this a resource
-				return Brushes.Red;
-			else if (input == "")
-				return Brushes.Pink;
-			else
-				return Brushes.Green;
+		    var input = value as string;
+
+		    switch (input)
+		    {
+		        case "ERROR: NOT AUTHORISED":
+		            return Brushes.Red;
+		        case "":
+		            return Brushes.Pink;
+		        default:
+		            return Brushes.Green;
+		    }
 		}
 
-		public object ConvertBack(object value, Type targetType,
+	    public object ConvertBack(object value, Type targetType,
 								  object parameter, CultureInfo culture)
 		{
 			return new NotImplementedException();
@@ -39,21 +42,19 @@ namespace PDTUtils
 		public object Convert(object value, Type targetType, 
 							  object parameter, CultureInfo culture)
 		{
-			string str = value as string;
+			var str = value as string;
 			if (str[str.Length - 4] != '.')
 				return @Resources.FILE_TYPE_FOLDER;
-			else if (str.Contains(".png") == true)
-				return @Resources.FILE_TYPE_IMG;
-			else if (str.Contains(".wav") == true)
-				return @Resources.FILE_TYPE_WAV;
-			else if (str.ToString().Contains(".ini") == true)
-				return @Resources.FILE_TYPE_INI;
-			else if (str.ToString().Contains(".exe") == true)
-				return @Resources.FILE_TYPE_EXE;
-            else if (str.ToString().Contains(".raw") == true)
-                return @Resources.FILE_TYPE_RAW;
-			else
-				return @Resources.FILE_TYPE_UNKNOWN;
+		    if (str.Contains(".png"))
+		        return @Resources.FILE_TYPE_IMG;
+		    if (str.Contains(".wav"))
+		        return @Resources.FILE_TYPE_WAV;
+		    if (str.Contains(".ini"))
+		        return @Resources.FILE_TYPE_INI;
+		    if (str.Contains(".exe"))
+		        return @Resources.FILE_TYPE_EXE;
+		    
+            return str.Contains(".raw") ? @Resources.FILE_TYPE_RAW : @Resources.FILE_TYPE_UNKNOWN;
 		}
 
 		public object ConvertBack(object value, Type targetType, 
@@ -87,12 +88,9 @@ namespace PDTUtils
                               object parameter, CultureInfo culture)
         {
             var screenHeight = SystemParameters.PrimaryScreenHeight;
-            if (screenHeight == 1080)
+            if (Math.Abs(screenHeight - 1080) < double.Epsilon)
                 return 956;
-            else if (screenHeight == 768)
-                return 645;
-            else
-                return 479;
+            return Math.Abs(screenHeight - 768) < double.Epsilon ? 645 : 479;
         }
         
         public object ConvertBack(object value, Type targetType,
@@ -107,21 +105,15 @@ namespace PDTUtils
         public object Convert(object value, Type targetType,
                               object parameter, CultureInfo culture)
         {
-            bool? conversion = value as bool?;
-            if (conversion == true)
-                return false;
-            else
-                return true;
+            var conversion = value as bool?;
+            return conversion != true;
         }
 
         public object ConvertBack(object value, Type targetType,
                                   object parameter, CultureInfo culture)
         {
-            bool? conversion = value as bool?;
-            if (conversion == true)
-                return true;
-            else
-                return false;
+            var conversion = value as bool?;
+            return conversion == true;
         }
     }
 
@@ -129,15 +121,12 @@ namespace PDTUtils
     //---- Yuk Yuk Yuk
     public class IsEnglishCulture : IValueConverter
     {
-        public IsEnglishCulture() { }
-
         public object Convert(object value, Type targetType,
                               object parameter, CultureInfo culture)
         {
             if (culture.TwoLetterISOLanguageName == "en")
                 return true;
-            else
-                return false;
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType,
@@ -149,17 +138,14 @@ namespace PDTUtils
 
     public class IsSpanishCulture : IValueConverter
     {
-        public IsSpanishCulture() { }
-        
         public object Convert(object value, Type targetType,
                               object parameter, CultureInfo culture)
         {
             if (culture.TwoLetterISOLanguageName == "es")
                 return true;
-            else
-                return false;
+            return false;
         }
-        
+
         public object ConvertBack(object value, Type targetType,
                                   object parameter, CultureInfo culture)
         {
@@ -194,11 +180,10 @@ namespace PDTUtils
 		public object ConvertBack(object value, Type targetType,
 								  object parameter, CultureInfo culture)
 		{
-			if (Equals(value, TrueValue))
+		    if (Equals(value, TrueValue))
 				return true;
-			if (Equals(value, FalseValue))
-				return false;
-			return null;
+		
+            return Equals(value, FalseValue) ? (object) false : null;
 		}
 	}
 
@@ -243,17 +228,17 @@ namespace PDTUtils
             if (!(value is string))
                 return false;
 
-            string stripper = value as string;
-            string[] ss = stripper.Split("£$€,.".ToCharArray());
-            bool ret = false;
+            var stripper = value as string;
+            var ss = stripper.Split("£$€,.".ToCharArray());
+            bool ret;
             try
             {
-                ret = System.Convert.ToDecimal(ss[1]) == 0 ? false : true;
+                ret = System.Convert.ToDecimal(ss[1]) != 0;
             }
             catch(Exception ex)
             {
                 ret = false;
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
             return ret;
         }
@@ -271,7 +256,7 @@ namespace PDTUtils
     {
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
-            return new object[] { value[0], value[1] };
+            return new[] { value[0], value[1] };
         }
 
         public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)

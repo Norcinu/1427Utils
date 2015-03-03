@@ -39,7 +39,7 @@ namespace PDTUtils.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PDTUtils.Properties.Categories", typeof(Categories).Assembly);
+                    var temp = new global::System.Resources.ResourceManager("PDTUtils.Properties.Categories", typeof(Categories).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

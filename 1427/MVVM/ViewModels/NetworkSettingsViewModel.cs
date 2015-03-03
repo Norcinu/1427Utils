@@ -6,7 +6,6 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows.Input;
-using System.Windows.Media.Converters;
 using PDTUtils.Native;
 
 namespace PDTUtils.MVVM.ViewModels
@@ -81,12 +80,10 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     foreach (var ip in ni.GetIPProperties().UnicastAddresses)
                     {
-                        if (ip.Address.AddressFamily == AddressFamily.InterNetwork)
-                        {
-                            IpAddress = ip.Address.ToString();
-                            SubnetAddress = ip.IPv4Mask.ToString();
-                            DefaultGateway = ni.GetIPProperties().GatewayAddresses[0].Address.ToString();
-                        }
+                        if (ip.Address.AddressFamily != AddressFamily.InterNetwork) continue;
+                        IpAddress = ip.Address.ToString();
+                        SubnetAddress = ip.IPv4Mask.ToString();
+                        DefaultGateway = ni.GetIPProperties().GatewayAddresses[0].Address.ToString();
                     }
                 }
 
@@ -125,20 +122,12 @@ namespace PDTUtils.MVVM.ViewModels
                 // ping google dns. Add more - non google sources?
                 var addies = new IPAddress[3]
                 {
-                    System.Net.IPAddress.Parse("8.8.8.8"), // Google 1 
-                    System.Net.IPAddress.Parse("8.8.4.4"), // Google 2
-                    System.Net.IPAddress.Parse("169.254.1.1") // Internal Back Office
+                    IPAddress.Parse("8.8.8.8"), // Google 1 
+                    IPAddress.Parse("8.8.4.4"), // Google 2
+                    IPAddress.Parse("169.254.1.1") // Internal Back Office
                 };
 
-                if (BoLib.isBackOfficeAvilable())
-                {
-                    PingTwo = "* Sending PING to  Back Office *";
-                    PingOne = "";
-                    RaisePropertyChangedEvent("PingOne");
-                    RaisePropertyChangedEvent("PingTwo");
-                    index = 2;
-                }
-                else
+                if (!BoLib.isBackOfficeAvilable())
                 {
                     if (index == 0 && PingOne.Length > 0)
                     {
@@ -152,6 +141,14 @@ namespace PDTUtils.MVVM.ViewModels
                         PingTwo = "* Sending PING (Google DNS) #2 *";
                         RaisePropertyChangedEvent("PingTwo");
                     }
+                }
+                else
+                {
+                    PingTwo = "* Sending PING to  Back Office *";
+                    PingOne = "";
+                    RaisePropertyChangedEvent("PingOne");
+                    RaisePropertyChangedEvent("PingTwo");
+                    index = 2;
                 }
 
                 PingTestRunning = true;
@@ -167,19 +164,20 @@ namespace PDTUtils.MVVM.ViewModels
                 }
                 else
                 {
-                    if (index == 1) // index == 1
+                    switch (index)
                     {
-                        PingOne += "\n\n";
-                        PingTwo = "*** Internet Ping Test Completed ***";
-                        RaisePropertyChangedEvent("PingTwo");
+                        case 1:
+                            PingOne += "\n\n";
+                            PingTwo = "*** Internet Ping Test Completed ***";
+                            RaisePropertyChangedEvent("PingTwo");
+                            break;
+                        case 2:
+                            PingOne += "\n\n";
+                            PingTwo = "*** Back Office Ping Test Completed ***";
+                            RaisePropertyChangedEvent("PingTwo");
+                            break;
                     }
-                    else if (index == 2)
-                    {
-                        PingOne += "\n\n";
-                        PingTwo = "*** Back Office Ping Test Completed ***";
-                        RaisePropertyChangedEvent("PingTwo");
-                    }
-                    
+
 
                     Debug.WriteLine("Host Not Reached {0}", "[" + addies[index] + "]");
                     PingOne += "Ping to " + addies[index] + " FAILED - " + reply.Status;
@@ -195,7 +193,7 @@ namespace PDTUtils.MVVM.ViewModels
                 PingOne = ex.Message;
                 RaisePropertyChangedEvent("PingOne");
             }
-            //PingTestRunning = false;
+
             RaisePropertyChangedEvent("PingTestRunning");
         }
 
@@ -224,35 +222,34 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var objMc = new ManagementClass("Win32_NetworkAdapterConfiguration");
             var objMoc = objMc.GetInstances();
-
-            if (ChangesMade)
+            
+            if (!ChangesMade) return;
+            
+            foreach (var o in objMoc)
             {
-                foreach (ManagementObject objMo in objMoc)
+                var objMo = (ManagementObject) o;
+                if (!(bool) objMo["IPEnabled"]) continue;
+                
+                try
                 {
-                    if ((bool) objMo["IPEnabled"])
+                    using (var newIp = objMo.GetMethodParameters("EnableStatic"))
                     {
-                        try
-                        {
-                            ManagementBaseObject setIp;
-                            var newIp = objMo.GetMethodParameters("EnableStatic");
-                            var newGateway = objMo.GetMethodParameters("SetGateways");
-
-                            newIp["IPAddress"] = new[] {IpAddress};
-                            newIp["SubnetMask"] = new[] {SubnetAddress};
-                            // if ((string[])objMO["DefaultIPGateway"] != null)
-                            //     newIP["DefaultIPGateway"] = new string[] { DefaultGateway };
-
-                            setIp = objMo.InvokeMethod("EnableStatic", newIp, null);
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine(ex.Message);
-                        }
+                        // ReSharper disable once UnusedVariable
+                        // var newGateway = objMo.GetMethodParameters("SetGateways");
+                        newIp["IPAddress"] = new[] {IpAddress};
+                        newIp["SubnetMask"] = new[] {SubnetAddress};
                     }
+                    
+                    //setIp = objMo.InvokeMethod("EnableStatic", newIp, null);
                 }
-                ChangesMade = false;
-                DiskCommit.Save();
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
+            
+            ChangesMade = false;
+            DiskCommit.Save();
         }
     }
 }

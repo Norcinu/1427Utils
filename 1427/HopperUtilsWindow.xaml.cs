@@ -82,9 +82,9 @@ namespace PDTUtils.Logic
 
 		public void ChangeSelectedItem()
 		{
-			int first = -1;
+			var first = -1;
 			var open = BoLib.getDoorStatus();
-			for (int i = 0; i < TabHoppers.Items.Count; i++)
+			for (var i = 0; i < TabHoppers.Items.Count; i++)
 			{
 				var t = TabHoppers.Items[i] as TabItem;
 				if (i < 2)
@@ -128,18 +128,18 @@ namespace PDTUtils.Logic
 			var leftLevel = BoLib.getHopperFloatLevel(BoLib.getLeftHopper());
 			var rightLevel = BoLib.getHopperFloatLevel(BoLib.getRightHopper());
 
-			Label left = new Label() { Content = "£1 Hopper contains £ " + leftLevel.ToString("0.00"), Foreground = Brushes.Pink };
-			Label right = new Label() { Content = "10p Hopper contains £ " + rightLevel.ToString("0.00"), Foreground = Brushes.Pink };
+			var left = new Label() { Content = "£1 Hopper contains £ " + leftLevel.ToString("0.00"), Foreground = Brushes.Pink };
+			var right = new Label() { Content = "10p Hopper contains £ " + rightLevel.ToString("0.00"), Foreground = Brushes.Pink };
 
-			CheckBox chkLeft = new CheckBox() { Name = "Left", Content = "Empty the Left Hopper", Foreground = Brushes.DeepPink, FontSize = 22 };
+			var chkLeft = new CheckBox() { Name = "Left", Content = "Empty the Left Hopper", Foreground = Brushes.DeepPink, FontSize = 22 };
 			if (leftLevel == 0)
 				chkLeft.IsEnabled = false;
 
-			CheckBox chkRight = new CheckBox() { Name = "Right", Content = "Empty the Right Hopper", Foreground = Brushes.DeepPink, FontSize = 22 };
+			var chkRight = new CheckBox() { Name = "Right", Content = "Empty the Right Hopper", Foreground = Brushes.DeepPink, FontSize = 22 };
 			if (rightLevel == 0)
 				chkRight.IsEnabled = false;
 
-			Button empty = new Button() { Content = "Empty", Width = 75 };
+			var empty = new Button() { Content = "Empty", Width = 75 };
 			empty.Click += button_DoEvent;
 		
 			StackPanel1.Children.Add(left);

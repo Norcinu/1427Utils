@@ -39,7 +39,7 @@ namespace PDTUtils.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PDTUtils.Properties.Resources", typeof(Resources).Assembly);
+                    var temp = new global::System.Resources.ResourceManager("PDTUtils.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -194,7 +194,7 @@ namespace PDTUtils.Properties {
         
         internal static System.Drawing.Icon Icon1 {
             get {
-                object obj = ResourceManager.GetObject("Icon1", resourceCulture);
+                var obj = ResourceManager.GetObject("Icon1", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }
@@ -268,6 +268,15 @@ namespace PDTUtils.Properties {
         internal static string term_error_log {
             get {
                 return ResourceManager.GetString("term_error_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\TerminalWarningLog.log.
+        /// </summary>
+        internal static string term_warning_log {
+            get {
+                return ResourceManager.GetString("term_warning_log", resourceCulture);
             }
         }
         

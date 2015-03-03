@@ -15,8 +15,8 @@ namespace PDTUtils.Logic
 		
 		public SystemInfo(string name)
 		{
-			this.Field = name;
-			this.IsEditable = false;
+			Field = name;
+			IsEditable = false;
 		}
 	}
 
@@ -30,29 +30,30 @@ namespace PDTUtils.Logic
 			QueryMachine();
 		}
 		
+/*
 		public void ProbeUsb()
 		{
 			
 		}
+*/
 
 		private string GetMachineIp()
 		{
-			string address = "IP Address: ";
-			foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+			var address = "IP Address: ";
+			foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
 			{
-				if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || 
-					ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
-				{
-					foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
-					{
-						if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-						{
-							address += ip.Address.ToString();
-						}
-					}
-				}
+			    if (ni.NetworkInterfaceType != NetworkInterfaceType.Wireless80211 &&
+			        ni.NetworkInterfaceType != NetworkInterfaceType.Ethernet) continue;
+			    
+                foreach (var ip in ni.GetIPProperties().UnicastAddresses)
+			    {
+			        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+			        {
+			            address += ip.Address.ToString();
+			        }
+			    }
 			}
-			return address;
+		    return address;
 		}
 
 		private string GetComputerName()
@@ -62,7 +63,7 @@ namespace PDTUtils.Logic
 
 		public string GetMemoryInfo()
 		{
-			NativeWinApi.Memorystatus ms = new NativeWinApi.Memorystatus();
+			var ms = new NativeWinApi.Memorystatus();
 			NativeWinApi.GlobalMemoryStatus(ref ms);
 
 			var str = new StringBuilder("Total Physical Memory: " + (ms.DwTotalPhys / 1024) / 1024 + " MB");
@@ -75,15 +76,15 @@ namespace PDTUtils.Logic
 		
 		public string GetScreenResolution()
 		{
-			string errorString = "Screen Not Active/Fitted.\n";
+			const string errorString = "Screen Not Active/Fitted.\n";
 
 			var str = new StringBuilder("Top Screen:\t "); 
-			NativeWinApi.Devmode dm = new NativeWinApi.Devmode();
+			var dm = new NativeWinApi.Devmode();
 
 			var result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display2", 
 				(int)NativeWinApi.ModeNum.EnuCurrentSettings, ref dm);
 			
-			if (result == true)
+			if (result)
 			{
 				str.Append("Resolution: " + dm.dmPelsWidth + "x" + dm.dmPelsHeight + ". ");
 				str.Append("BPP: " + dm.dmBitsPerPel + ".\n");
@@ -92,7 +93,7 @@ namespace PDTUtils.Logic
 				str.Append(errorString);
 			
 			str.Append("Bottom Screen:\t "); 
-			NativeWinApi.Devmode dm2 = new NativeWinApi.Devmode();
+			var dm2 = new NativeWinApi.Devmode();
 			result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display1", 
 				(int)NativeWinApi.ModeNum.EnuCurrentSettings, ref dm2);
 			
@@ -136,7 +137,7 @@ namespace PDTUtils.Logic
 
 		public string GetOsVersion()
 		{
-			NativeWinApi.Osversioninfo os = new NativeWinApi.Osversioninfo();
+			var os = new NativeWinApi.Osversioninfo();
 			os.DwOsVersionInfoSize = (uint)Marshal.SizeOf(os);
 			NativeWinApi.GetVersionEx(ref os);
 			return "OS Version:\nWindows XPe - " + os.SzCsdVersion.ToString();
@@ -152,24 +153,24 @@ namespace PDTUtils.Logic
 			var strs = ReadFileLine(Resources.update_log,1).Split("=".ToCharArray());
 			var final = new StringBuilder(strs[1]);
 			
-			for (int i = 0; i < 68; i++)
+			for (var i = 0; i < 68; i++)
 			{
 				if ((i % 15 == 0) && (i > 0))
 					final.Insert(i, "-");
 			}
 
-			return "Update Key: " + final.ToString();
+			return "Update Key: " + final;
 		}
 
 		private string ReadFileLine(string filename, int index = 0)
 		{
-			string line = "";
+			var line = "";
 
 			try
 			{
-				using (StreamReader stream = new StreamReader(filename))
+				using (var stream = new StreamReader(filename))
 				{
-					for (int i = 0; i < index; i++)
+					for (var i = 0; i < index; i++)
 						stream.ReadLine();
 					line = stream.ReadLine();
 				}

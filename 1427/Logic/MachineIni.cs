@@ -54,13 +54,13 @@ namespace PDTUtils.Logic
 	/// </summary>
 	public class MachineIni : ObservableCollection<IniElement>
 	{
-		static readonly string IniPath = "D:\\machine\\machine.ini";
-		static readonly string EndOfIni = "[END]";
-        static readonly string BackUpFile = IniPath + "_backup";
+        const string IniPath = "D:\\machine\\machine.ini";
+        const string EndOfIni = "[END]";
+        const string BackUpFile = IniPath + "_backup";
 
         public bool ChangesPending { get; set; }
-        
-        List<IniElement> _models = new List<IniElement>();
+
+        readonly List<IniElement> _models = new List<IniElement>();
         string _firstLine = "";
 
 		public MachineIni()
@@ -90,19 +90,18 @@ namespace PDTUtils.Logic
         /// <returns></returns>
         void ParseIni()
         {
-            using (FileStream fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (BufferedStream bs = new BufferedStream(fs))
-            using (StreamReader sr = new StreamReader(bs))
+            using (var fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var bs = new BufferedStream(fs))
+            using (var sr = new StreamReader(bs))
             {
                 string line;
-                string category = null;
                 try
                 {
                     if (File.Exists(BackUpFile))
                         RemoveBackupFile();
                     File.Copy(IniPath, BackUpFile);
 
-                    char[] first = new char[10];
+                    var first = new char[10];
                     sr.Read(first, 0, 7);
                     _firstLine = new string(first).Trim('\0');
                 }
@@ -117,7 +116,7 @@ namespace PDTUtils.Logic
                         break;
 
                     if (!line.StartsWith("[") || LineContainsCategories(line) || line.Equals("")) continue;
-                    category = line.Trim("[]".ToCharArray());
+                    var category = line.Trim("[]".ToCharArray());
                         
                     string[] str;
                     IniFileUtility.GetIniProfileSection(out str, category, IniPath);
@@ -154,12 +153,12 @@ namespace PDTUtils.Logic
                 WriteMachineIni();
             else
             {
-                bool found = false;
-                for (int i = 0; i < Items.Count && !found; i++)
+                var found = false;
+                for (var i = 0; i < Items.Count && !found; i++)
                 {
                     if (Items[i].Category == category && Items[i].Field == field)
                     {
-                        string text = File.ReadAllText(IniPath);
+                        var text = File.ReadAllText(IniPath);
                         text = Regex.Replace(text, "#" + Items[i].Field, Items[i].Field);
                         File.WriteAllText(IniPath, text);
                         NativeWinApi.WritePrivateProfileString(category, Items[i].Field, 
@@ -177,8 +176,8 @@ namespace PDTUtils.Logic
             //{
             //    File.Move(IniPath, IniPath + "_old");
             //    File.Create(IniPath);
-                string divider = "Models";
-                using (StreamWriter w = File.CreateText(IniPath))
+                var divider = "Models";
+                using (var w = File.CreateText(IniPath))
                 {
                     w.WriteLine(_firstLine);
                     w.WriteLine("[" + divider + "]");
@@ -193,7 +192,7 @@ namespace PDTUtils.Logic
                 if (item.Category != divider)
                 {
                     divider = item.Category;
-                    using (StreamWriter w = File.AppendText(IniPath))
+                    using (var w = File.AppendText(IniPath))
                     {
                         w.WriteLine("\r\n");
                         w.Flush();
@@ -208,7 +207,7 @@ namespace PDTUtils.Logic
         
 		public void HashMachineIni()
 		{
-			int retries = 10;
+			var retries = 10;
 			if (NativeMD5.CheckFileType(IniPath) == true)
 			{
 				if (NativeMD5.CheckHash(IniPath) != true)

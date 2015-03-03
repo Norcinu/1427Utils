@@ -82,7 +82,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (BoLib.getCountryCode() == BoLib.getUkCountryCodeC())
             {
-                int rtp = Convert.ToInt32(newRtp as string);
+                var rtp = Convert.ToInt32(newRtp as string);
                 NativeWinApi.WritePrivateProfileString("Datapack", "DPercentage", rtp.ToString(), @Properties.Resources.machine_ini);
                 IniFileUtility.HashFile(@Properties.Resources.machine_ini);
                 
@@ -103,13 +103,13 @@ namespace PDTUtils.MVVM.ViewModels
                     return;
             }
 
-            string type = o as string;
-            int current = (int)BoLib.getHandPayThreshold();
-            int newVal = current;
+            var type = o as string;
+            var current = (int)BoLib.getHandPayThreshold();
+            var newVal = current;
             
-            int maxHandPay = (int)BoLib.getMaxHandPayThreshold();
-            int denom = maxHandPay - current;
-            int amount = (denom < 5000) ? denom : 5000;
+            var maxHandPay = (int)BoLib.getMaxHandPayThreshold();
+            var denom = maxHandPay - current;
+            var amount = (denom < 5000) ? denom : 5000;
             
             if (type == "increment")
             {
@@ -133,10 +133,10 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand ChangeDivert { get { return new DelegateCommand(DoChangeDivert); } }
         public void DoChangeDivert(object o)
         {
-            string actionType = o as string;
+            var actionType = o as string;
             var currentThreshold = BoLib.getHopperDivertLevel(0);
             uint changeAmount = 50;
-            uint newValue = currentThreshold;
+            var newValue = currentThreshold;
 
             if (actionType == "increment" && currentThreshold < 800)
             {
@@ -162,8 +162,8 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
         public void DoRecycleNote(object o)
         {
-            string noteType = o as string;
-            string channel = "";
+            var noteType = o as string;
+            var channel = "";
 
             if (BoLib.getBnvType() == 5)
             {
@@ -179,11 +179,11 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand TiToState { get { return new DelegateCommand(ToggleTiToState); } }
         public void ToggleTiToState(object o)
         {
-            string state = o as string;
+            var state = o as string;
             TiToEnabled = (state == "enabled") ? true : false;
             if (TiToEnabled) // enable
             {
-                StringBuilder sb = new StringBuilder(20);
+                var sb = new StringBuilder(20);
                 var res = NativeWinApi.GetPrivateProfileString("Keys", "AssetNo", "", sb, sb.Capacity, @Properties.Resources.machine_ini);
                 TerminalAssetMsg = sb.ToString();
 
@@ -194,8 +194,8 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setTitoState(1);
                 NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "1", @Properties.Resources.birth_cert);
                 BoLib.setTerminalType(1); //printer
-                string printerType = "";
-                string bnvType = "6";
+                var printerType = "";
+                var bnvType = "6";
 
                 if (BoLib.getCabinetType() == 3) // ts22_2015
                     printerType = "3";
@@ -220,8 +220,8 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setTitoState(1);
                 NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "1", @Properties.Resources.birth_cert);
                 BoLib.setTerminalType(1); //printer
-                string printerType = "";
-                string bnvType = "6";
+                var printerType = "";
+                var bnvType = "6";
 
                 if (BoLib.getCabinetType() == 3) // ts22_2015
                     printerType = "3";

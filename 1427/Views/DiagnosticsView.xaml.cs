@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using PDTUtils.Logic;
 using PDTUtils.MVVM.ViewModels;
  
 namespace PDTUtils.Views
@@ -7,24 +8,16 @@ namespace PDTUtils.Views
     /// <summary>
     /// Interaction logic for Diagnostics.xaml
     /// </summary>
-    public partial class DiagnosticsView : UserControl
+    public partial class DiagnosticsView
     {
         public DiagnosticsView()
         {
             InitializeComponent();
-            this.DataContext = new DiagnosticViewModel();
+            DataContext = new DiagnosticViewModel(new MachineInfo());
         }
 
-        
-        
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /*var tab = sender as TabControl;
-            if (tab.SelectedIndex == 0)
-                this.DataContext = this;
-            else if (tab.SelectedIndex == 1)
-                this.DataContext = new MachineLogsController();*/
         }
     }
 }

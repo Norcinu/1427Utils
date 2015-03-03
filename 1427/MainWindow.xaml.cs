@@ -17,29 +17,31 @@ namespace PDTUtils
     /// </summary>
     public partial class MainWindow : Window
     {
-		bool _requiresSave = false;
-        bool _sharedMemoryOnline = false;
+	    bool _sharedMemoryOnline = false;
         string _errorMessage = "";
-        public double WindowHeight { get; set; }
-		System.Timers.Timer _doorStatusTimer;
+	    double WindowHeight { get; set; }
+		
+        System.Timers.Timer _doorStatusTimer;
 		System.Timers.Timer _uiUpdateTimer;
 		Thread _keyDoorThread;
 	    
 		MachineErrorLog _errorLogText = new MachineErrorLog();
-		MachineIni _machineIni = new MachineIni();
-		UniqueIniCategory _uniqueIniCategory = new UniqueIniCategory();
 		MachineGameStatistics _gameStatistics = new MachineGameStatistics();
-		ServiceEnabler _enabler = new ServiceEnabler();
 		ShortTermMeters _shortTerm = new ShortTermMeters();
 		LongTermMeters _longTerm = new LongTermMeters();
         TitoMeters _titoMeter = new TitoMeters();
         MachineInfo _machineData = new MachineInfo();
-		GamesList _gamesList = new GamesList();
-		MachineLogsController _logController = new MachineLogsController();
-        UserSoftwareUpdate _updateFiles = null;
+
+        readonly MachineIni _machineIni = new MachineIni();
+        readonly UniqueIniCategory _uniqueIniCategory = new UniqueIniCategory();
+        readonly ServiceEnabler _enabler = new ServiceEnabler();
+        readonly GamesList _gamesList = new GamesList();
+        readonly MachineLogsController _logController = new MachineLogsController();
+        readonly UserSoftwareUpdate _updateFiles;
         
         public MainWindow()
         {
+            RequiresSave = false;
             FullyLoaded = false;
             try
             {
@@ -47,16 +49,13 @@ namespace PDTUtils
                 InitializeComponent();
                 CultureInfo ci = null;
 
-                if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
-                    ci = new CultureInfo("es-ES");
-                else
-                    ci = new CultureInfo("en-GB");
+                ci = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? new CultureInfo("es-ES") : new CultureInfo("en-GB");
                 
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
                 
                 _updateFiles = new UserSoftwareUpdate(this);
-                WindowHeight = this.Height;
+                WindowHeight = Height;
             }
             catch (Exception err)
             {
@@ -66,7 +65,7 @@ namespace PDTUtils
             
             RowOne.Height = new GridLength(75);
             ColumnOne.Width = new GridLength(200);
-            Loaded += new RoutedEventHandler(WindowMain_Loaded);
+            Loaded += WindowMain_Loaded;
             FullyLoaded = true;
         }
 		
@@ -93,13 +92,9 @@ namespace PDTUtils
 			set { _machineData = value; }
 		}
 
-		public bool RequiresSave
-		{
-			get { return _requiresSave; }
-			set { _requiresSave = value; }
-		}
+		public bool RequiresSave { get; set; }
 
-		public MachineIni GetMachineIni
+	    public MachineIni GetMachineIni
 		{ 
 			get { return _machineIni; } 
 		}
@@ -235,12 +230,10 @@ namespace PDTUtils
 #else
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
-#endif       
-            if (_sharedMemoryOnline)
-            {
-                _sharedMemoryOnline = false;
-                BoLib.closeSharedMemory();
-            }
+#endif
+            if (!_sharedMemoryOnline) return;
+            _sharedMemoryOnline = false;
+            BoLib.closeSharedMemory();
         }
         
 		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
@@ -291,92 +284,84 @@ namespace PDTUtils
             var c = l.Items[l.SelectedIndex] as IniElement;
             var items = l.ItemsSource;
             
-            IniSettingsWindow w = new IniSettingsWindow(c.Field, c.Value);
-            if (w.ShowDialog() == false)
+            var w = new IniSettingsWindow(c.Field, c.Value);
+            if (w.ShowDialog() != false) return;
+            switch (w.RetChangeType)
             {
-                switch (w.RetChangeType)
-                {
-                    case ChangeType.Amend:
-                        AmendOption(w, sender, ref c);
-                        break;
-                    case ChangeType.Cancel:
-                        break;
-                    case ChangeType.Comment:
-                        CommentEntry(w, sender, ref c);
-                        break;
-                    case ChangeType.Uncomment:
-                        UnCommentEntry(w, sender, ref c);
-                        break;
-                    default:
-                        break;
-                }
-                l.SelectedIndex = -1;
+                case ChangeType.Amend:
+                    AmendOption(w, sender, ref c);
+                    break;
+                case ChangeType.Cancel:
+                    break;
+                case ChangeType.Comment:
+                    CommentEntry(w, sender, ref c);
+                    break;
+                case ChangeType.Uncomment:
+                    UnCommentEntry(w, sender, ref c);
+                    break;
+                default:
+                    break;
             }
+            l.SelectedIndex = -1;
         }
         
         void AmendOption(IniSettingsWindow w, object sender, ref IniElement c)
         {
-            string newValue = w.OptionValue;
+            var newValue = w.OptionValue;
             Debug.WriteLine(newValue);
             var listView = sender as ListView;
             var current = listView.Items[listView.SelectedIndex] as IniElement;
-            
-            if (newValue != c.Value || (newValue == c.Value && current.Field[0] == '#'))
+
+            if (newValue == c.Value && (newValue != c.Value || current.Field[0] != '#')) return;
+            current.Value = newValue;
+            if (current.Field[0] == '#')
             {
-                current.Value = newValue;
-                if (current.Field[0] == '#')
-                {
-                    IniFile ini = new IniFile(Properties.Resources.machine_ini);
-                    ini.DeleteKey(current.Category, current.Field);
-                    current.Field = current.Field.Substring(1);
-                }
-                current.Value = newValue;
-                listView.Items.Refresh();
-                
-                GetMachineIni.WriteMachineIni(current.Category, current.Field);
-                GetMachineIni.ChangesPending = true;
+                var ini = new IniFile(Properties.Resources.machine_ini);
+                ini.DeleteKey(current.Category, current.Field);
+                current.Field = current.Field.Substring(1);
             }
+            current.Value = newValue;
+            listView.Items.Refresh();
+                
+            GetMachineIni.WriteMachineIni(current.Category, current.Field);
+            GetMachineIni.ChangesPending = true;
         }
         
         void CommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var listView = sender as ListView;
             var current = listView.Items[listView.SelectedIndex] as IniElement;
-            
-            if (current.Field[0] != '#')
-            {
-                IniFile ini = new IniFile(Properties.Resources.machine_ini);
-                ini.DeleteKey(current.Category, current.Field);
-                current.Field = "#" + current.Field;
 
-                listView.Items.Refresh();
-                GetMachineIni.WriteMachineIni(current.Category, current.Field);
-                GetMachineIni.ChangesPending = true;
-            }
+            if (current.Field[0] == '#') return;
+            var ini = new IniFile(Properties.Resources.machine_ini);
+            ini.DeleteKey(current.Category, current.Field);
+            current.Field = "#" + current.Field;
+
+            listView.Items.Refresh();
+            GetMachineIni.WriteMachineIni(current.Category, current.Field);
+            GetMachineIni.ChangesPending = true;
         }
 
         private void UnCommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var listView = sender as ListView;
             var current = listView.Items[listView.SelectedIndex] as IniElement;
-            
-            if (current.Field[0] == '#')
-            {
-                listView.Items.Refresh();
-                GetMachineIni.WriteMachineIni(current.Category, current.Field);
-                GetMachineIni.ChangesPending = true;
-                
-                current.Field = current.Field.Substring(1);
 
-                listView.Items.Refresh();
-                GetMachineIni.WriteMachineIni(current.Category, current.Field);
-                GetMachineIni.ChangesPending = true;
-            }
+            if (current != null && current.Field[0] != '#') return;
+            listView.Items.Refresh();
+            GetMachineIni.WriteMachineIni(current.Category, current.Field);
+            GetMachineIni.ChangesPending = true;
+                
+            current.Field = current.Field.Substring(1);
+
+            listView.Items.Refresh();
+            GetMachineIni.WriteMachineIni(current.Category, current.Field);
+            GetMachineIni.ChangesPending = true;
         }
         
 		private void RemoveChildrenFromStackPanel()
 		{
-			int childCount = StpButtonPanel.Children.Count;
+			var childCount = StpButtonPanel.Children.Count;
 			if (childCount > 0)
 			{
 				StpButtonPanel.Children.RemoveRange(0, childCount);
@@ -386,7 +371,7 @@ namespace PDTUtils
 		private void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			//PlaySoundOnEvent(@"./wav/volume.wav");
-			uint volume = Convert.ToUInt32(MasterVolumeSlider.Value);
+			var volume = Convert.ToUInt32(MasterVolumeSlider.Value);
 			BoLib.setLocalMasterVolume(volume);
 		}
 		
@@ -422,7 +407,7 @@ namespace PDTUtils
                 UcPerformance.Visibility = Visibility.Hidden;
 
                 _keyDoorWorker.TestSuiteRunning = true;
-                TestSuiteWindow ts = new TestSuiteWindow();
+                var ts = new TestSuiteWindow();
                 ts.ShowDialog();
                 _keyDoorWorker.TestSuiteRunning = false;
             }
@@ -549,7 +534,7 @@ namespace PDTUtils
             UcPerformance.IsEnabled = false;
             UcPerformance.Visibility = Visibility.Hidden;
 
-            ScreenshotWindow w = new ScreenshotWindow();
+            var w = new ScreenshotWindow();
             w.ShowDialog();
         }
         
@@ -573,10 +558,7 @@ namespace PDTUtils
         private void btnDiagnostics_Click(object sender, RoutedEventArgs e)
         {
             UcDiagnostics.IsEnabled = !UcDiagnostics.IsEnabled;
-            if (UcDiagnostics.IsEnabled)
-                UcDiagnostics.Visibility = Visibility.Visible;
-            else
-                UcDiagnostics.Visibility = Visibility.Hidden;
+            UcDiagnostics.Visibility = UcDiagnostics.IsEnabled ? Visibility.Visible : Visibility.Hidden;
             
             Enabler.ClearAll();
 
@@ -609,12 +591,11 @@ namespace PDTUtils
             {
                 MessageBox.Show("Please Close the Door", "INFO");
             }
+
+            if (BoLib.refillKeyStatus() != 0 || BoLib.getDoorStatus() != 0) return;
             
-            if (BoLib.refillKeyStatus() == 0 && BoLib.getDoorStatus() == 0)
-            {
-                _keyDoorWorker.PrepareForReboot = false;
-                DiskCommit.SaveAndReboot(); 
-            }
+            _keyDoorWorker.PrepareForReboot = false;
+            DiskCommit.SaveAndReboot();
         }
 	}
 }

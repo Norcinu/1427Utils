@@ -40,8 +40,8 @@ namespace PDTUtils
 			set
 			{
 				_doorStatus = value;
-				this.OnPropertyChanged("DoorStatus");
-				this.OnPropertyChanged("IsDoorClosed");
+				OnPropertyChanged("DoorStatus");
+				OnPropertyChanged("IsDoorClosed");
 			}
 		}
 
@@ -78,46 +78,44 @@ namespace PDTUtils
 		{
 			while (_running)
 			{
-				Random r = new Random();
-				if (r.Next(1000) < 100)
-				{
-					if (_isTestSuiteRunning == false)
-					{
-						if (BoLib.refillKeyStatus() == 0 && !_prepareForReboot)
-						{
-                            _running = false;
-                            Application.Current.Dispatcher.Invoke(
-                                DispatcherPriority.Normal,
-                                (ThreadStart)delegate {
-                                    if (GlobalConfig.RebootRequired)
-                                        BoLib.setRebootRequired();
-                            });
-							Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
-						}
-                        
-                        if (BoLib.getDoorStatus() == 0)
-                        {
-                            if (_doorStatus == true)
-                            {
-                                _doorStatus = false;
-                                _hasChanged = true;
-                                OnPropertyChanged("DoorStatus");
-                                OnPropertyChanged("IsDoorClosed");
-                            }
-                        }
-                        else
-                        {
-                            if (_doorStatus == false)
-                            {
-                                _doorStatus = true;
-                                _hasChanged = true;
-                                OnPropertyChanged("DoorStatus");
-                                OnPropertyChanged("IsDoorClosed");
-                            }
-                        }
-					}
-				}
-				Thread.Sleep(2);
+				var r = new Random();
+			    if (r.Next(1000) < 100 && _isTestSuiteRunning == false)
+			    {
+			        if (BoLib.refillKeyStatus() == 0 && !_prepareForReboot)
+			        {
+			            _running = false;
+			            Application.Current.Dispatcher.Invoke(
+			                DispatcherPriority.Normal,
+			                (ThreadStart) delegate
+			                {
+			                    if (GlobalConfig.RebootRequired)
+			                        BoLib.setRebootRequired();
+			                });
+			            Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
+			        }
+
+			        if (BoLib.getDoorStatus() == 0)
+			        {
+			            if (_doorStatus)
+			            {
+			                _doorStatus = false;
+			                _hasChanged = true;
+			                OnPropertyChanged("DoorStatus");
+			                OnPropertyChanged("IsDoorClosed");
+			            }
+			        }
+			        else
+			        {
+			            if (_doorStatus == false)
+			            {
+			                _doorStatus = true;
+			                _hasChanged = true;
+			                OnPropertyChanged("DoorStatus");
+			                OnPropertyChanged("IsDoorClosed");
+			            }
+			        }
+			    }
+			    Thread.Sleep(2);
 			}
 		}
         

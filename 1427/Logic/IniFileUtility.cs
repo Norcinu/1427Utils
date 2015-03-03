@@ -53,7 +53,7 @@ namespace PDTUtils.Logic
                 var lines = File.ReadAllLines(filename);
                 var afterEnd = false;
 
-                for (int i = 0; i < lines.Length; i++)
+                for (var i = 0; i < lines.Length; i++)
                 {
                     if (lines[i] == "[End]")
                         afterEnd = true;

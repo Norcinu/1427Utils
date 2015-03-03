@@ -152,7 +152,7 @@ namespace PDTUtils.Logic
             if (keyName == null)
                 throw new ArgumentNullException("keyName");
 
-            StringBuilder retval = new StringBuilder(IniFile.MaxSectionSize);
+            var retval = new StringBuilder(IniFile.MaxSectionSize);
 
             NativeMethods.GetPrivateProfileString(sectionName, 
                                                   keyName, 
@@ -181,7 +181,7 @@ namespace PDTUtils.Logic
                               string keyName,
                               short  defaultValue)
         {
-            int retval = GetInt32(sectionName, keyName, defaultValue);
+            var retval = GetInt32(sectionName, keyName, defaultValue);
 
             return Convert.ToInt16(retval);
         }
@@ -229,7 +229,7 @@ namespace PDTUtils.Logic
                                 string keyName,
                                 double defaultValue)
         {
-            string str = GetString(sectionName, keyName, "");
+            var str = GetString(sectionName, keyName, "");
 
             if (String.IsNullOrEmpty(str))
                 return defaultValue;
@@ -258,7 +258,7 @@ namespace PDTUtils.Logic
 								 string keyName,
 								 bool defaultValue)
 		{
-			string str = GetString(sectionName, keyName, "");
+			var str = GetString(sectionName, keyName, "");
 			if (String.IsNullOrEmpty(str))
 				return defaultValue;
 
@@ -303,12 +303,12 @@ namespace PDTUtils.Logic
                 throw new ArgumentNullException("sectionName");
 
             //Allocate a buffer for the returned section names.
-            IntPtr ptr = Marshal.AllocCoTaskMem(IniFile.MaxSectionSize);
+            var ptr = Marshal.AllocCoTaskMem(IniFile.MaxSectionSize);
 
             try
             {
                 //Get the section key/value pairs into the buffer.
-                int len = NativeMethods.GetPrivateProfileSection(sectionName,
+                var len = NativeMethods.GetPrivateProfileSection(sectionName,
                                                                  ptr,
                                                                  IniFile.MaxSectionSize,
                                                                  _path);
@@ -324,7 +324,7 @@ namespace PDTUtils.Logic
             //Parse keyValue pairs and add them to the list.
             retval = new List<KeyValuePair<string, string>>(keyValuePairs.Length);
 
-            for (int i = 0; i < keyValuePairs.Length; ++i)
+            for (var i = 0; i < keyValuePairs.Length; ++i)
             {
                 //Parse the "key=value" string into its constituent parts
                 equalSignPos = keyValuePairs[i].IndexOf('=');
@@ -369,7 +369,7 @@ namespace PDTUtils.Logic
             //Convert list into a dictionary.
             retval = new Dictionary<string, string>(keyValuePairs.Count);
 
-            foreach (KeyValuePair<string, string> keyValuePair in keyValuePairs)
+            foreach (var keyValuePair in keyValuePairs)
             {
                 //Skip any key we have already seen.
                 if (!retval.ContainsKey(keyValuePair.Key))
@@ -408,7 +408,7 @@ namespace PDTUtils.Logic
                 throw new ArgumentNullException("sectionName");
             
             //Allocate a buffer for the returned section names.
-            IntPtr ptr = Marshal.AllocCoTaskMem(IniFile.MaxSectionSize);
+            var ptr = Marshal.AllocCoTaskMem(IniFile.MaxSectionSize);
 
             try
             {
@@ -445,7 +445,7 @@ namespace PDTUtils.Logic
             int len;
 
             //Allocate a buffer for the returned section names.
-            IntPtr ptr = Marshal.AllocCoTaskMem(IniFile.MaxSectionSize);
+            var ptr = Marshal.AllocCoTaskMem(IniFile.MaxSectionSize);
 
             try
             {
@@ -488,7 +488,7 @@ namespace PDTUtils.Logic
             {
                 //Convert the buffer into a string.  Decrease the length 
                 //by 1 so that we remove the second null off the end.
-                string buff = Marshal.PtrToStringAuto(ptr, valLength - 1);
+                var buff = Marshal.PtrToStringAuto(ptr, valLength - 1);
 
                 //Parse the buffer into an array of strings by searching for nulls.
                 retval = buff.Split('\0');

@@ -8,33 +8,33 @@ namespace PDTUtils.MVVM.ViewModels
     class BirthCertViewModel : ObservableObject
     {
         readonly string _filename = Properties.Resources.birth_cert;
-        ObservableCollection<BirthCertModel> _values = new ObservableCollection<BirthCertModel>();
 
         public BirthCertViewModel()
         {
+            Values = new ObservableCollection<BirthCertModel>();
             ParseIni();
         }
 
-        public ObservableCollection<BirthCertModel> Values { get { return _values; } }
-        //monday night is fucking rediculous.
+        public ObservableCollection<BirthCertModel> Values { get; private set; }
+        
         public ICommand Parse { get { return new DelegateCommand(o => ParseIni()); } }
         void ParseIni()
         {
             if (Values.Count == 0)
             {
-                string[] config = null;
+                string[] config;
                 IniFileUtility.GetIniProfileSection(out config, "Config", _filename);
                 
-                foreach (string str in config)
+                foreach (var str in config)
                 {
-                    string[] pair = new string[2];
-                    pair = str.Split("=".ToCharArray());
+                    var pair = str.Split("=".ToCharArray());
                     Values.Add(new BirthCertModel(pair[0], pair[1]));
                 }
             }
             RaisePropertyChangedEvent("Values");
         }
 
+        /* TODO!!! */
         void WriteChanges()
         {
 

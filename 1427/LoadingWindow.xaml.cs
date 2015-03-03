@@ -18,7 +18,7 @@ namespace PDTUtils
         
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            BackgroundWorker worker = new BackgroundWorker();
+            var worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.DoWork += worker_DoWork;
             worker.ProgressChanged += worker_ProgressChanged;

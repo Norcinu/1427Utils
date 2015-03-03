@@ -67,7 +67,7 @@ namespace AttachedCommandBehavior
         /// </summary>
         private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            CommandBehaviorBinding binding = FetchOrCreateBinding(d);
+            var binding = FetchOrCreateBinding(d);
             binding.Command = (ICommand)e.NewValue;
         }
 
@@ -104,7 +104,7 @@ namespace AttachedCommandBehavior
         /// </summary>
         private static void OnCommandParameterChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            CommandBehaviorBinding binding = FetchOrCreateBinding(d);
+            var binding = FetchOrCreateBinding(d);
             binding.CommandParameter = e.NewValue;
         }
 
@@ -143,7 +143,7 @@ namespace AttachedCommandBehavior
         /// </summary>
         private static void OnEventChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            CommandBehaviorBinding binding = FetchOrCreateBinding(d);
+            var binding = FetchOrCreateBinding(d);
             //check if the Event is set. If yes we need to rebind the Command to the new event and unregister the old one
             if (binding.Event != null && binding.Owner != null)
                 binding.Dispose();
@@ -157,7 +157,7 @@ namespace AttachedCommandBehavior
         //tries to get a CommandBehaviorBinding from the element. Creates a new instance if there is not one attached
         private static CommandBehaviorBinding FetchOrCreateBinding(DependencyObject d)
         {
-            CommandBehaviorBinding binding = CommandBehavior.GetBehavior(d);
+            var binding = CommandBehavior.GetBehavior(d);
             if (binding == null)
             {
                 binding = new CommandBehaviorBinding();

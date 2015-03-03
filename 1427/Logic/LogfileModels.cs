@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Forms;
 using PDTUtils.MVVM;
 using PDTUtils.Native;
 using PDTUtils.Properties;
@@ -17,19 +16,19 @@ namespace PDTUtils
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected abstract void ParseGame(int gameNo);
-        
+
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
-    
+
     public abstract class BaseGameLog : BaseNotifyPropertyChanged, IComparable
     {
         private readonly NumberFormatInfo _nfi;
         private CultureInfo _ci = new CultureInfo("en-GB");
-        
+
         protected BaseGameLog()
         {
             //CultureInfo ci = new CultureInfo("en-GB");//"es-ES");
@@ -38,7 +37,7 @@ namespace PDTUtils
             _stake = 0;
             _credit = 0;
         }
-        
+
         public string GameDate
         {
             get { return _logDate.ToString("dd/MM/yyyy HH:mm"); }
@@ -60,22 +59,22 @@ namespace PDTUtils
         }
 
         public uint GameModel { get; set; }
-        
+
         public int CompareTo(object obj)
         {
             if (obj is PlayedGame)
             {
             }
-            
+
             return 0;
         }
 
         #region Private Variables
-        
+
         protected DateTime _logDate;
         protected decimal _credit;
         protected decimal _stake;
-        
+
         #endregion
     }
     
@@ -87,19 +86,19 @@ namespace PDTUtils
         {
             ParseGame(gameNo);
         }
-
+        
         public string WinAmount
         {
             get { return (_winAmount/100m).ToString("c2"); }
         }
-
+        
         protected override void ParseGame(int gameNo)
         {
             var ci = new CultureInfo("en-GB"); // en-GB
             var date = DateTime.Now.ToString();
             DateTime.TryParse(date, ci, DateTimeStyles.None, out _logDate);
             
-            GameModel = (uint) BoLib.getLastGameModel(gameNo); // .getGameModel(gameNo);
+            GameModel = (uint) BoLib.getLastGameModel(gameNo);
             _stake = BoLib.getGameWager(gameNo);
             var tempGameDate = BoLib.getGameDate(gameNo);
             var today = (int) tempGameDate >> 16;
@@ -110,7 +109,7 @@ namespace PDTUtils
             OnPropertyChanged("WinningGames");
         }
     }
-
+    
     public class PlayedGame : BaseGameLog
     {
         private decimal _winAmount;
@@ -134,15 +133,13 @@ namespace PDTUtils
         {
             //CultureInfo ci = new CultureInfo("en-GB");
             var ci = Thread.CurrentThread.CurrentCulture;
-            var cui = Thread.CurrentThread.CurrentUICulture;
 
-            var today = DateTime.Today;
             var gameDate = BoLib.getGameDate(gameNo);
             var time = BoLib.getGameTime(gameNo);
 
             var hour = time >> 16;
             var minute = time & 0x0000FFFF;
-            
+
             var month = gameDate & 0x0000FFFF;
             var day = gameDate >> 16;
             var year = DateTime.Now.Year;
@@ -252,14 +249,14 @@ namespace PDTUtils
 
     public class VizTechLog : BaseNotifyPropertyChanged
     {
-        public string Date { get; set; }
-        public string Message { get; set; }
-
         public VizTechLog(string date, string message)
         {
             Date = date;
             Message = message;
         }
+
+        public string Date { get; set; }
+        public string Message { get; set; }
 
         protected override void ParseGame(int gameNo)
         {
@@ -269,15 +266,13 @@ namespace PDTUtils
 
     public class MachineLogsController
     {
-        readonly ObservableCollection<CashlessLibLog> _cashLess = new ObservableCollection<CashlessLibLog>();
-        readonly ObservableCollection<MachineErrorLog> _errorLog = new ObservableCollection<MachineErrorLog>();
-        readonly ObservableCollection<HandPayLog> _handPayLog = new ObservableCollection<HandPayLog>();
-        readonly ObservableCollection<PlayedGame> _playedGames = new ObservableCollection<PlayedGame>();
-        readonly ObservableCollection<MachineErrorLog> _warningLog = new ObservableCollection<MachineErrorLog>();
-        readonly ObservableCollection<WinningGame> _winningGames = new ObservableCollection<WinningGame>();
-        readonly ObservableCollection<VizTechLog> _vizTechLog = new ObservableCollection<VizTechLog>();
-          
-        public bool AreLogsBeingViewed { get; set; }
+        private readonly ObservableCollection<CashlessLibLog> _cashLess = new ObservableCollection<CashlessLibLog>();
+        private readonly ObservableCollection<MachineErrorLog> _errorLog = new ObservableCollection<MachineErrorLog>();
+        private readonly ObservableCollection<HandPayLog> _handPayLog = new ObservableCollection<HandPayLog>();
+        private readonly ObservableCollection<PlayedGame> _playedGames = new ObservableCollection<PlayedGame>();
+        private readonly ObservableCollection<VizTechLog> _vizTechLog = new ObservableCollection<VizTechLog>();
+        private readonly ObservableCollection<MachineErrorLog> _warningLog = new ObservableCollection<MachineErrorLog>();
+        private readonly ObservableCollection<WinningGame> _winningGames = new ObservableCollection<WinningGame>();
 
         public MachineLogsController()
         {
@@ -285,9 +280,10 @@ namespace PDTUtils
             AreLogsBeingViewed = false;
         }
 
+        public bool AreLogsBeingViewed { get; set; }
+
         public void ClearAllLogs()
         {
-            
         }
 
         public void SetErrorLog()
@@ -336,13 +332,13 @@ namespace PDTUtils
                 Console.WriteLine(ex.Message);
             }
         }
-        
+
         public void SetWarningLog()
         {
-            var errLogLocation = @"D:\machine\GAME_DATA\TerminalWarningLog.log";
+            var warnings_log = Resources.term_warning_log;
             try
             {
-                var lines = File.ReadAllLines(errLogLocation);
+                var lines = File.ReadAllLines(warnings_log);
                 var reveresed = new string[lines.Length - 1];
 
                 var ctr = 0;
@@ -358,18 +354,14 @@ namespace PDTUtils
                     {
                         var subStr = s.Split("\t".ToCharArray());
                         bool? b = s.Contains("TimeStamp");
-                        if (b == false && s != "")
+                        if (b != false || s == "") continue;
+                        foreach (var ss in subStr)
                         {
-                            foreach (var ss in subStr)
-                            {
-                                if (ss != "")
-                                {
-                                    var timeAndDate = ss.Substring(0, 19).TrimStart(" \t".ToCharArray());
-                                    var errorCode = ss.Substring(21, 4).TrimStart(" \t".ToCharArray());
-                                    var desc = ss.Substring(26).TrimStart(" \t".ToCharArray());
-                                    WarningLog.Add(new MachineErrorLog(errorCode, desc, timeAndDate));
-                                }
-                            }
+                            if (ss == "") continue;
+                            var timeAndDate = ss.Substring(0, 19).TrimStart(" \t".ToCharArray());
+                            var errorCode = ss.Substring(21, 4).TrimStart(" \t".ToCharArray());
+                            var desc = ss.Substring(26).TrimStart(" \t".ToCharArray());
+                            WarningLog.Add(new MachineErrorLog(errorCode, desc, timeAndDate));
                         }
                     }
                     catch (Exception ex)
@@ -408,7 +400,7 @@ namespace PDTUtils
                 }
             }
         }
-        
+
         public void SetHandPayLog()
         {
             try
@@ -429,7 +421,7 @@ namespace PDTUtils
                     }
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -457,7 +449,7 @@ namespace PDTUtils
                 box.ShowMessage(ex.Message, "Exception Caught");
             }
         }
-        
+
         public void SetVizTechLog()
         {
             try
@@ -472,7 +464,6 @@ namespace PDTUtils
                         VizTechLogs.Add(new VizTechLog(split[0], split[1]));
                     }
                 }
-
             }
             catch (Exception ex)
             {

@@ -109,7 +109,7 @@ namespace PDTUtils
                     
                     string[] foldersSection = null;
                     string[] filesSection = null;
-                    bool[] quit = new bool[2] { false, false };
+                    var quit = new bool[2] { false, false };
 
                     BoLib.setFileAction();
 
@@ -173,7 +173,7 @@ namespace PDTUtils
 				{
 					string[] foldersSection = null;
 					string[] filesSection = null;
-					bool[] quit = new bool[2] { false, false };
+					var quit = new bool[2] { false, false };
 				    
 					BoLib.setFileAction();
 					
@@ -218,7 +218,7 @@ namespace PDTUtils
         void CleanUp()
         {          
             //run through looking for _old files + folders and delete them.
-            DirectoryInfo dDrive = new DirectoryInfo(@"D:\");
+            var dDrive = new DirectoryInfo(@"D:\");
             var fileList = dDrive.GetFiles();
             var dirList = dDrive.GetDirectories();
             foreach (var dir in dirList)
@@ -247,7 +247,7 @@ namespace PDTUtils
 		
         private static string GetImagePathString(string str)
 		{
-			CustomImagePathConverter conv = new CustomImagePathConverter();
+			var conv = new CustomImagePathConverter();
 			var ret = conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture) as string;
 			return ret;
 		}
@@ -255,7 +255,7 @@ namespace PDTUtils
 		private bool GetIniProfileSection(out string[] section, string field)
 		{
 			uint bufferSize = 4048;
-			IntPtr retStringPtr = Marshal.AllocCoTaskMem((int)bufferSize * sizeof(char));
+			var retStringPtr = Marshal.AllocCoTaskMem((int)bufferSize * sizeof(char));
 			var bytesReturned = NativeWinApi.GetPrivateProfileSection(field, retStringPtr, bufferSize, _updateIni);
 			if ((bytesReturned == bufferSize - 2) || (bytesReturned == 0))
 			{
@@ -264,7 +264,7 @@ namespace PDTUtils
 				return false;
 			}
 			
-            string retString = Marshal.PtrToStringAuto(retStringPtr, (int)bytesReturned - 1);
+            var retString = Marshal.PtrToStringAuto(retStringPtr, (int)bytesReturned - 1);
 			section = retString.Split('\0');
 			Marshal.FreeCoTaskMem(retStringPtr);
 			return true;
@@ -370,21 +370,21 @@ namespace PDTUtils
         
 		bool DoCopyDirectory(string path, int dirFlag)
 		{
-			string sourceFolder = _updateDrive + path;
-			string destinationFolder = @"d:\" + path;//no path?
-			string renameFolder = destinationFolder + @"_old";
+			var sourceFolder = _updateDrive + path;
+			var destinationFolder = @"d:\" + path;//no path?
+			var renameFolder = destinationFolder + @"_old";
 			
 			if (!Directory.Exists(destinationFolder))
 			{
 				try
 				{
-					DirectoryInfo srcInfo = new DirectoryInfo(sourceFolder);
-					foreach (string dirPath in Directory.GetDirectories(sourceFolder, "*",
+					var srcInfo = new DirectoryInfo(sourceFolder);
+					foreach (var dirPath in Directory.GetDirectories(sourceFolder, "*",
 						SearchOption.AllDirectories))
 						Directory.CreateDirectory(dirPath.Replace(sourceFolder, destinationFolder));
 				    
 					//Copy all the files & Replaces any files with the same name
-					foreach (string newPath in Directory.GetFiles(sourceFolder, "*.*",
+					foreach (var newPath in Directory.GetFiles(sourceFolder, "*.*",
 						SearchOption.AllDirectories))
 						File.Copy(newPath, newPath.Replace(sourceFolder, destinationFolder), true);
 				}
@@ -409,22 +409,22 @@ namespace PDTUtils
                         
                         Directory.Move(destinationFolder, renameFolder);
                         Directory.CreateDirectory(destinationFolder);
-                        DirectoryInfo dstInfo = new DirectoryInfo(renameFolder);
+                        var dstInfo = new DirectoryInfo(renameFolder);
                         
-                        foreach (string dirPath in Directory.GetDirectories(renameFolder, "*",
+                        foreach (var dirPath in Directory.GetDirectories(renameFolder, "*",
                                  SearchOption.AllDirectories))
                                  Directory.CreateDirectory(dirPath.Replace(renameFolder, destinationFolder));
                         
                         //Copy all the files & Replaces any files with the same name
-                        foreach (string newPath in Directory.GetFiles(renameFolder, "*.*",
+                        foreach (var newPath in Directory.GetFiles(renameFolder, "*.*",
                                  SearchOption.AllDirectories))
                                  File.Copy(newPath, newPath.Replace(renameFolder, destinationFolder), true);
                         //maybe just copy the files and folders over instead of moving.
-                        DirectoryInfo srcInfo = new DirectoryInfo(sourceFolder);
+                        var srcInfo = new DirectoryInfo(sourceFolder);
                         AddToRollBack(renameFolder, 1);
                         GetAndCopyAllFiles(srcInfo, destinationFolder);
                         
-                        DirectoryInfo d = new DirectoryInfo(sourceFolder);
+                        var d = new DirectoryInfo(sourceFolder);
                         var files = d.GetFiles();
                         foreach (var fi in files)
                         {

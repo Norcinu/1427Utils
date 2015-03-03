@@ -23,9 +23,9 @@ namespace PDTUtils
 			where T : DependencyObject
 		{
 			if (depObj == null) return null;
-			List<T> elementList = new List<T>();
+			var elementList = new List<T>();
 
-			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+			for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
 			{
 				var child = VisualTreeHelper.GetChild(depObj, i);
 
@@ -40,7 +40,7 @@ namespace PDTUtils
 
 		public static void RemoveAll<T>(this ObservableCollection<T> coll)
 		{
-			for (int i = coll.Count - 1; i >= 0; i--)
+			for (var i = coll.Count - 1; i >= 0; i--)
 			{
 				if (coll[i] != null)
 					coll.RemoveAt(i);
@@ -49,9 +49,9 @@ namespace PDTUtils
 
         public static void BubbleSort<T>(this ObservableCollection<T> o)
         {
-            for (int i = o.Count - 1; i >= 0; i--) 
+            for (var i = o.Count - 1; i >= 0; i--) 
             {
-                for (int j = 1; j <= i; j++) 
+                for (var j = 1; j <= i; j++) 
                 {
                     object o1 = o[j - 1];
                     object o2 = o[j];

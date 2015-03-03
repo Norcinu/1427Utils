@@ -17,16 +17,11 @@ namespace PDTUtils.MVVM.ViewModels
         private int _count = 0;
         private string _errorText = "";
         private CultureInfo _currentCulture;
-        private NumberFormatInfo _nfi;
-        public System.Globalization.NumberFormatInfo Nfi
-        {
-            get { return _nfi; }
-            set { _nfi = value; }
-        }
+        public NumberFormatInfo Nfi { get; set; }
+
+        uint _numberOfGames = 0;
+        readonly string _manifest = Properties.Resources.model_manifest;
         
-        private uint _numberOfGames = 0;
-        private string _manifest = Properties.Resources.model_manifest;
-        //private int _currentModelID = -1;
         #region properties
         public int ActiveCount
         { 
@@ -34,7 +29,7 @@ namespace PDTUtils.MVVM.ViewModels
             set
             {
                 _count = value;
-                this.RaisePropertyChangedEvent("Count");
+                RaisePropertyChangedEvent("Count");
             }
         }
         
@@ -44,7 +39,7 @@ namespace PDTUtils.MVVM.ViewModels
             set
             {
                 _errorText = value;
-                this.RaisePropertyChangedEvent("ErrorText");
+                RaisePropertyChangedEvent("ErrorText");
             }
         }
 
@@ -262,7 +257,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _gameSettings[SelectedIndex].IsFirstPromo = value;
                 RaisePropertyChangedEvent("IsFirstPromo");
             }
-        }//i instatnylu felt like an idiot
+        }
         
         public bool IsSecondPromo
         {
@@ -299,23 +294,17 @@ namespace PDTUtils.MVVM.ViewModels
         public GameSettingViewModel()
         {
             SelectionChanged = false;
-            if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
-                IsBritishMachine = false;
-            else
-                IsBritishMachine = true;
+            IsBritishMachine = BoLib.getCountryCode() != BoLib.getSpainCountryCode();
             AddGame();
 
-            if (_gameSettings.Count > 0)
-                SelectedIndex = 0;
-            else
-                SelectedIndex = -1;
+            SelectedIndex = _gameSettings.Count > 0 ? 0 : -1;
         }
         
         public void AddGame()
         {
             if (!System.IO.File.Exists(_manifest))
             {
-                WpfMessageBoxService msg = new WpfMessageBoxService();
+                var msg = new WpfMessageBoxService();
                 msg.ShowMessage("Cannot find ModelManifest.ini", "ERROR");
                 return;
             }
@@ -323,103 +312,109 @@ namespace PDTUtils.MVVM.ViewModels
             if (_gameSettings.Count > 0)
                 _gameSettings.Clear();
 
-            if (BoLib.getCountryCode() == BoLib.getUkCountryCodeB3() || BoLib.getCountryCode() == BoLib.getUkCountryCodeC())
-                _currentCulture = new CultureInfo("en-GB");
-            else
-                _currentCulture = new CultureInfo("es-ES");
+            _currentCulture = BoLib.getCountryCode() == BoLib.getUkCountryCodeB3() ||
+                              BoLib.getCountryCode() == BoLib.getUkCountryCodeC()
+                ? new CultureInfo("en-GB")
+                : new CultureInfo("es-ES");
 
-            _nfi = _currentCulture.NumberFormat;
+            Nfi = _currentCulture.NumberFormat;
             
             string[] modelNumber;
             IniFileUtility.GetIniProfileSection(out modelNumber, "Models", _manifest, true);
             _numberOfGames = Convert.ToUInt32(modelNumber[0]);
             
-            for (int i = 0; i < _numberOfGames; i++)
+            for (var i = 0; i < _numberOfGames; i++)
             {
                 string[] model;
                 IniFileUtility.GetIniProfileSection(out model, "Model" + (i + 1), _manifest, true);
-                System.Text.StringBuilder sb = new System.Text.StringBuilder(8);
+                var sb = new System.Text.StringBuilder(8);
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "Promo", "", sb, 8, @Properties.Resources.machine_ini);
-                string isPromo = sb.ToString();
-                
-                GameSettingModel m  = new GameSettingModel();
-                m.ModelNumber       = Convert.ToUInt32(model[0]);
-                m.Title             = model[1].Trim(" \"".ToCharArray());
-                m.Active            = (model[2] == "1") ? true : false;
-                m.StakeOne          = Convert.ToInt32(model[3]);
-                m.StakeTwo          = Convert.ToInt32(model[4]);
-                m.StakeThree        = Convert.ToInt32(model[5]);
-                m.StakeFour         = Convert.ToInt32(model[6]);                
-                m.StakeMask         = (Convert.ToUInt32(model[9]));
-                m.ModelDirectory    = model[11];
-                m.Exe               = model[12];
-                m.HashKey           = model[13];
+                var isPromo = sb.ToString();
+
+                var m = new GameSettingModel
+                {
+                    ModelNumber = Convert.ToUInt32(model[0]),
+                    Title = model[1].Trim(" \"".ToCharArray()),
+                    Active = (model[2] == "1") ? true : false,
+                    StakeOne = Convert.ToInt32(model[3]),
+                    StakeTwo = Convert.ToInt32(model[4]),
+                    StakeThree = Convert.ToInt32(model[5]),
+                    StakeFour = Convert.ToInt32(model[6]),
+                    StakeMask = (Convert.ToUInt32(model[9])),
+                    ModelDirectory = model[11],
+                    Exe = model[12],
+                    HashKey = model[13]
+                };
+
                 _gameSettings.Add(m);
 
-                if (isPromo == "100")
+                switch (isPromo)
                 {
-                    m.Promo = true;
-                    m.IsFirstPromo = true;
+                    case "100":
+                        m.Promo = true;
+                        m.IsFirstPromo = true;
+                        break;
+                    case "200":
+                        m.Promo = true;
+                        m.IsSecondPromo = true;
+                        break;
+                    default:
+                        m.Promo = false;
+                        break;
                 }
-                else if (isPromo == "200")
-                {
-                    m.Promo = true;
-                    m.IsSecondPromo = true;
-                }
-                else
-                    m.Promo = false;
             }
         }
         
         public void SaveChanges()
         {
-            if (_gameSettings.Count > 0)
+            if (_gameSettings.Count <= 0) return;
+            var promoCount = 0;
+            foreach (var g in _gameSettings)
             {
-                int promoCount = 0;
-                foreach (var g in _gameSettings)
-                {
-                    if (g.Promo && promoCount < 2)
-                        ++promoCount;
-                   else if (promoCount >= 2)
-                        g.Promo = false;
-                }
+                if (g.Promo && promoCount < 2)
+                    ++promoCount;
+                else if (promoCount >= 2)
+                    g.Promo = false;
+            }
                                
-                if (promoCount == 0)
-                {
-                    Random r = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
-                    _gameSettings[r.Next(_gameSettings.Count)].Promo = true;
-                }
+            if (promoCount == 0)
+            {
+                var r = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
+                _gameSettings[r.Next(_gameSettings.Count)].Promo = true;
+            }
 
-                for (int i = 0; i < _numberOfGames; i++)
+            for (var i = 0; i < _numberOfGames; i++)
+            {
+                var m = _gameSettings[i];
+                    
+                var temp = "Model" + (i + 1);
+                var active = (m.Active) ? 1 : 0;
+                NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
+                NativeWinApi.WritePrivateProfileString(temp, _fields[1], m.Title, _manifest);
+                NativeWinApi.WritePrivateProfileString(temp, _fields[2], active.ToString(), _manifest);
+                    
+                if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
                 {
-                    var m = _gameSettings[i];
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[3], m.StakeOne.ToString(), _manifest);
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[4], m.StakeTwo.ToString(), _manifest);
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[5], m.StakeThree.ToString(), _manifest);
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[6], m.StakeFour.ToString(), _manifest);
+                }
                     
-                    string temp = "Model" + (i + 1);
-                    int active = (m.Active) ? 1 : 0;
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[1], m.Title, _manifest);
-                    NativeWinApi.WritePrivateProfileString(temp, _fields[2], active.ToString(), _manifest);
-                    
-                    if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
+                if (m.Promo)
+                {
+                    if (!m.IsFirstPromo)
                     {
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[3], m.StakeOne.ToString(), _manifest);
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[4], m.StakeTwo.ToString(), _manifest);
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[5], m.StakeThree.ToString(), _manifest);
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[6], m.StakeFour.ToString(), _manifest);
-                    }
-                    
-                    if (m.Promo)
-                    {
-                        if (m.IsFirstPromo)
-                            NativeWinApi.WritePrivateProfileString(temp, _fields[8], "100", _manifest);
-                        else if (m.IsSecondPromo)
+                        if (m.IsSecondPromo)
                             NativeWinApi.WritePrivateProfileString(temp, _fields[8], "200", _manifest);
                     }
                     else
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[8], "0", _manifest);
+                        NativeWinApi.WritePrivateProfileString(temp, _fields[8], "100", _manifest);
                 }
-                IniFileUtility.HashFile(_manifest);
+                else
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[8], "0", _manifest);
             }
+            IniFileUtility.HashFile(_manifest);
         }
         
         public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive(Chk)); } }
@@ -433,19 +428,18 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (SelectedIndex >= 0)
             {
-                string str = amount as string;
-                if (str != "")
-                {
-                    int stake = Convert.ToInt32(amount);
-                    if (stake == 25)
-                        _gameSettings[SelectedIndex].StakeOne = (_gameSettings[SelectedIndex].StakeOne > 0) ? stake : 0;
-                    else if (stake == 50)
-                        _gameSettings[SelectedIndex].StakeTwo = (_gameSettings[SelectedIndex].StakeTwo > 0) ? stake : 0;
-                    else if (stake == 100)
-                        _gameSettings[SelectedIndex].StakeThree = (_gameSettings[SelectedIndex].StakeThree > 0) ? stake : 0;
-                    else if (stake == 200)
-                        _gameSettings[SelectedIndex].StakeFour = (_gameSettings[SelectedIndex].StakeFour > 0) ? stake : 0;
-                }
+                var str = amount as string;
+                if (str == "") return;
+                
+                var stake = Convert.ToInt32(amount);
+                if (stake == 25)
+                    _gameSettings[SelectedIndex].StakeOne = (_gameSettings[SelectedIndex].StakeOne > 0) ? stake : 0;
+                else if (stake == 50)
+                    _gameSettings[SelectedIndex].StakeTwo = (_gameSettings[SelectedIndex].StakeTwo > 0) ? stake : 0;
+                else if (stake == 100)
+                    _gameSettings[SelectedIndex].StakeThree = (_gameSettings[SelectedIndex].StakeThree > 0) ? stake : 0;
+                else if (stake == 200)
+                    _gameSettings[SelectedIndex].StakeFour = (_gameSettings[SelectedIndex].StakeFour > 0) ? stake : 0;
             }
         }
     }

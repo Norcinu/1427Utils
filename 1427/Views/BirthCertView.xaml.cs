@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PDTUtils.MVVM.ViewModels;
 using PDTUtils.MVVM.Models;
+using PDTUtils.MVVM.ViewModels;
 using PDTUtils.Native;
 
 namespace PDTUtils.Views
@@ -24,7 +14,7 @@ namespace PDTUtils.Views
         public BirthCertView()
         {
             InitializeComponent();
-            this.DataContext = new BirthCertViewModel();
+            DataContext = new BirthCertViewModel();
         }
 
         void UpdateIniItem(object sender)
@@ -34,43 +24,41 @@ namespace PDTUtils.Views
                 return;
             
             var c = l.Items[l.SelectedIndex] as BirthCertModel;
-            var items = l.ItemsSource;
 
-            IniSettingsWindow w = new IniSettingsWindow(c.Field, c.Value);
-            w.BtnComment.IsEnabled = false;
-            w.BtnComment.Visibility = Visibility.Hidden;
-            if (w.ShowDialog() == false)
+            var w = new IniSettingsWindow(c.Field, c.Value)
             {
-                switch (w.RetChangeType)
-                {
-                    case ChangeType.Amend:
-                        AmendOption(w, sender, ref c);
-                        l.SelectedIndex = -1;
-                        break;
-                    case ChangeType.Cancel:
-                        l.SelectedIndex = -1;
-                        break;
-                    default:
-                        break;
-                }
+                BtnComment = {IsEnabled = false, Visibility = Visibility.Hidden}
+            };
+
+            if (w.ShowDialog() != false) return;
+            switch (w.RetChangeType)
+            {
+                case ChangeType.Amend:
+                    AmendOption(w, sender, ref c);
+                    l.SelectedIndex = -1;
+                    break;
+                case ChangeType.Cancel:
+                    l.SelectedIndex = -1;
+                    break;
             }
         }
         
         void AmendOption(IniSettingsWindow w, object sender, ref BirthCertModel c)
         {
-            string newValue = w.OptionValue;
+            var newValue = w.OptionValue;
             
             var listView = sender as ListView;
+            
+            if (listView == null) return;
             var current = listView.Items[listView.SelectedIndex] as BirthCertModel;
-            //oh well I've commited to it now :|
-            if (newValue != c.Value || (newValue == c.Value && current.Field[0] == '#'))
-            {
-                current.Value = newValue;
-                current.Value = newValue;
-                listView.Items.Refresh();
+
+            if (newValue == c.Value && (newValue != c.Value || current.Field[0] != '#')) return;
+            
+            current.Value = newValue;
+            current.Value = newValue;
+            listView.Items.Refresh();
                 
-                NativeWinApi.WritePrivateProfileString("Config", c.Field, c.Value, Properties.Resources.birth_cert);
-            }
+            NativeWinApi.WritePrivateProfileString("Config", c.Field, c.Value, Properties.Resources.birth_cert);
         }
         
         void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)

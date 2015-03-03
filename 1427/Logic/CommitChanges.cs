@@ -18,8 +18,8 @@ namespace PDTUtils
         /// </summary>
 		public static void Save()
 		{
-			Process process = new Process();
-			ProcessStartInfo startInfo = new ProcessStartInfo();
+			var process = new Process();
+			var startInfo = new ProcessStartInfo();
 			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
 			startInfo.FileName = "cmd.exe";
 			startInfo.Arguments = "/C EWFMGR C: -COMMIT";
@@ -32,19 +32,18 @@ namespace PDTUtils
         /// </summary>
 		public static void RebootMachine()
 		{
-			ManagementClass W32_OS = new ManagementClass("Win32_OperatingSystem");
-			ManagementBaseObject inParams, outParams;
-			int result;
-			W32_OS.Scope.Options.EnablePrivileges = true;
+			var W32_OS = new ManagementClass("Win32_OperatingSystem");
+            W32_OS.Scope.Options.EnablePrivileges = true;
 
-			foreach(ManagementObject obj in W32_OS.GetInstances())
+			foreach(var o in W32_OS.GetInstances())
 			{
-				inParams = obj.GetMethodParameters("Win32Shutdown");
+			    var obj = (ManagementObject) o;
+			    var inParams = obj.GetMethodParameters("Win32Shutdown");
                 inParams["Flags"] = 6; // ForcedReboot;
 				inParams["Reserved"] = 0;
 
-				outParams = obj.InvokeMethod("Win32Shutdown", inParams, null);
-				result = Convert.ToInt32(outParams["returnValue"]);
+				var outParams = obj.InvokeMethod("Win32Shutdown", inParams, null);
+				var result = Convert.ToInt32(outParams["returnValue"]);
 				if (result != 0)
 					throw new Win32Exception(result);
 			}
@@ -52,7 +51,7 @@ namespace PDTUtils
         
         public static void SaveAndReboot()
         {
-            Thread t = new Thread(() => Save());
+            var t = new Thread(() => Save());
             t.Start();
             Thread.Sleep(2000);
             RebootMachine();
