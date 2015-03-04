@@ -4,6 +4,11 @@
 #include "BoLibTito.h"
 
 
+unsigned int getTitoStateValue()
+{
+	return GetTiToEnabledState();
+}
+
 bool getTitoEnabledState()
 {
 	return (GetTiToEnabledState()) ? true : false;

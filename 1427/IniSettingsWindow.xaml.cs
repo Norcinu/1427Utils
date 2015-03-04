@@ -30,14 +30,14 @@ namespace PDTUtils
         private void button2_Click(object sender, RoutedEventArgs e)
 		{
             RetChangeType = ChangeType.Cancel;
-			this.Close();
+			Close();
 		}
         
         private void btnSave_Click(object sender, RoutedEventArgs e)
 		{
             RetChangeType = ChangeType.Amend;
 			OptionValue = TxtNewValue.Text;
-			this.Close();
+			Close();
 		}
         
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -50,13 +50,13 @@ namespace PDTUtils
             {
                 OptionField = OptionField.Substring(1);
                 RetChangeType = ChangeType.Uncomment;
-                this.Close();
+                Close();
             }
             else
             {
                 OptionField = OptionField.Insert(0, "#");
                 RetChangeType = ChangeType.Comment;
-                this.Close();
+                Close();
             }
         }
 	}

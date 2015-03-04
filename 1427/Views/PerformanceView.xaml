@@ -44,7 +44,7 @@
         <TabControl Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto">
             <TabItem Header="Performance">
                 <TabControl>
-                    <TabControl.Name>TabPerformance</TabControl.Name>
+                    <!--<TabControl.Name>TabPerformance</TabControl.Name>-->
                     <TabItem Header="Machine">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
                             <Label Content="Machine Performance Log" Style="{StaticResource StdLabel}"/>

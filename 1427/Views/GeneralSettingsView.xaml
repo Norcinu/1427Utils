@@ -111,7 +111,8 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Height="75" Width="70"  Margin="0,10,0,10" FontSize="20" IsEnabled="{Binding TiToEnabled}">Update</Button>
+                <Button Height="75" Width="70"  Margin="0,10,0,10" FontSize="20" IsEnabled="{Binding TiToEnabled}"
+                    Command="{Binding TitoUpdate}">Update</Button>
                 <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
                     <Label Style="{StaticResource StdLabel}" Content="Terminal Asset NO:" />
                 </Border>

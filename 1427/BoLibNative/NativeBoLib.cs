@@ -317,6 +317,9 @@ namespace PDTUtils.Native
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool isBackOfficeAvilable();
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint getTitoStateValue();
+        
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/

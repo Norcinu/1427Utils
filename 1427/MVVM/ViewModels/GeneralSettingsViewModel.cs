@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.Text;
 using System.Threading;
 using System.Windows.Input;
-using PDTUtils.Native;
 using PDTUtils.Logic;
-using System.Text;
+using PDTUtils.Native;
+using PDTUtils.Properties;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -19,16 +21,15 @@ namespace PDTUtils.MVVM.ViewModels
         public string RecyclerMessage { get; set; }
         public string TerminalAssetMsg { get; set; }
 
-        string _titoDisabledMsg = "Warning: TiTo DISABLED";
+        readonly string _titoDisabledMsg = "Warning: TiTo DISABLED";
 
         public GeneralSettingsViewModel()
         {
             try
             {
-                if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
-                else
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
+                Thread.CurrentThread.CurrentUICulture = BoLib.getCountryCode() != BoLib.getSpainCountryCode() 
+                    ? new CultureInfo("en-GB") 
+                    : new CultureInfo("es-ES");
 
                 if (BoLib.getCountryCode() != BoLib.getUkCountryCodeC())
                 {
@@ -61,9 +62,9 @@ namespace PDTUtils.MVVM.ViewModels
                     RecyclerMessage = "NO RECYCLER";
                 }
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.Message);
+                Debug.WriteLine(e.Message);
             }
 
             RaisePropertyChangedEvent("HasRecycler");
@@ -83,8 +84,8 @@ namespace PDTUtils.MVVM.ViewModels
             if (BoLib.getCountryCode() == BoLib.getUkCountryCodeC())
             {
                 var rtp = Convert.ToInt32(newRtp as string);
-                NativeWinApi.WritePrivateProfileString("Datapack", "DPercentage", rtp.ToString(), @Properties.Resources.machine_ini);
-                IniFileUtility.HashFile(@Properties.Resources.machine_ini);
+                NativeWinApi.WritePrivateProfileString("Datapack", "DPercentage", rtp.ToString(), Resources.machine_ini);
+                IniFileUtility.HashFile(Resources.machine_ini);
                 
                 RtpMessage = rtp.ToString() + "%";
                 RaisePropertyChangedEvent("RtpMessage");
@@ -97,9 +98,10 @@ namespace PDTUtils.MVVM.ViewModels
         }
         public void DoChangeHandPayThreshold(object o)
         {
-            if (BoLib.getTerminalType() == BoLib.printer())
+            var titoStateValue = BoLib.getTitoStateValue();
+            if (BoLib.getTerminalType() == BoLib.printer() || titoStateValue == 12)
             {
-                if (!BoLib.getHandPayActive())
+                if (titoStateValue != 12 || (BoLib.getCountryCode() != 12)) // AND CC_EURO
                     return;
             }
 
@@ -115,27 +117,33 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 BoLib.setHandPayThreshold((uint)current + (uint)amount);
                 newVal += amount;
-                NativeWinApi.WritePrivateProfileString("Config", "Handpay Threshold", (newVal).ToString(), @Properties.Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "Handpay Threshold", (newVal).ToString(), Resources.birth_cert);
             }
             else
             {
+                if (BoLib.getHandPayThreshold() == 0)
+                    return;
+                
+                if (amount == 0)
+                    amount = 5000;
+
                 BoLib.setHandPayThreshold((uint)current - (uint)amount);
                 newVal -= amount;
-                NativeWinApi.WritePrivateProfileString("Config", "Handpay Threshold", (newVal).ToString(), @Properties.Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "Handpay Threshold", (newVal).ToString(), Resources.birth_cert);
             }
 
-            IniFileUtility.HashFile(@Properties.Resources.birth_cert);
+            IniFileUtility.HashFile(Resources.birth_cert);
             
             HandPayLevel = (newVal / 100).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
             RaisePropertyChangedEvent("HandPayLevel");
         }
-        //I'm losing you and its effort less.
+        
         public ICommand ChangeDivert { get { return new DelegateCommand(DoChangeDivert); } }
-        public void DoChangeDivert(object o)
+        void DoChangeDivert(object o)
         {
             var actionType = o as string;
             var currentThreshold = BoLib.getHopperDivertLevel(0);
-            uint changeAmount = 50;
+            const uint changeAmount = 50;
             var newValue = currentThreshold;
 
             if (actionType == "increment" && currentThreshold < 800)
@@ -150,89 +158,81 @@ namespace PDTUtils.MVVM.ViewModels
                 if (newValue < 200)
                     newValue = 0;
             }
-
+            
             BoLib.setHopperDivertLevel(BoLib.getLeftHopper(), newValue);
-            NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), @Properties.Resources.birth_cert);
-            IniFileUtility.HashFile(@Properties.Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
+            IniFileUtility.HashFile(Resources.birth_cert);
 
             DivertMessage = (newValue).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
             RaisePropertyChangedEvent("DivertMessage");
         }
 
         public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
-        public void DoRecycleNote(object o)
+        void DoRecycleNote(object o)
         {
             var noteType = o as string;
-            var channel = "";
 
-            if (BoLib.getBnvType() == 5)
-            {
-                channel = (noteType == "10") ? "2" : "3";
-                BoLib.shellSendRecycleNote();
-                NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", channel, @Properties.Resources.birth_cert);
-                IniFileUtility.HashFile(@Properties.Resources.birth_cert);
-                RecyclerMessage = (noteType == "10") ? "£10 Recycled" : "£20 Recycled";
-                RaisePropertyChangedEvent("RecyclerMessage");
-            }
+            if (BoLib.getBnvType() != 5) return;
+            
+            var channel = (noteType == "10") ? "2" : "3";
+            BoLib.shellSendRecycleNote();
+            NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", channel, Resources.birth_cert);
+            IniFileUtility.HashFile(Resources.birth_cert);
+            RecyclerMessage = (noteType == "10") ? "£10 Recycled" : "£20 Recycled";
+            RaisePropertyChangedEvent("RecyclerMessage");
         }
-
+        //3 link
         public ICommand TiToState { get { return new DelegateCommand(ToggleTiToState); } }
-        public void ToggleTiToState(object o)
+        void ToggleTiToState(object o)
         {
             var state = o as string;
-            TiToEnabled = (state == "enabled") ? true : false;
+            TiToEnabled = (state == "enabled");
             if (TiToEnabled) // enable
             {
                 var sb = new StringBuilder(20);
-                var res = NativeWinApi.GetPrivateProfileString("Keys", "AssetNo", "", sb, sb.Capacity, @Properties.Resources.machine_ini);
+                NativeWinApi.GetPrivateProfileString("Keys", "AssetNo", "", sb, sb.Capacity, Resources.machine_ini);
                 TerminalAssetMsg = sb.ToString();
 
                 BoLib.setFileAction();
 
                 TerminalAssetMsg = _titoDisabledMsg;
-                NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "1", @Properties.Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "1", Resources.birth_cert);
                 BoLib.setTitoState(1);
-                NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "1", @Properties.Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "1", Resources.birth_cert);
                 BoLib.setTerminalType(1); //printer
-                var printerType = "";
-                var bnvType = "6";
-
-                if (BoLib.getCabinetType() == 3) // ts22_2015
-                    printerType = "3";
-                else
-                    printerType = "4";
                 
-                NativeWinApi.WritePrivateProfileString("Config", "PrinterType", printerType, @Properties.Resources.birth_cert); // 3 = NV200_ST
+                const string bnvType = "6";
+                
+                var printerType = BoLib.getCabinetType() == 3 ? "3" : "4";
+                
+                NativeWinApi.WritePrivateProfileString("Config", "PrinterType", printerType, Resources.birth_cert); // 3 = NV200_ST
                 BoLib.setPrinterType(Convert.ToByte(printerType));
-                NativeWinApi.WritePrivateProfileString("Config", "BnvType", bnvType, @Properties.Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "BnvType", bnvType, Resources.birth_cert);
                 BoLib.setBnvType(Convert.ToByte(bnvType));
-                NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", "0", @Properties.Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", "0", Resources.birth_cert);
                 BoLib.setRecyclerChannel(0);
-
+                
                 BoLib.clearFileAction();
             }
             else // disable
             {
                 BoLib.setFileAction();
-
-                TerminalAssetMsg = _titoDisabledMsg;
-                NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "1", @Properties.Resources.birth_cert);
-                BoLib.setTitoState(1);
-                NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "1", @Properties.Resources.birth_cert);
-                BoLib.setTerminalType(1); //printer
-                var printerType = "";
-                var bnvType = "6";
-
-                if (BoLib.getCabinetType() == 3) // ts22_2015
-                    printerType = "3";
-                else
-                    printerType = "4";
                 
-                NativeWinApi.WritePrivateProfileString("Config", "PrinterType", printerType, @Properties.Resources.birth_cert); // 3 = NV200_ST
+                TerminalAssetMsg = _titoDisabledMsg;
+                NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "1", Resources.birth_cert);
+                BoLib.setTitoState(1);
+                NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "1", Resources.birth_cert);
+                BoLib.setTerminalType(1); //printer
+                
+                const string bnvType = "6";
+
+                var printerType = BoLib.getCabinetType() == 3 ? "3" : "4";
+                
+                NativeWinApi.WritePrivateProfileString("Config", "PrinterType", printerType, Resources.birth_cert); // 3 = NV200_ST
                 BoLib.setPrinterType(Convert.ToByte(printerType));
-                NativeWinApi.WritePrivateProfileString("Config", "BnvType", bnvType, @Properties.Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "BnvType", bnvType, Resources.birth_cert);
                 BoLib.setBnvType(Convert.ToByte(bnvType));
-                NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", "0", @Properties.Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", "0", Resources.birth_cert);
                 BoLib.setRecyclerChannel(0);
 
                 BoLib.clearFileAction();
@@ -242,11 +242,16 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("TerminalAssetMsg");
             //write to ini file
         }
-
+        
         public ICommand TitoUpdate { get { return new DelegateCommand(DoTitoUpdate); } }
-        public void DoTitoUpdate(object o)
+        private void DoTitoUpdate(object o)
         {
-            
+            var titoUpdateForm = new IniSettingsWindow();
+            var showDialog = titoUpdateForm.ShowDialog();
+            if (showDialog != null && (bool)showDialog)
+            {
+                
+            }
         }
     }
 }

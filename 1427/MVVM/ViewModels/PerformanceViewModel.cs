@@ -114,7 +114,7 @@ namespace PDTUtils.MVVM.ViewModels
             _refill.Add(new HelloImJohnnyCashMeters("10p Coins IN",
                                                     BoLib.getReconciliationMeter(15).ToString(),
                                                     BoLib.getReconciliationMeter(43).ToString()));
-            
+
             RaisePropertyChangedEvent("CashRecon");
             RaisePropertyChangedEvent("Refill");
         }
