@@ -226,13 +226,13 @@ namespace PDTUtils.MVVM.ViewModels
 
             var sr = new SpanishRegional();
             BoLib.getDefaultRegionValues(id, ref sr);
-
+            
             _editableLiveRegion = new SpanishRegionalModel(Selected.Community, sr);
             SelectionChanged = true;
-
+            
             SaveChanges();
             LoadSettings();
-
+            
             RaisePropertyChangedEvent("Selected");
             RaisePropertyChangedEvent("EditableLiveRegion");
         }

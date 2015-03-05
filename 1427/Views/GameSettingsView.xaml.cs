@@ -13,8 +13,8 @@ namespace PDTUtils.Views
         public GameSettingsView()
         {
             InitializeComponent();
-            this.DataContext = new GameSettingViewModel();
-            this.Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
+            DataContext = new GameSettingViewModel();
+            Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
         }
     }
 }

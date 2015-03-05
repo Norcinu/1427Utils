@@ -23,19 +23,19 @@ namespace PDTUtils.Logic
 		
 		private HopperUtilsWindow()
 		{
-			this.FontSize = 22;
+			FontSize = 22;
 			InitializeComponent();
 			_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
 		}
 
 		public HopperUtilsWindow(DoorAndKeyStatus kd)
 		{
-			this.FontSize = 14;
+			FontSize = 14;
 			InitializeComponent();
 			_keyDoor = kd;
 			_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
 			
-			base.DataContext = kd;
+			DataContext = kd;
 			
 			ChangeSelectedItem();
 			EmptyLeftHopValue.Content = "£" + BoLib.getHopperFloatLevel(BoLib.getLeftHopper()).ToString("0.00");

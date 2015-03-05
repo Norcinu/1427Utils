@@ -16,21 +16,23 @@
         <conv:NegateBoolValue x:Key="Negate"/>
 
         <Style x:Key="StdHeaderLabel" TargetType="Label">
-            <Setter Property="Control.FontSize" Value="24"/>
-            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="Navy"/>
             <Setter Property="Margin" Value="10,0,0,10" />
-            <Setter Property="Control.Background" Value="LightGray"/>
-            <Setter Property="Control.Width" Value="295"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Width" Value="295"/>
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="2"/>
         </Style>
 
         <Style x:Key="StdCheckBox" TargetType="CheckBox">
-            <Setter Property="Control.FontSize" Value="24"/>
-            <Setter Property="Control.Foreground" Value="Navy"/>
-            <Setter Property="Control.Background" Value="LightGray"/>
-            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
 
     </UserControl.Resources>
@@ -38,13 +40,13 @@
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <ListView Width="305" ItemsSource="{Binding Settings}" SelectedIndex="{Binding SelectedIndex}" Margin="2,2,20,2" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <ListView Width="305" ItemsSource="{Binding Settings}" SelectedIndex="{Binding SelectedIndex}" Margin="2,2,20,20" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Game Name" Width="295">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}" Margin="5" Width="290" BorderBrush="Black" BorderThickness="2" />
+                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}" Margin="5" Width="260" BorderBrush="Black" BorderThickness="2" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -53,6 +55,8 @@
                 </ListView>
 
                 <StackPanel Margin="0,10,0,10">
+                    <Label Style="{StaticResource StdHeaderLabel}" FontSize="46" Margin="0,2,0,20" Width="420" Content="Current Selection" />
+                    
                     <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,0">
                         <StackPanel Orientation="Horizontal" Margin="0,10,0,10" HorizontalAlignment="Center">
                             <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding SelectedGameName}" Margin="35,0,10,0"/>
@@ -60,7 +64,7 @@
                         </StackPanel>
                     </Border>
 
-                    <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,0">
+                    <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,2,2,2">
                         <StackPanel Orientation="Horizontal" Margin="0,10,0,10"  HorizontalAlignment="Center">
                             <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsActiveGame, Mode=TwoWay}">
                                 <Label Style="{StaticResource StdHeaderLabel}" Content="Is Active Game" Margin="15,0,10,0"/>

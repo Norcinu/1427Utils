@@ -29,11 +29,26 @@ void addHandPayToEDC(unsigned int value)
 	HandPayToEdc += value;
 }
 
-DLLEXPORT bool performHandPay()
+
+bool canPerformHandPay()
 {
-	if (GetTerminalType() != PRINTER)
+	auto termType = GetTerminalType();
+	auto titoState = GetTiToEnabledState();
+	auto country = GetCountry();
+
+	return (termType != PRINTER || titoState == TITO_ENABLED_NotREGISTERED);
+}
+
+
+bool performHandPay()
+{
+	auto termType = GetTerminalType();
+	auto titoState = GetTiToEnabledState();
+	auto country = GetCountry();
+
+	if (termType != PRINTER || titoState == TITO_ENABLED_NotREGISTERED)
 	{
-		if ((GetHandPayActive()) || (GetCountry() == CC_EURO))
+		if (GetHandPayActive() || country == CC_EURO || titoState == TITO_ENABLED_NotREGISTERED)
 		{
 			auto totalCredits = GetBankDeposit() + GetCredits();
 			SendHeaderOnly(HANDPAY_CONFIRM, 1);

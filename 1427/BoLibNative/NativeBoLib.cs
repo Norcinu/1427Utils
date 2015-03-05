@@ -319,6 +319,9 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint getTitoStateValue();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool canPerformHandPay();
         
         /************************************************************************/
         /*							Set methods                                 */

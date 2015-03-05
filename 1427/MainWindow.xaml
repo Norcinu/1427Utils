@@ -477,6 +477,11 @@
 
             <TabItem Header="System Settings" MinWidth="100">
                 <TabControl>
+
+                    <TabItem Header="General">
+                        <view:GeneralSettingsView/>
+                    </TabItem>
+                    
                     <TabItem Header="System Time" MinWidth="150" >
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center"  Margin="50">
                             <uc:SetTimeControl Name="SetTimeControl" Margin="30"/>
@@ -501,7 +506,7 @@
 								SmallChange="5" 
 								Margin="25" />
 
-                            <ProgressBar Height="10" Name="ProgressBar1" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" HorizontalAlignment="Center"/>
+                            <ProgressBar Height="10" Width="500" Value="{Binding ElementName=MasterVolumeSlider, Path=Value}" HorizontalAlignment="Center"/>
 
                             <StackPanel Orientation="Horizontal" Margin="25" HorizontalAlignment="Center">
                                 <Label Content="Current Volume: " FontSize="28"/>
@@ -511,9 +516,7 @@
 
                         </StackPanel>
                     </TabItem>
-                    <TabItem Header="General">
-                        <view:GeneralSettingsView/>
-                    </TabItem>
+                   
                 </TabControl>
             </TabItem>
 
@@ -656,6 +659,7 @@
             <!--<Button Content="System Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSyste_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />-->
             <!--<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />-->
             <Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
+            <Button Content="Serial Dump" Width="170" Height="35" FontSize="22" Click="ButtonBase_OnClick"></Button>
             <!--<Button Content="Reboot" Name="btnReboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnReboot_Click"/>-->
         </StackPanel>
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -98,13 +99,13 @@ namespace PDTUtils.MVVM.ViewModels
         }
         public void DoChangeHandPayThreshold(object o)
         {
-            var titoStateValue = BoLib.getTitoStateValue();
-            if (BoLib.getTerminalType() == BoLib.printer() || titoStateValue == 12)
+            if (!BoLib.canPerformHandPay() || BoLib.getTerminalType() == 1)
             {
-                if (titoStateValue != 12 || (BoLib.getCountryCode() != 12)) // AND CC_EURO
-                    return;
+                var _msgBox = new WpfMessageBoxService();
+                _msgBox.ShowMessage(@"UNABLE TO CHANGE HANDPAY THRESHOLD. CHECK PRINTER OR COUNTRY SETTINGS", "ERROR");
+                return;
             }
-
+            
             var type = o as string;
             var current = (int)BoLib.getHandPayThreshold();
             var newVal = current;

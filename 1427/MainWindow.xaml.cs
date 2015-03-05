@@ -15,8 +15,8 @@ namespace PDTUtils
 	/// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
+    public partial class MainWindow
+	{
 	    bool _sharedMemoryOnline = false;
         string _errorMessage = "";
 	    double WindowHeight { get; set; }
@@ -162,15 +162,7 @@ namespace PDTUtils
                 LogController.IsLoaded = true;
             }
 		}
-        
-		private void btnHopperOK_Click(object sender, RoutedEventArgs e)
-		{
-			var result = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
-			if (result == MessageBoxResult.Yes)
-			{
-			}
-		}
-		
+        		
 		private void Games_Click(object sender, RoutedEventArgs e)
 		{
 			_gameStatistics.ParsePerfLog();
@@ -204,7 +196,7 @@ namespace PDTUtils
         
         private void WindowMain_Closing(object sender, CancelEventArgs e)
         {
-            if (_keyDoorWorker.Running == true)
+            if (_keyDoorWorker.Running)
                 _keyDoorWorker.Running = false;
                 
             if (_keyDoorThread != null)
@@ -236,17 +228,6 @@ namespace PDTUtils
             BoLib.closeSharedMemory();
         }
         
-		private void modifySettingsButton_Click(object sender, RoutedEventArgs e)
-		{
-			/*_machineIni.ParseIni();
-            if (_machineIni.ChangesPending == false)
-            {
-                // commit changes to memory
-                Thread saver = new Thread(new ThreadStart(DiskCommit.SaveAndReboot));
-                MessageBox.Show("Cabinet restarting", "System Notice");
-            }*/
-		}
-
 		private void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
             UcMainPage.IsEnabled = false;
@@ -431,86 +412,7 @@ namespace PDTUtils
             Enabler.EnableCategory(Categories.System);
 		}
         
-		private void btnUpdateFiles_Click(object sender, RoutedEventArgs e)
-		{
-		//	if (_updateFiles.DoSoftwareUpdatePreparation() == false)
-		//	{
-		//		MessageBox.Show("Could not find update.ini " + UpdateFiles.UpdateIni);
-		//	}
-		//	else
-		//	{   
-                /*btnUpdateFiles.IsEnabled = false;
-				btnUpdateFiles.Visibility = Visibility.Hidden;
-				btnRollback.IsEnabled = false;
-				btnRollback.Visibility = Visibility.Hidden;
-				btnCancelUpdate.IsEnabled = true;
-				btnCancelUpdate.Visibility = Visibility.Visible;
-				btnPerformUpdate.IsEnabled = true;
-				btnPerformUpdate.Visibility = Visibility.Visible;
-				stpUpdate.IsEnabled = true;
-				stpUpdate.Visibility = Visibility.Visible;
-				treeUpdateSelectFiles.Visibility = Visibility.Visible;
-				treeUpdateSelectFiles.IsEnabled = true;
-				lblUpdateSelect.IsEnabled = true;
-				lblUpdateSelect.Visibility = Visibility.Visible;*/
-		//	}
-		}
 		
-		private void UpdateCheckBoxSelected_Checked(object sender, RoutedEventArgs e)
-		{
-		//	if (btnPerformUpdate.IsEnabled == false)
-		//		btnPerformUpdate.IsEnabled = true;
-		}
-		
-		private void UpdateCheckBoxSelected_UnChecked(object sender, RoutedEventArgs e)
-		{
-			if (_updateFiles.FileCount > 0)
-				_updateFiles.FileCount--;
-            
-			//if (btnPerformUpdate.IsEnabled == true && _updateFiles.FileCount == 0)
-			//	btnPerformUpdate.IsEnabled = false;
-		}
-		
-		private void btnPerformUpdate_Click(object sender, RoutedEventArgs e)
-		{
-			/*var checkboxes = Extension.GetChildOfType<CheckBox>(treeUpdateSelectFiles);
-			var activeCount = 0;
-			foreach (var chk in checkboxes)
-			{
-				if (chk.IsChecked.Value == true)
-				{
-					activeCount++;
-				}
-			}
-            
-			if (activeCount == 0)
-			{
-				btnPerformUpdate.IsEnabled = false;
-			}
-            
-			_updateFiles.DoSoftwareUpdate();*/
-		}
-        
-		private void btnPerformUpdateCancel_Click(object sender, RoutedEventArgs e)
-        {
-		/*	_updateFiles.DoCancelUpdate();
-			if (treeUpdateSelectFiles.Items.Count > 0)
-				treeUpdateSelectFiles.Items.Clear();
-		    
-			treeUpdateSelectFiles.IsEnabled = false;
-			treeUpdateSelectFiles.Visibility = Visibility.Hidden;
-			btnPerformUpdate.IsEnabled = false;
-			btnPerformUpdate.Visibility = Visibility.Hidden;
-			btnCancelUpdate.IsEnabled = false;
-			btnCancelUpdate.Visibility = Visibility.Hidden;
-			lblUpdateSelect.Visibility = Visibility.Hidden;
-		    
-			btnRollback.IsEnabled = true;
-			btnRollback.Visibility = Visibility.Visible;
-			btnUpdateFiles.IsEnabled = true;
-			btnUpdateFiles.Visibility = Visibility.Visible;*/
-		}
-        
         ICommand EnableScreenshot
         {
             get
@@ -593,9 +495,15 @@ namespace PDTUtils
             }
 
             if (BoLib.refillKeyStatus() != 0 || BoLib.getDoorStatus() != 0) return;
-            
             _keyDoorWorker.PrepareForReboot = false;
             DiskCommit.SaveAndReboot();
         }
-	}
+
+	    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+	    {
+            //BoLib.setSerialDumpByte();
+            Application.Current.Shutdown();
+            //Close();
+	    }
+    }
 }

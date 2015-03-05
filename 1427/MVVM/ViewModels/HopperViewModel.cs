@@ -128,7 +128,7 @@ namespace PDTUtils.MVVM.ViewModels
         
         public ICommand ToggleRefillStatus
         {
-            get { return new DelegateCommand(o => this.NotRefilling = !this.NotRefilling); }
+            get { return new DelegateCommand(o => NotRefilling = !NotRefilling); }
         }
         
         public void TabControlSelectionChanged(object sender)
@@ -156,7 +156,7 @@ namespace PDTUtils.MVVM.ViewModels
                     System.Diagnostics.Debug.WriteLine("SELECTED LEFT HOPPER (£1)");
                     System.Diagnostics.Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel(0)));
                 
-                    EmptyLeftTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+                    EmptyLeftTimer.Elapsed += (sender, e) =>
                     {
                         if (BoLib.getHopperDumpSwitchActive() > 0)
                         {
@@ -201,7 +201,7 @@ namespace PDTUtils.MVVM.ViewModels
                     if (EmptyRightTimer == null)
                     {
                         EmptyRightTimer = new System.Timers.Timer(100.0);
-                        EmptyRightTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+                        EmptyRightTimer.Elapsed += (sender, e) =>
                         {
                             if (BoLib.getHopperDumpSwitchActive() > 0)
                             {

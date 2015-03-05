@@ -1,13 +1,13 @@
 ﻿<Window x:Class="SerialExtractionTool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Serial Data Extraction" Height="350" Width="525" DataContext="{Binding}"
+        xmlns:views="clr-namespace:SerialExtractionTool.Views"
+        xmlns:viewModels="clr-namespace:SerialExtractionTool.ViewModels"
+        Title="Serial Data Extraction" Height="350" Width="525"
         WindowState="Maximized">
-    <Grid>
-        <StackPanel>
-            <Label FontSize="42" HorizontalAlignment="Center" Margin="10,0,10,10">EXTRACT VIA SERIAL</Label>
-            <Button FontSize="32" Width="175" Margin="10">Extract</Button>
-            <Button FontSize="32" Width="175" Margin="10">Exit</Button>
-        </StackPanel>
+    
+    <Grid DataContext="{StaticResource MenuViewModel}">
+        <views:MenuScreenView></views:MenuScreenView>    
     </Grid>
+
 </Window>

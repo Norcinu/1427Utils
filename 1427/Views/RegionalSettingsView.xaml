@@ -9,27 +9,27 @@
     
     <UserControl.Resources>
         <Style x:Key="StdLabel" TargetType="Label">
-            <Setter Property="Control.Height" Value="38"/>
-            <Setter Property="Control.FontSize" Value="22"/>
-            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Control.Margin" Value="10"></Setter>
-            <Setter Property="Control.Foreground" Value="White"/>
-            <Setter Property="Control.Background" Value="Red"/>
-            <Setter Property="Control.BorderBrush" Value="Black"/>
-            <Setter Property="Control.BorderThickness" Value="2"/>
-            <Setter Property="Control.MinWidth" Value="200"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="MinWidth" Value="200"/>
         </Style>
         
         <Style x:Key="StdHeaderLabel" TargetType="Label">
-            <Setter Property="Control.Height" Value="75"/>
-            <Setter Property="Control.FontSize" Value="36"/>
-            <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Control.Margin" Value="25"></Setter>
-            <Setter Property="Control.Foreground" Value="Navy"/>
-            <Setter Property="Control.Background" Value="LightBlue"/>
-            <Setter Property="Control.MinWidth" Value="200"/>
+            <Setter Property="Height" Value="75"/>
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="25"></Setter>
+            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Background" Value="LightBlue"/>
+            <Setter Property="MinWidth" Value="200"/>
         </Style>
 
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
@@ -77,7 +77,7 @@
                     </ListView>
                 </Grid>
             </StackPanel>
-
+            
             <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="btnSetActive" Width="150" FontSize="18" Height="35" Margin="25"
 									Command="{Binding SetActiveRegion}"
