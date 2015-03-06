@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Impls;
 using PDTUtils.Native;
-using System.Windows.Data;
 
 namespace PDTUtils.Logic
 {
@@ -14,10 +13,10 @@ namespace PDTUtils.Logic
 	/// </summary>
 	public partial class HopperUtilsWindow : Window
 	{
-		DoorAndKeyStatus _keyDoor = new DoorAndKeyStatus();
+		//DoorAndKeyStatus _keyDoor = new DoorAndKeyStatus();
 		string[] _contentHeaders = new string[3] { "Set Hopper Floats", "Empty Hoppers", "Refill Hoppers" };
 		bool[] _clearHoopers = new bool[2] { false, false };
-		System.Timers.Timer _switchTimer = new System.Timers.Timer();
+		Timer _switchTimer = new Timer();
 		HopperImpl _hopperImpl = new HopperImpl();
 		bool _doLeft = true;
 		
@@ -32,7 +31,7 @@ namespace PDTUtils.Logic
 		{
 			FontSize = 14;
 			InitializeComponent();
-			_keyDoor = kd;
+		//	_keyDoor = kd;
 			_switchTimer.Elapsed += timer_CheckHopperDumpSwitch;
 			
 			DataContext = kd;
@@ -162,7 +161,7 @@ namespace PDTUtils.Logic
 			}
 			else
 			{
-				if (_doLeft == true)
+				if (_doLeft)
 				{
 					var result = BoLib.getRequestEmptyLeftHopper();
 					if (result == 0 && BoLib.getHopperFloatLevel(BoLib.getLeftHopper()) == 0)

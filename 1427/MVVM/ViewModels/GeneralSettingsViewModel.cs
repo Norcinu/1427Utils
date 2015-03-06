@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -92,7 +91,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("RtpMessage");
             }
         }
-
+        
         public ICommand ChangeHandPayThreshold
         {
             get { return new DelegateCommand(DoChangeHandPayThreshold); }
@@ -182,7 +181,7 @@ namespace PDTUtils.MVVM.ViewModels
             RecyclerMessage = (noteType == "10") ? "£10 Recycled" : "£20 Recycled";
             RaisePropertyChangedEvent("RecyclerMessage");
         }
-        //3 link
+        
         public ICommand TiToState { get { return new DelegateCommand(ToggleTiToState); } }
         void ToggleTiToState(object o)
         {
@@ -249,9 +248,11 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var titoUpdateForm = new IniSettingsWindow();
             var showDialog = titoUpdateForm.ShowDialog();
-            if (showDialog != null && (bool)showDialog)
+            if (showDialog != null && (bool)!showDialog)
             {
-                
+                var assetNumber = titoUpdateForm.TxtNewValue.Text;
+                //validate value here and update accordingly.
+                //create a keyboard with just a numberpad.
             }
         }
     }

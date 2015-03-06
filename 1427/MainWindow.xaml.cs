@@ -157,8 +157,8 @@ namespace PDTUtils
                 LogController.SetPlayedLog();
                 LogController.SetWinningLog();
                 LogController.SetHandPayLog();
-                LogController.SetCashlessLibLog();
-                LogController.SetVizTechLog();
+                //LogController.SetCashlessLibLog();
+                //LogController.SetVizTechLog();
                 LogController.IsLoaded = true;
             }
 		}

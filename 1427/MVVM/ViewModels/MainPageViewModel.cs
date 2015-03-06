@@ -189,7 +189,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => GetErrorMessage()); }
         }
-        
+        //rofl ramjamalam is sitting down to do some work. victor will leave at 6 :( :( :( :(
         void GetErrorMessage()
         {
             var errorCode = BoLib.getError();
@@ -316,14 +316,19 @@ namespace PDTUtils.MVVM.ViewModels
         void AddDenomButton(object button)
         {
             var b = button as Button;
-            var str = b.Content as string;
-
-            if (str[0] != '£' && str[0] != '€')
-                Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
-            else
+            //var str = b.Content as string;
+            var textBox = b.Content as TextBlock;
+            if (textBox != null)
             {
-                Pennies = Convert.ToInt32(str.Substring(1));
-                Pennies *= 100;
+                var str = textBox.Text;
+
+                if (str[0] != '£' && str[0] != '€')
+                    Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
+                else
+                {
+                    Pennies = Convert.ToInt32(str.Substring(1));
+                    Pennies *= 100;
+                }
             }
 
             BoLib.setUtilsAdd2CreditValue((uint)Pennies);
@@ -332,7 +337,8 @@ namespace PDTUtils.MVVM.ViewModels
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
             Reserve = (int)BoLib.getReserveCredits();
-            TotalCredits = Bank + Credits + Reserve;
+            TotalCredits = Bank + Credits;// + Reserve;
+            
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");
             RaisePropertyChangedEvent("Reserve");
@@ -374,6 +380,5 @@ namespace PDTUtils.MVVM.ViewModels
                 _refillTimer.Enabled = false;
             };
         }
-
     }
 }

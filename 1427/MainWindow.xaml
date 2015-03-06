@@ -351,7 +351,7 @@
                 </ScrollViewer>
             </TabItem>
             
-            <TabItem Header="TiTo" MinWidth="150">
+            <!--<TabItem Header="TiTo" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
                         <ListView ItemsSource="{Binding Path=LogController.CashLess}" MinHeight="600" Width="710" FontSize="20">
@@ -411,7 +411,8 @@
                         </ListView>
                     </StackPanel>
                 </ScrollViewer>
-            </TabItem>
+            </TabItem> -->
+            
             <!--<TabItem Header="Image History" MinWidth="150">
                 <view:ScreenshotView x:Name="ucScreenshotView" Grid.Row="1" Grid.Column="1" Margin="25" />
             </TabItem>-->
@@ -432,10 +433,10 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-
-            <TabItem Header="Birth Cert" MinWidth="100">
+            
+            <!--<TabItem Header="Birth Cert" MinWidth="100">
                 <view:BirthCertView />
-            </TabItem>
+            </TabItem>-->
             <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100">
                 <!--IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}">-->
                 <!--Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
@@ -659,7 +660,7 @@
             <!--<Button Content="System Info" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Name="btnSystem" Click="btnSyste_Click" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />-->
             <!--<Button Content="Game History" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnScreenShots_Click" Name="btnScreenShots" />-->
             <Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
-            <Button Content="Serial Dump" Width="170" Height="35" FontSize="22" Click="ButtonBase_OnClick"></Button>
+            <!--<Button Content="Serial Dump" Width="170" Height="35" FontSize="22" Click="ButtonBase_OnClick"></Button>-->
             <!--<Button Content="Reboot" Name="btnReboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnReboot_Click"/>-->
         </StackPanel>
 

@@ -11,12 +11,12 @@ namespace PDTUtils.Views
         public HopperAdminView()
         {
             InitializeComponent();
-            this.DataContext = new HopperViewModel();
+            DataContext = new HopperViewModel();
         }
         
         private void cmbHoppers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var s = this.DataContext as HopperViewModel;
+            var s = DataContext as HopperViewModel;
             var b = s.EmptyingHoppers;
             //var str = cmbHoppers.SelectedValue.Content as string;
             /*var cmb = sender as ComboBox;

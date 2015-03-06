@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
+using Timer = System.Timers.Timer;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -18,9 +20,9 @@ namespace PDTUtils.MVVM.ViewModels
         string _leftCoinsAdded;
         string _rightCoinsAdded;
 
-        System.Timers.Timer EmptyLeftTimer;
-        System.Timers.Timer EmptyRightTimer;
-        System.Timers.Timer RefillTimer;
+        Timer EmptyLeftTimer;
+        Timer EmptyRightTimer;
+        Timer RefillTimer;
 
         NumberFormatInfo Nfi { get; set; }
         CultureInfo CurrentCulture { get; set; }
@@ -30,6 +32,9 @@ namespace PDTUtils.MVVM.ViewModels
         public bool NotRefilling { get; set; }        // Disabling tabs.
         public HopperModel LeftHopper { get; set; }     // £1 Hopper
         public HopperModel RightHopper { get; set; }    // 10p Hopper
+        
+        public string SelHopperValue { get; set; }
+
         public bool EmptyingHoppers
         {
             get { return _emptyingHoppers; }
@@ -82,6 +87,12 @@ namespace PDTUtils.MVVM.ViewModels
         
         public HopperViewModel()
         {
+            CurrentCulture = BoLib.getCountryCode() == BoLib.getSpainCountryCode()
+                ? new CultureInfo("es-ES")
+                : new CultureInfo("en-GB");
+
+            Nfi = CurrentCulture.NumberFormat;
+
             EndRefill = false;
             _emptyingHoppers = false;
             NotRefilling = true;
@@ -91,11 +102,7 @@ namespace PDTUtils.MVVM.ViewModels
             AreWeRefilling = false;    
             SelectedTabIndex = 0;
 
-            CurrentCulture = BoLib.getCountryCode() == BoLib.getSpainCountryCode() 
-                ? new CultureInfo("es-ES") 
-                : new CultureInfo("en-GB");
-
-            Nfi = CurrentCulture.NumberFormat;
+            SelHopperValue = "Hopper Level: " + Convert.ToDecimal(BoLib.getHopperFloatLevel(0)).ToString("C", Nfi);
             
             LargeHopper = "£1 Hopper (LEFT)";
             SmallHopper = "10p Hopper (RIGHT)";
@@ -105,12 +112,13 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("SmallHopper");
             RaisePropertyChangedEvent("NotRefilling");
             RaisePropertyChangedEvent("AreWeReflling");
+            RaisePropertyChangedEvent("SelHopperValue");
 
             HopperList = new List<string>();
             var leftHopperText = (BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "SMALL HOPPER" : "£1 Hopper (LEFT)";
-            var rightHopperText = (BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "LARGE HOPPER" : "£2 Hopper (RIGHT)";
+            //var rightHopperText = (BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "LARGE HOPPER" : "£2 Hopper (RIGHT)";
             HopperList.Add(leftHopperText);
-            HopperList.Add(rightHopperText);
+            //HopperList.Add(rightHopperText);
             RaisePropertyChangedEvent("HopperList");
             
             const decimal initial = 0.00M;
@@ -146,23 +154,23 @@ namespace PDTUtils.MVVM.ViewModels
             var cb = hopper as ComboBox;
             var dumpSwitchPressed = false;
             _emptyingHoppers = true;
-
+            
             if (EmptyLeftTimer == null)
-                EmptyLeftTimer = new System.Timers.Timer(100.0);
+                EmptyLeftTimer = new Timer(100.0);
             
             switch (cb.SelectedIndex)
             {
                 case 0:
-                    System.Diagnostics.Debug.WriteLine("SELECTED LEFT HOPPER (£1)");
-                    System.Diagnostics.Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel(0)));
-                
+                    Debug.WriteLine("SELECTED LEFT HOPPER (£1)");
+                    Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel(0)));
+                    
                     EmptyLeftTimer.Elapsed += (sender, e) =>
                     {
                         if (BoLib.getHopperDumpSwitchActive() > 0)
                         {
                             DumpSwitchMessage = "Press Coin Dump Button to Continue";
                             RaisePropertyChangedEvent("DumpSwitchMessage");
-                        
+
                             if (BoLib.refillKeyStatus() > 0 && BoLib.getDoorStatus() > 0)
                             {
                                 if (BoLib.getSwitchStatus(2, 0x20) > 0)
@@ -174,33 +182,35 @@ namespace PDTUtils.MVVM.ViewModels
                                 Thread.Sleep(2);
                             }
                         }
-
+                        
                         if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 || !dumpSwitchPressed) return;
                         BoLib.setRequestEmptyLeftHopper();
                         
                         if (BoLib.getRequestEmptyLeftHopper() > 0 && BoLib.getHopperFloatLevel(0) > 0)
                         {
-                            Thread.Sleep(2);
-                            System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
+                          //  Thread.Sleep(2);
+                          //  System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
+                            SelHopperValue = "Hopper Level: " + Convert.ToDecimal(BoLib.getHopperFloatLevel(0));
+                            RaisePropertyChangedEvent("SelHopperValue");
                         }
                         else if (BoLib.getHopperFloatLevel(0) == 0)
                         {
                             DumpSwitchMessage = "Hopper Empty";
                             RaisePropertyChangedEvent("DumpSwitchMessage");
-                            var t = sender as System.Timers.Timer;
+                            var t = sender as Timer;
                             t.Enabled = false;
                             dumpSwitchPressed = false;
                         }
                     };
                     EmptyLeftTimer.Enabled = true;
 #if DEBUG
-                    System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
+                    Debug.WriteLine(BoLib.getHopperFloatLevel(0));
                     break;
 #endif
                 case 1:
                     if (EmptyRightTimer == null)
                     {
-                        EmptyRightTimer = new System.Timers.Timer(100.0);
+                        EmptyRightTimer = new Timer(100.0);
                         EmptyRightTimer.Elapsed += (sender, e) =>
                         {
                             if (BoLib.getHopperDumpSwitchActive() > 0)
@@ -219,26 +229,28 @@ namespace PDTUtils.MVVM.ViewModels
                                     Thread.Sleep(2);
                                 }
                             }
-
+                            
                             if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 || !dumpSwitchPressed) return;
                             BoLib.setRequestEmptyRightHopper();
                             
                             if (BoLib.getRequestEmptyRightHopper() > 0 && BoLib.getHopperFloatLevel(2) > 0)
                             {
-                                Thread.Sleep(2);
-                                System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(2));
+                            //    Thread.Sleep(2);
+                            //    System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(2));
+                                SelHopperValue = "Hopper Level: " + Convert.ToDecimal(BoLib.getHopperFloatLevel(0));
+                                RaisePropertyChangedEvent("SelHopperValue");
                             }
                             else if (BoLib.getHopperFloatLevel(2) == 0)
                             {
                                 DumpSwitchMessage = "Hopper Empty";
                                 RaisePropertyChangedEvent("DumpSwitchMessage");
-                                var t = sender as System.Timers.Timer;
+                                var t = sender as Timer;
                                 t.Enabled = false;
                                 dumpSwitchPressed = false;
                             }
                         };
                     }
-                    System.Diagnostics.Debug.WriteLine("SELECTED RIGHT HOPPER (10p)");
+                    Debug.WriteLine("SELECTED RIGHT HOPPER (10p)");
                     EmptyRightTimer.Enabled = true;
                     break;
             }
@@ -255,7 +267,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (RefillTimer == null)
             {
-                RefillTimer = new System.Timers.Timer(100) {Enabled = true};
+                RefillTimer = new Timer(100) {Enabled = true};
             }
             
             NotRefilling = false;
