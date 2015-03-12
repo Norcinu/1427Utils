@@ -17,6 +17,13 @@ def main():
 	write_csharp_file()
 
 
+def parse_file():
+	__debug__ == '__makinmdm,sdfs aiod sfsdaf
+	sdfadsf
+	]df
+	sda,ds
+	das'
+
 if __name__ == '__main__':
 	main()
 

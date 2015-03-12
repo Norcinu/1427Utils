@@ -125,4 +125,10 @@ void setRequestUtilsAdd2Credit()
     SetRequestUtilsAdd2Credit();
 }
 
+/*
+!!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!
+void setPayoutCoinValues(unsigned int WhichOne, unsigned int Value)
+{
+	SetPayoutCoinValues(WhichOne, Value);
+}*/
 

@@ -127,4 +127,5 @@ DLLEXPORT unsigned int	getUtilsAdd2CreditValue();
 DLLEXPORT unsigned long getLastGameModel(int index);
 DLLEXPORT unsigned long getReserveCredits();
 DLLEXPORT bool			isBackOfficeAvilable();
+//DLLEXPORT unsigned int	getPayoutCoinValues(unsigned int WhichOne);
 

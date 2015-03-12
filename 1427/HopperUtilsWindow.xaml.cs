@@ -140,7 +140,7 @@ namespace PDTUtils.Logic
 
 			var empty = new Button() { Content = "Empty", Width = 75 };
 			empty.Click += button_DoEvent;
-		
+		        
 			StackPanel1.Children.Add(left);
 			StackPanel1.Children.Add(right);
 			StackPanel1.Children.Add(chkLeft);
@@ -184,11 +184,11 @@ namespace PDTUtils.Logic
 
 				if (BoLib.getRequestEmptyLeftHopper() > 0)
 				{
-					EmptyLeftHopValue.Dispatcher.Invoke((DelegateUpdate)EmptyHoppers, new object[] { EmptyLeftHopValue });
+					EmptyLeftHopValue.Dispatcher.Invoke((DelegateUpdate)EmptyHoppers, EmptyLeftHopValue);
 				}
 				else if (BoLib.getRequestEmptyRightHopper() > 0)
 				{
-					EmptyRightHopValue.Dispatcher.Invoke((DelegateUpdate)EmptyHoppers, new object[] { EmptyRightHopValue });
+					EmptyRightHopValue.Dispatcher.Invoke((DelegateUpdate)EmptyHoppers, EmptyRightHopValue);
 				}
 			}
 		}
@@ -198,7 +198,7 @@ namespace PDTUtils.Logic
 		{
 			l.Foreground = Brushes.Aqua;
 			l.Content = "Hopper Value : £" + BoLib.getHopperFloatLevel(
-				(_doLeft == true) ? BoLib.getLeftHopper() : BoLib.getRightHopper()).ToString("0.00");
+				_doLeft ? BoLib.getLeftHopper() : BoLib.getRightHopper()).ToString("0.00");
 		}
 
 		private void btnSetLeft_Click(object sender, RoutedEventArgs e)

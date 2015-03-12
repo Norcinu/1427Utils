@@ -18,43 +18,25 @@ namespace PDTUtils.Native
 		public string Path { get; set; }
 	}
     
-    //[StructLayout(LayoutKind.Explicit)]
     [StructLayout(LayoutKind.Sequential)]
     struct SpanishRegional
     {
-        //[FieldOffset(0)]
         public uint MaxStake;
-        //[FieldOffset(4)]
         public uint MaxStakeFromBank;
-        //[FieldOffset(8)]
         public uint StakeMask;
-        //[FieldOffset(12)]
         public uint MaxWinPerStake;
-        //[FieldOffset(16)]
         public uint MaxCredit;
-        //[FieldOffset(20)]
         public uint MaxReserve;
-        //[FieldOffset(24)]
         public uint MaxBank;
-        //[FieldOffset(28)]
         public uint MaxPlayerPoints;
-        //[FieldOffset(32)]
         public uint NoteEscrow;
-        //[FieldOffset(36)]
         public uint Rtp;
-        //[FieldOffset(40)]
         public uint Gtime;
-        //[FieldOffset(44)]
         public uint ChangeValue;
-        //[FieldOffset(48)]
         public uint MaxNote;
-        //[FieldOffset(52)]
         public uint BankToCredits;
-        //[FieldOffset(56)]
         public uint ChargeConvertPoints;
-        //[FieldOffset(60)]
         public uint CycleSize;
-        //[FieldOffset(64)]
         public uint FastTransfer;
     }
     
@@ -75,7 +57,7 @@ namespace PDTUtils.Native
         WageredSt,
         WonSt
     }
-
+    
     static class BoLib
     {
 #if DEBUG
@@ -84,235 +66,235 @@ namespace PDTUtils.Native
         const string dllName = "BoLibDll.dll";
 #endif
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int setEnvironment();
+        public static extern int setEnvironment();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int closeSharedMemory();
+        public static extern int closeSharedMemory();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getDoorStatus();
+        public static extern int getDoorStatus();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getCountryCode();
+        public static extern int getCountryCode();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         [return: MarshalAs(UnmanagedType.LPStr)]
-        public unsafe static extern string getCountryCodeStr();
+        public static extern string getCountryCodeStr();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int refillKeyStatus();
+        public static extern int refillKeyStatus();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getError();
+        public static extern int getError();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         [return: MarshalAs(UnmanagedType.LPStr)]
-        public unsafe static extern string getCurrentError();
+        public static extern string getCurrentError();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         [return: MarshalAs(UnmanagedType.LPStr)]
-        public unsafe static extern string getErrorText();
+        public static extern string getErrorText();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         [return: MarshalAs(UnmanagedType.LPStr)]
-        public unsafe static extern string getLastGame(int index);
+        public static extern string getLastGame(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U4)]
-        public unsafe static extern UInt32 getWinningGame(int index);
+        public static extern UInt32 getWinningGame(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern ulong getPerformanceMeter(byte offset);
+        public static extern ulong getPerformanceMeter(byte offset);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern ulong getGamePerformanceMeter(uint offset, uint meterType);
+        public static extern ulong getGamePerformanceMeter(uint offset, uint meterType);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getLocalMasterVolume();
+        public static extern int getLocalMasterVolume();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U4)]
-        public unsafe static extern UInt32 getGameModel(int index);
+        public static extern UInt32 getGameModel(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getGameTime(int index);
+        public static extern UInt32 getGameTime(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getGameDate(int index);
+        public static extern UInt32 getGameDate(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getGameCreditLevel(int index);
+        public static extern uint getGameCreditLevel(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getGameWager(int index);
+        public static extern uint getGameWager(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getSwitchStatus(byte offset, byte mask);
+        public static extern uint getSwitchStatus(byte offset, byte mask);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getCredit();
+        public static extern int getCredit();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getBank();
+        public static extern int getBank();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getLastNote(int index);
+        public static extern uint getLastNote(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint[] getLastNotes();
+        public static extern uint[] getLastNotes();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getHopperFloatLevel(byte hopper);
+        public static extern uint getHopperFloatLevel(byte hopper);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getHopperDivertLevel(byte hopper);
+        public static extern uint getHopperDivertLevel(byte hopper);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte getHopperDumpSwitchActive();
+        public static extern byte getHopperDumpSwitchActive();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte getHopperDumpSwitch();
+        public static extern byte getHopperDumpSwitch();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getRequestEmptyLeftHopper();
+        public static extern uint getRequestEmptyLeftHopper();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getRequestEmptyRightHopper();
+        public static extern uint getRequestEmptyRightHopper();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte getBnvType();
+        public static extern byte getBnvType();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getRecyclerFloatValue();
+        public static extern uint getRecyclerFloatValue();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getRefillCtr(byte hopper);
+        public static extern int getRefillCtr(byte hopper);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte getLeftHopper();
+        public static extern byte getLeftHopper();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte getMiddleHopper();
+        public static extern byte getMiddleHopper();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte getRightHopper();
+        public static extern byte getRightHopper();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getMinPayoutValue();
+        public static extern uint getMinPayoutValue();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getCashIn(int meter);
+        public static extern UInt32 getCashIn(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getCashOut(int meter);
+        public static extern UInt32 getCashOut(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getNotesIn(int meter);
+        public static extern UInt32 getNotesIn(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getNotesOut(int meter);
+        public static extern UInt32 getNotesOut(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getRefillValue(int meter);
+        public static extern UInt32 getRefillValue(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getVtp(int meter);
+        public static extern UInt32 getVtp(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getWon(int meter);
+        public static extern UInt32 getWon(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getHandPay(int meter);
+        public static extern uint getHandPay(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getTicketsPay(int meter);
+        public static extern UInt32 getTicketsPay(int meter);
         
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.LPStr)]
-        public unsafe static extern string getSerialNumber();
+        public static extern string getSerialNumber();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getReconciliationMeter(byte offset);
+        public static extern UInt32 getReconciliationMeter(byte offset);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         [return: MarshalAs(UnmanagedType.LPStr)]
-        public unsafe static extern string getEDCTypeStr();
+        public static extern string getEDCTypeStr();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getNumberOfGames();
+        public static extern uint getNumberOfGames();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getBoLibVersion();
+        public static extern uint getBoLibVersion();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void getRegionalValues(int index, ref SpanishRegional region);
+        public static extern void getRegionalValues(int index, ref SpanishRegional region);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void getDefaultRegionValues(int index, ref SpanishRegional region);
+        public static extern void getDefaultRegionValues(int index, ref SpanishRegional region);
         
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void getActiveRegionValues(int index, ref SpanishRegional region);
+        public static extern void getActiveRegionValues(int index, ref SpanishRegional region);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.LPStr)]
-        public unsafe static extern string getErrorMessage(string str, int code);
+        public static extern string getErrorMessage(string str, int code);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getUtilsRelease();
+        public static extern int getUtilsRelease();
         
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern ulong getTPlayMeter(byte offset);
+        public static extern ulong getTPlayMeter(byte offset);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getUkCountryCodeB3();
+        public static extern int getUkCountryCodeB3();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getUkCountryCodeC();
+        public static extern int getUkCountryCodeC();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getSpainCountryCode();
+        public static extern int getSpainCountryCode();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int getTargetPercentage();
+        public static extern int getTargetPercentage();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte getRecyclerChannel();
+        public static extern byte getRecyclerChannel();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern ulong getMaxHandPayThreshold();
+        public static extern ulong getMaxHandPayThreshold();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getCabinetType();
+        public static extern uint getCabinetType();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getTerminalType();
+        public static extern uint getTerminalType();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte combined();
+        public static extern byte combined();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte hopper();
+        public static extern byte hopper();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte printer();
+        public static extern byte printer();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getLiveElement(int index);
+        public static extern uint getLiveElement(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getDefaultElement(int region, int index);
+        public static extern uint getDefaultElement(int region, int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern byte getTerminalFormat();
+        public static extern byte getTerminalFormat();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getUtilsAdd2CreditValue();
+        public static extern uint getUtilsAdd2CreditValue();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern ulong getLastGameModel(int index);
+        public static extern ulong getLastGameModel(int index);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern ulong getReserveCredits();
+        public static extern ulong getReserveCredits();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool isBackOfficeAvilable();
@@ -322,164 +304,171 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool canPerformHandPay();
-        
+
+        /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint getPayoutCoinValues(uint which);*/
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void clearBankAndCredit();
+        public static extern void clearBankAndCredit();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setLocalMasterVolume(uint val);
+        public static extern void setLocalMasterVolume(uint val);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setLampStatus(byte offset, byte mask, byte state);
+        public static extern void setLampStatus(byte offset, byte mask, byte state);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setHopperFloatLevel(byte hopper, uint value);
+        public static extern void setHopperFloatLevel(byte hopper, uint value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setRequestEmptyLeftHopper();
+        public static extern void setRequestEmptyLeftHopper();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setRequestEmptyRightHopper();
+        public static extern void setRequestEmptyRightHopper();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void addCredit(int pennies);
+        public static extern void addCredit(int pennies);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int clearError();
+        public static extern int clearError();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setCriticalError(int code);
+        public static extern void setCriticalError(int code);
         
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void transferBankToCredit();
+        public static extern void transferBankToCredit();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void clearShortTermMeters();
+        public static extern void clearShortTermMeters();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setHopperDivertLevel(byte hopper, uint value);
+        public static extern void setHopperDivertLevel(byte hopper, uint value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void shellSendRecycleNote();
+        public static extern void shellSendRecycleNote();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setPrinterType(byte type);
+        public static extern void setPrinterType(byte type);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setRecyclerChannel(byte value);
+        public static extern void setRecyclerChannel(byte value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setBnvType(byte value);
+        public static extern void setBnvType(byte value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setRebootRequired();
+        public static extern void setRebootRequired();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setUtilsAdd2CreditValue(uint value);
+        public static extern void setUtilsAdd2CreditValue(uint value);
         
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setRequestUtilsAdd2Credit();
+        public static extern void setRequestUtilsAdd2Credit();
 
+        /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void setPayoutCoinValues(uint which, uint value);*/
+        
+        
         /************************************************************************/
         /* General methods                                                      */
         /************************************************************************/
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void enableNoteValidator();
+        public static extern void enableNoteValidator();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void disableNoteValidator();
+        public static extern void disableNoteValidator();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void printTestTicket();
+        public static extern void printTestTicket();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern UInt32 getPrinterTicketState();
+        public static extern UInt32 getPrinterTicketState();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         [return: MarshalAs(UnmanagedType.LPStr)]
-        public unsafe static extern string getBnvStringType(byte bnv);
+        public static extern string getBnvStringType(byte bnv);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int useMoneyInType(int value);
+        public static extern int useMoneyInType(int value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int useMoneyOutType(int value);
+        public static extern int useMoneyOutType(int value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int useRefillType(int value);
+        public static extern int useRefillType(int value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int useVtpMeter(int value);
+        public static extern int useVtpMeter(int value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int useWonMeter(int value);
+        public static extern int useWonMeter(int value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int useHandPayMeter(int meter);
+        public static extern int useHandPayMeter(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern int useTicketsMeter(int meter);
+        public static extern int useTicketsMeter(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern ulong useStakeInMeter(int meter);
+        public static extern ulong useStakeInMeter(int meter);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         [return: MarshalAs(UnmanagedType.LPStr)]
-        public unsafe static extern string GetUniquePcbID(byte type);
+        public static extern string GetUniquePcbID(byte type);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setFileAction();
+        public static extern void setFileAction();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void clearFileAction();
+        public static extern void clearFileAction();
 
         [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
-        public unsafe static extern void setTerminalType(byte type);
+        public static extern void setTerminalType(byte type);
 
         /************************************************************************/
         /* Hand Pay methods                                                     */
         /************************************************************************/
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setHandPayThreshold(uint value);
+        public static extern void setHandPayThreshold(uint value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getHandPayThreshold();
+        public static extern uint getHandPayThreshold();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern bool getHandPayActive();
+        public static extern bool getHandPayActive();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void sendHandPayToServer(uint paidOut, uint release);
+        public static extern void sendHandPayToServer(uint paidOut, uint release);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void addHandPayToEDC(uint value);
+        public static extern void addHandPayToEDC(uint value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern bool performHandPay();
+        public static extern bool performHandPay();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void cancelHandPay();
+        public static extern void cancelHandPay();
 
 
         /************************************************************************/
         /* TITO methods                                                         */
         /************************************************************************/
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern bool getTitoEnabledState();
+        public static extern bool getTitoEnabledState();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getTitoHost();
+        public static extern uint getTitoHost();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getTitoProcessInState();
+        public static extern uint getTitoProcessInState();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern uint getTitoTicketPresented();
+        public static extern uint getTitoTicketPresented();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public unsafe static extern void setTitoState(int state);
+        public static extern void setTitoState(int state);
     }
 }

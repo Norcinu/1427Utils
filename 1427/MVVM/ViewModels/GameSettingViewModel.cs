@@ -15,6 +15,8 @@ namespace PDTUtils.MVVM.ViewModels
             = new ObservableCollection<GameSettingModel>();
         private readonly int[] _ukStakeValues = new int[4] { 25, 50, 100, 200 };        
         private int _count = 0;
+        private int _currentFirstSel = -1;
+        private int _currentSecondSel = -1;
         private string _errorText = "";
         private CultureInfo _currentCulture;
         public NumberFormatInfo Nfi { get; set; }
@@ -63,6 +65,8 @@ namespace PDTUtils.MVVM.ViewModels
                     RaisePropertyChangedEvent("StakeTwo");
                     RaisePropertyChangedEvent("StakeThree");
                     RaisePropertyChangedEvent("StakeFour");
+                    RaisePropertyChangedEvent("IsFirstPromo");
+                    RaisePropertyChangedEvent("IsSecondPromo");
                 }
             }
         }
@@ -254,6 +258,16 @@ namespace PDTUtils.MVVM.ViewModels
             get { return _gameSettings[SelectedIndex].IsFirstPromo; }
             set
             {
+                if (_currentFirstSel != SelectedIndex)
+                {
+                    foreach (var gs in _gameSettings)
+                    {
+                        gs.Promo = false;
+                        gs.IsFirstPromo = false;
+                    }
+    
+                    _currentFirstSel = SelectedIndex;
+                }
                 _gameSettings[SelectedIndex].IsFirstPromo = value;
                 RaisePropertyChangedEvent("IsFirstPromo");
             }
@@ -264,6 +278,12 @@ namespace PDTUtils.MVVM.ViewModels
             get { return _gameSettings[SelectedIndex].IsSecondPromo; }
             set
             {
+                if (_currentSecondSel != SelectedIndex)
+                {
+                    _gameSettings[_currentFirstSel].IsSecondPromo = false;
+                    _gameSettings[_currentSecondSel].Promo = false;
+                    _currentSecondSel = SelectedIndex;
+                }
                 _gameSettings[SelectedIndex].IsSecondPromo = value;
                 RaisePropertyChangedEvent("IsSecondPromo");
             }
@@ -308,10 +328,10 @@ namespace PDTUtils.MVVM.ViewModels
                 msg.ShowMessage("Cannot find ModelManifest.ini", "ERROR");
                 return;
             }
-
+            
             if (_gameSettings.Count > 0)
                 _gameSettings.Clear();
-
+            
             _currentCulture = BoLib.getCountryCode() == BoLib.getUkCountryCodeB3() ||
                               BoLib.getCountryCode() == BoLib.getUkCountryCodeC()
                 ? new CultureInfo("en-GB")
@@ -327,15 +347,15 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 string[] model;
                 IniFileUtility.GetIniProfileSection(out model, "Model" + (i + 1), _manifest, true);
-                var sb = new System.Text.StringBuilder(8);
-                NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "Promo", "", sb, 8, @Properties.Resources.machine_ini);
+                var sb = new System.Text.StringBuilder(8);//dis be going wrong yo.
+                NativeWinApi.GetPrivateProfileString("Model" + (i + 1), "Promo", "", sb, 8, @Properties.Resources.model_manifest);
                 var isPromo = sb.ToString();
 
                 var m = new GameSettingModel
                 {
                     ModelNumber = Convert.ToUInt32(model[0]),
                     Title = model[1].Trim(" \"".ToCharArray()),
-                    Active = (model[2] == "1") ? true : false,
+                    Active = (model[2] == "1"),
                     StakeOne = Convert.ToInt32(model[3]),
                     StakeTwo = Convert.ToInt32(model[4]),
                     StakeThree = Convert.ToInt32(model[5]),
@@ -345,9 +365,9 @@ namespace PDTUtils.MVVM.ViewModels
                     Exe = model[12],
                     HashKey = model[13]
                 };
-
+                
                 _gameSettings.Add(m);
-
+                
                 switch (isPromo)
                 {
                     case "100":
@@ -383,10 +403,13 @@ namespace PDTUtils.MVVM.ViewModels
                 _gameSettings[r.Next(_gameSettings.Count)].Promo = true;
             }
 
+            bool isFirstSet = false;
+            bool isSecondSet = false;
+
             for (var i = 0; i < _numberOfGames; i++)
             {
                 var m = _gameSettings[i];
-                    
+                
                 var temp = "Model" + (i + 1);
                 var active = (m.Active) ? 1 : 0;
                 NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
@@ -400,20 +423,37 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[5], m.StakeThree.ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[6], m.StakeFour.ToString(), _manifest);
                 }
-                    
+                 
                 if (m.Promo)
                 {
                     if (!m.IsFirstPromo)
                     {
                         if (m.IsSecondPromo)
+                        {
                             NativeWinApi.WritePrivateProfileString(temp, _fields[8], "200", _manifest);
+                            isSecondSet = true;
+                        }
                     }
                     else
+                    {
                         NativeWinApi.WritePrivateProfileString(temp, _fields[8], "100", _manifest);
+                        isFirstSet = true;
+                    }
                 }
                 else
                     NativeWinApi.WritePrivateProfileString(temp, _fields[8], "0", _manifest);
             }
+
+            if (!isFirstSet)
+            {
+                NativeWinApi.WritePrivateProfileString("Model1", "Promo", "100", _manifest); // need to validate
+            }
+
+            if (!isSecondSet)
+            {
+                NativeWinApi.WritePrivateProfileString("Model" + _gameSettings.Count, "Promo", "200", _manifest); //need to validate
+            }
+
             IniFileUtility.HashFile(_manifest);
         }
         
@@ -430,16 +470,23 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 var str = amount as string;
                 if (str == "") return;
-                
+              
                 var stake = Convert.ToInt32(amount);
-                if (stake == 25)
-                    _gameSettings[SelectedIndex].StakeOne = (_gameSettings[SelectedIndex].StakeOne > 0) ? stake : 0;
-                else if (stake == 50)
-                    _gameSettings[SelectedIndex].StakeTwo = (_gameSettings[SelectedIndex].StakeTwo > 0) ? stake : 0;
-                else if (stake == 100)
-                    _gameSettings[SelectedIndex].StakeThree = (_gameSettings[SelectedIndex].StakeThree > 0) ? stake : 0;
-                else if (stake == 200)
-                    _gameSettings[SelectedIndex].StakeFour = (_gameSettings[SelectedIndex].StakeFour > 0) ? stake : 0;
+                switch (stake)
+                {
+                    case 25:
+                        _gameSettings[SelectedIndex].StakeOne = (_gameSettings[SelectedIndex].StakeOne > 0) ? stake : 0;
+                        break;
+                    case 50:
+                        _gameSettings[SelectedIndex].StakeTwo = (_gameSettings[SelectedIndex].StakeTwo > 0) ? stake : 0;
+                        break;
+                    case 100:
+                        _gameSettings[SelectedIndex].StakeThree = (_gameSettings[SelectedIndex].StakeThree > 0) ? stake : 0;
+                        break;
+                    case 200:
+                        _gameSettings[SelectedIndex].StakeFour = (_gameSettings[SelectedIndex].StakeFour > 0) ? stake : 0;
+                        break;
+                }
             }
         }
     }

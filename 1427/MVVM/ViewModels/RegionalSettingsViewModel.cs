@@ -262,7 +262,7 @@ namespace PDTUtils.MVVM.ViewModels
             var setting = settingsName as string;
             if (setting != null && setting.Equals("GameTime"))
             {
-                var diff = (int)EditableLiveRegion.GameTime - BoLib.getDefaultElement(Selected.Id, 9);
+                var diff = (int) EditableLiveRegion.GameTime - BoLib.getDefaultElement(Selected.Id, 9);
                 if (diff >= 0)
                     EditableLiveRegion.GameTime -= 3;
             }
@@ -271,7 +271,7 @@ namespace PDTUtils.MVVM.ViewModels
                 if (_editableLiveRegion.Rtp <= 10000)
                     _editableLiveRegion.Rtp -= 100;
             }
-            
+
             SaveChanges();
             LoadSettings();
             

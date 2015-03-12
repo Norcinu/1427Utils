@@ -87,7 +87,7 @@ namespace PDTUtils
 			var s = string.Format("{0:H:mm:ss}", new DateTime(uptimeSpan.Ticks));
 			LblBottom.Content += s;
 		}
-		
+		//looks like goiter
 		void UpdateDoorStatusLabel()
 		{
 			var status = "Door Status : ";

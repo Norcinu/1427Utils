@@ -189,7 +189,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => GetErrorMessage()); }
         }
-        //rofl ramjamalam is sitting down to do some work. victor will leave at 6 :( :( :( :(
+
         void GetErrorMessage()
         {
             var errorCode = BoLib.getError();

@@ -156,7 +156,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             var percentageLt = (totalWonLt > 0 && totalBetsLt > 0) ? (totalWonLt / totalBetsLt) : 0;
             var percentageSt = (totalWonSt > 0 && totalBetsSt > 0) ? (totalWonSt / totalBetsSt) : 0;
-
+            
             decimal retainedPercLt = (int)BoLib.getPerformanceMeter(0) / 100;
             decimal retainedPercSt = (int)BoLib.getPerformanceMeter(7) / 100;
             

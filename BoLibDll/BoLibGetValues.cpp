@@ -8,7 +8,6 @@
 #include "BoLibGetValues.h"
 #include "MD5.h"
 
-
 #define RELEASE_NUMBER	1525
 
 extern unsigned long zero_cdeposit(void);
@@ -17,7 +16,6 @@ extern unsigned long add_cdeposit(unsigned long value);
 extern int CoinConv[COIN_CNT][CC_CNT];
 extern int NoteValues[NOTE_CNT][CC_CNT];
 extern unsigned long EspRegionalVariableValues[ESP_REGIONS][ESP_VARIABLES];
-
 
 const std::string MACHINE_INI = "D:\\machine\\machine.ini";
 char global_buffer[256] = {0};
@@ -87,7 +85,7 @@ namespace utils
 #define TO_STR(str) utils::to_string(str)
 #define LAST_GAME_FIELDS 0x09
 #define GAME_MODEL 1
-// 
+//
 
 // Functions for export
 unsigned int getBoLibVersion()
@@ -471,7 +469,7 @@ unsigned long getNotesOut(int meter)
 	return notes;
 }
 
-unsigned long getRefillValue(int meter)//
+unsigned long getRefillValue(int meter)
 {
 	if (meter == REFILL_L_LT)
 		return (GetReconciliationMeter(REFILL_L_LT)*COINVALUELEFT + 
@@ -479,6 +477,13 @@ unsigned long getRefillValue(int meter)//
 	else
 		return (GetReconciliationMeter(REFILL_L_ST)*COINVALUELEFT + 
 			GetReconciliationMeter(REFILL_R_ST)*COINVALUERIGHT);
+
+	/*if (meter == REFILL_L_LT)
+		return (GetReconciliationMeter(REFILL_L_LT)*GetPayoutCoinValues(COINVALUELEFT) + 
+			GetReconciliationMeter(REFILL_R_LT)*GetPayoutCoinValues(COINVALUERIGHT));
+	else
+		return (GetReconciliationMeter(REFILL_L_ST)*GetPayoutCoinValues(COINVALUELEFT) + 
+			GetReconciliationMeter(REFILL_R_ST)*GetPayoutCoinValues(COINVALUERIGHT));*/
 }
 
 unsigned long getVtp(int meter)
@@ -734,3 +739,11 @@ bool isBackOfficeAvilable()
 	else			 
 		return true;
 }
+
+/*
+!!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!
+unsigned int getPayoutCoinValues(unsigned int WhichOne)
+{
+	return GetPayoutCoinValues(WhichOne);
+}*/
+

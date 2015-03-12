@@ -8,13 +8,15 @@
              d:DesignHeight="900" d:DesignWidth="1340">
 
     <UserControl.Resources>
-        <Style x:Key="StdTextBlock" TargetType="Label">
-            <Setter Property="Background" Value="Red"/>
-            <Setter Property="Foreground" Value="White"/>
+        <Style x:Key="StdLabelBlock" TargetType="Label">
+            <Setter Property="Background" Value="Black"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="DeepSkyBlue"/>
+            <Setter Property="Width" Value="45"/>
         </Style>
     </UserControl.Resources>
 
@@ -65,43 +67,43 @@
                     </StackPanel>
                 </Border>
 
-                <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Black" BorderThickness="2" Grid.Column="1" Grid.Row="1" 
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Black" BorderThickness="4" Grid.Column="1" Grid.Row="1" 
                         IsEnabled="{Binding AddCreditsActive}" Visibility="{Binding AddCreditsActive, Converter={StaticResource BoolToVis}}" >
-                    <!--Margin="20,0,20,0"-->
-                    <StackPanel x:Name="StpAddCredit" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Azure">
+
+                    <StackPanel x:Name="StpAddCredit" VerticalAlignment="Center" HorizontalAlignment="Center" Background="NavajoWhite"> <!-- azure -->
                         <StackPanel Orientation="Horizontal">
                             <Button VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnTenPence}" Name="BtnTenPence">
-                                <TextBlock Background="Black" IsEnabled="False"  FontWeight="Bold" FontSize="16" Foreground="DeepSkyBlue" Width="45">10¢</TextBlock>
+                                <Label Style="{StaticResource StdLabelBlock}">10¢</Label>
                             </Button>
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnTwentyPence}" Name="BtnTwentyPence">
-                                <TextBlock Background="Black"  FontWeight="Bold" FontSize="16" Foreground="DeepSkyBlue" Width="45" >20¢</TextBlock>
+                                <Label Style="{StaticResource StdLabelBlock}">20¢</Label>
                             </Button>
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnFiftyPence}" Name="BtnFiftyPence">
-                                <TextBlock Background="Black" FontWeight="Bold" FontSize="16" Foreground="DeepSkyBlue" Width="45" >50¢</TextBlock>
+                                <Label Style="{StaticResource StdLabelBlock}">50¢</Label>
                             </Button>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnOnePound}" Name="BtnOnePound">
-                                <TextBlock Background="Black" FontWeight="Bold" FontSize="16" Foreground="DeepSkyBlue" Width="45" >€1</TextBlock>
+                                <Label Style="{StaticResource StdLabelBlock}">€1</Label>
                             </Button>
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnTwoPounds}" Name="BtnTwoPounds">
-                                <TextBlock Background="Black" FontWeight="Bold" FontSize="16" Foreground="DeepSkyBlue" Width="45" >€2</TextBlock>
+                                <Label Style="{StaticResource StdLabelBlock}">€2</Label>
                             </Button>
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnFivePounds}" Name="BtnFivePounds">
-                                <TextBlock Background="Black" FontWeight="Bold" FontSize="16" Foreground="DeepSkyBlue" Width="45" >€5</TextBlock>
+                                <Label Style="{StaticResource StdLabelBlock}">€5</Label>
                             </Button>
                         </StackPanel>
                             
                         <StackPanel Orientation="Horizontal">
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnTenPounds}" Name="BtnTenPounds">
-                                <TextBlock Background="Black" FontWeight="Bold" FontSize="16" Foreground="DeepSkyBlue" Width="45" >€10</TextBlock>
+                                <Label Style="{StaticResource StdLabelBlock}">€10</Label>
                             </Button>
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnTwentyPounds}" Name="BtnTwentyPounds">
-                                <TextBlock Background="Black" FontWeight="Bold" FontSize="16" Foreground="DeepSkyBlue" Width="45" >€20</TextBlock>
+                                <Label Style="{StaticResource StdLabelBlock}">€20</Label>
                             </Button>
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnFiftyPounds}" Name="BtnFiftyPounds" IsEnabled="{Binding CanPayFifty}">
-                                <TextBlock Background="Black" FontWeight="Bold" FontSize="16" Foreground="DeepSkyBlue" Width="45" >€50</TextBlock>
+                                <Label Style="{StaticResource StdLabelBlock}">€50</Label>
                             </Button>
                         </StackPanel>
                     </StackPanel>
@@ -113,7 +115,7 @@
 
                     <Border BorderBrush="Black" BorderThickness="2">
                         <StackPanel HorizontalAlignment="Stretch" Background="Black">
-                            <Label Style="{StaticResource StdTextBlock}" Content="{Binding TotalCredits}" />
+                            <Label Style="{StaticResource StdLabelBlock}" Content="{Binding TotalCredits}" />
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                                 <Button Width="100" Height="35" FontSize="22" Margin="10" Command="{Binding HandPay}">Pay</Button>
                                 <Button Width="100" Height="35" FontSize="22" Margin="10" Command="{Binding CancelHandPay}">Cancel</Button>
@@ -135,9 +137,9 @@
                 </StackPanel>
 
                 <!-- If no card is detected then show message and serial dump button -->
-                <Border IsEnabled="False" Visibility="Hidden" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
+                <Border IsEnabled="False" Visibility="Hidden" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="BurlyWood">
-                        <Label Style="{StaticResource StdTextBlock}" Margin="20" FontSize="24" BorderBrush="Black" BorderThickness="2" Background="Thistle" Foreground="Black">Please Insert Smart Card</Label>
+                        <Label  Margin="20" FontSize="24" BorderBrush="Black" BorderThickness="2" Background="Thistle" Foreground="Black">Please Insert Smart Card</Label>
                         <Button Width="150" Margin="20" FontSize="24">Serial Dump</Button>
                     </StackPanel>
                 </Border>
