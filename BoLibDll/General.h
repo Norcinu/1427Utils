@@ -6,3 +6,5 @@
 #include <bo.h>
 #include <NVR.H>
 
+#define MODEL_NUMBER 1527
+

@@ -162,10 +162,10 @@ namespace PDTUtils
                 LogController.IsLoaded = true;
             }
 		}
-        		
-		private void Games_Click(object sender, RoutedEventArgs e)
+        
+        private void Games_Click(object sender, RoutedEventArgs e)
 		{
-			_gameStatistics.ParsePerfLog();
+		    _gameStatistics.ParsePerfLog();
 			Enabler.EnableCategory(Categories.GameStatistics);
 		}
         
@@ -215,7 +215,7 @@ namespace PDTUtils
                 }
             }
             
-
+            
 #if DEBUG
             if (GlobalConfig.RebootRequired)
                 Debug.WriteLine("WE SHOULD BE RE-BOOTING.");
@@ -232,7 +232,7 @@ namespace PDTUtils
 		{
             UcMainPage.IsEnabled = false;
             UcMainPage.Visibility = Visibility.Hidden;
-
+            
             UcDiagnostics.IsEnabled = false;
             UcDiagnostics.Visibility = Visibility.Hidden;
 

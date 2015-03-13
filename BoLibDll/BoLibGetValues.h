@@ -1,6 +1,10 @@
 #define DllExport __declspec(dllexport)
 #define DLLEXPORT extern "C" __declspec(dllexport)
 
+
+#include <Windows.h>
+
+
 struct GamesInfo;
 struct SpanishRegional;
 

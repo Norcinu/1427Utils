@@ -466,27 +466,25 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand ToggleStake { get { return new DelegateCommand(DoToggleStake); } }
         void DoToggleStake(object amount)
         {
-            if (SelectedIndex >= 0)
+            if (SelectedIndex < 0) return;
+            var str = amount as string;
+            if (str == "") return;
+            
+            var stake = Convert.ToInt32(amount);
+            switch (stake)
             {
-                var str = amount as string;
-                if (str == "") return;
-              
-                var stake = Convert.ToInt32(amount);
-                switch (stake)
-                {
-                    case 25:
-                        _gameSettings[SelectedIndex].StakeOne = (_gameSettings[SelectedIndex].StakeOne > 0) ? stake : 0;
-                        break;
-                    case 50:
-                        _gameSettings[SelectedIndex].StakeTwo = (_gameSettings[SelectedIndex].StakeTwo > 0) ? stake : 0;
-                        break;
-                    case 100:
-                        _gameSettings[SelectedIndex].StakeThree = (_gameSettings[SelectedIndex].StakeThree > 0) ? stake : 0;
-                        break;
-                    case 200:
-                        _gameSettings[SelectedIndex].StakeFour = (_gameSettings[SelectedIndex].StakeFour > 0) ? stake : 0;
-                        break;
-                }
+                case 25:
+                    _gameSettings[SelectedIndex].StakeOne = (_gameSettings[SelectedIndex].StakeOne > 0) ? stake : 0;
+                    break;
+                case 50:
+                    _gameSettings[SelectedIndex].StakeTwo = (_gameSettings[SelectedIndex].StakeTwo > 0) ? stake : 0;
+                    break;
+                case 100:
+                    _gameSettings[SelectedIndex].StakeThree = (_gameSettings[SelectedIndex].StakeThree > 0) ? stake : 0;
+                    break;
+                case 200:
+                    _gameSettings[SelectedIndex].StakeFour = (_gameSettings[SelectedIndex].StakeFour > 0) ? stake : 0;
+                    break;
             }
         }
     }

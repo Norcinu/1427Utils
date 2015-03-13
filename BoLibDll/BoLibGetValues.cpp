@@ -1,14 +1,15 @@
-#include <Windows.h>
+/*#include <Windows.h>
 #include <bo.h>
-#include <NVR.H>
+#include <NVR.H>*/
 #include <sstream>
 #include <cstring>
 #include <string>
 #include <vector>
 #include "BoLibGetValues.h"
+#include "General.h"
 #include "MD5.h"
 
-#define RELEASE_NUMBER	1525
+//#define RELEASE_NUMBER	1525
 
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
@@ -677,7 +678,7 @@ char *getErrorMessage(char *str, int code)
 
 int getUtilsRelease()
 {
-	return RELEASE_NUMBER;
+	return MODEL_NUMBER;
 }
 
 unsigned long getTPlayMeter(unsigned char offset)

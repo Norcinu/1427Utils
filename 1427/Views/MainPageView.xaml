@@ -18,6 +18,14 @@
             <Setter Property="Foreground" Value="DeepSkyBlue"/>
             <Setter Property="Width" Value="45"/>
         </Style>
+
+        <Style x:Key="ButtonText" TargetType="Button">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Height" Value="35"/>
+        </Style>
     </UserControl.Resources>
 
     <Grid HorizontalAlignment="Center">
@@ -25,7 +33,7 @@
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
             <cv:FalseToHiddenConv x:Key="FalseToVis" />
         </Grid.Resources>
-        
+
         <StackPanel x:Name="StpMainView">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -35,7 +43,8 @@
                     <ColumnDefinition Name="ColFour" Width="333"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Name="RowOne" Height="300"/> <!-- 200 -->
+                    <RowDefinition Name="RowOne" Height="300"/>
+                    <!-- 200 -->
                     <RowDefinition Name="RowTwo"  Height="300"/>
                     <RowDefinition Name="RowThree" Height="300"/>
                 </Grid.RowDefinitions>
@@ -47,16 +56,17 @@
                 <Border Grid.Row="0" Grid.Column="0" Margin="20" BorderBrush="AliceBlue" BorderThickness="2">
                     <!-- this was in stackpanel -->
                     <StackPanel >
-                    <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Credits</Label>
-                    <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Credits}" />
-                </StackPanel>
+                        <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Credits</Label>
+                        <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Credits}" />
+                    </StackPanel>
                 </Border>
 
-                <Border Grid.Column="1" Margin="20" BorderBrush="AliceBlue" BorderThickness="2"> <!-- this was in stackpanel -->
-                <StackPanel >
-                    <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Bank</Label>
-                    <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Bank}" />
-                </StackPanel>
+                <Border Grid.Column="1" Margin="20" BorderBrush="AliceBlue" BorderThickness="2">
+                    <!-- this was in stackpanel -->
+                    <StackPanel >
+                        <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Bank</Label>
+                        <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Bank}" />
+                    </StackPanel>
                 </Border>
 
                 <Border Grid.Column="2" Margin="20" BorderBrush="AliceBlue" BorderThickness="2">
@@ -70,7 +80,11 @@
                 <Border HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="Black" BorderThickness="4" Grid.Column="1" Grid.Row="1" 
                         IsEnabled="{Binding AddCreditsActive}" Visibility="{Binding AddCreditsActive, Converter={StaticResource BoolToVis}}" >
 
-                    <StackPanel x:Name="StpAddCredit" VerticalAlignment="Center" HorizontalAlignment="Center" Background="NavajoWhite"> <!-- azure -->
+                    <StackPanel x:Name="StpAddCredit" VerticalAlignment="Center" HorizontalAlignment="Center" Background="NavajoWhite">
+                        <!-- azure -->
+                        <Border BorderBrush="Black" BorderThickness="2">
+                            <Label Style="{StaticResource StdLabelBlock}" Content="Add Credits" HorizontalAlignment="Stretch"/>
+                        </Border>
                         <StackPanel Orientation="Horizontal">
                             <Button VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnTenPence}" Name="BtnTenPence">
                                 <Label Style="{StaticResource StdLabelBlock}">10¢</Label>
@@ -94,7 +108,7 @@
                                 <Label Style="{StaticResource StdLabelBlock}">€5</Label>
                             </Button>
                         </StackPanel>
-                            
+
                         <StackPanel Orientation="Horizontal">
                             <Button Width="75" Height="40" Margin="10" FontSize="16" Command="{Binding AddCreditSpecific}" CommandParameter="{Binding ElementName=BtnTenPounds}" Name="BtnTenPounds">
                                 <Label Style="{StaticResource StdLabelBlock}">€10</Label>
@@ -108,18 +122,21 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                
+
                 <StackPanel x:Name="StpHandPay" Grid.Column="1" Grid.Row="1"
 							VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding HandPayActive}"
-							Visibility="{Binding HandPayActive, Converter={StaticResource BoolToVis}}">
+							Visibility="{Binding HandPayActive, Converter={StaticResource BoolToVis}}" Width="300">
 
-                    <Border BorderBrush="Black" BorderThickness="2">
-                        <StackPanel HorizontalAlignment="Stretch" Background="Black">
-                            <Label Style="{StaticResource StdLabelBlock}" Content="{Binding TotalCredits}" />
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                <Button Width="100" Height="35" FontSize="22" Margin="10" Command="{Binding HandPay}">Pay</Button>
-                                <Button Width="100" Height="35" FontSize="22" Margin="10" Command="{Binding CancelHandPay}">Cancel</Button>
-                            </StackPanel>
+                    <Border BorderBrush="#352D7E" BorderThickness="2" HorizontalAlignment="Stretch" >
+                        <StackPanel HorizontalAlignment="Stretch" Background="LightSlateGray">
+                            <Label Style="{StaticResource StdLabelBlock}" Content="Amount to Hand Pay" FontSize="20" Width="250" FontWeight="Normal"/>
+                            <Label Style="{StaticResource StdLabelBlock}" Content="{Binding TotalCredits}" FontSize="24" Width="250" />
+                            <Border BorderBrush="#352D7E" BorderThickness="0,2,0,0" HorizontalAlignment="Stretch" >
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Style="{StaticResource ButtonText}" HorizontalAlignment="Left" Command="{Binding HandPay}">Pay</Button>
+                                    <Button Style="{StaticResource ButtonText}" HorizontalAlignment="Right" Command="{Binding CancelHandPay}">Cancel</Button>
+                                </StackPanel>
+                            </Border>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -160,7 +177,7 @@
 
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15">
-            <Label Content="{Binding ErrorMessage}" FontSize="22" Foreground="PaleTurquoise" Background="Red" />
+            <Label Content="{Binding ErrorMessage}" FontSize="22" Foreground="PaleTurquoise" Background="#0095FF" />
             <Button Content="Clear Error" FontSize="22" Width="150" Command="{Binding ClearCurrentError}" IsEnabled="{Binding IsErrorSet}" />
         </StackPanel>
     </Grid>

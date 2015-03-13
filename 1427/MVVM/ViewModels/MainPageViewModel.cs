@@ -63,32 +63,33 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("CanPayFifty");
             }
         }
-
+        
         public Decimal TotalCredits 
         { 
             get 
             {
                 return _totalCredits; 
             }
-            set 
-            { 
-                _totalCredits = Credits + Bank + Reserve;
+            set
+            {
+                _totalCredits = Credits + Bank;// + Reserve;
                 RaisePropertyChangedEvent("TotalCredits");
             } 
         }
+        
         public string ErrorMessage { get; set; }
         
         bool _handPayActive;
         bool _addCreditsActive;
         bool _canPayFifty;
-
+            
         string _caption = "Warning";
         string _message = "Please Open the terminal door and try again.";
         readonly  WpfMessageBoxService _msgBoxService = new WpfMessageBoxService();
         
         System.Timers.Timer _refillTimer;
         Decimal _totalCredits = 0;
-
+        
         public MainPageViewModel()
         {
             DoorOpen = false;
@@ -100,12 +101,16 @@ namespace PDTUtils.MVVM.ViewModels
             Reserve = 0;
             Pennies = 2000;
             NotRefilling = true;
-            
+           
+
             GetErrorMessage();
             GetCreditLevel();
             GetBankLevel();
             GetReserveLevel();
             GetMaxNoteValue();
+
+            TotalCredits = 0; // euurgh
+            //  RaisePropertyChangedEvent("TotalCredits");
         }
 
         public bool DoorOpen { get; set; }
@@ -203,8 +208,8 @@ namespace PDTUtils.MVVM.ViewModels
 
             RaisePropertyChangedEvent("ErrorMessage");
         }
-        
-        public ICommand ShowMessageBox
+
+        private ICommand ShowMessageBox
         {
             get { return new DelegateCommand(o => _msgBoxService.ShowMessage(_message, _caption)); }
         }
@@ -240,7 +245,6 @@ namespace PDTUtils.MVVM.ViewModels
         
         void DoHandPay()
         {
-          //  RaisePropertyChangedEvent("TotalCredits"); // credit value not updating if add credit from 0 and then handpay
             var oldCaption = _caption;
             var oldMsg = _message;
             
@@ -256,7 +260,9 @@ namespace PDTUtils.MVVM.ViewModels
                     Bank = BoLib.getBank();
                     Reserve = (int) BoLib.getReserveCredits();
                     TotalCredits = 0;
-
+                    //maybe monday night go for a drink and a munch.
+                    //GAFF WILL BE RAMMED MAKE NO MISTAKE. LIVERPOOL ARE PLAYING :(
+                    //seriously i cant get away from this french cunt.
                     RaisePropertyChangedEvent("Credits");
                     RaisePropertyChangedEvent("Bank");
                     RaisePropertyChangedEvent("Reserve");

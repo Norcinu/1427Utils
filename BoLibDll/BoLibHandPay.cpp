@@ -55,7 +55,7 @@ bool performHandPay()
 			AddToPerformanceMeters(HAND_PAY_LT, totalCredits);
 			SetMeterPulses(2, 1, totalCredits);
 			addHandPayToEDC(totalCredits);
-			SendHandPay2Server(totalCredits, 1427);
+			SendHandPay2Server(totalCredits, MODEL_NUMBER);
 			
 			if (GetInTournamentPlay())
 			{
