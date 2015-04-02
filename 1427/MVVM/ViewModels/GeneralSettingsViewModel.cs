@@ -15,11 +15,13 @@ namespace PDTUtils.MVVM.ViewModels
         public bool IsCatC { get; set; }
         public bool TiToEnabled { get; set; }
         public bool HasRecycler { get; set; }
+        public bool UseReserveEnabled { get; set; }
         public string RtpMessage { get; set; }
         public string HandPayLevel { get; set; }
         public string DivertMessage { get; set; }
         public string RecyclerMessage { get; set; }
         public string TerminalAssetMsg { get; set; }
+        public string UseReserveStakeMsg { get; set; }
 
         readonly string _titoDisabledMsg = "Warning: TiTo DISABLED";
 
@@ -61,6 +63,10 @@ namespace PDTUtils.MVVM.ViewModels
                     HasRecycler = false;
                     RecyclerMessage = "NO RECYCLER";
                 }
+
+                ///!!! DEBUG - Use proper BoLib function for this !!! 
+                UseReserveEnabled = true;
+                
             }
             catch (Exception e)
             {
@@ -73,6 +79,8 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("DivertMessage");
             RaisePropertyChangedEvent("RecyclerMessage");
             RaisePropertyChangedEvent("TerminalAssetMsg");
+            RaisePropertyChangedEvent("UseReserveEnabled");
+            RaisePropertyChangedEvent("UseReserveStake");
         }
 
         public ICommand SetRtp
@@ -101,7 +109,7 @@ namespace PDTUtils.MVVM.ViewModels
             if (!BoLib.canPerformHandPay() || BoLib.getTerminalType() == 1)
             {
                 var _msgBox = new WpfMessageBoxService();
-                _msgBox.ShowMessage(@"UNABLE TO CHANGE HANDPAY THRESHOLD. CHECK PRINTER OR COUNTRY SETTINGS", "ERROR");
+                _msgBox.ShowMessage("UNABLE TO CHANGE HANDPAY THRESHOLD. CHECK PRINTER OR COUNTRY SETTINGS", "ERROR");
                 return;
             }
             
@@ -111,7 +119,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             var maxHandPay = (int)BoLib.getMaxHandPayThreshold();
             var denom = maxHandPay - current;
-            var amount = (denom < 5000) ? denom : 5000;
+            var amount = (denom < 1000) ? denom : 1000;//5000
             
             if (type == "increment")
             {
@@ -125,7 +133,7 @@ namespace PDTUtils.MVVM.ViewModels
                     return;
                 
                 if (amount == 0)
-                    amount = 5000;
+                    amount = 1000;//5000
 
                 BoLib.setHandPayThreshold((uint)current - (uint)amount);
                 newVal -= amount;
@@ -253,7 +261,20 @@ namespace PDTUtils.MVVM.ViewModels
                 var assetNumber = titoUpdateForm.TxtNewValue.Text;
                 //validate value here and update accordingly.
                 //create a keyboard with just a numberpad.
+                NativeWinApi.WritePrivateProfileString("Keys", "AssetNo", assetNumber, Properties.Resources.machine_ini);
+                IniFileUtility.HashFile(Properties.Resources.machine_ini);
             }
+        }
+
+
+        //!! DEBUG DEBUG - USE PROPER LIBRARY CALL.
+        public ICommand UseReserve { get { return new DelegateCommand(DoUseReserve); } }
+        void DoUseReserve(object o)
+        {
+            UseReserveEnabled = !UseReserveEnabled;
+            if (!UseReserveEnabled) UseReserveStakeMsg = "Not using reserve fill.";
+            else UseReserveStakeMsg = "Using reserve fill.";
+            RaisePropertyChangedEvent("UseReserveStake");
         }
     }
 }

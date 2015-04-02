@@ -233,4 +233,7 @@
   <data name="term_warning_log" xml:space="preserve">
     <value>D:\machine\GAME_DATA\TerminalWarningLog.log</value>
   </data>
+  <data name="door_open_sound" xml:space="preserve">
+    <value>D:\1525\wav\util.wav</value>
+  </data>
 </root>

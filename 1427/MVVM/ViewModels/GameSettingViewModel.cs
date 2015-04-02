@@ -308,7 +308,7 @@ namespace PDTUtils.MVVM.ViewModels
             "Number", "Title", "Active", "Stake1", "Stake2", "Stake3", "Stake4", 
             "StakeMask", "Promo", "ModelDirectory", "Exe", "HashKey"
         };
-
+        
         public object Chk;
         
         public GameSettingViewModel()
@@ -396,7 +396,7 @@ namespace PDTUtils.MVVM.ViewModels
                 else if (promoCount >= 2)
                     g.Promo = false;
             }
-                               
+                 
             if (promoCount == 0)
             {
                 var r = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
@@ -415,7 +415,7 @@ namespace PDTUtils.MVVM.ViewModels
                 NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
                 NativeWinApi.WritePrivateProfileString(temp, _fields[1], m.Title, _manifest);
                 NativeWinApi.WritePrivateProfileString(temp, _fields[2], active.ToString(), _manifest);
-                    
+
                 if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
                 {
                     NativeWinApi.WritePrivateProfileString(temp, _fields[3], m.StakeOne.ToString(), _manifest);
@@ -423,7 +423,7 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[5], m.StakeThree.ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[6], m.StakeFour.ToString(), _manifest);
                 }
-                 
+                
                 if (m.Promo)
                 {
                     if (!m.IsFirstPromo)

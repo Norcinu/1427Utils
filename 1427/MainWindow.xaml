@@ -609,7 +609,7 @@
                 </TabItem>
 
                 <TabItem Header="Game Selection">
-
+                    <view:GameChartView />
                 </TabItem>
             </TabControl>
         </StackPanel>

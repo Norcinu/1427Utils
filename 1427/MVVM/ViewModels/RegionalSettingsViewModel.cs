@@ -6,6 +6,7 @@ using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
 using PDTUtils.Properties;
+using System.Data.SQLite;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -104,9 +105,19 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand Decrement { get { return new DelegateCommand(DoDecrement); } }
         public ICommand ResetLiveToDefault { get { return new DelegateCommand(o => DoResetLiveToDefault()); } }
         #endregion
-
+        
         public RegionalSettingsViewModel()
         {
+            string dbName = @"D:\1525\db\RegionalNonStandard.sqlite";
+            if (!System.IO.File.Exists(dbName))
+                SQLiteConnection.CreateFile(dbName);
+            
+            /*SQLiteConnection _conn = new SQLiteConnection("Data Source=" + dbName + ";Version=3;");
+            _conn.Open();
+            string select = "select * from highscores order by score desc";
+            SQLiteCommand selectCmd = new SQLiteCommand(select, _conn);
+            SQLiteDataReader reader = selectCmd.ExecuteReader();*/
+            
             var i = 0;
             foreach (var s in _streetMarketRegions)
             {
@@ -115,7 +126,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _street.Add(new SpanishRegionalModel(_streetMarketRegions[i], sr));
                 i++;
             }
-
+            
             var smLength = _streetMarketRegions.Length - 1;
             i = 0;
             foreach (var arcade in _arcadeRegions)
@@ -223,7 +234,7 @@ namespace PDTUtils.MVVM.ViewModels
                 Selected.Community = _streetMarketRegions[_marketSelectedIndex];
                 id = Array.IndexOf(_streetMarketRegions, Selected.Community);// +1;
             }
-
+            
             var sr = new SpanishRegional();
             BoLib.getDefaultRegionValues(id, ref sr);
             
@@ -240,17 +251,22 @@ namespace PDTUtils.MVVM.ViewModels
         void DoIncrement(object settingsName)
         {
             var setting = settingsName as string;
-            if (setting != null && setting.Equals("GameTime"))
+            if (setting == null) return;
+            if (setting.Equals("GameTime"))
             {
                 var time = BoLib.getDefaultElement(Selected.Id, 9);
                 if ((EditableLiveRegion.GameTime + 3) <= (time + 3))
-                {
                     EditableLiveRegion.GameTime += 3;
-                }
             }
-            else if (setting != null && (setting.Equals("RTP") && _editableLiveRegion.Rtp < 10000))
+            else if ((setting.Equals("RTP") && _editableLiveRegion.Rtp < 10000))
                 _editableLiveRegion.Rtp += 100;
-
+            else if (setting.Equals("MaxBank"))// && _editableLiveRegion.MaxBank >= 50)
+                _editableLiveRegion.MaxBank += 100;
+            else if (setting.Equals("MaxCredits"))// && _editableLiveRegion.MaxCredits >= 50)
+                _editableLiveRegion.MaxCredits += 100;
+            else if (setting.Equals("MaxReserve"))// && _editableLiveRegion.MaxReserveCredits >= 1000)
+                _editableLiveRegion.MaxReserveCredits += 1000;
+            
             SaveChanges();
             LoadSettings();
             
@@ -260,17 +276,24 @@ namespace PDTUtils.MVVM.ViewModels
         void DoDecrement(object settingsName)
         {
             var setting = settingsName as string;
-            if (setting != null && setting.Equals("GameTime"))
+            if (setting == null) return;
+            if (setting.Equals("GameTime"))
             {
-                var diff = (int) EditableLiveRegion.GameTime - BoLib.getDefaultElement(Selected.Id, 9);
+                var diff = (int)EditableLiveRegion.GameTime - BoLib.getDefaultElement(Selected.Id, 9);
                 if (diff >= 0)
                     EditableLiveRegion.GameTime -= 3;
             }
-            else if (setting != null && setting == "RTP")
+            else if (setting == "RTP")
             {
-                if (_editableLiveRegion.Rtp <= 10000)
+                if (EditableLiveRegion.Rtp >= 100 && _editableLiveRegion.Rtp <= 10000)
                     _editableLiveRegion.Rtp -= 100;
             }
+            else if (setting == "MaxBank" && _editableLiveRegion.MaxBank > 50)
+                _editableLiveRegion.MaxBank -= 100;
+            else if (setting == "MaxCredits" && _editableLiveRegion.MaxCredits > 50)
+                _editableLiveRegion.MaxCredits -= 100;
+            else if (setting == "MaxReserve" && _editableLiveRegion.MaxReserveCredits > 1000)
+                _editableLiveRegion.MaxReserveCredits -= 1000;
 
             SaveChanges();
             LoadSettings();

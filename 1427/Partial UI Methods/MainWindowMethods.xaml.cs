@@ -18,7 +18,7 @@ namespace PDTUtils
 				{
 				    case 0:
 				        _sharedMemoryOnline = true;
-                    
+                        
 				        //	UpdateDoorStatusLabel();
 				        _doorStatusTimer = new Timer(500);
 				        _doorStatusTimer.Elapsed += DoorTimerEvent;
@@ -28,7 +28,6 @@ namespace PDTUtils
 				        _uiUpdateTimer = new Timer(1000);
 				        _uiUpdateTimer.Elapsed += UpdateUiLabels;
 				        _uiUpdateTimer.Enabled = true;
-                    
 				        return;
 				    case 1:
 				        _errorMessage = "Shell Out of Date. Check If Running.";
@@ -80,14 +79,15 @@ namespace PDTUtils
 		{
 			LblBottom.FontSize = 22;
 			LblBottom.Foreground = Brushes.Pink;
-			LblBottom.Content = DateTime.Now.ToLongDateString() + " - " + DateTime.Now.ToLongTimeString() + " :::: Uptime ";
+			LblBottom.Content = DateTime.Now.ToLongDateString() + " - " + 
+                DateTime.Now.ToLongTimeString() + " :::: Uptime ";
 			var ticks = Stopwatch.GetTimestamp();
 			var uptime = ((double)ticks) / Stopwatch.Frequency;
 			var uptimeSpan = TimeSpan.FromSeconds(uptime);
 			var s = string.Format("{0:H:mm:ss}", new DateTime(uptimeSpan.Ticks));
 			LblBottom.Content += s;
 		}
-		//looks like goiter
+		//em's on the mind every day and every night. and she'll never go away cos i know shes here to stay
 		void UpdateDoorStatusLabel()
 		{
 			var status = "Door Status : ";
@@ -95,11 +95,8 @@ namespace PDTUtils
 			{
 				if (_keyDoorWorker.HasChanged)
 				{
-					BoLib.enableNoteValidator();
 					_keyDoorWorker.HasChanged = false;
-
 				}
-				//DetectDoorChange(@"./wav/util_exit.wav");	
 				status += "Closed";
 				LblDoorStatus.Background = Brushes.Black;//new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
 				LblDoorStatus.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
@@ -108,10 +105,9 @@ namespace PDTUtils
 			{
 				if (_keyDoorWorker.HasChanged)
 				{
-					BoLib.disableNoteValidator();
+                    PlaySoundOnEvent(Properties.Resources.door_open_sound);
 					_keyDoorWorker.HasChanged = false;
 				}
-				//DetectDoorChange(@"./wav/util_exit.wav");
 				status += "Open";
 				LblDoorStatus.HorizontalContentAlignment = HorizontalAlignment.Center;
 				LblDoorStatus.Background = Brushes.Aquamarine;
@@ -123,7 +119,7 @@ namespace PDTUtils
 		private void DetectDoorChange(object sender, ElapsedEventArgs e)
 		{
 		    if (!_keyDoorWorker.HasChanged) return;
-		    PlaySoundOnEvent(Properties.Resources.util_exit.ToString());
+		    PlaySoundOnEvent(Properties.Resources.door_open_sound);
 		    _keyDoorWorker.HasChanged = false;
 		    if (_keyDoorWorker.DoorStatus == false)
 		        BoLib.disableNoteValidator();
@@ -136,9 +132,8 @@ namespace PDTUtils
 		
 		private void PlaySoundOnEvent(string filename)
 		{
-			// replace this with synth_sound? // if (AdjustingVolume) synth else soundplayer
-			//SoundPlayer sound = new SoundPlayer(filename); 
-			//sound.Play();
+			System.Media.SoundPlayer sound = new System.Media.SoundPlayer(filename); 
+			sound.Play();
 		}
 	}
 }

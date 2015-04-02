@@ -15,7 +15,7 @@ namespace PDTUtils.MVVM.ViewModels
             get { return _currentImageID; }
             set { _currentImageID = value; this.RaisePropertyChangedEvent("CurrentImageID"); }
         }
-
+        
         public int NumberOfImages
         {
             get { return _numberOfImages; }

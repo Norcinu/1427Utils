@@ -35,50 +35,50 @@
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
 
     </UserControl.Resources>
-    	
+
     <Grid>
-        <!--<TabControl>
-			<TabItem Header="Community Type">-->
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+        <TabControl>
+            <TabItem Header="Community Type">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 
-            <Label Style="{StaticResource StdHeaderLabel}" BorderBrush="Black" BorderThickness="2"  Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <Label Style="{StaticResource StdHeaderLabel}" BorderBrush="Black" BorderThickness="2"  Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                <Label Style="{StaticResource StdHeaderLabel}" Content=" - Reboot Required" FontSize="28" Margin="-20,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding SelectionChanged}"
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        <Label Style="{StaticResource StdHeaderLabel}" Content=" - Reboot Required" FontSize="28" Margin="-20,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding SelectionChanged}"
                            Visibility="{Binding SelectionChanged, Converter={StaticResource BoolToVisConverter}}"/>
-            </StackPanel>
+                    </StackPanel>
 
 
-            <StackPanel HorizontalAlignment="Center">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Name="RowOne" Height="380" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Name="ColumnOne" Width="430" />
-                        <ColumnDefinition Name="ColumnTwo" Width="430" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <ListView x:Name="LvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1" SelectedIndex="{Binding MarketSelectedIndex}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Street Market - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    
-                    <ListView x:Name="LvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" Tag="2" SelectedIndex="{Binding ArcadeSelectedIndex}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Arcade - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </Grid>
-            </StackPanel>
-            
-            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Name="RowOne" Height="380" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Name="ColumnOne" Width="430" />
+                                <ColumnDefinition Name="ColumnTwo" Width="430" />
+                            </Grid.ColumnDefinitions>
+
+                            <ListView x:Name="LvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1" SelectedIndex="{Binding MarketSelectedIndex}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Street Market - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+
+                            <ListView x:Name="LvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" Tag="2" SelectedIndex="{Binding ArcadeSelectedIndex}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Arcade - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </StackPanel>
+
+                    <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="btnSetActive" Width="150" FontSize="18" Height="35" Margin="25"
 									Command="{Binding SetActiveRegion}"
 									CommandParameter="{Binding ElementName=lvStreetMarkets}"
@@ -90,40 +90,43 @@
 									Content="Set Arcade" />
             </StackPanel>-->
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Height="75" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </Button>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Game Time</Label>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
-                </StackPanel>
-                <Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </Button>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RepeatButton Height="75" Margin="0,10,0,10" Delay="500" Command="{Binding Increment}" CommandParameter="GameTime">
+                            <StackPanel>
+                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </RepeatButton>
 
-                <Button Height="75" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </Button>
+                        <StackPanel>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Game Time</Label>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
+                        </StackPanel>
 
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Machine RTP</Label>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
-                </StackPanel>
-                
-                <Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </Button>
-                
-                <!--<Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
+                        <RepeatButton Height="75" Margin="0,10,0,10" Delay="500" Command="{Binding Decrement}" CommandParameter="GameTime">
+                            <StackPanel>
+                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </RepeatButton>
+
+                        <RepeatButton Height="75" Margin="45,10,0,10" Delay="500" Command="{Binding Increment}" CommandParameter="RTP">
+                            <StackPanel>
+                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </RepeatButton>
+
+                        <StackPanel>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Machine RTP</Label>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
+                        </StackPanel>
+
+                        <!--<Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP"> -->
+                        <RepeatButton Height="75" Margin="0,10,0,10" Delay="500" Command="{Binding Decrement}" CommandParameter="RTP">
+                            <StackPanel>
+                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                            </StackPanel>
+                        </RepeatButton>
+
+                        <!--<Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
                     <StackPanel>
                         <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
                     </StackPanel>
@@ -137,181 +140,184 @@
                         <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
                     </StackPanel>
                 </Button>-->
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Margin="10" Height="35" BorderBrush="Black" BorderThickness="2" Style="{StaticResource StdHeaderLabel}" FontSize="18" HorizontalContentAlignment="Center">Load Region Default Settings:</Label>
-                <Button Height="35" Width="125" FontSize="24" Margin="10" Command="{Binding ResetLiveToDefault}">Default</Button>
-            </StackPanel>
-        </StackPanel>
-            <!--</TabItem>-->
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Margin="10" Height="35" BorderBrush="Black" BorderThickness="2" Style="{StaticResource StdHeaderLabel}" FontSize="18" HorizontalContentAlignment="Center">Load Region Default Settings:</Label>
+                        <Button Height="35" Width="125" FontSize="24" Margin="10" Command="{Binding ResetLiveToDefault}">Default</Button>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+
             
-            <!--<TabItem Header="Community Settings">
-                <StackPanel HorizontalAlignment="Center">
-                    <Border BorderBrush="Black" BorderThickness="2" Background="LightBlue">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25" Background="LightBlue">
-                            <Label Style="{StaticResource StdHeaderLabel}">Edit Region:</Label>
-                            <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Selected.Community}"></Label>
-                        </StackPanel>
-                    </Border>
+            <TabItem Header="Community Settings">
+                    <StackPanel HorizontalAlignment="Center" Background="LightGray" >
+                    
+                        <Border BorderBrush="Black" BorderThickness="2" Background="LightBlue">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25" Background="LightBlue">
+                                <Label Style="{StaticResource StdHeaderLabel}">Edit Region:</Label>
+                                <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Selected.Community}"></Label>
+                            </StackPanel>
+                        </Border>
+                    
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Height="75" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="MaxCredits">
+                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="MaxCredits">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
+                        </RepeatButton>
                         <StackPanel>
                             <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Max Credits</Label>
                             <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxCredits}" />
                         </StackPanel>
-                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxCredits">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
-                            
-                        <Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
+                        </RepeatButton>
+
+                        <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="MaxReserve">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
+                        </RepeatButton>
                         <StackPanel>
                             <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Max Reserve</Label>
                             <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxReserveCredits}"/>
                         </StackPanel>
 
-                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxReserve">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
-                        
-                        <Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
+                        </RepeatButton>
+
+                        <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="MaxBank">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
+                        </RepeatButton>
                         <StackPanel>
                             <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Max Bank</Label>
                             <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxBank}" />
                         </StackPanel>
-                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
+                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxBank">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
-                    </StackPanel>
+                        </RepeatButton>
 
+                    </StackPanel>
 
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Height="75" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
+                            <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
+                                <StackPanel>
+                                    <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                </StackPanel>
+                            </RepeatButton>
                             <StackPanel>
-                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Game Time</Label>
+                                <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
                             </StackPanel>
-                        </Button>
-                        <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Game Time</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
+                            <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="GameTime">
+                                <StackPanel>
+                                    <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                                </StackPanel>
+                            </RepeatButton>
+
+                            <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
+                                <StackPanel>
+                                    <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                </StackPanel>
+                            </RepeatButton>
+                            <StackPanel>
+                                <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Machine RTP</Label>
+                                <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
+                            </StackPanel>
+
+                            <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP">
+                                <StackPanel>
+                                    <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                                </StackPanel>
+                            </RepeatButton>
+
+                            <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="Cycle">
+                                <StackPanel>
+                                    <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                </StackPanel>
+                            </RepeatButton>
+                            <StackPanel>
+                                <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Cycle</Label>
+                                <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.CycleSize}" />
+                            </StackPanel>
+                            <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="Cycle">
+                                <StackPanel>
+                                    <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                                </StackPanel>
+                            </RepeatButton>
                         </StackPanel>
-                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </Button>
-                        
-                        <Button Height="75" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </Button>
-                        <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Machine RTP</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
+
+
+
+
+
+
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="5,10,50,10">
+                                <CheckBox>
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                    <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Bill Escrow Enabled:</TextBox>
+                                </CheckBox>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="0,10,50,10">
+                                <CheckBox FlowDirection="RightToLeft">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                    <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Return Change:</TextBox>
+                                </CheckBox>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="0,10,50,10">
+                                <CheckBox FlowDirection="RightToLeft">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                    <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Accept £20:</TextBox>
+                                </CheckBox>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="0,10, 50,10">
+                                <CheckBox FlowDirection="RightToLeft">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                    <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Accept £50:</TextBox>
+                                </CheckBox>
+                            </Border>
+
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="0,10, 50,10">
+                                <CheckBox FlowDirection="RightToLeft">
+                                    <CheckBox.LayoutTransform>
+                                        <ScaleTransform ScaleX="1.2" ScaleY="2" />
+                                    </CheckBox.LayoutTransform>
+                                    <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Fast Transfer</TextBox>
+                                </CheckBox>
+                            </Border>
                         </StackPanel>
 
-                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </Button>
 
-                        <Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </Button>
-                        <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0"></Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxBank}" />
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Save Changes" Margin="25" FontSize="20" Width="150" Height="35" Command="{Binding Save}"/>
+                            <Button Content="Cancel" Margin="25" FontSize="20" Width="150" Height="35" />
                         </StackPanel>
-                        <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </Button>
                     </StackPanel>
-
-
-
-                    
-
-
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Border BorderBrush="Black" BorderThickness="2" Margin="5,10,50,10">
-                            <CheckBox>
-                                <CheckBox.LayoutTransform>
-                                    <ScaleTransform ScaleX="1.2" ScaleY="2" />
-                                </CheckBox.LayoutTransform>
-                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Bill Escrow Enabled:</TextBox>
-                            </CheckBox>
-                        </Border>
-
-                        <Border BorderBrush="Black" BorderThickness="2" Margin="0,10,50,10">
-                            <CheckBox FlowDirection="RightToLeft">
-                                <CheckBox.LayoutTransform>
-                                    <ScaleTransform ScaleX="1.2" ScaleY="2" />
-                                </CheckBox.LayoutTransform>
-                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Return Change:</TextBox>
-                            </CheckBox>
-                        </Border>
-
-                        <Border BorderBrush="Black" BorderThickness="2" Margin="0,10,50,10">
-                            <CheckBox FlowDirection="RightToLeft">
-                                <CheckBox.LayoutTransform>
-                                    <ScaleTransform ScaleX="1.2" ScaleY="2" />
-                                </CheckBox.LayoutTransform>
-                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Accept £20:</TextBox>
-                            </CheckBox>
-                        </Border> 
-                        
-                        <Border BorderBrush="Black" BorderThickness="2" Margin="0,10, 50,10">
-                            <CheckBox FlowDirection="RightToLeft">
-                                <CheckBox.LayoutTransform>
-                                    <ScaleTransform ScaleX="1.2" ScaleY="2" />
-                                </CheckBox.LayoutTransform>
-                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Accept £50:</TextBox>
-                            </CheckBox>
-                        </Border>
-                        
-                        <Border BorderBrush="Black" BorderThickness="2" Margin="0,10, 50,10">
-                            <CheckBox FlowDirection="RightToLeft">
-                                <CheckBox.LayoutTransform>
-                                    <ScaleTransform ScaleX="1.2" ScaleY="2" />
-                                </CheckBox.LayoutTransform>
-                                <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Fast Transfer</TextBox>
-                            </CheckBox>
-                        </Border>
-                    </StackPanel>
-                    
-                    
-                    
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-						<Button Content="Save Changes" Margin="25" FontSize="20" Width="150" Height="35" Command="{Binding Save}"/>
-                        <Button Content="Cancel" Margin="25" FontSize="20" Width="150" Height="35" />
-                    </StackPanel>
-                </StackPanel>
-            </TabItem>-->
-        <!--</TabControl>-->
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>

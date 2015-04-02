@@ -304,7 +304,7 @@
         <Setter Property="Template" Value="{DynamicResource ButtonTemplate}" />
         <Setter Property="IsEnabled" Value="True"/>
     </Style>
-    
+
     <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
         <ControlTemplate.Resources>
             <Storyboard x:Key="HoverOn">

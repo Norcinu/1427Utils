@@ -39,7 +39,7 @@ namespace PDTUtils.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    var temp = new global::System.Resources.ResourceManager("PDTUtils.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PDTUtils.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -87,6 +87,15 @@ namespace PDTUtils.Properties {
         internal static string cashless_log {
             get {
                 return ResourceManager.GetString("cashless_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1525\wav\util.wav.
+        /// </summary>
+        internal static string door_open_sound {
+            get {
+                return ResourceManager.GetString("door_open_sound", resourceCulture);
             }
         }
         
@@ -194,7 +203,7 @@ namespace PDTUtils.Properties {
         
         internal static System.Drawing.Icon Icon1 {
             get {
-                var obj = ResourceManager.GetObject("Icon1", resourceCulture);
+                object obj = ResourceManager.GetObject("Icon1", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

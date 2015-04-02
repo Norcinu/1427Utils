@@ -292,7 +292,7 @@ namespace PDTUtils
             Debug.WriteLine(newValue);
             var listView = sender as ListView;
             var current = listView.Items[listView.SelectedIndex] as IniElement;
-
+             
             if (newValue == c.Value && (newValue != c.Value || current.Field[0] != '#')) return;
             current.Value = newValue;
             if (current.Field[0] == '#')
@@ -322,7 +322,7 @@ namespace PDTUtils
             GetMachineIni.WriteMachineIni(current.Category, current.Field);
             GetMachineIni.ChangesPending = true;
         }
-
+        
         private void UnCommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var listView = sender as ListView;
@@ -339,7 +339,7 @@ namespace PDTUtils
             GetMachineIni.WriteMachineIni(current.Category, current.Field);
             GetMachineIni.ChangesPending = true;
         }
-        
+        //
 		private void RemoveChildrenFromStackPanel()
 		{
 			var childCount = StpButtonPanel.Children.Count;
@@ -380,7 +380,7 @@ namespace PDTUtils
 
                 UcMainPage.IsEnabled = false;
                 UcMainPage.Visibility = Visibility.Hidden;
-
+                
                 UcDiagnostics.IsEnabled = false;
                 UcDiagnostics.Visibility = Visibility.Hidden;
 
@@ -398,7 +398,7 @@ namespace PDTUtils
             }
 		}
 		
-		private void btnSyste_Click(object sender, RoutedEventArgs e)
+		private void btnSystem_Click(object sender, RoutedEventArgs e)
 		{
             GamesList.GetGamesList();
             

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
              mc:Ignorable="d"
              d:DesignHeight="700"
              d:DesignWidth="1800">
@@ -28,7 +29,7 @@
     </UserControl.Resources>
 
     <Grid>
-
+        
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="25">
             <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
                 <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
@@ -128,6 +129,24 @@
                 </Border>
             </StackPanel>
 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <Button Height="75" Width="70"  Margin="0,10,0,10" FontSize="30"
+						IsEnabled="{Binding UseReserveEnabled}"
+						Command="{Binding UseReserve}"
+						CommandParameter="88">88%</Button>
+                <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
+                    <Label Style="{StaticResource StdLabel}">Reserve Stake Fill</Label>
+                </Border>
+                <Button Height="75" Width="70"  Margin="0,10,100,10" FontSize="30"
+						IsEnabled="{Binding UseReseverEnabled}"
+						Command="{Binding UseReverse}"
+						CommandParameter="90">90%</Button>
+
+                <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
+                    <Label Style="{StaticResource StdLabelWide}" Content="Using Reserve"/>
+                </Border>
+            </StackPanel>
+            
         </StackPanel>
         <!-- Left Main StackPanel-->
 
