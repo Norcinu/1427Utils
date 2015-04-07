@@ -1,24 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PDTUtils.MVVM;
+using PDTUtils.Native;
 
 namespace PDTUtils.MVVM.ViewModels
 {
     class GameChartViewModel : ObservableObject
     {
-        List<KeyValuePair<string, int>> valueList = new List<KeyValuePair<string, int>>();
-        public List<KeyValuePair<string, int>> ValueList { get { return valueList; } }
+        public List<KeyValuePair<string, uint>> Incomings { get; set; }
+        public List<KeyValuePair<string, uint>> Outgoings { get; set; }
         
         public GameChartViewModel()
-        {    
-            valueList.Add(new KeyValuePair<string, int>("Developer", 60));
-            valueList.Add(new KeyValuePair<string, int>("Misc", 20));
-            valueList.Add(new KeyValuePair<string, int>("Tester", 50));
-            valueList.Add(new KeyValuePair<string, int>("QA", 30));
-            valueList.Add(new KeyValuePair<string, int>("Project Manager", 40));
-            RaisePropertyChangedEvent("ValueList");
+        {
+            Incomings = new List<KeyValuePair<string, uint>>();
+            Outgoings = new List<KeyValuePair<string, uint>>();
+
+            var buffer = new char[3]; 
+            NativeWinApi.GetPrivateProfileString("Models", "NumberOfModels", "", buffer, buffer.Length, 
+                Properties.Resources.model_manifest);
+            var gameCount = Convert.ToUInt32(new string(buffer)) + 1;
+            for (var i = 1; i < gameCount; i++)
+            {
+                var modelNo = BoLib.getGameModel(i);
+                var bet = (uint)BoLib.getGamePerformanceMeter((uint)i, 0);
+                var won = (uint)BoLib.getGamePerformanceMeter((uint)i, 1);
+                var titleBuffer = new char[64];
+                var name = NativeWinApi.GetPrivateProfileString("Model" + i, "Title", "", titleBuffer, titleBuffer.Length,
+                    Properties.Resources.model_manifest);
+
+                var title = new string(titleBuffer).Trim("\0".ToCharArray());
+                Incomings.Add(new KeyValuePair<string, uint>(title, bet));
+                Outgoings.Add(new KeyValuePair<string, uint>(title, won));
+            }
+            RaisePropertyChangedEvent("Incomings");
+            RaisePropertyChangedEvent("Outgoings");
         }
     }
 }

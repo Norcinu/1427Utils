@@ -24,7 +24,7 @@ namespace PDTUtils
         System.Timers.Timer _doorStatusTimer;
 		System.Timers.Timer _uiUpdateTimer;
 		Thread _keyDoorThread;
-	    
+
 		MachineErrorLog _errorLogText = new MachineErrorLog();
 		MachineGameStatistics _gameStatistics = new MachineGameStatistics();
 		ShortTermMeters _shortTerm = new ShortTermMeters();
