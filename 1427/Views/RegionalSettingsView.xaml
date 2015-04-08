@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:c="clr-namespace:PDTUtils"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1200">
     
@@ -14,8 +13,8 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Margin" Value="10"></Setter>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Background" Value="LightBlue"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="MinWidth" Value="200"/>
@@ -59,7 +58,7 @@
                                 <ColumnDefinition Name="ColumnOne" Width="430" />
                                 <ColumnDefinition Name="ColumnTwo" Width="430" />
                             </Grid.ColumnDefinitions>
-
+ 
                             <ListView x:Name="LvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1" SelectedIndex="{Binding MarketSelectedIndex}">
                                 <ListView.View>
                                     <GridView>

@@ -206,35 +206,38 @@ namespace PDTUtils
         {
             if (_games.Count > 0)
                 _games.RemoveAll();
-
+            
             var moneyInLt = BoLib.getPerformanceMeter((byte)Performance.MoneyInLt);
             var moneyOutLt = BoLib.getPerformanceMeter((byte)Performance.MoneyOutLt);
             var moneyWageredLt = BoLib.getPerformanceMeter((byte)Performance.WageredLt);
             var wonLt = BoLib.getPerformanceMeter((byte)Performance.WonLt);
             var noGames = BoLib.getPerformanceMeter((byte)Performance.NoGamesLt);
 
-            var gameCnt = BoLib.getTerminalFormat();
+            var gameCount = BoLib.getTerminalFormat();
 
             _moneyIn = (int)moneyInLt;
             _moneyOut = (int)moneyOutLt;
             _totalBet = (int)moneyWageredLt;
             _totalWon = (int)wonLt;
             _totalGames = (int)noGames;
-            _numberOfGames = gameCnt + 1;
-
-            for (var i = 0; i < gameCnt + 1; i++)
+            _numberOfGames = gameCount + 1;
+            
+            for (var i = 0; i <= gameCount; i++)
             {
                 var modelNo = BoLib.getGameModel(i);
                 var bet = (uint)BoLib.getGamePerformanceMeter((uint)i, 0);
-                var win = (int)BoLib.getGamePerformanceMeter((uint)i, 1);
-                var perc = ((double)win / (double)bet) * 100;// *10000;
+                var win = (uint)BoLib.getGamePerformanceMeter((uint)i, 1);
+                var perc = 0.00M;
+                if (win > 0 && bet > 0)
+                    perc = ((decimal)win / (decimal)bet) * 100;
                 var stats = new GameStats();
-                stats.GameNumber = i;
+                stats.GameNumber = i + 1;
                 stats.ModelNumber = (int)modelNo;
                 stats.Bets = (int)bet;
                 stats.Wins = win;
-                stats.Percentage = (perc > 0) ? perc.ToString() + "%" : "0.00%";
-                stats.ImageSource = (modelNo == 1524) ? @"D:\1525\BMP\GameIconS.png" : @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png";
+                stats.Percentage = (perc > 0) ? Math.Round(perc, 2).ToString() + "%" : "0.00%";
+                stats.ImageSource = (modelNo == 1524) ? @"D:\1525\BMP\GameIconS.png" : @"D:\" + modelNo.ToString() +
+                    @"\BMP\GameIconS.png";
                 _games.Add(stats);
             }
         }
