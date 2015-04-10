@@ -39,6 +39,15 @@
             <Setter Property="Height" Value="130"/>
             <Setter Property="Width" Value="200"/>
         </Style>
+        
+        <Style x:Key="MESHUGGAH" TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="38"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="Margin" Value="20"/>
+        </Style>
     </Window.Resources>
 
     <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
@@ -124,7 +133,7 @@
             <TabItem Header="Errors" MinWidth="150" HorizontalContentAlignment="Center">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
-                        <ListView ItemsSource="{Binding LogController.ErrorLog}" MinHeight="600" FontSize="20">
+                        <ListView ItemsSource="{Binding LogController.ErrorLog}" MinHeight="600" FontSize="20"> 
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
                                     <GridViewColumn Header="Date" Width="300">
@@ -521,7 +530,7 @@
                    
                 </TabControl>
             </TabItem>
-
+            
             <TabItem Header="Hoppers" MinWidth="100">
                 <!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
                 <view:HopperAdminView />
@@ -542,74 +551,80 @@
             <!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
             <TabControl Height="1000">
                 <TabItem Header="Games" MinWidth="100">
-                    <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1410" 
-                              FontSize="22" Height="600">
-                        <ListView.View>
-                            <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
-                                <GridViewColumn Header="Game Number" Width="200">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="Black" BorderThickness="2">
-                                                <Label Content="{Binding GameNumber}" Style="{StaticResource StatsLabel}"/>
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Icon" Width="200">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding ImageSource}" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Model No." Width="200">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="Black" BorderThickness="2">
-                                                <Label Content="{Binding ModelNumber}" Style="{StaticResource StatsLabel}"/>
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Bets" Width="200">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="Black" BorderThickness="2">
-                                                <Label Content="{Binding Bets}" Style="{StaticResource StatsLabel}"/>
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Wins" Width="200">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="Black" BorderThickness="2">
-                                                <Label Content="{Binding Wins}" Style="{StaticResource StatsLabel}"/>
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Percentage (%)" Width="200">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="Black" BorderThickness="2">
-                                                <Label Content="{Binding Percentage}" Style="{StaticResource StatsLabel}"/>
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Average Stake" Width="200">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="Black" BorderThickness="2">
-                                                <Label Content="{Binding AverageStake}" Style="{StaticResource StatsLabel}"/>
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <Label Style="{StaticResource MESHUGGAH}">Overall Machine RTP: 92.35%</Label>
+                        <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1410" 
+                              FontSize="22" Height="760">
+                            <ListView.View>
+                                <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
+                                    <GridViewColumn Header="Game Number" Width="200">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <Label Content="{Binding GameNumber}" Style="{StaticResource StatsLabel}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Icon" Width="200">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <Image Source="{Binding ImageSource}" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Model No." Width="200">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <Label Content="{Binding ModelNumber}" Style="{StaticResource StatsLabel}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Bets" Width="200">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <Label Content="{Binding Bets}" Style="{StaticResource StatsLabel}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Wins" Width="200">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <Label Content="{Binding Wins}" Style="{StaticResource StatsLabel}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!-- I used to try -->
+                                    <GridViewColumn Header="Percentage (%)" Width="200">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <Label Content="{Binding Percentage}" Style="{StaticResource StatsLabel}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Average Stake" Width="200">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <Label Content="{Binding AverageStake}" Style="{StaticResource StatsLabel}"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
                 </TabItem>
 
                 <TabItem Header="Game Selection">
@@ -617,7 +632,7 @@
                 </TabItem>
             </TabControl>
         </StackPanel>
-
+        
         <!-- is this were all the binding errors come from? -->
         <view:PerformanceView x:Name="UcPerformance" Grid.Row="1" Grid.Column="1" IsEnabled="False" Visibility="Hidden"/>
 
@@ -626,10 +641,10 @@
                     Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" 
                     Grid.Row="1" 
                     Grid.Column="1">
-
+            
             <StackPanel HorizontalAlignment="Left">
                 <ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="22" 
-                         ScrollViewer.CanContentScroll="True" 
+                         ScrollViewer.CanContentScroll="True"
                          ScrollViewer.HorizontalScrollBarVisibility="Visible" 
                          Margin="20" 
                          HorizontalAlignment="Stretch" 

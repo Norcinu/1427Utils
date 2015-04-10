@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using PDTUtils.Native;
 using PDTUtils.Properties;
+using System.ComponentModel;
 
 namespace PDTUtils
 {
@@ -86,17 +87,18 @@ namespace PDTUtils
 	/// Gets the information regarding the ranking of games for the 
 	/// statistics screen.
 	/// </summary>
-	public class MachineGameStatistics 
+	public class MachineGameStatistics : INotifyPropertyChanged
 	{
 		ObservableCollection<GameStats> _games = new ObservableCollection<GameStats>();
-		string _perfLog = Resources.perf_log;
+        bool _fileLoaded = false;        
 		int _moneyIn = 0;
 		int _moneyOut = 0;
 		int _totalBet = 0;
 		int _totalWon = 0;
 		int _totalGames = 0;
 		int _numberOfGames = 0;
-		bool _fileLoaded = false;
+        decimal _machineRtp = 0.00M;
+        string _perfLog = Resources.perf_log;
 
 		#region Properties
 		public ObservableCollection<GameStats> Games
@@ -144,38 +146,46 @@ namespace PDTUtils
 			get { return _numberOfGames; }
 			set { _numberOfGames = value; }
 		}
+
+        public string MachineRtp
+        {
+            get
+            {
+                return Math.Round(_machineRtp, 2).ToString("P");
+            }
+          /*  set
+            {
+                _machineRtp = (decimal)value;
+                RaisePropertyChangedEvent("MachineRtp");
+            }*/
+        }
 		#endregion
 
 		public MachineGameStatistics()
 		{
 		}
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChangedEvent(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
 		public void Update()
 		{
 		}
-
+        
 		private void FillGameStats(string[] combo, ref GameStats gs)
 		{
-			/*if (combo[0] == "GameNo")
-				gs.GameNumber = Convert.ToInt32(combo[1]);
-			else if (combo[0] == "ModelNo")
-			{
-				gs.ModelNumber = Convert.ToInt32(combo[1]);
-				gs.ImageSource = @"D:\" + gs.ModelNumber.ToString() + @"\I" + gs.ModelNumber.ToString() + ".png";
-			}
-			else if (combo[0] == "Bets")
-				gs.Bets = Convert.ToInt32(combo[1]);
-			else if (combo[0] == "Wins")
-				gs.Wins = Convert.ToInt32(combo[1]);
-			else if (combo[0] == "Percentage")
-				gs.Percentage = Convert.ToDouble(combo[1]);*/
-
             if (combo[0] == "GameNo")
                 gs.GameNumber = Convert.ToInt32(combo[1]);
             else if (combo[0] == "ModelNo")
             {
                 gs.ModelNumber = Convert.ToInt32(combo[1]);
-                gs.ImageSource = @"D:\" + /*gs.ModelNumber.ToString()*/@"stats\" + /*@"\I" +*/ gs.ModelNumber.ToString() + ".png";
+                gs.ImageSource = @"D:\" + @"stats\" + gs.ModelNumber.ToString() + ".png";
             }
             else if (combo[0] == "Bets")
                 gs.Bets = Convert.ToInt32(combo[1]);
@@ -184,8 +194,6 @@ namespace PDTUtils
             else if (combo[0] == "Percentage")
             {
                 gs.Percentage = combo[1].Trim() + "%";
-                //var l = combo[1].Trim();
-                //gs.Percentage = decimal.Parse(l); //Convert.ToDecimal(combo[1]);
             }
 		}
 		
@@ -210,17 +218,27 @@ namespace PDTUtils
             var moneyInLt = BoLib.getPerformanceMeter((byte)Performance.MoneyInLt);
             var moneyOutLt = BoLib.getPerformanceMeter((byte)Performance.MoneyOutLt);
             var moneyWageredLt = BoLib.getPerformanceMeter((byte)Performance.WageredLt);
-            var wonLt = BoLib.getPerformanceMeter((byte)Performance.WonLt);
+            var wonLt = BoLib.getPerformanceMeter((byte)Performance.WonLt); // wins arent getting added to performance meters
             var noGames = BoLib.getPerformanceMeter((byte)Performance.NoGamesLt);
-
+            
             var gameCount = BoLib.getTerminalFormat();
-
+            
             _moneyIn = (int)moneyInLt;
             _moneyOut = (int)moneyOutLt;
             _totalBet = (int)moneyWageredLt;
             _totalWon = (int)wonLt;
             _totalGames = (int)noGames;
             _numberOfGames = gameCount + 1;
+            var t = (uint)wonLt;
+            try
+            {
+                _machineRtp = (decimal)_moneyIn / (decimal)_moneyOut;
+                var opp = (decimal)_moneyOut / (decimal)_moneyIn;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
             
             for (var i = 0; i <= gameCount; i++)
             {
@@ -234,7 +252,7 @@ namespace PDTUtils
                 stats.GameNumber = i + 1;
                 stats.ModelNumber = (int)modelNo;
                 stats.Bets = (int)bet;
-                stats.Wins = win;
+                stats.Wins = (int)win;
                 stats.Percentage = (perc > 0) ? Math.Round(perc, 2).ToString() + "%" : "0.00%";
                 stats.ImageSource = (modelNo == 1524) ? @"D:\1525\BMP\GameIconS.png" : @"D:\" + modelNo.ToString() +
                     @"\BMP\GameIconS.png";

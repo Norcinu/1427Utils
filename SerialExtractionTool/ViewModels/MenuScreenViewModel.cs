@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using PDTUtils.MVVM;
 
@@ -7,6 +6,9 @@ namespace SerialExtractionTool.ViewModels
 {
     class MenuScreenViewModel : ObservableObject
     {
+        public bool IsEnabled { get; set; }
+        public bool ShutDown { get; set; }
+
         public MenuScreenViewModel()
         {
             IsEnabled = true;
@@ -26,8 +28,8 @@ namespace SerialExtractionTool.ViewModels
             Application.Current.Shutdown();
         }
 
-        [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+        /*[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
         public bool IsEnabled { get; set; }
-        public bool Shutdown { get; set; }
+        public bool Shutdown { get; set; }*/
     }
 }

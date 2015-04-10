@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace PDTUtils.MVVM
 {
-    class ObservableObject : INotifyPropertyChanged
+    class ObservableObject : INotifyPropertyChanged // was private
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

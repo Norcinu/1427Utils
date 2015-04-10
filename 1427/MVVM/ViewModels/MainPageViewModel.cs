@@ -322,11 +322,11 @@ namespace PDTUtils.MVVM.ViewModels
         void AddDenomButton(object button)
         {
             var b = button as Button;
-            //var str = b.Content as string;
-            var textBox = b.Content as TextBlock;
-            if (textBox != null)
+            var text = b.Content as Label;
+            
+            if (text != null)
             {
-                var str = textBox.Text;
+                var str = text.Content as string;
 
                 if (str[0] != '£' && str[0] != '€')
                     Pennies = Convert.ToInt32(str.Substring(0, str.Length - 1));
@@ -336,14 +336,14 @@ namespace PDTUtils.MVVM.ViewModels
                     Pennies *= 100;
                 }
             }
-
+            
             BoLib.setUtilsAdd2CreditValue((uint)Pennies);
             BoLib.setRequestUtilsAdd2Credit();
             System.Threading.Thread.Sleep(250);
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
             Reserve = (int)BoLib.getReserveCredits();
-            TotalCredits = Bank + Credits;// + Reserve;
+            TotalCredits = Bank + Credits;
             
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");

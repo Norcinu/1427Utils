@@ -96,6 +96,10 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("SelectionChanged");
             }
         }
+
+        //gametime, maxbank, maxcredits, maxreserve
+        public int ConvertToPlay { get; set; }
+
         #endregion
 
         #region Commands
@@ -108,11 +112,11 @@ namespace PDTUtils.MVVM.ViewModels
         
         public RegionalSettingsViewModel()
         {
-            string dbName = @"D:\1525\db\RegionalNonStandard.sqlite";
+            /*string dbName = @"D:\1525\db\RegionalNonStandard.sqlite";
             if (!System.IO.File.Exists(dbName))
                 SQLiteConnection.CreateFile(dbName);
             
-            /*SQLiteConnection _conn = new SQLiteConnection("Data Source=" + dbName + ";Version=3;");
+            SQLiteConnection _conn = new SQLiteConnection("Data Source=" + dbName + ";Version=3;");
             _conn.Open();
             string select = "select * from highscores order by score desc";
             SQLiteCommand selectCmd = new SQLiteCommand(select, _conn);

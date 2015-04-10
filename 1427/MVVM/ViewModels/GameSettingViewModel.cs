@@ -11,19 +11,19 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class GameSettingViewModel : ObservableObject
     {
-        private readonly ObservableCollection<GameSettingModel> _gameSettings
-            = new ObservableCollection<GameSettingModel>();
-        private readonly int[] _ukStakeValues = new int[4] { 25, 50, 100, 200 };        
-        private int _count = 0;
-        private int _currentFirstSel = -1;
-        private int _currentSecondSel = -1;
-        private string _errorText = "";
-        private CultureInfo _currentCulture;
+        readonly ObservableCollection<GameSettingModel> _gameSettings = new ObservableCollection<GameSettingModel>();
+        readonly int[] _ukStakeValues = new int[4] { 25, 50, 100, 200 };
+        readonly string _manifest = Properties.Resources.model_manifest;
+
+        int _count = 0;
+        int _currentFirstSel = -1;
+        int _currentSecondSel = -1;
+        uint _numberOfGames = 0;
+        string _errorText = "";
+        CultureInfo _currentCulture;       
+        
         public NumberFormatInfo Nfi { get; set; }
 
-        uint _numberOfGames = 0;
-        readonly string _manifest = Properties.Resources.model_manifest;
-        
         #region properties
         public int ActiveCount
         { 
@@ -327,7 +327,7 @@ namespace PDTUtils.MVVM.ViewModels
                 var msg = new WpfMessageBoxService();
                 msg.ShowMessage("Cannot find ModelManifest.ini", "ERROR");
                 return;
-            }
+            } 
             
             if (_gameSettings.Count > 0)
                 _gameSettings.Clear();
@@ -336,7 +336,7 @@ namespace PDTUtils.MVVM.ViewModels
                               BoLib.getCountryCode() == BoLib.getUkCountryCodeC()
                 ? new CultureInfo("en-GB")
                 : new CultureInfo("es-ES");
-
+            
             Nfi = _currentCulture.NumberFormat;
             
             string[] modelNumber;
@@ -350,7 +350,7 @@ namespace PDTUtils.MVVM.ViewModels
                 var sb = new System.Text.StringBuilder(8);//dis be going wrong yo.
                 NativeWinApi.GetPrivateProfileString("Model" + (i + 1), "Promo", "", sb, 8, @Properties.Resources.model_manifest);
                 var isPromo = sb.ToString();
-
+                
                 var m = new GameSettingModel
                 {
                     ModelNumber = Convert.ToUInt32(model[0]),
@@ -360,7 +360,7 @@ namespace PDTUtils.MVVM.ViewModels
                     StakeTwo = Convert.ToInt32(model[4]),
                     StakeThree = Convert.ToInt32(model[5]),
                     StakeFour = Convert.ToInt32(model[6]),
-                    StakeMask = (Convert.ToUInt32(model[9])),
+                    StakeMask = Convert.ToUInt32(model[9]),
                     ModelDirectory = model[11],
                     Exe = model[12],
                     HashKey = model[13]
@@ -448,7 +448,7 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 NativeWinApi.WritePrivateProfileString("Model1", "Promo", "100", _manifest); // need to validate
             }
-
+            
             if (!isSecondSet)
             {
                 NativeWinApi.WritePrivateProfileString("Model" + _gameSettings.Count, "Promo", "200", _manifest); //need to validate
@@ -466,10 +466,10 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand ToggleStake { get { return new DelegateCommand(DoToggleStake); } }
         void DoToggleStake(object amount)
         {
-            if (SelectedIndex < 0) return;
+            //if (SelectedIndex < 0) return;
             var str = amount as string;
-            if (str == "") return;
-            
+            if (SelectedIndex < 0 || str == "") return;
+            //all i wanna do is scok
             var stake = Convert.ToInt32(amount);
             switch (stake)
             {
