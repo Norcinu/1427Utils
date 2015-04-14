@@ -236,4 +236,8 @@
   <data name="door_open_sound" xml:space="preserve">
     <value>D:\1525\wav\util.wav</value>
   </data>
+  <data name="PreGambleIcon" xml:space="preserve">
+    <value>D:\1525\BMP\GameIconS.png</value>
+    <comment>For use in game stats page</comment>
+  </data>
 </root>

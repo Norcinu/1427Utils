@@ -1,6 +1,3 @@
-/*#include <Windows.h>
-#include <bo.h>
-#include <NVR.H>*/
 #include <sstream>
 #include <cstring>
 #include <string>
@@ -9,7 +6,6 @@
 #include "General.h"
 #include "MD5.h"
 
-//#define RELEASE_NUMBER	1525
 
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
@@ -740,6 +736,17 @@ bool isBackOfficeAvilable()
 	else			 
 		return true;
 }
+
+unsigned long getWinningGameMeter(const int offset, const int meter)
+{
+	return nvr_ptr->winningGames[offset][meter];
+}
+
+unsigned long getHistoryLength()
+{
+	return NUMBER_LAST_GAMES;
+}
+
 
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!

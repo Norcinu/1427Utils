@@ -250,6 +250,15 @@ namespace PDTUtils.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1525\BMP\GameIconS.png.
+        /// </summary>
+        internal static string PreGambleIcon {
+            get {
+                return ResourceManager.GetString("PreGambleIcon", resourceCulture);
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream reset {
             get {
                 return ResourceManager.GetStream("reset", resourceCulture);

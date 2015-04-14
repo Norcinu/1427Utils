@@ -48,7 +48,7 @@ namespace PDTUtils
 		
 		public double AverageStake
 		{
-			get { return _averageStake; }
+            get { return Math.Round(_averageStake, 2); }
 			set { _averageStake = value; }
 		}
 		
@@ -134,37 +134,32 @@ namespace PDTUtils
 			get { return _totalWon; }
 			set { _totalWon = value; }
 		}
-
+        
 		public int TotalGames
 		{
 			get { return _totalGames; }
 			set { _totalGames = value; }
 		}
-
+        
 		public int NumberOfGames
 		{
 			get { return _numberOfGames; }
 			set { _numberOfGames = value; }
 		}
-
+        
         public string MachineRtp
         {
             get
             {
-                return Math.Round(_machineRtp, 2).ToString("P");
+                return "Overall Game Machine Average: " + Math.Round(_machineRtp, 2).ToString("P");
             }
-          /*  set
-            {
-                _machineRtp = (decimal)value;
-                RaisePropertyChangedEvent("MachineRtp");
-            }*/
         }
 		#endregion
-
+        
 		public MachineGameStatistics()
 		{
 		}
-
+        
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void RaisePropertyChangedEvent(string propertyName)
@@ -220,7 +215,6 @@ namespace PDTUtils
             var moneyWageredLt = BoLib.getPerformanceMeter((byte)Performance.WageredLt);
             var wonLt = BoLib.getPerformanceMeter((byte)Performance.WonLt); // wins arent getting added to performance meters
             var noGames = BoLib.getPerformanceMeter((byte)Performance.NoGamesLt);
-            
             var gameCount = BoLib.getTerminalFormat();
             
             _moneyIn = (int)moneyInLt;
@@ -229,34 +223,52 @@ namespace PDTUtils
             _totalWon = (int)wonLt;
             _totalGames = (int)noGames;
             _numberOfGames = gameCount + 1;
-            var t = (uint)wonLt;
-            try
-            {
-                _machineRtp = (decimal)_moneyIn / (decimal)_moneyOut;
-                var opp = (decimal)_moneyOut / (decimal)_moneyIn;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
-            
+
+            uint tempTotalWon = 0;
+            uint totalGameCount = 0;
+            uint totalBet = 0;
             for (var i = 0; i <= gameCount; i++)
             {
                 var modelNo = BoLib.getGameModel(i);
                 var bet = (uint)BoLib.getGamePerformanceMeter((uint)i, 0);
                 var win = (uint)BoLib.getGamePerformanceMeter((uint)i, 1);
+                var playCount = (uint)BoLib.getGamePerformanceMeter((uint)i, 2);
+                var average = (double)bet / (double)playCount;
                 var perc = 0.00M;
+                
                 if (win > 0 && bet > 0)
                     perc = ((decimal)win / (decimal)bet) * 100;
-                var stats = new GameStats();
-                stats.GameNumber = i + 1;
-                stats.ModelNumber = (int)modelNo;
-                stats.Bets = (int)bet;
-                stats.Wins = (int)win;
-                stats.Percentage = (perc > 0) ? Math.Round(perc, 2).ToString() + "%" : "0.00%";
-                stats.ImageSource = (modelNo == 1524) ? @"D:\1525\BMP\GameIconS.png" : @"D:\" + modelNo.ToString() +
-                    @"\BMP\GameIconS.png";
-                _games.Add(stats);
+                              
+                if (i > 0)
+                {
+                    totalGameCount += playCount;
+                    tempTotalWon += win;
+                    totalBet += bet;
+                }
+                
+                _games.Add(new GameStats()
+                {
+                    GameNumber = i + 1,
+                    ModelNumber = (int)modelNo,
+                    Bets = (int)bet,
+                    Wins = (int)win,
+                    Percentage = (perc > 0) ? Math.Round(perc, 2).ToString() + "%" : "0.00%",
+                    ImageSource = (modelNo == 1524) ? Properties.Resources.PreGambleIcon : 
+                                                      @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png",
+                    AverageStake = average,
+                });
+            }
+            
+            try
+            {
+                _totalWon = (int)tempTotalWon;
+                _machineRtp = (decimal)totalBet / (decimal)_totalWon;
+                RaisePropertyChangedEvent("MachineRtp");
+            }
+            catch (Exception ex)
+            {
+                _machineRtp = 0.00M;
+                RaisePropertyChangedEvent("MachineRtp");
             }
         }
 	}

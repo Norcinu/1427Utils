@@ -48,7 +48,7 @@ namespace PDTUtils
                 InitialiseBoLib();
                 InitializeComponent();
                 CultureInfo ci = null;
-
+                
                 ci = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? new CultureInfo("es-ES") : new CultureInfo("en-GB");
                 
                 Thread.CurrentThread.CurrentCulture = ci;

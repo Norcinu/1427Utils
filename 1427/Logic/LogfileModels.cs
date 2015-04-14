@@ -94,7 +94,7 @@ namespace PDTUtils
         
         protected override void ParseGame(int gameNo)
         {
-            var ci = new CultureInfo("en-GB"); // en-GB
+            /*var ci = new CultureInfo("en-GB"); // en-GB
             var date = DateTime.Now.ToString();
             DateTime.TryParse(date, ci, DateTimeStyles.None, out _logDate);
             
@@ -105,14 +105,39 @@ namespace PDTUtils
             var month = (int) tempGameDate & 0x0000FFFF;
             _logDate = new DateTime(2014, month, today);
             _winAmount = BoLib.getWinningGame(gameNo);
-            _credit = BoLib.getGameCreditLevel(gameNo);
+            _credit = BoLib.getGameCreditLevel(gameNo);*/
+
+            if (gameNo == 0) return;
+            if (BoLib.getWinningGameMeter(gameNo, 0) == 0) return;
+
+            uint[] andTing = new uint[8];
+            for (int j = 0; j < 8; j++)
+            {
+                andTing[j] = (uint)BoLib.getWinningGameMeter(gameNo, j);
+            }
+            
+            GameModel = andTing[0];
+            try
+            {
+                DateTime d = new DateTime(DateTime.Now.Year, (int)andTing[4], (int)andTing[3], (int)andTing[1], 
+                    (int)andTing[2], 0);
+                _logDate = d;
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            _stake = andTing[5];
+            _winAmount = andTing[6];
+            var mySombrero = 0;
+
             OnPropertyChanged("WinningGames");
         }
     }
     
     public class PlayedGame : BaseGameLog
     {
-        private decimal _winAmount;
+        decimal _winAmount;
 
         public PlayedGame()
         {
@@ -131,9 +156,11 @@ namespace PDTUtils
 
         protected override void ParseGame(int gameNo)
         {
-            //CultureInfo ci = new CultureInfo("en-GB");
-            var ci = Thread.CurrentThread.CurrentCulture;
+           // CultureInfo ci = new CultureInfo("en-GB");
+            if (gameNo == 0) return;
 
+            var ci = Thread.CurrentThread.CurrentCulture;
+            
             var gameDate = BoLib.getGameDate(gameNo);
             var time = BoLib.getGameTime(gameNo);
 
@@ -150,7 +177,7 @@ namespace PDTUtils
             {
                 var ds = day + @"/" + month + @"/" + year + " " + hour + " " + ":" + minute;
                 _credit = BoLib.getGameCreditLevel(gameNo);
-                _stake = BoLib.getGameWager(gameNo);
+                _stake = (uint)BoLib.getGameWager(gameNo);
                 GameModel = (uint) BoLib.getLastGameModel(gameNo);
 
                 _logDate = DateTime.Parse(ds, ci);
@@ -378,20 +405,20 @@ namespace PDTUtils
 
         public void SetPlayedLog()
         {
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < (int)BoLib.getHistoryLength(); i++)
             {
-                PlayedGames.Add(new PlayedGame(i));
+                if ((uint)BoLib.getGameWager(i) > 0)
+                    PlayedGames.Add(new PlayedGame(i));
             }
-            PlayedGames.BubbleSort();
         }
 
         public void SetWinningLog()
         {
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < (int)BoLib.getHistoryLength(); i++)
             {
                 try
                 {
-                    if (BoLib.getWinningGame(i) > 0)
+                    if ((uint)BoLib.getWinningGameMeter(i, 0) > 0)
                         WinningGames.Add(new WinningGame(i));
                 }
                 catch (Exception ex)

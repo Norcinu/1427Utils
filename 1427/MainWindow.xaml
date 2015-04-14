@@ -302,7 +302,7 @@
             </TabItem>
 
             <TabItem Header="Wins" MinWidth="150" HorizontalContentAlignment="Center">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
                         <ListView ItemsSource="{Binding Path=LogController.WinningGames}" MinHeight="600" FontSize="20">
                             <ListView.View>
@@ -334,7 +334,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Credits" Width="225">
+                                    <!--<GridViewColumn Header="Credits" Width="225">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
@@ -342,7 +342,7 @@
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
+                                    </GridViewColumn>-->
                                     <GridViewColumn Header="Win Amount" Width="225">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -552,7 +552,7 @@
             <TabControl Height="1000">
                 <TabItem Header="Games" MinWidth="100">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label Style="{StaticResource MESHUGGAH}">Overall Machine RTP: 92.35%</Label>
+                        <Label Style="{StaticResource MESHUGGAH}" Content="{Binding GameStatistics.MachineRtp}"/><!--Overall Machine RTP: 92.35%</Label>-->
                         <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1410" 
                               FontSize="22" Height="760">
                             <ListView.View>

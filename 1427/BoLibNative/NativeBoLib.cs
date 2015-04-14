@@ -58,6 +58,18 @@ namespace PDTUtils.Native
         WonSt
     }
     
+    enum GamePerformance
+    {
+        GameWageredLt = 0,
+        GameWonLt,
+        GamePlayLt,
+        GameWageredSt,
+        GameWonSt,
+        GamePlaySt,
+        MaxGameMeters,
+        GameStOffSetP = (MaxGameMeters / 2)
+    }
+    
     static class BoLib
     {
 #if DEBUG
@@ -298,12 +310,18 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool isBackOfficeAvilable();
-
+        
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint getTitoStateValue();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool canPerformHandPay();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong getWinningGameMeter(int offset, int meter);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong getHistoryLength();
 
         /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint getPayoutCoinValues(uint which);*/

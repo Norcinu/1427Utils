@@ -260,9 +260,7 @@ namespace PDTUtils.MVVM.ViewModels
                     Bank = BoLib.getBank();
                     Reserve = (int) BoLib.getReserveCredits();
                     TotalCredits = 0;
-                    //maybe monday night go for a drink and a munch.
-                    //GAFF WILL BE RAMMED MAKE NO MISTAKE. LIVERPOOL ARE PLAYING :(
-                    //seriously i cant get away from this french cunt.
+                    
                     RaisePropertyChangedEvent("Credits");
                     RaisePropertyChangedEvent("Bank");
                     RaisePropertyChangedEvent("Reserve");

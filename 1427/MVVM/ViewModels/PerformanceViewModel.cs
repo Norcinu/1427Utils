@@ -163,10 +163,10 @@ namespace PDTUtils.MVVM.ViewModels
                                                         NumberOfGamesLt.ToString(), 
                                                         NumberOfGamesSt.ToString()));
             
-            var totalBetsLt = (int)BoLib.getPerformanceMeter(5) / 100.0M;
-            var totalBetsSt = (int)BoLib.getPerformanceMeter(12) / 100.0M;
-            var totalWonLt = (int)BoLib.getPerformanceMeter(6) / 100.0M;
-            var totalWonSt = (int)BoLib.getPerformanceMeter(13) / 100.0M;
+            var totalBetsLt = (int)BoLib.getPerformanceMeter((byte)Native.Performance.WageredLt) / 100.0M;
+            var totalBetsSt = (int)BoLib.getPerformanceMeter((byte)Native.Performance.WageredSt) / 100.0M;
+            var totalWonLt = (int)BoLib.getPerformanceMeter((byte)Native.Performance.WonLt) / 100.0M;
+            var totalWonSt = (int)BoLib.getPerformanceMeter((byte)Native.Performance.WonSt) / 100.0M;
 
             var percentageLt = (totalWonLt > 0 && totalBetsLt > 0) ? (totalWonLt / totalBetsLt) : 0;
             var percentageSt = (totalWonSt > 0 && totalBetsSt > 0) ? (totalWonSt / totalBetsSt) : 0;
@@ -211,7 +211,7 @@ namespace PDTUtils.MVVM.ViewModels
             Performance.Add(new HelloImJohnnyCashMeters("TPlay Cash Out:", 
                                                         tpMoneyOutLt.ToString("C", _nfi), 
                                                         tpMoneyOutSt.ToString("C", _nfi)));
-            
+
             //Read Game Stats meters
             for (uint i = 0; i <= BoLib.getNumberOfGames(); i++) //shell as well as games
             {

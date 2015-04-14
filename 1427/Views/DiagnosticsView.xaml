@@ -51,13 +51,13 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Hardware Test" MinWidth="150">
+            <!--<TabItem Header="Hardware Test" MinWidth="150">-->
                 <!--PING SOME WELL KNOWN WEBSITES -> GOOGLE YAHOO BBC.-->
-            </TabItem>
+            <!--</TabItem>-->
 
-            <TabItem Header="Network Info" MinWidth="150">
+            <!--<TabItem Header="Network Info" MinWidth="150">-->
                 <!--RENAME TO DIAGNOSTICSVIEW.-->
-            </TabItem>
+            <!--</TabItem>-->
         </TabControl>
     </Grid>
 </UserControl>

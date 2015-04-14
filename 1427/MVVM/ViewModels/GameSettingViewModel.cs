@@ -319,7 +319,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             SelectedIndex = _gameSettings.Count > 0 ? 0 : -1;
         }
-        
+
         public void AddGame()
         {
             if (!System.IO.File.Exists(_manifest))
@@ -327,22 +327,22 @@ namespace PDTUtils.MVVM.ViewModels
                 var msg = new WpfMessageBoxService();
                 msg.ShowMessage("Cannot find ModelManifest.ini", "ERROR");
                 return;
-            } 
-            
+            }
+
             if (_gameSettings.Count > 0)
                 _gameSettings.Clear();
-            
+
             _currentCulture = BoLib.getCountryCode() == BoLib.getUkCountryCodeB3() ||
                               BoLib.getCountryCode() == BoLib.getUkCountryCodeC()
                 ? new CultureInfo("en-GB")
                 : new CultureInfo("es-ES");
-            
+
             Nfi = _currentCulture.NumberFormat;
-            
+
             string[] modelNumber;
             IniFileUtility.GetIniProfileSection(out modelNumber, "Models", _manifest, true);
             _numberOfGames = Convert.ToUInt32(modelNumber[0]);
-            
+
             for (var i = 0; i < _numberOfGames; i++)
             {
                 string[] model;
@@ -350,7 +350,7 @@ namespace PDTUtils.MVVM.ViewModels
                 var sb = new System.Text.StringBuilder(8);//dis be going wrong yo.
                 NativeWinApi.GetPrivateProfileString("Model" + (i + 1), "Promo", "", sb, 8, @Properties.Resources.model_manifest);
                 var isPromo = sb.ToString();
-                
+
                 var m = new GameSettingModel
                 {
                     ModelNumber = Convert.ToUInt32(model[0]),
@@ -365,9 +365,9 @@ namespace PDTUtils.MVVM.ViewModels
                     Exe = model[12],
                     HashKey = model[13]
                 };
-                
+
                 _gameSettings.Add(m);
-                
+
                 switch (isPromo)
                 {
                     case "100":
@@ -384,7 +384,7 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-        
+       
         public void SaveChanges()
         {
             if (_gameSettings.Count <= 0) return;

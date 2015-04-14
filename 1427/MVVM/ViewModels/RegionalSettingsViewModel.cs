@@ -7,6 +7,7 @@ using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
 using PDTUtils.Properties;
 using System.Data.SQLite;
+using System.Reflection;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -17,6 +18,7 @@ namespace PDTUtils.MVVM.ViewModels
         int _arcadeSelectedIndex = -1;
         int _marketSelectedIndex = -1;
 
+        readonly ObservableCollection<KeyValuePair<string, uint>> _settingsView = new ObservableCollection<KeyValuePair<string, uint>>();
         readonly ObservableCollection<SpanishRegionalModel> _arcades = new ObservableCollection<SpanishRegionalModel>();
         readonly ObservableCollection<SpanishRegionalModel> _street = new ObservableCollection<SpanishRegionalModel>();
         SpanishRegionalModel _editableLiveRegion;
@@ -41,12 +43,21 @@ namespace PDTUtils.MVVM.ViewModels
             "Canarias-1000","Galicia-3600","Galicia-1800"            
         };
 
+        readonly string[] _settingHeaders = new string[18] 
+        {
+            "Max Stake Credits", "Max Stake Bank", "Stake Mask", "Max Win Per Stake", "Max Credits", "Max Reserve Credits", "Max Bank",
+            "Max Player Points", "Escrow State", "RTP", "Game Time", "Give Change Threshold", "Max Bank Note",
+            "Allow Credit To Bank", "Convert To PP", "Cycle Size", "Fast Transfer", ""
+        };
+
         #region Properties
         public bool FirstScreen { get; set; }
         public bool SecondScreen { get; set; }
 
         public IEnumerable<SpanishRegionalModel> Arcades { get { return _arcades; } }
         public IEnumerable<SpanishRegionalModel> Street { get { return _street; } }
+        public IEnumerable<KeyValuePair<string, uint>> SettingsView { get { return _settingsView; } }
+
         public SpainRegionSelection Selected
         {
             get { return _selected; }
@@ -146,6 +157,7 @@ namespace PDTUtils.MVVM.ViewModels
             SelectionChanged = false;
 
             LoadSettings();
+            LoadSettingsView();
 
             RaisePropertyChangedEvent("EditableLiveRegion");
             RaisePropertyChangedEvent("Arcades");
@@ -153,8 +165,36 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Selected");
         }
 
-        public void SaveChanges()
+        private void LoadSettingsView()
         {
+            if (_settingsView.Count > 0)
+                _settingsView.Clear();
+
+            PropertyInfo[] properties = _editableLiveRegion.GetType().GetProperties();
+            int headerCtr = 0;
+            try
+            {
+                foreach (var p in properties)
+                {
+                    if (headerCtr < 17)
+                    {
+                         _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr], 
+                            (uint)p.GetValue(_editableLiveRegion, null)));
+                        headerCtr++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+#endif
+            }
+            RaisePropertyChangedEvent("SettingsView");
+        }
+        
+        public void SaveChanges()
+        { 
             NativeWinApi.WritePrivateProfileString("General", "Region", Selected.Community, _espRegionIni);
             NativeWinApi.WritePrivateProfileString("General", "VenueType", Selected.VenueType, _espRegionIni);
 
@@ -247,7 +287,8 @@ namespace PDTUtils.MVVM.ViewModels
             
             SaveChanges();
             LoadSettings();
-            
+            LoadSettingsView();
+
             RaisePropertyChangedEvent("Selected");
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
@@ -270,7 +311,9 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxCredits += 100;
             else if (setting.Equals("MaxReserve"))// && _editableLiveRegion.MaxReserveCredits >= 1000)
                 _editableLiveRegion.MaxReserveCredits += 1000;
-            
+            else if (setting.Equals("Cycle") && EditableLiveRegion.CycleSize < 100000)
+                EditableLiveRegion.CycleSize += 1000;
+
             SaveChanges();
             LoadSettings();
             
@@ -298,6 +341,8 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxCredits -= 100;
             else if (setting == "MaxReserve" && _editableLiveRegion.MaxReserveCredits > 1000)
                 _editableLiveRegion.MaxReserveCredits -= 1000;
+            else if (setting.Equals("Cycle") && _editableLiveRegion.CycleSize > 10000)
+                EditableLiveRegion.CycleSize -= 1000;
 
             SaveChanges();
             LoadSettings();

@@ -1,9 +1,6 @@
-#define DllExport __declspec(dllexport)
 #define DLLEXPORT extern "C" __declspec(dllexport)
 
-
 #include <Windows.h>
-
 
 struct GamesInfo;
 struct SpanishRegional;
@@ -14,54 +11,54 @@ typedef int BOOL;
 *	Gets the maximum credits level for the category.
 *	The call wraps GetVariableValue(MAX_CREDITS).
 */
-extern "C" DllExport int getMaxCredits();
+DLLEXPORT int getMaxCredits();
 /**
 *	Gets the maximum allowable bank meter level.
 *	The call wraps GetVariableValue(MAX_WIN_BANK).
 *	Returns the value in pennies.
 */
-extern "C" DllExport int getMaxBank();
+DLLEXPORT int getMaxBank();
 /**
 *	Gets the machines RTP.
 *	Calls directly the BO lib equivalent.
 *	Returns the value in pennies.
 */
-extern "C" DllExport int getTargetPercentage();
+DLLEXPORT int getTargetPercentage();
 /**
 *	Determines whether or not the machine is set for dual bank meters.
 *	The call wraps GetBankAndCreditMeter();
 */
-extern "C" DllExport bool isDualBank();
+DLLEXPORT bool isDualBank();
 /**
 *	Gets the current error code.
 *	The call wraps GetCurrentError();
 *	Returns an integer based for each code.
 */
-extern "C" DllExport int getError();
+DLLEXPORT int getError();
 /**
 *	Gets the current error text based on the error code. 
 *	Returns an string.
 *	This call wraps GetErrorText(GetCurrentError());
 */
-extern "C" DllExport const char *getErrorText();
+DLLEXPORT const char *getErrorText();
 /**
 *	Checks to see the status of the door. Is door open or closed.
 *	Returns 0 for door-closed, 1 for door-open.
 *	Call wraps GetDoorStatus();
 */
-extern "C" DllExport int getDoorStatus();
+DLLEXPORT int getDoorStatus();
 /**
 *	Check for refill key status.
 *	0 for off, 1 for on.
 *	This call wraps GetSwitchStatus(REFILL_KEY);
 */
-extern "C" DllExport int refillKeyStatus();
+DLLEXPORT int refillKeyStatus();
 /**
 *	Get the terminals current commited credit level.
 *	Value is returned in pennies.
 *	Call wraps GetCredits();
 */
-extern "C" DllExport int getCredit();
+DLLEXPORT int getCredit();
 /**
 *	Get terminals current *uncommited* credit level.
 *	Value is returned in pennies.
@@ -132,4 +129,6 @@ DLLEXPORT unsigned long getLastGameModel(int index);
 DLLEXPORT unsigned long getReserveCredits();
 DLLEXPORT bool			isBackOfficeAvilable();
 //DLLEXPORT unsigned int	getPayoutCoinValues(unsigned int WhichOne);
+DLLEXPORT unsigned long getWinningGameMeter(int offset, int meter);
+DLLEXPORT unsigned long getHistoryLength();
 

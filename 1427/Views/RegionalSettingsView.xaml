@@ -34,7 +34,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
 
     </UserControl.Resources>
-
+    
     <Grid>
         <TabControl>
             <TabItem Header="Community Type">
@@ -150,166 +150,179 @@
 
             
             <TabItem Header="Community Settings">
-                <StackPanel HorizontalAlignment="Center" Background="LightGray" >
-
-                    <Border BorderBrush="Black" BorderThickness="2" Background="LightBlue">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25" Background="LightBlue">
-                            <Label Style="{StaticResource StdHeaderLabel}">Edit Region:</Label>
-                            <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Selected.Community}"></Label>
+                <TabControl>
+                    <TabItem Header="View" Width="150">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <ListView ItemsSource="{Binding SettingsView}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Key" DisplayMemberBinding="{Binding Key}" Width="380"/>
+                                        <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Value}" Width="380"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
                         </StackPanel>
-                    </Border>
+                    </TabItem>
+                    
+                    <TabItem Header="Edit" Width="150">
+                        <StackPanel HorizontalAlignment="Center" Background="LightGray" >
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="MaxCredits">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+
+                            <Border BorderBrush="Black" BorderThickness="2" Background="LightBlue">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25" Background="LightBlue">
+                                    <Label Style="{StaticResource StdHeaderLabel}">Edit Region:</Label>
+                                    <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Selected.Community}"></Label>
+                                </StackPanel>
+                            </Border>
+                            
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="MaxCredits">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Max Credits</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxCredits}" />
+                                </StackPanel>
+                                <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxCredits">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+
+                                <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="MaxReserve">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Max Reserve</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxReserveCredits}"/>
+                                </StackPanel>
+
+                                <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxReserve">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+
+                                <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="MaxBank">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Max Bank</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxBank}" />
+                                </StackPanel>
+                                <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxBank">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
                             </StackPanel>
-                        </RepeatButton>
-                        <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Max Credits</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxCredits}" />
-                        </StackPanel>
-                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxCredits">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Game Time</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
+                                </StackPanel>
+                                <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="GameTime">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+
+                                <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Machine RTP</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
+                                </StackPanel>
+
+                                <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+
+                                <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="Cycle">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Cycle</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.CycleSize}" />
+                                </StackPanel>
+                                <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="Cycle">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </RepeatButton>
                             </StackPanel>
-                        </RepeatButton>
-
-                        <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="MaxReserve">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-                        <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Max Reserve</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxReserveCredits}"/>
-                        </StackPanel>
-
-                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxReserve">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-
-                        <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="MaxBank">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-                        <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Max Bank</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxBank}" />
-                        </StackPanel>
-                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxBank">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-
-                    </StackPanel>
-
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-                        <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Game Time</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
-                        </StackPanel>
-                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-
-                        <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-                        <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Machine RTP</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
-                        </StackPanel>
-
-                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-
-                        <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="Cycle">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-                        <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Cycle</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.CycleSize}" />
-                        </StackPanel>
-                        <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="Cycle">
-                            <StackPanel>
-                                <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                            </StackPanel>
-                        </RepeatButton>
-                    </StackPanel>
 
 
 
 
 
-
-
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Height="75"  Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
+                            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <RepeatButton Height="75"  Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
+                        </RepeatButton>
                         <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Game Time</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Game Time</Label>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.GameTime}" />
                         </StackPanel>
-                        <Button Height="75"  Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="GameTime">
+                        <RepeatButton Height="75"  Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="GameTime">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
+                        </RepeatButton>
                         
-                        <Button Height="75"  Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
+                        <RepeatButton Height="75"  Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
+                        </RepeatButton>
                         <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Machine RTP</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Machine RTP</Label>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
                         </StackPanel>
 
-                        <Button Height="75"  Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP">
+                        <RepeatButton Height="75"  Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
+                        </RepeatButton>
 
-                        <Button Height="75"  Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="Cycle">
+                        <RepeatButton Height="75"  Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="Cycle">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
+                        </RepeatButton>
                         <StackPanel>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,10,10,0">Cycle</Label>
-                            <Label Style="{StaticResource StdLabel}" BorderThickness="0" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.CycleSize}" />
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Cycle</Label>
+                            <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.CycleSize}" />
                         </StackPanel>
-                        <Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="Cycle">
+                        <RepeatButton Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="Cycle">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
                             </StackPanel>
-                        </Button>
-                        <!--<Border BorderBrush="Black" BorderThickness="2" Margin="5,10,50,10">
+                        </RepeatButton>
+                        <Border BorderBrush="Black" BorderThickness="2" Margin="5,10,50,10">
                             <CheckBox>
                                 <CheckBox.LayoutTransform>
                                     <ScaleTransform ScaleX="1.2" ScaleY="2" />
@@ -352,24 +365,26 @@
                                 </CheckBox.LayoutTransform>
                                 <TextBox FontSize="18" FlowDirection="LeftToRight" MinWidth="175">Fast Transfer</TextBox>
                             </CheckBox>
-                        </Border>-->
-                    </StackPanel>
+                        </Border>
+                    </StackPanel> -->
 
 
 
-                    <StackPanel Orientation="Horizontal" Name="stpNonEditable" HorizontalAlignment="Center">
-                        
-                
-                    </StackPanel>
+                            <StackPanel Orientation="Horizontal" Name="stpNonEditable" HorizontalAlignment="Center">
+
+
+                            </StackPanel>
 
 
 
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Content="Save Changes" Margin="25" FontSize="20" Width="150" Height="35" Command="{Binding Save}"/>
-                        <Button Content="Cancel" Margin="25" FontSize="20" Width="150" Height="35" />
-                    </StackPanel>
-                </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="Save Changes" Margin="25" FontSize="20" Width="150" Height="35" Command="{Binding Save}"/>
+                                <Button Content="Cancel" Margin="25" FontSize="20" Width="150" Height="35" />
+                            </StackPanel>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
             </TabItem>
         </TabControl>
     </Grid>
