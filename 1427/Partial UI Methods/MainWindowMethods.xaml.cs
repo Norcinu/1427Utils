@@ -18,13 +18,11 @@ namespace PDTUtils
 				{
 				    case 0:
 				        _sharedMemoryOnline = true;
-                        
-				        //	UpdateDoorStatusLabel();
+
 				        _doorStatusTimer = new Timer(500);
 				        _doorStatusTimer.Elapsed += DoorTimerEvent;
 				        _doorStatusTimer.Enabled = true;
                     
-				        //	GetSystemUptime();
 				        _uiUpdateTimer = new Timer(1000);
 				        _uiUpdateTimer.Elapsed += UpdateUiLabels;
 				        _uiUpdateTimer.Enabled = true;
@@ -87,7 +85,7 @@ namespace PDTUtils
 			var s = string.Format("{0:H:mm:ss}", new DateTime(uptimeSpan.Ticks));
 			LblBottom.Content += s;
 		}
-		//em's on the mind every day and every night. and she'll never go away cos i know shes here to stay
+		
 		void UpdateDoorStatusLabel()
 		{
 			var status = "Door Status : ";
@@ -119,7 +117,9 @@ namespace PDTUtils
 		private void DetectDoorChange(object sender, ElapsedEventArgs e)
 		{
 		    if (!_keyDoorWorker.HasChanged) return;
-		    PlaySoundOnEvent(Properties.Resources.door_open_sound);
+#if !DEBUG
+            PlaySoundOnEvent(Properties.Resources.door_open_sound);
+#endif
 		    _keyDoorWorker.HasChanged = false;
 		    if (_keyDoorWorker.DoorStatus == false)
 		        BoLib.disableNoteValidator();

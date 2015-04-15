@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using PDTUtils.Native;
 using PDTUtils.Properties;
-using System.ComponentModel;
 
 namespace PDTUtils
 {
@@ -51,13 +51,11 @@ namespace PDTUtils
             get { return Math.Round(_averageStake, 2); }
 			set { _averageStake = value; }
 		}
-		
+            		
 		public string ImageSource
 		{
 			get;
 			set;
-			/*get { return _imageSource; }
-			set { _imageSource = value; }*/
 		}
 		#endregion
         
@@ -82,7 +80,7 @@ namespace PDTUtils
             return this.GameNumber.CompareTo(otherGame.GameNumber);
         }
 	}
-
+    
 	/// <summary>
 	/// Gets the information regarding the ranking of games for the 
 	/// statistics screen.
@@ -151,7 +149,7 @@ namespace PDTUtils
         {
             get
             {
-                return "Overall Game Machine Average: " + Math.Round(_machineRtp, 2).ToString("P");
+                return "Overall Game Machine Average: " + Math.Round(_machineRtp, 4).ToString("P");
             }
         }
 		#endregion
@@ -213,7 +211,7 @@ namespace PDTUtils
             var moneyInLt = BoLib.getPerformanceMeter((byte)Performance.MoneyInLt);
             var moneyOutLt = BoLib.getPerformanceMeter((byte)Performance.MoneyOutLt);
             var moneyWageredLt = BoLib.getPerformanceMeter((byte)Performance.WageredLt);
-            var wonLt = BoLib.getPerformanceMeter((byte)Performance.WonLt); // wins arent getting added to performance meters
+            var wonLt = BoLib.getPerformanceMeter((byte)Performance.WonLt);
             var noGames = BoLib.getPerformanceMeter((byte)Performance.NoGamesLt);
             var gameCount = BoLib.getTerminalFormat();
             
@@ -238,14 +236,14 @@ namespace PDTUtils
                 
                 if (win > 0 && bet > 0)
                     perc = ((decimal)win / (decimal)bet) * 100;
-                              
+
                 if (i > 0)
                 {
                     totalGameCount += playCount;
                     tempTotalWon += win;
                     totalBet += bet;
                 }
-                
+
                 _games.Add(new GameStats()
                 {
                     GameNumber = i + 1,
@@ -253,7 +251,7 @@ namespace PDTUtils
                     Bets = (int)bet,
                     Wins = (int)win,
                     Percentage = (perc > 0) ? Math.Round(perc, 2).ToString() + "%" : "0.00%",
-                    ImageSource = (modelNo == 1524) ? Properties.Resources.PreGambleIcon : 
+                    ImageSource = (modelNo == 1524) ? Properties.Resources.PreGambleIcon :
                                                       @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png",
                     AverageStake = average,
                 });
@@ -262,7 +260,7 @@ namespace PDTUtils
             try
             {
                 _totalWon = (int)tempTotalWon;
-                _machineRtp = (decimal)totalBet / (decimal)_totalWon;
+                _machineRtp = (decimal)_totalWon / (decimal)totalBet;
                 RaisePropertyChangedEvent("MachineRtp");
             }
             catch (Exception ex)

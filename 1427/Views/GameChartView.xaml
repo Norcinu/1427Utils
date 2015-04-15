@@ -13,10 +13,10 @@
                     
                     <charts:Chart Name="stakedPie" Title="Machine Revenue by Game" Height="600" Width="600" Margin="20" 
                                   Background="LightGray">
-                        <charts:PieSeries DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding Incomings}"/>
+                        <charts:PieSeries DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding IncomingsSimple}" />
                     </charts:Chart>
                     
-                    <ListView Height="600" Width="600" ItemsSource="{Binding Incomings}" Margin="0,20,20,20">
+                    <ListView Height="600" Width="900" ItemsSource="{Binding Incomings}" Margin="0,20,20,20">
                         <ListView.View>
                             <GridView AllowsColumnReorder="False">
                                 <GridViewColumn Header="Game" Width="295">
@@ -34,7 +34,18 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border BorderBrush="Black" BorderThickness="2">
-                                                <TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" 
+                                                <TextBlock Text="{Binding Value.Money}" TextAlignment="Center" Background="LightGray" 
+                                                   Foreground="Navy"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="Games Played" Width="295">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="2">
+                                                <TextBlock Text="{Binding Value.GameCount}" TextAlignment="Center" Background="LightGray" 
                                                    Foreground="Navy"/>
                                             </Border>
                                         </DataTemplate>
@@ -50,10 +61,10 @@
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Background="LightGray" Orientation="Horizontal">
                 <charts:Chart Name="outgoingPie" Title="Machine Outgoings by Game" Height="600" Width="600" Margin="20" 
                               Background="LightGray">
-                    <charts:PieSeries DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding Outgoings}"/>
+                    <charts:PieSeries DependentValuePath="Value" IndependentValuePath="Key" ItemsSource="{Binding OutgoingsSimple}"/>
                 </charts:Chart>
 
-                    <ListView Height="600" Width="600" ItemsSource="{Binding Outgoings}" Margin="0,20,20,20">
+                    <ListView Height="600" Width="900" ItemsSource="{Binding Outgoings}" Margin="0,20,20,20">
                         <ListView.View>
                             <GridView AllowsColumnReorder="False">
                                 <GridViewColumn Header="Game" Width="295">
@@ -71,7 +82,18 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border BorderBrush="Black" BorderThickness="2">
-                                                <TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" 
+                                                <TextBlock Text="{Binding Value.Money}" TextAlignment="Center" Background="LightGray" 
+                                                   Foreground="Navy"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+
+                                <GridViewColumn Header="Total Bets" Width="295">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="2">
+                                                <TextBlock Text="{Binding Value.GameCount}" TextAlignment="Center" Background="LightGray" 
                                                    Foreground="Navy"/>
                                             </Border>
                                         </DataTemplate>

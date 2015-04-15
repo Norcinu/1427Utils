@@ -501,7 +501,7 @@
                         <!-- gray -->
                         <StackPanel Name="StpVolume" Background="BlanchedAlmond" VerticalAlignment="Stretch" 
                                     HorizontalAlignment="Stretch">
-                            
+                                
                             <TextBlock FontSize="28" Margin="50" TextAlignment="Center" >Set Machine's Volume Level</TextBlock>
                             <Slider Height="50" 
 								HorizontalAlignment="Center" 
@@ -552,8 +552,8 @@
             <TabControl Height="1000">
                 <TabItem Header="Games" MinWidth="100">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label Style="{StaticResource MESHUGGAH}" Content="{Binding GameStatistics.MachineRtp}"/><!--Overall Machine RTP: 92.35%</Label>-->
-                        <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1410" 
+                        <Label Style="{StaticResource MESHUGGAH}" Content="{Binding GameStatistics.MachineRtp}"/>
+                        <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1420" 
                               FontSize="22" Height="760">
                             <ListView.View>
                                 <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">

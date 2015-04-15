@@ -8,14 +8,26 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class GameChartViewModel : ObservableObject
     {
-        public List<KeyValuePair<string, uint>> Incomings { get; set; }
-        public List<KeyValuePair<string, uint>> Outgoings { get; set; }
+        public class KeepOnGiving
+        {
+            public uint Money { get; set; }
+            public uint GameCount { get; set; }
+        }
         
+        public List<KeyValuePair<string, uint>> IncomingsSimple { get; set; }
+        public List<KeyValuePair<string, uint>> OutgoingsSimple { get; set; }
+
+        public List<KeyValuePair<string, KeepOnGiving>> Incomings { get; set; }
+        public List<KeyValuePair<string, KeepOnGiving>> Outgoings { get; set; }
+
         public GameChartViewModel()
         {
-            Incomings = new List<KeyValuePair<string, uint>>();
-            Outgoings = new List<KeyValuePair<string, uint>>();
-            
+            Incomings = new List<KeyValuePair<string, KeepOnGiving>>();
+            Outgoings = new List<KeyValuePair<string, KeepOnGiving>>();
+
+            IncomingsSimple = new List<KeyValuePair<string, uint>>();
+            OutgoingsSimple = new List<KeyValuePair<string, uint>>();
+
             var buffer = new char[3]; 
             NativeWinApi.GetPrivateProfileString("Models", "NumberOfModels", "", buffer, buffer.Length, 
                 Properties.Resources.model_manifest);
@@ -25,30 +37,39 @@ namespace PDTUtils.MVVM.ViewModels
                 var modelNo = BoLib.getGameModel(i);
                 var bet = (uint)BoLib.getGamePerformanceMeter((uint)i, 0);
                 var won = (uint)BoLib.getGamePerformanceMeter((uint)i, 1);
+                
                 var titleBuffer = new char[64];
                 var name = NativeWinApi.GetPrivateProfileString("Model" + i, "Title", "", titleBuffer, titleBuffer.Length,
                     Properties.Resources.model_manifest);
                 
+                var count = (uint)BoLib.getGamePerformanceMeter((uint)i, 2);
                 var title = new string(titleBuffer).Trim("\0".ToCharArray());
-                Incomings.Add(new KeyValuePair<string, uint>(title, bet));
-                Outgoings.Add(new KeyValuePair<string, uint>(title, won));
+
+                Incomings.Add(new KeyValuePair<string, KeepOnGiving>(title, new KeepOnGiving() { Money = bet, GameCount = count }));
+                Outgoings.Add(new KeyValuePair<string, KeepOnGiving>(title, new KeepOnGiving() { Money = won, GameCount = count }));
+
+                IncomingsSimple.Add(new KeyValuePair<string, uint>(title, bet));
+                OutgoingsSimple.Add(new KeyValuePair<string, uint>(title, won));
             }
             
-            Incomings.Sort(CompareValue);
-            Outgoings.Sort(CompareValue);
+           Incomings.Sort(CompareValue);
+           Outgoings.Sort(CompareValue);
             
             RaisePropertyChangedEvent("Incomings");
             RaisePropertyChangedEvent("Outgoings");
+
+            RaisePropertyChangedEvent("IncomingsSimple");
+            RaisePropertyChangedEvent("OutgoingsSimple");
         }
         
-        static int CompareTitle(KeyValuePair<string, uint> left, KeyValuePair<string, uint> right)
+        static int CompareTitle(KeyValuePair<string, KeepOnGiving> left, KeyValuePair<string, KeepOnGiving> right)
         {
             return left.Key.CompareTo(right.Key); // for ascending sort.
         }
         
-        static int CompareValue(KeyValuePair<string, uint> left, KeyValuePair<string, uint> right)
+        static int CompareValue(KeyValuePair<string, KeepOnGiving> left, KeyValuePair<string, KeepOnGiving> right)
         {
-            return right.Value.CompareTo(left.Value); // for descending sort.
+            return right.Value.Money.CompareTo(left.Value.Money); // for descending sort.
         }
     }   
 }

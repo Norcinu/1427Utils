@@ -162,11 +162,24 @@ namespace PDTUtils.MVVM.ViewModels
             Performance.Add(new HelloImJohnnyCashMeters("Number of Games: ", 
                                                         NumberOfGamesLt.ToString(), 
                                                         NumberOfGamesSt.ToString()));
-            
-            var totalBetsLt = (int)BoLib.getPerformanceMeter((byte)Native.Performance.WageredLt) / 100.0M;
-            var totalBetsSt = (int)BoLib.getPerformanceMeter((byte)Native.Performance.WageredSt) / 100.0M;
-            var totalWonLt = (int)BoLib.getPerformanceMeter((byte)Native.Performance.WonLt) / 100.0M;
-            var totalWonSt = (int)BoLib.getPerformanceMeter((byte)Native.Performance.WonSt) / 100.0M;
+
+            double totalBetsLt = 0; //(int)BoLib.getPerformanceMeter((byte)Native.Performance.WageredLt) / 100.0M; // TOTAL UP ACCUMULATE
+            double totalBetsSt = 0; //(int)BoLib.getPerformanceMeter((byte)Native.Performance.WageredSt) / 100.0M; // TOTAL UP ACCUMULATE
+            double totalWonLt = 0; //(int)BoLib.getPerformanceMeter((byte)Native.Performance.WonLt) / 100.0M; // TOTAL UP ACCUMULATE
+            double totalWonSt = 0; //(int)BoLib.getPerformanceMeter((byte)Native.Performance.WonSt) / 100.0M; // TOTAL UP ACCUMULATE
+
+            for (uint i = 1; i <= BoLib.getNumberOfGames(); i++)
+            {
+                totalBetsLt += (int)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWageredLt);
+                totalBetsSt += (int)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWageredSt);
+                totalWonLt += (int)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWonLt);
+                totalWonSt += (int)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWonSt);
+            }
+
+            totalBetsLt /= 100;
+            totalBetsSt /= 100;
+            totalWonLt /= 100;
+            totalWonSt /= 100;
 
             var percentageLt = (totalWonLt > 0 && totalBetsLt > 0) ? (totalWonLt / totalBetsLt) : 0;
             var percentageSt = (totalWonSt > 0 && totalBetsSt > 0) ? (totalWonSt / totalBetsSt) : 0;
@@ -180,12 +193,12 @@ namespace PDTUtils.MVVM.ViewModels
             if (retainedPercSt > 0)
                 retainedPercSt = ((retainedPercSt - (shortTermCashOut + handPaySt)) / shortTermTotal);
             
-            Performance.Add(new HelloImJohnnyCashMeters("(VTP) Total Bets:", 
-                                                        totalBetsLt.ToString("C", _nfi), 
-                                                        totalBetsSt.ToString("C", _nfi)));
-            Performance.Add(new HelloImJohnnyCashMeters("Total Wins:", 
-                                                        totalWonLt.ToString("C", _nfi), 
-                                                        totalWonSt.ToString("C", _nfi)));
+            Performance.Add(new HelloImJohnnyCashMeters("Total Fischas Bet:", // fischas bet
+                                                        totalBetsLt.ToString(/*"C", _nfi*/), 
+                                                        totalBetsSt.ToString(/*"C", _nfi)*/)));
+            Performance.Add(new HelloImJohnnyCashMeters("Total Fischas Wins:", 
+                                                        totalWonLt.ToString(/*"C", _nfi*/), 
+                                                        totalWonSt.ToString(/*"C", _nfi*/)));
             Performance.Add(new HelloImJohnnyCashMeters("Payout Percentage:", 
                                                         percentageLt.ToString("P"), 
                                                         percentageSt.ToString("P")));
