@@ -410,6 +410,7 @@ namespace PDTUtils
                 if ((uint)BoLib.getGameWager(i) > 0)
                     PlayedGames.Add(new PlayedGame(i));
             }
+            PlayedGames.BubbleSort();
         }
 
         public void SetWinningLog()

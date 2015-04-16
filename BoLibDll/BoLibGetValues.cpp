@@ -485,10 +485,19 @@ unsigned long getRefillValue(int meter)
 
 unsigned long getVtp(int meter)
 {
-	if (meter == WAGERED_LT)
+//	if (meter != GAMEWAGERED_LT || meter != GAMEWAGERED_ST)
+//		return ULONG_MAX;
+	/*if (meter == WAGERED_LT)
 		return GetPerformanceMeter(WAGERED_LT);
 	else
-		return GetPerformanceMeter(WAGERED_ST);
+		return GetPerformanceMeter(WAGERED_ST);*/
+	//Dont include pre-gamble.
+	unsigned long total = 0;
+	for (int i = 1; i < getNumberOfGames(); i++)
+	{
+		total += nvr_ptr->gamePerformanceMeters[i][meter];
+	}
+	return total;
 }
 
 unsigned long getWon(int meter)

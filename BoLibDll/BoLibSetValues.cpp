@@ -2,9 +2,11 @@
 #include <bo.h>
 #include <NVR.H>
 #include "BoLibSetValues.h"
+#include "BoLibGetValues.h" // errr
 
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
+//extern unsigned int getNumberOfGames();
 
 int setEnvironment()
 {
@@ -78,6 +80,13 @@ void setCriticalError(int code)
 void clearShortTermMeters()
 {
 	ClearShortTermMeters();
+	
+	for (auto i = 1; i <= getNumberOfGames(); i++)
+	{
+		nvr_ptr->gamePerformanceMeters[i][GAMEWON_ST] = 0;
+		nvr_ptr->gamePerformanceMeters[i][GAMEWAGERED_ST] = 0;
+		nvr_ptr->gamePerformanceMeters[i][GAMEPLAY_ST]	= 0;
+	}
 }
 
 void setHopperDivertLevel(unsigned char hopper, unsigned int value)

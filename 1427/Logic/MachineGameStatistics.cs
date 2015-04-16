@@ -69,7 +69,7 @@ namespace PDTUtils
 			_averageStake = 0.0;
 			ImageSource = "";
 		}
-
+        
         public int CompareTo(object obj)
         {
             var otherGame = obj as GameStats;

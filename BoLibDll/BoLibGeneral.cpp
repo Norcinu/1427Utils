@@ -87,12 +87,12 @@ unsigned long useRefillType(int value)
 
 unsigned long useVtpMeter(int value)
 {
-	return (!value) ? WAGERED_ST : WAGERED_LT;
+	return (!value) ? GAMEWAGERED_ST : GAMEWAGERED_LT;
 }
 
 unsigned long useWonMeter(int value)
 {
-	return (!value) ? WON_ST : WON_LT;
+	return (!value) ? GAMEWON_ST : GAMEWON_LT;
 }
 
 unsigned long useHandPayMeter(int value)
