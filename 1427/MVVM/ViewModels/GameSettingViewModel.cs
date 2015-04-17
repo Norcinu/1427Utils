@@ -338,11 +338,11 @@ namespace PDTUtils.MVVM.ViewModels
                 : new CultureInfo("es-ES");
 
             Nfi = _currentCulture.NumberFormat;
-            
+
             string[] modelNumber;
             IniFileUtility.GetIniProfileSection(out modelNumber, "Models", _manifest, true);
             _numberOfGames = Convert.ToUInt32(modelNumber[0]);
-            
+
             for (var i = 0; i < _numberOfGames; i++)
             {
                 string[] model;
@@ -350,7 +350,7 @@ namespace PDTUtils.MVVM.ViewModels
                 var sb = new System.Text.StringBuilder(8);//dis be going wrong yo.
                 NativeWinApi.GetPrivateProfileString("Model" + (i + 1), "Promo", "", sb, 8, @Properties.Resources.model_manifest);
                 var isPromo = sb.ToString();
-                    //!!!! remove combo box and using some sort of buttoning system !!!!
+                //!!!! remove combo box and using some sort of buttoning system !!!!
                 var m = new GameSettingModel
                 {
                     ModelNumber = Convert.ToUInt32(model[0]),
@@ -384,7 +384,7 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-       
+         
         public void SaveChanges()
         {
             if (_gameSettings.Count <= 0) return;
@@ -402,10 +402,10 @@ namespace PDTUtils.MVVM.ViewModels
                 var r = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
                 _gameSettings[r.Next(_gameSettings.Count)].Promo = true;
             }
-
+            
             bool isFirstSet = false;
             bool isSecondSet = false;
-
+            
             for (var i = 0; i < _numberOfGames; i++)
             {
                 var m = _gameSettings[i];

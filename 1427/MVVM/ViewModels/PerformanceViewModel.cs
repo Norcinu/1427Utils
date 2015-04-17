@@ -119,6 +119,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Refill");
         }
         
+
         void ReadPerformance()
         {
 
@@ -181,7 +182,7 @@ namespace PDTUtils.MVVM.ViewModels
             totalBetsSt /= 100;
             totalWonLt /= 100;
             totalWonSt /= 100;
-            
+                        
             var percentageLt = (totalWonLt > 0 && totalBetsLt > 0) ? (totalWonLt / totalBetsLt) : 0;
             var percentageSt = (totalWonSt > 0 && totalBetsSt > 0) ? (totalWonSt / totalBetsSt) : 0;
 
@@ -206,14 +207,14 @@ namespace PDTUtils.MVVM.ViewModels
             Performance.Add(new HelloImJohnnyCashMeters("Retained Percentage:",
                                                         retainedPercLt.ToString("P"),
                                                         retainedPercSt.ToString("P")));
-           
+            
             decimal tpCreditsLt = (int)BoLib.getTPlayMeter(2);
             decimal tpCreditsSt = (int)BoLib.getTPlayMeter(5);
 
             Performance.Add(new HelloImJohnnyCashMeters("TPlay Total Credits:",
                                                         tpCreditsLt.ToString("C", _nfi),
                                                         tpCreditsSt.ToString("C", _nfi)));
-            
+
             var tpGamesLt = (int)BoLib.getTPlayMeter(1);
             var tpGamesSt = (int)BoLib.getTPlayMeter(4);
             Performance.Add(new HelloImJohnnyCashMeters("TP Games Played:", 

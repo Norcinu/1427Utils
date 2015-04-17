@@ -89,7 +89,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="Total Bets" Width="295">
+                                <GridViewColumn Header="Games Played" Width="295">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border BorderBrush="Black" BorderThickness="2">

@@ -23,7 +23,8 @@ namespace PDTUtils.MVVM.ViewModels
         readonly ObservableCollection<SpanishRegionalModel> _street = new ObservableCollection<SpanishRegionalModel>();
         SpanishRegionalModel _editableLiveRegion;
         SpainRegionSelection _selected = new SpainRegionSelection();
-
+        
+        
         readonly string _espRegionIni = Resources.esp_live_ini;
         readonly string[] _streetMarketRegions = new string[20]
         {
@@ -235,7 +236,7 @@ namespace PDTUtils.MVVM.ViewModels
             _selected.Id = Convert.ToInt32(temp[1].Substring(14));
             _selected.Community = temp[2].Substring(7).Trim(); //0
             _selected.VenueType = temp[3].Substring(10).Trim(); //1
-
+            
             string[] liveSettings;
             IniFileUtility.GetIniProfileSection(out liveSettings, "Settings", _espRegionIni);
             
@@ -256,7 +257,7 @@ namespace PDTUtils.MVVM.ViewModels
             _editableLiveRegion.FastTransfer = Convert.ToUInt32(liveSettings[14].Substring(13).TrimStart());
             _editableLiveRegion.CycleSize = Convert.ToUInt32(liveSettings[15].Substring(10));
             _editableLiveRegion.MaxPlayerPoints = Convert.ToUInt32(liveSettings[16].Substring(16));
-
+            
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
 

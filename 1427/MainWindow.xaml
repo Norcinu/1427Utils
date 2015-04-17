@@ -554,14 +554,14 @@
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Label Style="{StaticResource MESHUGGAH}" Content="{Binding GameStatistics.MachineRtp}"/>
                         <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1420" 
-                              FontSize="22" Height="760">
+                              FontSize="22" Height="760"> <!-- 760 -->
                             <ListView.View>
                                 <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
                                     <GridViewColumn Header="Game Number" Width="200">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <Label Content="{Binding GameNumber}" Style="{StaticResource StatsLabel}"/>
+                                                    <Label Content="{Binding GameNumber}" Height="95" Style="{StaticResource StatsLabel}"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -570,7 +570,7 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <Image Source="{Binding ImageSource}" />
+                                                    <Image Height="95" Width="200" Source="{Binding ImageSource}" />
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -579,7 +579,7 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <Label Content="{Binding ModelNumber}" Style="{StaticResource StatsLabel}"/>
+                                                    <Label Content="{Binding ModelNumber}" Height="95" Style="{StaticResource StatsLabel}"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -588,7 +588,7 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <Label Content="{Binding Bets}" Style="{StaticResource StatsLabel}"/>
+                                                    <Label Content="{Binding Bets}" Height="95" Style="{StaticResource StatsLabel}"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -597,17 +597,17 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <Label Content="{Binding Wins}" Style="{StaticResource StatsLabel}"/>
+                                                    <Label Content="{Binding Wins}" Height="95" Style="{StaticResource StatsLabel}"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <!-- I used to try -->
+                                    
                                     <GridViewColumn Header="Percentage (%)" Width="200">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <Label Content="{Binding Percentage}" Style="{StaticResource StatsLabel}"/>
+                                                    <Label Content="{Binding Percentage}" Height="95" Style="{StaticResource StatsLabel}"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -616,7 +616,7 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <Label Content="{Binding AverageStake}" Style="{StaticResource StatsLabel}"/>
+                                                    <Label Content="{Binding AverageStake}" Height="95" Style="{StaticResource StatsLabel}"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>

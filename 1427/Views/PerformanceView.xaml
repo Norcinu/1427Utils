@@ -43,9 +43,9 @@
     <Grid>
         <TabControl Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto">
             <TabItem Header="Performance">
-                <TabControl>
-                    <!--<TabControl.Name>TabPerformance</TabControl.Name>-->
-                    <TabItem Header="Machine">
+                <!-- <TabControl>
+                
+                    <TabItem Header="Machine"> -->
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
                             <Label Content="Machine Performance Log" Style="{StaticResource StdLabel}"/>
                             <ListView FontSize="22" ItemsSource="{Binding Performance}" Margin="25">
@@ -82,7 +82,7 @@
                                 </Border>
                             </Button>
                         </StackPanel>
-                    </TabItem>
+                    <!--</TabItem>
 
                     <TabItem Header="Games">
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
@@ -132,11 +132,11 @@
                             </ListView>
                         </StackPanel>
                     </TabItem>
-                </TabControl>
+                </TabControl>-->
             </TabItem>
 
             <TabItem Header="LCD Meters">
-
+                
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal">
                     <StackPanel Margin="15">
 
@@ -262,7 +262,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-
+                    
                     <Label Style="{StaticResource StdLabel}">Refill</Label>
                     <ListView FontSize="18" ItemsSource="{Binding Refill}" Margin="25">
                         <ListView.View>

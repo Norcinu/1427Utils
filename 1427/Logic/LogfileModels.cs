@@ -9,6 +9,7 @@ using System.Threading;
 using PDTUtils.MVVM;
 using PDTUtils.Native;
 using PDTUtils.Properties;
+using System.Collections.Generic;
 
 namespace PDTUtils
 {
@@ -293,13 +294,15 @@ namespace PDTUtils
 
     public class MachineLogsController
     {
-        private readonly ObservableCollection<CashlessLibLog> _cashLess = new ObservableCollection<CashlessLibLog>();
-        private readonly ObservableCollection<MachineErrorLog> _errorLog = new ObservableCollection<MachineErrorLog>();
-        private readonly ObservableCollection<HandPayLog> _handPayLog = new ObservableCollection<HandPayLog>();
-        private readonly ObservableCollection<PlayedGame> _playedGames = new ObservableCollection<PlayedGame>();
-        private readonly ObservableCollection<VizTechLog> _vizTechLog = new ObservableCollection<VizTechLog>();
-        private readonly ObservableCollection<MachineErrorLog> _warningLog = new ObservableCollection<MachineErrorLog>();
-        private readonly ObservableCollection<WinningGame> _winningGames = new ObservableCollection<WinningGame>();
+        readonly ObservableCollection<CashlessLibLog> _cashLess = new ObservableCollection<CashlessLibLog>();
+        readonly ObservableCollection<MachineErrorLog> _errorLog = new ObservableCollection<MachineErrorLog>();
+        readonly ObservableCollection<HandPayLog> _handPayLog = new ObservableCollection<HandPayLog>();
+        // readonly ObservableCollection<PlayedGame> _playedGames = new ObservableCollection<PlayedGame>();
+        readonly List<PlayedGame> _playedGames = new List<PlayedGame>();
+        readonly ObservableCollection<VizTechLog> _vizTechLog = new ObservableCollection<VizTechLog>();
+        readonly ObservableCollection<MachineErrorLog> _warningLog = new ObservableCollection<MachineErrorLog>();
+        // readonly ObservableCollection<WinningGame> _winningGames = new ObservableCollection<WinningGame>();
+        readonly List<WinningGame> _winningGames = new List<WinningGame>();
 
         public MachineLogsController()
         {
@@ -402,7 +405,16 @@ namespace PDTUtils
                 Console.WriteLine(ex.Message);
             }
         }
+        
+        static int DateComparer(BaseGameLog left, BaseGameLog right)
+        {
+            /*if (!((typeof(left) == PlayedGame || typeof(left) == WinningGame) && 
+                 (typeof(right) == PlayedGame || typeof(right) == WinningGame)))
+                return 1;*/
 
+            return left.GameDate.CompareTo(right.GameDate);
+        }
+        
         public void SetPlayedLog()
         {
             for (var i = 0; i < (int)BoLib.getHistoryLength(); i++)
@@ -410,9 +422,9 @@ namespace PDTUtils
                 if ((uint)BoLib.getGameWager(i) > 0)
                     PlayedGames.Add(new PlayedGame(i));
             }
-            PlayedGames.BubbleSort();
+            PlayedGames.Sort(DateComparer);
         }
-
+        
         public void SetWinningLog()
         {
             for (var i = 0; i < (int)BoLib.getHistoryLength(); i++)
@@ -427,6 +439,8 @@ namespace PDTUtils
                     Console.WriteLine(ex.Message);
                 }
             }
+            WinningGames.Sort(DateComparer);
+            
         }
 
         public void SetHandPayLog()
@@ -509,12 +523,14 @@ namespace PDTUtils
             get { return _errorLog; }
         }
 
-        public ObservableCollection<WinningGame> WinningGames
+        //public ObservableCollection<WinningGame> WinningGames
+        public List<WinningGame> WinningGames
         {
             get { return _winningGames; }
         }
 
-        public ObservableCollection<PlayedGame> PlayedGames
+        //public ObservableCollection<PlayedGame> PlayedGames
+        public List<PlayedGame> PlayedGames
         {
             get { return _playedGames; }
         }

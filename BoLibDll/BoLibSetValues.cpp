@@ -81,11 +81,11 @@ void clearShortTermMeters()
 {
 	ClearShortTermMeters();
 	
-	for (auto i = 1; i <= getNumberOfGames(); i++)
+	for (auto i = 0; i <= getNumberOfGames(); i++)
 	{
 		nvr_ptr->gamePerformanceMeters[i][GAMEWON_ST] = 0;
 		nvr_ptr->gamePerformanceMeters[i][GAMEWAGERED_ST] = 0;
-		nvr_ptr->gamePerformanceMeters[i][GAMEPLAY_ST]	= 0;
+		nvr_ptr->gamePerformanceMeters[i][GAMEPLAY_ST] = 0;
 	}
 }
 

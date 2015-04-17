@@ -493,7 +493,7 @@ unsigned long getVtp(int meter)
 		return GetPerformanceMeter(WAGERED_ST);*/
 	//Dont include pre-gamble.
 	unsigned long total = 0;
-	for (int i = 1; i < getNumberOfGames(); i++)
+	for (int i = 01; i < getNumberOfGames(); i++)
 	{
 		total += nvr_ptr->gamePerformanceMeters[i][meter];
 	}

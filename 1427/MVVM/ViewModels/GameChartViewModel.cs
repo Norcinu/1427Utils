@@ -24,10 +24,10 @@ namespace PDTUtils.MVVM.ViewModels
         {
             Incomings = new List<KeyValuePair<string, KeepOnGiving>>();
             Outgoings = new List<KeyValuePair<string, KeepOnGiving>>();
-
+            
             IncomingsSimple = new List<KeyValuePair<string, uint>>();
             OutgoingsSimple = new List<KeyValuePair<string, uint>>();
-
+            
             var buffer = new char[3]; 
             NativeWinApi.GetPrivateProfileString("Models", "NumberOfModels", "", buffer, buffer.Length, 
                 Properties.Resources.model_manifest);
@@ -52,8 +52,8 @@ namespace PDTUtils.MVVM.ViewModels
                 OutgoingsSimple.Add(new KeyValuePair<string, uint>(title, won));
             }
             
-           Incomings.Sort(CompareValue);
-           Outgoings.Sort(CompareValue);
+            Incomings.Sort(CompareValue);
+            Outgoings.Sort(CompareValue);
             
             RaisePropertyChangedEvent("Incomings");
             RaisePropertyChangedEvent("Outgoings");
