@@ -323,6 +323,9 @@ namespace PDTUtils.Native
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong getHistoryLength();
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern string getLicense();
+
         /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint getPayoutCoinValues(uint which);*/
 

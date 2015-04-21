@@ -756,6 +756,14 @@ unsigned long getHistoryLength()
 	return NUMBER_LAST_GAMES;
 }
 
+char *getLicense()
+{
+	char buffer[128] = {0};
+	GetPrivateProfileString("Keys", "License", "", buffer, 128, MACHINE_INI.c_str());
+	char buffythevampireslayer[128] = {0};
+	strncat_s(buffythevampireslayer, buffer, 128);
+	return buffythevampireslayer;
+}
 
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
+using PDTUtils.Native;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -26,7 +27,7 @@ namespace PDTUtils.MVVM.ViewModels
 
         public void ReadManifest()
         {
-            var file = Properties.Resources.model_manifest;
+            var file = (BoLib.getCountryCode() == 9) ? Properties.Resources.model_manifest_esp : Properties.Resources.model_manifest;
             
             string[] gen;
             IniFileUtility.GetIniProfileSection(out gen, "General", file);

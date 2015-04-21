@@ -28,6 +28,7 @@ namespace PDTUtils.MVVM.Models
         public string IPAddress { get; set; }
         public string Subnet { get; set; }
         public string DefGateway { get; set; }
+        public string CpuID { get; set; }
 
         public HardwareInfo(string sk, string mn, string l, string cpu, string ct)
         {
@@ -36,10 +37,24 @@ namespace PDTUtils.MVVM.Models
             License = l;
             CpuType = cpu;
             CabinetType = ct;
+            CpuID = "";
 
             IPAddress = "192.168.1.3";
             Subnet = "255.255.0.0";
             DefGateway = "169.254.1.1";
+        }
+
+        public HardwareInfo()
+        {
+            SerialKey = "";
+            MachineName = "";
+            License = "";
+            CpuType = "";
+            CabinetType = "";
+
+            IPAddress = "";
+            Subnet = "";
+            DefGateway = "";
         }
     }
 }

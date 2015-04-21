@@ -5,17 +5,63 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="605">
+    
+    <UserControl.Resources>
+        <Style x:Key="StdLabel" TargetType="Label">
+            <!--<Setter Property="Height" Value="46"/>-->
+            <Setter Property="FontSize" Value="46"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Background" Value="LightBlue"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="MinWidth" Value="200"/>
+        </Style>
+
+        <Style x:Key="StdHeaderLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Navy"/>
+            <Setter Property="Margin" Value="10,0,0,10"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Width" Value="295"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <TabControl SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="Software" MinWidth="150">
                 <StackPanel Margin="10" HorizontalAlignment="Center">
-                    <Label FontSize="46" Margin="10" HorizontalContentAlignment="Center">Machine Software</Label>
+                    <Label Style="{StaticResource StdLabel}">Machine Software</Label> <!--="46" Margin="10" HorizontalContentAlignment="Center">Machine Software</Label>-->
                     <ListView Margin="5" FontSize="22" ItemsSource="{Binding Software}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Game Number" DisplayMemberBinding="{Binding ModelNumber}" Width="300"/>
-                                <GridViewColumn Header="MD5 Hash" DisplayMemberBinding="{Binding HashCode}" Width="300"/>
-                                <GridViewColumn Header="Auth Status" DisplayMemberBinding="{Binding Authed}" Width="400"/>
+                                <GridViewColumn Header="Game Number" Width="300">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding ModelNumber}" Width="260" Style="{StaticResource StdHeaderLabel}" Margin="5"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="MD5 Hash" Width="300">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding HashCode}" Width="260" Style="{StaticResource StdHeaderLabel}" Margin="5" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Auth Status" Width="400">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Authed}" Width="360" Height="42" FontSize="18" Style="{StaticResource StdHeaderLabel}" Margin="5" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -24,20 +70,21 @@
 
             <TabItem Header="Hardware" MinWidth="150">
                 <StackPanel Margin="10" HorizontalAlignment="Center">
-                    <Label FontSize="46" Margin="10" HorizontalContentAlignment="Center">Machine Hardware ID</Label>
+                    <Label Style="{StaticResource StdLabel}">Machine Hardware ID</Label>
                     <ListView Margin="5" FontSize="22" ItemsSource="{Binding Hardware}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Serial Key" DisplayMemberBinding="{Binding SerialKey}" Width="200"/>
-                                <GridViewColumn Header="Machine Name" DisplayMemberBinding="{Binding MachineName}" Width="200"/>
-                                <GridViewColumn Header="License Number" DisplayMemberBinding="{Binding License}" Width="200"/>
-                                <GridViewColumn Header="Cpu Type" DisplayMemberBinding="{Binding CpuType}" Width="200"/>
-                                <GridViewColumn Header="Cabinet Type" DisplayMemberBinding="{Binding CabinetType}" Width="200"/>
+                                <GridViewColumn Header="Serial Key" DisplayMemberBinding="{Binding SerialKey}" Width="220"/>
+                                <GridViewColumn Header="CPU-ID" DisplayMemberBinding="{Binding CpuID}" Width="220"/>
+                                <GridViewColumn Header="Machine Name" DisplayMemberBinding="{Binding MachineName}" Width="220"/>
+                                <GridViewColumn Header="License Number" DisplayMemberBinding="{Binding License}" Width="220"/>
+                                <GridViewColumn Header="Cpu Type" DisplayMemberBinding="{Binding CpuType}" Width="220"/>
+                                <GridViewColumn Header="Cabinet Type" DisplayMemberBinding="{Binding CabinetType}" Width="220"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
 
-                    <Label FontSize="46" Margin="10,100,10,10" HorizontalContentAlignment="Center">Network Info</Label>
+                    <Label Style="{StaticResource StdLabel}">Network Info</Label>
                     <ListView Margin="5" FontSize="22" ItemsSource="{Binding Hardware}">
                         <ListView.View>
                             <GridView>
@@ -48,6 +95,12 @@
                         </ListView.View>
                     </ListView>
 
+                    <Border BorderBrush="Black" BorderThickness="2">
+                        <StackPanel Orientation="Horizontal" Background="LightBlue">
+                            <Label>License Key</Label>
+                            <Label Content="{Binding Hardware[0].License}"/>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </TabItem>
 

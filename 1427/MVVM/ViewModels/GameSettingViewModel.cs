@@ -13,7 +13,8 @@ namespace PDTUtils.MVVM.ViewModels
     {
         readonly ObservableCollection<GameSettingModel> _gameSettings = new ObservableCollection<GameSettingModel>();
         readonly int[] _ukStakeValues = new int[4] { 25, 50, 100, 200 };
-        readonly string _manifest = Properties.Resources.model_manifest;
+        readonly string _manifest = (BoLib.getCountryCode() == 9) ? Properties.Resources.model_manifest_esp 
+                                                                  : Properties.Resources.model_manifest;
 
         int _count = 0;
         int _currentFirstSel = -1;
@@ -347,8 +348,8 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 string[] model;
                 IniFileUtility.GetIniProfileSection(out model, "Model" + (i + 1), _manifest, true);
-                var sb = new System.Text.StringBuilder(8);//dis be going wrong yo.
-                NativeWinApi.GetPrivateProfileString("Model" + (i + 1), "Promo", "", sb, 8, @Properties.Resources.model_manifest);
+                var sb = new System.Text.StringBuilder(8); //dis be going wrong yo.
+                NativeWinApi.GetPrivateProfileString("Model" + (i + 1), "Promo", "", sb, 8, _manifest);
                 var isPromo = sb.ToString();
                 //!!!! remove combo box and using some sort of buttoning system !!!!
                 var m = new GameSettingModel
@@ -405,17 +406,26 @@ namespace PDTUtils.MVVM.ViewModels
             
             bool isFirstSet = false;
             bool isSecondSet = false;
-            
+            uint activeCount = _numberOfGames;
+
             for (var i = 0; i < _numberOfGames; i++)
             {
                 var m = _gameSettings[i];
                 
                 var temp = "Model" + (i + 1);
-                var active = (m.Active) ? 1 : 0;
+                var active = 0;
+
+                if (m.Active)
+                    active = 1;
+                else
+                {
+                    active = 0;
+                    _numberOfGames--;
+                }
                 NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
                 NativeWinApi.WritePrivateProfileString(temp, _fields[1], m.Title, _manifest);
                 NativeWinApi.WritePrivateProfileString(temp, _fields[2], active.ToString(), _manifest);
-
+                
                 if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
                 {
                     NativeWinApi.WritePrivateProfileString(temp, _fields[3], m.StakeOne.ToString(), _manifest);
@@ -454,6 +464,9 @@ namespace PDTUtils.MVVM.ViewModels
                 NativeWinApi.WritePrivateProfileString("Model" + _gameSettings.Count, "Promo", "200", _manifest); //need to validate
             }
 
+            NativeWinApi.WritePrivateProfileString("General", "Update", "1", _manifest);
+            NativeWinApi.WritePrivateProfileString("General", "NoActive", _numberOfGames.ToString(), _manifest);
+
             IniFileUtility.HashFile(_manifest);
         }
         
@@ -466,10 +479,9 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand ToggleStake { get { return new DelegateCommand(DoToggleStake); } }
         void DoToggleStake(object amount)
         {
-            //if (SelectedIndex < 0) return;
             var str = amount as string;
             if (SelectedIndex < 0 || str == "") return;
-            //all i wanna do is scok
+            
             var stake = Convert.ToInt32(amount);
             switch (stake)
             {

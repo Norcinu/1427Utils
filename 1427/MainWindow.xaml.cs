@@ -31,7 +31,7 @@ namespace PDTUtils
 		LongTermMeters _longTerm = new LongTermMeters();
         TitoMeters _titoMeter = new TitoMeters();
         MachineInfo _machineData = new MachineInfo();
-
+        
         readonly MachineIni _machineIni = new MachineIni();
         readonly UniqueIniCategory _uniqueIniCategory = new UniqueIniCategory();
         readonly ServiceEnabler _enabler = new ServiceEnabler();

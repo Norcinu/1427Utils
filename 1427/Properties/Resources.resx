@@ -240,4 +240,22 @@
     <value>D:\1525\BMP\GameIconS.png</value>
     <comment>For use in game stats page</comment>
   </data>
+  <data name="disable_button" xml:space="preserve">
+    <value>D:\1525\bmp\disable.png</value>
+  </data>
+  <data name="down_button" xml:space="preserve">
+    <value>D:\1525\bmp\down.png</value>
+  </data>
+  <data name="enable_button" xml:space="preserve">
+    <value>D:\1525\bmp\enable.png</value>
+  </data>
+  <data name="up_button" xml:space="preserve">
+    <value>D:\1525\bmp\up.png</value>
+  </data>
+  <data name="model_manifest_esp" xml:space="preserve">
+    <value>D:\machine\ModelManifestESP.ini</value>
+  </data>
+  <data name="model_manifest_UKB3" xml:space="preserve">
+    <value>D:\machine\ModelManifestB3.ini</value>
+  </data>
 </root>

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+//using System.Data.SQLite;
+using System.Reflection;
 using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
 using PDTUtils.Properties;
-using System.Data.SQLite;
-using System.Reflection;
+
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -17,14 +18,13 @@ namespace PDTUtils.MVVM.ViewModels
         bool _selectionChanged = false;
         int _arcadeSelectedIndex = -1;
         int _marketSelectedIndex = -1;
-
+        
         readonly ObservableCollection<KeyValuePair<string, uint>> _settingsView = new ObservableCollection<KeyValuePair<string, uint>>();
         readonly ObservableCollection<SpanishRegionalModel> _arcades = new ObservableCollection<SpanishRegionalModel>();
         readonly ObservableCollection<SpanishRegionalModel> _street = new ObservableCollection<SpanishRegionalModel>();
         SpanishRegionalModel _editableLiveRegion;
         SpainRegionSelection _selected = new SpainRegionSelection();
-        
-        
+                
         readonly string _espRegionIni = Resources.esp_live_ini;
         readonly string[] _streetMarketRegions = new string[20]
         {
@@ -113,7 +113,7 @@ namespace PDTUtils.MVVM.ViewModels
         public int ConvertToPlay { get; set; }
 
         #endregion
-
+        
         #region Commands
         public ICommand Save { get { return new DelegateCommand(o => SaveChanges()); } }
         public ICommand Load { get { return new DelegateCommand(o => LoadSettings()); } }
@@ -123,17 +123,7 @@ namespace PDTUtils.MVVM.ViewModels
         #endregion
         
         public RegionalSettingsViewModel()
-        {
-            /*string dbName = @"D:\1525\db\RegionalNonStandard.sqlite";
-            if (!System.IO.File.Exists(dbName))
-                SQLiteConnection.CreateFile(dbName);
-            
-            SQLiteConnection _conn = new SQLiteConnection("Data Source=" + dbName + ";Version=3;");
-            _conn.Open();
-            string select = "select * from highscores order by score desc";
-            SQLiteCommand selectCmd = new SQLiteCommand(select, _conn);
-            SQLiteDataReader reader = selectCmd.ExecuteReader();*/
-            
+        {          
             var i = 0;
             foreach (var s in _streetMarketRegions)
             {
@@ -152,7 +142,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _arcades.Add(new SpanishRegionalModel(_arcadeRegions[i], sr));
                 i++;
             }
-
+            
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
 
             SelectionChanged = false;
@@ -165,12 +155,12 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Street");
             RaisePropertyChangedEvent("Selected");
         }
-
+        
         private void LoadSettingsView()
         {
             if (_settingsView.Count > 0)
                 _settingsView.Clear();
-
+            
             PropertyInfo[] properties = _editableLiveRegion.GetType().GetProperties();
             int headerCtr = 0;
             try
@@ -179,7 +169,7 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     if (headerCtr < 17)
                     {
-                         _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr], 
+                        _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr],
                             (uint)p.GetValue(_editableLiveRegion, null)));
                         headerCtr++;
                     }

@@ -131,4 +131,5 @@ DLLEXPORT bool			isBackOfficeAvilable();
 //DLLEXPORT unsigned int	getPayoutCoinValues(unsigned int WhichOne);
 DLLEXPORT unsigned long getWinningGameMeter(int offset, int meter);
 DLLEXPORT unsigned long getHistoryLength();
+DLLEXPORT char			*getLicense();
 

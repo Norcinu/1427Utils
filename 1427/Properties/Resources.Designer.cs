@@ -91,11 +91,38 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to D:\1525\bmp\disable.png.
+        /// </summary>
+        internal static string disable_button {
+            get {
+                return ResourceManager.GetString("disable_button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D:\1525\wav\util.wav.
         /// </summary>
         internal static string door_open_sound {
             get {
                 return ResourceManager.GetString("door_open_sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1525\bmp\down.png.
+        /// </summary>
+        internal static string down_button {
+            get {
+                return ResourceManager.GetString("down_button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1525\bmp\enable.png.
+        /// </summary>
+        internal static string enable_button {
+            get {
+                return ResourceManager.GetString("enable_button", resourceCulture);
             }
         }
         
@@ -235,6 +262,24 @@ namespace PDTUtils.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\ModelManifestESP.ini.
+        /// </summary>
+        internal static string model_manifest_esp {
+            get {
+                return ResourceManager.GetString("model_manifest_esp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\ModelManifestB3.ini.
+        /// </summary>
+        internal static string model_manifest_UKB3 {
+            get {
+                return ResourceManager.GetString("model_manifest_UKB3", resourceCulture);
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream paytrans {
             get {
                 return ResourceManager.GetStream("paytrans", resourceCulture);
@@ -304,6 +349,15 @@ namespace PDTUtils.Properties {
         internal static string tito_log {
             get {
                 return ResourceManager.GetString("tito_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\1525\bmp\up.png.
+        /// </summary>
+        internal static string up_button {
+            get {
+                return ResourceManager.GetString("up_button", resourceCulture);
             }
         }
         

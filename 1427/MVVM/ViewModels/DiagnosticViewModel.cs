@@ -27,7 +27,7 @@ namespace PDTUtils.MVVM.ViewModels
             var hash = "";
             var status = CheckHashIsAuthed(buffer, ref hash);
             Software.Add(new SoftwareInfo("1524", hash, status));
-
+            
             for (var i = 0; i < BoLib.getNumberOfGames(); i++)
             {
                 var exe = new StringBuilder(64);
@@ -35,20 +35,33 @@ namespace PDTUtils.MVVM.ViewModels
 
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "Exe", "", exe, 64, ini);
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "GameDirectory", "", dir, 64, ini);
-
+                
                 var fullPath = new StringBuilder(dir + @"\" + exe);
                 status = CheckHashIsAuthed(fullPath, ref hash);
                 Software.Add(new SoftwareInfo(dir.ToString().TrimStart("\\".ToCharArray()), hash, status));
             }
             
-            var serial = BoLib.getSerialNumber();
-            Hardware.Add(new HardwareInfo(serial, "TERMINAL_01", "Development", "S430", "TS22 - L29"));
+            //string sb = "";
+            //ativeWinApi.GetPrivateProfileString("Key", "License", "", sb, 128, Properties.Resources.machine_ini);
+            
+            //var serial = BoLib.getSerialNumber();
+            Hardware.Add(new HardwareInfo()
+            {
+                SerialKey = BoLib.getSerialNumber(),//serial,
+                MachineName = "TERMINAL_01",
+                License = "DEVELOPMENT",
+                CpuType = "S430",
+                CabinetType = "TS22 - L29",
+                CpuID = BoLib.GetUniquePcbID(0)
+            });
+            
+            //Hardware.Add(new HardwareInfo(serial, "TERMINAL_01", "Development", "S430", "TS22 - L29"));
 
             foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (ni.NetworkInterfaceType != NetworkInterfaceType.Wireless80211 &&
                     ni.NetworkInterfaceType != NetworkInterfaceType.Ethernet) continue;
-                
+
                 foreach (var ip in ni.GetIPProperties().UnicastAddresses)
                 {
                     if (ip.Address.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork) continue;

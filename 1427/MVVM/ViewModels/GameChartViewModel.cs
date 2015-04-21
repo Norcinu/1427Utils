@@ -20,6 +20,9 @@ namespace PDTUtils.MVVM.ViewModels
         public List<KeyValuePair<string, KeepOnGiving>> Incomings { get; set; }
         public List<KeyValuePair<string, KeepOnGiving>> Outgoings { get; set; }
 
+        string _manifest = (BoLib.getCountryCode() == 9) ? Properties.Resources.model_manifest_esp
+                                                         : Properties.Resources.model_manifest;
+
         public GameChartViewModel()
         {
             Incomings = new List<KeyValuePair<string, KeepOnGiving>>();
@@ -29,8 +32,7 @@ namespace PDTUtils.MVVM.ViewModels
             OutgoingsSimple = new List<KeyValuePair<string, uint>>();
             
             var buffer = new char[3]; 
-            NativeWinApi.GetPrivateProfileString("Models", "NumberOfModels", "", buffer, buffer.Length, 
-                Properties.Resources.model_manifest);
+            NativeWinApi.GetPrivateProfileString("Models", "NumberOfModels", "", buffer, buffer.Length, _manifest);
             var gameCount = Convert.ToUInt32(new string(buffer)) + 1;
             for (var i = 1; i < gameCount; i++)
             {
@@ -39,9 +41,9 @@ namespace PDTUtils.MVVM.ViewModels
                 var won = (uint)BoLib.getGamePerformanceMeter((uint)i, 1);
                 
                 var titleBuffer = new char[64];
-                var name = NativeWinApi.GetPrivateProfileString("Model" + i, "Title", "", titleBuffer, titleBuffer.Length,
-                    Properties.Resources.model_manifest);
-                
+                var name = NativeWinApi.GetPrivateProfileString("Model" + i, "Title", "", titleBuffer, titleBuffer.Length, 
+                    _manifest);
+         
                 var count = (uint)BoLib.getGamePerformanceMeter((uint)i, 2);
                 var title = new string(titleBuffer).Trim("\0".ToCharArray());
 
