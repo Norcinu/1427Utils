@@ -27,7 +27,7 @@ namespace PDTUtils.MVVM.ViewModels
 
         #region properties
         public int ActiveCount
-        { 
+        {
             get { return _count; }
             set
             {
@@ -60,6 +60,7 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     SelectedModelNumber = _gameSettings[_selectedIndex].ModelNumber.ToString();
                     SelectedGameName = _gameSettings[_selectedIndex].Title;
+                    
                     RaisePropertyChangedEvent("IsActiveGame");
                     RaisePropertyChangedEvent("IsPromoGame");
                     RaisePropertyChangedEvent("StakeOne");
@@ -68,6 +69,8 @@ namespace PDTUtils.MVVM.ViewModels
                     RaisePropertyChangedEvent("StakeFour");
                     RaisePropertyChangedEvent("IsFirstPromo");
                     RaisePropertyChangedEvent("IsSecondPromo");
+                    RaisePropertyChangedEvent("FirstPromo");
+                    RaisePropertyChangedEvent("SecondPromo");
                 }
             }
         }
@@ -289,7 +292,31 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("IsSecondPromo");
             }
         }
-        
+
+        public string FirstPromo
+        {
+            get;
+            /*{
+                if (_currentFirstSel != -1)
+                    return _gameSettings[_currentFirstSel].Title;
+                else
+                    return "NOT SELECTED";
+            }*/
+            set;
+        }
+
+        public string SecondPromo
+        {
+            get;
+            set;
+            /*{
+                if (_currentSecondSel != -1)
+                    return _gameSettings[_currentSecondSel].Title;
+                else
+                    return "NOT SELECTED 2";
+            }*/
+        }
+
         #endregion
 
         #region Commands
@@ -303,7 +330,7 @@ namespace PDTUtils.MVVM.ViewModels
             get { return new DelegateCommand(o => SaveChanges()); }
         }
         #endregion
-
+        
         string[] _fields = new string[12]
         {
             "Number", "Title", "Active", "Stake1", "Stake2", "Stake3", "Stake4", 
@@ -317,6 +344,9 @@ namespace PDTUtils.MVVM.ViewModels
             SelectionChanged = false;
             IsBritishMachine = BoLib.getCountryCode() != BoLib.getSpainCountryCode();
             AddGame();
+            
+            RaisePropertyChangedEvent("FirstPromo");
+            RaisePropertyChangedEvent("SecondPromo");
 
             SelectedIndex = _gameSettings.Count > 0 ? 0 : -1;
         }
@@ -374,10 +404,12 @@ namespace PDTUtils.MVVM.ViewModels
                     case "100":
                         m.Promo = true;
                         m.IsFirstPromo = true;
+                        FirstPromo = m.Title;
                         break;
                     case "200":
                         m.Promo = true;
                         m.IsSecondPromo = true;
+                        SecondPromo = m.Title;
                         break;
                     default:
                         m.Promo = false;
@@ -385,7 +417,7 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-         
+        
         public void SaveChanges()
         {
             if (_gameSettings.Count <= 0) return;

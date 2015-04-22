@@ -227,7 +227,7 @@ namespace PDTUtils
             uint totalBet = 0;
             for (var i = 0; i <= gameCount; i++)
             {
-                var modelNo = BoLib.getGameModel(i);
+                var modelNo = BoLib.getGameModel(i); // modelnumbers shifted by 15 places, from 0 to 15
                 var bet = (uint)BoLib.getGamePerformanceMeter((uint)i, 0);
                 var win = (uint)BoLib.getGamePerformanceMeter((uint)i, 1);
                 var playCount = (uint)BoLib.getGamePerformanceMeter((uint)i, 2);
@@ -243,7 +243,7 @@ namespace PDTUtils
                     tempTotalWon += win;
                     totalBet += bet;
                 }
-
+                
                 _games.Add(new GameStats()
                 {
                     GameNumber = i + 1,

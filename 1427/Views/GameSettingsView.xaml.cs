@@ -16,5 +16,13 @@ namespace PDTUtils.Views
             DataContext = new GameSettingViewModel();
             Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
         }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listViewPromo.SelectedItems.Count > 2)
+            {
+                listViewPromo.SelectedItems.RemoveAt(0);
+            }
+        }
     }
 }

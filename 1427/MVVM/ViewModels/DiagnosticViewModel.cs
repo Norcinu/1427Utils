@@ -70,7 +70,7 @@ namespace PDTUtils.MVVM.ViewModels
                     Hardware[0].DefGateway = ni.GetIPProperties().GatewayAddresses[0].Address.ToString();
                 }
             }
-
+            
             RaisePropertyChangedEvent("Hardware");
             RaisePropertyChangedEvent("Software");
         }
@@ -85,7 +85,7 @@ namespace PDTUtils.MVVM.ViewModels
                 buffer[0] = '0';
                 var hex = NativeMD5.HashToHex(h);
                 hash = hex;
-
+                
                 if (hex != null)
                 {
                     Debug.WriteLine("AUTHED OK");
