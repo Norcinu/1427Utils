@@ -454,6 +454,7 @@ namespace PDTUtils.MVVM.ViewModels
                     active = 0;
                     _numberOfGames--;
                 }
+             
                 NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
                 NativeWinApi.WritePrivateProfileString(temp, _fields[1], m.Title, _manifest);
                 NativeWinApi.WritePrivateProfileString(temp, _fields[2], active.ToString(), _manifest);
@@ -465,41 +466,36 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[5], m.StakeThree.ToString(), _manifest);
                     NativeWinApi.WritePrivateProfileString(temp, _fields[6], m.StakeFour.ToString(), _manifest);
                 }
-                
-                if (m.Promo)
+
+                if (FirstPromo == m.Title)
                 {
-                    if (!m.IsFirstPromo)
-                    {
-                        if (m.IsSecondPromo)
-                        {
-                            NativeWinApi.WritePrivateProfileString(temp, _fields[8], "200", _manifest);
-                            isSecondSet = true;
-                        }
-                    }
-                    else
-                    {
-                        NativeWinApi.WritePrivateProfileString(temp, _fields[8], "100", _manifest);
-                        isFirstSet = true;
-                    }
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[8], "100", _manifest);
+                    isFirstSet = true;
+                }
+                else if (SecondPromo == m.Title)
+                {
+                    NativeWinApi.WritePrivateProfileString(temp, _fields[8], "200", _manifest);
+                    isSecondSet = true;
                 }
                 else
+                {
                     NativeWinApi.WritePrivateProfileString(temp, _fields[8], "0", _manifest);
-            }
-
-            if (!isFirstSet)
-            {
-                NativeWinApi.WritePrivateProfileString("Model1", "Promo", "100", _manifest); // need to validate
+                }
             }
             
+            if (!isFirstSet)
+                NativeWinApi.WritePrivateProfileString("Model1", "Promo", "100", _manifest); // need to validate
+            
             if (!isSecondSet)
-            {
                 NativeWinApi.WritePrivateProfileString("Model" + _gameSettings.Count, "Promo", "200", _manifest); //need to validate
-            }
-
+            
             NativeWinApi.WritePrivateProfileString("General", "Update", "1", _manifest);
             NativeWinApi.WritePrivateProfileString("General", "NoActive", _numberOfGames.ToString(), _manifest);
 
             IniFileUtility.HashFile(_manifest);
+            
+            isFirstSet = false;
+            isSecondSet = false;
         }
         
         public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive(Chk)); } }
@@ -513,7 +509,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var str = amount as string;
             if (SelectedIndex < 0 || str == "") return;
-            
+
             var stake = Convert.ToInt32(amount);
             switch (stake)
             {
@@ -530,6 +526,19 @@ namespace PDTUtils.MVVM.ViewModels
                     _gameSettings[SelectedIndex].StakeFour = (_gameSettings[SelectedIndex].StakeFour > 0) ? stake : 0;
                     break;
             }
+        }
+        
+        public void UpdatePromoSelection(GameSettingModel first, GameSettingModel second)
+        {
+            FirstPromo = first.Title;
+            if (first.Title == SecondPromo) SecondPromo = "";
+            if (second != null && second.Title != "")
+            {
+                SecondPromo = second.Title;
+                if (second.Title == FirstPromo) SecondPromo = "";
+            }
+            RaisePropertyChangedEvent("FirstPromo");
+            RaisePropertyChangedEvent("SecondPromo");
         }
     }
 }

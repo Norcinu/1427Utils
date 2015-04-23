@@ -107,7 +107,6 @@
                             <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.Rtp}"/>
                         </StackPanel>
 
-                        <!--<Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="RTP"> -->
                         <RepeatButton Height="75" Margin="0,10,0,10" Delay="500" Command="{Binding Decrement}" CommandParameter="RTP">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
@@ -115,20 +114,6 @@
                         </RepeatButton>
 
                         
-                        <!--<Button Height="75" Margin="45,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </Button>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0"></Label>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.MaxBank}" />
-                </StackPanel>
-                <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </Button>-->
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Margin="10" Height="35" BorderBrush="Black" BorderThickness="2" Style="{StaticResource StdHeaderLabel}" FontSize="18" HorizontalContentAlignment="Center">Load Region Default Settings:</Label>
@@ -146,7 +131,6 @@
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Key" Width="380"> 
-                                            <!--DisplayMemberBinding="{Binding Key}" -->
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Label Style="{StaticResource StdHeaderLabel}" Background="LightGray" BorderBrush="Black" BorderThickness="2" Margin="10,2,10,2" FontSize="20" Content="{Binding Key}"/>
@@ -154,7 +138,6 @@
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
                                         <GridViewColumn Header="Value" Width="380">
-                                            <!-- DisplayMemberBinding="{Binding Value}" -->
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <Label Style="{StaticResource StdHeaderLabel}" Background="LightGray" BorderBrush="Black" BorderThickness="2" Margin="10,2,10,2" FontSize="20" Content="{Binding Value}"/>
@@ -274,12 +257,6 @@
                                     </StackPanel>
                                 </RepeatButton>
                             </StackPanel>
-
-
-                            <StackPanel Orientation="Horizontal" Name="stpNonEditable" HorizontalAlignment="Center">
-                                
-                            </StackPanel>
-
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Button Content="Save Changes" Margin="25" FontSize="20" Width="150" Height="35" Command="{Binding Save}"/>

@@ -27,6 +27,18 @@
             <Setter Property="BorderThickness" Value="2"/>
         </Style>
 
+        <Style x:Key="SelectionLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Navy"/>
+            <!-- <Setter Property="Margin" Value="10,0,0,10" /> -->
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Width" Value="285"/>
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
         <Style x:Key="StdCheckBox" TargetType="CheckBox">
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Foreground" Value="Navy"/>
@@ -71,15 +83,15 @@
                                 <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsActiveGame, Mode=TwoWay}">
                                     <Label Style="{StaticResource StdHeaderLabel}" Content="Is Active Game" Margin="15,0,10,0"/>
                                 </CheckBox>
-
-                                <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsPromoGame, Mode=TwoWay}">
+                                    
+                                    <!-- <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsPromoGame, Mode=TwoWay}">
                                     <Label Style="{StaticResource StdHeaderLabel}" Content="Is Promo Game" Margin="15,0,10,0"/>
                                 </CheckBox>
 
-                                <!-- <ComboBox HorizontalContentAlignment="Center" IsEnabled="{Binding IsActiveGame}" Width="200" Margin="0,0,10,0" FontSize="24" Text="Not Promo">
-                                <ComboBoxItem HorizontalContentAlignment="Center" IsSelected="{Binding IsFirstPromo}">First Promo</ComboBoxItem>
-                                <ComboBoxItem HorizontalContentAlignment="Center" IsSelected="{Binding IsSecondPromo}">Second Promo</ComboBoxItem>
-                            </ComboBox> -->
+                                <ComboBox HorizontalContentAlignment="Center" IsEnabled="{Binding IsActiveGame}" Width="200" Margin="0,0,10,0" FontSize="24" Text="Not Promo">
+                                    <ComboBoxItem HorizontalContentAlignment="Center" IsSelected="{Binding IsFirstPromo}">First Promo</ComboBoxItem>
+                                    <ComboBoxItem HorizontalContentAlignment="Center" IsSelected="{Binding IsSecondPromo}">Second Promo</ComboBoxItem>
+                                </ComboBox> -->
                             </StackPanel>
                         </Border>
 
@@ -113,17 +125,26 @@
                         </Border>
 
 
-                        <StackPanel>
-                            <ListBox x:Name="listViewPromo" SelectionMode="Multiple" SelectionChanged="ListBox_SelectionChanged" 
-                                     ItemsSource="{Binding Settings}">
+                        <StackPanel Margin="0,2,0,0">
+                            <Border BorderBrush="Black" BorderThickness="2">
+                                <StackPanel Background="LightGray">
+                                    <Label Content="Current Promo Selections"/>
+                                    <Label ContentStringFormat="1) {0}" Content="{Binding FirstPromo}"/>
+                                    <Label ContentStringFormat="2) {0}" Content="{Binding SecondPromo}"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <Label Content="Select 1-2 Promo Games" Margin="0,10,0,10" HorizontalAlignment="Center"/>
+                            <ListBox x:Name="listViewPromo" SelectionMode="Multiple" HorizontalAlignment="Center"
+                                     SelectionChanged="ListBox_SelectionChanged" 
+                                     ItemsSource="{Binding Settings}" Width="300">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Label Content="{Binding Title}"/>
+                                        <Label Style="{StaticResource SelectionLabel}" Content="{Binding Title}"/>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </StackPanel>
-                        
                         
                     </StackPanel>
                 </Border>

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Markup;
 using PDTUtils.MVVM.ViewModels;
+using PDTUtils.MVVM.Models;
 
 namespace PDTUtils.Views
 {
@@ -22,6 +23,18 @@ namespace PDTUtils.Views
             if (listViewPromo.SelectedItems.Count > 2)
             {
                 listViewPromo.SelectedItems.RemoveAt(0);
+            }
+
+            if (listViewPromo.SelectedItems.Count == 1)
+            {
+                var dc = DataContext as GameSettingViewModel;
+                dc.UpdatePromoSelection(listViewPromo.SelectedItems[0] as GameSettingModel, null);
+            }
+            else if (listViewPromo.SelectedItems.Count == 2)
+            {
+                var dc = DataContext as GameSettingViewModel;
+                dc.UpdatePromoSelection(listViewPromo.SelectedItems[0] as GameSettingModel,
+                                        listViewPromo.SelectedItems[1] as GameSettingModel);
             }
         }
     }

@@ -221,7 +221,7 @@ namespace PDTUtils
             _totalWon = (int)wonLt;
             _totalGames = (int)noGames;
             _numberOfGames = gameCount + 1;
-
+            
             uint tempTotalWon = 0;
             uint totalGameCount = 0;
             uint totalBet = 0;
@@ -233,10 +233,10 @@ namespace PDTUtils
                 var playCount = (uint)BoLib.getGamePerformanceMeter((uint)i, 2);
                 var average = (double)bet / (double)playCount;
                 var perc = 0.00M;
-                
+
                 if (win > 0 && bet > 0)
                     perc = ((decimal)win / (decimal)bet) * 100;
-
+                
                 if (i > 0)
                 {
                     totalGameCount += playCount;
