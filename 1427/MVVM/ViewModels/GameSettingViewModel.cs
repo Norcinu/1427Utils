@@ -409,7 +409,7 @@ namespace PDTUtils.MVVM.ViewModels
                     case "200":
                         m.Promo = true;
                         m.IsSecondPromo = true;
-                        SecondPromo = m.Title;
+                        if (m.Active) SecondPromo = m.Title;
                         break;
                     default:
                         m.Promo = false;
@@ -452,7 +452,7 @@ namespace PDTUtils.MVVM.ViewModels
                 else
                 {
                     active = 0;
-                    _numberOfGames--;
+                    activeCount--;
                 }
              
                 NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
@@ -467,12 +467,12 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[6], m.StakeFour.ToString(), _manifest);
                 }
 
-                if (FirstPromo == m.Title)
+                if (FirstPromo == m.Title && m.Active)
                 {
                     NativeWinApi.WritePrivateProfileString(temp, _fields[8], "100", _manifest);
                     isFirstSet = true;
                 }
-                else if (SecondPromo == m.Title)
+                else if (SecondPromo == m.Title && m.Active)
                 {
                     NativeWinApi.WritePrivateProfileString(temp, _fields[8], "200", _manifest);
                     isSecondSet = true;
@@ -482,20 +482,40 @@ namespace PDTUtils.MVVM.ViewModels
                     NativeWinApi.WritePrivateProfileString(temp, _fields[8], "0", _manifest);
                 }
             }
-            
+
             if (!isFirstSet)
-                NativeWinApi.WritePrivateProfileString("Model1", "Promo", "100", _manifest); // need to validate
-            
+            {
+                for (int i = 0; i < _gameSettings.Count; i++)
+                {
+                    if (_gameSettings[i].Active)
+                    {
+                        NativeWinApi.WritePrivateProfileString("Model" + (i + 1), "Promo", "100", _manifest);
+                        break;
+                    }
+                }
+            }
+
             if (!isSecondSet)
-                NativeWinApi.WritePrivateProfileString("Model" + _gameSettings.Count, "Promo", "200", _manifest); //need to validate
+            {
+                for (int i = 0; i < _gameSettings.Count; i++)
+                {
+                    if (_gameSettings[i].Active && !_gameSettings[i].Promo)
+                    {
+                        NativeWinApi.WritePrivateProfileString("Model" + (i + 1), "Promo", "200", _manifest);
+                        break;
+                    }
+                }
+            }
             
             NativeWinApi.WritePrivateProfileString("General", "Update", "1", _manifest);
-            NativeWinApi.WritePrivateProfileString("General", "NoActive", _numberOfGames.ToString(), _manifest);
+            NativeWinApi.WritePrivateProfileString("General", "NoActive", activeCount.ToString(), _manifest);
 
             IniFileUtility.HashFile(_manifest);
-            
+
             isFirstSet = false;
             isSecondSet = false;
+
+            GlobalConfig.RebootRequired = true;
         }
         
         public ICommand ToggleActive { get { return new DelegateCommand(o => DoToggleActive(Chk)); } }
@@ -509,7 +529,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var str = amount as string;
             if (SelectedIndex < 0 || str == "") return;
-
+            
             var stake = Convert.ToInt32(amount);
             switch (stake)
             {
@@ -537,6 +557,15 @@ namespace PDTUtils.MVVM.ViewModels
                 SecondPromo = second.Title;
                 if (second.Title == FirstPromo) SecondPromo = "";
             }
+
+            foreach (var gsm in _gameSettings)
+            {
+                if (gsm.Title != first.Title)// && gsm.Title != second.Title)
+                {
+                    gsm.Promo = false;
+                }
+            }
+            
             RaisePropertyChangedEvent("FirstPromo");
             RaisePropertyChangedEvent("SecondPromo");
         }

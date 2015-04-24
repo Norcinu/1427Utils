@@ -198,7 +198,7 @@ namespace PDTUtils
         {
             if (_keyDoorWorker.Running)
                 _keyDoorWorker.Running = false;
-                
+
             if (_keyDoorThread != null)
             {
                 try
@@ -215,14 +215,13 @@ namespace PDTUtils
                 }
             }
             
-            
-#if DEBUG
+/*#if DEBUG
             if (GlobalConfig.RebootRequired)
                 Debug.WriteLine("WE SHOULD BE RE-BOOTING.");
-#else
+#else*/
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
-#endif
+//#endif
             if (!_sharedMemoryOnline) return;
             _sharedMemoryOnline = false;
             BoLib.closeSharedMemory();

@@ -14,7 +14,7 @@
         <conv:BoolToVisibilityConverter x:Key="BoolToVis"/>
         <conv:ConvertStakeVisibility x:Key="StakeVis"/>
         <conv:NegateBoolValue x:Key="Negate"/>
-
+        
         <Style x:Key="StdHeaderLabel" TargetType="Label">
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -38,7 +38,7 @@
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="2"/>
         </Style>
-
+        
         <Style x:Key="StdCheckBox" TargetType="CheckBox">
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="Foreground" Value="Navy"/>
@@ -95,7 +95,9 @@
                             </StackPanel>
                         </Border>
 
-                        <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" Visibility="{Binding IsBritishMachine, Converter={StaticResource BoolToVis}}">
+                        <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2" Visibility="{Binding IsBritishMachine, 
+                            Converter={StaticResource BoolToVis}}">
+                            
                             <StackPanel Orientation="Horizontal" Margin="0,10,10,10" HorizontalAlignment="Center">
                                 <CheckBox Margin="10,10,100,10" IsChecked="{Binding StakeOne, Mode=TwoWay}">
                                     <CheckBox.LayoutTransform>
@@ -122,8 +124,8 @@
                                     <Label Content="£2" Style="{StaticResource StdHeaderLabel}" Width="50"/>
                                 </CheckBox>
                             </StackPanel>
+                        
                         </Border>
-
 
                         <StackPanel Margin="0,2,0,0">
                             <Border BorderBrush="Black" BorderThickness="2">

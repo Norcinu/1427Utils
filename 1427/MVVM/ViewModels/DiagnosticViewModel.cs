@@ -12,6 +12,7 @@ namespace PDTUtils.MVVM.ViewModels
     {
         public ObservableCollection<SoftwareInfo> Software { get; private set; }
         public ObservableCollection<HardwareInfo> Hardware { get; private set; }
+        public string LastSecurityCheck { get; set; }
 
         MachineInfo _machineData;
 
@@ -32,10 +33,10 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 var exe = new StringBuilder(64);
                 var dir = new StringBuilder(64);
-
+                
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "Exe", "", exe, 64, ini);
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "GameDirectory", "", dir, 64, ini);
-                
+                   
                 var fullPath = new StringBuilder(dir + @"\" + exe);
                 status = CheckHashIsAuthed(fullPath, ref hash);
                 Software.Add(new SoftwareInfo(dir.ToString().TrimStart("\\".ToCharArray()), hash, status));
@@ -43,15 +44,19 @@ namespace PDTUtils.MVVM.ViewModels
             
             //string sb = "";
             //ativeWinApi.GetPrivateProfileString("Key", "License", "", sb, 128, Properties.Resources.machine_ini);
-            
+#if DEBUG
+            string license = "DEVELOPMENT";
+#else
+            string license = "TODO DO THIS";
+#endif
             //var serial = BoLib.getSerialNumber();
             Hardware.Add(new HardwareInfo()
             {
                 SerialKey = BoLib.getSerialNumber(),//serial,
                 MachineName = "TERMINAL_01",
-                License = "DEVELOPMENT",
+                License = license,
                 CpuType = "S430",
-                CabinetType = "TS22 - L29",
+                CabinetType =/* (BoLib.GetUniquePcbID(0)) ? */"INNOCORE TS22 L29" /*: "AXIS - L29"*/,
                 CpuID = BoLib.GetUniquePcbID(0)
             });
             
