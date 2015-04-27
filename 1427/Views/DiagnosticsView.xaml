@@ -18,7 +18,8 @@
             <Setter Property="Background" Value="LightBlue"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="MinWidth" Value="200"/>
+            <!-- <Setter Property="MinWidth" Value="200"/> -->
+            <Setter Property="Width" Value="400"/>
         </Style>
         
         <Style x:Key="StdHeaderLabel" TargetType="Label">
@@ -38,7 +39,8 @@
         <TabControl SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="Software" MinWidth="150">
                 <StackPanel Margin="10" HorizontalAlignment="Center">
-                    <Label Margin="10" Style="{StaticResource StdLabel}">Machine Software</Label> <!--="46" Margin="10" HorizontalContentAlignment="Center">Machine Software</Label>-->
+                    <!--="46" Margin="10" HorizontalContentAlignment="Center">Machine Software</Label>-->
+                    <Label Margin="10" Style="{StaticResource StdLabel}">Machine Software</Label> 
                     <ListView Margin="10" FontSize="22" ItemsSource="{Binding Software}">
                         <ListView.View>
                             <GridView>
@@ -71,99 +73,103 @@
                     </ListView>
                 </StackPanel>
             </TabItem>
-
+            
             <TabItem Header="Hardware" MinWidth="150">
-                <StackPanel Margin="10" HorizontalAlignment="Center" Background="HotPink" >
-                    <Label Style="{StaticResource StdLabel}">Machine Hardware ID</Label>
-                    <ListView Margin="5" FontSize="22" ItemsSource="{Binding Hardware}">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Serial Key" Width="230">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding SerialKey}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="CPU-ID" Width="230">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding CpuID}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Machine Name" Width="230">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding MachineName}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="License Number" Width="230">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding License}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Cpu Type" Width="230">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding CpuType}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Cabinet Type" Width="230">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding CabinetType}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    
-                    <Label Style="{StaticResource StdLabel}">Network Info</Label>
-                    <ListView Margin="5" FontSize="22" ItemsSource="{Binding Hardware}" Width="1012">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="IP Address" Width="333">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding IPAddress}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Subnet Mask" Width="333">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding Subnet}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Default Gateway" Width="334">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding DefGateway}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                <Border BorderBrush="Black" BorderThickness="2">
+                    <StackPanel Margin="10" HorizontalAlignment="Center" Background="LightGray">
+                        <Label Style="{StaticResource StdLabel}">Machine Hardware ID</Label>
+                        <ListView Margin="10" FontSize="22" ItemsSource="{Binding Hardware}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Serial Key" Width="230">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding SerialKey}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="CPU-ID" Width="230">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding CpuID}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Machine Name" Width="230">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding MachineName}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="License Number" Width="230">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding License}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Cpu Type" Width="230">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding CpuType}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Cabinet Type" Width="230">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding CabinetType}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
 
-                    <!-- <Border BorderBrush="Black" BorderThickness="2">
+                        <Label Style="{StaticResource StdLabel}">Network Info</Label>
+                        <ListView Margin="10" FontSize="22" ItemsSource="{Binding Hardware}" Width="702">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="IP Address" Width="230">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding IPAddress}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Subnet Mask" Width="230">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Subnet}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Default Gateway" Width="230">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding DefGateway}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <!-- <Border BorderBrush="Black" BorderThickness="2">
                         <StackPanel Orientation="Horizontal" Background="LightBlue">
                             <Label>License Key</Label>
                             <Label Content="{Binding Hardware[0].License}"/>
                         </StackPanel>
                     </Border> -->
-                    
-                    <StackPanel Background="DarkSeaGreen">
+                        <Label Margin="10" Style="{StaticResource StdLabel}">General</Label>
+                        <ListBox ItemsSource="{Binding GeneralList}" Width="500" />
                         
+                        <StackPanel Background="DarkSeaGreen">
+
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                </Border>
             </TabItem>
         </TabControl>
     </Grid>

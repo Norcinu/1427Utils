@@ -326,6 +326,9 @@ namespace PDTUtils.Native
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern string getLicense();
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern string getCountyCodeStrLiteral(string str, int code);
+
         /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint getPayoutCoinValues(uint which);*/
 

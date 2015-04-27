@@ -5,6 +5,7 @@ using System.Text;
 using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
+using PDTUtils.Properties;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -12,17 +13,19 @@ namespace PDTUtils.MVVM.ViewModels
     {
         public ObservableCollection<SoftwareInfo> Software { get; private set; }
         public ObservableCollection<HardwareInfo> Hardware { get; private set; }
-        public string LastSecurityCheck { get; set; }
+        public ObservableCollection<string> GeneralList { get; set; }
 
         MachineInfo _machineData;
-
+        
         public DiagnosticViewModel(MachineInfo machineData)
         {
             _machineData = machineData;
             Hardware = new ObservableCollection<HardwareInfo>();
             Software = new ObservableCollection<SoftwareInfo>();
+            GeneralList = new ObservableCollection<string>();
+            
             var ini = Properties.Resources.machine_ini;
-
+            
             var buffer = new StringBuilder(64);
             NativeWinApi.GetPrivateProfileString("Exe", "Game Exe", "", buffer, 64, ini);
             var hash = "";
@@ -60,13 +63,11 @@ namespace PDTUtils.MVVM.ViewModels
                 CpuID = BoLib.GetUniquePcbID(0)
             });
             
-            //Hardware.Add(new HardwareInfo(serial, "TERMINAL_01", "Development", "S430", "TS22 - L29"));
-
             foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (ni.NetworkInterfaceType != NetworkInterfaceType.Wireless80211 &&
                     ni.NetworkInterfaceType != NetworkInterfaceType.Ethernet) continue;
-
+                
                 foreach (var ip in ni.GetIPProperties().UnicastAddresses)
                 {
                     if (ip.Address.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork) continue;
@@ -76,14 +77,27 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
             
+            var code = BoLib.getCountryCode();
+            GeneralList.Add("Country Code: (" + code + ") " + BoLib.getCountyCodeStrLiteral("", code));
+            GeneralList.Add("Printer Port: COM2");
+            GeneralList.Add(BoLib.getEDCTypeStr());
+            GeneralList.Add(_machineData.GetScreenResolution());
+            GeneralList.Add(_machineData.GetOsVersion());
+            GeneralList.Add(_machineData.GetMemoryInfo());
+            GeneralList.Add("Game Provider: Project Coin");
+            GeneralList.Add(_machineData.GetUpdateKey());
+            GeneralList.Add("Last Security Check: " + _machineData.GetLastMd5Check());
+            
+            RaisePropertyChangedEvent("PropertyChanged");
             RaisePropertyChangedEvent("Hardware");
             RaisePropertyChangedEvent("Software");
+            RaisePropertyChangedEvent("GeneralList");
         }
-
+        
         string CheckHashIsAuthed(StringBuilder buffer, ref string hash)
         {
             var isAuthed = NativeMD5.CheckHash(@"d:" + buffer);
-
+            
             if (isAuthed)
             {
                 var h = NativeMD5.CalcHashFromFile(buffer.ToString());
@@ -92,16 +106,11 @@ namespace PDTUtils.MVVM.ViewModels
                 hash = hex;
                 
                 if (hex != null)
-                {
-                    Debug.WriteLine("AUTHED OK");
                     return "AUTHED OK";
-                }
             
-                Debug.WriteLine("ERROR CALCULATING HASH CODE");
                 return "ERROR CALCULATING HASH CODE";
             }
             
-            Debug.WriteLine("AUTH FAILED");
             return "AUTH FAILED";
         }
     }

@@ -15,7 +15,7 @@ namespace PDTUtils.Views
             InitializeComponent();
             DataContext = new DiagnosticViewModel(new MachineInfo());
         }
-
+        
         void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }

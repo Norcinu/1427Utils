@@ -267,7 +267,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (RefillTimer == null)
             {
-                RefillTimer = new Timer(100) {Enabled = true};
+                RefillTimer = new Timer(100) { Enabled = true };
             }
             
             NotRefilling = false;

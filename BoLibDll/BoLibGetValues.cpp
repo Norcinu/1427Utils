@@ -760,9 +760,26 @@ char *getLicense()
 {
 	char buffer[128] = {0};
 	GetPrivateProfileString("Keys", "License", "", buffer, 128, MACHINE_INI.c_str());
-	char buffythevampireslayer[128] = {0};
-	strncat_s(buffythevampireslayer, buffer, 128);
-	return buffythevampireslayer;
+	char bufferthevampireslayer[128] = {0};
+	strncat_s(bufferthevampireslayer, buffer, 128);
+	return bufferthevampireslayer;
+}
+
+
+char *CountryStrings[10] =
+{
+	"UK CAT B3", "UK CAT C", "EURO", "Czech", "Argentina", "UK-Reserved", 
+	"COLM", "Northern Ireland", "UK Bingo", "Spain"
+};
+
+char *getCountyCodeStrLiteral(char *str, int code)
+{
+	if (code >= 10)
+		return "Unknown Region";
+
+	auto length = strlen(CountryStrings[code]) + 1;
+	strcpy_s(str, length, CountryStrings[code]);
+	return str;
 }
 
 /*

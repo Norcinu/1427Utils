@@ -67,9 +67,9 @@ namespace PDTUtils.Logic
 			NativeWinApi.GlobalMemoryStatus(ref ms);
 
 			var str = new StringBuilder("Total Physical Memory: " + (ms.DwTotalPhys / 1024) / 1024 + " MB");
-			str.Append("\tFree Physical Memory: " + (ms.DwAvailPhys / 1024) / 1024 + " MB");
+			str.Append("\nFree Physical Memory: " + (ms.DwAvailPhys / 1024) / 1024 + " MB");
 			str.Append("\nTotal Virtual Memory: " + (ms.DwTotalVirtual / 1024) / 1024 + " MB");
-			str.Append("\tFree Virtual Memory: " + (ms.DwAvailVirtual / 1024) / 1024 + " MB");
+			str.Append("\nFree Virtual Memory: " + (ms.DwAvailVirtual / 1024) / 1024 + " MB");
 
 			return str.ToString();
 		}
@@ -80,7 +80,7 @@ namespace PDTUtils.Logic
 
 			var str = new StringBuilder("Top Screen:\t "); 
 			var dm = new NativeWinApi.Devmode();
-
+            
 			var result = NativeWinApi.EnumDisplaySettings("\\\\.\\Display2", 
 				(int)NativeWinApi.ModeNum.EnuCurrentSettings, ref dm);
 			
@@ -100,7 +100,7 @@ namespace PDTUtils.Logic
 			if (result == true)
 			{
 				str.Append("Resolution: " + dm2.dmPelsWidth + "x" + dm2.dmPelsHeight + ". ");//\n
-				str.Append("BPP: " + dm2.dmBitsPerPel + ".\n");
+				str.Append("BPP: " + dm2.dmBitsPerPel);
 			}
 			else
 				str.Append(errorString);
@@ -140,7 +140,7 @@ namespace PDTUtils.Logic
 			var os = new NativeWinApi.Osversioninfo();
 			os.DwOsVersionInfoSize = (uint)Marshal.SizeOf(os);
 			NativeWinApi.GetVersionEx(ref os);
-			return "OS Version:\nWindows XPe - " + os.SzCsdVersion.ToString();
+			return "OS Version:\tWindows XPe - " + os.SzCsdVersion.ToString();
 		}
 
 		public string GetLastMd5Check()
@@ -185,7 +185,7 @@ namespace PDTUtils.Logic
 		
 		public void QueryMachine()
 		{
-			Add(new SystemInfo(GetComputerName()));
+			/*Add(new SystemInfo(GetComputerName()));
 			Add(new SystemInfo(GetMachineIp()));
 			Add(new SystemInfo(GetMachineSerial()));
 			Add(new SystemInfo(GetMemoryInfo()));
@@ -196,7 +196,7 @@ namespace PDTUtils.Logic
 			Add(new SystemInfo(GetLastMd5Check()));
 			Add(new SystemInfo(GetUpdateKey()));
 			Add(new SystemInfo(GetCountryCode()));
-			Add(new SystemInfo(GetEdc()));
+			Add(new SystemInfo(GetEdc()));*/
 						
 			// 20 fields platform -> utils.
 			// x games is seperate. + maybe include shell, utils + menu here. if so above will be 17 fields.

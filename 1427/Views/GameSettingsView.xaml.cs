@@ -15,6 +15,13 @@ namespace PDTUtils.Views
         {
             InitializeComponent();
             DataContext = new GameSettingViewModel();
+            
+            var dc = DataContext as GameSettingViewModel;
+            if (dc.FirstPromo != null)
+                listViewPromo.SelectedItems.Add(dc.FirstPromo);
+            if (dc.SecondPromo != null)
+                listViewPromo.SelectedItems.Add(dc.SecondPromo);
+
             Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
         }
 
