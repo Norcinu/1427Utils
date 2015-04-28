@@ -18,7 +18,7 @@ namespace PDTUtils
 		volatile bool _hasChanged;
 		volatile bool _isTestSuiteRunning;
         volatile bool _prepareForReboot;
-
+        
         System.Timers.Timer _updateTimer;
 
 		#region Properties
@@ -79,7 +79,7 @@ namespace PDTUtils
 			while (_running)
 			{
 				var r = new Random();
-			    if (r.Next(1000) < 100 && _isTestSuiteRunning == false)
+			    if (r.Next(1000) < 100 && !_isTestSuiteRunning)
 			    {
 			        if (BoLib.refillKeyStatus() == 0 && !_prepareForReboot)
 			        {
@@ -88,8 +88,10 @@ namespace PDTUtils
 			                DispatcherPriority.Normal,
 			                (ThreadStart) delegate
 			                {
+#if !DEBUG
 			                    if (GlobalConfig.RebootRequired)
 			                        BoLib.setRebootRequired();
+#endif
 			                });
 			            Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 			        }

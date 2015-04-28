@@ -34,6 +34,7 @@ namespace PDTUtils.MVVM.Models
         public uint ConvertToPlay { get; set; }
         public uint CycleSize { get; set; }
         public uint FastTransfer { get; set; }
+        //public uint Allow
         public string Community { get; set; }
 	    
         

@@ -25,3 +25,5 @@ DLLEXPORT void	setBnvType(unsigned char value);
 DLLEXPORT void	setRebootRequired();
 DLLEXPORT void	setUtilsAdd2CreditValue(unsigned int value);
 DLLEXPORT void	setRequestUtilsAdd2Credit();
+DLLEXPORT void  setEspRegionalValue(unsigned int QueryIndex,unsigned long Value);
+

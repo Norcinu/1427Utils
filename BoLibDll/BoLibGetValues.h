@@ -133,4 +133,5 @@ DLLEXPORT unsigned long getWinningGameMeter(int offset, int meter);
 DLLEXPORT unsigned long getHistoryLength();
 DLLEXPORT char			*getLicense();
 DLLEXPORT char			*getCountyCodeStrLiteral(char *str, int code);
+DLLEXPORT unsigned long getEspRegionalVariableValue(int ValueIndex);
 

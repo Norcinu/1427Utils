@@ -69,6 +69,12 @@ namespace PDTUtils.Native
         MaxGameMeters,
         GameStOffSetP = (MaxGameMeters / 2)
     }
+
+    enum EspRegionalExt
+    {
+        EspAlwaysFichas = 17,
+        EspAutoTfxToStake = 18
+    }
     
     static class BoLib
     {
@@ -329,6 +335,9 @@ namespace PDTUtils.Native
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern string getCountyCodeStrLiteral(string str, int code);
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ulong getEspRegionalVariableValue(int value);
+
         /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint getPayoutCoinValues(uint which);*/
 
@@ -391,6 +400,9 @@ namespace PDTUtils.Native
         
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setRequestUtilsAdd2Credit();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void setEspRegionalValue(uint query, ulong value);
 
         /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setPayoutCoinValues(uint which, uint value);*/

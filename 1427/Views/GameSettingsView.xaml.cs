@@ -15,16 +15,17 @@ namespace PDTUtils.Views
         {
             InitializeComponent();
             DataContext = new GameSettingViewModel();
-            
+            //not sure if this is really needed. does it really add anything
+            //oy vey what a putz imo.
             var dc = DataContext as GameSettingViewModel;
             if (dc.FirstPromo != null)
                 listViewPromo.SelectedItems.Add(dc.FirstPromo);
             if (dc.SecondPromo != null)
                 listViewPromo.SelectedItems.Add(dc.SecondPromo);
-
+            
             Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
         }
-
+        
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (listViewPromo.SelectedItems.Count > 2)

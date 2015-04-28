@@ -120,6 +120,9 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand Increment { get { return new DelegateCommand(DoIncrement); } }
         public ICommand Decrement { get { return new DelegateCommand(DoDecrement); } }
         public ICommand ResetLiveToDefault { get { return new DelegateCommand(o => DoResetLiveToDefault()); } }
+        public ICommand SetEscrow { get { return new DelegateCommand(DoSetEscrow); } }
+        public ICommand SetFastTransfer { get { return new DelegateCommand(DoSetFastTransfer); } }
+        public ICommand SetExtendedOption { get { return new DelegateCommand(DoSetExtendedOption); } }
         #endregion
         
         public RegionalSettingsViewModel()
@@ -155,12 +158,12 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Street");
             RaisePropertyChangedEvent("Selected");
         }
-        
+
         private void LoadSettingsView()
         {
             if (_settingsView.Count > 0)
                 _settingsView.Clear();
-            
+
             PropertyInfo[] properties = _editableLiveRegion.GetType().GetProperties();
             int headerCtr = 0;
             try
@@ -185,14 +188,14 @@ namespace PDTUtils.MVVM.ViewModels
         }
         
         public void SaveChanges()
-        { 
+        {
             NativeWinApi.WritePrivateProfileString("General", "Region", Selected.Community, _espRegionIni);
             NativeWinApi.WritePrivateProfileString("General", "VenueType", Selected.VenueType, _espRegionIni);
 
             Selected.Id = Selected.VenueType == "Street Market"
                 ? Array.IndexOf(_streetMarketRegions, Selected.Community)
                 : Array.IndexOf(_arcadeRegions, Selected.Community) + _streetMarketRegions.Length;
-
+            
             NativeWinApi.WritePrivateProfileString("General", "CurrentRegion", Selected.Id.ToString(), _espRegionIni);
             
             NativeWinApi.WritePrivateProfileString("Settings", "MaxStakeCredits", _editableLiveRegion.MaxStakeCredits.ToString(), _espRegionIni);
@@ -214,8 +217,9 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Settings", "MaxPlayerPoints", _editableLiveRegion.MaxPlayerPoints.ToString(), _espRegionIni);
 
             IniFileUtility.HashFile(_espRegionIni);
+            
             RaisePropertyChangedEvent("EditableLiveRegion");
-
+            
             GlobalConfig.RebootRequired = true;
         }
         
@@ -224,8 +228,8 @@ namespace PDTUtils.MVVM.ViewModels
             string[] temp;
             IniFileUtility.GetIniProfileSection(out temp, "General", _espRegionIni);
             _selected.Id = Convert.ToInt32(temp[1].Substring(14));
-            _selected.Community = temp[2].Substring(7).Trim(); //0
-            _selected.VenueType = temp[3].Substring(10).Trim(); //1
+            _selected.Community = temp[2].Substring(7).Trim();
+            _selected.VenueType = temp[3].Substring(10).Trim();
             
             string[] liveSettings;
             IniFileUtility.GetIniProfileSection(out liveSettings, "Settings", _espRegionIni);
@@ -255,7 +259,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (_arcadeSelectedIndex == -1 && _marketSelectedIndex == -1)
                 return;
-
+            
             var id = 0;
             if (_arcadeSelectedIndex >= 0)
             {
@@ -272,7 +276,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             var sr = new SpanishRegional();
             BoLib.getDefaultRegionValues(id, ref sr);
-            
+
             _editableLiveRegion = new SpanishRegionalModel(Selected.Community, sr);
             SelectionChanged = true;
             
@@ -307,8 +311,9 @@ namespace PDTUtils.MVVM.ViewModels
 
             SaveChanges();
             LoadSettings();
-            
-            RaisePropertyChangedEvent("EditableLiveRegion");
+            LoadSettingsView();
+
+            RaisePropertyChangedEvent("EditableLiveRegion");;
         }
         
         void DoDecrement(object settingsName)
@@ -337,12 +342,13 @@ namespace PDTUtils.MVVM.ViewModels
 
             SaveChanges();
             LoadSettings();
-            
+            LoadSettingsView();
+
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
         
         void DoResetLiveToDefault()
-        {            
+        {
             var id = Selected.Id;
             var sr = new SpanishRegional();
             BoLib.getDefaultRegionValues(id, ref sr);
@@ -350,8 +356,65 @@ namespace PDTUtils.MVVM.ViewModels
             
             SaveChanges();
             LoadSettings();
-            
+            LoadSettingsView();
+
             RaisePropertyChangedEvent("EditableLiveRegion");
+        }
+        
+        void DoSetEscrow(object o)
+        {
+            var str = o as string;
+            if (str == "Enable")
+            {
+                if (_editableLiveRegion.EscrowState == 0)
+                {
+                    _editableLiveRegion.EscrowState = 1;
+                    SaveChanges();
+                }
+            }
+            else if (str == "Disable")
+            {
+                if (_editableLiveRegion.EscrowState == 1)
+                {
+                    _editableLiveRegion.EscrowState = 0;
+                    SaveChanges();
+                }
+            }
+        }
+
+        void DoSetFastTransfer(object o)
+        {
+            var str = o as string;
+            if (str == "Enable")
+            {
+                if (_editableLiveRegion.FastTransfer == 0)
+                {
+                    _editableLiveRegion.FastTransfer = 1;
+                    SaveChanges();
+                }
+            }
+            else if (str == "Disable")
+            {
+                if (_editableLiveRegion.FastTransfer == 1)
+                {
+                    _editableLiveRegion.FastTransfer = 0;
+                    SaveChanges();
+                }
+            }
+        }
+
+        void DoSetExtendedOption(object o)
+        {
+            var str = o as string;
+            if (str == null) return;
+            var tokens = str.Split("+".ToCharArray());
+            switch (tokens[0])
+            {
+                case "AllowFish":
+                    break;
+                case "AutoTransfer":
+                    break;
+            }
         }
     }
 }

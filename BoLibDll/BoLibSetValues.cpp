@@ -134,6 +134,10 @@ void setRequestUtilsAdd2Credit()
     SetRequestUtilsAdd2Credit();
 }
 
+void setEspRegionalValue(unsigned int QueryIndex,unsigned long Value)
+{
+	SetEspRegionalValue(QueryIndex, Value);
+}
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!
 void setPayoutCoinValues(unsigned int WhichOne, unsigned int Value)

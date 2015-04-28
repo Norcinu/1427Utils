@@ -782,6 +782,11 @@ char *getCountyCodeStrLiteral(char *str, int code)
 	return str;
 }
 
+unsigned long getEspRegionalVariableValue(int ValueIndex)
+{
+	return GetEspRegionalVariableValue(ValueIndex);
+}
+
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!
 unsigned int getPayoutCoinValues(unsigned int WhichOne)
