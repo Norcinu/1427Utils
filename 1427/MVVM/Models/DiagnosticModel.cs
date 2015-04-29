@@ -17,7 +17,7 @@ namespace PDTUtils.MVVM.Models
             this.HashCode = h;
         }
     }
-
+    
     public class HardwareInfo
     {
         public string SerialKey { get; set; }
@@ -38,7 +38,7 @@ namespace PDTUtils.MVVM.Models
             CpuType = cpu;
             CabinetType = ct;
             CpuID = "";
-
+            
             IPAddress = "192.168.1.3";
             Subnet = "255.255.0.0";
             DefGateway = "169.254.1.1";

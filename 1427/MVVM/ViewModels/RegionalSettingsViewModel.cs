@@ -109,9 +109,35 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
 
-        //gametime, maxbank, maxcredits, maxreserve
-        public int ConvertToPlay { get; set; }
-
+        
+        public uint _alwaysFichas = 0;
+        public uint AlwaysFichas
+        {
+            get
+            {
+                return _alwaysFichas;
+            }
+            set
+            {
+                _alwaysFichas = value;
+                RaisePropertyChangedEvent("AlwaysFichas");
+            }
+        }
+        
+        public uint _autoTransferStake = 0;
+        public uint AutoTransferStake
+        {
+            get
+            {
+                return _autoTransferStake;
+            }
+            set
+            {
+                _autoTransferStake = value;
+                RaisePropertyChangedEvent("AutoTransferStake");
+            }
+        }
+        
         #endregion
         
         #region Commands
@@ -124,9 +150,9 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand SetFastTransfer { get { return new DelegateCommand(DoSetFastTransfer); } }
         public ICommand SetExtendedOption { get { return new DelegateCommand(DoSetExtendedOption); } }
         #endregion
-        
+
         public RegionalSettingsViewModel()
-        {          
+        {
             var i = 0;
             foreach (var s in _streetMarketRegions)
             {
@@ -135,7 +161,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _street.Add(new SpanishRegionalModel(_streetMarketRegions[i], sr));
                 i++;
             }
-            
+
             var smLength = _streetMarketRegions.Length - 1;
             i = 0;
             foreach (var arcade in _arcadeRegions)
@@ -145,10 +171,13 @@ namespace PDTUtils.MVVM.ViewModels
                 _arcades.Add(new SpanishRegionalModel(_arcadeRegions[i], sr));
                 i++;
             }
-            
+
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
 
             SelectionChanged = false;
+
+            AlwaysFichas = BoLib.getLiveElement((int)EspRegionalExt.EspAlwaysFichas);
+            AutoTransferStake = BoLib.getLiveElement((int)EspRegionalExt.EspAutoTfxToStake);
 
             LoadSettings();
             LoadSettingsView();
@@ -313,7 +342,7 @@ namespace PDTUtils.MVVM.ViewModels
             LoadSettings();
             LoadSettingsView();
 
-            RaisePropertyChangedEvent("EditableLiveRegion");;
+            RaisePropertyChangedEvent("EditableLiveRegion");
         }
         
         void DoDecrement(object settingsName)
@@ -337,19 +366,19 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxCredits -= 100;
             else if (setting == "MaxReserve" && _editableLiveRegion.MaxReserveCredits > 1000)
                 _editableLiveRegion.MaxReserveCredits -= 1000;
-            else if (setting.Equals("Cycle") && _editableLiveRegion.CycleSize > 10000)
+            else if (setting.Equals("Cycle") && _editableLiveRegion.CycleSize > 0)
                 EditableLiveRegion.CycleSize -= 1000;
 
             SaveChanges();
             LoadSettings();
             LoadSettingsView();
-
+            
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
         
         void DoResetLiveToDefault()
         {
-            var id = Selected.Id;
+            var id = (Selected.VenueType == "Street Market") ? Selected.Id : Selected.Id + 1;
             var sr = new SpanishRegional();
             BoLib.getDefaultRegionValues(id, ref sr);
             _editableLiveRegion = new SpanishRegionalModel(Selected.Community, sr);
@@ -402,7 +431,7 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-
+        
         void DoSetExtendedOption(object o)
         {
             var str = o as string;
@@ -411,8 +440,28 @@ namespace PDTUtils.MVVM.ViewModels
             switch (tokens[0])
             {
                 case "AllowFish":
+                    if (tokens[1] == "Enable" && AlwaysFichas == 0)
+                    {
+                        NativeWinApi.WritePrivateProfileString("Settings", "FichasOnly", "1", Properties.Resources.esp_live_ini);
+                        AlwaysFichas = 1;
+                    }
+                    else if (tokens[1] == "Disable" && AlwaysFichas > 0)
+                    {
+                        NativeWinApi.WritePrivateProfileString("Settings", "FichasOnly", "0", Properties.Resources.esp_live_ini);
+                        AlwaysFichas = 0;
+                    }
                     break;
                 case "AutoTransfer":
+                    if (tokens[1] == "Enable" && AutoTransferStake == 0)
+                    {
+                        NativeWinApi.WritePrivateProfileString("Settings", "AutoTfx2Stake", "1", Properties.Resources.esp_live_ini);
+                        AutoTransferStake = 1;
+                    }
+                    else if (tokens[1] == "Disable" && AutoTransferStake > 0)
+                    {
+                        NativeWinApi.WritePrivateProfileString("Settings", "AutoTfx2Stake", "0", Properties.Resources.esp_live_ini);
+                        AutoTransferStake = 0;
+                    }
                     break;
             }
         }

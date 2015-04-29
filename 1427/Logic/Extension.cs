@@ -46,23 +46,5 @@ namespace PDTUtils
 					coll.RemoveAt(i);
 			}
 		}
-
-        public static void BubbleSort<T>(this ObservableCollection<T> o)
-        {
-            for (var i = o.Count - 1; i >= 0; i--) 
-            {
-                for (var j = 1; j <= i; j++) 
-                {
-                    object o1 = o[j - 1];
-                    object o2 = o[j];
-                    if (((IComparable)o1).CompareTo(o2) > 0) 
-                    {
-                        var o1Copy = o1 as PlayedGame;
-                        //o.Remove(o1Copy);
-                        //o.Insert(j, o1Copy);
-                    }
-                }
-            }
-        }
 	}
 }

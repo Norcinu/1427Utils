@@ -333,7 +333,7 @@ namespace PDTUtils.Native
         public static extern string getLicense();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern string getCountyCodeStrLiteral(string str, int code);
+        public static extern string getCountryCodeStrLiteral(string str, int code);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong getEspRegionalVariableValue(int value);

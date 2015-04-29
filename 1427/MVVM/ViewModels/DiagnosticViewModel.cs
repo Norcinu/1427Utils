@@ -78,7 +78,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
             
             var code = BoLib.getCountryCode();
-            GeneralList.Add("Country Code: (" + code + ") " + BoLib.getCountyCodeStrLiteral("", code));
+            GeneralList.Add("Country Code: (" + code + ") " + BoLib.getCountryCodeStrLiteral("", code));
             GeneralList.Add("Printer Port: COM2");
             GeneralList.Add(BoLib.getEDCTypeStr());
             GeneralList.Add(_machineData.GetScreenResolution());

@@ -765,14 +765,13 @@ char *getLicense()
 	return bufferthevampireslayer;
 }
 
-
 char *CountryStrings[10] =
 {
 	"UK CAT B3", "UK CAT C", "EURO", "Czech", "Argentina", "UK-Reserved", 
 	"COLM", "Northern Ireland", "UK Bingo", "Spain"
 };
 
-char *getCountyCodeStrLiteral(char *str, int code)
+char *getCountryCodeStrLiteral(char *str, int code)
 {
 	if (code >= 10)
 		return "Unknown Region";
