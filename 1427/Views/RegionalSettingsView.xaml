@@ -32,54 +32,53 @@
         </Style>
 
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
-
     </UserControl.Resources>
     
     <Grid>
         <TabControl>
             <TabItem Header="Community Type">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
 
-                    <Label Style="{StaticResource StdHeaderLabel}" BorderBrush="Black" BorderThickness="2" Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="LightBlue">
-                        <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                        <Label Style="{StaticResource StdHeaderLabel}" Content=" - Reboot Required" FontSize="28" Margin="-20,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding SelectionChanged}"
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Background="LightBlue">
+                        <Label Style="{StaticResource StdHeaderLabel}" BorderBrush="Black" BorderThickness="2" Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                            <Label Style="{StaticResource StdHeaderLabel}" Content=" - Reboot Required" FontSize="28" Margin="-20,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding SelectionChanged}"
                            Visibility="{Binding SelectionChanged, Converter={StaticResource BoolToVisConverter}}"/>
-                    </StackPanel>
-                    
-                    
-                    <StackPanel HorizontalAlignment="Center">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Name="RowOne" Height="380" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Name="ColumnOne" Width="430" />
-                                <ColumnDefinition Name="ColumnTwo" Width="430" />
-                            </Grid.ColumnDefinitions>
- 
-                            <ListView x:Name="LvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1" 
+                        </StackPanel>
+
+
+                        <StackPanel HorizontalAlignment="Center">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Name="RowOne" Height="380" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Name="ColumnOne" Width="430" />
+                                    <ColumnDefinition Name="ColumnTwo" Width="430" />
+                                </Grid.ColumnDefinitions>
+
+                                <ListView x:Name="LvStreetMarkets" ItemsSource="{Binding Street}" Margin="25" Grid.Column="0" Tag="1" 
                                       SelectedIndex="{Binding MarketSelectedIndex}">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="Street Market - Community" DisplayMemberBinding="{Binding Community}" 
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Street Market - Community" DisplayMemberBinding="{Binding Community}" 
                                                         Width="380"/>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
-                            
-                            <ListView x:Name="LvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" 
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+
+                                <ListView x:Name="LvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" 
                                       Tag="2" SelectedIndex="{Binding ArcadeSelectedIndex}">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="Arcade - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
-                        </Grid>
-                    </StackPanel>
-                    
-                    <!-- <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Arcade - Community" DisplayMemberBinding="{Binding Community}" Width="380"/>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <RepeatButton Height="75" Margin="0,10,0,10" Delay="500" Command="{Binding Increment}" CommandParameter="GameTime">
                             <StackPanel>
                                 <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
@@ -114,7 +113,10 @@
                                 <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
                         </RepeatButton>
-
+                        I'm not saying 80% of the school were from single parent families but I bet it was a far higher percentage
+                        than the 2 "posh" schools up the road (Highgate and Channing).
+                        is ramjam waitiong for tony the toaster to rock up so he can go? :( he knows I am doing no work.
+                        rocking out chatting bare breeze and listening to david bowie.
                         
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">

@@ -15,13 +15,13 @@ namespace PDTUtils.MVVM.ViewModels
         public bool IsCatC { get; set; }
         public bool TiToEnabled { get; set; }
         public bool HasRecycler { get; set; }
-        public bool UseReserveEnabled { get; set; }
+        //public bool UseReserveEnabled { get; set; }
         public string RtpMessage { get; set; }
         public string HandPayLevel { get; set; }
         public string DivertMessage { get; set; }
         public string RecyclerMessage { get; set; }
         public string TerminalAssetMsg { get; set; }
-        public string UseReserveStakeMsg { get; set; }
+        //public string UseReserveStakeMsg { get; set; }
 
         readonly string _titoDisabledMsg = "Warning: TiTo DISABLED";
 
@@ -65,7 +65,8 @@ namespace PDTUtils.MVVM.ViewModels
                 }
 
                 ///!!! DEBUG - Use proper BoLib function for this !!! 
-                UseReserveEnabled = true;
+                //UseReserveEnabled = true;
+                //DoUseReserve("startup");
                 
             }
             catch (Exception e)
@@ -79,8 +80,8 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("DivertMessage");
             RaisePropertyChangedEvent("RecyclerMessage");
             RaisePropertyChangedEvent("TerminalAssetMsg");
-            RaisePropertyChangedEvent("UseReserveEnabled");
-            RaisePropertyChangedEvent("UseReserveStake");
+           // RaisePropertyChangedEvent("UseReserveEnabled");
+            //RaisePropertyChangedEvent("UseReserveStake");
         }
 
         public ICommand SetRtp
@@ -265,16 +266,20 @@ namespace PDTUtils.MVVM.ViewModels
                 IniFileUtility.HashFile(Properties.Resources.machine_ini);
             }
         }
-
+        
 
         //!! DEBUG DEBUG - USE PROPER LIBRARY CALL.
-        public ICommand UseReserve { get { return new DelegateCommand(DoUseReserve); } }
+      /*  public ICommand UseReserve { get { return new DelegateCommand(DoUseReserve); } }
         void DoUseReserve(object o)
         {
+            var str = o as string;
+            Debug.WriteLine("UseReserve: " + o);
             UseReserveEnabled = !UseReserveEnabled;
             if (!UseReserveEnabled) UseReserveStakeMsg = "Not using reserve fill.";
             else UseReserveStakeMsg = "Using reserve fill.";
+            
             RaisePropertyChangedEvent("UseReserveStake");
-        }
+            RaisePropertyChangedEvent("UseReserveStakeMsg"); ;
+        }*/
     }
 }

@@ -176,15 +176,15 @@ namespace PDTUtils.Logic
             //{
             //    File.Move(IniPath, IniPath + "_old");
             //    File.Create(IniPath);
-                var divider = "Models";
-                using (var w = File.CreateText(IniPath))
-                {
-                    w.WriteLine(_firstLine);
-                    w.WriteLine("[" + divider + "]");
-                    foreach (var m in _models)
-                        w.WriteLine(m.Field);
-                    w.Flush();
-                }
+            var divider = "Models";
+            using (var w = File.CreateText(IniPath))
+            {
+                w.WriteLine(_firstLine);
+                w.WriteLine("[" + divider + "]");
+                foreach (var m in _models)
+                    w.WriteLine(m.Field);
+                w.Flush();
+            }
             //}
             
             foreach (var item in Items)

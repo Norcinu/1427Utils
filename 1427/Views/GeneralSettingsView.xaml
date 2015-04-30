@@ -29,7 +29,7 @@
     </UserControl.Resources>
 
     <Grid>
-        
+
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="25">
             <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
                 <Button Height="75" Margin="0,10,0,10" Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
@@ -128,27 +128,29 @@
                     <Label Style="{StaticResource StdLabelWide}" Content="{Binding TerminalAssetMsg}"/>
                 </Border>
             </StackPanel>
-
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-                <Button Height="75" Width="70"  Margin="0,10,0,10" FontSize="30"
+            
+            <!-- <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                <Button Height="75" Width="70"  Margin="0,10,0,10" FontSize="20"
 						IsEnabled="{Binding UseReserveEnabled}"
-						Command="{Binding UseReserve}"
-						CommandParameter="88">88%</Button>
+                        Command="{Binding UseReserve}"
+						CommandParameter="Enable">Enable</Button>
+                
                 <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
-                    <Label Style="{StaticResource StdLabel}">Reserve Stake Fill</Label>
+                    <Label Style="{StaticResource StdLabel}" Content="Reserve Stake Fill" />
                 </Border>
-                <Button Height="75" Width="70"  Margin="0,10,100,10" FontSize="30"
+                <Button Height="75" Width="70"  Margin="0,10,100,10" FontSize="20"
 						IsEnabled="{Binding UseReseverEnabled}"
-						Command="{Binding UseReverse}"
-						CommandParameter="90">90%</Button>
+                        Command="{Binding UseReserve}"
+						CommandParameter="Disable">Disable</Button>
+                
 
                 <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
-                    <Label Style="{StaticResource StdLabelWide}" Content="Using Reserve"/>
+                    <Label Style="{StaticResource StdLabelWide}" Content="{Binding UseReserveStakeMsg}" />
                 </Border>
-            </StackPanel>
+            </StackPanel> -->
             
         </StackPanel>
-        <!-- Left Main StackPanel-->
-
+        
+        <!-- Left Main StackPanel -->
     </Grid>
 </UserControl>

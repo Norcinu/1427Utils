@@ -63,7 +63,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Name="RowOne" Height="82*" />
-            <RowDefinition Name="RowTwo" Height="{Binding Path=Height,  Converter={StaticResource ScaleScreenHeight}}" SharedSizeGroup="theRow"/>
+            <RowDefinition Name="RowTwo" Height="{Binding Path=Height,  Converter={StaticResource ScaleScreenHeight}}" 
+                           SharedSizeGroup="theRow"/>
             <RowDefinition Name="RowThree" Height="52*" />
         </Grid.RowDefinitions>
 
@@ -253,7 +254,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding GameModel}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding GameModel}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -262,7 +264,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding LogDate}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding LogDate}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -271,7 +274,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Stake}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding Stake}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -280,7 +284,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Credit}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding Credit}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -289,7 +294,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding WinAmount}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding WinAmount}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -311,7 +317,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding GameDate}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding GameDate}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -320,7 +327,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding GameModel}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding GameModel}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -329,7 +337,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Stake}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding Stake}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -347,7 +356,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding WinAmount}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding WinAmount}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -358,7 +368,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            
+
             <!--<TabItem Header="TiTo" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
@@ -429,7 +439,8 @@
 
         <!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
         <!--  Height="{Binding Path=RowTwo.Height}" -->
-        <TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
+        <TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  
+                    Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
             <TabItem Header="Local Settings">
                 <TabControl>
                     <TabItem Header="Region Settings">
@@ -450,16 +461,25 @@
                 <!--Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
-                        <Label FontSize="28" HorizontalAlignment="Center" Margin="3">Proceed With Caution</Label>
-                        <Label FontSize="22" HorizontalAlignment="Center" Margin="3">Touch Value to Change Value</Label>
-                        <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
+                        <Border BorderBrush="Black" BorderThickness="2" Margin="3">
+                            <StackPanel>
+                                <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="680"
+                                    Height="75" Content="Proceed With Caution" />
+                                <Label FontSize="32 " HorizontalAlignment="Center"  Style="{StaticResource StatsLabel}" Width="680"
+                                    Height="75" Content="Touch Row to Change Value" />
+                            </StackPanel>
+                        </Border>
+                    
+                        <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" 
+                                  SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Width="340" Header="Field">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Field}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding Field}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -468,7 +488,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                    <TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -476,6 +497,7 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
+
                         <StackPanel Orientation="Horizontal" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Button Width="75" Height="35" FontSize="20" Margin="25">Save</Button>
                             <Button Width="75" Height="35" FontSize="20" Margin="25">Discard Changes</Button>
@@ -561,7 +583,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <Label Content="{Binding GameNumber}" Height="95" Style="{StaticResource StatsLabel}"/>
+                                                    <Label Content="{Binding GameNumber}" Height="95" Style="{StaticResource 
+                                                        StatsLabel}"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -579,7 +602,8 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
-                                                    <Label Content="{Binding ModelNumber}" Height="95" Style="{StaticResource StatsLabel}"/>
+                                                    <Label Content="{Binding ModelNumber}" Height="95" Style="{StaticResource 
+                                                        StatsLabel}"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>

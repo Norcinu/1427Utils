@@ -8,7 +8,7 @@ namespace PDTUtils.MVVM.Models
     {
         public string ModelNumber { get; set; }
         public string Authed { get; set; }
-        public string HashCode { get; set; }
+        public string HashCode { get; set; } 
 
         public SoftwareInfo(string m, string a, string h)
         {

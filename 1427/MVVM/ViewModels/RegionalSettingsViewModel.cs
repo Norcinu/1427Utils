@@ -335,7 +335,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxCredits += 100;
             else if (setting.Equals("MaxReserve"))// && _editableLiveRegion.MaxReserveCredits >= 1000)
                 _editableLiveRegion.MaxReserveCredits += 1000;
-            else if (setting.Equals("Cycle") && EditableLiveRegion.CycleSize < 100000)
+            else if (setting.Equals("Cycle") && EditableLiveRegion.CycleSize < 500000)
                 EditableLiveRegion.CycleSize += 1000;
 
             SaveChanges();
@@ -368,7 +368,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxReserveCredits -= 1000;
             else if (setting.Equals("Cycle") && _editableLiveRegion.CycleSize > 0)
                 EditableLiveRegion.CycleSize -= 1000;
-
+            
             SaveChanges();
             LoadSettings();
             LoadSettingsView();
