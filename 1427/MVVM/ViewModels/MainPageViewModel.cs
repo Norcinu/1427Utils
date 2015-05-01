@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using PDTUtils.Native;
 
+using Timer = System.Timers.Timer;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -25,8 +26,11 @@ namespace PDTUtils.MVVM.ViewModels
             set
             {
                 _handPayActive = value;
-                if (_handPayActive && _addCreditsActive)
+                if (_handPayActive && (_addCreditsActive || _canRefillHoppers))
+                {
                     AddCreditsActive = false;
+                    CanRefillHoppers = false;
+                }
                 RaisePropertyChangedEvent("HandPayActive");
 #if DEBUG
                 Debug.WriteLine("HandPayActive", _handPayActive.ToString());
@@ -40,11 +44,33 @@ namespace PDTUtils.MVVM.ViewModels
             set 
             { 
                 _addCreditsActive = value;
-                if (_addCreditsActive && _handPayActive)
+                if (_addCreditsActive && (_handPayActive || _canRefillHoppers))
+                {
                     HandPayActive = false;
+                    CanRefillHoppers = false;
+                }
                 RaisePropertyChangedEvent("AddCreditsActive");
 #if DEBUG
                 Debug.WriteLine("AddCreditsActive", _addCreditsActive.ToString());
+#endif
+            }
+        }
+        
+        public bool CanRefillHoppers
+        {
+            get { return _canRefillHoppers; }
+            set
+            {
+                _canRefillHoppers = value;
+                if (_canRefillHoppers && (_handPayActive || _addCreditsActive))
+                {
+                    HandPayActive = false;
+                    AddCreditsActive = false;
+                }
+                RaisePropertyChangedEvent("CanRefillHoppers");
+
+#if DEBUG
+                Debug.WriteLine("RefillHoppers", _canRefillHoppers.ToString());
 #endif
             }
         }
@@ -82,6 +108,7 @@ namespace PDTUtils.MVVM.ViewModels
         bool _handPayActive;
         bool _addCreditsActive;
         bool _canPayFifty;
+        bool _canRefillHoppers;
             
         string _caption = "Warning";
         string _message = "Please Open the terminal door and try again.";
@@ -101,16 +128,15 @@ namespace PDTUtils.MVVM.ViewModels
             Reserve = 0;
             Pennies = 2000;
             NotRefilling = true;
-           
+            CanRefillHoppers = false;
 
             GetErrorMessage();
             GetCreditLevel();
             GetBankLevel();
             GetReserveLevel();
             GetMaxNoteValue();
-
-            TotalCredits = 0; // euurgh
-            //  RaisePropertyChangedEvent("TotalCredits");
+            
+            TotalCredits = 0;
         }
 
         public bool DoorOpen { get; set; }
@@ -178,13 +204,13 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");
         }
-
+        
         void GetMaxNoteValue()
         {
             var maxValue = BoLib.getLiveElement(11); //ESP_MAX_BANKNOTE_VALUE 
             CanPayFifty = maxValue > 2000;
         }
-
+        
         public ICommand AddCredits
         {
             get { return new DelegateCommand(o => AddCreditsActive = !AddCreditsActive); }
@@ -358,31 +384,40 @@ namespace PDTUtils.MVVM.ViewModels
             HandPayActive = false;
             BoLib.cancelHandPay();
         }
-
+        
         public ICommand ToggleIsEnabled
         {
             get { return new DelegateCommand(o => IsEnabled = !IsEnabled); }
         }
-
+        
+        //Should pass in a value here?
+        //are the hoppers broken? coins not adding to the level.
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
-
+            CanRefillHoppers = true;
+            if (_refillTimer == null)
+            {
+                _refillTimer = new Timer() { Enabled = true, Interval = 1000 };
+                _refillTimer.Elapsed += (sender, e) =>
+                {
+                    var left = BoLib.getHopperFloatLevel((byte)Hoppers.LeftHopper);
+                    Debug.WriteLine("Left Hopper Level", left.ToString());
+                    var right = BoLib.getHopperFloatLevel((byte)Hoppers.RightHopper);
+                    Debug.WriteLine("Right Hopper Level", right.ToString());
+                };
+            }
+            else
+                _refillTimer.Enabled = true;
         }
         
         public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }
         void DoEndRefill()
         {
-            if (_refillTimer == null)
-            {
-                _refillTimer = new System.Timers.Timer(100) {Enabled = true};
-            }
+            if (_refillTimer == null) return;                
             
             NotRefilling = false;
-            _refillTimer.Elapsed += (sender, e) =>
-            {
-                _refillTimer.Enabled = false;
-            };
+            _refillTimer.Enabled = false;
         }
     }
 }

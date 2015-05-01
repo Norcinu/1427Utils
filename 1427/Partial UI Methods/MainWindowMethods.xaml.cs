@@ -121,8 +121,8 @@ namespace PDTUtils
             PlaySoundOnEvent(Properties.Resources.door_open_sound);
 #endif
 		    _keyDoorWorker.HasChanged = false;
-		    if (_keyDoorWorker.DoorStatus == false)
-		        BoLib.disableNoteValidator();
+		    //if (_keyDoorWorker.DoorStatus == false)
+		    //    BoLib.disableNoteValidator();
 		}
 		
 		private void ChangeVolume(int newVolume)

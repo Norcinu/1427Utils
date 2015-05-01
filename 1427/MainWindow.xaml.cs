@@ -284,14 +284,14 @@ namespace PDTUtils
             }
             l.SelectedIndex = -1;
         }
-        
+
         void AmendOption(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var newValue = w.OptionValue;
             Debug.WriteLine(newValue);
             var listView = sender as ListView;
             var current = listView.Items[listView.SelectedIndex] as IniElement;
-             
+
             if (newValue == c.Value && (newValue != c.Value || current.Field[0] != '#')) return;
             current.Value = newValue;
             if (current.Field[0] == '#')
@@ -302,7 +302,7 @@ namespace PDTUtils
             }
             current.Value = newValue;
             listView.Items.Refresh();
-                
+
             GetMachineIni.WriteMachineIni(current.Category, current.Field);
             GetMachineIni.ChangesPending = true;
         }
@@ -338,7 +338,7 @@ namespace PDTUtils
             GetMachineIni.WriteMachineIni(current.Category, current.Field);
             GetMachineIni.ChangesPending = true;
         }
-        //
+        
 		private void RemoveChildrenFromStackPanel()
 		{
 			var childCount = StpButtonPanel.Children.Count;

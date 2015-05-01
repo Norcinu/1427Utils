@@ -35,18 +35,19 @@ void printTestTicket()
 	Share2 |= 0x01; //advise shell that print needed
 
 	int returnCode = GetCurrentError();
-	do{
+	do
+	{
 		Sleep(2);
 		
 		if(returnCode == ERR_SERIAL_PRINTER_NOT_FOUND)
-			int a=0;
+			int a = 0;
 		else if(returnCode == ERR_PRINTER_FAILURE)
-			int a=0;
+			int a = 0;
 		else if (returnCode == ERR_PRINTER_NO_PAPER)
-			int a=0;
+			int a = 0;
 
 		returnCode = GetCurrentError();
-	}while (Share2&0x01);
+	} while (Share2 & 0x01);
 }
 
 char *getBnvStringType(unsigned char bnv)
@@ -130,8 +131,7 @@ char *GetUniquePcbID(char TYPE)
 			break;  //success
 
 		Sleep(100);
-	}
-	while (--retries > 0);
+	} while (--retries > 0);
 	
 	for (char a = 0; a < DPCI_IDPROM_ID_SIZE / 2; a++)
 	{

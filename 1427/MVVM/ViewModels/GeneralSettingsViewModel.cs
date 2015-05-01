@@ -175,7 +175,7 @@ namespace PDTUtils.MVVM.ViewModels
             DivertMessage = (newValue).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
             RaisePropertyChangedEvent("DivertMessage");
         }
-
+        
         public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
         void DoRecycleNote(object o)
         {
@@ -268,7 +268,7 @@ namespace PDTUtils.MVVM.ViewModels
         }
         
 
-        //!! DEBUG DEBUG - USE PROPER LIBRARY CALL.
+        //!! not needed - moved to region settings (Set Auto Transfer)
       /*  public ICommand UseReserve { get { return new DelegateCommand(DoUseReserve); } }
         void DoUseReserve(object o)
         {

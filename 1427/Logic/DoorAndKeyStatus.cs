@@ -6,6 +6,8 @@ using System.Windows.Threading;
 using PDTUtils.Logic;
 using PDTUtils.Native;
 
+using Timer = System.Timers.Timer;
+
 namespace PDTUtils
 {
     /// <summary>
@@ -70,7 +72,7 @@ namespace PDTUtils
 			_hasChanged = false;
 			_isTestSuiteRunning = false;
 
-			_updateTimer = new System.Timers.Timer(1000);
+            _updateTimer = new Timer { Interval = 1000 };
 			_updateTimer.Enabled = true;
 		}
         
@@ -95,7 +97,7 @@ namespace PDTUtils
 			                });
 			            Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 			        }
-
+                    
 			        if (BoLib.getDoorStatus() == 0)
 			        {
 			            if (_doorStatus)

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
+
 using Timer = System.Timers.Timer;
 
 namespace PDTUtils.MVVM.ViewModels
@@ -188,8 +189,8 @@ namespace PDTUtils.MVVM.ViewModels
                         
                         if (BoLib.getRequestEmptyLeftHopper() > 0 && BoLib.getHopperFloatLevel(0) > 0)
                         {
-                          //  Thread.Sleep(2);
-                          //  System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
+                            Thread.Sleep(2000);
+                            System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
                             SelHopperValue = "Hopper Level: " + Convert.ToDecimal(BoLib.getHopperFloatLevel(0));
                             RaisePropertyChangedEvent("SelHopperValue");
                         }
@@ -235,8 +236,8 @@ namespace PDTUtils.MVVM.ViewModels
                             
                             if (BoLib.getRequestEmptyRightHopper() > 0 && BoLib.getHopperFloatLevel(2) > 0)
                             {
-                            //    Thread.Sleep(2);
-                            //    System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(2));
+                                Thread.Sleep(2000);
+                                System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(2));
                                 SelHopperValue = "Hopper Level: " + Convert.ToDecimal(BoLib.getHopperFloatLevel(0));
                                 RaisePropertyChangedEvent("SelHopperValue");
                             }

@@ -172,10 +172,6 @@ namespace PDTUtils.Logic
         
         public void WriteMachineIni()
         {
-            //if (File.Exists(IniPath))
-            //{
-            //    File.Move(IniPath, IniPath + "_old");
-            //    File.Create(IniPath);
             var divider = "Models";
             using (var w = File.CreateText(IniPath))
             {
@@ -185,7 +181,6 @@ namespace PDTUtils.Logic
                     w.WriteLine(m.Field);
                 w.Flush();
             }
-            //}
             
             foreach (var item in Items)
             {

@@ -39,7 +39,15 @@ namespace PDTUtils.Native
         public uint CycleSize;
         public uint FastTransfer;
     }
-    
+
+    enum Hoppers
+    {
+        LeftHopper = 0x00,
+        MiddleHopper = 0x01,
+        RightHopper = 0x02,
+        HopperLeftMask = 0x10
+    }
+
     enum Performance
     {
         MoneyInLt = 0,
