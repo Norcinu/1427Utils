@@ -35,9 +35,11 @@
                             <RowDefinition Name="RowThree" Height="*" />
                         </Grid.RowDefinitions>
                         
-                        <Label Grid.Row="0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque" Margin="0,5,0,5" Name="LblUpdateSelect" Content="Files to be updated." HorizontalAlignment="Center" />
+                        <Label Grid.Row="0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque" 
+                               Margin="0,5,0,5" Name="LblUpdateSelect" Content="Files to be updated." HorizontalAlignment="Center" />
 
-                        <TreeView Name="TreeUpdateSelectFiles" Margin="5,5,5,35" Grid.Row="1" ItemsSource="{Binding Path=FilesToUpdate}" Height="200" VerticalAlignment="Top" Background="Honeydew">
+                        <TreeView Name="TreeUpdateSelectFiles" Margin="5,5,5,5" Grid.Row="1" ItemsSource="{Binding Path=FilesToUpdate}" 
+                                   VerticalAlignment="Top" Background="Honeydew" Height="500">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate>
                                     <StackPanel Orientation="Horizontal" Margin="-25,0,25,5" >
@@ -48,23 +50,25 @@
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>
-                        
+
                         <Grid x:Name="ButtonGrid" Grid.Row="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Name="ColumnOne" Width="256" />
                                 <ColumnDefinition Name="ColumnTwo" Width="256" />
                             </Grid.ColumnDefinitions>
-
+                            
                             <Button Width="75" Height="25" FontWeight="Bold" Name="BtnPerformUpdate" Grid.Column="0" 
-                                        Margin="0,5,0,5" Command="{Binding Update}" Visibility="{Binding Path=HasUpdateStarted, Converter={StaticResource BoolToVis}}">
+                                        Margin="0,5,0,5" Command="{Binding Update}" Visibility="{Binding Path=HasUpdateStarted, 
+                                        Converter={StaticResource BoolToVis}}">
                                 <AccessText>_Update</AccessText>
                             </Button>
                             
                             <Button Width="75" Height="25" FontWeight="Bold" Name="BtnCancelUpdate" Grid.Column="1" 
-                                        Margin="0,5,0,5" Command="{Binding Cancel}" Visibility="{Binding Path=HasUpdateStarted, Converter={StaticResource BoolToVis}}">
+                                        Margin="0,5,0,5" Command="{Binding Cancel}" Visibility="{Binding Path=HasUpdateStarted, 
+                                        Converter={StaticResource BoolToVis}}">
                                 <AccessText>_Cancel</AccessText>
                             </Button>
-                        </Grid>                        
+                        </Grid>
                     </Grid>
                 </StackPanel>
                 
@@ -80,7 +84,7 @@
                             <TextBlock Margin="5,5,5,0" Text="{Binding LogText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             FontFamily="Verdana" FontSize="18" Background="Bisque" TextWrapping="Wrap" />
                             <Button Width="100" Height="25" Margin="5,5,5,5" Command="{Binding Reboot}" Visibility="{Binding Path=HasUpdateFinished, Converter={StaticResource BoolToVis}}">
-                                <AccessText>_Save and Reboot</AccessText>
+                                <AccessText>_Save</AccessText><!--   and Reboot</AccessText> -->
                             </Button>
                         </StackPanel>
                     </ScrollViewer>

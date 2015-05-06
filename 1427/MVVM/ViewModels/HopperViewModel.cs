@@ -9,6 +9,7 @@ using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
 
 using Timer = System.Timers.Timer;
+using System.Collections.ObjectModel;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -47,7 +48,7 @@ namespace PDTUtils.MVVM.ViewModels
             set 
             { 
                 if (!_emptyingHoppers) 
-                    _selectedTabIndex = value; 
+                    _selectedTabIndex = value;
             }
         }
         public string DumpSwitchMessage { get; set; }
@@ -55,6 +56,17 @@ namespace PDTUtils.MVVM.ViewModels
         public string SmallHopper { get; set; }
         //public string MiddleHopper { get; set; } not needed atm.
         public List<string> HopperList { get; set; }
+
+        public ObservableCollection<HopperModel> _hopperModels = new ObservableCollection<HopperModel>();
+        public ObservableCollection<HopperModel> HopperModels
+        {
+            get { return _hopperModels; }
+            set
+            {
+                _hopperModels = value;
+                RaisePropertyChangedEvent("HopperModels");
+            }
+        }
 
         public string LeftRefillMsg
         {
@@ -69,6 +81,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("LeftRefillMsg");
             }
         }
+
         public string RightRefillMsg
         {
             get
@@ -77,7 +90,8 @@ namespace PDTUtils.MVVM.ViewModels
             }
             set
             {
-                _rightRefillMsg = "Right Hopper Coins Added: " + Convert.ToDecimal(value).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
+                _rightRefillMsg = "Right Hopper Coins Added: " + Convert.ToDecimal(value).ToString("C", 
+                    Thread.CurrentThread.CurrentCulture.NumberFormat);
                 RaisePropertyChangedEvent("RightRefillMsg");
             }
         }
@@ -114,7 +128,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("NotRefilling");
             RaisePropertyChangedEvent("AreWeReflling");
             RaisePropertyChangedEvent("SelHopperValue");
-
+            
             HopperList = new List<string>();
             var leftHopperText = (BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "SMALL HOPPER" : "£1 Hopper (LEFT)";
             //var rightHopperText = (BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "LARGE HOPPER" : "£2 Hopper (RIGHT)";
@@ -144,7 +158,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             
         }
-        
+
         public ICommand DoEmptyHopper
         {
             get { return new DelegateCommand(EmptyHopper); }

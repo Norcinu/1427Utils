@@ -78,6 +78,82 @@ namespace PDTUtils.Native
         GameStOffSetP = (MaxGameMeters / 2)
     }
 
+    enum ELongTermMeters
+    {
+        NoteSix = 0,
+        NoteFive,
+        NoteFour,
+        NoteThree,
+        NoteTwo,
+        NoteOne,
+
+        CoinEight,
+        CoinSeven,
+        CoinSix,
+        CoinFive,
+        CoinFour,
+        CoinThree,
+        CoinTwo,
+        CoinOne,
+        
+        TitoIn,
+
+        RefillL,
+        RefillR,
+
+        NoteOneOut,
+        NoteTwoOut,
+        NoteThreeOut,
+        NoteFourOut,
+        NoteFiveOut,
+        NoteSixOut,
+
+        CoinSixOut,
+        CoinFiveOut,
+        CoinFourOut,
+        CoinThreeOut,
+        CoinTwoOut,
+        TicketOut
+    }
+
+    enum EShortTermMeters
+    {
+        NoteSix = 28,
+        NoteFive,
+        NoteFour,
+        NoteThree,
+        NoteTwo,
+        NoteOne,
+
+        CoinEight,
+        CoinSeven,
+        CoinSix,
+        CoinFive,
+        CoinFour,
+        CoinThree,
+        CoinTwo,
+        CoinOne,
+
+        TitoIn,
+
+        RefillL,
+        RefillR,
+
+        NoteOneOut,
+        NoteTwoOut,
+        NoteThreeOut,
+        NoteFourOut,
+        NoteFiveOut,
+        NoteSixOut,
+
+        CoinSixOut,
+        CoinFiveOut,
+        CoinFourOut,
+        CoinThreeOut,
+        CoinTwoOut,
+        TicketOut
+    }
+
     enum EspRegionalExt
     {
         EspAlwaysFichas = 17,
@@ -89,7 +165,7 @@ namespace PDTUtils.Native
 #if DEBUG
         const string DllName = "BoLibDllD.dll";
 #else
-        const string dllName = "BoLibDll.dll";
+        const string DllName = "BoLibDll.dll";
 #endif
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int setEnvironment();

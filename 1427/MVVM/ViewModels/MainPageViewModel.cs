@@ -102,14 +102,47 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("TotalCredits");
             } 
         }
+
+        public uint RefillCoinsAdded
+        {
+            get { return _refillCoinsAdded; }
+            set
+            {
+                _refillCoinsAdded = value;
+                RaisePropertyChangedEvent("RefillCoinsAdded");
+            }
+        }
+
+        public uint RefillCoinsAddedLeft
+        {
+            get { return _refillCoinsAddedLeft; }
+            set 
+            {
+                _refillCoinsAddedLeft = value;
+                RaisePropertyChangedEvent("RefillCoinsAddedLeft");
+            }
+        }
         
+        public uint RefillCoinsAddedRight
+        {
+            get { return _refillCoinsAddedRight; }
+            set
+            {
+                _refillCoinsAddedRight = value;
+                RaisePropertyChangedEvent("RefillCoinsAddedRight");
+            }
+        }
+
         public string ErrorMessage { get; set; }
         
         bool _handPayActive;
         bool _addCreditsActive;
         bool _canPayFifty;
         bool _canRefillHoppers;
-            
+        uint _refillCoinsAdded;
+        uint _refillCoinsAddedLeft;
+        uint _refillCoinsAddedRight;
+
         string _caption = "Warning";
         string _message = "Please Open the terminal door and try again.";
         readonly  WpfMessageBoxService _msgBoxService = new WpfMessageBoxService();
@@ -129,7 +162,7 @@ namespace PDTUtils.MVVM.ViewModels
             Pennies = 2000;
             NotRefilling = true;
             CanRefillHoppers = false;
-
+           
             GetErrorMessage();
             GetCreditLevel();
             GetBankLevel();
@@ -180,7 +213,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => ClearCreditLevel()); }
         }
-
+        
         void ClearCreditLevel()
         {
             BoLib.clearBankAndCredit();
@@ -368,7 +401,7 @@ namespace PDTUtils.MVVM.ViewModels
             Bank = BoLib.getBank();
             Reserve = (int)BoLib.getReserveCredits();
             TotalCredits = Bank + Credits;
-            
+
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");
             RaisePropertyChangedEvent("Reserve");
@@ -391,7 +424,7 @@ namespace PDTUtils.MVVM.ViewModels
         }
         
         //Should pass in a value here?
-        //are the hoppers broken? coins not adding to the level.
+        //are the hoppers broken? coins not adding to the level.    
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
@@ -414,7 +447,7 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }
         void DoEndRefill()
         {
-            if (_refillTimer == null) return;                
+            if (_refillTimer == null) return;
             
             NotRefilling = false;
             _refillTimer.Enabled = false;

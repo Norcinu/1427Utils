@@ -81,7 +81,7 @@ namespace PDTUtils
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Update, DoSoftwareUpdate));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Rollback, DoRollBack));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Cancel, DoCancelUpdate));
-            CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Reboot, DoSaveReboot));//
+            CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Reboot, DoSaveReboot));
 		}
         
 		public void DoRollBack(object o, RoutedEventArgs e)
@@ -200,7 +200,7 @@ namespace PDTUtils
                         //new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(@"e:\1111", @"d:\1111_VB", true);
                         DoCopyDirectory(str, 0);
 					}
-
+                    
                     // Move old files back.
                     // Read rollback.ini.
                     // That copy works nicely. Odd that there isnt a C# version.
@@ -285,19 +285,19 @@ namespace PDTUtils
 			}
 			return false;
 		}
-
+        
 	    protected override void ParseGame(int gameNo)
 		{
-			throw new Exception("The method or operation is not implemented.");
+            throw new Exception("The method or operation is not implemented.");
 		}
         
 		void AddToRollBack(string path, int flag)
 		{
 			BoLib.setFileAction();
-			if (flag == 1)
-				NativeWinApi.WritePrivateProfileSection("Folders", path, _rollbackIni);
-			else
-				NativeWinApi.WritePrivateProfileSection("Files", path, _rollbackIni);
+            if (flag == 1)
+                NativeWinApi.WritePrivateProfileSection("Folders", path, _rollbackIni);
+            else
+                NativeWinApi.WritePrivateProfileSection("Files", path, _rollbackIni);
 			BoLib.clearFileAction();
 		}
         
@@ -320,30 +320,30 @@ namespace PDTUtils
             
             try
 			{
-				if (File.Exists(destination) == false)
-				{
-					try
-					{
-						File.Copy(source, destination, false);
-					}
-					catch (Exception ex)
-					{
-						Debug.WriteLine(ex.Message);
-					}
-				}
-				else
-				{
-					try
-					{
-						File.Copy(destination, rename, true);
-						File.Copy(source, destination, true);
-						AddToRollBack(rename, 0);
-					}
-					catch (Exception ex)
-					{
-						Debug.WriteLine(ex.Message); 
-					}
-				}
+                if (!File.Exists(destination))
+                {
+                    try
+                    {
+                        File.Copy(source, destination, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        File.Copy(destination, rename, true);
+                        File.Copy(source, destination, true);
+                        AddToRollBack(rename, 0);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+                }
 			}
 			catch (System.Exception ex)
 			{
@@ -515,9 +515,9 @@ namespace PDTUtils
         
         public void DoSaveReboot(object o, ExecutedRoutedEventArgs e)
         {
-            LogText = "Restarting Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
+            LogText = "To Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
             OnPropertyChanged("LogText");
-            DiskCommit.SaveAndReboot();
+            //DiskCommit.SaveAndReboot();
         }
 	}
 }

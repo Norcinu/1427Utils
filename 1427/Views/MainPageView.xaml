@@ -140,10 +140,9 @@
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                             IsEnabled="{Binding CanRefillHoppers}"
                             Visibility="{Binding CanRefillHoppers, Converter={StaticResource BoolToVis}}">
-                        
                         <Label FontSize="28" Background="AliceBlue" Foreground="DarkOrchid" HorizontalAlignment="Center">
                             Refill Hoppers</Label>
-                        <Label FontSize="18" Margin="5">Total Coins Added: £</Label>
+                        <Label FontSize="18" Margin="5" ContentStringFormat="Total Coins Added: £{0}" Content="{Binding RefillCoinsAdded}"/>
                         <Label FontSize="18" Margin="5" Content="{Binding LeftRefillMsg}" IsEnabled="{Binding AreWeRefilling}"/>
                         <Label FontSize="18" Margin="5" Content="{Binding RightRefillMsg}" IsEnabled="{Binding AreWeRefilling}"/>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="10" HorizontalAlignment="Center">
