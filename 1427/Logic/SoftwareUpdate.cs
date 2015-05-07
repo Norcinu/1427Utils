@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.Native;
+using PDTUtils.MVVM;
+
 
 namespace PDTUtils
 {
@@ -32,8 +34,9 @@ namespace PDTUtils
         }
 	}
     
-	public class UserSoftwareUpdate : BaseNotifyPropertyChanged
+	/*public*/ class UserSoftwareUpdate : ObservableObject //BaseNotifyPropertyChanged
 	{
+        bool _updateSuccess;
 		string _rollbackIni; 
 		string _updateIni;
         
@@ -67,10 +70,11 @@ namespace PDTUtils
 		{
             FilesToUpdate = new ObservableCollection<FileImpl>();
             _filesNotCopied = new ObservableCollection<string>();
-            
+            _updateSuccess = false;
+
             HasUpdateStarted = false;
             HasUpdateFinished = false;
-
+            
             UpdatePrep  = new RoutedCommand();
             Update      = new RoutedCommand();
             Rollback    = new RoutedCommand();
@@ -87,14 +91,14 @@ namespace PDTUtils
 		public void DoRollBack(object o, RoutedEventArgs e)
 		{
             LogText += "Performing RollBack.\r\n----------------------------\r\n";
-            OnPropertyChanged("LogText");
+            RaisePropertyChangedEvent("LogText");
             FileCount = 0;
             FilesToUpdate.Clear();
             _filesNotCopied.Clear();
             HasUpdateFinished = false;
             HasUpdateStarted = false;
-            OnPropertyChanged("HasUpdateFinished");
-            OnPropertyChanged("HasUpdateStarted");
+            RaisePropertyChangedEvent("HasUpdateFinished");
+            RaisePropertyChangedEvent("HasUpdateStarted");
 		}
         
         public void DoSoftwareUpdatePreparation(object o, ExecutedRoutedEventArgs e)
@@ -105,7 +109,7 @@ namespace PDTUtils
                 if (File.Exists(_updateIni))
                 {
                     HasUpdateStarted = true;
-                    OnPropertyChanged("HasUpdateStarted");
+                    RaisePropertyChangedEvent("HasUpdateStarted");
                     
                     string[] foldersSection = null;
                     string[] filesSection = null;
@@ -122,30 +126,30 @@ namespace PDTUtils
                         return;
                     
                     LogText = String.Format("Finding Files. {0} Total Files.\r\n", filesSection.Length);
-                    OnPropertyChanged("LogText");
+                    RaisePropertyChangedEvent("LogText");
                     
                     foreach (var str in filesSection)
                     {
                         var ret = GetImagePathString(str);
                         FilesToUpdate.Add(new FileImpl(str, ret, true));
                         FileCount++;
-                        OnPropertyChanged("UpdateFiles");
+                        RaisePropertyChangedEvent("UpdateFiles");
                     }
-
+                    
                     LogText += String.Format("Finding Folders. {0} Total Folders.\r\n", foldersSection.Length);
-                    OnPropertyChanged("LogText");
+                    RaisePropertyChangedEvent("LogText");
 
                     foreach (var str in foldersSection)
                     {
                         var ret = GetImagePathString(str);
                         FilesToUpdate.Add(new FileImpl(str, ret, false));
                         FileCount++;
-                        OnPropertyChanged("UpdateFiles");
+                        RaisePropertyChangedEvent("UpdateFiles");
                     }
                     
                     LogText += "Backup Created.\r\n----------------------------\r\n";
-                    OnPropertyChanged("LogText");
-                    OnPropertyChanged("UpdateFiles");
+                    RaisePropertyChangedEvent("LogText");
+                    RaisePropertyChangedEvent("UpdateFiles");
                 }
             }
             else
@@ -155,66 +159,72 @@ namespace PDTUtils
         private void SetNoUsbDriveMessage()
         {
             LogText = "USB Update Not Found.\r\nPlease connect USB device and try again.\r\n";
-            OnPropertyChanged("LogText");
+            RaisePropertyChangedEvent("LogText");
         }
-	    
-		public void DoSoftwareUpdate(object o, RoutedEventArgs e)
-		{
+
+        public void DoSoftwareUpdate(object o, RoutedEventArgs e)
+        {
             if (FilesToUpdate.Count > 0)
             {
                 FilesToUpdate.Clear();
                 FileCount = 0;
             }
-            
+
             if (CanChangeToUsbDrive())
-			{
-				// we can look for update.ini
-				if (File.Exists(_updateIni))
-				{
-					string[] foldersSection = null;
-					string[] filesSection = null;
-					var quit = new bool[2] { false, false };
-				    
-					BoLib.setFileAction();
-					
+            {
+                // we can look for update.ini
+                if (File.Exists(_updateIni))
+                {
+                    LogText += "\r\n\r\nStarting Update..";
+                    RaisePropertyChangedEvent("LogText");
+
+                    System.Threading.Thread.Sleep(500);
+
+                    string[] foldersSection = null;
+                    string[] filesSection = null;
+                    var quit = new bool[2] { false, false };
+
+                    BoLib.setFileAction();
+
                     quit[0] = ReadIniSection(out foldersSection, "Folders");
-					quit[1] = ReadIniSection(out filesSection, "Files");
-                   
-					BoLib.clearFileAction();
-                    
-					if (quit[0] || quit[1])
-						return;
-                    
-					foreach (var str in filesSection)
-					{
-						var ret = GetImagePathString(str);
-						FilesToUpdate.Add(new FileImpl(str, ret, true));
+                    quit[1] = ReadIniSection(out filesSection, "Files");
+
+                    BoLib.clearFileAction();
+
+                    if (quit[0] || quit[1])
+                        return;
+
+                    foreach (var str in filesSection)
+                    {
+                        var ret = GetImagePathString(str);
+                        FilesToUpdate.Add(new FileImpl(str, ret, true));
                         if (DoCopyFile(str))
                             FileCount++;
-					}
-					
+                    }
+
                     foreach (var str in foldersSection)
-					{
-						var ret = GetImagePathString(str);
-						FilesToUpdate.Add(new FileImpl(str, ret, false));
+                    {
+                        var ret = GetImagePathString(str);
+                        FilesToUpdate.Add(new FileImpl(str, ret, false));
                         //new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(@"e:\1111", @"d:\1111_VB", true);
                         DoCopyDirectory(str, 0);
-					}
-                    
+                    }
+
                     // Move old files back.
                     // Read rollback.ini.
                     // That copy works nicely. Odd that there isnt a C# version.
                     // Move old files back.
-                    
+                    _updateSuccess = true;
                     HasUpdateFinished = true;
-                    OnPropertyChanged("HasUpdateFinished");
-					OnPropertyChanged("UpdateFiles");
+                    RaisePropertyChangedEvent("HasUpdateFinished");
+                    RaisePropertyChangedEvent("UpdateFiles");
                     
                     CleanUp();
-				}
-			}
-		}
-        
+                    AutomaticSave();
+                }
+            }
+        }
+
         void CleanUp()
         {          
             //run through looking for _old files + folders and delete them.
@@ -226,12 +236,12 @@ namespace PDTUtils
                 try
                 {
                     if (dir.Name.Contains("_old"))
-                        dir.Delete(true);         
+                        dir.Delete(true);
                 }
                 catch (Exception ex)
                 {
                     LogText = ex.Message;
-                    OnPropertyChanged("LogText");
+                    RaisePropertyChangedEvent("LogText");
                 }
             }
             
@@ -277,19 +287,19 @@ namespace PDTUtils
 			{
 				if (d.Name[0] > 'D' && d.DriveType == DriveType.Removable)
 				{
-					_rollbackIni = d.Name + @"rollback.ini";
-					_updateIni = d.Name + "update.ini";
-					_updateDrive = new DriveInfo(d.Name);
+                    _rollbackIni = d.Name + @"rollback.ini";
+                    _updateIni = d.Name + "update.ini";
+                    _updateDrive = new DriveInfo(d.Name);
 					return true;
 				}
 			}
 			return false;
 		}
-        
-	    protected override void ParseGame(int gameNo)
+
+	    /*protected override void ParseGame(int gameNo)
 		{
             throw new Exception("The method or operation is not implemented.");
-		}
+		}*/
         
 		void AddToRollBack(string path, int flag)
 		{
@@ -483,7 +493,7 @@ namespace PDTUtils
                 }
             }
         }
-		
+
         public void DoCancelUpdate(object o, RoutedEventArgs e)
 		{
             HasUpdateStarted = false;
@@ -492,9 +502,9 @@ namespace PDTUtils
 			FilesToUpdate.Clear();
 			_filesNotCopied.Clear();
             LogText = "";
-            OnPropertyChanged("LogText");
-            OnPropertyChanged("HasUpdateStarted");
-            OnPropertyChanged("HasUpdateFinished"); 
+            RaisePropertyChangedEvent("LogText");
+            RaisePropertyChangedEvent("HasUpdateStarted");
+            RaisePropertyChangedEvent("HasUpdateFinished"); 
 		}
 		
 		public void DeleteRollBack()
@@ -513,11 +523,27 @@ namespace PDTUtils
 			BoLib.clearFileAction();
 		}
         
+        void AutomaticSave()
+        {
+            if (_updateSuccess)
+            {
+                LogText = "Update Successful.\r\n\r\nTo Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
+                RaisePropertyChangedEvent("LogText");
+                PDTUtils.Logic.GlobalConfig.RebootRequired = true;
+            }
+            else
+            {
+                LogText = "Error Saving Update.";
+                RaisePropertyChangedEvent("LogText");
+            }
+        }
+        
         public void DoSaveReboot(object o, ExecutedRoutedEventArgs e)
         {
-            LogText = "To Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
-            OnPropertyChanged("LogText");
-            //DiskCommit.SaveAndReboot();
+            LogText = "Update Successful.\r\n\r\nTo Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
+            RaisePropertyChangedEvent("LogText");
+            //DiskCommit.SaveAndReboot(); - handled by shell
+            PDTUtils.Logic.GlobalConfig.RebootRequired = true;
         }
 	}
 }

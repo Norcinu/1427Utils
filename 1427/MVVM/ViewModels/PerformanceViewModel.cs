@@ -45,7 +45,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             ReadPerformance();
             ReadCashRecon();
-
+            
             RaisePropertyChangedEvent("LongTerm");
             RaisePropertyChangedEvent("ShortTerm");
             RaisePropertyChangedEvent("TitoMeters");
@@ -133,7 +133,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             var handPayLt = (int)BoLib.getPerformanceMeter(2) / 100.0M;
             var handPaySt = (int)BoLib.getPerformanceMeter(9) / 100.0M;
-
+            
             Performance.Add(new HelloImJohnnyCashMeters("Total Money in:", 
                                                         longTermCashIn.ToString("C", _nfi), 
                                                         shortTermCashIn.ToString("C", _nfi)));

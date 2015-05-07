@@ -72,7 +72,7 @@ namespace PDTUtils
 		#region Properties
 		
 		public MachineLogsController LogController { get { return _logController; } }
-		public UserSoftwareUpdate UpdateFiles { get { return _updateFiles; } }
+		/*public*/ UserSoftwareUpdate UpdateFiles { get { return _updateFiles; } }
 		
 		public GamesList GamesList
 		{

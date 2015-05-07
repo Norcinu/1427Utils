@@ -8,26 +8,30 @@
              FontFamily="Verdana"
              FontSize="24">
     
-    <!--<UserControl.DataContext>
-        <Model:UserSoftwareUpdate></Model:UserSoftwareUpdate>
-    </UserControl.DataContext>-->
+    <!-- <UserControl.DataContext>
+        <model:UserSoftwareUpdate/>
+    </UserControl.DataContext> -->
     
     <Border BorderBrush="Black" Margin="2" BorderThickness="75" Padding="2" CornerRadius="10">
         <Grid Background="Azure">
             <Grid.Resources>
                 <BooleanToVisibilityConverter x:Key="BoolToVis" />
             </Grid.Resources>
-            <!-- <Border BorderBrush="Black" Margin="2" BorderThickness="2"> this one needs to go imo -->
+            
             <StackPanel Orientation="Horizontal" Margin="5,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Border BorderBrush="Black" Margin="2" BorderThickness="2">
                     <StackPanel MinWidth="246"  VerticalAlignment="Top"  Name="StpUpdateBase" Background="Azure" Margin="0,0,5,0" MinHeight="150">
-                        <Label Margin="5,5,5,0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque">Select Operation&#58;</Label>
-                        <Button Margin="5,5,5,0" Name="BtnUpdateFiles" Content="Update Files" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding UpdatePrep}"></Button>
-                        <Button Margin="5,5,5,5" Name="BtnRollback" Content="Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" VerticalAlignment="Center" Command="{Binding Rollback}" IsEnabled="{Binding HasUpdateStarted}"></Button>
+                        <Label Margin="5,5,5,0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" 
+                               Background="Bisque">Select Operation&#58;</Label>
+                        <Button Margin="5,5,5,0" Name="BtnUpdateFiles" Content="Update Files" FontWeight="Bold" MinHeight="50" FontSize="14" 
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding UpdatePrep}"/>
+                        <Button Margin="5,5,5,5" Name="BtnRollback" Content="Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" 
+                                VerticalAlignment="Center" Command="{Binding Rollback}" IsEnabled="{Binding HasUpdateStarted}"/>
                     </StackPanel>
                 </Border>
                 
-                <StackPanel Name="StpUpdate"  Background="Azure" Margin="0,0,5,0" Width="512" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <StackPanel Name="StpUpdate"  Background="Azure" Margin="0,0,5,0" Width="512" VerticalAlignment="Top" 
+                            HorizontalAlignment="Left">
                     <Grid Background="LightGray">
                         <Grid.RowDefinitions>
                             <RowDefinition Name="RowOne" Height="82*"/>
@@ -83,9 +87,10 @@
                             <Label Margin="5,5,5,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Log</Label>
                             <TextBlock Margin="5,5,5,0" Text="{Binding LogText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             FontFamily="Verdana" FontSize="18" Background="Bisque" TextWrapping="Wrap" />
-                            <Button Width="100" Height="25" Margin="5,5,5,5" Command="{Binding Reboot}" Visibility="{Binding Path=HasUpdateFinished, Converter={StaticResource BoolToVis}}">
-                                <AccessText>_Save</AccessText><!--   and Reboot</AccessText> -->
-                            </Button>
+                            <!-- <Button Width="100" Height="25" Margin="5,5,5,5" Command="{Binding Reboot}" 
+                                    Visibility="{Binding Path=HasUpdateFinished, Converter={StaticResource BoolToVis}}">
+                                <AccessText>_Save</AccessText>
+                            </Button> -->
                         </StackPanel>
                     </ScrollViewer>
                 </Border>
