@@ -232,7 +232,7 @@ namespace PDTUtils.MVVM.ViewModels
                             {
                                 DumpSwitchMessage = "Press Coin Dump Button to Continue";
                                 RaisePropertyChangedEvent("DumpSwitchMessage");
-
+                                
                                 if (BoLib.refillKeyStatus() > 0 && BoLib.getDoorStatus() > 0)
                                 {
                                     if (BoLib.getSwitchStatus(2, 0x20) > 0)

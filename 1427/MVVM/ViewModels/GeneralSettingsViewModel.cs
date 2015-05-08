@@ -171,7 +171,7 @@ namespace PDTUtils.MVVM.ViewModels
             BoLib.setHopperDivertLevel(BoLib.getLeftHopper(), newValue);
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             IniFileUtility.HashFile(Resources.birth_cert);
-
+            //
             DivertMessage = (newValue).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
             RaisePropertyChangedEvent("DivertMessage");
         }
@@ -192,16 +192,17 @@ namespace PDTUtils.MVVM.ViewModels
         }
         
         public ICommand TiToState { get { return new DelegateCommand(ToggleTiToState); } }
-        void ToggleTiToState(object o)
-        {
+        void ToggleTiToState(object o) //TODO: Re-factor this mess of code ffs.
+        {   
             var state = o as string;
             TiToEnabled = (state == "enabled");
+            
             if (TiToEnabled) // enable
             {
                 var sb = new StringBuilder(20);
                 NativeWinApi.GetPrivateProfileString("Keys", "AssetNo", "", sb, sb.Capacity, Resources.machine_ini);
                 TerminalAssetMsg = sb.ToString();
-
+                
                 BoLib.setFileAction();
 
                 TerminalAssetMsg = _titoDisabledMsg;
@@ -228,9 +229,9 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setFileAction();
                 
                 TerminalAssetMsg = _titoDisabledMsg;
-                NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "1", Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "0", Resources.birth_cert);
                 BoLib.setTitoState(1);
-                NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "1", Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "0", Resources.birth_cert);
                 BoLib.setTerminalType(1); //printer
                 
                 const string bnvType = "6";
@@ -246,7 +247,7 @@ namespace PDTUtils.MVVM.ViewModels
 
                 BoLib.clearFileAction();
             }
-
+            
             RaisePropertyChangedEvent("TiToEnabled");
             RaisePropertyChangedEvent("TerminalAssetMsg");
             //write to ini file
@@ -267,7 +268,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
         
-
+        
         //!! not needed - moved to region settings (Set Auto Transfer)
       /*  public ICommand UseReserve { get { return new DelegateCommand(DoUseReserve); } }
         void DoUseReserve(object o)

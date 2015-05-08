@@ -36,7 +36,7 @@ namespace PDTUtils
     
 	/*public*/ class UserSoftwareUpdate : ObservableObject //BaseNotifyPropertyChanged
 	{
-        bool _updateSuccess;
+        bool _updateSuccess = false;
 		string _rollbackIni; 
 		string _updateIni;
         
@@ -51,7 +51,7 @@ namespace PDTUtils
 			set { _updateIni = value; }
 		}
 
-        ObservableCollection<string> _filesNotCopied;
+        ObservableCollection<string> _filesNotCopied = new ObservableCollection<string>();
 
         public bool HasUpdateStarted { get; set; }
         public bool HasUpdateFinished { get; set; }
@@ -69,8 +69,6 @@ namespace PDTUtils
         public UserSoftwareUpdate(FrameworkElement element)
 		{
             FilesToUpdate = new ObservableCollection<FileImpl>();
-            _filesNotCopied = new ObservableCollection<string>();
-            _updateSuccess = false;
 
             HasUpdateStarted = false;
             HasUpdateFinished = false;
@@ -80,15 +78,15 @@ namespace PDTUtils
             Rollback    = new RoutedCommand();
             Cancel      = new RoutedCommand();
             Reboot      = new RoutedCommand();
-            
+        
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(UpdatePrep, DoSoftwareUpdatePreparation));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Update, DoSoftwareUpdate));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Rollback, DoRollBack));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Cancel, DoCancelUpdate));
             CommandManager.RegisterClassCommandBinding(element.GetType(), new CommandBinding(Reboot, DoSaveReboot));
 		}
-        
-		public void DoRollBack(object o, RoutedEventArgs e)
+		
+        public void DoRollBack(object o, RoutedEventArgs e)
 		{
             LogText += "Performing RollBack.\r\n----------------------------\r\n";
             RaisePropertyChangedEvent("LogText");
@@ -209,18 +207,33 @@ namespace PDTUtils
                         //new Microsoft.VisualBasic.Devices.Computer().FileSystem.CopyDirectory(@"e:\1111", @"d:\1111_VB", true);
                         DoCopyDirectory(str, 0);
                     }
-
+                    
                     // Move old files back.
                     // Read rollback.ini.
                     // That copy works nicely. Odd that there isnt a C# version.
                     // Move old files back.
-                    _updateSuccess = true;
+                    _updateSuccess = (_filesNotCopied.Count > 0) ? false : true;
+
+                    /*if (_filesNotCopied.Count>0)
+                        _u
+                        _updateSuccess = true;*/
                     HasUpdateFinished = true;
+
                     RaisePropertyChangedEvent("HasUpdateFinished");
                     RaisePropertyChangedEvent("UpdateFiles");
                     
                     CleanUp();
                     AutomaticSave();
+
+                    if (_filesNotCopied.Count > 0)
+                    {
+                        string errorMessage = "";
+                        foreach (var f in _filesNotCopied)
+                            errorMessage += @f + "\r\n";
+                        WpfMessageBoxService msg = new WpfMessageBoxService();
+                        msg.ShowMessage(errorMessage, "Update Error");
+                        _filesNotCopied.Clear();
+                    }
                 }
             }
         }
@@ -244,7 +257,6 @@ namespace PDTUtils
                     RaisePropertyChangedEvent("LogText");
                 }
             }
-            
         }
         
         bool ReadIniSection(out string[] section, string field)
@@ -339,6 +351,7 @@ namespace PDTUtils
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
+                        _filesNotCopied.Add(source + " - File Not Found."); //!!! Tailor this for the exception that is caught.
                     }
                 }
                 else
@@ -352,6 +365,7 @@ namespace PDTUtils
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
+                        _filesNotCopied.Add(source + " - File Not Found."); //!!! Tailor this for the exception that is caught.
                     }
                 }
 			}
@@ -401,6 +415,7 @@ namespace PDTUtils
 				catch (System.Exception ex)
 				{
 					Debug.WriteLine(ex.Message);
+                    _filesNotCopied.Add(sourceFolder + " - Folder Not Found"); //!!! Tailor this for the exception that is caught.
 				}
 			}
 			else
@@ -459,6 +474,7 @@ namespace PDTUtils
 				catch (System.Exception ex)
 				{
 					Debug.WriteLine(ex.Message);
+                    _filesNotCopied.Add(sourceFolder + " - Folder Not Found"); //!!! Tailor this for the exception that is caught.
 				}
 			}
             
@@ -527,20 +543,20 @@ namespace PDTUtils
         {
             if (_updateSuccess)
             {
-                LogText = "Update Successful.\r\n\r\nTo Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
+                LogText = "Update Completed.\r\n\r\nTo Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
                 RaisePropertyChangedEvent("LogText");
                 PDTUtils.Logic.GlobalConfig.RebootRequired = true;
             }
             else
             {
-                LogText = "Error Saving Update.";
+                LogText = "Update Finished.\r\n\r\nError Performing Update.";
                 RaisePropertyChangedEvent("LogText");
             }
         }
-        
+        //nick compton with the saaaaahf african accent. 
         public void DoSaveReboot(object o, ExecutedRoutedEventArgs e)
         {
-            LogText = "Update Successful.\r\n\r\nTo Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
+            LogText = "Update Completed.\r\n\r\nTo Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
             RaisePropertyChangedEvent("LogText");
             //DiskCommit.SaveAndReboot(); - handled by shell
             PDTUtils.Logic.GlobalConfig.RebootRequired = true;

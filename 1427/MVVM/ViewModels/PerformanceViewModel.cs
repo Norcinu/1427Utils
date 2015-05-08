@@ -119,7 +119,6 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Refill");
         }
         
-
         void ReadPerformance()
         {
 
@@ -220,11 +219,11 @@ namespace PDTUtils.MVVM.ViewModels
             Performance.Add(new HelloImJohnnyCashMeters("TP Games Played:", 
                                                         tpGamesLt.ToString(), 
                                                         tpGamesSt.ToString()));
-            
+
             decimal tpMoneyOutLt = (int)BoLib.getTPlayMeter(0);
             decimal tpMoneyOutSt = (int)BoLib.getTPlayMeter(3);
-            Performance.Add(new HelloImJohnnyCashMeters("TPlay Cash Out:", 
-                                                        tpMoneyOutLt.ToString("C", _nfi), 
+            Performance.Add(new HelloImJohnnyCashMeters("TPlay Cash Out:",
+                                                        tpMoneyOutLt.ToString("C", _nfi),
                                                         tpMoneyOutSt.ToString("C", _nfi)));
             
             //Read Game Stats meters

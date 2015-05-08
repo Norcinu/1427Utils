@@ -247,6 +247,7 @@
             <TabItem Header="Games" MinWidth="150" HorizontalContentAlignment="Center">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
+                        <Label Style="{StaticResource MESHUGGAH}" Content="500 Game History" />
                         <ListView ItemsSource="{Binding Path=LogController.PlayedGames}" MinHeight="600" FontSize="20">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
@@ -310,6 +311,7 @@
             <TabItem Header="Wins" MinWidth="150" HorizontalContentAlignment="Center">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
+                        <Label Style="{StaticResource MESHUGGAH}" Content="500 Winning Game History"/>
                         <ListView ItemsSource="{Binding Path=LogController.WinningGames}" MinHeight="600" FontSize="20">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">

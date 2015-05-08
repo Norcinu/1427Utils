@@ -235,7 +235,7 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int getCredit();
-
+        
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int getBank();
 

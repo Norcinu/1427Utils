@@ -72,7 +72,7 @@ namespace PDTUtils
 			_hasChanged = false;
 			_isTestSuiteRunning = false;
 
-            _updateTimer = new Timer { Interval = 1000 };
+            _updateTimer = new Timer { Interval = 500/*1000*/ };
 			_updateTimer.Enabled = true;
 		}
         
