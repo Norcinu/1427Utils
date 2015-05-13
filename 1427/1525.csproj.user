@@ -21,7 +21,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <StartAction>Program</StartAction>
-    <StartProgram>D:\1527\1527L27U010R.exe</StartProgram>
+    <StartProgram>D:\1525\1525L29U010R.exe</StartProgram>
     <RemoteDebugEnabled>true</RemoteDebugEnabled>
     <RemoteDebugMachine>STEVETERMINAL01</RemoteDebugMachine>
   </PropertyGroup>

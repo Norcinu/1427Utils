@@ -297,6 +297,7 @@
                                                 <Border BorderBrush="Black" BorderThickness="2">
                                                     <TextBlock Text="{Binding WinAmount}" TextAlignment="Center" Background="LightGray" 
                                                                Foreground="Navy"/>
+                                                    
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -370,7 +371,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
+            
             <!--<TabItem Header="TiTo" MinWidth="150">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
@@ -697,12 +698,12 @@
                 </ListView>
             </StackPanel>
         </StackPanel>
-
+        
         <!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
         <view:CreditManagementView Panel.ZIndex="5" x:Name="UcCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
         <view:MainPage Panel.ZIndex="1" x:Name="UcMainPage" Grid.Row="1" Grid.Column="1" />
         <view:DiagnosticsView Panel.ZIndex="5" x:Name="UcDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"  Visibility="Hidden" />
-
+ 
         <!-- End of System Info View -->
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="BtnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
@@ -714,7 +715,7 @@
             <Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
             <!--<Button Content="Serial Dump" Width="170" Height="35" FontSize="22" Click="ButtonBase_OnClick"></Button>-->
         </StackPanel>
-
+        
         <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="BtnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
     </Grid>
 </Window>

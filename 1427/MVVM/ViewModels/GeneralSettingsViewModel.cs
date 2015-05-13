@@ -113,15 +113,15 @@ namespace PDTUtils.MVVM.ViewModels
                 _msgBox.ShowMessage("UNABLE TO CHANGE HANDPAY THRESHOLD. CHECK PRINTER OR COUNTRY SETTINGS", "ERROR");
                 return;
             }
-            
+
             var type = o as string;
             var current = (int)BoLib.getHandPayThreshold();
             var newVal = current;
-            
+
             var maxHandPay = (int)BoLib.getMaxHandPayThreshold();
             var denom = maxHandPay - current;
             var amount = (denom < 1000) ? denom : 1000;//5000
-            
+
             if (type == "increment")
             {
                 BoLib.setHandPayThreshold((uint)current + (uint)amount);
@@ -132,7 +132,7 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if (BoLib.getHandPayThreshold() == 0)
                     return;
-                
+
                 if (amount == 0)
                     amount = 1000;//5000
 
@@ -140,9 +140,9 @@ namespace PDTUtils.MVVM.ViewModels
                 newVal -= amount;
                 NativeWinApi.WritePrivateProfileString("Config", "Handpay Threshold", (newVal).ToString(), Resources.birth_cert);
             }
-
-            IniFileUtility.HashFile(Resources.birth_cert);
             
+            IniFileUtility.HashFile(Resources.birth_cert);
+
             HandPayLevel = (newVal / 100).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
             RaisePropertyChangedEvent("HandPayLevel");
         }
@@ -154,7 +154,7 @@ namespace PDTUtils.MVVM.ViewModels
             var currentThreshold = BoLib.getHopperDivertLevel(0);
             const uint changeAmount = 50;
             var newValue = currentThreshold;
-
+            
             if (actionType == "increment" && currentThreshold < 800)
             {
                 newValue += changeAmount;
@@ -167,11 +167,11 @@ namespace PDTUtils.MVVM.ViewModels
                 if (newValue < 200)
                     newValue = 0;
             }
-            
+             
             BoLib.setHopperDivertLevel(BoLib.getLeftHopper(), newValue);
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             IniFileUtility.HashFile(Resources.birth_cert);
-            //
+            
             DivertMessage = (newValue).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
             RaisePropertyChangedEvent("DivertMessage");
         }
@@ -193,16 +193,16 @@ namespace PDTUtils.MVVM.ViewModels
         
         public ICommand TiToState { get { return new DelegateCommand(ToggleTiToState); } }
         void ToggleTiToState(object o) //TODO: Re-factor this mess of code ffs.
-        {   
+        {
             var state = o as string;
             TiToEnabled = (state == "enabled");
-            
+
             if (TiToEnabled) // enable
             {
                 var sb = new StringBuilder(20);
                 NativeWinApi.GetPrivateProfileString("Keys", "AssetNo", "", sb, sb.Capacity, Resources.machine_ini);
                 TerminalAssetMsg = sb.ToString();
-                
+
                 BoLib.setFileAction();
 
                 TerminalAssetMsg = _titoDisabledMsg;
@@ -210,11 +210,11 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setTitoState(1);
                 NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "1", Resources.birth_cert);
                 BoLib.setTerminalType(1); //printer
-                
+
                 const string bnvType = "6";
-                
+
                 var printerType = BoLib.getCabinetType() == 3 ? "3" : "4";
-                
+
                 NativeWinApi.WritePrivateProfileString("Config", "PrinterType", printerType, Resources.birth_cert); // 3 = NV200_ST
                 BoLib.setPrinterType(Convert.ToByte(printerType));
                 NativeWinApi.WritePrivateProfileString("Config", "BnvType", bnvType, Resources.birth_cert);
@@ -227,7 +227,7 @@ namespace PDTUtils.MVVM.ViewModels
             else // disable
             {
                 BoLib.setFileAction();
-                
+
                 TerminalAssetMsg = _titoDisabledMsg;
                 NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "0", Resources.birth_cert);
                 BoLib.setTitoState(1);
@@ -235,19 +235,19 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setTerminalType(1); //printer
                 
                 const string bnvType = "6";
-
-                var printerType = BoLib.getCabinetType() == 3 ? "3" : "4";
                 
+                var printerType = BoLib.getCabinetType() == 3 ? "3" : "4";
+
                 NativeWinApi.WritePrivateProfileString("Config", "PrinterType", printerType, Resources.birth_cert); // 3 = NV200_ST
                 BoLib.setPrinterType(Convert.ToByte(printerType));
                 NativeWinApi.WritePrivateProfileString("Config", "BnvType", bnvType, Resources.birth_cert);
                 BoLib.setBnvType(Convert.ToByte(bnvType));
                 NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", "0", Resources.birth_cert);
                 BoLib.setRecyclerChannel(0);
-
+                
                 BoLib.clearFileAction();
             }
-            
+
             RaisePropertyChangedEvent("TiToEnabled");
             RaisePropertyChangedEvent("TerminalAssetMsg");
             //write to ini file

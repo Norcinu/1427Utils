@@ -91,7 +91,7 @@
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>Y:\1527</OutDir>
+    <OutDir>Y:\1525</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release1224|Win32'">
     <OutDir>..\ShellController\bin\</OutDir>

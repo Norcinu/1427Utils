@@ -220,8 +220,8 @@ namespace PDTUtils.MVVM.ViewModels
                     EmptyLeftTimer.Enabled = true;
 #if DEBUG
                     Debug.WriteLine(BoLib.getHopperFloatLevel(0));
-                    break;
 #endif
+                    break;
                 case 1:
                     if (EmptyRightTimer == null)
                     {

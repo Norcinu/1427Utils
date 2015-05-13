@@ -24,7 +24,7 @@ namespace PDTUtils
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
-
+    
     public abstract class BaseGameLog : BaseNotifyPropertyChanged, IComparable
     {
         private readonly NumberFormatInfo _nfi;
@@ -167,13 +167,13 @@ namespace PDTUtils
 
             var hour = time >> 16;
             var minute = time & 0x0000FFFF;
-
+            
             var month = gameDate & 0x0000FFFF;
             var day = gameDate >> 16;
             var year = DateTime.Now.Year;
             if (month > DateTime.Now.Month)
                 --year;
-
+            
             try
             {
                 var ds = day + @"/" + month + @"/" + year + " " + hour + " " + ":" + minute;
@@ -377,7 +377,7 @@ namespace PDTUtils
                     reveresed[ctr] = lines[i];
                     ctr++;
                 }
-
+                
                 foreach (var s in reveresed)
                 {
                     try
@@ -406,28 +406,38 @@ namespace PDTUtils
             }
         }
         
-        static int DateComparer(BaseGameLog left, BaseGameLog right)
+        static int DateComparerStr(BaseGameLog left, BaseGameLog right)
         {
             /*if (!((typeof(left) == PlayedGame || typeof(left) == WinningGame) && 
                  (typeof(right) == PlayedGame || typeof(right) == WinningGame)))
                 return 1;*/
 
-            return left.GameDate.CompareTo(right.GameDate);
+            return right.GameDate.CompareTo(left.GameDate);//left.GameDate.CompareTo(right.GameDate);
         }
-        
+
+        static int DateCompare(BaseGameLog left, BaseGameLog right)
+        {
+            DateTime l, r;
+
+            if (!DateTime.TryParse(left.GameDate, out l)) return 0;
+            if (!DateTime.TryParse(right.GameDate, out r)) return 0;
+
+            return r.CompareTo(l);
+        }
+
         public void SetPlayedLog()
         {
-            for (var i = 0; i < (int)BoLib.getHistoryLength(); i++)
+            for (var i = 0; i < (int)BoLib.getHistoryLength() - 1; i++)
             {
                 if ((uint)BoLib.getGameWager(i) > 0)
                     PlayedGames.Add(new PlayedGame(i));
             }
-            PlayedGames.Sort(DateComparer);
+            PlayedGames.Sort(DateComparerStr);
         }
-        
+        //
         public void SetWinningLog()
         {
-            for (var i = 0; i < (int)BoLib.getHistoryLength(); i++)
+            for (var i = 0; i < (int)BoLib.getHistoryLength() - 1; i++)
             {
                 try
                 {
@@ -439,8 +449,7 @@ namespace PDTUtils
                     Console.WriteLine(ex.Message);
                 }
             }
-            WinningGames.Sort(DateComparer);
-            
+            WinningGames.Sort(DateCompare);
         }
 
         public void SetHandPayLog()

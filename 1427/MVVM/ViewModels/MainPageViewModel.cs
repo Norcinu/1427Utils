@@ -319,7 +319,7 @@ namespace PDTUtils.MVVM.ViewModels
                     Bank = BoLib.getBank();
                     Reserve = (int) BoLib.getReserveCredits();
                     TotalCredits = 0;
-                    
+
                     RaisePropertyChangedEvent("Credits");
                     RaisePropertyChangedEvent("Bank");
                     RaisePropertyChangedEvent("Reserve");
@@ -448,7 +448,7 @@ namespace PDTUtils.MVVM.ViewModels
         void DoEndRefill()
         {
             if (_refillTimer == null) return;
-            
+
             NotRefilling = false;
             _refillTimer.Enabled = false;
         }
