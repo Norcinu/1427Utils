@@ -18,7 +18,8 @@ namespace PDTUtils.MVVM.ViewModels
         //public bool UseReserveEnabled { get; set; }
         public string RtpMessage { get; set; }
         public string HandPayLevel { get; set; }
-        public string DivertMessage { get; set; }
+        public string DivertLeftMessage { get; set; }
+        public string DivertRightMessage { get; set; }
         public string RecyclerMessage { get; set; }
         public string TerminalAssetMsg { get; set; }
         //public string UseReserveStakeMsg { get; set; }
@@ -48,8 +49,9 @@ namespace PDTUtils.MVVM.ViewModels
                 TerminalAssetMsg = (TiToEnabled) ? "Change Asset" : _titoDisabledMsg;
 
                 HandPayLevel = (BoLib.getHandPayThreshold() / 100).ToString("C", Thread.CurrentThread.CurrentUICulture.NumberFormat);
-                DivertMessage = (BoLib.getHopperDivertLevel(0)).ToString("C", Thread.CurrentThread.CurrentUICulture.NumberFormat);
-                
+                DivertLeftMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Left).ToString();
+                DivertRightMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Right).ToString();
+
                 if (BoLib.getBnvType() == 5)
                 {
                     HasRecycler = true;
@@ -147,14 +149,17 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("HandPayLevel");
         }
         
-        public ICommand ChangeDivert { get { return new DelegateCommand(DoChangeDivert); } }
+        /// <summary>
+        /// !!!!! TODO: REFACTOR THESE DIVERT FUNCTIONS !!!!!
+        /// </summary>
+        public ICommand ChangeLeftDivert { get { return new DelegateCommand(DoChangeDivert); } }
         void DoChangeDivert(object o)
         {
             var actionType = o as string;
             var currentThreshold = BoLib.getHopperDivertLevel(0);
             const uint changeAmount = 50;
             var newValue = currentThreshold;
-            
+
             if (actionType == "increment" && currentThreshold < 800)
             {
                 newValue += changeAmount;
@@ -167,14 +172,45 @@ namespace PDTUtils.MVVM.ViewModels
                 if (newValue < 200)
                     newValue = 0;
             }
-             
+                
             BoLib.setHopperDivertLevel(BoLib.getLeftHopper(), newValue);
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             IniFileUtility.HashFile(Resources.birth_cert);
-            
-            DivertMessage = (newValue).ToString("C", Thread.CurrentThread.CurrentCulture.NumberFormat);
-            RaisePropertyChangedEvent("DivertMessage");
+
+            DivertLeftMessage = (newValue).ToString();
+            RaisePropertyChangedEvent("DivertLeftMessage");
         }
+
+        public ICommand ChangeRightDivert { get { return new DelegateCommand(DoChangeDivertRight); } }
+        void DoChangeDivertRight(object o)
+        {
+            var actionType = o as string;
+            var currentThreshold = BoLib.getHopperDivertLevel((byte)Hoppers.Right);
+            const uint changeAmount = 50;
+            var newValue = currentThreshold;
+
+            if (actionType == "increment" && currentThreshold < 600)
+            {
+                newValue += changeAmount;
+                if (newValue > 600)
+                    newValue = 600;
+            }
+            else if (actionType == "decrement" && currentThreshold > 50)
+            {
+                newValue -= changeAmount;
+                if (newValue < 50)
+                    newValue = 50;
+            }
+
+            BoLib.setHopperDivertLevel(BoLib.getRightHopper(), newValue);
+            NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", newValue.ToString(), Resources.birth_cert);
+            IniFileUtility.HashFile(Resources.birth_cert);
+
+            DivertRightMessage = (newValue).ToString();
+            RaisePropertyChangedEvent("DivertRightMessage");
+        }
+        
+        
         
         public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
         void DoRecycleNote(object o)
@@ -267,8 +303,7 @@ namespace PDTUtils.MVVM.ViewModels
                 IniFileUtility.HashFile(Properties.Resources.machine_ini);
             }
         }
-        
-        
+                
         //!! not needed - moved to region settings (Set Auto Transfer)
       /*  public ICommand UseReserve { get { return new DelegateCommand(DoUseReserve); } }
         void DoUseReserve(object o)
@@ -280,7 +315,7 @@ namespace PDTUtils.MVVM.ViewModels
             else UseReserveStakeMsg = "Using reserve fill.";
             
             RaisePropertyChangedEvent("UseReserveStake");
-            RaisePropertyChangedEvent("UseReserveStakeMsg"); ;
+            RaisePropertyChangedEvent("UseReserveStakeMsg");
         }*/
     }
 }

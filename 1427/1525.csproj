@@ -383,10 +383,13 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release (
 python $(SolutionDir)PythonUtils\RenameRelease.py
-)
 copy Y:\1525\1525L29U010R.exe Y:\1525\1525L29U010R_Copy.exe
 C:\Tool_MD5_Append -s=Y:\1525\1525L29U010R_Copy.exe -d=Y:\1525\1525L29U010R.exe &gt;CRCLog.txt
-</PostBuildEvent>
+)
+else (
+copy Y:\1525\1525L29U010D.exe Y:\1525\1525L29U010D_Copy.exe
+C:\Tool_MD5_Append -s=Y:\1525\1525L29U010D_Copy.exe -d=Y:\1525\1525L29U010D.exe &gt;CRCLog.txt
+)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

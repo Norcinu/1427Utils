@@ -46,6 +46,9 @@ namespace PDTUtils
             try
             {
                 InitialiseBoLib();
+                //BoLib.setHopperFloatLevel((byte)Hoppers.LeftHopper, 500);
+                //BoLib.setHopperFloatLevel((byte)Hoppers.RightHopper, 250);
+
                 InitializeComponent();
                 CultureInfo ci = null;
                 

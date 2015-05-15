@@ -42,9 +42,9 @@ namespace PDTUtils.Native
 
     enum Hoppers
     {
-        LeftHopper = 0x00,
-        MiddleHopper = 0x01,
-        RightHopper = 0x02,
+        Left = 0x00,
+        Middle = 0x01,
+        Right = 0x02,
         HopperLeftMask = 0x10
     }
 

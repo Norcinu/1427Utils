@@ -344,7 +344,7 @@ namespace PDTUtils.MVVM.ViewModels
             SelectionChanged = false;
             IsBritishMachine = BoLib.getCountryCode() != BoLib.getSpainCountryCode();
             AddGame();
-            
+            //here till 6 :< bummer.
             RaisePropertyChangedEvent("FirstPromo");
             RaisePropertyChangedEvent("SecondPromo");
 
@@ -356,10 +356,10 @@ namespace PDTUtils.MVVM.ViewModels
             if (!System.IO.File.Exists(_manifest))
             {
                 var msg = new WpfMessageBoxService();
-                msg.ShowMessage("Cannot find ModelManifest.ini", "ERROR");
+                msg.ShowMessage(_manifest, "ERROR");
                 return;
             }
-
+            
             if (_gameSettings.Count > 0)
                 _gameSettings.Clear();
 

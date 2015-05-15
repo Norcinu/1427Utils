@@ -62,7 +62,7 @@
 						CommandParameter="increment"> -->
                 <RepeatButton Delay="500"
                               Height="75" Margin="0,10,0,10"
-						      Command="{Binding ChangeDivert}"
+						      Command="{Binding ChangeLeftDivert}"
 						      CommandParameter="increment">
                     <StackPanel>
                         <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
@@ -71,10 +71,10 @@
                 </RepeatButton>
                 <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
                     <!-- Margin="10" FontSize="36" Width="300" Foreground="Yellow" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" -->
-                    <Label Style="{StaticResource StdLabel}">Divert To CashBox</Label>
+                    <Label Style="{StaticResource StdLabel}">Left Hopper Divert</Label>
                 </Border>
                 <RepeatButton Delay="500" Height="75" Margin="0,10,100,10"
-						Command="{Binding ChangeDivert}"
+						Command="{Binding ChangeLeftDivert}"
 						CommandParameter="decrement">
                     <StackPanel>
                         <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
@@ -82,7 +82,38 @@
                 </RepeatButton>
                 
                 <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
-                    <Label Style="{StaticResource StdLabelWide}" Content="{Binding DivertMessage}"/>
+                    <Label Style="{StaticResource StdLabelWide}" Content="{Binding DivertLeftMessage}"/>
+                </Border>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                <!-- 
+                <Button Height="75" Margin="0,10,0,10"
+						Command="{Binding ChangeDivert}"
+						CommandParameter="increment"> -->
+                <RepeatButton Delay="500"
+                              Height="75" Margin="0,10,0,10"
+						      Command="{Binding ChangeRightDivert}"
+						      CommandParameter="increment">
+                    <StackPanel>
+                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                    </StackPanel>
+                    <!-- </Button> -->
+                </RepeatButton>
+                <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
+                    <!-- Margin="10" FontSize="36" Width="300" Foreground="Yellow" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" -->
+                    <Label Style="{StaticResource StdLabel}">Right Hopper Divert</Label>
+                </Border>
+                <RepeatButton Delay="500" Height="75" Margin="0,10,100,10"
+						Command="{Binding ChangeRightDivert}"
+						CommandParameter="decrement">
+                    <StackPanel>
+                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                    </StackPanel>
+                </RepeatButton>
+
+                <Border CornerRadius="10" Background="Navy" BorderBrush="Yellow" Margin="5" BorderThickness="4">
+                    <Label Style="{StaticResource StdLabelWide}" Content="{Binding DivertRightMessage}"/>
                 </Border>
             </StackPanel>
             <!-- End Divert to cashbox -->

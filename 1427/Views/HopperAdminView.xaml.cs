@@ -16,8 +16,8 @@ namespace PDTUtils.Views
         
         private void cmbHoppers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var s = DataContext as HopperViewModel;
-            var b = s.EmptyingHoppers;
+            /*var s = DataContext as HopperViewModel;
+            var b = s.EmptyingHoppers;*/
             //var str = cmbHoppers.SelectedValue.Content as string;
             /*var cmb = sender as ComboBox;
             var str = cmb.SelectedItem.ToString().Substring(cmb.SelectedItem.ToString().Length - 9);

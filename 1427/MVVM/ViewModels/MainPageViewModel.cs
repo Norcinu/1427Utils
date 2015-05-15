@@ -375,12 +375,12 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(AddDenomButton); }
         }
-        
+
         void AddDenomButton(object button)
         {
             var b = button as Button;
             var text = b.Content as Label;
-            
+
             if (text != null)
             {
                 var str = text.Content as string;
@@ -393,7 +393,7 @@ namespace PDTUtils.MVVM.ViewModels
                     Pennies *= 100;
                 }
             }
-            
+
             BoLib.setUtilsAdd2CreditValue((uint)Pennies);
             BoLib.setRequestUtilsAdd2Credit();
             System.Threading.Thread.Sleep(250);
@@ -401,43 +401,43 @@ namespace PDTUtils.MVVM.ViewModels
             Bank = BoLib.getBank();
             Reserve = (int)BoLib.getReserveCredits();
             TotalCredits = Bank + Credits;
-
+            
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");
             RaisePropertyChangedEvent("Reserve");
         }
-        
+
         public ICommand CancelHandPay
         {
             get { return new DelegateCommand(o => DoCancelHandPay()); }
         }
-        
+
         void DoCancelHandPay()
         {
             HandPayActive = false;
             BoLib.cancelHandPay();
         }
-        
+
         public ICommand ToggleIsEnabled
         {
             get { return new DelegateCommand(o => IsEnabled = !IsEnabled); }
         }
         
         //Should pass in a value here?
-        //are the hoppers broken? coins not adding to the level.    
+        //are the hoppers broken? coins not adding to the level.
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
             CanRefillHoppers = true;
             if (_refillTimer == null)
             {
-                _refillTimer = new Timer() { Enabled = true, Interval = 1000 };
+                _refillTimer = new Timer() { Enabled = true, Interval = 200 };
                 _refillTimer.Elapsed += (sender, e) =>
                 {
-                    var left = BoLib.getHopperFloatLevel((byte)Hoppers.LeftHopper);
-                    Debug.WriteLine("Left Hopper Level", left.ToString());
-                    var right = BoLib.getHopperFloatLevel((byte)Hoppers.RightHopper);
-                    Debug.WriteLine("Right Hopper Level", right.ToString());
+                    RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
+                    Debug.WriteLine("Left Hopper Level", RefillCoinsAddedLeft.ToString());
+                    RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
+                    Debug.WriteLine("Right Hopper Level", RefillCoinsAddedRight.ToString());
                 };
             }
             else

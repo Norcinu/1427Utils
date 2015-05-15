@@ -9,22 +9,22 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class GameSelectionViewModel : ObservableObject
     {
-        ObservableCollection<GameSelectionModel> _models = new ObservableCollection<GameSelectionModel>();
+        //ObservableCollection<GameSelectionModel> _models = new ObservableCollection<GameSelectionModel>();
         public ObservableCollection<GameSelectionModel> Models = new ObservableCollection<GameSelectionModel>();
         public int NumberOfModels { get; set; }
         public int Update { get; set; }
         public int NoActive { get; set; }
-
+        
         public GameSelectionViewModel()
         {
             ReadManifest();
         }
-
+        
         #region Commands
         public ICommand DoUpdateManifest { get { return new DelegateCommand(o => UpdateManifest()); } }
         public ICommand DoReadManifest { get { return new DelegateCommand(o => ReadManifest()); } }
         #endregion
-
+        
         public void ReadManifest()
         {
             var file = (BoLib.getCountryCode() == 9) ? Properties.Resources.model_manifest_esp : Properties.Resources.model_manifest;
