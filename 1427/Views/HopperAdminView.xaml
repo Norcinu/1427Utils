@@ -3,27 +3,93 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:c="clr-namespace:PDTUtils"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="755"
-			 x:Name="UcHopperConfig">
+			 x:Name="UcHopperConfig"
+             
+             >
+             <!-- IsEnabled="{Binding Enabled}"> -->
 
     <UserControl.Resources>
-        <Style x:Key="StdTextBlock" TargetType="Label">
-            <Setter Property="Background" Value="Red"/>
+        <c:BoolToVisibilityConverter x:Key="BoolToVis"/>
+        
+        <Style x:Key="StdLabel" TargetType="Label">
+            <Setter Property="Background" Value="SlateGray" />
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Margin" Value="5"/>
         </Style>
+        
+        <Style x:Key="MyRepeatButton" TargetType="RepeatButton">
+            <Setter Property="Delay" Value="500"/>
+            <Setter Property="Width" Value="55" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
     </UserControl.Resources>
     
     <Grid>
         <TabControl FontSize="18" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" SelectionChanged="cmbHoppers_SelectionChanged">
-            <!--<TabItem Header="Info" MinWidth="250">
+            <TabItem Header="Configure" MinWidth="250">
+                <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Width="550">
+                    
+                    <!-- Sync float - divert -->
+                    <StackPanel HorizontalAlignment="Center" Background="AliceBlue" Width="500"
+                                IsEnabled="{Binding NeedToSync}" Visibility="{Binding NeedToSync, 
+                                Converter={StaticResource BoolToVis}}">
+                        <Label Margin="10">Warning: Refloat value greater than Divert level.</Label>
+                        <Label Margin="10">Press Button to Sync.</Label>
+                        <Button Content="Sync" FontSize="24" Width="75" Height="35" />
+                    </StackPanel>
+                    <!-- Sync -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20"/><!-- bit o' spacing -->
+                    <!-- Refloat -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="AliceBlue">
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
+                                      CommandParameter="left+increase" Content="+"/>
+                        <Label ContentStringFormat="Left Hopper Refloat Level: {0}" Content="{Binding RefloatLeft}" 
+                               Width="350" VerticalContentAlignment="Center" Margin="10"/>
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
+                                      CommandParameter="left+decrease" Content="-"/>
+                    </StackPanel>
 
-            </TabItem>-->
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="AliceBlue">
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
+                                      CommandParameter="right+increase" Content="+"/>
+                        <Label Style="{Binding StdLabel}" Width="350" ContentStringFormat="Right Hopper Refloat Level: {0}" 
+                               Content="{Binding RefloatRight}" VerticalContentAlignment="Center" Margin="10" />
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
+                                      CommandParameter="right+decrease" Content="-"/>
+                    </StackPanel>
+                    <!-- end of refloat -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20"/> <!-- bit o' spacing -->
+                    <!-- divert values -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="AliceBlue">
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding DoChangeDivertLeft}" 
+                                      CommandParameter="increase" Content="+"/>
+                        <Label Style="{Binding StdLabel}" Width="350" ContentStringFormat="Left Hopper Divert Level: {0}" 
+                               Content="{Binding DivertLeftMessage}" VerticalContentAlignment="Center" Margin="10" />
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding DoChangeDivertLeft}" 
+                                      CommandParameter="decrease" Content="-"/>
+                    </StackPanel>
 
-            <TabItem Header="Empty" MinWidth="250" IsEnabled="{Binding NotRefilling}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="AliceBlue">
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding DoChangeDivertRight}" 
+                                      CommandParameter="increase" Content="+"/>
+                        <Label Style="{Binding StdLabel}" Width="350" ContentStringFormat="Right Hopper Divert Level: {0}" 
+                               Content="{Binding DivertRightMessage}" VerticalContentAlignment="Center" Margin="10" />
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding DoChangeDivertRight}" 
+                                      CommandParameter="decrease" Content="-"/>
+                    </StackPanel>
+                    
+                </StackPanel>
+            </TabItem>
+            
+            <TabItem Header="Empty" MinWidth="250"> <!--  IsEnabled="{Binding NotRefilling}"> -->
                 <Border BorderBrush="Black" BorderThickness="2">
                     <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" Width="550">
                         <ComboBox x:Name="CmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top"
@@ -31,11 +97,12 @@
                               IsSynchronizedWithCurrentItem="True">
                         </ComboBox>
 
-                        <!-- <TextBlock MinWidth="150" MinHeight="35" Margin="10" Text="{Binding SelHopperValue}" FontSize="20"/> -->
-                        <Label Margin="10" MinHeight="35" Content="{Binding SelHopperValue}" Style="{StaticResource StdTextBlock}"
+                        <Label Margin="10" MinHeight="35" Content="{Binding SelHopperValue}" Style="{StaticResource StdLabel}"
                                HorizontalContentAlignment="Center"/>
-                        <!-- TxtSelHopper -->
-                        <Label Margin="10" MinHeight="35" Content="{Binding DumpSwitchMessage}" Style="{StaticResource StdTextBlock}"/>
+
+                        <Label Margin="10" MinHeight="35" Content="{Binding DumpSwitchMessage}" Style="{StaticResource StdLabel}"
+                               HorizontalContentAlignment="Center"
+                               />
                         <Button Width="250" Height="35" Margin="10" FontSize="20"
 						    Command="{Binding DoEmptyHopper}"
 							CommandParameter="{Binding ElementName=CmbHoppers}"

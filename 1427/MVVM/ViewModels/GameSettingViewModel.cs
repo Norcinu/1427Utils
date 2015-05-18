@@ -344,13 +344,13 @@ namespace PDTUtils.MVVM.ViewModels
             SelectionChanged = false;
             IsBritishMachine = BoLib.getCountryCode() != BoLib.getSpainCountryCode();
             AddGame();
-            //here till 6 :< bummer.
+            
             RaisePropertyChangedEvent("FirstPromo");
             RaisePropertyChangedEvent("SecondPromo");
 
             SelectedIndex = _gameSettings.Count > 0 ? 0 : -1;
         }
-
+        
         public void AddGame()
         {
             if (!System.IO.File.Exists(_manifest))

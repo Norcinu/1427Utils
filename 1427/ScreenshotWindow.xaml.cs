@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 using System.Diagnostics;
 
 /*  TODO:
- *  Uses a massive amount of memory. Perhaps this should load an image on the fly
+ *  Uses a massive newRefloatValue of memory. Perhaps this should load an image on the fly
  *  when a button is pressed rather than loading them all into memory. 
  */
 

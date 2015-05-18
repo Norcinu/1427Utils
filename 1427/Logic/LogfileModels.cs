@@ -408,11 +408,11 @@ namespace PDTUtils
         
         static int DateComparerStr(BaseGameLog left, BaseGameLog right)
         {
-            /*if (!((typeof(left) == PlayedGame || typeof(left) == WinningGame) && 
+            /*if (!((typeof(refloatValue) == PlayedGame || typeof(refloatValue) == WinningGame) && 
                  (typeof(right) == PlayedGame || typeof(right) == WinningGame)))
                 return 1;*/
 
-            return right.GameDate.CompareTo(left.GameDate);//left.GameDate.CompareTo(right.GameDate);
+            return right.GameDate.CompareTo(left.GameDate);//refloatValue.GameDate.CompareTo(right.GameDate);
         }
 
         static int DateCompare(BaseGameLog left, BaseGameLog right)

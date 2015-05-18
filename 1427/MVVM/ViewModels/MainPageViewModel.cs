@@ -11,7 +11,16 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class MainPageViewModel : ObservableObject
     {
-        public bool IsEnabled { get; set; }
+        bool _isEnabled = false;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                _isEnabled = value;
+                RaisePropertyChangedEvent("IsEnabled");
+            }
+        }
         public bool IsErrorSet
         {
             get
@@ -55,7 +64,7 @@ namespace PDTUtils.MVVM.ViewModels
 #endif
             }
         }
-        
+        //
         public bool CanRefillHoppers
         {
             get { return _canRefillHoppers; }
