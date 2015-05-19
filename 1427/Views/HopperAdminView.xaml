@@ -6,20 +6,20 @@
              xmlns:c="clr-namespace:PDTUtils"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="755"
-			 x:Name="UcHopperConfig"
-             
-             >
-             <!-- IsEnabled="{Binding Enabled}"> -->
+			 x:Name="UcHopperConfig">
 
+    <!-- IsEnabled="{Binding Enabled}"> -->
+    
     <UserControl.Resources>
         <c:BoolToVisibilityConverter x:Key="BoolToVis"/>
         
-        <Style x:Key="StdLabel" TargetType="Label">
+        <Style x:Key="StevesLabel" TargetType="Label">
             <Setter Property="Background" Value="SlateGray" />
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Margin" Value="5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
         
         <Style x:Key="MyRepeatButton" TargetType="RepeatButton">
@@ -42,48 +42,62 @@
                                 Converter={StaticResource BoolToVis}}">
                         <Label Margin="10">Warning: Refloat value greater than Divert level.</Label>
                         <Label Margin="10">Press Button to Sync.</Label>
-                        <Button Content="Sync" FontSize="24" Width="75" Height="35" />
+                        <Button Content="Sync" FontSize="24" Width="75" Height="35" Command="{Binding PerformSync}" />
                     </StackPanel>
                     <!-- Sync -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20"/><!-- bit o' spacing -->
+                    <StackPanel HorizontalAlignment="Center" Margin="20"/><!-- bit o' spacing -->
                     <!-- Refloat -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="AliceBlue">
+                    <StackPanel HorizontalAlignment="Center" Background="AliceBlue">
+                        <Label Margin="10">Re-float Hopper Levels</Label>
+                        <StackPanel Orientation="Horizontal">
                         <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
-                                      CommandParameter="left+increase" Content="+"/>
-                        <Label ContentStringFormat="Left Hopper Refloat Level: {0}" Content="{Binding RefloatLeft}" 
-                               Width="350" VerticalContentAlignment="Center" Margin="10"/>
-                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
-                                      CommandParameter="left+decrease" Content="-"/>
+                                      CommandParameter="left+decrease" Content="-" Delay="500"/>
+                        <Label Style="{StaticResource StevesLabel}" ContentStringFormat="Left Hopper Refloat Level: {0}"
+                               Content="{Binding RefloatLeft}" Width="350" VerticalContentAlignment="Center" Margin="10"/>
+                            <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
+                                      CommandParameter="left+increase" Content="+" Delay="500"/>
+                        </StackPanel>
+                        
                     </StackPanel>
 
                     
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="AliceBlue">
-                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
-                                      CommandParameter="right+increase" Content="+"/>
-                        <Label Style="{Binding StdLabel}" Width="350" ContentStringFormat="Right Hopper Refloat Level: {0}" 
+                    <StackPanel HorizontalAlignment="Center" Background="AliceBlue">
+                        <StackPanel Orientation="Horizontal">
+                            <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
+                                      CommandParameter="right+decrease" Content="-" Delay="500"/>
+                            <Label Style="{StaticResource StevesLabel}" Width="350" ContentStringFormat="Right Hopper Refloat Level: {0}" 
                                Content="{Binding RefloatRight}" VerticalContentAlignment="Center" Margin="10" />
-                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
-                                      CommandParameter="right+decrease" Content="-"/>
+                            <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
+                                      CommandParameter="right+increase" Content="+" Delay="500"/>
+                        </StackPanel>
+                      <!--   <Button Width="125" Height="35" Command="{Binding SaveRefloatLevels}" FontSize="18" Margin="10">Save Changes</Button> -->
                     </StackPanel>
                     <!-- end of refloat -->
+                    
+                                        
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20"/> <!-- bit o' spacing -->
                     <!-- divert values -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="AliceBlue">
-                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding DoChangeDivertLeft}" 
-                                      CommandParameter="increase" Content="+"/>
-                        <Label Style="{Binding StdLabel}" Width="350" ContentStringFormat="Left Hopper Divert Level: {0}" 
-                               Content="{Binding DivertLeftMessage}" VerticalContentAlignment="Center" Margin="10" />
-                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding DoChangeDivertLeft}" 
+                    
+                    
+                    <StackPanel HorizontalAlignment="Center" Background="AliceBlue">
+                        <Label Margin="10">Set Hopper to Cashbox Divert Level</Label>
+                        <StackPanel Orientation="Horizontal">
+                            <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ChangeLeftDivert}" 
                                       CommandParameter="decrease" Content="-"/>
+                            <Label Style="{StaticResource StevesLabel}" Width="350" ContentStringFormat="Left Hopper Divert Level: {0}" 
+                               Content="{Binding DivertLeftMessage}" VerticalContentAlignment="Center" Margin="10" />
+                            <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ChangeLeftDivert}" 
+                                      CommandParameter="increase" Content="+"/>
+                        </StackPanel>
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="AliceBlue">
-                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding DoChangeDivertRight}" 
-                                      CommandParameter="increase" Content="+"/>
-                        <Label Style="{Binding StdLabel}" Width="350" ContentStringFormat="Right Hopper Divert Level: {0}" 
-                               Content="{Binding DivertRightMessage}" VerticalContentAlignment="Center" Margin="10" />
-                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding DoChangeDivertRight}" 
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ChangeRightDivert}" 
                                       CommandParameter="decrease" Content="-"/>
+                        <Label Style="{StaticResource StevesLabel}" Width="350" ContentStringFormat="Right Hopper Divert Level: {0}" 
+                               Content="{Binding DivertRightMessage}" VerticalContentAlignment="Center" Margin="10" />
+                        <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ChangeRightDivert}" 
+                                      CommandParameter="increase" Content="+"/>
                     </StackPanel>
                     
                 </StackPanel>
@@ -97,10 +111,10 @@
                               IsSynchronizedWithCurrentItem="True">
                         </ComboBox>
 
-                        <Label Margin="10" MinHeight="35" Content="{Binding SelHopperValue}" Style="{StaticResource StdLabel}"
+                        <Label Margin="10" MinHeight="35" Content="{Binding SelHopperValue}" Style="{StaticResource StevesLabel}"
                                HorizontalContentAlignment="Center"/>
 
-                        <Label Margin="10" MinHeight="35" Content="{Binding DumpSwitchMessage}" Style="{StaticResource StdLabel}"
+                        <Label Margin="10" MinHeight="35" Content="{Binding DumpSwitchMessage}" Style="{StaticResource StevesLabel}"
                                HorizontalContentAlignment="Center"
                                />
                         <Button Width="250" Height="35" Margin="10" FontSize="20"

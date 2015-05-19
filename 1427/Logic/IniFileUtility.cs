@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using PDTUtils.Native;
+using System.Collections.Generic;
 
 namespace PDTUtils.Logic
 {
@@ -50,19 +51,18 @@ namespace PDTUtils.Logic
             try
             {
                 // delete garbage after [End] section.
-                var lines = File.ReadAllLines(filename);
+                var lines = new List<string>(File.ReadAllLines(filename));
                 var afterEnd = false;
-
-                for (var i = 0; i < lines.Length; i++)
+                
+                for (var i = 0; i < lines.Count; i++)
                 {
                     if (lines[i] == "[End]")
                         afterEnd = true;
                     if (lines[i] != "[End]" && afterEnd)
-                        lines[i] = "";
+                        lines.RemoveAt(i);
                 }
-
-                File.WriteAllLines(filename, lines);
-
+                
+                File.WriteAllLines(filename, lines.ToArray());
                 var retries = 10;
                 if (NativeMD5.CheckFileType(filename) && !NativeMD5.CheckHash(filename))
                 {

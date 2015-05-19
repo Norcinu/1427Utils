@@ -346,29 +346,97 @@ namespace PDTUtils.MVVM.ViewModels
             RefloatLeft = new string(refloatValue).Trim("\0".ToCharArray());
             NativeWinApi.GetPrivateProfileString("Config", "RefloatRH", "", refloatValue, 5, Resources.birth_cert);
             RefloatRight = new string(refloatValue).Trim("\0".ToCharArray());
+            CheckForSync(Convert.ToUInt32(new string(refloatValue)));
         }
 
-        void CheckRefloatDivert()
+        /*void CheckSyncIsNeeded()
         {
             if (Convert.ToUInt32(RefloatLeft) > BoLib.getHopperDivertLevel((byte)Hoppers.Left))
             {
-                _needToSync = true;
+                NeedToSync = true;
                 _syncLeft = true;
             }
 
             if (Convert.ToUInt32(RefloatRight) > BoLib.getHopperDivertLevel((byte)Hoppers.Right))
             {
-                _needToSync = true;
+                NeedToSync = true;
                 _syncRight = true;
             }
-        }
+        }*/
 
-        public ICommand PerformSort { get { return new DelegateCommand(o => DoPerformSort()); } }
-        void DoPerformSort()
+        public ICommand PerformSync { get { return new DelegateCommand(o => DoPerformSync()); } }
+        void DoPerformSync()
         {
+            if (!_syncLeft && !_syncRight)
+            {
+                NeedToSync = false;
+                return;
+            }
 
+            NSync(ref _syncLeft, ref _refloatLeft, 0);
+            NSync(ref _syncRight, ref _refloatRight, 2);
+
+            RaisePropertyChangedEvent("RefloatLeft");
+            RaisePropertyChangedEvent("RefloatRight");
+
+            /*if (_syncLeft)
+            {
+                var divertLH = BoLib.getHopperDivertLevel((byte)Hoppers.Left);
+                if (Convert.ToUInt32(RefloatLeft) > divertLH)
+                {
+                    RefloatLeft = divertLH.ToString();
+                    NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
+                }
+                _syncLeft = false;
+            }
+
+            if (_syncRight)
+            {
+                var divertRH = BoLib.getHopperDivertLevel((byte)Hoppers.Right);
+                if (Convert.ToUInt32(RefloatRight) > divertRH)
+                {
+                    RefloatRight = divertRH.ToString();
+                    NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
+                }
+                _syncRight = false;
+            }*/
         }
 
+        void NSync(ref bool shouldSync, ref string refloatValue, byte whichHopper)
+        {
+            if (shouldSync)
+            {
+                var divert = BoLib.getHopperDivertLevel(whichHopper);
+                refloatValue = divert.ToString();
+                shouldSync = false;
+                var key = (whichHopper == (byte)Hoppers.Left) ? "RefloatLH" : "RefloatRH";
+                NativeWinApi.WritePrivateProfileString("Config", key, refloatValue, Resources.birth_cert);
+                shouldSync = false;
+            }
+        }
+        
+        void CheckForSync(UInt32 newRefloatValue)
+        {
+            if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Left))
+            {
+                NeedToSync = true;
+                _syncLeft = true;
+            }
+            else
+                _syncLeft = false;
+            
+            if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Right))
+            {
+                NeedToSync = true;
+                _syncRight = true;
+            }
+            else
+                _syncRight = false;
+
+            if (!_syncLeft && !_syncRight)
+                NeedToSync = false;
+        }
+      
         public ICommand SetRefloatLevel { get { return new DelegateCommand(DoSetRefloatLevel); } }
         void DoSetRefloatLevel(object o)
         {
@@ -377,22 +445,31 @@ namespace PDTUtils.MVVM.ViewModels
             const int denom = 50;
             string key = (tokens[0] == "left") ? "RefloatLH" : "RefloatRH";
 
-            char[] refloatValue = new char[5];
-            NativeWinApi.GetPrivateProfileString("Config", key, "", refloatValue, 5, Resources.birth_cert);
-
+            char[] refloatValue = new char[10];
+            NativeWinApi.GetPrivateProfileString("Config", key, "", refloatValue, 10, Resources.birth_cert);
+            
             var newRefloatValue = Convert.ToUInt32(new string(refloatValue).Trim("\0".ToCharArray()));
             if (tokens[1] == "increase") newRefloatValue += denom;
             else if (tokens[1] == "decrease") newRefloatValue -= denom;
-
+                  
             if (tokens[0] == "left")
                 RefloatLeft = newRefloatValue.ToString();
             else
-                RefloatRight = refloatValue.ToString();
+                RefloatRight = newRefloatValue.ToString();
             
             NativeWinApi.WritePrivateProfileString("Config", key, newRefloatValue.ToString(), Resources.birth_cert);
+            
+            CheckForSync(newRefloatValue);
+            
             RaisePropertyChangedEvent(key);
         }
-
+        
+        /*public ICommand SaveRefloatLevels { get { return new DelegateCommand(o => DoSaveRefloatLevels()); } }
+        void DoSaveRefloatLevels()
+        {
+            NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
+        }*/
 
         public ICommand ChangeLeftDivert { get { return new DelegateCommand(DoChangeDivert); } }
         void DoChangeDivert(object o)
@@ -402,11 +479,11 @@ namespace PDTUtils.MVVM.ViewModels
             const uint changeAmount = 50;
             var newValue = currentThreshold;
 
-            if (actionType == "increment" && currentThreshold < 800)
+            if (actionType == "increment"/* && currentThreshold < 800*/)
             {
                 newValue += changeAmount;
-                if (newValue > 800)
-                    newValue = 800;
+               // if (newValue > 800)
+               //     newValue = 800;
             }
             else if (actionType == "decrement" && currentThreshold > 200)
             {
@@ -414,15 +491,15 @@ namespace PDTUtils.MVVM.ViewModels
                 if (newValue < 200)
                     newValue = 0;
             }
-
+            
             BoLib.setHopperDivertLevel(BoLib.getLeftHopper(), newValue);
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
-
+            
             DivertLeftMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertLeftMessage");
         }
-
+        
         public ICommand ChangeRightDivert { get { return new DelegateCommand(DoChangeDivertRight); } }
         void DoChangeDivertRight(object o)
         {
@@ -430,12 +507,12 @@ namespace PDTUtils.MVVM.ViewModels
             var currentThreshold = BoLib.getHopperDivertLevel((byte)Hoppers.Right);
             const uint changeAmount = 50;
             var newValue = currentThreshold;
-
-            if (actionType == "increment" && currentThreshold < 600)
+            
+            if (actionType == "increment"/* && currentThreshold < 600*/)
             {
                 newValue += changeAmount;
-                if (newValue > 600)
-                    newValue = 600;
+                //if (newValue > 600)
+                //    newValue = 600;
             }
             else if (actionType == "decrement" && currentThreshold > 50)
             {
@@ -443,11 +520,11 @@ namespace PDTUtils.MVVM.ViewModels
                 if (newValue < 50)
                     newValue = 50;
             }
-
+            
             BoLib.setHopperDivertLevel(BoLib.getRightHopper(), newValue);
             NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
-
+            
             DivertRightMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertRightMessage");
         }

@@ -14,12 +14,12 @@
         <Style x:Key="StdLabel" TargetType="Label">
             <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
             <Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Control.Margin" Value="3"/>
+            <!-- <Setter Property="Control.Margin" Value="3"/> -->
             <Setter Property="Control.Foreground" Value="Yellow"/>
             <Setter Property="Control.Background" Value="Black"/>
         </Style>
     </Window.Resources>
-
+    
     <Grid HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="67*"/>
