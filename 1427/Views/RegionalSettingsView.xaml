@@ -33,7 +33,7 @@
 
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
     </UserControl.Resources>
-    
+        
     <Grid>
         <TabControl>
             <TabItem Header="Community Type">
@@ -45,8 +45,7 @@
                             <Label Style="{StaticResource StdHeaderLabel}" Content=" - Reboot Required" FontSize="28" Margin="-20,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding SelectionChanged}"
                            Visibility="{Binding SelectionChanged, Converter={StaticResource BoolToVisConverter}}"/>
                         </StackPanel>
-
-
+                        
                         <StackPanel HorizontalAlignment="Center">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -66,7 +65,7 @@
                                         </GridView>
                                     </ListView.View>
                                 </ListView>
-
+                                
                                 <ListView x:Name="LvArcades" ItemsSource="{Binding Arcades}" Margin="25" Grid.Column="1" Grid.Row="0" 
                                       Tag="2" SelectedIndex="{Binding ArcadeSelectedIndex}">
                                     <ListView.View>
@@ -156,7 +155,6 @@
                     <TabItem Header="Edit" Width="150">
                         <StackPanel HorizontalAlignment="Center" Background="LightGray" >
 
-                            
                             <Border BorderBrush="Black" BorderThickness="2" Background="LightBlue">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25" Background="LightBlue">
                                     <Label Style="{StaticResource StdHeaderLabel}">Edit Region:</Label>

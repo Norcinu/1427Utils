@@ -130,7 +130,6 @@ namespace PDTUtils
             }
             _stake = andTing[5];
             _winAmount = andTing[6];
-            var mySombrero = 0;
 
             OnPropertyChanged("WinningGames");
         }

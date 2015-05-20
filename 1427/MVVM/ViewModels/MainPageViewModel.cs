@@ -432,8 +432,6 @@ namespace PDTUtils.MVVM.ViewModels
             get { return new DelegateCommand(o => IsEnabled = !IsEnabled); }
         }
         
-        //Should pass in a value here?
-        //are the hoppers broken? coins not adding to the level.
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
@@ -444,9 +442,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _refillTimer.Elapsed += (sender, e) =>
                 {
                     RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
-                    Debug.WriteLine("Left Hopper Level", RefillCoinsAddedLeft.ToString());
                     RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
-                    Debug.WriteLine("Right Hopper Level", RefillCoinsAddedRight.ToString());
                 };
             }
             else

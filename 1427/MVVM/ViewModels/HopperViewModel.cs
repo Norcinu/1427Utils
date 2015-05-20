@@ -8,8 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
-using Timer = System.Timers.Timer;
 using PDTUtils.Properties;
+using Timer = System.Timers.Timer;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -156,7 +156,7 @@ namespace PDTUtils.MVVM.ViewModels
                 : new CultureInfo("en-GB");
 
             Nfi = CurrentCulture.NumberFormat;
-
+            
             RefloatLeft = "";
             RefloatRight = "";
             _enabled = false;
@@ -266,7 +266,7 @@ namespace PDTUtils.MVVM.ViewModels
                         
                         if (BoLib.getRequestEmptyLeftHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Left) > 0)
                         {
-                            Thread.Sleep(500); //2000
+                            Thread.Sleep(2000);
                             System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
                             SelHopperValue = "Hopper Level: " + BoLib.getHopperFloatLevel((byte)Hoppers.Left);
                             RaisePropertyChangedEvent("SelHopperValue");
@@ -287,12 +287,12 @@ namespace PDTUtils.MVVM.ViewModels
                     break;
                 case 1:
                     if (BoLib.getHopperFloatLevel((byte)Hoppers.Right) == 0) return;
-
+                    
                     if (EmptyRightTimer == null)
                     {
                         Debug.WriteLine("SELECTED RIGHT HOPPER");
                         Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel((byte)Hoppers.Right)));
-
+                        
                         EmptyRightTimer = new Timer(100.0);
                         EmptyRightTimer.Elapsed += (sender, e) =>
                         {
@@ -312,13 +312,13 @@ namespace PDTUtils.MVVM.ViewModels
                                     Thread.Sleep(2);
                                 }
                             }
-
+                            
                             if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 || !dumpSwitchPressed) return;
                             BoLib.setRequestEmptyRightHopper();
 
                             if (BoLib.getRequestEmptyRightHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Right) > 0)
                             {
-                                Thread.Sleep(500);//2000
+                                Thread.Sleep(2000);
                                 System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(2));
                                 SelHopperValue = "Hopper Level: " + BoLib.getHopperFloatLevel((byte)Hoppers.Right);
                                 RaisePropertyChangedEvent("SelHopperValue");
@@ -341,29 +341,15 @@ namespace PDTUtils.MVVM.ViewModels
 
         void InitRefloatLevels()
         {
-            char[] refloatValue = new char[5];
-            NativeWinApi.GetPrivateProfileString("Config", "RefloatLH", "", refloatValue, 5, Resources.birth_cert);
+            char[] refloatValue = new char[10];
+            NativeWinApi.GetPrivateProfileString("Config", "RefloatLH", "", refloatValue, 10, Resources.birth_cert);
             RefloatLeft = new string(refloatValue).Trim("\0".ToCharArray());
-            NativeWinApi.GetPrivateProfileString("Config", "RefloatRH", "", refloatValue, 5, Resources.birth_cert);
+            CheckForSync(Convert.ToUInt32(RefloatLeft), "left");
+            NativeWinApi.GetPrivateProfileString("Config", "RefloatRH", "", refloatValue, 10, Resources.birth_cert);
             RefloatRight = new string(refloatValue).Trim("\0".ToCharArray());
-            CheckForSync(Convert.ToUInt32(new string(refloatValue)));
+            CheckForSync(Convert.ToUInt32(RefloatRight), "right");
         }
-
-        /*void CheckSyncIsNeeded()
-        {
-            if (Convert.ToUInt32(RefloatLeft) > BoLib.getHopperDivertLevel((byte)Hoppers.Left))
-            {
-                NeedToSync = true;
-                _syncLeft = true;
-            }
-
-            if (Convert.ToUInt32(RefloatRight) > BoLib.getHopperDivertLevel((byte)Hoppers.Right))
-            {
-                NeedToSync = true;
-                _syncRight = true;
-            }
-        }*/
-
+        
         public ICommand PerformSync { get { return new DelegateCommand(o => DoPerformSync()); } }
         void DoPerformSync()
         {
@@ -372,7 +358,7 @@ namespace PDTUtils.MVVM.ViewModels
                 NeedToSync = false;
                 return;
             }
-
+            
             NSync(ref _syncLeft, ref _refloatLeft, 0);
             NSync(ref _syncRight, ref _refloatRight, 2);
 
@@ -414,29 +400,34 @@ namespace PDTUtils.MVVM.ViewModels
                 shouldSync = false;
             }
         }
-        
-        void CheckForSync(UInt32 newRefloatValue)
+
+        void CheckForSync(UInt32 newRefloatValue, string hopper)
         {
-            if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Left))
+            if (hopper == "left")
             {
-                NeedToSync = true;
-                _syncLeft = true;
+                if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Left))
+                {
+                    NeedToSync = true;
+                    _syncLeft = true;
+                }
+                else
+                    _syncLeft = false;
             }
             else
-                _syncLeft = false;
-            
-            if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Right))
             {
-                NeedToSync = true;
-                _syncRight = true;
+                if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Right))
+                {
+                    NeedToSync = true;
+                    _syncRight = true;
+                }
+                else
+                    _syncRight = false;
             }
-            else
-                _syncRight = false;
 
             if (!_syncLeft && !_syncRight)
                 NeedToSync = false;
         }
-      
+        
         public ICommand SetRefloatLevel { get { return new DelegateCommand(DoSetRefloatLevel); } }
         void DoSetRefloatLevel(object o)
         {
@@ -444,14 +435,14 @@ namespace PDTUtils.MVVM.ViewModels
             var tokens = format.Split("+".ToCharArray());
             const int denom = 50;
             string key = (tokens[0] == "left") ? "RefloatLH" : "RefloatRH";
-
+            
             char[] refloatValue = new char[10];
             NativeWinApi.GetPrivateProfileString("Config", key, "", refloatValue, 10, Resources.birth_cert);
             
             var newRefloatValue = Convert.ToUInt32(new string(refloatValue).Trim("\0".ToCharArray()));
             if (tokens[1] == "increase") newRefloatValue += denom;
-            else if (tokens[1] == "decrease") newRefloatValue -= denom;
-                  
+            else if (tokens[1] == "decrease" && newRefloatValue > denom) newRefloatValue -= denom;
+            
             if (tokens[0] == "left")
                 RefloatLeft = newRefloatValue.ToString();
             else
@@ -459,7 +450,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             NativeWinApi.WritePrivateProfileString("Config", key, newRefloatValue.ToString(), Resources.birth_cert);
             
-            CheckForSync(newRefloatValue);
+            CheckForSync(newRefloatValue, tokens[0]);
             
             RaisePropertyChangedEvent(key);
         }
@@ -527,6 +518,34 @@ namespace PDTUtils.MVVM.ViewModels
             
             DivertRightMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertRightMessage");
+        }
+        
+        public ICommand LoadDefaults { get { return new DelegateCommand(o => DoLoadDefaults()); } }
+        void DoLoadDefaults()
+        {
+            uint[] refloatDefaults = new uint[2] { 600, 50 };
+            uint[] divertDefaults = new uint[2] { 800, 250 };
+
+            BoLib.setHopperFloatLevel((byte)Hoppers.Left, refloatDefaults[0]);
+            BoLib.setHopperFloatLevel((byte)Hoppers.Right, refloatDefaults[1]);
+
+            RefloatLeft = refloatDefaults[0].ToString();
+            RefloatRight = refloatDefaults[1].ToString();
+
+            BoLib.setHopperDivertLevel((byte)Hoppers.Left, divertDefaults[0]);
+            BoLib.setHopperDivertLevel((byte)Hoppers.Right, divertDefaults[1]);
+            
+            DivertLeftMessage = divertDefaults[0].ToString();
+            DivertRightMessage = divertDefaults[1].ToString();
+
+            NeedToSync = false;
+            _syncLeft = false;
+            _syncRight = false;
+
+            NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", DivertLeftMessage, Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", DivertRightMessage, Resources.birth_cert);
         }
     }
 }
