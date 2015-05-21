@@ -16,14 +16,13 @@ namespace PDTUtils
 	/// <summary>
 	/// Interaction logic for TestSuiteWindow.xaml
 	/// </summary>
-	public partial class TestSuiteWindow : Window
+	partial class TestSuiteWindow : Window
 	{
-	    
 		const int VisualButtonCount = 6;
 		int _buttonEnabledCount = 6;
 		int _counter = 0;
 		int _currentButton = 0;
-        List<Button> _buttons = new List<Button>();
+        List<Button> _buttons = new List<Button>();//
         Thread _testPrintThread;
 
         readonly ButtonTestImpl _btnImpl = new ButtonTestImpl();
@@ -59,7 +58,7 @@ namespace PDTUtils
             BtnEndTest.Click += btnEndTest_Click;
         }
         
-		private void Window_Loaded(object sender, RoutedEventArgs e)
+		void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			for (var i = 0; i < 6; i++)
 			{
@@ -77,7 +76,7 @@ namespace PDTUtils
 			}
 		}
         
-		private void button_Click(object sender, EventArgs e)
+		void button_Click(object sender, EventArgs e)
 		{
 			var button = sender as Button;
 			if (_buttonEnabledCount == 6)
@@ -126,7 +125,7 @@ namespace PDTUtils
 			}
 		}
         
-		private void DoLampTest()
+		void DoLampTest()
 		{
             BtnEndTest.IsEnabled = true;
             Label1.Dispatcher.Invoke((DelegateDil)label_updateMessage, new object[] { Label1, "Testing Button Lamps" });
@@ -153,18 +152,18 @@ namespace PDTUtils
             for (var i = 0; i < VisualButtonCount; i++)
                 StpButtons.Children[i].Dispatcher.Invoke((DelegateEnableBtn)timer_buttonEnable, new object[] { StpButtons.Children[i] });
             _buttonEnabledCount = 6;
-
+            
             Label4.Dispatcher.Invoke((DelegateDil)label_updateMessage, new object[] { Label4, "Testing Button Lamps Finished" });
 		}
         
-		private void DoPrinterTest()
+		void DoPrinterTest()
 		{
 			BtnEndTest.IsEnabled = true;
 			_testPrintThread = new Thread(new ThreadStart(BoLib.printTestTicket));
 			_testPrintThread.Start();
 		}
         
-        private void DoDilSwitchTest()
+        void DoDilSwitchTest()
         {
             BtnEndTest.IsEnabled = true;
 
@@ -188,41 +187,41 @@ namespace PDTUtils
             }
         }
         
-		private void DoCoinTest()
-		{
-			_noteImpl.IsCoinTest = true;
-			_noteImpl.IsRunning = true;
-			BoLib.clearBankAndCredit();
-			BoLib.enableNoteValidator();
-			Label1.Background = Brushes.Black;
-			Label1.Foreground = Brushes.Aqua;
-			Label1.Content = "Please deposit coin into the machine.";
-			_startTimer.Enabled = true;
-			BtnEndTest.IsEnabled = true;
-		}
-        
-		private void DoNoteTest()
-		{
-			_noteImpl.IsRunning = true;
-			BoLib.clearBankAndCredit();
-			BoLib.enableNoteValidator();
-			Label1.Background = Brushes.Black;
-			Label1.Foreground = Brushes.Aqua;
-			Label1.Content = "Please insert note into Note Validator.";
-			_startTimer.Enabled = true;
-			BtnEndTest.IsEnabled = true;
-		}
-        
-		private void DoButtonTest()
-		{
-		    for (var i = 0; i < 8; i++)
-			    _buttonsPressed[i] = 0;
-			
-			_currentButton = 0;
-			Label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, Label1);
+        void DoCoinTest()
+        {
+            _noteImpl.IsCoinTest = true;
+            _noteImpl.IsRunning = true;
+            BoLib.clearBankAndCredit();
+            BoLib.enableNoteValidator();
+            Label1.Background = Brushes.Black;
+            Label1.Foreground = Brushes.Aqua;
+            Label1.Content = "Please deposit coin into the machine.";
+            _startTimer.Enabled = true;
+            BtnEndTest.IsEnabled = true;
+        }
+
+        void DoNoteTest()
+        {
+            _noteImpl.IsRunning = true;
+            BoLib.clearBankAndCredit();
+            BoLib.enableNoteValidator();
+            Label1.Background = Brushes.Black;
+            Label1.Foreground = Brushes.Aqua;
+            Label1.Content = "Please insert note into Note Validator.";
+            _startTimer.Enabled = true;
+            BtnEndTest.IsEnabled = true;
+        }
+
+        void DoButtonTest()
+        {
+            for (var i = 0; i < 8; i++)
+                _buttonsPressed[i] = 0;
+
+            _currentButton = 0;
+            Label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, Label1);
             _btnImpl.IsRunning = true;
             _startTimer.Enabled = true;
-		}
+        }
         
 		#region DELEGATES AND EVENTS
 		private void label_updateMessage(Label l, string message)
@@ -232,14 +231,14 @@ namespace PDTUtils
         
 		private void timer_UpdateLabel(Label l)
 		{
-            l.Background = Brushes.Green;
-            l.Foreground = Brushes.White;
-            l.BorderBrush = Brushes.Black;
-            l.BorderThickness = new Thickness(2);
+            l.Background        = Brushes.Green;
+            l.Foreground        = Brushes.White;
+            l.BorderBrush       = Brushes.Black;
+            l.BorderThickness   = new Thickness(2);
 			l.Content = "SUCCESS " + _termButtonList[_currentButton] + " OK";
 		}
         
-		private void timer_UpdateSpecials(Label l)
+        private void timer_UpdateSpecials(Label l)
 		{
             if (l == Label1)
             {
@@ -276,7 +275,16 @@ namespace PDTUtils
             l.BorderThickness = new Thickness(2);
 			l.Content = "**WARNING** " + _termButtonList[_currentButton] + " NOT FITTED/ERROR";
 		}
-        
+
+        void timer_ButtonShowTestMsg(Label l)
+        {
+            l.Background = Brushes.SlateGray;
+            l.Foreground = Brushes.Yellow;
+            l.BorderBrush = Brushes.Black;
+            l.BorderThickness = new Thickness(2);
+            l.Content = "Press And Hold the button" + _termButtonList[_currentButton];
+        }
+
 		private void timer_updateNoteVal(Label l, int v)
 		{
 			if (v >= 500)
@@ -391,6 +399,7 @@ namespace PDTUtils
                         {
                             _buttonsPressed[_currentButton] = 1;
                             _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_UpdateLabel, _labels[_currentButton]);
+
                         }
                     }
                     else
@@ -402,6 +411,10 @@ namespace PDTUtils
                                 _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_buttonError, _labels[_currentButton]);
                             }
                             _currentButton++;
+
+                            if (_currentButton < 8)
+                                _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_ButtonShowTestMsg, 
+                                    _labels[_currentButton]);
                         }
                         else
                         {
@@ -470,7 +483,7 @@ namespace PDTUtils
 		}
 		#endregion
         
-		private void Window_Closed(object sender, EventArgs e)
+		void Window_Closed(object sender, EventArgs e)
 		{
             if (_startTimer.Enabled)
                 _startTimer.Enabled = false;

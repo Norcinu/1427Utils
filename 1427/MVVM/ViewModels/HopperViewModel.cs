@@ -74,7 +74,8 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
         public string DumpSwitchMessage { get; set; }
-        public List<string> HopperList { get; set; }
+        //public List<string> HopperList { get; set; }
+        public ObservableCollection<string> HopperList { get; set; }
 
         public ObservableCollection<HopperModel> _hopperModels = new ObservableCollection<HopperModel>();
         public ObservableCollection<HopperModel> HopperModels
@@ -147,6 +148,23 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
 
+        string _currentSelHopper = "";
+        public string CurrentSelHopper
+        {
+            get { return _currentSelHopper; }
+            set
+            {
+                _currentSelHopper = value;
+                if (_currentSelHopper == "LEFT HOPPER")
+                    SelHopperValue = BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString();
+                else
+                    SelHopperValue = BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
+                
+                RaisePropertyChangedEvent("SelHopperValue");
+                RaisePropertyChangedEvent("CurrentSelHopper");
+            }
+        }
+
         #endregion
 
         public HopperViewModel()
@@ -165,7 +183,7 @@ namespace PDTUtils.MVVM.ViewModels
             NotRefilling = true;
             LeftHopper = new HopperModel();
             RightHopper = new HopperModel();
-            DumpSwitchMessage = "Empty Hopper";
+            DumpSwitchMessage = "";
             AreWeRefilling = false;
             SelectedTabIndex = 0;
             DivertLeftMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Left).ToString();
@@ -174,20 +192,20 @@ namespace PDTUtils.MVVM.ViewModels
             NeedToSync = false;
             _syncLeft = false;
             _syncRight = false;
-
-            SelHopperValue = "Hopper Level: " + Convert.ToDecimal(BoLib.getHopperFloatLevel(0)).ToString();
-
+            
+            SelHopperValue = BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString();
+            
             InitRefloatLevels();
-
+            
             RaisePropertyChangedEvent("DumpSwitchMessage");
             RaisePropertyChangedEvent("DivertLeftMessage");
             RaisePropertyChangedEvent("DivertRightMessage");
             RaisePropertyChangedEvent("NotRefilling");
             RaisePropertyChangedEvent("AreWeReflling");
             RaisePropertyChangedEvent("SelHopperValue");
-
-            HopperList = new List<string>();
-
+            
+            HopperList = new ObservableCollection<string>();
+            
             var leftHopperText = "LEFT HOPPER";
             var rightHopperText = "RIGHT HOPPER";
             HopperList.Add(leftHopperText);
@@ -238,9 +256,9 @@ namespace PDTUtils.MVVM.ViewModels
                 case 0:
                     if (BoLib.getHopperFloatLevel((byte)Hoppers.Left) == 0)
                         return;
-
-                    Debug.WriteLine("SELECTED LEFT HOPPER");
-                    Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel((byte)Hoppers.Left)));
+                    
+                    /*Debug.WriteLine("SELECTED LEFT HOPPER");
+                    Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel((byte)Hoppers.Left)));*/
 
                     EmptyLeftTimer.Elapsed += (sender, e) =>
                     {
@@ -267,8 +285,8 @@ namespace PDTUtils.MVVM.ViewModels
                         if (BoLib.getRequestEmptyLeftHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Left) > 0)
                         {
                             Thread.Sleep(2000);
-                            System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(0));
-                            SelHopperValue = "Hopper Level: " + BoLib.getHopperFloatLevel((byte)Hoppers.Left);
+                            //Debug.WriteLine(BoLib.getHopperFloatLevel(0));
+                            SelHopperValue = BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString();
                             RaisePropertyChangedEvent("SelHopperValue");
                         }
                         else if (BoLib.getHopperFloatLevel(0) == 0)
@@ -290,8 +308,8 @@ namespace PDTUtils.MVVM.ViewModels
                     
                     if (EmptyRightTimer == null)
                     {
-                        Debug.WriteLine("SELECTED RIGHT HOPPER");
-                        Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel((byte)Hoppers.Right)));
+                        /*Debug.WriteLine("SELECTED RIGHT HOPPER");
+                        Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel((byte)Hoppers.Right)));*/
                         
                         EmptyRightTimer = new Timer(100.0);
                         EmptyRightTimer.Elapsed += (sender, e) =>
@@ -315,11 +333,11 @@ namespace PDTUtils.MVVM.ViewModels
                             
                             if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 || !dumpSwitchPressed) return;
                             BoLib.setRequestEmptyRightHopper();
-
+                                
                             if (BoLib.getRequestEmptyRightHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Right) > 0)
                             {
                                 Thread.Sleep(2000);
-                                System.Diagnostics.Debug.WriteLine(BoLib.getHopperFloatLevel(2));
+                                //Debug.WriteLine(BoLib.getHopperFloatLevel(2));
                                 SelHopperValue = "Hopper Level: " + BoLib.getHopperFloatLevel((byte)Hoppers.Right);
                                 RaisePropertyChangedEvent("SelHopperValue");
                             }
@@ -333,7 +351,7 @@ namespace PDTUtils.MVVM.ViewModels
                             }
                         };
                     }
-                    Debug.WriteLine("SELECTED RIGHT HOPPER");
+                    //Debug.WriteLine("SELECTED RIGHT HOPPER");
                     EmptyRightTimer.Enabled = true;
                     break;
             }
@@ -364,28 +382,6 @@ namespace PDTUtils.MVVM.ViewModels
 
             RaisePropertyChangedEvent("RefloatLeft");
             RaisePropertyChangedEvent("RefloatRight");
-
-            /*if (_syncLeft)
-            {
-                var divertLH = BoLib.getHopperDivertLevel((byte)Hoppers.Left);
-                if (Convert.ToUInt32(RefloatLeft) > divertLH)
-                {
-                    RefloatLeft = divertLH.ToString();
-                    NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
-                }
-                _syncLeft = false;
-            }
-
-            if (_syncRight)
-            {
-                var divertRH = BoLib.getHopperDivertLevel((byte)Hoppers.Right);
-                if (Convert.ToUInt32(RefloatRight) > divertRH)
-                {
-                    RefloatRight = divertRH.ToString();
-                    NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
-                }
-                _syncRight = false;
-            }*/
         }
 
         void NSync(ref bool shouldSync, ref string refloatValue, byte whichHopper)
@@ -423,7 +419,7 @@ namespace PDTUtils.MVVM.ViewModels
                 else
                     _syncRight = false;
             }
-
+            
             if (!_syncLeft && !_syncRight)
                 NeedToSync = false;
         }
@@ -435,46 +431,39 @@ namespace PDTUtils.MVVM.ViewModels
             var tokens = format.Split("+".ToCharArray());
             const int denom = 50;
             string key = (tokens[0] == "left") ? "RefloatLH" : "RefloatRH";
-            
+
             char[] refloatValue = new char[10];
             NativeWinApi.GetPrivateProfileString("Config", key, "", refloatValue, 10, Resources.birth_cert);
-            
+
             var newRefloatValue = Convert.ToUInt32(new string(refloatValue).Trim("\0".ToCharArray()));
             if (tokens[1] == "increase") newRefloatValue += denom;
             else if (tokens[1] == "decrease" && newRefloatValue > denom) newRefloatValue -= denom;
-            
+
             if (tokens[0] == "left")
                 RefloatLeft = newRefloatValue.ToString();
             else
                 RefloatRight = newRefloatValue.ToString();
-            
+
             NativeWinApi.WritePrivateProfileString("Config", key, newRefloatValue.ToString(), Resources.birth_cert);
-            
+
             CheckForSync(newRefloatValue, tokens[0]);
-            
+
             RaisePropertyChangedEvent(key);
         }
-        
-        /*public ICommand SaveRefloatLevels { get { return new DelegateCommand(o => DoSaveRefloatLevels()); } }
-        void DoSaveRefloatLevels()
-        {
-            NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
-            NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
-        }*/
-
+              
         public ICommand ChangeLeftDivert { get { return new DelegateCommand(DoChangeDivert); } }
         void DoChangeDivert(object o)
         {
+            const uint changeAmount = 50;
             var actionType = o as string;
             var currentThreshold = BoLib.getHopperDivertLevel(0);
-            const uint changeAmount = 50;
             var newValue = currentThreshold;
-
+            
             if (actionType == "increment"/* && currentThreshold < 800*/)
             {
                 newValue += changeAmount;
-               // if (newValue > 800)
-               //     newValue = 800;
+                // if (newValue > 800)
+                //     newValue = 800;
             }
             else if (actionType == "decrement" && currentThreshold > 200)
             {
@@ -515,7 +504,7 @@ namespace PDTUtils.MVVM.ViewModels
             BoLib.setHopperDivertLevel(BoLib.getRightHopper(), newValue);
             NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
-            
+
             DivertRightMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertRightMessage");
         }
