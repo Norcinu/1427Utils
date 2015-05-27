@@ -364,7 +364,7 @@ namespace PDTUtils
             //set _btnImpl.isrunning to true then at the end set it to false.
             if (_btnImpl.IsRunning)
             {
-                // test refill key and door switch.
+			    // test refill key and door switch.
                 if (_btnImpl._doSpecials)
                 {
                     if (_counter >= 0 && _counter < 60)
@@ -400,10 +400,10 @@ namespace PDTUtils
 
                             if (string.IsNullOrEmpty(comp))
                                 Label2.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, Label2);
-
+                            
                             if (_btnImpl._toggled[1] == false)
                                 _counter++;
-
+                            
                             var mask = _specialMasks[1];
                             var status = BoLib.getSwitchStatus(2, mask);
                             if (status == 0)
@@ -453,12 +453,13 @@ namespace PDTUtils
 
                         status = BoLib.getSwitchStatus(1, _buttonMasks[_currentButton]);
                         if (_currentButton == 0 && status == 0)
-                            _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_ButtonShowTestMsg, _labels[_currentButton]);
+                            _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_ButtonShowTestMsg, _labels[_currentButton]);                        }
                         
                         if (status > 0)
                         {
                             _buttonsPressed[_currentButton] = 1;
                             _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_UpdateLabel, _labels[_currentButton]);
+
                         }
                     }
                     else
@@ -472,7 +473,7 @@ namespace PDTUtils
                             _currentButton++;
 
                             if (_currentButton < 8)
-                                _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_ButtonShowTestMsg,
+                                _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_ButtonShowTestMsg, 
                                     _labels[_currentButton]);
                         }
                         else
@@ -484,7 +485,6 @@ namespace PDTUtils
                         _counter = 0;
                     }
                 }
-            }
         }
     
         
