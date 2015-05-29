@@ -81,7 +81,7 @@ namespace PDTUtils
     
     public class WinningGame : BaseGameLog
     {
-        private Decimal _winAmount;
+        Decimal _winAmount;
 
         public WinningGame(int gameNo)
         {
@@ -95,22 +95,9 @@ namespace PDTUtils
         
         protected override void ParseGame(int gameNo)
         {
-            /*var ci = new CultureInfo("en-GB"); // en-GB
-            var date = DateTime.Now.ToString();
-            DateTime.TryParse(date, ci, DateTimeStyles.None, out _logDate);
-            
-            GameModel = (uint) BoLib.getLastGameModel(gameNo);
-            _stake = BoLib.getGameWager(gameNo);
-            var tempGameDate = BoLib.getGameDate(gameNo);
-            var today = (int) tempGameDate >> 16;
-            var month = (int) tempGameDate & 0x0000FFFF;
-            _logDate = new DateTime(2014, month, today);
-            _winAmount = BoLib.getWinningGame(gameNo);
-            _credit = BoLib.getGameCreditLevel(gameNo);*/
-
             if (gameNo == 0) return;
             if (BoLib.getWinningGameMeter(gameNo, 0) == 0) return;
-
+            
             uint[] andTing = new uint[8];
             for (int j = 0; j < 8; j++)
             {
@@ -120,7 +107,7 @@ namespace PDTUtils
             GameModel = andTing[0];
             try
             {
-                DateTime d = new DateTime(DateTime.Now.Year, (int)andTing[4], (int)andTing[3], (int)andTing[1], 
+                DateTime d = new DateTime(DateTime.Now.Year, (int)andTing[4], (int)andTing[3], (int)andTing[1],
                     (int)andTing[2], 0);
                 _logDate = d;
             }
@@ -130,7 +117,7 @@ namespace PDTUtils
             }
             _stake = andTing[5];
             _winAmount = andTing[6];
-
+            
             OnPropertyChanged("WinningGames");
         }
     }
@@ -143,7 +130,7 @@ namespace PDTUtils
         {
             _winAmount = 0;
         }
-
+        
         public PlayedGame(int gameNo)
         {
             ParseGame(gameNo);
@@ -151,14 +138,13 @@ namespace PDTUtils
 
         public string WinAmount
         {
-            get { return (_winAmount/100).ToString("c2"); }
+            get { return (_winAmount / 100).ToString("c2"); }
         }
-
+        
         protected override void ParseGame(int gameNo)
         {
-           // CultureInfo ci = new CultureInfo("en-GB");
             if (gameNo == 0) return;
-
+            
             var ci = Thread.CurrentThread.CurrentCulture;
             
             var gameDate = BoLib.getGameDate(gameNo);
@@ -290,17 +276,15 @@ namespace PDTUtils
             throw new NotImplementedException();
         }
     }
-
+    
     public class MachineLogsController
     {
         readonly ObservableCollection<CashlessLibLog> _cashLess = new ObservableCollection<CashlessLibLog>();
         readonly ObservableCollection<MachineErrorLog> _errorLog = new ObservableCollection<MachineErrorLog>();
         readonly ObservableCollection<HandPayLog> _handPayLog = new ObservableCollection<HandPayLog>();
-        // readonly ObservableCollection<PlayedGame> _playedGames = new ObservableCollection<PlayedGame>();
         readonly List<PlayedGame> _playedGames = new List<PlayedGame>();
         readonly ObservableCollection<VizTechLog> _vizTechLog = new ObservableCollection<VizTechLog>();
         readonly ObservableCollection<MachineErrorLog> _warningLog = new ObservableCollection<MachineErrorLog>();
-        // readonly ObservableCollection<WinningGame> _winningGames = new ObservableCollection<WinningGame>();
         readonly List<WinningGame> _winningGames = new List<WinningGame>();
 
         public MachineLogsController()
@@ -411,7 +395,7 @@ namespace PDTUtils
                  (typeof(right) == PlayedGame || typeof(right) == WinningGame)))
                 return 1;*/
 
-            return right.GameDate.CompareTo(left.GameDate);//refloatValue.GameDate.CompareTo(right.GameDate);
+            return right.GameDate.CompareTo(left.GameDate);
         }
 
         static int DateCompare(BaseGameLog left, BaseGameLog right)
@@ -531,13 +515,11 @@ namespace PDTUtils
             get { return _errorLog; }
         }
 
-        //public ObservableCollection<WinningGame> WinningGames
         public List<WinningGame> WinningGames
         {
             get { return _winningGames; }
         }
 
-        //public ObservableCollection<PlayedGame> PlayedGames
         public List<PlayedGame> PlayedGames
         {
             get { return _playedGames; }

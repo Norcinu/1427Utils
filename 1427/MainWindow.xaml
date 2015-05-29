@@ -67,7 +67,7 @@
                            SharedSizeGroup="theRow"/>
             <RowDefinition Name="RowThree" Height="52*" />
         </Grid.RowDefinitions>
-
+        
         <!-- 2nd screenshot uses ColumnSpan and RowSpan -->
         <Label Name="LblTop"
                Background="#336699"  
@@ -124,17 +124,17 @@
                     VerticalAlignment="Top" 
                     Orientation="Horizontal" 
                     ScrollViewer.HorizontalScrollBarVisibility="Visible" />
-
+        
         <Border BorderBrush="Azure" BorderThickness="3" Grid.Row="1" Grid.Column="1">
             <Label Style="{StaticResource StdLabel}" Name="LblUptime" Grid.Row="1" Grid.Column="1" />
         </Border>
-
+        
         <!-- Logfiles -->
         <TabControl Name="MyLogfiles" Panel.ZIndex="5" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" IsEnabled="{Binding Path=Enabler.Logfile}" Visibility="{Binding Path=Enabler.Logfile, Converter={StaticResource BoolToVisConverter}}" MinHeight="1000">
             <TabItem Header="Errors" MinWidth="150" HorizontalContentAlignment="Center">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
-                        <ListView ItemsSource="{Binding LogController.ErrorLog}" MinHeight="600" FontSize="20"> 
+                        <ListView ItemsSource="{Binding LogController.ErrorLog}" MinHeight="600" FontSize="20">
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
                                     <GridViewColumn Header="Date" Width="300">
@@ -297,7 +297,7 @@
                                                 <Border BorderBrush="Black" BorderThickness="2">
                                                     <TextBlock Text="{Binding WinAmount}" TextAlignment="Center" Background="LightGray" 
                                                                Foreground="Navy"/>
-                                                    
+
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -308,7 +308,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            
+
             <TabItem Header="Wins" MinWidth="150" HorizontalContentAlignment="Center">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
@@ -346,15 +346,6 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <!--<GridViewColumn Header="Credits" Width="225">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Credit}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>-->
                                     <GridViewColumn Header="Win Amount" Width="225">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -371,73 +362,6 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            
-            <!--<TabItem Header="TiTo" MinWidth="150">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
-                    <StackPanel Margin="25">
-                        <ListView ItemsSource="{Binding Path=LogController.CashLess}" MinHeight="600" Width="710" FontSize="20">
-                            <ListView.View>
-                                <GridView AllowsColumnReorder="False">
-                                    <GridViewColumn Header="Timestamp" Width="700">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Date}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Message" Width="200">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Message}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem>
-
-            <TabItem Header="VizTech" MinWidth="150">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
-                    <StackPanel Margin="25">
-                        <ListView ItemsSource="{Binding Path=LogController.VizTechLogs}" MinHeight="600" Width="1110" FontSize="20">
-                            <ListView.View>
-                                <GridView AllowsColumnReorder="False">
-                                    <GridViewColumn Header="Timestamp" Width="300">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Date}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Message" Width="800">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Border BorderBrush="Black" BorderThickness="2">
-                                                    <TextBlock Text="{Binding Message}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-                                                </Border>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem> -->
-            
-            <!--<TabItem Header="Image History" MinWidth="150">
-                <view:ScreenshotView x:Name="ucScreenshotView" Grid.Row="1" Grid.Column="1" Margin="25" />
-            </TabItem>-->
-
         </TabControl>
 
         <!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
@@ -456,12 +380,7 @@
                 </TabControl>
             </TabItem>
             
-            <!--<TabItem Header="Birth Cert" MinWidth="100">
-                <view:BirthCertView />
-            </TabItem>-->
             <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100">
-                <!--IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}">-->
-                <!--Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
                         <Border BorderBrush="Black" BorderThickness="2" Margin="3">
@@ -557,7 +476,6 @@
             </TabItem>
             
             <TabItem Header="Hoppers" MinWidth="100">
-                <!-- IsEnabled="{Binding Path=KeyDoorWorker.DoorStatus}" Visibility="{Binding Path=KeyDoorWorker.DoorStatus, Converter={StaticResource BoolToVisConverter}}">-->
                 <view:HopperAdminView />
             </TabItem>
 
@@ -662,43 +580,7 @@
         
         <!-- is this were all the binding errors come from? -->
         <view:PerformanceView x:Name="UcPerformance" Grid.Row="1" Grid.Column="1" IsEnabled="False" Visibility="Hidden"/>
-
-        <StackPanel Orientation="Horizontal" Panel.ZIndex="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                    IsEnabled="{Binding DockSystem.IsEnabled}"  
-                    Visibility="{Binding Path=Enabler.System, Converter={StaticResource BoolToVisConverter}}" 
-                    Grid.Row="1" 
-                    Grid.Column="1">
-            
-            <StackPanel HorizontalAlignment="Left">
-                <ListBox IsEnabled="{Binding DockSystem.IsEnabled}" ItemsSource="{Binding MachineData}" FontSize="22" 
-                         ScrollViewer.CanContentScroll="True"
-                         ScrollViewer.HorizontalScrollBarVisibility="Visible" 
-                         Margin="20" 
-                         HorizontalAlignment="Stretch" 
-                         VerticalAlignment="Stretch">
-                    
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <ListBoxItem Content="{Binding Field}"></ListBoxItem>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-
-            <StackPanel HorizontalAlignment="Right">
-                <ListView ItemsSource="{Binding Path=GamesList.GamesInfo}" FontSize="22" Width="655" Height="400"  Margin="20" 
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Game" DisplayMemberBinding="{Binding Path=Name}" Width="150"/>
-                            <GridViewColumn Header="Executable Path" DisplayMemberBinding="{Binding Path=Path}" Width="250"/>
-                            <GridViewColumn Header="MD5 Status" DisplayMemberBinding="{Binding Path=HashCode}" Width="254"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </StackPanel>
-        </StackPanel>
-        
+       
         <!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
         <view:CreditManagementView Panel.ZIndex="5" x:Name="UcCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
         <view:MainPage Panel.ZIndex="1" x:Name="UcMainPage" Grid.Row="1" Grid.Column="1" />

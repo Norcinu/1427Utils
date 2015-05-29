@@ -174,7 +174,7 @@
                                FontSize="36">Actions</Label>
                         <Button Width="200" Height="40" FontSize="22" Command="{Binding AddCredits}" Margin="5" 
                                 Visibility="{Binding DoorOpen, Converter={StaticResource FalseToVis}}">Add Credits</Button>
-                        <Button Width="200" Height="40" FontSize="22" Command="{Binding RefillHopper}" Margin="5">Refill Hoppers</Button>
+                        <Button Width="200" Height="40" FontSize="22" Command="{Binding SetCanRefill}" Margin="5">Refill Hoppers</Button>
                         <Button Width="200" Height="40" FontSize="22" Command="{Binding SetHandPay}" Margin="5">Hand Pay</Button>
                     </StackPanel>
                 </Border>

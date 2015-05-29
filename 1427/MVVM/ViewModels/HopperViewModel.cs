@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -249,16 +248,12 @@ namespace PDTUtils.MVVM.ViewModels
             if (EmptyLeftTimer == null)
                 EmptyLeftTimer = new Timer(100.0);
 
-
             switch (cb.SelectedIndex)
             {
 
                 case 0:
                     if (BoLib.getHopperFloatLevel((byte)Hoppers.Left) == 0)
                         return;
-                    
-                    /*Debug.WriteLine("SELECTED LEFT HOPPER");
-                    Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel((byte)Hoppers.Left)));*/
 
                     EmptyLeftTimer.Elapsed += (sender, e) =>
                     {
@@ -285,7 +280,6 @@ namespace PDTUtils.MVVM.ViewModels
                         if (BoLib.getRequestEmptyLeftHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Left) > 0)
                         {
                             Thread.Sleep(2000);
-                            //Debug.WriteLine(BoLib.getHopperFloatLevel(0));
                             SelHopperValue = BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString();
                             RaisePropertyChangedEvent("SelHopperValue");
                         }
@@ -299,18 +293,13 @@ namespace PDTUtils.MVVM.ViewModels
                         }
                     };
                     EmptyLeftTimer.Enabled = true;
-#if DEBUG
-                    Debug.WriteLine(BoLib.getHopperFloatLevel(0));
-#endif
                     break;
+
                 case 1:
                     if (BoLib.getHopperFloatLevel((byte)Hoppers.Right) == 0) return;
                     
                     if (EmptyRightTimer == null)
                     {
-                        /*Debug.WriteLine("SELECTED RIGHT HOPPER");
-                        Debug.WriteLine(Convert.ToDecimal(BoLib.getHopperFloatLevel((byte)Hoppers.Right)));*/
-                        
                         EmptyRightTimer = new Timer(100.0);
                         EmptyRightTimer.Elapsed += (sender, e) =>
                         {
@@ -337,7 +326,6 @@ namespace PDTUtils.MVVM.ViewModels
                             if (BoLib.getRequestEmptyRightHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Right) > 0)
                             {
                                 Thread.Sleep(2000);
-                                //Debug.WriteLine(BoLib.getHopperFloatLevel(2));
                                 SelHopperValue = "Hopper Level: " + BoLib.getHopperFloatLevel((byte)Hoppers.Right);
                                 RaisePropertyChangedEvent("SelHopperValue");
                             }
@@ -351,7 +339,7 @@ namespace PDTUtils.MVVM.ViewModels
                             }
                         };
                     }
-                    //Debug.WriteLine("SELECTED RIGHT HOPPER");
+
                     EmptyRightTimer.Enabled = true;
                     break;
             }
@@ -459,11 +447,9 @@ namespace PDTUtils.MVVM.ViewModels
             var currentThreshold = BoLib.getHopperDivertLevel(0);
             var newValue = currentThreshold;
             
-            if (actionType == "increment"/* && currentThreshold < 800*/)
+            if (actionType == "increment")
             {
                 newValue += changeAmount;
-                // if (newValue > 800)
-                //     newValue = 800;
             }
             else if (actionType == "decrement" && currentThreshold > 200)
             {
@@ -488,11 +474,9 @@ namespace PDTUtils.MVVM.ViewModels
             const uint changeAmount = 50;
             var newValue = currentThreshold;
             
-            if (actionType == "increment"/* && currentThreshold < 600*/)
+            if (actionType == "increment")
             {
                 newValue += changeAmount;
-                //if (newValue > 600)
-                //    newValue = 600;
             }
             else if (actionType == "decrement" && currentThreshold > 50)
             {

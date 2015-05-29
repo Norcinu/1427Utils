@@ -415,27 +415,36 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Bank");
             RaisePropertyChangedEvent("Reserve");
         }
-
+        
         public ICommand CancelHandPay
         {
             get { return new DelegateCommand(o => DoCancelHandPay()); }
         }
-
+        
         void DoCancelHandPay()
         {
             HandPayActive = false;
             BoLib.cancelHandPay();
         }
-
+        
         public ICommand ToggleIsEnabled
         {
             get { return new DelegateCommand(o => IsEnabled = !IsEnabled); }
         }
         
+        public ICommand SetCanRefill { get { return new DelegateCommand(o => DoCanSetRefill()); } }
+        void DoCanSetRefill()
+        {
+            _canRefillHoppers = !_canRefillHoppers;
+            RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
+            RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
+            RaisePropertyChangedEvent("CanRefillHoppers");
+        }
+
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
-            CanRefillHoppers = true;
+        //    CanRefillHoppers = true;
             if (_refillTimer == null)
             {
                 _refillTimer = new Timer() { Enabled = true, Interval = 200 };
@@ -453,9 +462,12 @@ namespace PDTUtils.MVVM.ViewModels
         void DoEndRefill()
         {
             if (_refillTimer == null) return;
-
+            
             NotRefilling = false;
             _refillTimer.Enabled = false;
+#if DEBUG
+            Debug.WriteLine("Stopping the Refill");
+#endif  
         }
     }
 }

@@ -446,7 +446,7 @@ namespace PDTUtils.MVVM.ViewModels
                 
                 var temp = "Model" + (i + 1);
                 var active = 0;
-
+                
                 if (m.Active)
                     active = 1;
                 else
@@ -454,7 +454,7 @@ namespace PDTUtils.MVVM.ViewModels
                     active = 0;
                     activeCount--;
                 }
-             
+                
                 NativeWinApi.WritePrivateProfileString(temp, _fields[0], m.ModelNumber.ToString(), _manifest);
                 NativeWinApi.WritePrivateProfileString(temp, _fields[1], m.Title, _manifest);
                 NativeWinApi.WritePrivateProfileString(temp, _fields[2], active.ToString(), _manifest);
@@ -494,7 +494,7 @@ namespace PDTUtils.MVVM.ViewModels
                     }
                 }
             }
-
+            
             if (!isSecondSet)
             {
                 for (int i = 0; i < _gameSettings.Count; i++)
