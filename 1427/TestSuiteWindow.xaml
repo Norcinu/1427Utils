@@ -9,7 +9,7 @@
         Closed="Window_Closed"
         WindowState="Maximized"
         SizeToContent="Manual">
-
+    
     <Window.Resources>
         <Style x:Key="StdLabel" TargetType="Label">
             <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
@@ -19,14 +19,15 @@
             <Setter Property="Control.Background" Value="Black"/>
         </Style>
     </Window.Resources>
-    
+
     <Grid HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="67*"/>
             <RowDefinition Height="0*"/>
             <RowDefinition Height="374*"/>
         </Grid.RowDefinitions>
-        <DockPanel LastChildFill="True" Height="30" Margin="12,12,12,0" Name="StpButtons" VerticalAlignment="Top" Width="600" HorizontalAlignment="Center" />
+    
+    <DockPanel LastChildFill="True" Height="30" Margin="12,12,12,0" Name="StpButtons" VerticalAlignment="Top" Width="600" HorizontalAlignment="Center" />
         <StackPanel Height="950" HorizontalAlignment="Center" Margin="12,48,12,0" Name="StpMainPanel" VerticalAlignment="Top" Width="600" Background="#FFDBC2C2" Grid.RowSpan="3">
             <Label Style="{StaticResource StdLabel}" Height="80" Name="Label1" HorizontalContentAlignment="Center" FontSize="22"/>
             <Label Style="{StaticResource StdLabel}" Height="80" Name="Label2" HorizontalContentAlignment="Center" FontSize="22"/>
@@ -38,8 +39,8 @@
             <Label Style="{StaticResource StdLabel}" Height="80" Name="Label8" HorizontalContentAlignment="Center" FontSize="22"/>
             <Label Style="{StaticResource StdLabel}" Height="80" Name="Label9" HorizontalContentAlignment="Center" FontSize="22"/>
             <Label Style="{StaticResource StdLabel}" Height="80" Name="Label10" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Button Content="End Test" Height="23" Name="BtnEndTest" Width="75" IsEnabled="False" Margin="10" />
-            <Button Content="Exit" Height="23" Name="BtnExit"  Width="75" Click="btnExit_Click" />
+            <Button Content="End Test" Height="50" Name="BtnEndTest" Width="120" Click="btnEndTest_Click" IsEnabled="False" Margin="10" FontSize="24" />
+            <Button Content="Exit" Height="50" Name="BtnExit"  Width="120" Click="btnExit_Click" FontSize="24" />
         </StackPanel>
     </Grid>
 </Window>

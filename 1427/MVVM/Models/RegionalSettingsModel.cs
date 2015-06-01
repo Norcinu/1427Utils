@@ -36,6 +36,7 @@ namespace PDTUtils.MVVM.Models
         public uint FastTransfer { get; set; }
         //public uint Allow
         public string Community { get; set; }
+        public uint GtimePeriod { get; set; }
 	    
         
         public SpanishRegionalModel(string community, SpanishRegional region)
@@ -59,6 +60,7 @@ namespace PDTUtils.MVVM.Models
             this.AllowBank2Credit = region.BankToCredits;
             this.ConvertToPlay = region.ChargeConvertPoints;
             this.MaxBankNote = region.MaxNote;
+            this.GtimePeriod = region.GtimePeriod;
         }
     }
 }

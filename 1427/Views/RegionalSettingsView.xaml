@@ -112,11 +112,7 @@
                                 <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
                             </StackPanel>
                         </RepeatButton>
-                        I'm not saying 80% of the school were from single parent families but I bet it was a far higher percentage
-                        than the 2 "posh" schools up the road (Highgate and Channing).
-                        is ramjam waitiong for tony the toaster to rock up so he can go? :( he knows I am doing no work.
-                        rocking out chatting bare breeze and listening to david bowie.
-                        
+                                                
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Margin="10" Height="35" BorderBrush="Black" BorderThickness="2" Style="{StaticResource StdHeaderLabel}" FontSize="18" HorizontalContentAlignment="Center">Load Region Default Settings:</Label>
@@ -135,14 +131,18 @@
                                         <GridViewColumn Header="Key" Width="380"> 
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Label Style="{StaticResource StdHeaderLabel}" Background="LightGray" BorderBrush="Black" BorderThickness="2" Margin="10,2,10,2" FontSize="20" Content="{Binding Key}"/>
+                                                    <Label Style="{StaticResource StdHeaderLabel}" Background="LightGray" 
+                                                           BorderBrush="Black" BorderThickness="2" Margin="10,2,10,2" FontSize="20" 
+                                                           Content="{Binding Key}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
                                         <GridViewColumn Header="Value" Width="380">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <Label Style="{StaticResource StdHeaderLabel}" Background="LightGray" BorderBrush="Black" BorderThickness="2" Margin="10,2,10,2" FontSize="20" Content="{Binding Value}"/>
+                                                    <Label Style="{StaticResource StdHeaderLabel}" Background="LightGray" 
+                                                           BorderBrush="Black" BorderThickness="2" Margin="10,2,10,2" FontSize="20" 
+                                                           Content="{Binding Value}"/>
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>

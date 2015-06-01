@@ -82,7 +82,7 @@ namespace PDTUtils.Logic
                 }
             }
         }
-
+        
         /// <summary>
         /// Read Machine and parse accordingly.
         /// *** Refactor this to use the native INI functions ***
@@ -139,7 +139,7 @@ namespace PDTUtils.Logic
             }
         }
         
-        private static bool LineContainsCategories(string line)
+        static bool LineContainsCategories(string line)
         {
             return (line.Contains("Game")   == true || line.Contains("Select")  == true ||
                     line.Contains("Models") == true || line.Contains("Standby") == true);

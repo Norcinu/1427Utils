@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,7 +10,6 @@ using System.Threading;
 using PDTUtils.MVVM;
 using PDTUtils.Native;
 using PDTUtils.Properties;
-using System.Collections.Generic;
 
 namespace PDTUtils
 {
@@ -82,7 +82,7 @@ namespace PDTUtils
     public class WinningGame : BaseGameLog
     {
         Decimal _winAmount;
-
+        
         public WinningGame(int gameNo)
         {
             ParseGame(gameNo);
@@ -98,25 +98,25 @@ namespace PDTUtils
             if (gameNo == 0) return;
             if (BoLib.getWinningGameMeter(gameNo, 0) == 0) return;
             
-            uint[] andTing = new uint[8];
+            uint[] winningGames = new uint[8];
             for (int j = 0; j < 8; j++)
             {
-                andTing[j] = (uint)BoLib.getWinningGameMeter(gameNo, j);
+                winningGames[j] = (uint)BoLib.getWinningGameMeter(gameNo, j);
             }
             
-            GameModel = andTing[0];
+            GameModel = winningGames[0];
             try
             {
-                DateTime d = new DateTime(DateTime.Now.Year, (int)andTing[4], (int)andTing[3], (int)andTing[1],
-                    (int)andTing[2], 0);
+                DateTime d = new DateTime(DateTime.Now.Year, (int)winningGames[4], (int)winningGames[3], (int)winningGames[1],
+                    (int)winningGames[2], 0);
                 _logDate = d;
             }
             catch (System.Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
             }
-            _stake = andTing[5];
-            _winAmount = andTing[6];
+            _stake = winningGames[5];
+            _winAmount = winningGames[6];
             
             OnPropertyChanged("WinningGames");
         }
@@ -140,7 +140,7 @@ namespace PDTUtils
         {
             get { return (_winAmount / 100).ToString("c2"); }
         }
-        
+
         protected override void ParseGame(int gameNo)
         {
             if (gameNo == 0) return;
@@ -205,13 +205,10 @@ namespace PDTUtils
 
     public class HandPayLog : BaseNotifyPropertyChanged
     {
-        //public string Operator { get; set; }
-
         public HandPayLog()
         {
             Time = "";
             Amount = "";
-            //    Operator = "";
         }
 
         public HandPayLog(string time, string amount)
@@ -402,12 +399,23 @@ namespace PDTUtils
         {
             DateTime l, r;
 
-            if (!DateTime.TryParse(left.GameDate, out l)) return 0;
-            if (!DateTime.TryParse(right.GameDate, out r)) return 0;
-
-            return r.CompareTo(l);
+            try
+            {
+                if (!DateTime.TryParse(left.GameDate, out l)) return 0;
+                if (!DateTime.TryParse(right.GameDate, out r)) return 0;
+                
+                return r.CompareTo(l);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Trolled Hard Son");
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
+            }
+            
+            return DateTime.Now.CompareTo(DateTime.Now); // lol... ;-)
         }
-
+        
         public void SetPlayedLog()
         {
             for (var i = 0; i < (int)BoLib.getHistoryLength() - 1; i++)
@@ -417,7 +425,7 @@ namespace PDTUtils
             }
             PlayedGames.Sort(DateComparerStr);
         }
-        //
+        
         public void SetWinningLog()
         {
             for (var i = 0; i < (int)BoLib.getHistoryLength() - 1; i++)
@@ -442,7 +450,7 @@ namespace PDTUtils
                 var filename = Resources.hand_pay_log;
                 if (!File.Exists(filename))
                     File.Create(filename);
-
+                
                 using (var fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                 using (var bs = new BufferedStream(fs))
                 using (var sr = new StreamReader(bs))
@@ -460,7 +468,7 @@ namespace PDTUtils
                 Debug.WriteLine(ex.Message);
             }
         }
-
+        
         public void SetCashlessLibLog()
         {
             try
@@ -483,7 +491,7 @@ namespace PDTUtils
                 box.ShowMessage(ex.Message, "Exception Caught");
             }
         }
-
+        
         public void SetVizTechLog()
         {
             try

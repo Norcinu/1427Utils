@@ -24,7 +24,7 @@ namespace PDTUtils
         int _buttonEnabledCount = 6;
         int _counter = 0;
         int _currentButton = 0;
-        List<Button> _buttons = new List<Button>();//
+        //List<Button> _buttons = new List<Button>();//
         Thread _testPrintThread;
 
         readonly ButtonTestImpl _btnImpl = new ButtonTestImpl();
@@ -55,6 +55,7 @@ namespace PDTUtils
             for (var i = 0; i < 7; i++)
                 _buttonsPressed[i] = 0;
 
+            
             _startTimer.Elapsed += timer_CheckButton;
             _startTimer.Elapsed += timer_CheckNoteValidator;
             BtnEndTest.Click += btnEndTest_Click;
@@ -144,16 +145,18 @@ namespace PDTUtils
                 Thread.Sleep(200);
             }
 
-            Label1.Dispatcher.BeginInvoke((DelegateDil)label_updateMessage, new object[] { Label1, "Testing Button Lamps Finished" });
+            Label1.Dispatcher.BeginInvoke((DelegateDil)label_updateMessage, new object[] { Label1, 
+                "Testing Button Lamps Finished" });
         }
 
         void DoLampTest()
         {
             BtnEndTest.IsEnabled = true;
-            Label1.Dispatcher.Invoke((DelegateDil)label_updateMessage, new object[] { Label1, "Testing Button Lamps. \nCheck Flashing Lamps." });
+            Label1.Dispatcher.Invoke((DelegateDil)label_updateMessage, new object[] { Label1, 
+                "Testing Button Lamps. \nCheck Flashing Lamps." });
 
             //Thread.Sleep(1200);
-
+            
             Thread t = new Thread(TheActualLampTest);
             t.Start();
 
@@ -161,17 +164,18 @@ namespace PDTUtils
                 BoLib.setLampStatus(1, (byte)i, 0);
 
             for (var i = 0; i < VisualButtonCount; i++)
-                StpButtons.Children[i].Dispatcher.BeginInvoke((DelegateEnableBtn)timer_buttonEnable, new object[] { StpButtons.Children[i] });
+                StpButtons.Children[i].Dispatcher.BeginInvoke((DelegateEnableBtn)timer_buttonEnable, 
+                    new object[] { StpButtons.Children[i] });
             _buttonEnabledCount = 6;
         }
-
+        
         void DoPrinterTest()
         {
             BtnEndTest.IsEnabled = true;
             _testPrintThread = new Thread(new ThreadStart(BoLib.printTestTicket));
             _testPrintThread.Start();
         }
-
+        
         void DoDilSwitchTest()
         {
             BtnEndTest.IsEnabled = true;
@@ -292,13 +296,13 @@ namespace PDTUtils
         {
             if (l == Label1)
             {
-                l.Content = (string)l.Content == "" || l.Content == null
+                l.Content = string.IsNullOrEmpty((string)l.Content)
                     ? "Please toggle the REFILL KEY off and on."
                     : "REFILL KEY OK";
             }
             else if (l == Label2)
             {
-                if ((string)l.Content == "" || l.Content == null)
+                if (string.IsNullOrEmpty((string)l.Content))
                     l.Content = "Please hold and release the DOOR SWITCH.";
                 else
                 {
@@ -332,7 +336,7 @@ namespace PDTUtils
             l.Foreground = Brushes.Yellow;
             l.BorderBrush = Brushes.Black;
             l.BorderThickness = new Thickness(2);
-            l.Content = "Press And Hold the button" + _termButtonList[_currentButton];
+            l.Content = "Press And Hold the button " + _termButtonList[_currentButton];
         }
 
         private void timer_updateNoteVal(Label l, int v)
@@ -341,8 +345,8 @@ namespace PDTUtils
                 l.Content = "Note of " + (v / 100).ToString("0.00") + " value inserted.";
             else
                 l.Content = "Coin of " + (v / 100).ToString("0.00") + " value inserted.";
-        }
-
+        }//language evolves. i mean you dont speak teh same as your 
+        
         private void timer_buttonEnable(Button b)
         {
             b.IsEnabled = true;
@@ -447,8 +451,9 @@ namespace PDTUtils
 
                         status = BoLib.getSwitchStatus(1, _buttonMasks[_currentButton]);
                         if (_currentButton == 0 && status == 0)
-                            _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_ButtonShowTestMsg, _labels[_currentButton]);
-
+                            _labels[_currentButton].Dispatcher.Invoke((DelegateUpdate)timer_ButtonShowTestMsg, 
+                                _labels[_currentButton]);
+                        
                         if (status > 0)
                         {
                             _buttonsPressed[_currentButton] = 1;
@@ -482,8 +487,7 @@ namespace PDTUtils
             }
         }
         
-        
-        private void timer_CheckNoteValidator(object sender, ElapsedEventArgs e)
+        void timer_CheckNoteValidator(object sender, ElapsedEventArgs e)
         {
             if (!_noteImpl.IsRunning) return;
             var value = BoLib.getCredit() + BoLib.getBank();
@@ -491,23 +495,30 @@ namespace PDTUtils
             Label3.Dispatcher.Invoke((DelegateNoteVal)timer_updateNoteVal, Label3, value);
             BoLib.clearBankAndCredit();
         }
-
+        
         /// <summary>
         /// Clear the form, some tests like the coin and note need to run indefinitely 
         /// until otherwise told. 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnEndTest_Click(object sender, RoutedEventArgs e)
+        void btnEndTest_Click(object sender, RoutedEventArgs e)
         {
             if (_testPrintThread != null)
                 while (_testPrintThread.IsAlive) ;
-
+            
+            foreach (Button b in StpButtons.Children)
+            {
+                if (!b.IsEnabled)
+                    b.IsEnabled = true;
+            }
+            
+            ResetLabels(StpMainPanel.Children);
 
             BtnEndTest.IsEnabled = false;
         }
-        
-        private void btnExit_Click(object sender, RoutedEventArgs e)
+        //HES making his way over. 
+        void btnExit_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
@@ -520,7 +531,7 @@ namespace PDTUtils
 
             if (_lampTimer.Enabled)
                 _lampTimer.Enabled = false;
-
+            
             // shut down print thread? - should never start up.
         }
     }

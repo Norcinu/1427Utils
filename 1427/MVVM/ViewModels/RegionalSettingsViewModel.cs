@@ -32,7 +32,7 @@ namespace PDTUtils.MVVM.ViewModels
             "Castilla León", "Catalonia", "Catalonia Light", "Extremadura", "Madrid", "Murcia", "Navarra",
             "La Rioja", "Valencia", "Valencia 500", "Valencia Light", "Canarias", "Galicia"
         };
-
+        
         readonly string[] _arcadeRegions = new string[38]
         {
             "Andalucia-1000", "Aragon-1000","Aragon-2000","Asturia-1000","Asturias-2000","Baleares-1000","Baleares-3000-(specialB)",
@@ -41,14 +41,14 @@ namespace PDTUtils.MVVM.ViewModels
             "Catalonia-2000","Catalonia-arcade-500","Extremadura-1000","Madrid-1000","Madria-2000","Madrid-3000","Murcia-600",
             "Murcia-6000-(arcade,reservate area)","Murcia-3000-(arcade,reservate area)","Murcia-arcade-500","Navarra-1000",
             "Navarra-2000","La Rioja-1000","La Rioja-2000","Valencia-2000","Valencia-3000","Valencia-600","Valencia-1000",
-            "Canarias-1000","Galicia-3600","Galicia-1800"            
+            "Canarias-1000","Galicia-3600","Galicia-1800"
         };
-
-        readonly string[] _settingHeaders = new string[18] 
+        
+        readonly string[] _settingHeaders = new string[19] 
         {
             "Max Stake Credits", "Max Stake Bank", "Stake Mask", "Max Win Per Stake", "Max Credits", "Max Reserve Credits", "Max Bank",
             "Max Player Points", "Escrow State", "RTP", "Game Time", "Give Change Threshold", "Max Bank Note",
-            "Allow Credit To Bank", "Convert To PP", "Cycle Size", "Fast Transfer", ""
+            "Allow Credit To Bank", "Convert To PP", "Cycle Size", "Fast Transfer", "Game Time Period", ""
         };
 
         #region Properties
@@ -150,7 +150,7 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand SetFastTransfer { get { return new DelegateCommand(DoSetFastTransfer); } }
         public ICommand SetExtendedOption { get { return new DelegateCommand(DoSetExtendedOption); } }
         #endregion
-
+        
         public RegionalSettingsViewModel()
         {
             var i = 0;
@@ -161,7 +161,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _street.Add(new SpanishRegionalModel(_streetMarketRegions[i], sr));
                 i++;
             }
-
+            
             var smLength = _streetMarketRegions.Length - 1;
             i = 0;
             foreach (var arcade in _arcadeRegions)
@@ -181,7 +181,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             LoadSettings();
             LoadSettingsView();
-
+            
             RaisePropertyChangedEvent("EditableLiveRegion");
             RaisePropertyChangedEvent("Arcades");
             RaisePropertyChangedEvent("Street");

@@ -38,6 +38,7 @@ namespace PDTUtils.Native
         public uint ChargeConvertPoints;
         public uint CycleSize;
         public uint FastTransfer;
+        public uint GtimePeriod;
     }
 
     enum Hoppers

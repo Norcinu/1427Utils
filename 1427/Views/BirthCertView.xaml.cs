@@ -29,7 +29,7 @@ namespace PDTUtils.Views
             {
                 BtnComment = {IsEnabled = false, Visibility = Visibility.Hidden}
             };
-
+            
             if (w.ShowDialog() != false) return;
             switch (w.RetChangeType)
             {
