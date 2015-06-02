@@ -6,7 +6,7 @@
              xmlns:conv="clr-namespace:PDTUtils"
              mc:Ignorable="d"
              d:DesignHeight="1000" d:DesignWidth="1200">
-
+    
 
     <UserControl.Resources>
         <conv:IsEnglishCulture x:Key="IsEnglish"/>
@@ -26,7 +26,7 @@
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="2"/>
         </Style>
-
+            
         <Style x:Key="SelectionLabel" TargetType="Label">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -53,13 +53,15 @@
         <StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <ListView Width="305" ItemsSource="{Binding Settings}" SelectedIndex="{Binding SelectedIndex}" Margin="2,2,20,20" ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <ListView Width="305" ItemsSource="{Binding Settings}" SelectedIndex="{Binding SelectedIndex}" Margin="2,2,20,20" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Game Name" Width="295">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}" Margin="5" Width="260" BorderBrush="Black" BorderThickness="2" />
+                                        <Label Content="{Binding Title}" Style="{StaticResource StdHeaderLabel}" Margin="5" 
+                                               Width="260" BorderBrush="Black" BorderThickness="2" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -86,14 +88,6 @@
                                 <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsActiveGame, Mode=TwoWay}">
                                     <Label Style="{StaticResource StdHeaderLabel}" Content="Is Active Game" Margin="15,0,10,0"/>
                                 </CheckBox>
-                                    <!-- <CheckBox Margin="10,0,10,0" IsChecked="{Binding IsPromoGame, Mode=TwoWay}">
-                                    <Label Style="{StaticResource StdHeaderLabel}" Content="Is Promo Game" Margin="15,0,10,0"/>
-                                </CheckBox>
-
-                                <ComboBox HorizontalContentAlignment="Center" IsEnabled="{Binding IsActiveGame}" Width="200" Margin="0,0,10,0" FontSize="24" Text="Not Promo">
-                                    <ComboBoxItem HorizontalContentAlignment="Center" IsSelected="{Binding IsFirstPromo}">First Promo</ComboBoxItem>
-                                    <ComboBoxItem HorizontalContentAlignment="Center" IsSelected="{Binding IsSecondPromo}">Second Promo</ComboBoxItem>
-                                </ComboBox> -->
                             </StackPanel>
                         </Border>
 
@@ -107,13 +101,13 @@
                                     </CheckBox.LayoutTransform>
                                     <Label Content="25p" Style="{StaticResource StdHeaderLabel}" Width="50"/>
                                 </CheckBox>
-                                <CheckBox Margin="10,10,10,10" IsChecked="{Binding StakeTwo, Mode=TwoWay}">
+                                <CheckBox Margin="10" IsChecked="{Binding StakeTwo, Mode=TwoWay}">
                                     <CheckBox.LayoutTransform>
                                         <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                     </CheckBox.LayoutTransform>
                                     <Label Content="50p" Style="{StaticResource StdHeaderLabel}" Width="50"/>
                                 </CheckBox>
-                                <CheckBox Margin="10,10,10,10" IsChecked="{Binding StakeThree, Mode=TwoWay}">
+                                <CheckBox Margin="10" IsChecked="{Binding StakeThree, Mode=TwoWay}">
                                     <CheckBox.LayoutTransform>
                                         <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                                     </CheckBox.LayoutTransform>

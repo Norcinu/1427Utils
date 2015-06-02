@@ -104,7 +104,13 @@
                     <Label Style="{StaticResource StdLabelWide}" Content="{Binding TerminalAssetMsg}"/>
                 </Border>
             </StackPanel>
+
             
+            <Border IsEnabled="{Binding RebootRequired}" CornerRadius="10" Width="500" Background="SlateGray" 
+                    BorderBrush="SlateBlue" Margin="5" BorderThickness="4">
+                <Label Style="{StaticResource StdLabel}">REBOOT REQUIRED</Label>
+            </Border>
+
             <!-- <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button Height="75" Width="70"  Margin="0,10,0,10" FontSize="20"
 						IsEnabled="{Binding UseReserveEnabled}"

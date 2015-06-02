@@ -6,12 +6,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using PDTUtils.Impls;
-using PDTUtils.Native;
 using PDTUtils.Logic;
+using PDTUtils.Native;
 
-using Timer = System.Timers.Timer;
 using ElapsedEventArgs = System.Timers.ElapsedEventArgs;
 using ElapsedEventHandler = System.Timers.ElapsedEventHandler;
+using Timer = System.Timers.Timer;
 
 namespace PDTUtils
 {
@@ -20,6 +20,7 @@ namespace PDTUtils
     /// </summary>
     partial class TestSuiteWindow : Window
     {
+        bool _aTestIsRunning = false;
         const int VisualButtonCount = 6;
         int _buttonEnabledCount = 6;
         int _counter = 0;
@@ -78,7 +79,7 @@ namespace PDTUtils
                     DockPanel.SetDock(b, Dock.Right);
             }
         }
-
+        
         void button_Click(object sender, EventArgs e)
         {
             var button = sender as Button;
@@ -111,12 +112,13 @@ namespace PDTUtils
                 {
                     DoCoinTest();
                 }
-
+                
                 for (var i = 0; i < VisualButtonCount; i++)
                 {
                     if (button != StpButtons.Children[i])
                         StpButtons.Children[i].IsEnabled = false;
                 }
+
                 _buttonEnabledCount = 1;
             }
             else
@@ -166,21 +168,25 @@ namespace PDTUtils
             for (var i = 0; i < VisualButtonCount; i++)
                 StpButtons.Children[i].Dispatcher.BeginInvoke((DelegateEnableBtn)timer_buttonEnable, 
                     new object[] { StpButtons.Children[i] });
+            
             _buttonEnabledCount = 6;
         }
         
         void DoPrinterTest()
         {
+            _aTestIsRunning = true;
             BtnEndTest.IsEnabled = true;
             _testPrintThread = new Thread(new ThreadStart(BoLib.printTestTicket));
             _testPrintThread.Start();
+            _aTestIsRunning = false;
         }
         
         void DoDilSwitchTest()
         {
             BtnEndTest.IsEnabled = true;
-
+            _aTestIsRunning = true;
             var ctr = 1;
+
             for (var i = 1; i <= 8; i *= 2)
             {
                 if (BoLib.getSwitchStatus(4, (byte)i) > 0)
@@ -212,10 +218,12 @@ namespace PDTUtils
             }, null, 1000, System.Threading.Timeout.Infinite);
 
             BtnEndTest.IsEnabled = false;
+            _aTestIsRunning = false;
         }
 
         void DoCoinTest()
         {
+            _aTestIsRunning = true;
             _noteImpl.IsCoinTest = true;
             _noteImpl.IsRunning = true;
             BoLib.clearBankAndCredit();
@@ -225,10 +233,12 @@ namespace PDTUtils
             Label1.Content = "Please deposit coin into the machine.";
             _startTimer.Enabled = true;
             BtnEndTest.IsEnabled = true;
+            _aTestIsRunning = false;
         }
-
+        
         void DoNoteTest()
         {
+            _aTestIsRunning = true;
             _noteImpl.IsRunning = true;
             BoLib.clearBankAndCredit();
             BoLib.enableNoteValidator();
@@ -237,8 +247,9 @@ namespace PDTUtils
             Label1.Content = "Please insert note into Note Validator.";
             _startTimer.Enabled = true;
             BtnEndTest.IsEnabled = true;
+            _aTestIsRunning = false;
         }
-
+        
         void DoButtonTest()
         {
             for (var i = 0; i < 8; i++)
@@ -248,6 +259,7 @@ namespace PDTUtils
             Label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, Label1);
             _btnImpl.IsRunning = true;
             _startTimer.Enabled = true;
+            _aTestIsRunning = true;
         }
 
         void ResetLabels(UIElementCollection col)
@@ -273,8 +285,8 @@ namespace PDTUtils
             l.BorderBrush = Brushes.Black;
             l.Content = "";
         }
-
-        private void label_updateMessage(Label l, string message)
+        
+        void label_updateMessage(Label l, string message)
         {
             l.Foreground = Brushes.Snow;
             l.Background = Brushes.SlateGray;
@@ -282,8 +294,8 @@ namespace PDTUtils
             l.BorderThickness = new Thickness(2);
             l.Content = message;
         }
-
-        private void timer_UpdateLabel(Label l)
+        
+        void timer_UpdateLabel(Label l)
         {
             l.Background = Brushes.Green;
             l.Foreground = Brushes.White;
@@ -291,8 +303,8 @@ namespace PDTUtils
             l.BorderThickness = new Thickness(2);
             l.Content = "SUCCESS " + _termButtonList[_currentButton] + " OK";
         }
-
-        private void timer_UpdateSpecials(Label l)
+        
+        void timer_UpdateSpecials(Label l)
         {
             if (l == Label1)
             {
@@ -311,8 +323,8 @@ namespace PDTUtils
                 }
             }
         }
-
-        private static void UpdateSpecialsError(Label l)
+        
+        static void UpdateSpecialsError(Label l)
         {
             l.Background = Brushes.Red;
             l.Foreground = Brushes.Black;
@@ -321,7 +333,7 @@ namespace PDTUtils
             l.Content = "**WARNING** Button NOT FITTED/ERROR";
         }
 
-        private void timer_buttonError(Label l)
+        void timer_buttonError(Label l)
         {
             l.Background = Brushes.Red;
             l.Foreground = Brushes.Black;
@@ -339,25 +351,25 @@ namespace PDTUtils
             l.Content = "Press And Hold the button " + _termButtonList[_currentButton];
         }
 
-        private void timer_updateNoteVal(Label l, int v)
+        void timer_updateNoteVal(Label l, int v)
         {
             if (v >= 500)
                 l.Content = "Note of " + (v / 100).ToString("0.00") + " value inserted.";
             else
                 l.Content = "Coin of " + (v / 100).ToString("0.00") + " value inserted.";
-        }//language evolves. i mean you dont speak teh same as your 
+        }
         
-        private void timer_buttonEnable(Button b)
+        void timer_buttonEnable(Button b)
         {
             b.IsEnabled = true;
         }
 
-        private string timer_getLabelContent(Label l)
+        string timer_getLabelContent(Label l)
         {
             return (string)l.Content;
         }
 
-        private void timer_CheckButton(object sender, ElapsedEventArgs e)
+        void timer_CheckButton(object sender, ElapsedEventArgs e)
         {
             //set _btnImpl.isrunning to true then at the end set it to false.
             if (_btnImpl.IsRunning)
@@ -478,6 +490,7 @@ namespace PDTUtils
                         else
                         {
                             _currentButton = 0;
+                            _aTestIsRunning = false;
                             _startTimer.Enabled = false;
                             BtnEndTest.Dispatcher.Invoke((DelegateEnableBtn)timer_buttonEnable, BtnEndTest);
                         }
@@ -504,24 +517,29 @@ namespace PDTUtils
         /// <param name="e"></param>
         void btnEndTest_Click(object sender, RoutedEventArgs e)
         {
-            if (_testPrintThread != null)
-                while (_testPrintThread.IsAlive) ;
-            
-            foreach (Button b in StpButtons.Children)
+            if (_aTestIsRunning)
             {
-                if (!b.IsEnabled)
-                    b.IsEnabled = true;
-            }
-            
-            ResetLabels(StpMainPanel.Children);
+                if (_testPrintThread != null)
+                    while (_testPrintThread.IsAlive) ;
 
-            BtnEndTest.IsEnabled = false;
+                foreach (Button b in StpButtons.Children)
+                {
+                    if (!b.IsEnabled)
+                        b.IsEnabled = true;
+                }
+                
+                ResetLabels(StpMainPanel.Children);
+                
+                BtnEndTest.IsEnabled = false;
+                _aTestIsRunning = false;
+            }
         }
-        //HES making his way over. 
+        
         void btnExit_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
         #endregion
         
         void Window_Closed(object sender, EventArgs e)

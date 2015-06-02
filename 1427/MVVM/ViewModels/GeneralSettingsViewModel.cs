@@ -12,19 +12,19 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class GeneralSettingsViewModel : ObservableObject
     {
+        public bool RebootRequired { get; set; }
         public bool IsCatC { get; set; }
         public bool TiToEnabled { get; set; }
         public bool HasRecycler { get; set; }
-        //public bool UseReserveEnabled { get; set; }
         public string RtpMessage { get; set; }
         public string HandPayLevel { get; set; }
         public string DivertLeftMessage { get; set; }
         public string DivertRightMessage { get; set; }
         public string RecyclerMessage { get; set; }
         public string TerminalAssetMsg { get; set; }
-        //public string UseReserveStakeMsg { get; set; }
 
         readonly string _titoDisabledMsg = "Warning: TiTo DISABLED";
+        readonly string _titoEnabledMsg = "TiTo ENABLED";
 
         public GeneralSettingsViewModel()
         {
@@ -46,7 +46,7 @@ namespace PDTUtils.MVVM.ViewModels
                 }
 
                 TiToEnabled = BoLib.getTitoEnabledState();
-                TerminalAssetMsg = (TiToEnabled) ? "Change Asset" : _titoDisabledMsg;
+                TerminalAssetMsg = (TiToEnabled) ? _titoEnabledMsg : _titoDisabledMsg;
 
                 HandPayLevel = (BoLib.getHandPayThreshold() / 100).ToString("C", Thread.CurrentThread.CurrentUICulture.NumberFormat);
                 DivertLeftMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Left).ToString();
@@ -66,6 +66,7 @@ namespace PDTUtils.MVVM.ViewModels
                     RecyclerMessage = "NO RECYCLER";
                 }
 
+                RebootRequired = false;
                 ///!!! DEBUG - Use proper BoLib function for this !!! 
                 //UseReserveEnabled = true;
                 //DoUseReserve("startup");
@@ -82,14 +83,16 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("DivertMessage");
             RaisePropertyChangedEvent("RecyclerMessage");
             RaisePropertyChangedEvent("TerminalAssetMsg");
+            RaisePropertyChangedEvent("RebootRequired");
            // RaisePropertyChangedEvent("UseReserveEnabled");
             //RaisePropertyChangedEvent("UseReserveStake");
         }
-
+        
         public ICommand SetRtp
         {
             get { return new DelegateCommand(ChangeRtp); }
         }
+
         void ChangeRtp(object newRtp)
         {
             if (BoLib.getCountryCode() == BoLib.getUkCountryCodeC())
@@ -209,9 +212,7 @@ namespace PDTUtils.MVVM.ViewModels
             DivertRightMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertRightMessage");
         }
-        
-        
-        
+                
         public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
         void DoRecycleNote(object o)
         {
@@ -241,12 +242,12 @@ namespace PDTUtils.MVVM.ViewModels
 
                 BoLib.setFileAction();
 
-                TerminalAssetMsg = _titoDisabledMsg;
+                TerminalAssetMsg = _titoEnabledMsg;
                 NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "1", Resources.birth_cert);
                 BoLib.setTitoState(1);
                 NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "1", Resources.birth_cert);
                 BoLib.setTerminalType(1); //printer
-
+                
                 const string bnvType = "6";
 
                 var printerType = BoLib.getCabinetType() == 3 ? "3" : "4";
@@ -257,21 +258,24 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setBnvType(Convert.ToByte(bnvType));
                 NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", "0", Resources.birth_cert);
                 BoLib.setRecyclerChannel(0);
-                
+
                 BoLib.clearFileAction();
+                
+                RebootRequired = true;
+                GlobalConfig.RebootRequired = true;
             }
             else // disable
             {
                 BoLib.setFileAction();
-
+                //73, shame he couldnt hang on for a 100. wuts up wit this fucking bubble ting. little vic ganning mental.
                 TerminalAssetMsg = _titoDisabledMsg;
                 NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "0", Resources.birth_cert);
                 BoLib.setTitoState(1);
                 NativeWinApi.WritePrivateProfileString("Config", "PayoutType", "0", Resources.birth_cert);
                 BoLib.setTerminalType(1); //printer
-                
+
                 const string bnvType = "6";
-                
+
                 var printerType = BoLib.getCabinetType() == 3 ? "3" : "4";
 
                 NativeWinApi.WritePrivateProfileString("Config", "PrinterType", printerType, Resources.birth_cert); // 3 = NV200_ST
@@ -280,19 +284,25 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setBnvType(Convert.ToByte(bnvType));
                 NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", "0", Resources.birth_cert);
                 BoLib.setRecyclerChannel(0);
-                
+
                 BoLib.clearFileAction();
+
+                RebootRequired = false;
+                GlobalConfig.RebootRequired = false;
             }
 
+            RaisePropertyChangedEvent("RebootRequired");
+            RaisePropertyChangedEvent("TerminalAssetMsg");
             RaisePropertyChangedEvent("TiToEnabled");
             RaisePropertyChangedEvent("TerminalAssetMsg");
-            //write to ini file
         }
         
         public ICommand TitoUpdate { get { return new DelegateCommand(DoTitoUpdate); } }
         private void DoTitoUpdate(object o)
         {
             var titoUpdateForm = new IniSettingsWindow();
+            titoUpdateForm.BtnComment.Visibility = System.Windows.Visibility.Hidden;
+            titoUpdateForm.BtnComment.IsEnabled = false;
             var showDialog = titoUpdateForm.ShowDialog();
             if (showDialog != null && (bool)!showDialog)
             {
