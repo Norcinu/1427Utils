@@ -43,12 +43,12 @@ namespace PDTUtils.MVVM.ViewModels
             "Navarra-2000","La Rioja-1000","La Rioja-2000","Valencia-2000","Valencia-3000","Valencia-600","Valencia-1000",
             "Canarias-1000","Galicia-3600","Galicia-1800"
         };
-        
+
         readonly string[] _settingHeaders = new string[19] 
         {
-            "Max Stake Credits", "Max Stake Bank", "Stake Mask", "Max Win Per Stake", "Max Credits", "Max Reserve Credits", "Max Bank",
-            "Max Player Points", "Escrow State", "RTP", "Game Time", "Give Change Threshold", "Max Bank Note",
-            "Allow Credit To Bank", "Convert To PP", "Cycle Size", "Fast Transfer", "Game Time Period", ""
+            "Max Stake Credits", "Max Stake Bank", "Stake Mask", "Max Win Per Stake", "Max Credits", "Max Reserve Credits", 
+            "Max Bank", "Max Player Points", "Escrow State", "RTP", "Game Time", "Give Change Threshold", 
+            "Max Bank Note", "Allow Credit To Bank", "Convert To PP", "Cycle Size", "Fast Transfer", "GamesPerPeriod", ""
         };
 
         #region Properties
@@ -187,8 +187,8 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Street");
             RaisePropertyChangedEvent("Selected");
         }
-
-        private void LoadSettingsView()
+        
+        void LoadSettingsView()
         {
             if (_settingsView.Count > 0)
                 _settingsView.Clear();
@@ -199,13 +199,19 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 foreach (var p in properties)
                 {
-                    if (headerCtr < 17)
+                    if (headerCtr < 18)
                     {
+                        if (headerCtr == 17)
+                        {
+                            int a = 0;
+                            int b = 0;
+                        } 
                         _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr],
                             (uint)p.GetValue(_editableLiveRegion, null)));
                         headerCtr++;
                     }
                 }
+                _settingsView.Move(17, 11);
             }
             catch (Exception ex)
             {
@@ -220,7 +226,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             NativeWinApi.WritePrivateProfileString("General", "Region", Selected.Community, _espRegionIni);
             NativeWinApi.WritePrivateProfileString("General", "VenueType", Selected.VenueType, _espRegionIni);
-
+            
             Selected.Id = Selected.VenueType == "Street Market"
                 ? Array.IndexOf(_streetMarketRegions, Selected.Community)
                 : Array.IndexOf(_arcadeRegions, Selected.Community) + _streetMarketRegions.Length;
@@ -237,6 +243,8 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Settings", "EscrowState", _editableLiveRegion.EscrowState.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "Rtp", _editableLiveRegion.Rtp.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "GameTime", _editableLiveRegion.GameTime.ToString(), _espRegionIni);
+            
+            NativeWinApi.WritePrivateProfileString("Settings", "GamesPerPeriod", _editableLiveRegion.GamesPerPeriod.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "GiveChangeThreshold", _editableLiveRegion.GiveChangeThreshold.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "MaxBankNote", _editableLiveRegion.MaxBankNote.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "AllowBank2Credit", _editableLiveRegion.AllowBank2Credit.ToString(), _espRegionIni);
@@ -251,7 +259,9 @@ namespace PDTUtils.MVVM.ViewModels
             
             GlobalConfig.RebootRequired = true;
         }
-        
+        /// <summary>
+        /// Loads the settings
+        /// </summary>
         public void LoadSettings()
         {
             string[] temp;
@@ -273,17 +283,18 @@ namespace PDTUtils.MVVM.ViewModels
             _editableLiveRegion.EscrowState = Convert.ToUInt32(liveSettings[7].Substring(12));
             _editableLiveRegion.Rtp = Convert.ToUInt32(liveSettings[8].Substring(4));
             _editableLiveRegion.GameTime = Convert.ToUInt32(liveSettings[9].Substring(9));
-            _editableLiveRegion.GiveChangeThreshold = Convert.ToUInt32(liveSettings[10].Substring(20));
-            _editableLiveRegion.MaxBankNote = Convert.ToUInt32(liveSettings[11].Substring(12));
-            _editableLiveRegion.AllowBank2Credit = Convert.ToUInt32(liveSettings[12].Substring(17));
-            _editableLiveRegion.ConvertToPlay = Convert.ToUInt32(liveSettings[13].Substring(14));
-            _editableLiveRegion.FastTransfer = Convert.ToUInt32(liveSettings[14].Substring(13).TrimStart());
-            _editableLiveRegion.CycleSize = Convert.ToUInt32(liveSettings[15].Substring(10));
-            _editableLiveRegion.MaxPlayerPoints = Convert.ToUInt32(liveSettings[16].Substring(16));
+            _editableLiveRegion.GamesPerPeriod = Convert.ToUInt32(liveSettings[10].Substring(15));
+            _editableLiveRegion.GiveChangeThreshold = Convert.ToUInt32(liveSettings[11].Substring(20));
+            _editableLiveRegion.MaxBankNote = Convert.ToUInt32(liveSettings[12].Substring(12));
+            _editableLiveRegion.AllowBank2Credit = Convert.ToUInt32(liveSettings[13].Substring(17));
+            _editableLiveRegion.ConvertToPlay = Convert.ToUInt32(liveSettings[14].Substring(14));
+            _editableLiveRegion.FastTransfer = Convert.ToUInt32(liveSettings[15].Substring(13).TrimStart());
+            _editableLiveRegion.CycleSize = Convert.ToUInt32(liveSettings[16].Substring(10));
+            _editableLiveRegion.MaxPlayerPoints = Convert.ToUInt32(liveSettings[17].Substring(16));
             
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
-
+        
         public void SetRegion()
         {
             if (_arcadeSelectedIndex == -1 && _marketSelectedIndex == -1)
@@ -312,7 +323,7 @@ namespace PDTUtils.MVVM.ViewModels
             SaveChanges();
             LoadSettings();
             LoadSettingsView();
-
+            
             RaisePropertyChangedEvent("Selected");
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
@@ -337,7 +348,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxReserveCredits += 1000;
             else if (setting.Equals("Cycle") && EditableLiveRegion.CycleSize < 500000)
                 EditableLiveRegion.CycleSize += 1000;
-
+            
             SaveChanges();
             LoadSettings();
             LoadSettingsView();
@@ -401,7 +412,7 @@ namespace PDTUtils.MVVM.ViewModels
                     SaveChanges();
                 }
             }
-            else if (str == "Disable")
+            else if (str == "Disabled")
             {
                 if (_editableLiveRegion.EscrowState == 1)
                 {
@@ -410,7 +421,7 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-
+        
         void DoSetFastTransfer(object o)
         {
             var str = o as string;

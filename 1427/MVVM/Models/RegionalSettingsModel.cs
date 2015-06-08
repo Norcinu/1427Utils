@@ -35,10 +35,10 @@ namespace PDTUtils.MVVM.Models
         public uint CycleSize { get; set; }
         public uint FastTransfer { get; set; }
         //public uint Allow
+        public uint GamesPerPeriod { get; set; }
         public string Community { get; set; }
-        public uint GtimePeriod { get; set; }
-	    
         
+	            
         public SpanishRegionalModel(string community, SpanishRegional region)
         {
             this.Community = community;
@@ -60,7 +60,7 @@ namespace PDTUtils.MVVM.Models
             this.AllowBank2Credit = region.BankToCredits;
             this.ConvertToPlay = region.ChargeConvertPoints;
             this.MaxBankNote = region.MaxNote;
-            this.GtimePeriod = region.GtimePeriod;
+            this.GamesPerPeriod = region.GamesPerPeriod;
         }
     }
 }

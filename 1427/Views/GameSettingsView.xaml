@@ -131,7 +131,7 @@
                                     <Label Margin="30,0,0,0" ContentStringFormat="2) {0}" Content="{Binding SecondPromo}"/>
                                 </StackPanel>
                             </Border>
-                            
+                                    
                             <Label Content="Select 1-2 Promo Games" Margin="0,10,0,10" HorizontalAlignment="Center"/>
                             <ListBox x:Name="listViewPromo" Margin="0,0,0,10" SelectionMode="Multiple" HorizontalAlignment="Center"
                                      SelectionChanged="ListBox_SelectionChanged" 
@@ -155,3 +155,6 @@
     </Grid>
     
 </UserControl>
+    
+    
+

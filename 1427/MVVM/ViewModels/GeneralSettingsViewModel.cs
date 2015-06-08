@@ -267,7 +267,7 @@ namespace PDTUtils.MVVM.ViewModels
             else // disable
             {
                 BoLib.setFileAction();
-                //73, shame he couldnt hang on for a 100. wuts up wit this fucking bubble ting. little vic ganning mental.
+                
                 TerminalAssetMsg = _titoDisabledMsg;
                 NativeWinApi.WritePrivateProfileString("Config", "TiToEnabled", "0", Resources.birth_cert);
                 BoLib.setTitoState(1);
@@ -284,7 +284,7 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setBnvType(Convert.ToByte(bnvType));
                 NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", "0", Resources.birth_cert);
                 BoLib.setRecyclerChannel(0);
-
+                
                 BoLib.clearFileAction();
 
                 RebootRequired = false;
