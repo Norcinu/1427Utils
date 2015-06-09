@@ -154,7 +154,30 @@ namespace PDTUtils.Native
         CoinTwoOut,
         TicketOut
     }
-
+    
+    enum EspRegionalBase
+    {
+        MaxStakeCredits = 0,
+        MaxStakeBank,
+        StakeMask,
+        GambleWinFactor,
+        MaxCredits,
+        MaxReserveCredits,
+        MaxBank,
+        EscrowState,
+        Rtp,
+        GameTime,
+        GiveChangeThreshold,
+        MaxBankNote,
+        AllowBankToCredit,
+        ChargeConverPlayerPoints,
+        FastTransfer,
+        Cycle,
+        MaxPlayerPoints,
+        GphPeriod
+    }
+    
+    
     enum EspRegionalExt
     {
         EspAlwaysFichas = 17,

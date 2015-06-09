@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Input;
 using PDTUtils.MVVM.Models;
@@ -30,7 +29,7 @@ namespace PDTUtils.MVVM.ViewModels
         public ObservableCollection<HelloImJohnnyCashMeters> Refill { get { return _refill; } }
         public ObservableCollection<GameStatMeter> GameStats { get { return _gameStats; } }
         #endregion
-
+        
         public MetersViewModel()
         {
             _nfi = BoLib.getCountryCode() == BoLib.getSpainCountryCode() 
@@ -46,6 +45,8 @@ namespace PDTUtils.MVVM.ViewModels
             ReadPerformance();
             ReadCashRecon();
             
+        
+
             RaisePropertyChangedEvent("LongTerm");
             RaisePropertyChangedEvent("ShortTerm");
             RaisePropertyChangedEvent("TitoMeters");
@@ -56,7 +57,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => ClearShortTermMeters()); }
         }
-
+        
         void ClearShortTermMeters()
         {
             Performance.Clear();
@@ -69,6 +70,13 @@ namespace PDTUtils.MVVM.ViewModels
 
             ReadPerformance();
             ReadCashRecon();
+
+            //_longTerm.ReadMeter();
+            _shortTerm.ReadMeter();
+            //_titoMeters.ReadMeter();
+            
+            RaisePropertyChangedEvent("ShortTerm");//lololol
+            RaisePropertyChangedEvent("LongTerm");
         }
         
         public void ReadCashRecon()
@@ -81,12 +89,12 @@ namespace PDTUtils.MVVM.ViewModels
             _cashRecon.Add(new HelloImJohnnyCashMeters("STAKE IN",
                                                        ((int)BoLib.useStakeInMeter(0)).ToString(),
                                                        ((int)BoLib.useStakeInMeter(1)).ToString()));
-
+            
             var perfLt = new byte[] { 2, 3, 4, 5 };
             var perfSt = new byte[] { 30, 31, 32, 33 };
-
+            
             var ctr = 0;
-
+            
             for (var i = 2; i <= 5; i++)
             {
                 _cashRecon.Add(new HelloImJohnnyCashMeters(noteHeaders[i - 2],

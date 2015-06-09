@@ -27,7 +27,7 @@ namespace PDTUtils
         int _currentButton = 0;
         //List<Button> _buttons = new List<Button>();//
         Thread _testPrintThread;
-
+        
         readonly ButtonTestImpl _btnImpl = new ButtonTestImpl();
         readonly CoinNoteValImpl _noteImpl = new CoinNoteValImpl();
         readonly string[] _termButtonList = new string[8] { "LH1", "LH2", "LH3", "LH4", "LH5", "LH6", "LH7", "LH8" };
@@ -186,7 +186,7 @@ namespace PDTUtils
             BtnEndTest.IsEnabled = true;
             _aTestIsRunning = true;
             var ctr = 1;
-
+            
             for (var i = 1; i <= 8; i *= 2)
             {
                 if (BoLib.getSwitchStatus(4, (byte)i) > 0)
@@ -206,21 +206,23 @@ namespace PDTUtils
                 }
                 ctr++;
             }
-
-            var timer = new System.Threading.Timer(o =>
+            
+            //BogStandardResetTests();
+            
+            /*var timer = new System.Threading.Timer(o =>
             {
                 Debug.WriteLine("WHY DIS NOT RUNNING?");
-
+                
                 foreach (var l in _labels)
                 {
                     l.Dispatcher.BeginInvoke((DelegateUpdate)label_DefaultStyle, l);
                 }
             }, null, 1000, System.Threading.Timeout.Infinite);
-
-            BtnEndTest.IsEnabled = false;
-            _aTestIsRunning = false;
+            
+             BtnEndTest.IsEnabled = false;
+            _aTestIsRunning = false;*/
         }
-
+        
         void DoCoinTest()
         {
             _aTestIsRunning = true;
@@ -508,7 +510,27 @@ namespace PDTUtils
             Label3.Dispatcher.Invoke((DelegateNoteVal)timer_updateNoteVal, Label3, value);
             BoLib.clearBankAndCredit();
         }
-        
+
+        void BogStandardResetTests()
+        {
+            if (_aTestIsRunning)
+            {
+                if (_testPrintThread != null)
+                    while (_testPrintThread.IsAlive) ;
+
+                foreach (Button b in StpButtons.Children)
+                {
+                    if (!b.IsEnabled)
+                        b.IsEnabled = true;
+                }
+
+                ResetLabels(StpMainPanel.Children);
+
+                BtnEndTest.IsEnabled = false;
+                _aTestIsRunning = false;
+            }
+        }
+
         /// <summary>
         /// Clear the form, some tests like the coin and note need to run indefinitely 
         /// until otherwise told. 

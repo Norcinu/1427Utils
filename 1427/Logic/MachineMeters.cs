@@ -46,6 +46,9 @@ namespace PDTUtils
 
 		public override void ReadMeter()
 		{
+            if (_meterDesc.Count > 0)
+                _meterDesc.RemoveAll();
+
 			_meterDesc.Add(new MeterDescription("Cash In", BoLib.getCashIn(BoLib.useMoneyInType(0)).ToString()));
 			_meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCashOut(BoLib.useMoneyOutType(0)).ToString()));
 			_meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(0)).ToString()));
@@ -67,6 +70,9 @@ namespace PDTUtils
         
 		public override void ReadMeter()
 		{
+            if (_meterDesc.Count > 0)
+                _meterDesc.RemoveAll();
+
 			_meterDesc.Add(new MeterDescription("Cash In", BoLib.getCashIn(BoLib.useMoneyInType(1)).ToString()));
 			_meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCashOut(BoLib.useMoneyOutType(1)).ToString()));
 			_meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(1)).ToString()));

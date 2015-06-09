@@ -327,7 +327,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Selected");
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
-        
+        //gwan jos, gan mental son.
         void DoIncrement(object settingsName)
         {
             var setting = settingsName as string;
@@ -412,7 +412,7 @@ namespace PDTUtils.MVVM.ViewModels
                     SaveChanges();
                 }
             }
-            else if (str == "Disabled")
+            else if (str == "Disable")
             {
                 if (_editableLiveRegion.EscrowState == 1)
                 {
