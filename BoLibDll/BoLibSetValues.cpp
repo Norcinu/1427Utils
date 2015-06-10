@@ -138,6 +138,16 @@ void setEspRegionalValue(unsigned int QueryIndex,unsigned long Value)
 {
 	SetEspRegionalValue(QueryIndex, Value);
 }
+
+void enableUtilsCoinBit()
+{
+	Share2 |= 0x80;
+}
+
+void disableUtilsCoinBit()
+{
+	Share2 &= ~0x80;
+}
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!
 void setPayoutCoinValues(unsigned int WhichOne, unsigned int Value)

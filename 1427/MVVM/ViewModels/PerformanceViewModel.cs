@@ -45,8 +45,6 @@ namespace PDTUtils.MVVM.ViewModels
             ReadPerformance();
             ReadCashRecon();
             
-        
-
             RaisePropertyChangedEvent("LongTerm");
             RaisePropertyChangedEvent("ShortTerm");
             RaisePropertyChangedEvent("TitoMeters");
@@ -63,19 +61,19 @@ namespace PDTUtils.MVVM.ViewModels
             Performance.Clear();
             CashRecon.Clear();
             GameStats.Clear();
-
+            
             BoLib.clearShortTermMeters();
             NativeWinApi.WritePrivateProfileString("TicketsIn", "TicketCount", "0", @Properties.Resources.tito_log);
             NativeWinApi.WritePrivateProfileString("TicketsOut", "TicketCount", "0", @Properties.Resources.tito_log);
-
+            
             ReadPerformance();
             ReadCashRecon();
-
+            
             //_longTerm.ReadMeter();
             _shortTerm.ReadMeter();
             //_titoMeters.ReadMeter();
             
-            RaisePropertyChangedEvent("ShortTerm");//lololol
+            RaisePropertyChangedEvent("ShortTerm");
             RaisePropertyChangedEvent("LongTerm");
         }
         

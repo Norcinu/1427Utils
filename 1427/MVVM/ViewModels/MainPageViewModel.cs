@@ -435,27 +435,41 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand SetCanRefill { get { return new DelegateCommand(o => DoCanSetRefill()); } }
         void DoCanSetRefill()
         {
+            if (BoLib.getDoorStatus() == 1)
+            {
+                WpfMessageBoxService _msg = new WpfMessageBoxService();
+                _msg.ShowMessage("Please Close the Cabinet door.", "Error");
+                return;
+            }
+
             _canRefillHoppers = !_canRefillHoppers;
             RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
             RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
+            
             RaisePropertyChangedEvent("CanRefillHoppers");
         }
 
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
+            
         //    CanRefillHoppers = true;
             if (_refillTimer == null)
             {
+
                 _refillTimer = new Timer() { Enabled = true, Interval = 200 };
                 _refillTimer.Elapsed += (sender, e) =>
                 {
                     RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
                     RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
                 };
+                BoLib.enableUtilsCoinBit();
             }
             else
+            {
                 _refillTimer.Enabled = true;
+                BoLib.enableUtilsCoinBit();
+            }
         }
         
         public ICommand EndRefillCommand { get { return new DelegateCommand(o => DoEndRefill()); } }
@@ -465,6 +479,11 @@ namespace PDTUtils.MVVM.ViewModels
             
             NotRefilling = false;
             _refillTimer.Enabled = false;
+
+            //BoLib.disableNoteValidator();
+
+            if (BoLib.isUtilityBitSet())
+                BoLib.disableUtilsCoinBit();
 #if DEBUG
             Debug.WriteLine("Stopping the Refill");
 #endif  

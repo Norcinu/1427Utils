@@ -449,6 +449,9 @@ namespace PDTUtils.Native
         /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint getPayoutCoinValues(uint which);*/
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool isUtilityBitSet(/*const int index*/);
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/
@@ -514,7 +517,12 @@ namespace PDTUtils.Native
 
         /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setPayoutCoinValues(uint which, uint value);*/
-        
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void enableUtilsCoinBit();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void disableUtilsCoinBit();
         
         /************************************************************************/
         /* General methods                                                      */

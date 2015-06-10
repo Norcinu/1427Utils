@@ -6,7 +6,6 @@
 #include "General.h"
 #include "MD5.h"
 
-
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
 
@@ -785,6 +784,17 @@ unsigned long getEspRegionalVariableValue(int ValueIndex)
 {
 	return GetEspRegionalVariableValue(ValueIndex);
 }
+
+
+// Just handling the coin bit for now.
+bool isUtilityBitSet(/*const int index*/)
+{
+	if (UTIL_REQUEST_REFILL_COINS)
+		return true;
+	else
+		false;
+}
+
 
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!

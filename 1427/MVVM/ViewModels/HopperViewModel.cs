@@ -372,6 +372,12 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("RefloatRight");
         }
 
+        /// <summary>
+        /// Bye Bye Bye
+        /// </summary>
+        /// <param name="shouldSync"></param>
+        /// <param name="refloatValue"></param>
+        /// <param name="whichHopper"></param>
         void NSync(ref bool shouldSync, ref string refloatValue, byte whichHopper)
         {
             if (shouldSync)
@@ -384,7 +390,7 @@ namespace PDTUtils.MVVM.ViewModels
                 shouldSync = false;
             }
         }
-
+        
         void CheckForSync(UInt32 newRefloatValue, string hopper)
         {
             if (hopper == "left")

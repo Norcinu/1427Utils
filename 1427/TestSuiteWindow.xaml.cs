@@ -208,19 +208,21 @@ namespace PDTUtils
             }
             
             //BogStandardResetTests();
-            
-            /*var timer = new System.Threading.Timer(o =>
+
+            Thread.Sleep(5000);
+
+            var timer = new System.Threading.Timer(o =>
             {
                 Debug.WriteLine("WHY DIS NOT RUNNING?");
-                
+
                 foreach (var l in _labels)
                 {
                     l.Dispatcher.BeginInvoke((DelegateUpdate)label_DefaultStyle, l);
                 }
             }, null, 1000, System.Threading.Timeout.Infinite);
             
-             BtnEndTest.IsEnabled = false;
-            _aTestIsRunning = false;*/
+            BtnEndTest.IsEnabled = false;
+            _aTestIsRunning = false;
         }
         
         void DoCoinTest()
@@ -235,7 +237,7 @@ namespace PDTUtils
             Label1.Content = "Please deposit coin into the machine.";
             _startTimer.Enabled = true;
             BtnEndTest.IsEnabled = true;
-            _aTestIsRunning = false;
+            //_aTestIsRunning = false;
         }
         
         void DoNoteTest()
@@ -249,7 +251,7 @@ namespace PDTUtils
             Label1.Content = "Please insert note into Note Validator.";
             _startTimer.Enabled = true;
             BtnEndTest.IsEnabled = true;
-            _aTestIsRunning = false;
+            //_aTestIsRunning = false;
         }
         
         void DoButtonTest()
@@ -358,7 +360,9 @@ namespace PDTUtils
             if (v >= 500)
                 l.Content = "Note of " + (v / 100).ToString("0.00") + " value inserted.";
             else
-                l.Content = "Coin of " + (v / 100).ToString("0.00") + " value inserted.";
+                l.Content = "Coin of " + ((v >= 100) ? (v / 100) : v).ToString(v >= 100 ? "0.00" : "") + " value inserted.";
+             
+            Debug.WriteLine("coin value", v.ToString());
         }
         
         void timer_buttonEnable(Button b)
@@ -571,7 +575,9 @@ namespace PDTUtils
 
             if (_lampTimer.Enabled)
                 _lampTimer.Enabled = false;
-            
+
+            BoLib.disableNoteValidator();
+
             // shut down print thread? - should never start up.
         }
     }

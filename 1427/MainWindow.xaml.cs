@@ -46,6 +46,8 @@ namespace PDTUtils
             try
             {
                 InitialiseBoLib();
+                //BoLib.disableUtilsCoinBit();
+                //BoLib.enableUtilsCoinBit();
                 //BoLib.setHopperFloatLevel((byte)Hoppers.LeftHopper, 500);
                 //BoLib.setHopperFloatLevel((byte)Hoppers.RightHopper, 250);
 
@@ -225,6 +227,9 @@ namespace PDTUtils
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
 #endif
+            if (BoLib.isUtilityBitSet())
+                BoLib.disableUtilsCoinBit();
+
             if (!_sharedMemoryOnline) return;
             _sharedMemoryOnline = false;
             BoLib.closeSharedMemory();
