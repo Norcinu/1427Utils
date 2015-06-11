@@ -231,7 +231,9 @@ namespace PDTUtils
             _noteImpl.IsCoinTest = true;
             _noteImpl.IsRunning = true;
             BoLib.clearBankAndCredit();
-            BoLib.enableNoteValidator();
+            //BoLib.enableNoteValidator();
+            BoLib.clearUtilBit((int)UtilBits.NoteTest);
+            BoLib.setUtilBit((int)UtilBits.CoinTest);
             Label1.Background = Brushes.Black;
             Label1.Foreground = Brushes.Aqua;
             Label1.Content = "Please deposit coin into the machine.";
@@ -245,7 +247,10 @@ namespace PDTUtils
             _aTestIsRunning = true;
             _noteImpl.IsRunning = true;
             BoLib.clearBankAndCredit();
-            BoLib.enableNoteValidator();
+            //BoLib.enableNoteValidator();
+            //BoLib.setUtilBit((int)UtilBits.CoinTest);
+            BoLib.clearUtilBit((int)UtilBits.CoinTest);
+            BoLib.setUtilBit((int)UtilBits.NoteTest);
             Label1.Background = Brushes.Black;
             Label1.Foreground = Brushes.Aqua;
             Label1.Content = "Please insert note into Note Validator.";
@@ -280,7 +285,7 @@ namespace PDTUtils
                 }
             }
         }
-
+        
         #region DELEGATES AND EVENTS
         void label_DefaultStyle(Label l)
         {
@@ -374,7 +379,7 @@ namespace PDTUtils
         {
             return (string)l.Content;
         }
-
+        
         void timer_CheckButton(object sender, ElapsedEventArgs e)
         {
             //set _btnImpl.isrunning to true then at the end set it to false.
@@ -389,12 +394,12 @@ namespace PDTUtils
                         {
                             if (_btnImpl._toggled[0] == false)
                                 _counter++;
-
+                            
                             var comp = Label1.Dispatcher.Invoke((DelegateReturnString)timer_getLabelContent, Label1) as string;
 
                             if (string.IsNullOrEmpty(comp))
                                 Label1.Dispatcher.Invoke((DelegateUpdate)timer_UpdateSpecials, Label1);
-
+                            
                             var mask = _specialMasks[0];
                             var status = BoLib.getSwitchStatus(2, mask);
                             if (status == 0)
@@ -534,7 +539,7 @@ namespace PDTUtils
                 _aTestIsRunning = false;
             }
         }
-
+        
         /// <summary>
         /// Clear the form, some tests like the coin and note need to run indefinitely 
         /// until otherwise told. 
@@ -555,7 +560,10 @@ namespace PDTUtils
                 }
                 
                 ResetLabels(StpMainPanel.Children);
-                
+
+                BoLib.clearUtilBit((int)UtilBits.CoinTest);
+                BoLib.clearUtilBit((int)UtilBits.NoteTest);
+
                 BtnEndTest.IsEnabled = false;
                 _aTestIsRunning = false;
             }
@@ -576,7 +584,10 @@ namespace PDTUtils
             if (_lampTimer.Enabled)
                 _lampTimer.Enabled = false;
 
-            BoLib.disableNoteValidator();
+            BoLib.clearUtilBit((int)UtilBits.CoinTest);
+            BoLib.clearUtilBit((int)UtilBits.NoteTest);
+
+            //BoLib.disableNoteValidator();
 
             // shut down print thread? - should never start up.
         }

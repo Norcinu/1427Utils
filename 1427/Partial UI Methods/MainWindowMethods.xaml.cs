@@ -19,6 +19,8 @@ namespace PDTUtils
 				    case 0:
 				        _sharedMemoryOnline = true;
 
+                        BoLib.setUtilBit((int)UtilBits.Allow);
+
 				        _doorStatusTimer = new Timer(500);
 				        _doorStatusTimer.Elapsed += DoorTimerEvent;
 				        _doorStatusTimer.Enabled = true;

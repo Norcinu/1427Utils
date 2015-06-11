@@ -183,6 +183,21 @@ namespace PDTUtils.Native
         EspAlwaysFichas = 17,
         EspAutoTfxToStake = 18
     }
+
+    enum UtilBits
+    {
+        Allow           = 0x00000001,
+        EEPromUpdate    = 0x00000002,
+        ChangeRnv       = 0x00000004,
+        EmptyRecycler   = 0x00000008,
+        RecyclerValue   = 0x00000010,
+        TitoAudit       = 0x00000020,
+        AddToCredit     = 0x00000040,
+        RefillCoins     = 0x00000080,
+        CoinTest        = 0x00000100,
+        NoteTest        = 0x00000200,
+        PrintTicket     = 0x00000400
+    }
     
     static class BoLib
     {
@@ -579,6 +594,12 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
         public static extern void setTerminalType(byte type);
+
+        [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
+        public static extern void setUtilBit(int bit);
+
+        [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
+        public static extern void clearUtilBit(int bit);
 
         /************************************************************************/
         /* Hand Pay methods                                                     */

@@ -227,8 +227,15 @@ namespace PDTUtils
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
 #endif
-            if (BoLib.isUtilityBitSet())
+            if (BoLib.isUtilityBitSet()) // No longer needed?
                 BoLib.disableUtilsCoinBit();
+
+            var evalues = Enum.GetValues(typeof(UtilBits));
+            foreach (var v in evalues)
+            {
+                Debug.WriteLine(" is the value", v.ToString());
+            }
+            BoLib.clearUtilBit((int)UtilBits.Allow);// no longer in the utilites, so act normally.
 
             if (!_sharedMemoryOnline) return;
             _sharedMemoryOnline = false;

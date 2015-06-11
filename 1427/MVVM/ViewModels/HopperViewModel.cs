@@ -375,9 +375,9 @@ namespace PDTUtils.MVVM.ViewModels
         /// <summary>
         /// Bye Bye Bye
         /// </summary>
-        /// <param name="shouldSync"></param>
-        /// <param name="refloatValue"></param>
-        /// <param name="whichHopper"></param>
+        /// <param name="shouldSync">Its gonna be me</param>
+        /// <param name="refloatValue">Tearing up my heart</param>
+        /// <param name="whichHopper">This I promise you</param>
         void NSync(ref bool shouldSync, ref string refloatValue, byte whichHopper)
         {
             if (shouldSync)

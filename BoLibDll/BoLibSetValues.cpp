@@ -141,17 +141,29 @@ void setEspRegionalValue(unsigned int QueryIndex,unsigned long Value)
 
 void enableUtilsCoinBit()
 {
-	Share2 |= 0x80;
+	//Share2 |= 0x80;
+	nvr_main->share_2 |= 0x80;
 }
 
 void disableUtilsCoinBit()
 {
-	Share2 &= ~0x80;
+	//Share2 &= ~0x80;
+	nvr_main->share_2 &= ~0x80;
 }
+
+void setUtilBit(int bit)
+{
+	nvr_main->share_2 |= bit;
+}
+
+void clearUtilBit(int bit)
+{
+	nvr_main->share_2 &= ~bit;
+}
+
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!
 void setPayoutCoinValues(unsigned int WhichOne, unsigned int Value)
 {
 	SetPayoutCoinValues(WhichOne, Value);
 }*/
-

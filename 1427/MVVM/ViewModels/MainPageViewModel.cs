@@ -46,7 +46,7 @@ namespace PDTUtils.MVVM.ViewModels
 #endif
             }
         }
-
+        
         public bool AddCreditsActive
         {
             get { return _addCreditsActive; }
@@ -64,7 +64,7 @@ namespace PDTUtils.MVVM.ViewModels
 #endif
             }
         }
-        //
+        
         public bool CanRefillHoppers
         {
             get { return _canRefillHoppers; }
@@ -141,7 +141,17 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("RefillCoinsAddedRight");
             }
         }
-
+        
+        public string RefillMessage
+        {
+            get { return _refillMessage; }
+            set
+            {
+                _refillMessage = value;
+                RaisePropertyChangedEvent("RefillMessage");
+            }
+        }
+        
         public string ErrorMessage { get; set; }
         
         bool _handPayActive;
@@ -152,6 +162,7 @@ namespace PDTUtils.MVVM.ViewModels
         uint _refillCoinsAddedLeft;
         uint _refillCoinsAddedRight;
 
+        string _refillMessage = "Refill Hoppers. Press Start to Begin.";
         string _caption = "Warning";
         string _message = "Please Open the terminal door and try again.";
         readonly  WpfMessageBoxService _msgBoxService = new WpfMessageBoxService();
@@ -446,17 +457,21 @@ namespace PDTUtils.MVVM.ViewModels
             RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
             RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
             
+           // if (_canRefillHoppers)
+           //     RefillMessage = "Insert Coins. Press Stop to End Refill.";
+           // else
+           //     RefillMessage = "Refill Hoppers. Press Start to Begin.";
+
             RaisePropertyChangedEvent("CanRefillHoppers");
         }
 
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
-        {
-            
+        {   
         //    CanRefillHoppers = true;
             if (_refillTimer == null)
             {
-
+                RefillMessage = "Insert Coins. Press Stop to End Refill.";
                 _refillTimer = new Timer() { Enabled = true, Interval = 200 };
                 _refillTimer.Elapsed += (sender, e) =>
                 {
@@ -465,8 +480,9 @@ namespace PDTUtils.MVVM.ViewModels
                 };
                 BoLib.enableUtilsCoinBit();
             }
-            else
+            else if (!_refillTimer.Enabled)
             {
+                RefillMessage = "Insert Coins. Press Stop to End Refill.";
                 _refillTimer.Enabled = true;
                 BoLib.enableUtilsCoinBit();
             }
@@ -479,6 +495,8 @@ namespace PDTUtils.MVVM.ViewModels
             
             NotRefilling = false;
             _refillTimer.Enabled = false;
+
+            RefillMessage = "Refill Hoppers. Press Start to Begin.";
 
             //BoLib.disableNoteValidator();
 

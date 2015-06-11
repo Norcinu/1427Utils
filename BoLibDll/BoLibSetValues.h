@@ -28,4 +28,6 @@ DLLEXPORT void	setRequestUtilsAdd2Credit();
 DLLEXPORT void  setEspRegionalValue(unsigned int QueryIndex,unsigned long Value);
 DLLEXPORT void	enableUtilsCoinBit();
 DLLEXPORT void	disableUtilsCoinBit();
+DLLEXPORT void	setUtilBit(int bit);
+DLLEXPORT void	clearUtilBit(int bit);
 
