@@ -113,24 +113,41 @@
             
             <TabItem Header="Empty" MinWidth="250"> <!--  IsEnabled="{Binding NotRefilling}"> -->
                 <Border BorderBrush="Black" BorderThickness="2">
-                    <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" Width="550">
-                        
-                        <Label Content="Select Hopper to Empty" Style="{StaticResource StevesLabel}"/>
-                        <ComboBox x:Name="CmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top"
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
+                                    Height="325" Width="550">
+
+                            <Label Content="Select Hopper to Empty" Style="{StaticResource StevesLabel}"/>
+                            <ComboBox x:Name="CmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top"
                                   FontSize="20" Margin="10" IsEditable="True" ItemsSource="{Binding HopperList}" 
                                   SelectedItem="{Binding CurrentSelHopper}" IsSynchronizedWithCurrentItem="True">
-                        </ComboBox>
-                        
-                        <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" MinHeight="35" ContentStringFormat="Current Float Level: {0}" 
+                            </ComboBox>
+
+                            <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" MinHeight="35" ContentStringFormat="Current Float Level: {0}" 
                                Content="{Binding SelHopperValue}" Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
 
-                        <Label Margin="10,0,10,10" BorderThickness="2,0,2,2" MinHeight="35" Content="{Binding DumpSwitchMessage}" 
+                            <Label Margin="10,0,10,10" BorderThickness="2,0,2,2" MinHeight="35" Content="{Binding DumpSwitchMessage}" 
                                Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
-                        
-                        <Button Width="250" Height="35" Margin="10" FontSize="20"
+
+                            <Button Width="250" Height="35" Margin="10" FontSize="20"
 						    Command="{Binding DoEmptyHopper}"
 							CommandParameter="{Binding ElementName=CmbHoppers}"
                             HorizontalContentAlignment="Center">Empty Hopper</Button>
+
+                        </StackPanel>
+                        
+                        <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
+                                    Height="325" Width="550">
+                            <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" Style="{StaticResource StevesLabel}">Current Refloat Values:</Label>
+                            <Label Margin="10,0,10,0" BorderThickness="2,0,2,0" Style="{StaticResource StevesLabel}" ContentStringFormat="Left Hopper = {0}" 
+                                   Content="{Binding RefloatLeft}"></Label>
+                            <Label Margin="10,0,10,0" BorderThickness="2,0,2,2" Style="{StaticResource StevesLabel}" ContentStringFormat="Right Hopper = {0}" 
+                                   Content="{Binding RefloatRight}"></Label>
+                            <Label HorizontalAlignment="Center" Margin="10,10,10,10" MinHeight="35" Content="Set Float to Refloat Level" 
+                                   VerticalAlignment="Center" Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
+                            <Button Width="250" Height="35" Margin="10" FontSize="20" HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" Command="{Binding RefloatTheHoppers}">Reset</Button>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
             </TabItem>

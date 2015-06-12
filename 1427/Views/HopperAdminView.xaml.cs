@@ -16,6 +16,8 @@ namespace PDTUtils.Views
         
         private void cmbHoppers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var dc = DataContext as HopperViewModel;
+            dc.RefreshLevels();
             /*var s = DataContext as HopperViewModel;
             var b = s.EmptyingHoppers;*/
             //var str = cmbHoppers.SelectedValue.Content as string;

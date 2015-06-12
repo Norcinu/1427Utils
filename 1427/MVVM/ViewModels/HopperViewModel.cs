@@ -154,7 +154,7 @@ namespace PDTUtils.MVVM.ViewModels
             set
             {
                 _currentSelHopper = value;
-                if (_currentSelHopper == "LEFT HOPPER")
+                if (_currentSelHopper == "LEFT HOPPER" || string.IsNullOrEmpty(_currentSelHopper))
                     SelHopperValue = BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString();
                 else
                     SelHopperValue = BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
@@ -165,7 +165,7 @@ namespace PDTUtils.MVVM.ViewModels
         }
 
         #endregion
-
+        
         public HopperViewModel()
         {
             CurrentCulture = BoLib.getCountryCode() == BoLib.getSpainCountryCode()
@@ -525,6 +525,40 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", DivertLeftMessage, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", DivertRightMessage, Resources.birth_cert);
+            
+            RaisePropertyChangedEvent("DivertLeftMessage");
+            RaisePropertyChangedEvent("DivertRightMessage");
+        }
+
+
+        public ICommand RefloatTheHoppers { get { return new DelegateCommand(o => DoRefloatTheHoppers()); } }
+        void DoRefloatTheHoppers()
+        {
+            char[] refloatLeft = new char[10];
+            char[] refloatRight = new char[10];
+
+            NativeWinApi.GetPrivateProfileString("Config", "RefloatLH", "", refloatLeft, 10, Resources.birth_cert);
+            NativeWinApi.GetPrivateProfileString("Config", "RefloatRH", "", refloatRight, 10, Resources.birth_cert);
+            
+            RefloatLeft = new string(refloatLeft).Trim("\0".ToCharArray());
+            RefloatRight = new string(refloatRight).Trim("\0".ToCharArray());
+            
+            BoLib.setHopperFloatLevel((byte)Hoppers.Left, Convert.ToUInt32(RefloatLeft));
+            BoLib.setHopperFloatLevel((byte)Hoppers.Right, Convert.ToUInt32(RefloatRight));
+
+            SelHopperValue = (_currentSelHopper.Equals("LEFT HOPPER")) ? BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString()
+                                                                       : BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
+
+            RaisePropertyChangedEvent("CurrentSelHopper");
+            RaisePropertyChangedEvent("SelHopperValue");
+        }
+
+        /// <summary>
+        /// Called via tab selection. If we have refilled elsewhere we will still show old levels.
+        /// </summary>
+        public void RefreshLevels()
+        {
+            CurrentSelHopper = CurrentSelHopper;
         }
     }
 }
