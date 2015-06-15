@@ -18,6 +18,7 @@ namespace PDTUtils.Logic
         public static bool RebootRequired { get; set; }
         public static bool CantBarrageTheFarage { get; set; }
         public static bool LockControlNavigation { get; set; }
+        public static bool ReparseSettings { get; set; }
         public static ControlRunning CurrentActive { get; set; }
     }
 }

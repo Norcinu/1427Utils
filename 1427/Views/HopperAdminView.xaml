@@ -71,7 +71,6 @@
                             <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding SetRefloatLevel}" 
                                       CommandParameter="right+increase" Content="+" Delay="500"/>
                         </StackPanel>
-                        <!--   <Button Width="125" Height="35" Command="{Binding SaveRefloatLevels}" FontSize="18" Margin="10">Save Changes</Button> -->
                     </StackPanel>
                     <!-- end of refloat -->
 
@@ -118,11 +117,14 @@
                                     Height="325" Width="550">
 
                             <Label Content="Select Hopper to Empty" Style="{StaticResource StevesLabel}"/>
-                            <ComboBox x:Name="CmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top"
+                            <StackPanel Orientation="Horizontal">
+                                <Label Width="275" Height="35" Style="{StaticResource StevesLabel}" Background="Transparent"
+                                       Foreground="Black" BorderBrush="Transparent" Content="Current Selection:"/>
+                                <ComboBox x:Name="CmbHoppers" Text="Select Hopper" Width="250" Height="35" VerticalAlignment="Top"
                                   FontSize="20" Margin="10" IsEditable="True" ItemsSource="{Binding HopperList}" 
-                                  SelectedItem="{Binding CurrentSelHopper}" IsSynchronizedWithCurrentItem="True">
-                            </ComboBox>
-
+                                  SelectedItem="{Binding CurrentSelHopper}" IsSynchronizedWithCurrentItem="True" />
+                            </StackPanel>
+                            
                             <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" MinHeight="35" ContentStringFormat="Current Float Level: {0}" 
                                Content="{Binding SelHopperValue}" Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
 
@@ -130,23 +132,24 @@
                                Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
 
                             <Button Width="250" Height="35" Margin="10" FontSize="20"
-						    Command="{Binding DoEmptyHopper}"
-							CommandParameter="{Binding ElementName=CmbHoppers}"
-                            HorizontalContentAlignment="Center">Empty Hopper</Button>
-
+						        Command="{Binding DoEmptyHopper}"
+							    CommandParameter="{Binding ElementName=CmbHoppers}"
+                                HorizontalContentAlignment="Center" Content="Empty Hopper" />
                         </StackPanel>
                         
                         <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
                                     Height="325" Width="550">
-                            <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" Style="{StaticResource StevesLabel}">Current Refloat Values:</Label>
-                            <Label Margin="10,0,10,0" BorderThickness="2,0,2,0" Style="{StaticResource StevesLabel}" ContentStringFormat="Left Hopper = {0}" 
-                                   Content="{Binding RefloatLeft}"></Label>
-                            <Label Margin="10,0,10,0" BorderThickness="2,0,2,2" Style="{StaticResource StevesLabel}" ContentStringFormat="Right Hopper = {0}" 
-                                   Content="{Binding RefloatRight}"></Label>
+                            <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" Style="{StaticResource StevesLabel}" 
+                                   Content="Current Refloat Values:"/>
+                            <Label Margin="10,0,10,0" BorderThickness="2,0,2,0" Style="{StaticResource StevesLabel}" 
+                                   ContentStringFormat="Left Hopper = {0}" Content="{Binding RefloatLeft}" />
+                            <Label Margin="10,0,10,0" BorderThickness="2,0,2,2" Style="{StaticResource StevesLabel}" 
+                                   ContentStringFormat="Right Hopper = {0}" 
+                                   Content="{Binding RefloatRight}" />
                             <Label HorizontalAlignment="Center" Margin="10,10,10,10" MinHeight="35" Content="Set Float to Refloat Level" 
                                    VerticalAlignment="Center" Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
                             <Button Width="250" Height="35" Margin="10" FontSize="20" HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center" Command="{Binding RefloatTheHoppers}">Reset</Button>
+                                    VerticalAlignment="Center" Command="{Binding RefloatTheHoppers}" Content="Reset" />
                         </StackPanel>
                     </StackPanel>
                 </Border>

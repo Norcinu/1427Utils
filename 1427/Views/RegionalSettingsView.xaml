@@ -33,7 +33,7 @@
 
         <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
     </UserControl.Resources>
-        
+    
     <Grid>
         <TabControl>
             <TabItem Header="Community Type">

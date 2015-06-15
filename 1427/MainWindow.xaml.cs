@@ -144,6 +144,12 @@ namespace PDTUtils
 		
 		private void btnExit_Click(object sender, RoutedEventArgs e)
         {
+            if (BoLib.refillKeyStatus() > 0)
+            {
+                var msg = new PDTUtils.MVVM.WpfMessageBoxService();
+                msg.ShowMessage("Please Turn Key to Exit.", "INFO");
+                return;
+            }
 			Application.Current.Shutdown();
         }
 		
@@ -198,7 +204,7 @@ namespace PDTUtils
 			}
 		}
 
-        
+
         private void WindowMain_Closing(object sender, CancelEventArgs e)
         {
             if (_keyDoorWorker.Running)
@@ -219,7 +225,7 @@ namespace PDTUtils
                     Debug.WriteLine(ex.Message);
                 }
             }
-            
+
 #if DEBUG
             if (GlobalConfig.RebootRequired)
                 Debug.WriteLine("WE SHOULD BE RE-BOOTING.");
@@ -230,11 +236,8 @@ namespace PDTUtils
             if (BoLib.isUtilityBitSet()) // No longer needed?
                 BoLib.disableUtilsCoinBit();
 
-        /*    var evalues = Enum.GetValues(typeof(UtilBits));
-            foreach (var v in evalues)
-            {
-                Debug.WriteLine(" is the value", v.ToString());
-            }*/
+            if (GlobalConfig.ReparseSettings)
+                BoLib.setUtilBit((int)UtilBits.RereadBirthCert);
 
             BoLib.clearUtilBit((int)UtilBits.Allow);// no longer in the utilites, so act normally.
 
@@ -253,14 +256,14 @@ namespace PDTUtils
 
             UcPerformance.IsEnabled = false;
             UcPerformance.Visibility = Visibility.Hidden;
-
+            
             Enabler.ClearAll();
 			Enabler.EnableCategory(Categories.Setup);
             
             TabSetup.SelectedIndex = 0;
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 		}
-		
+        
 		private bool ValidateNewIniSetting()
 		{   
 			return true;

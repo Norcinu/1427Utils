@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-using PDTUtils.Logic;
 using PDTUtils.Native;
 
 using Timer = System.Timers.Timer;
@@ -95,7 +94,10 @@ namespace PDTUtils
 			                        BoLib.setRebootRequired();
 #endif
 			                });
-			            Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
+                        
+			            //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
+                        //Application.Current.Shutdown();
+                        //Application.Current.Dispatcher.InvokeShutdown();
 			        }
                     
 			        if (BoLib.getDoorStatus() == 0)

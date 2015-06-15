@@ -39,9 +39,6 @@
     <ClInclude Include="BoLibTito.h">
       <Filter>BoLibHeaders</Filter>
     </ClInclude>
-    <ClInclude Include="BoLibEspRegion.h">
-      <Filter>BoLibHeaders</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\1524LibSource\EspRegionalValues.h">
       <Filter>BoLibHeaders</Filter>
     </ClInclude>

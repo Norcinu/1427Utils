@@ -9,6 +9,7 @@ using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
 using PDTUtils.Properties;
 using Timer = System.Timers.Timer;
+using GlobalConfig = PDTUtils.Logic.GlobalConfig;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -444,27 +445,30 @@ namespace PDTUtils.MVVM.ViewModels
 
             RaisePropertyChangedEvent(key);
         }
-              
+        
         public ICommand ChangeLeftDivert { get { return new DelegateCommand(DoChangeDivert); } }
         void DoChangeDivert(object o)
         {
             const uint changeAmount = 50;
             var actionType = o as string;
-            var currentThreshold = BoLib.getHopperDivertLevel(0);
+            char[] divert = new char[10];
+            NativeWinApi.GetPrivateProfileString("Config", "LH Divert Threshold", "", divert, 10, Resources.birth_cert);
+            var currentThreshold = Convert.ToUInt32(new string(divert));//BoLib.getHopperDivertLevel(0);
             var newValue = currentThreshold;
             
-            if (actionType == "increment")
+            if (actionType == "increase")
             {
                 newValue += changeAmount;
             }
-            else if (actionType == "decrement" && currentThreshold > 200)
+            else if (actionType == "decrease" && currentThreshold > 200)
             {
                 newValue -= changeAmount;
                 if (newValue < 200)
                     newValue = 0;
             }
-            
-            BoLib.setHopperDivertLevel(BoLib.getLeftHopper(), newValue);
+                
+            //BoLib.setHopperDivertLevel(BoLib.getLeftHopper(), newValue);
+            GlobalConfig.ReparseSettings = true;
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
             
@@ -476,22 +480,26 @@ namespace PDTUtils.MVVM.ViewModels
         void DoChangeDivertRight(object o)
         {
             var actionType = o as string;
-            var currentThreshold = BoLib.getHopperDivertLevel((byte)Hoppers.Right);
+            //var currentThreshold = BoLib.getHopperDivertLevel((byte)Hoppers.Right);
+            char[] divert = new char[10];
+            NativeWinApi.GetPrivateProfileString("Config", "RH Divert Threshold", "", divert, 10, Resources.birth_cert);
+            var currentThreshold = Convert.ToUInt32(new string(divert));
             const uint changeAmount = 50;
             var newValue = currentThreshold;
             
-            if (actionType == "increment")
+            if (actionType == "increase")
             {
                 newValue += changeAmount;
             }
-            else if (actionType == "decrement" && currentThreshold > 50)
+            else if (actionType == "decrease" && currentThreshold > 50)
             {
                 newValue -= changeAmount;
                 if (newValue < 50)
                     newValue = 50;
             }
             
-            BoLib.setHopperDivertLevel(BoLib.getRightHopper(), newValue);
+            //BoLib.setHopperDivertLevel(BoLib.getRightHopper(), newValue);
+            GlobalConfig.ReparseSettings = true;
             NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
 
@@ -520,7 +528,7 @@ namespace PDTUtils.MVVM.ViewModels
             NeedToSync = false;
             _syncLeft = false;
             _syncRight = false;
-
+            
             NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", DivertLeftMessage, Resources.birth_cert);
@@ -529,8 +537,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("DivertLeftMessage");
             RaisePropertyChangedEvent("DivertRightMessage");
         }
-
-
+        
         public ICommand RefloatTheHoppers { get { return new DelegateCommand(o => DoRefloatTheHoppers()); } }
         void DoRefloatTheHoppers()
         {
@@ -548,11 +555,11 @@ namespace PDTUtils.MVVM.ViewModels
 
             SelHopperValue = (_currentSelHopper.Equals("LEFT HOPPER")) ? BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString()
                                                                        : BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
-
+            
             RaisePropertyChangedEvent("CurrentSelHopper");
             RaisePropertyChangedEvent("SelHopperValue");
         }
-
+        
         /// <summary>
         /// Called via tab selection. If we have refilled elsewhere we will still show old levels.
         /// </summary>

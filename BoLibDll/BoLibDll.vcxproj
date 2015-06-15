@@ -176,7 +176,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\1524LibSource\EspRegionalValues.h" />
-    <ClInclude Include="BoLibEspRegion.h" />
     <ClInclude Include="BoLibGetValues.h" />
     <ClInclude Include="BoLibHandPay.h" />
     <ClInclude Include="BoLibSetValues.h" />

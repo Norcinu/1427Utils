@@ -20,6 +20,7 @@
 #define UTIL_COIN_TEST_BIT				0x00000100
 #define UTIL_NOTE_TEST_BIT				0x00000200
 #define UTIL_PRINT_TICKET_BIT			0x00000400
+#define UTIL_REREAD_BIRTHCERT_BIT		0x00000800
 
 // The Dave Matthews Band approve of this copy+paste from 1524/fmodel.h
 /* Original
@@ -57,3 +58,4 @@
 #define UTIL_REQUEST_COIN_TEST 			Share2&0x00000100
 #define UTIL_REQUEST_NOTE_TEST 			Share2&0x00000200
 #define UTIL_REQUEST_PRINT_TICKET		Share2&0x00000400
+#define UTIL_REQUEST_REREAD_BIRTHCERT	Share2&0x00000800

@@ -196,7 +196,8 @@ namespace PDTUtils.Native
         RefillCoins     = 0x00000080,
         CoinTest        = 0x00000100,
         NoteTest        = 0x00000200,
-        PrintTicket     = 0x00000400
+        PrintTicket     = 0x00000400,
+        RereadBirthCert = 0x00000800
     }
     
     static class BoLib
