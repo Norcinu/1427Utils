@@ -48,30 +48,31 @@ namespace PDTUtils
         public delegate void DelegateEnableBtn(Button b);
         public delegate string DelegateReturnString(Label l);
         #endregion
-
+        
         public TestSuiteWindow()
         {
             InitializeComponent();
             _labels = new Label[8] { Label3, Label4, Label5, Label6, Label7, Label8, Label9, Label10 };
             for (var i = 0; i < 7; i++)
                 _buttonsPressed[i] = 0;
-
-            
+               
             _startTimer.Elapsed += timer_CheckButton;
             _startTimer.Elapsed += timer_CheckNoteValidator;
-            BtnEndTest.Click += btnEndTest_Click;
+            BtnEndTest.Click    += btnEndTest_Click;
         }
-
+        
         void Window_Loaded(object sender, RoutedEventArgs e)
         {
             for (var i = 0; i < 6; i++)
             {
                 StpButtons.Children.Add(new Button());
                 var b = StpButtons.Children[i] as Button;
-                b.Content = _buttonContent[i];
+                //var l = new Label().Content = _buttonContent[i];
+                //b.Content = _buttonContent[i];
+                b.Content = _buttonContent[i];//l;
                 b.MinWidth = 90;
                 b.Margin = new Thickness(0, 0, 5, 0);
-
+                
                 b.Click += button_Click;
                 if (i < 2)
                     DockPanel.SetDock(b, Dock.Left);
@@ -79,7 +80,7 @@ namespace PDTUtils
                     DockPanel.SetDock(b, Dock.Right);
             }
         }
-        
+        //
         void button_Click(object sender, EventArgs e)
         {
             var button = sender as Button;

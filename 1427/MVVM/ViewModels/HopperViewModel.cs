@@ -543,7 +543,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             char[] refloatLeft = new char[10];
             char[] refloatRight = new char[10];
-
+            
             NativeWinApi.GetPrivateProfileString("Config", "RefloatLH", "", refloatLeft, 10, Resources.birth_cert);
             NativeWinApi.GetPrivateProfileString("Config", "RefloatRH", "", refloatRight, 10, Resources.birth_cert);
             

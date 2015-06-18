@@ -7,58 +7,64 @@ using PDTUtils.Native;
 
 namespace PDTUtils
 {
-	public partial class MainWindow
+    public partial class MainWindow
 	{
 		private void InitialiseBoLib()
 		{
-			try
-			{
-				var shell = BoLib.setEnvironment();
-				switch (shell)
-				{
-				    case 0:
-				        _sharedMemoryOnline = true;
+            try
+            {
+                var shell = BoLib.setEnvironment();
+                switch (shell)
+                {
+                    case 0:
+                        _sharedMemoryOnline = true;
 
                         BoLib.setUtilBit((int)UtilBits.Allow);
 
-				        _doorStatusTimer = new Timer(500);
-				        _doorStatusTimer.Elapsed += DoorTimerEvent;
-				        _doorStatusTimer.Enabled = true;
-                    
-				        _uiUpdateTimer = new Timer(1000);
-				        _uiUpdateTimer.Elapsed += UpdateUiLabels;
-				        _uiUpdateTimer.Enabled = true;
-				        return;
-				    case 1:
-				        _errorMessage = "Shell Out of Date. Check If Running.";
-				        break;
-				    case 2:
-				        _errorMessage = "Bo Lib Out of Date.";
-				        break;
-				    default:
-				        _errorMessage = "Unknown Error Occurred.";
-				        break;
-				}
+                        if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
+                        {
+                            _isSpanishMachine = false;
+                            OOGABOOGA.SelectedIndex = 1; //region settings dont exist so set focus to next tab.
+                        }
 
-				_errorMessage += "\nFix the issue and restart program.";
+                        _doorStatusTimer = new Timer(500);
+                        _doorStatusTimer.Elapsed += DoorTimerEvent;
+                        _doorStatusTimer.Enabled = true;
 
-				if (MessageBox.Show(_errorMessage, "Error", MessageBoxButton.OK,
-									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
-				{
-					Application.Current.Shutdown();
-					throw new Exception();
-				}
-			}
-			catch (Exception ex)
-			{
-				if (MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK,
-									MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
-				{
-					Application.Current.Shutdown();
-				}
-			}
+                        _uiUpdateTimer = new Timer(1000);
+                        _uiUpdateTimer.Elapsed += UpdateUiLabels;
+                        _uiUpdateTimer.Enabled = true;
+                        return;
+                    case 1:
+                        _errorMessage = "Shell Out of Date. Check If Running.";
+                        break;
+                    case 2:
+                        _errorMessage = "Bo Lib Out of Date.";
+                        break;
+                    default:
+                        _errorMessage = "Unknown Error Occurred.";
+                        break;
+                }
+
+                _errorMessage += "\nFix the issue and restart program.";
+
+                if (MessageBox.Show(_errorMessage, "Error", MessageBoxButton.OK,
+                                    MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
+                {
+                    Application.Current.Shutdown();
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                if (MessageBox.Show(ex.Message, "Error", MessageBoxButton.OK,
+                                    MessageBoxImage.Error, MessageBoxResult.OK) == MessageBoxResult.OK)
+                {
+                    Application.Current.Shutdown();
+                }
+            }
 		}
-
+        
 	    private delegate void DelegateUpdate();
 
 	    private void DoorTimerEvent(object sender, ElapsedEventArgs e)

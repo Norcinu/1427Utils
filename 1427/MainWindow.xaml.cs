@@ -17,6 +17,7 @@ namespace PDTUtils
     /// </summary>
     public partial class MainWindow
 	{
+        bool _isSpanishMachine = true;
 	    bool _sharedMemoryOnline = false;
         string _errorMessage = "";
 	    double WindowHeight { get; set; }
@@ -38,7 +39,9 @@ namespace PDTUtils
         readonly GamesList _gamesList = new GamesList();
         readonly MachineLogsController _logController = new MachineLogsController();
         readonly UserSoftwareUpdate _updateFiles;
-        
+
+        public bool IsSpanishMachine { get { return _isSpanishMachine; } }
+
         public MainWindow()
         {
             RequiresSave = false;
@@ -61,6 +64,8 @@ namespace PDTUtils
                 
                 _updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = Height;
+
+               // RaisePropertyChangedEvent("IsSpanishMachine");
             }
             catch (Exception err)
             {
@@ -152,12 +157,12 @@ namespace PDTUtils
             }
 			Application.Current.Shutdown();
         }
-		
+        //i see these icicles. back is killing me mang. not good.
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
 			Enabler.ClearAll();
 		}
-		
+        
         void btnLogfiles_Click(object sender, RoutedEventArgs e)
 		{
             Enabler.EnableCategory(Categories.Logfile);
@@ -203,9 +208,8 @@ namespace PDTUtils
 				MessageBox.Show("Error: " + err.ToString());
 			}
 		}
-
-
-        private void WindowMain_Closing(object sender, CancelEventArgs e)
+        
+        void WindowMain_Closing(object sender, CancelEventArgs e)
         {
             if (_keyDoorWorker.Running)
                 _keyDoorWorker.Running = false;
@@ -223,9 +227,9 @@ namespace PDTUtils
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                }
+                }//jive turkey
             }
-
+            
 #if DEBUG
             if (GlobalConfig.RebootRequired)
                 Debug.WriteLine("WE SHOULD BE RE-BOOTING.");
@@ -235,18 +239,18 @@ namespace PDTUtils
 #endif
             if (BoLib.isUtilityBitSet()) // No longer needed?
                 BoLib.disableUtilsCoinBit();
-
+            
             if (GlobalConfig.ReparseSettings)
                 BoLib.setUtilBit((int)UtilBits.RereadBirthCert);
-
-            BoLib.clearUtilBit((int)UtilBits.Allow);// no longer in the utilites, so act normally.
-
+            
+            BoLib.clearUtilBit((int)UtilBits.Allow);// no longer in the utils, so act normally.
+            
             if (!_sharedMemoryOnline) return;
             _sharedMemoryOnline = false;
             BoLib.closeSharedMemory();
         }
         
-		private void btnSetup_Click(object sender, RoutedEventArgs e)
+		void btnSetup_Click(object sender, RoutedEventArgs e) 
 		{
             UcMainPage.IsEnabled = false;
             UcMainPage.Visibility = Visibility.Hidden;
@@ -264,17 +268,17 @@ namespace PDTUtils
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 		}
         
-		private bool ValidateNewIniSetting()
+		bool ValidateNewIniSetting()
 		{   
 			return true;
 		}
         
-        private void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
             UpdateIniItem(sender);
 		}
         
-        private void UpdateIniItem(object sender)
+        void UpdateIniItem(object sender)
         {
             var l = sender as ListView;
             if (l.SelectedIndex == -1)
@@ -341,7 +345,7 @@ namespace PDTUtils
             GetMachineIni.ChangesPending = true;
         }
         
-        private void UnCommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
+        void UnCommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var listView = sender as ListView;
             var current = listView.Items[listView.SelectedIndex] as IniElement;
@@ -358,7 +362,7 @@ namespace PDTUtils
             GetMachineIni.ChangesPending = true;
         }
         
-		private void RemoveChildrenFromStackPanel()
+		void RemoveChildrenFromStackPanel()
 		{
 			var childCount = StpButtonPanel.Children.Count;
 			if (childCount > 0)
@@ -367,14 +371,14 @@ namespace PDTUtils
 			}
 		}
 		
-		private void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
 			//PlaySoundOnEvent(@"./wav/volume.wav");
 			var volume = Convert.ToUInt32(MasterVolumeSlider.Value);
 			BoLib.setLocalMasterVolume(volume);
 		}
 		
-		private void btnReadMeters_Click(object sender, RoutedEventArgs e)
+		void btnReadMeters_Click(object sender, RoutedEventArgs e)
 		{
             Enabler.ClearAll();
             UcMainPage.IsEnabled = false;
@@ -390,7 +394,7 @@ namespace PDTUtils
                 UcPerformance.Visibility = Visibility.Hidden;
 		}
 		
-		private void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
+		void btnFunctionalTests_Click(object sender, RoutedEventArgs e)
 		{
             if (BoLib.getDoorStatus() == 1)
             {
@@ -441,7 +445,7 @@ namespace PDTUtils
 
         void DoScreenshot() { }
 
-        private void btnScreenShots_Click(object sender, RoutedEventArgs e)
+        void btnScreenShots_Click(object sender, RoutedEventArgs e)
         {
             Enabler.ClearAll();
 
@@ -458,7 +462,7 @@ namespace PDTUtils
             w.ShowDialog();
         }
         
-        private void btnCreditManage_Click(object sender, RoutedEventArgs e)
+        void btnCreditManage_Click(object sender, RoutedEventArgs e)
         {
             UcMainPage.IsEnabled = !UcMainPage.IsEnabled;
             if (UcMainPage.IsEnabled)
@@ -475,7 +479,7 @@ namespace PDTUtils
             UcPerformance.Visibility = Visibility.Hidden;
         }
 
-        private void btnDiagnostics_Click(object sender, RoutedEventArgs e)
+        void btnDiagnostics_Click(object sender, RoutedEventArgs e)
         {
             UcDiagnostics.IsEnabled = !UcDiagnostics.IsEnabled;
             UcDiagnostics.Visibility = UcDiagnostics.IsEnabled ? Visibility.Visible : Visibility.Hidden;
@@ -489,14 +493,14 @@ namespace PDTUtils
             UcPerformance.Visibility = Visibility.Hidden;
         }
         
-        private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             var tb = sender as TextBox;
         }
         
         // refactor this
         // set globalconfig.reboot = true
-        private void btnReboot_Click(object sender, RoutedEventArgs e)
+        void btnReboot_Click(object sender, RoutedEventArgs e)
         {
             _keyDoorWorker.PrepareForReboot = true;
             if (BoLib.refillKeyStatus() == 1 && BoLib.getDoorStatus() == 1)
@@ -517,7 +521,7 @@ namespace PDTUtils
             DiskCommit.SaveAndReboot();
         }
 
-	    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+	    void ButtonBase_OnClick(object sender, RoutedEventArgs e)
 	    {
             //BoLib.setSerialDumpByte();
             Application.Current.Shutdown();

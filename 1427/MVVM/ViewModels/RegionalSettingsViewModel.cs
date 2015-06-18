@@ -15,6 +15,7 @@ namespace PDTUtils.MVVM.ViewModels
     class RegionalSettingsViewModel : ObservableObject
     {
         //bool _liveHasBeenEdited = false;
+        bool _isSpanishMachine = true;
         bool _selectionChanged = false;
         int _arcadeSelectedIndex = -1;
         int _marketSelectedIndex = -1;
@@ -58,7 +59,7 @@ namespace PDTUtils.MVVM.ViewModels
         public IEnumerable<SpanishRegionalModel> Arcades { get { return _arcades; } }
         public IEnumerable<SpanishRegionalModel> Street { get { return _street; } }
         public IEnumerable<KeyValuePair<string, uint>> SettingsView { get { return _settingsView; } }
-
+        
         public SpainRegionSelection Selected
         {
             get { return _selected; }
@@ -137,6 +138,11 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("AutoTransferStake");
             }
         }
+
+        public bool IsSpanishMachine
+        {
+            get { return _isSpanishMachine; }
+        }
         
         #endregion
         
@@ -153,6 +159,12 @@ namespace PDTUtils.MVVM.ViewModels
         
         public RegionalSettingsViewModel()
         {
+            if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
+            {
+                _isSpanishMachine = false;
+                return; //not a spanish machine so dont load.
+            }
+
             var i = 0;
             foreach (var s in _streetMarketRegions)
             {
@@ -186,6 +198,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Arcades");
             RaisePropertyChangedEvent("Street");
             RaisePropertyChangedEvent("Selected");
+            RaisePropertyChangedEvent("IsSpanishMachine");
         }
         
         void LoadSettingsView()
@@ -259,6 +272,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             GlobalConfig.RebootRequired = true;
         }
+
         /// <summary>
         /// Loads the settings
         /// </summary>
@@ -327,7 +341,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Selected");
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
-        //gwan jos, gan mental son.
+       
         void DoIncrement(object settingsName)
         {
             var setting = settingsName as string;
@@ -400,7 +414,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
-        
+        //they
         void DoSetEscrow(object o)
         {
             var str = o as string;

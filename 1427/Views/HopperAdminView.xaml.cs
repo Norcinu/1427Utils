@@ -18,12 +18,6 @@ namespace PDTUtils.Views
         {
             var dc = DataContext as HopperViewModel;
             dc.RefreshLevels();
-            /*var s = DataContext as HopperViewModel;
-            var b = s.EmptyingHoppers;*/
-            //var str = cmbHoppers.SelectedValue.Content as string;
-            /*var cmb = sender as ComboBox;
-            var str = cmb.SelectedItem.ToString().Substring(cmb.SelectedItem.ToString().Length - 9);
-            txtSelHopper.Text = str;*/
         }
     }
 }

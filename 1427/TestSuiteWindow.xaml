@@ -39,8 +39,13 @@
             <Label Style="{StaticResource StdLabel}" Height="80" Name="Label8" HorizontalContentAlignment="Center" FontSize="22"/>
             <Label Style="{StaticResource StdLabel}" Height="80" Name="Label9" HorizontalContentAlignment="Center" FontSize="22"/>
             <Label Style="{StaticResource StdLabel}" Height="80" Name="Label10" HorizontalContentAlignment="Center" FontSize="22"/>
-            <Button Content="End Test" Height="50" Name="BtnEndTest" Width="120" Click="btnEndTest_Click" IsEnabled="False" Margin="10" FontSize="24" />
-            <Button Content="Exit" Height="50" Name="BtnExit"  Width="120" Click="btnExit_Click" FontSize="24" />
+            
+            <Button Height="50" Name="BtnEndTest" Width="120" Click="btnEndTest_Click" IsEnabled="False" Margin="10" FontSize="24">
+                <Label>End Test</Label>
+            </Button>
+            <Button Height="50" Name="BtnExit"  Width="120" Click="btnExit_Click" FontSize="24">
+                <Label>Exit</Label>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>

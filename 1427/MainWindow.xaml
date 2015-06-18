@@ -368,10 +368,13 @@
         <!--  Height="{Binding Path=RowTwo.Height}" -->
         <TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  
                     Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
+            
             <TabItem Header="Local Settings">
-                <TabControl>
-                    <TabItem Header="Region Settings">
-                        <view:RegionalSettingsView />
+                <TabControl Name="OOGABOOGA">
+                    <TabItem Header="Region Settings" IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 
+                            Converter={StaticResource BoolToVisConverter}}">
+                        <view:RegionalSettingsView IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 
+                            Converter={StaticResource BoolToVisConverter}}"/>
                     </TabItem>
 
                     <TabItem Header="Game Settings">
@@ -391,7 +394,7 @@
                                     Height="75" Content="Touch Row to Change Value" />
                             </StackPanel>
                         </Border>
-                    
+                        
                         <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" 
                                   SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
                             <ListView.View>

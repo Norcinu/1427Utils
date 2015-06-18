@@ -119,7 +119,6 @@
     <Compile Include="MVVM\ViewModels\GeneralSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\HopperViewModel.cs" />
     <Compile Include="MVVM\ViewModels\MainPageViewModel.cs" />
-    <Compile Include="MVVM\ViewModels\GameSelectionViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameSettingViewModel.cs" />
     <Compile Include="MVVM\ViewModels\NetworkSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\PerformanceViewModel.cs" />
@@ -172,9 +171,6 @@
     </Compile>
     <Compile Include="Views\MainPageView.xaml.cs">
       <DependentUpon>MainPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\GameSelectionView.xaml.cs">
-      <DependentUpon>GameSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameSettingsView.xaml.cs">
       <DependentUpon>GameSettingsView.xaml</DependentUpon>
@@ -269,10 +265,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\GameSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

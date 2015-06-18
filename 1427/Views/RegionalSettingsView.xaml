@@ -283,7 +283,7 @@
                                         <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
                                     </StackPanel>
                                 </Button>
-
+                                
                                 <StackPanel>
                                     <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Fichas Only</Label>
                                     <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding AlwaysFichas}" />
@@ -297,8 +297,12 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Label Margin="10" Height="35" BorderBrush="Black" BorderThickness="2" Style="{StaticResource StdHeaderLabel}" FontSize="18" HorizontalContentAlignment="Center">Load Region Default Settings:</Label>
-                                    <Button Height="35" Width="125" FontSize="24" Margin="10" Command="{Binding ResetLiveToDefault}">Default</Button>
+                                <Label Margin="10" Height="35" BorderBrush="Black" BorderThickness="2" 
+                                       Style="{StaticResource StdHeaderLabel}" FontSize="18" HorizontalContentAlignment="Center"
+                                       Content="Load Region Default Settings:"/>
+                                <Button Height="35" Width="125" FontSize="24" Margin="10" Command="{Binding ResetLiveToDefault}">
+                                    <Label Content="Default"/>
+                                </Button>
                             </StackPanel>
                         </StackPanel>
                     </TabItem>

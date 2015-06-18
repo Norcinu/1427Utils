@@ -84,7 +84,7 @@ namespace PDTUtils
 			    {
 			        if (BoLib.refillKeyStatus() == 0 && !_prepareForReboot)
 			        {
-			            _running = false;
+			            //_running = false; - no longer need to quit here. this is handled in Window_Closing.
 			            Application.Current.Dispatcher.Invoke(
 			                DispatcherPriority.Normal,
 			                (ThreadStart) delegate
@@ -94,10 +94,8 @@ namespace PDTUtils
 			                        BoLib.setRebootRequired();
 #endif
 			                });
-                        
+                         
 			            //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
-                        //Application.Current.Shutdown();
-                        //Application.Current.Dispatcher.InvokeShutdown();
 			        }
                     
 			        if (BoLib.getDoorStatus() == 0)
@@ -131,7 +129,7 @@ namespace PDTUtils
 			HasChanged = kd.HasChanged;
 			Running = kd.Running;
 		}
-
+        
 		#region Property Changed events
 		public event PropertyChangedEventHandler PropertyChanged;
 		void OnPropertyChanged(string name)

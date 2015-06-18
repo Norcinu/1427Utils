@@ -7,8 +7,8 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using PDTUtils.Logic;
-using PDTUtils.Native;
 using PDTUtils.MVVM;
+using PDTUtils.Native;
 
 
 namespace PDTUtils
@@ -153,13 +153,13 @@ namespace PDTUtils
             else
                 SetNoUsbDriveMessage();
 		}
-
+        
         private void SetNoUsbDriveMessage()
         {
             LogText = "USB Update Not Found.\r\nPlease connect USB device and try again.\r\n";
             RaisePropertyChangedEvent("LogText");
         }
-
+        
         public void DoSoftwareUpdate(object o, RoutedEventArgs e)
         {
             if (FilesToUpdate.Count > 0)
@@ -167,7 +167,7 @@ namespace PDTUtils
                 FilesToUpdate.Clear();
                 FileCount = 0;
             }
-
+            
             if (CanChangeToUsbDrive())
             {
                 // we can look for update.ini
@@ -188,7 +188,7 @@ namespace PDTUtils
                     quit[1] = ReadIniSection(out filesSection, "Files");
 
                     BoLib.clearFileAction();
-
+                    
                     if (quit[0] || quit[1])
                         return;
 
@@ -218,7 +218,7 @@ namespace PDTUtils
                         _u
                         _updateSuccess = true;*/
                     HasUpdateFinished = true;
-
+                    
                     RaisePropertyChangedEvent("HasUpdateFinished");
                     RaisePropertyChangedEvent("UpdateFiles");
                     
@@ -237,7 +237,7 @@ namespace PDTUtils
                 }
             }
         }
-
+        
         void CleanUp()
         {          
             //run through looking for _old files + folders and delete them.
@@ -397,53 +397,52 @@ namespace PDTUtils
 			var sourceFolder = _updateDrive + path;
 			var destinationFolder = @"d:\" + path;//no path?
 			var renameFolder = destinationFolder + @"_old";
-			
-			if (!Directory.Exists(destinationFolder))
-			{
-				try
-				{
-					var srcInfo = new DirectoryInfo(sourceFolder);
-					foreach (var dirPath in Directory.GetDirectories(sourceFolder, "*",
-						SearchOption.AllDirectories))
-						Directory.CreateDirectory(dirPath.Replace(sourceFolder, destinationFolder));
-				    
-					//Copy all the files & Replaces any files with the same name
-					foreach (var newPath in Directory.GetFiles(sourceFolder, "*.*",
-						SearchOption.AllDirectories))
-						File.Copy(newPath, newPath.Replace(sourceFolder, destinationFolder), true);
-				}
-				catch (System.Exception ex)
-				{
-					Debug.WriteLine(ex.Message);
+
+            if (!Directory.Exists(destinationFolder))
+            {
+                try
+                {
+                    var srcInfo = new DirectoryInfo(sourceFolder);
+                    foreach (var dirPath in Directory.GetDirectories(sourceFolder, "*",
+                        SearchOption.AllDirectories))
+                        Directory.CreateDirectory(dirPath.Replace(sourceFolder, destinationFolder));
+
+                    //Copy all the files & Replaces any files with the same name
+                    foreach (var newPath in Directory.GetFiles(sourceFolder, "*.*",
+                        SearchOption.AllDirectories))
+                        File.Copy(newPath, newPath.Replace(sourceFolder, destinationFolder), true);
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
                     _filesNotCopied.Add(sourceFolder + " - Folder Not Found"); //!!! Tailor this for the exception that is caught.
-				}
-			}
-			else
-			{
-				// Need to handle the case where we are only updating part of the folder.
-				// for instance updating the bmp + wav folder we obviously need the other 
-				// folders or the game won't run. At current it doesnt do this we just
-				// block move the entire folder.
-				try
-				{
-					// folder does exist move it to _old
-					// and create new folder
+                }
+            }
+            else
+            {
+                // Need to handle the case where we are only updating part of the folder.
+                // for instance updating the bmp + wav folder we obviously need the other 
+                // folders or the game won't run. At current it doesnt do this we just
+                // block move the entire folder.
+                try
+                {
+                    // folder does exist move it to _old
+                    // and create new folder
                     if (Directory.Exists(renameFolder))
                     {
                         Directory.Delete(renameFolder, true);
-                        
+
                         Directory.Move(destinationFolder, renameFolder);
                         Directory.CreateDirectory(destinationFolder);
                         var dstInfo = new DirectoryInfo(renameFolder);
-                        
+
                         foreach (var dirPath in Directory.GetDirectories(renameFolder, "*",
                                  SearchOption.AllDirectories))
-                                 Directory.CreateDirectory(dirPath.Replace(renameFolder, destinationFolder));
+                            Directory.CreateDirectory(dirPath.Replace(renameFolder, destinationFolder));
                         
                         //Copy all the files & Replaces any files with the same name
-                        foreach (var newPath in Directory.GetFiles(renameFolder, "*.*",
-                                 SearchOption.AllDirectories))
-                                 File.Copy(newPath, newPath.Replace(renameFolder, destinationFolder), true);
+                        foreach (var newPath in Directory.GetFiles(renameFolder, "*.*", SearchOption.AllDirectories))
+                            File.Copy(newPath, newPath.Replace(renameFolder, destinationFolder), true);
                         //maybe just copy the files and folders over instead of moving.
                         var srcInfo = new DirectoryInfo(sourceFolder);
                         AddToRollBack(renameFolder, 1);
@@ -469,14 +468,15 @@ namespace PDTUtils
                                 }
                             }
                         }
+                        
                     }
-				}
-				catch (System.Exception ex)
-				{
-					Debug.WriteLine(ex.Message);
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
                     _filesNotCopied.Add(sourceFolder + " - Folder Not Found"); //!!! Tailor this for the exception that is caught.
-				}
-			}
+                }
+            }
             
 			return true;
 		}
@@ -553,7 +553,7 @@ namespace PDTUtils
                 RaisePropertyChangedEvent("LogText");
             }
         }
-        //nick compton with the saaaaahf african accent. 
+        
         public void DoSaveReboot(object o, ExecutedRoutedEventArgs e)
         {
             LogText = "Update Completed.\r\n\r\nTo Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
