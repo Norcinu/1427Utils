@@ -515,7 +515,7 @@ namespace PDTUtils
         void timer_CheckNoteValidator(object sender, ElapsedEventArgs e)
         {
             if (!_noteImpl.IsRunning) return;
-            var value = BoLib.getCredit() + BoLib.getBank();
+            var value = BoLib.getCredit() + BoLib.getBank() + BoLib.getReserveCredits;
             if (value <= 0) return;
             Label3.Dispatcher.Invoke((DelegateNoteVal)timer_updateNoteVal, Label3, value);
             BoLib.clearBankAndCredit();

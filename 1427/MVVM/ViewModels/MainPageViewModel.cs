@@ -506,5 +506,11 @@ namespace PDTUtils.MVVM.ViewModels
             Debug.WriteLine("Stopping the Refill");
 #endif  
         }
+
+        void Refresh() //TODO DO THIS!!
+        {
+            RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
+            RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
+        }
     }
 }

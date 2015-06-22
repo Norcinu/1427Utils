@@ -468,6 +468,7 @@ namespace PDTUtils.Native
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool isUtilityBitSet(/*const int index*/);
 
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/
@@ -539,6 +540,9 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void disableUtilsCoinBit();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void shellSendEmptyRecycler();
         
         /************************************************************************/
         /* General methods                                                      */

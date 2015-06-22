@@ -6,7 +6,7 @@ namespace PDTUtils.MVVM
     {
         public bool ShowMessage(string text, string caption)
         {
-            if (MessageBox.Show(text, caption) == DialogResult.OK)
+            if (MessageBox.Show(text, caption, MessageBoxButtons.OK, MessageBoxIcon.Warning) == DialogResult.OK)
                 return true;
             else
                 return false;

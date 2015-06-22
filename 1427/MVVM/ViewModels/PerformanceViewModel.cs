@@ -127,7 +127,6 @@ namespace PDTUtils.MVVM.ViewModels
         
         void ReadPerformance()
         {
-
             var longTermCashIn = (int)BoLib.getPerformanceMeter(0) / 100.0M;
             var longTermCashOut = (int)BoLib.getPerformanceMeter(1) / 100.0M;
             var longTermTotal = longTermCashIn - longTermCashOut;
@@ -164,17 +163,17 @@ namespace PDTUtils.MVVM.ViewModels
                                                         refillLt.ToString("C", _nfi), 
                                                         refillSt.ToString("C", _nfi)));
 
-            NumberOfGamesLt = (int)BoLib.getPerformanceMeter(4);
+            /*NumberOfGamesLt = (int)BoLib.getPerformanceMeter(4);
             NumberOfGamesSt = (int)BoLib.getPerformanceMeter(11);
             Performance.Add(new HelloImJohnnyCashMeters("Number of Games: ", 
                                                         NumberOfGamesLt.ToString(), 
-                                                        NumberOfGamesSt.ToString()));
+                                                        NumberOfGamesSt.ToString()));*/
 
             double totalBetsLt = 0;
             double totalBetsSt = 0;
             double totalWonLt = 0;
             double totalWonSt = 0;
-
+            
             for (uint i = 1; i <= BoLib.getNumberOfGames(); i++)
             {
                 totalBetsLt += (int)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWageredLt);
@@ -191,8 +190,8 @@ namespace PDTUtils.MVVM.ViewModels
             var percentageLt = (totalWonLt > 0 && totalBetsLt > 0) ? (totalWonLt / totalBetsLt) : 0;
             var percentageSt = (totalWonSt > 0 && totalBetsSt > 0) ? (totalWonSt / totalBetsSt) : 0;
 
-            decimal retainedPercLt = (int)BoLib.getPerformanceMeter(0) / 100;
-            decimal retainedPercSt = (int)BoLib.getPerformanceMeter(7) / 100;
+            decimal retainedPercLt = (int)BoLib.getPerformanceMeter(0) / 100.00M;
+            decimal retainedPercSt = (int)BoLib.getPerformanceMeter(7) / 100.00M;
             
             if (retainedPercLt > 0)
                 retainedPercLt = ((retainedPercLt - (longTermCashOut + handPayLt)) / longTermTotal);
@@ -201,17 +200,23 @@ namespace PDTUtils.MVVM.ViewModels
                 retainedPercSt = ((retainedPercSt - (shortTermCashOut + handPaySt)) / shortTermTotal);
             
             Performance.Add(new HelloImJohnnyCashMeters("Total Fischas Bet:", // fischas bet
-                                                        totalBetsLt.ToString(/*"C", _nfi*/),
-                                                        totalBetsSt.ToString(/*"C", _nfi)*/)));
+                                                        totalBetsLt.ToString("C", _nfi),
+                                                        totalBetsSt.ToString("C", _nfi)));
             Performance.Add(new HelloImJohnnyCashMeters("Total Fischas Wins:",
-                                                        totalWonLt.ToString(/*"C", _nfi*/),
-                                                        totalWonSt.ToString(/*"C", _nfi*/)));
+                                                        totalWonLt.ToString("C", _nfi),
+                                                        totalWonSt.ToString("C", _nfi)));
             Performance.Add(new HelloImJohnnyCashMeters("Payout Percentage:",
                                                         percentageLt.ToString("P"),
                                                         percentageSt.ToString("P")));
             Performance.Add(new HelloImJohnnyCashMeters("Retained Percentage:",
                                                         retainedPercLt.ToString("P"),
                                                         retainedPercSt.ToString("P")));
+
+            NumberOfGamesLt = (int)BoLib.getPerformanceMeter(4);
+            NumberOfGamesSt = (int)BoLib.getPerformanceMeter(11);
+            Performance.Add(new HelloImJohnnyCashMeters("Number of Games: ",
+                                                        NumberOfGamesLt.ToString(),
+                                                        NumberOfGamesSt.ToString()));
             
             decimal tpCreditsLt = (int)BoLib.getTPlayMeter(2);
             decimal tpCreditsSt = (int)BoLib.getTPlayMeter(5);

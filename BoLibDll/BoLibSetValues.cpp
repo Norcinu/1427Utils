@@ -99,6 +99,11 @@ void shellSendRecycleNote()
 	Share2 |= 0x04;
 }
 
+void shellSendEmptyRecycler()
+{
+	Share2 |= 0x08;
+}
+
 void setTerminalType(unsigned char type)
 {
 	SetTerminalType(type);

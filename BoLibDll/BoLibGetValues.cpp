@@ -795,7 +795,6 @@ bool isUtilityBitSet(/*const int index*/)
 		false;
 }
 
-
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!
 unsigned int getPayoutCoinValues(unsigned int WhichOne)

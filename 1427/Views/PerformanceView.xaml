@@ -225,7 +225,7 @@
                 </StackPanel>
             </TabItem>
 
-
+            
             <TabItem Header="Cash Reconcilliation">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
                     <Label Style="{StaticResource StdLabel}">Cash Reconciliation</Label>
@@ -271,16 +271,8 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border BorderBrush="Black" BorderThickness="2">
-                                                <TextBlock Text="{Binding Name}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="LongTerm" Width="250">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border BorderBrush="Black" BorderThickness="2">
-                                                <TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+                                                <TextBlock Text="{Binding Name}" TextAlignment="Center" Background="LightGray" 
+                                                           Foreground="Navy" />
                                             </Border>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -289,7 +281,18 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border BorderBrush="Black" BorderThickness="2">
-                                                <TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+                                                <TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" 
+                                                           Background="LightGray" Foreground="Navy" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="LongTerm" Width="250">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="2">
+                                                <TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" 
+                                                           Background="LightGray" Foreground="Navy" />
                                             </Border>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -298,8 +301,8 @@
                         </ListView.View>
                     </ListView>
                 </StackPanel>
-                <!-- 	</TabItem>
-				</TabControl> -->
+                <!--</TabItem>
+				</TabControl>-->
             </TabItem>
         </TabControl>
     </Grid>

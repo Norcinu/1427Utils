@@ -49,23 +49,15 @@ namespace PDTUtils
             try
             {
                 InitialiseBoLib();
-                //BoLib.disableUtilsCoinBit();
-                //BoLib.enableUtilsCoinBit();
-                //BoLib.setHopperFloatLevel((byte)Hoppers.LeftHopper, 500);
-                //BoLib.setHopperFloatLevel((byte)Hoppers.RightHopper, 250);
-
                 InitializeComponent();
-                CultureInfo ci = null;
                 
-                ci = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? new CultureInfo("es-ES") : new CultureInfo("en-GB");
+                var ci = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? new CultureInfo("es-ES") : new CultureInfo("en-GB");
                 
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
                 
                 _updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = Height;
-
-               // RaisePropertyChangedEvent("IsSpanishMachine");
             }
             catch (Exception err)
             {
@@ -157,7 +149,7 @@ namespace PDTUtils
             }
 			Application.Current.Shutdown();
         }
-        //i see these icicles. back is killing me mang. not good.
+        
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
 			Enabler.ClearAll();
@@ -178,7 +170,7 @@ namespace PDTUtils
                 LogController.IsLoaded = true;
             }
 		}
-        
+
         private void Games_Click(object sender, RoutedEventArgs e)
 		{
 		    _gameStatistics.ParsePerfLog();
@@ -193,21 +185,21 @@ namespace PDTUtils
 			var u = uptimeSpan.ToString().Split(".".ToCharArray());
 			LblUptime.Content = u[0];
 		}
-		
-		private void WindowMain_Loaded(object sender, RoutedEventArgs e)
-		{
-			try
-			{
-				_keyDoorThread = new Thread(new ThreadStart(_keyDoorWorker.Run));
-				_keyDoorThread.Start();
-				while (!_keyDoorThread.IsAlive);
-				Thread.Sleep(2);
-			}
-			catch (Exception err)
-			{
-				MessageBox.Show("Error: " + err.ToString());
-			}
-		}
+        
+        private void WindowMain_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _keyDoorThread = new Thread(new ThreadStart(_keyDoorWorker.Run));
+                _keyDoorThread.Start();
+                while (!_keyDoorThread.IsAlive) ;
+                Thread.Sleep(2);
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("Error: " + err.ToString());
+            }
+        }
         
         void WindowMain_Closing(object sender, CancelEventArgs e)
         {
@@ -227,7 +219,7 @@ namespace PDTUtils
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                }//jive turkey
+                }
             }
             
 #if DEBUG

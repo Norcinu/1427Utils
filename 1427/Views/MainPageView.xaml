@@ -155,7 +155,7 @@
                             
                             <!-- Start Refill</Button> -->
                             <Button Margin="25" Width="160" Height="35" FontSize="24" Command="{Binding EndRefillCommand}">
-                                Stop Refill
+                                <Label>Stop Refill</Label>
                             </Button>
                         </StackPanel>
                     </StackPanel>

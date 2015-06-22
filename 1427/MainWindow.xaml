@@ -370,7 +370,7 @@
                     Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
             
             <TabItem Header="Local Settings">
-                <TabControl Name="OOGABOOGA">
+                <TabControl Name="regionalSubTab">
                     <TabItem Header="Region Settings" IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 
                             Converter={StaticResource BoolToVisConverter}}">
                         <view:RegionalSettingsView IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 
@@ -409,6 +409,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
+                                    
                                     <GridViewColumn Width="340" Header="Value">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -482,6 +483,10 @@
                 <view:HopperAdminView />
             </TabItem>
 
+            <TabItem Header="Note Admin" MinWidth="100"> 
+                <view:NoteAdminView />
+            </TabItem>
+            
             <TabItem Header="Network">
                 <view:NetworkSettingsView />
             </TabItem>
