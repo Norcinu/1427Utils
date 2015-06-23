@@ -225,7 +225,7 @@ namespace PDTUtils
             BtnEndTest.IsEnabled = false;
             _aTestIsRunning = false;
         }
-        
+
         void DoCoinTest()
         {
             _aTestIsRunning = true;
@@ -247,7 +247,8 @@ namespace PDTUtils
         {
             _aTestIsRunning = true;
             _noteImpl.IsRunning = true;
-            BoLib.clearBankAndCredit();
+            BoLib.clearBankCreditReserve();
+            //BoLib.clearBankAndCredit();
             //BoLib.enableNoteValidator();
             //BoLib.setUtilBit((int)UtilBits.CoinTest);
             BoLib.clearUtilBit((int)UtilBits.CoinTest);
@@ -515,10 +516,13 @@ namespace PDTUtils
         void timer_CheckNoteValidator(object sender, ElapsedEventArgs e)
         {
             if (!_noteImpl.IsRunning) return;
-            var value = BoLib.getCredit() + BoLib.getBank() + BoLib.getReserveCredits;
+            //else BoLib.clearBankCreditReserve();
+            var value = BoLib.getBankCreditsReservePtr();//BoLib.getCredit() + BoLib.getBank() + (int)BoLib.getReserveCredits();
             if (value <= 0) return;
-            Label3.Dispatcher.Invoke((DelegateNoteVal)timer_updateNoteVal, Label3, value);
-            BoLib.clearBankAndCredit();
+
+            BoLib.clearBankCreditReserve();   
+            Label3.Dispatcher.Invoke((DelegateNoteVal)timer_updateNoteVal, Label3, (int)value);
+            //BoLib.clearBankAndCredit();
         }
 
         void BogStandardResetTests()

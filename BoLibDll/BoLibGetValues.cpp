@@ -795,6 +795,27 @@ bool isUtilityBitSet(/*const int index*/)
 		false;
 }
 
+unsigned int getBankCreditsReservePtr()
+{
+	return (unsigned int)(nvr_ptr->bank1 + nvr_ptr->cd1 + nvr_ptr->reserveCredits1);
+}
+
+bool getOogaDeBooga()
+{	
+	bool retVal = true;
+
+	auto mutex = CreateMutex(NULL, FALSE, NULL);
+	if (mutex == nullptr) return retVal;
+
+	if (UTIL_REQUEST_EMPTY_RECYCLER)
+		retVal = false;
+
+	ReleaseMutex(mutex);
+
+	return retVal;
+}
+
+
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!
 unsigned int getPayoutCoinValues(unsigned int WhichOne)

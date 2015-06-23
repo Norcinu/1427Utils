@@ -31,4 +31,5 @@ DLLEXPORT void	disableUtilsCoinBit();
 DLLEXPORT void	setUtilBit(int bit);
 DLLEXPORT void	clearUtilBit(int bit);
 DLLEXPORT void  shellSendEmptyRecycler();
-
+DLLEXPORT void  clearBankCreditReserve();
+DLLEXPORT void	oogaDeBooga();

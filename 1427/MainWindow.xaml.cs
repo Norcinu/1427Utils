@@ -456,7 +456,7 @@ namespace PDTUtils
         
         void btnCreditManage_Click(object sender, RoutedEventArgs e)
         {
-            UcMainPage.IsEnabled = !UcMainPage.IsEnabled;
+            UcMainPage.IsEnabled = true;//!UcMainPage.IsEnabled;
             if (UcMainPage.IsEnabled)
                 UcMainPage.Visibility = Visibility.Visible;
             else

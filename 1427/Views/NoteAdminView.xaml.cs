@@ -24,5 +24,11 @@ namespace PDTUtils.Views
             InitializeComponent();
             DataContext = new PDTUtils.MVVM.ViewModels.NoteAdminViewModel();
         }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+           // var dc = DataContext as PDTUtils.MVVM.ViewModels.NoteAdminViewModel();
+         
+        }
     }
 }

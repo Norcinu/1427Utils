@@ -135,5 +135,6 @@ DLLEXPORT char			*getLicense();
 DLLEXPORT char			*getCountryCodeStrLiteral(char *str, int code);
 DLLEXPORT unsigned long getEspRegionalVariableValue(int ValueIndex);
 DLLEXPORT bool			isUtilityBitSet(/*const int index*/);
-
+DLLEXPORT unsigned int	getBankCreditsReservePtr();
+DLLEXPORT bool			getOogaDeBooga();
 

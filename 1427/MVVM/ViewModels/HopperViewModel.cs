@@ -253,8 +253,8 @@ namespace PDTUtils.MVVM.ViewModels
             {
 
                 case 0:
-                    if (BoLib.getHopperFloatLevel((byte)Hoppers.Left) == 0)
-                        return;
+                    //if (BoLib.getHopperFloatLevel((byte)Hoppers.Left) == 0)
+                    //    return;
 
                     EmptyLeftTimer.Elapsed += (sender, e) =>
                     {
@@ -275,7 +275,8 @@ namespace PDTUtils.MVVM.ViewModels
                             }
                         }
                         
-                        if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 || !dumpSwitchPressed) return;
+                        if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 || 
+                            (!dumpSwitchPressed && BoLib.getHopperDumpSwitchActive() > 0)) return;
                         BoLib.setRequestEmptyLeftHopper();
                         
                         if (BoLib.getRequestEmptyLeftHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Left) > 0)
@@ -286,6 +287,7 @@ namespace PDTUtils.MVVM.ViewModels
                         }
                         else if (BoLib.getHopperFloatLevel(0) == 0)
                         {
+                            SelHopperValue =/* "Hopper Level: " +*/ BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString();
                             DumpSwitchMessage = "Hopper Empty";
                             RaisePropertyChangedEvent("DumpSwitchMessage");
                             var t = sender as Timer;
@@ -297,7 +299,7 @@ namespace PDTUtils.MVVM.ViewModels
                     break;
 
                 case 1:
-                    if (BoLib.getHopperFloatLevel((byte)Hoppers.Right) == 0) return;
+                    //if (BoLib.getHopperFloatLevel((byte)Hoppers.Right) == 0) return;
                     
                     if (EmptyRightTimer == null)
                     {
@@ -321,19 +323,22 @@ namespace PDTUtils.MVVM.ViewModels
                                 }
                             }
                             
-                            if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 || !dumpSwitchPressed) return;
+                            if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 || 
+                                (!dumpSwitchPressed && BoLib.getHopperDumpSwitchActive() > 0)) return;
                             BoLib.setRequestEmptyRightHopper();
                                 
                             if (BoLib.getRequestEmptyRightHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Right) > 0)
                             {
                                 Thread.Sleep(2000);
-                                SelHopperValue = "Hopper Level: " + BoLib.getHopperFloatLevel((byte)Hoppers.Right);
+                                SelHopperValue =/* "Hopper Level: " +*/ BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
                                 RaisePropertyChangedEvent("SelHopperValue");
                             }
                             else if (BoLib.getHopperFloatLevel((byte)Hoppers.Right) == 0)
                             {
+                                SelHopperValue =/* "Hopper Level: " +*/ BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
                                 DumpSwitchMessage = "Hopper Empty";
                                 RaisePropertyChangedEvent("DumpSwitchMessage");
+                                RaisePropertyChangedEvent("SelHopperValue");
                                 var t = sender as Timer;
                                 t.Enabled = false;
                                 dumpSwitchPressed = false;
