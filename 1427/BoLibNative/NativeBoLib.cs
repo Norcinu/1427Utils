@@ -474,6 +474,9 @@ namespace PDTUtils.Native
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool getOogaDeBooga();
         
+        [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
+        public static extern bool getIsHopperHopping(byte hopper);
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/
@@ -485,7 +488,7 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setLampStatus(byte offset, byte mask, byte state);
-
+        
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setHopperFloatLevel(byte hopper, uint value);
 
@@ -539,7 +542,7 @@ namespace PDTUtils.Native
 
         /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setPayoutCoinValues(uint which, uint value);*/
-
+        
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void enableUtilsCoinBit();
 
@@ -551,7 +554,7 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void clearBankCreditReserve();
-
+        
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void oogaDeBooga();
         

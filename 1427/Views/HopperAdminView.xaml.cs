@@ -14,7 +14,7 @@ namespace PDTUtils.Views
             DataContext = new HopperViewModel();
         }
         
-        //yes ok this breaks MVVM but yer kna its already broken in this app.
+        //yes ok this breaks MVVM but yer kna its already broken in this app, so fuck it.
         private void cmbHoppers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var dc = DataContext as HopperViewModel;

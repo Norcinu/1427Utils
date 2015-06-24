@@ -66,7 +66,7 @@ namespace PDTUtils.MVVM.ViewModels
             var noteType = o as string;
 
             if (BoLib.getBnvType() != 5) return;
-            
+
             var channel = (noteType == "10") ? "2" : "3";
             BoLib.shellSendRecycleNote();
             NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", channel, Resources.birth_cert);
@@ -74,19 +74,24 @@ namespace PDTUtils.MVVM.ViewModels
             RecyclerMessage = (noteType == "10") ? NoteOne + " NOTE TO BE RECYCLED" : NoteTwo + " NOTE TO BE RECYCLED";
             RaisePropertyChangedEvent("RecyclerMessage");
         }
-
+        
         public ICommand EmptyRecycler { get { return new DelegateCommand(o => DoEmptyRecycler()); } }
         void DoEmptyRecycler()
         {
             BoLib.shellSendEmptyRecycler();
-            _recycleRunChecker.Elapsed += new System.Timers.ElapsedEventHandler(_recycleRunChecker_Elapsed);
-            _recycleRunChecker.Enabled = true;
-
+            if (_recycleRunChecker == null || !_recycleRunChecker.Enabled)
+            {
+                _recycleRunChecker.Elapsed += new System.Timers.ElapsedEventHandler(_recycleRunChecker_Elapsed);
+                _recycleRunChecker.Enabled = true;
+            }
+            else
+                _recycleRunChecker.Enabled = true;
+            
             Thread.Sleep(500);
             RecyclerValue = BoLib.getRecyclerFloatValue().ToString();
             RaisePropertyChangedEvent("RecyclerValue");
         }
-
+        
         void _recycleRunChecker_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (BoLib.getOogaDeBooga())
@@ -101,8 +106,9 @@ namespace PDTUtils.MVVM.ViewModels
         
         void Refresh()
         {
+            if (RecyclerValue == "0") return;
             if (_recycleRunChecker.Enabled) _recycleRunChecker.Enabled = false;
-
+            
             RecyclerValue = BoLib.getRecyclerFloatValue().ToString();
             RaisePropertyChangedEvent("RecyclerValue");
         }

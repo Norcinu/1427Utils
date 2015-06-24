@@ -475,7 +475,7 @@ namespace PDTUtils
         {
             UcDiagnostics.IsEnabled = !UcDiagnostics.IsEnabled;
             UcDiagnostics.Visibility = UcDiagnostics.IsEnabled ? Visibility.Visible : Visibility.Hidden;
-            
+
             Enabler.ClearAll();
 
             UcMainPage.IsEnabled = false;

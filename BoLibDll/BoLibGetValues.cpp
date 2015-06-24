@@ -804,7 +804,7 @@ bool getOogaDeBooga()
 {	
 	bool retVal = true;
 
-	auto mutex = CreateMutex(NULL, FALSE, NULL);
+	auto mutex = CreateMutex(NULL, TRUE, NULL);
 	if (mutex == nullptr) return retVal;
 
 	if (UTIL_REQUEST_EMPTY_RECYCLER)
@@ -823,3 +823,13 @@ unsigned int getPayoutCoinValues(unsigned int WhichOne)
 	return GetPayoutCoinValues(WhichOne);
 }*/
 
+bool getIsHopperHopping(unsigned char hopper)
+{
+	if (hopper == LEFTHOPPER)
+		return Share3 & 0x08;
+	else if (hopper == RIGHTHOPPER)
+		return Share3 & 0x10;
+
+	return 0;
+
+}
