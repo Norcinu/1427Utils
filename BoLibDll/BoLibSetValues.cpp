@@ -96,14 +96,9 @@ void setHopperDivertLevel(unsigned char hopper, unsigned int value)
 	SetHopperDivertLevel(hopper, value);
 }
 
-void shellSendRecycleNote()
-{
-	Share2 |= 0x04;
-}
-
 void shellSendEmptyRecycler()
 {
-	Share2 |= UTIL_EMPTY_RECYCLER_BIT; //UTIL_REQUEST_EMPTY_RECYCLER; 
+	Share2 |= UTIL_EMPTY_RECYCLER_BIT; 
 }
 
 void setTerminalType(unsigned char type)

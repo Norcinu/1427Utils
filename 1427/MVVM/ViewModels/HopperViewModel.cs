@@ -532,22 +532,22 @@ namespace PDTUtils.MVVM.ViewModels
 
             RefloatLeft = refloatDefaults[0].ToString();
             RefloatRight = refloatDefaults[1].ToString();
-
+            
             BoLib.setHopperDivertLevel((byte)Hoppers.Left, divertDefaults[0]);
             BoLib.setHopperDivertLevel((byte)Hoppers.Right, divertDefaults[1]);
 
             DivertLeftMessage = divertDefaults[0].ToString();
             DivertRightMessage = divertDefaults[1].ToString();
-
+            
             NeedToSync = false;
             _syncLeft = false;
             _syncRight = false;
-
+            
             NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", DivertLeftMessage, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", DivertRightMessage, Resources.birth_cert);
-
+            
             RaisePropertyChangedEvent("DivertLeftMessage");
             RaisePropertyChangedEvent("DivertRightMessage");
         }
@@ -569,7 +569,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             SelHopperValue = (_currentSelHopper.Equals("LEFT HOPPER")) ? BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString()
                                                                        : BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
-
+            
             RaisePropertyChangedEvent("CurrentSelHopper");
             RaisePropertyChangedEvent("SelHopperValue");
         }
@@ -579,8 +579,8 @@ namespace PDTUtils.MVVM.ViewModels
         /// </summary>
         public void RefreshLevels()
         {
-            CurrentSelHopper = BoLib.getHopperFloatLevel(Convert.ToByte((string.IsNullOrEmpty(CurrentSelHopper) ? "0" 
-                : CurrentSelHopper))).ToString(); //CurrentSelHopper;
+            CurrentSelHopper = CurrentSelHopper;//BoLib.getHopperFloatLevel(Convert.ToUInt32((string.IsNullOrEmpty(CurrentSelHopper) ? "0" 
+                //: CurrentSelHopper))).ToString(); //CurrentSelHopper;
         }
     }
 }

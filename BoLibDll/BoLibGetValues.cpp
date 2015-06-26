@@ -806,7 +806,7 @@ bool getOogaDeBooga()
 
 	auto mutex = CreateMutex(NULL, TRUE, NULL);
 	if (mutex == nullptr) return retVal;
-
+	
 	if (UTIL_REQUEST_EMPTY_RECYCLER)
 		retVal = false;
 
@@ -814,7 +814,6 @@ bool getOogaDeBooga()
 
 	return retVal;
 }
-
 
 /*
 !!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!

@@ -473,10 +473,10 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool getOogaDeBooga();
-        
-        [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
-        public static extern bool getIsHopperHopping(byte hopper);
 
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool getIsHopperHopping(byte hopper);
+        
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/

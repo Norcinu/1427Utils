@@ -17,7 +17,6 @@ DLLEXPORT void	setRequestEmptyRightHopper();
 DLLEXPORT void  setCriticalError(int code);
 DLLEXPORT void  clearShortTermMeters();
 DLLEXPORT void  setHopperDivertLevel(unsigned char hopper, unsigned int value);
-DLLEXPORT void	shellSendRecycleNote();
 DLLEXPORT void  setTerminalType(unsigned char type);
 DLLEXPORT void	setPrinterType(unsigned char type);
 DLLEXPORT void	setRecyclerChannel(unsigned char value);

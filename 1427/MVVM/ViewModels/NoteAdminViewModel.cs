@@ -40,7 +40,8 @@ namespace PDTUtils.MVVM.ViewModels
                     HasRecycler = false;
                     RecyclerMessage = "NO RECYCLER";
                 }
-               
+
+                _recycleRunChecker.Elapsed += new System.Timers.ElapsedEventHandler(_recycleRunChecker_Elapsed);
 
                 NoteOne = _isSpanish ? "€10" : "£10";
                 NoteTwo = _isSpanish ? "€20" : "£20";
@@ -64,7 +65,7 @@ namespace PDTUtils.MVVM.ViewModels
         void DoRecycleNote(object o)
         {
             var noteType = o as string;
-
+            
             if (BoLib.getBnvType() != 5) return;
 
             var channel = (noteType == "10") ? "2" : "3";
@@ -78,18 +79,27 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand EmptyRecycler { get { return new DelegateCommand(o => DoEmptyRecycler()); } }
         void DoEmptyRecycler()
         {
-            BoLib.shellSendEmptyRecycler();
-            if (_recycleRunChecker == null || !_recycleRunChecker.Enabled)
+            if (RecyclerValue != "0")
             {
-                _recycleRunChecker.Elapsed += new System.Timers.ElapsedEventHandler(_recycleRunChecker_Elapsed);
-                _recycleRunChecker.Enabled = true;
+                if (_recycleRunChecker == null || !_recycleRunChecker.Enabled)
+                {
+                    _recycleRunChecker.Elapsed += new System.Timers.ElapsedEventHandler(_recycleRunChecker_Elapsed);
+                    _recycleRunChecker.Enabled = true;
+                }
+                else
+                    _recycleRunChecker.Enabled = true;
+                
+                BoLib.shellSendEmptyRecycler();
+                
+                Thread.Sleep(500);
+                RecyclerValue = "0";// BoLib.getRecyclerFloatValue().ToString();
+                RaisePropertyChangedEvent("RecyclerValue");
             }
             else
-                _recycleRunChecker.Enabled = true;
-            
-            Thread.Sleep(500);
-            RecyclerValue = BoLib.getRecyclerFloatValue().ToString();
-            RaisePropertyChangedEvent("RecyclerValue");
+            {
+                var msg = new WpfMessageBoxService();
+                msg.ShowMessage("Note Recycler is Empty", "Information");
+            }
         }
         
         void _recycleRunChecker_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
