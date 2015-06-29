@@ -59,14 +59,15 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("NoteTwo");
             RaisePropertyChangedEvent("RecyclerValue");
         }
-        
-        public ICommand SetRecycleNote { get { return new DelegateCommand(DoSetRecycleNote); } }
-        void DoSetRecycleNote(object o)
+
+        // rename this to set note or something.
+        public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
+        void DoRecycleNote(object o)
         {
             var noteType = o as string;
             
             if (BoLib.getBnvType() != 5) return;
-            
+
             var channel = (noteType == "10") ? "2" : "3";
             BoLib.shellSendRecycleNote();
             NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", channel, Resources.birth_cert);

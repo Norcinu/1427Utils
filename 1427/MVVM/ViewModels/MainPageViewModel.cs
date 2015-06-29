@@ -11,6 +11,8 @@ namespace PDTUtils.MVVM.ViewModels
 {
     class MainPageViewModel : ObservableObject
     {
+        bool _isSpain = (BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? true : false;
+
         bool _isEnabled = false;
         public bool IsEnabled
         {
@@ -77,10 +79,21 @@ namespace PDTUtils.MVVM.ViewModels
                     AddCreditsActive = false;
                 }
                 RaisePropertyChangedEvent("CanRefillHoppers");
-
+                
 #if DEBUG
                 Debug.WriteLine("RefillHoppers", _canRefillHoppers.ToString());
 #endif
+            }
+        }
+
+        string _coinDenominationMsg = "";
+        public string CoinDenominationMsg
+        {
+            get { return _coinDenominationMsg; }
+            set
+            {
+                _coinDenominationMsg = (_isSpain) ? "€" + value : "£" + value;
+                RaisePropertyChangedEvent("CoinDenominationMsg");
             }
         }
         
@@ -88,7 +101,7 @@ namespace PDTUtils.MVVM.ViewModels
         public int Bank { get; set; }
         public int Reserve { get; set; }
         public int Pennies { get; set; }
-
+        
         public bool CanPayFifty
         {
             get { return _canPayFifty; }
@@ -151,6 +164,17 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("RefillMessage");
             }
         }
+
+        System.Windows.Visibility _denomVisibilty;
+        public System.Windows.Visibility DenomVisibility
+        {
+            get { return _denomVisibilty; }
+            set
+            {
+                _denomVisibilty = value;
+                RaisePropertyChangedEvent("DenomVisibility");
+            }
+        }
         
         public string ErrorMessage { get; set; }
         
@@ -182,7 +206,9 @@ namespace PDTUtils.MVVM.ViewModels
             Pennies = 2000;
             NotRefilling = true;
             CanRefillHoppers = false;
-           
+
+            DenomVisibility = System.Windows.Visibility.Hidden;
+
             GetErrorMessage();
             GetCreditLevel();
             GetBankLevel();
@@ -452,7 +478,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _msg.ShowMessage("Please Close the Cabinet door.", "Error");
                 return;
             }
-
+            
             _canRefillHoppers = !_canRefillHoppers;
             RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
             RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
@@ -461,16 +487,17 @@ namespace PDTUtils.MVVM.ViewModels
            //     RefillMessage = "Insert Coins. Press Stop to End Refill.";
            // else
            //     RefillMessage = "Refill Hoppers. Press Start to Begin.";
-
+                
             RaisePropertyChangedEvent("CanRefillHoppers");
         }
-
+        
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
-        {   
-        //    CanRefillHoppers = true;
+        {
+            DenomVisibility = System.Windows.Visibility.Visible;
             if (_refillTimer == null)
             {
+                CoinDenominationMsg = "1.00";
                 RefillMessage = "Insert Coins. Press Stop to End Refill.";
                 _refillTimer = new Timer() { Enabled = true, Interval = 200 };
                 _refillTimer.Elapsed += (sender, e) =>
@@ -482,9 +509,10 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else if (!_refillTimer.Enabled)
             {
+                CoinDenominationMsg = "0.20";
                 RefillMessage = "Insert Coins. Press Stop to End Refill.";
                 _refillTimer.Enabled = true;
-                BoLib.enableUtilsCoinBit();
+                BoLib.enableUtilsCoinBit();        
             }
         }
         
@@ -492,21 +520,22 @@ namespace PDTUtils.MVVM.ViewModels
         void DoEndRefill()
         {
             if (_refillTimer == null) return;
-            
+                
             NotRefilling = false;
             _refillTimer.Enabled = false;
 
             RefillMessage = "Refill Hoppers. Press Start to Begin.";
-
+            
+            DenomVisibility = System.Windows.Visibility.Hidden;
             //BoLib.disableNoteValidator();
-
+            
             if (BoLib.isUtilityBitSet())
                 BoLib.disableUtilsCoinBit();
 #if DEBUG
             Debug.WriteLine("Stopping the Refill");
 #endif  
         }
-
+        
         void Refresh() //TODO DO THIS!!
         {
             RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);

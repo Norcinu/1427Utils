@@ -99,7 +99,6 @@
 
                             <Button Style="{StaticResource ButtonText}" Command="{Binding AddCreditSpecific}" 
                                     CommandParameter="{Binding ElementName=BtnFivePounds}" Name="BtnFivePounds" Content="€5"/>
-                            
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
@@ -108,7 +107,6 @@
 
                             <Button Style="{StaticResource ButtonText}" Command="{Binding AddCreditSpecific}" 
                                     CommandParameter="{Binding ElementName=BtnTwentyPounds}" Name="BtnTwentyPounds" Content="€20"/>
-                            
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -139,9 +137,14 @@
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                             IsEnabled="{Binding CanRefillHoppers}"
                             Visibility="{Binding CanRefillHoppers, Converter={StaticResource BoolToVis}}">
+
+                        <Label FontSize="28" Background="AliceBlue" Foreground="DarkOrchid" HorizontalAlignment="Center" 
+                               Content="{Binding CoinDenominationMsg}" ContentStringFormat="Filling {0} value coins."
+                               Visibility="{Binding DenomVisibility}" />
                         <Label FontSize="28" Background="AliceBlue" Foreground="DarkOrchid" HorizontalAlignment="Center"
                                Content="{Binding RefillMessage}" />
                                <!-- > Refill Hoppers</Label> -->
+                        
                         <Label FontSize="18" Margin="5" ContentStringFormat="LEFT HOPPER: Total Coins: {0}" Content="{Binding RefillCoinsAddedLeft}"/>
                         <Label FontSize="18" Margin="5" ContentStringFormat="RIGHT HOPPER: Total Coins: {0}" Content="{Binding RefillCoinsAddedRight}"/>
                         
