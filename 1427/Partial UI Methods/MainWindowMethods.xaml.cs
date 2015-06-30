@@ -19,7 +19,8 @@ namespace PDTUtils
                     case 0:
                         _sharedMemoryOnline = true;
 
-                        BoLib.setUtilBit((int)UtilBits.Allow);
+                        //BoLib.setUtilBit((int)UtilBits.Allow);
+                        BoLib.setUtilRequestBitState((int)UtilBits.Allow);
                         
                         if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
                         {

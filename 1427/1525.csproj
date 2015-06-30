@@ -125,7 +125,7 @@
     <Compile Include="MVVM\ViewModels\PerformanceViewModel.cs" />
     <Compile Include="MVVM\ViewModels\RegionalSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ScreenshotViewModel.cs" />
-    <Compile Include="MVVM\WPFMessageBoxService.cs" />
+    <Compile Include="Views\WPFMessageBoxService.cs" />
     <Compile Include="Properties\Categories.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

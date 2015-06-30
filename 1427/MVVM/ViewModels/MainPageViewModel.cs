@@ -441,7 +441,8 @@ namespace PDTUtils.MVVM.ViewModels
             }
 
             BoLib.setUtilsAdd2CreditValue((uint)Pennies);
-            BoLib.setRequestUtilsAdd2Credit();
+            BoLib.setUtilRequestBitState((int)UtilBits.AddToCredit);
+            //BoLib.setRequestUtilsAdd2Credit();
             System.Threading.Thread.Sleep(250);
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
@@ -463,7 +464,7 @@ namespace PDTUtils.MVVM.ViewModels
             HandPayActive = false;
             BoLib.cancelHandPay();
         }
-        
+        //
         public ICommand ToggleIsEnabled
         {
             get { return new DelegateCommand(o => IsEnabled = !IsEnabled); }
@@ -478,7 +479,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _msg.ShowMessage("Please Close the Cabinet door.", "Error");
                 return;
             }
-            
+
             _canRefillHoppers = !_canRefillHoppers;
             RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
             RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
@@ -494,10 +495,11 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand RefillHopper { get { return new DelegateCommand(o => DoRefillHopper()); } }
         void DoRefillHopper()
         {
+            BoLib.setUtilRequestBitState((int)UtilBits.RefillCoins);
             DenomVisibility = System.Windows.Visibility.Visible;
             if (_refillTimer == null)
             {
-                CoinDenominationMsg = "1.00";
+                CoinDenominationMsg = "0.20";
                 RefillMessage = "Insert Coins. Press Stop to End Refill.";
                 _refillTimer = new Timer() { Enabled = true, Interval = 200 };
                 _refillTimer.Elapsed += (sender, e) =>
@@ -505,14 +507,14 @@ namespace PDTUtils.MVVM.ViewModels
                     RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
                     RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
                 };
-                BoLib.enableUtilsCoinBit();
+                BoLib.getUtilRequestBitState((int)UtilBits.RefillCoins);
             }
             else if (!_refillTimer.Enabled)
             {
-                CoinDenominationMsg = "0.20";
+                CoinDenominationMsg = "1.00";
                 RefillMessage = "Insert Coins. Press Stop to End Refill.";
                 _refillTimer.Enabled = true;
-                BoLib.enableUtilsCoinBit();        
+                BoLib.getUtilRequestBitState((int)UtilBits.RefillCoins);
             }
         }
         
@@ -527,10 +529,12 @@ namespace PDTUtils.MVVM.ViewModels
             RefillMessage = "Refill Hoppers. Press Start to Begin.";
             
             DenomVisibility = System.Windows.Visibility.Hidden;
-            //BoLib.disableNoteValidator();
-            
-            if (BoLib.isUtilityBitSet())
-                BoLib.disableUtilsCoinBit();
+
+            BoLib.clearUtilRequestBitState((int)UtilBits.RefillCoins);
+
+            if (BoLib.getUtilRequestBitState((int)UtilBits.Allow))
+                BoLib.disableNoteValidator();
+
 #if DEBUG
             Debug.WriteLine("Stopping the Refill");
 #endif  

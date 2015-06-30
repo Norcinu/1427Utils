@@ -316,14 +316,17 @@ unsigned char getHopperDumpSwitch()
 	return GetSwitchStatus(HOPPER_DUMP_SW);
 }
 
+//DEPRECATE
 unsigned int getRequestEmptyLeftHopper()
 {
-	return GetRequestEmptyLeftHopper();
+	//return GetRequestEmptyLeftHopper();
+	return GetUtilRequestBitState(UTIL_DUMP_HOPPER1_BIT);
 }
-
+//DEPRECATE
 unsigned int getRequestEmptyRightHopper()
 {
-	return GetRequestEmptyRightHopper();
+	//return GetRequestEmptyRightHopper();
+	return GetUtilRequestBitState(UTIL_DUMP_HOPPER2_BIT);
 }
 
 unsigned char getBnvType()
@@ -789,10 +792,12 @@ unsigned long getEspRegionalVariableValue(int ValueIndex)
 // Just handling the coin bit for now.
 bool isUtilityBitSet(/*const int index*/)
 {
+	return false;
+/*
 	if (UTIL_REQUEST_REFILL_COINS)
 		return true;
 	else
-		false;
+		false;*/
 }
 
 unsigned int getBankCreditsReservePtr()
@@ -802,6 +807,8 @@ unsigned int getBankCreditsReservePtr()
 
 bool getOogaDeBooga()
 {	
+	return false;
+/*
 	bool retVal = true;
 
 	auto mutex = CreateMutex(NULL, TRUE, NULL);
@@ -812,7 +819,7 @@ bool getOogaDeBooga()
 
 	ReleaseMutex(mutex);
 
-	return retVal;
+	return retVal;*/
 }
 
 /*
@@ -831,4 +838,9 @@ bool getIsHopperHopping(unsigned char hopper)
 
 	return 0;
 
+}
+
+bool getUtilRequestBitState(int whichBit)
+{
+	return (bool)GetUtilRequestBitState(whichBit);
 }

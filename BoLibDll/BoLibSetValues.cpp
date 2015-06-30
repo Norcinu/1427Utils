@@ -63,15 +63,20 @@ void setHopperFloatLevel(unsigned char hopper, unsigned int value)
 	SetHopperFloatLevel(hopper, value);
 }
 
-void setRequestEmptyLeftHopper()
+void setRequestEmptyHopper(int hopper)
 {
-	SetRequestEmptyLeftHopper();
+	SetUtilRequestBitState(hopper);
 }
 
-void setRequestEmptyRightHopper()
-{
-	SetRequestEmptyRightHopper();
-}
+//void setRequestEmptyLeftHopper()
+//{
+	//SetRequestEmptyLeftHopper();
+//}
+
+//void setRequestEmptyRightHopper()
+//{
+	//SetRequestEmptyRightHopper();
+//}
 
 void setCriticalError(int code)
 {
@@ -130,15 +135,16 @@ void setRebootRequired()
 	SetRebootRequired();
 }
 
+
 void setUtilsAdd2CreditValue(unsigned int value)
 {
     SetUtilsAdd2CreditValue(value);
 }
-
+/*
 void setRequestUtilsAdd2Credit() 
 {
     SetRequestUtilsAdd2Credit();
-}
+}*/
 
 void setEspRegionalValue(unsigned int QueryIndex,unsigned long Value)
 {
@@ -147,24 +153,22 @@ void setEspRegionalValue(unsigned int QueryIndex,unsigned long Value)
 
 void enableUtilsCoinBit()
 {
-	//Share2 |= 0x80;
 	nvr_main->share_2 |= 0x80;
 }
 
 void disableUtilsCoinBit()
 {
-	//Share2 &= ~0x80;
 	nvr_main->share_2 &= ~0x80;
 }
 
-void setUtilBit(int bit)
+void setUtilRequestBitState(int bit)
 {
-	nvr_main->share_2 |= bit;
+	SetUtilRequestBitState(bit);
 }
 
-void clearUtilBit(int bit)
+void clearUtilRequestBitState(int bit)
 {
-	nvr_main->share_2 &= ~bit;
+	ClearUtilRequestBitState(bit);
 }
 
 /*

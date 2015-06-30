@@ -15,12 +15,12 @@ namespace PDTUtils.MVVM.ViewModels
         public bool RebootRequired { get; set; }
         public bool IsCatC { get; set; }
         public bool TiToEnabled { get; set; }
-        public bool HasRecycler { get; set; }
+        //public bool HasRecycler { get; set; }
         public string RtpMessage { get; set; }
         public string HandPayLevel { get; set; }
         public string DivertLeftMessage { get; set; }
         public string DivertRightMessage { get; set; }
-        public string RecyclerMessage { get; set; }
+        //public string RecyclerMessage { get; set; }
         public string TerminalAssetMsg { get; set; }
 
         readonly string _titoDisabledMsg = "Warning: TiTo DISABLED";
@@ -51,8 +51,8 @@ namespace PDTUtils.MVVM.ViewModels
                 HandPayLevel = (BoLib.getHandPayThreshold() / 100).ToString("C", Thread.CurrentThread.CurrentUICulture.NumberFormat);
                 DivertLeftMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Left).ToString();
                 DivertRightMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Right).ToString();
-
-                if (BoLib.getBnvType() == 5)
+                
+                /*if (BoLib.getBnvType() == 5)
                 {
                     HasRecycler = true;
                     if (BoLib.getRecyclerChannel() == 3)
@@ -64,24 +64,23 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     HasRecycler = false;
                     RecyclerMessage = "NO RECYCLER";
-                }
+                }*/
 
                 RebootRequired = false;
                 ///!!! DEBUG - Use proper BoLib function for this !!! 
                 //UseReserveEnabled = true;
-                //DoUseReserve("startup");
-                
+                //DoUseReserve("startup");   
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
 
-            RaisePropertyChangedEvent("HasRecycler");
+            //RaisePropertyChangedEvent("HasRecycler");
             RaisePropertyChangedEvent("IsCatC");
             RaisePropertyChangedEvent("HandPayLevel");
             RaisePropertyChangedEvent("DivertMessage");
-            RaisePropertyChangedEvent("RecyclerMessage");
+            //RaisePropertyChangedEvent("RecyclerMessage");
             RaisePropertyChangedEvent("TerminalAssetMsg");
             RaisePropertyChangedEvent("RebootRequired");
            // RaisePropertyChangedEvent("UseReserveEnabled");
@@ -213,7 +212,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("DivertRightMessage");
         }
                 
-        public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
+        /*public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
         void DoRecycleNote(object o)
         {
             var noteType = o as string;
@@ -226,7 +225,7 @@ namespace PDTUtils.MVVM.ViewModels
             IniFileUtility.HashFile(Resources.birth_cert);
             RecyclerMessage = (noteType == "10") ? "£10 Recycled" : "£20 Recycled";
             RaisePropertyChangedEvent("RecyclerMessage");
-        }
+        }*/
         
         public ICommand TiToState { get { return new DelegateCommand(ToggleTiToState); } }
         void ToggleTiToState(object o) //TODO: Re-factor this mess of code ffs.

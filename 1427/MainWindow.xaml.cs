@@ -233,9 +233,9 @@ namespace PDTUtils
                 BoLib.disableUtilsCoinBit();
             
             if (GlobalConfig.ReparseSettings)
-                BoLib.setUtilBit((int)UtilBits.RereadBirthCert);
-            
-            BoLib.clearUtilBit((int)UtilBits.Allow);// no longer in the utils, so act normally.
+                BoLib.setUtilRequestBitState((int)UtilBits.RereadBirthCert);
+
+            BoLib.clearUtilRequestBitState((int)UtilBits.Allow); 
             
             if (!_sharedMemoryOnline) return;
             _sharedMemoryOnline = false;

@@ -7,63 +7,15 @@ struct SpanishRegional;
 
 typedef int BOOL;
 
-/**
-*	Gets the maximum credits level for the category.
-*	The call wraps GetVariableValue(MAX_CREDITS).
-*/
-DLLEXPORT int getMaxCredits();
-/**
-*	Gets the maximum allowable bank meter level.
-*	The call wraps GetVariableValue(MAX_WIN_BANK).
-*	Returns the value in pennies.
-*/
-DLLEXPORT int getMaxBank();
-/**
-*	Gets the machines RTP.
-*	Calls directly the BO lib equivalent.
-*	Returns the value in pennies.
-*/
-DLLEXPORT int getTargetPercentage();
-/**
-*	Determines whether or not the machine is set for dual bank meters.
-*	The call wraps GetBankAndCreditMeter();
-*/
-DLLEXPORT bool isDualBank();
-/**
-*	Gets the current error code.
-*	The call wraps GetCurrentError();
-*	Returns an integer based for each code.
-*/
-DLLEXPORT int getError();
-/**
-*	Gets the current error text based on the error code. 
-*	Returns an string.
-*	This call wraps GetErrorText(GetCurrentError());
-*/
-DLLEXPORT const char *getErrorText();
-/**
-*	Checks to see the status of the door. Is door open or closed.
-*	Returns 0 for door-closed, 1 for door-open.
-*	Call wraps GetDoorStatus();
-*/
-DLLEXPORT int getDoorStatus();
-/**
-*	Check for refill key status.
-*	0 for off, 1 for on.
-*	This call wraps GetSwitchStatus(REFILL_KEY);
-*/
-DLLEXPORT int refillKeyStatus();
-/**
-*	Get the terminals current commited credit level.
-*	Value is returned in pennies.
-*	Call wraps GetCredits();
-*/
-DLLEXPORT int getCredit();
-/**
-*	Get terminals current *uncommited* credit level.
-*	Value is returned in pennies.
-*	Call wraps GetBankDeposit();
-*/
+DLLEXPORT int			getMaxCredits();
+DLLEXPORT int			getMaxBank();
+DLLEXPORT int			getTargetPercentage();
+DLLEXPORT bool			isDualBank();
+DLLEXPORT int			getError();
+DLLEXPORT const char	*getErrorText();
+DLLEXPORT int			getDoorStatus();
+DLLEXPORT int			refillKeyStatus();
+DLLEXPORT int			getCredit();
 DLLEXPORT int			getBank();		    
 DLLEXPORT int			addCredit(int pennies);
 DLLEXPORT int			getCountryCode();
@@ -138,4 +90,5 @@ DLLEXPORT bool			isUtilityBitSet(/*const int index*/);
 DLLEXPORT unsigned int	getBankCreditsReservePtr();
 DLLEXPORT bool			getOogaDeBooga();
 DLLEXPORT bool			getIsHopperHopping(unsigned char hopper);
+DLLEXPORT bool			getUtilRequestBitState(int whichBit);
 

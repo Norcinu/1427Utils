@@ -233,8 +233,9 @@ namespace PDTUtils
             _noteImpl.IsRunning = true;
             BoLib.clearBankAndCredit();
             //BoLib.enableNoteValidator();
-            BoLib.clearUtilBit((int)UtilBits.NoteTest);
-            BoLib.setUtilBit((int)UtilBits.CoinTest);
+            //BoLib.clearUtilBit((int)UtilBits.NoteTest);
+            BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);
+            BoLib.setUtilRequestBitState((int)UtilBits.CoinTest);// .setUtilBit((int)UtilBits.CoinTest);
             Label1.Background = Brushes.Black;
             Label1.Foreground = Brushes.Aqua;
             Label1.Content = "Please deposit coin into the machine.";
@@ -248,11 +249,22 @@ namespace PDTUtils
             _aTestIsRunning = true;
             _noteImpl.IsRunning = true;
             BoLib.clearBankCreditReserve();
-            //BoLib.clearBankAndCredit();
-            //BoLib.enableNoteValidator();
-            //BoLib.setUtilBit((int)UtilBits.CoinTest);
-            BoLib.clearUtilBit((int)UtilBits.CoinTest);
-            BoLib.setUtilBit((int)UtilBits.NoteTest);
+            
+            BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
+            BoLib.setUtilRequestBitState((int)UtilBits.NoteTest);
+            
+            if (BoLib.refillKeyStatus() == 0)
+            {
+                MessageBox.Show("Please turn refill key before continuing.", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                if (BoLib.refillKeyStatus() == 0) //incase they havent turned key while message is up.
+                {
+                    BtnEndTest.IsEnabled = true;
+                    _noteImpl.IsRunning = false;
+                    _aTestIsRunning = false;
+                    return;
+                }
+            }
+            
             Label1.Background = Brushes.Black;
             Label1.Foreground = Brushes.Aqua;
             Label1.Content = "Please insert note into Note Validator.";
@@ -566,8 +578,10 @@ namespace PDTUtils
                 
                 ResetLabels(StpMainPanel.Children);
 
-                BoLib.clearUtilBit((int)UtilBits.CoinTest);
-                BoLib.clearUtilBit((int)UtilBits.NoteTest);
+                BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
+                BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);
+                //BoLib.clearUtilBit((int)UtilBits.CoinTest);
+                //BoLib.clearUtilBit((int)UtilBits.NoteTest);
 
                 BtnEndTest.IsEnabled = false;
                 _aTestIsRunning = false;
@@ -589,8 +603,10 @@ namespace PDTUtils
             if (_lampTimer.Enabled)
                 _lampTimer.Enabled = false;
 
-            BoLib.clearUtilBit((int)UtilBits.CoinTest);
-            BoLib.clearUtilBit((int)UtilBits.NoteTest);
+            BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
+            BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);
+            //BoLib.clearUtilBit((int)UtilBits.CoinTest);
+            //BoLib.clearUtilBit((int)UtilBits.NoteTest);
 
             //BoLib.disableNoteValidator();
 

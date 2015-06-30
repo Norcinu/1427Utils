@@ -186,7 +186,26 @@ namespace PDTUtils.Native
 
     enum UtilBits
     {
-        Allow           = 0x00000001,
+        Allow               = 0x00000001,
+        EEPromUpdate        = 0x00000002,
+        ChangeRnv           = 0x00000004,
+        EmptyRecycler       = 0x00000008,
+        RecyclerValue       = 0x00000010,
+        TitoAudit           = 0x00000020,
+        AddToCredit         = 0x00000040,
+        RefillCoins         = 0x00000080,
+        CoinTest            = 0x00000100,
+        NoteTest            = 0x00000200,
+        PrintTicket         = 0x00000400,
+        RereadBirthCert     = 0x00000800,
+        TopupLeftHopper	    = 0x00001000,
+        TopupRightHopper    = 0x00002000,
+        DumpLeftHopper      = 0x00004000,
+        DumpRightHopper     = 0x00008000,
+        TestLeftHopper      = 0x00010000,
+        TestRightHopper     = 0x00020000
+        
+     /* Allow           = 0x00000001,
         EEPromUpdate    = 0x00000002,
         ChangeRnv       = 0x00000004,
         EmptyRecycler   = 0x00000008,
@@ -197,7 +216,7 @@ namespace PDTUtils.Native
         CoinTest        = 0x00000100,
         NoteTest        = 0x00000200,
         PrintTicket     = 0x00000400,
-        RereadBirthCert = 0x00000800
+        RereadBirthCert = 0x00000800 */
     }
     
     static class BoLib
@@ -476,6 +495,9 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool getIsHopperHopping(byte hopper);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool getUtilRequestBitState(int bit);
         
         /************************************************************************/
         /*							Set methods                                 */
@@ -493,10 +515,11 @@ namespace PDTUtils.Native
         public static extern void setHopperFloatLevel(byte hopper, uint value);
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void setRequestEmptyLeftHopper();
+        public static extern void setRequestEmptyHopper(int hopper);
+        /*public static extern void setRequestEmptyLeftHopper();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void setRequestEmptyRightHopper();
+        public static extern void setRequestEmptyRightHopper();*/
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void addCredit(int pennies);
@@ -614,11 +637,17 @@ namespace PDTUtils.Native
         [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
         public static extern void setTerminalType(byte type);
 
-        [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setUtilBit(int bit);
 
-        [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
-        public static extern void clearUtilBit(int bit);
+        //[DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
+        //public static extern void clearUtilBit(int bit);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void setUtilRequestBitState(int bit);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void clearUtilRequestBitState(int bit);
 
         /************************************************************************/
         /* Hand Pay methods                                                     */

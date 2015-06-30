@@ -156,7 +156,7 @@ namespace PDTUtils.Logic
 				{
 					_hopperImpl.DumpSwitchPressed = true;
 					_switchTimer.Interval = 1000;
-					BoLib.setRequestEmptyLeftHopper();
+                    BoLib.setUtilRequestBitState((int)UtilBits.DumpLeftHopper);
 				}
 			}
 			else
@@ -166,8 +166,8 @@ namespace PDTUtils.Logic
 					var result = BoLib.getRequestEmptyLeftHopper();
 					if (result == 0 && BoLib.getHopperFloatLevel(BoLib.getLeftHopper()) == 0)
 					{
-						_doLeft = false;
-						BoLib.setRequestEmptyRightHopper();
+                        _doLeft = false;
+                        BoLib.setUtilRequestBitState((int)UtilBits.DumpRightHopper);
 					}
 				}
 				else

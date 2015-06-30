@@ -278,7 +278,8 @@ namespace PDTUtils.MVVM.ViewModels
 
                         if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 ||
                             (!dumpSwitchPressed && BoLib.getHopperDumpSwitchActive() > 0)) return;
-                        BoLib.setRequestEmptyLeftHopper();
+                        //BoLib.setRequestEmptyLeftHopper();
+                        BoLib.setUtilRequestBitState((int)UtilBits.DumpLeftHopper);
 
                         if (BoLib.getRequestEmptyLeftHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Left) > 0)
                         {
@@ -327,7 +328,8 @@ namespace PDTUtils.MVVM.ViewModels
 
                             if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 ||
                                 (!dumpSwitchPressed && BoLib.getHopperDumpSwitchActive() > 0)) return;
-                            BoLib.setRequestEmptyRightHopper();
+                            //BoLib.setRequestEmptyRightHopper();
+                            BoLib.setUtilRequestBitState((int)UtilBits.DumpRightHopper);
 
                             if (BoLib.getRequestEmptyRightHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Right) > 0)
                             {

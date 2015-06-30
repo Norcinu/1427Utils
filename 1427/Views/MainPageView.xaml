@@ -144,7 +144,7 @@
                         <Label FontSize="28" Background="AliceBlue" Foreground="DarkOrchid" HorizontalAlignment="Center"
                                Content="{Binding RefillMessage}" />
                                <!-- > Refill Hoppers</Label> -->
-                        
+
                         <Label FontSize="18" Margin="5" ContentStringFormat="LEFT HOPPER: Total Coins: {0}" Content="{Binding RefillCoinsAddedLeft}"/>
                         <Label FontSize="18" Margin="5" ContentStringFormat="RIGHT HOPPER: Total Coins: {0}" Content="{Binding RefillCoinsAddedRight}"/>
                         
