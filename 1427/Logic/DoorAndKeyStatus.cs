@@ -85,16 +85,16 @@ namespace PDTUtils
 			        if (BoLib.refillKeyStatus() == 0 && !_prepareForReboot)
 			        {
 			            //_running = false; - no longer need to quit here. this is handled in Window_Closing.
-			            Application.Current.Dispatcher.Invoke(
-			                DispatcherPriority.Normal,
-			                (ThreadStart) delegate
-			                {
+                        Application.Current.Dispatcher.Invoke(
+                            DispatcherPriority.Normal,
+                            (ThreadStart)delegate
+                            {
 #if !DEBUG
-			                    if (GlobalConfig.RebootRequired)
+			                    if (PDTUtils.Logic.GlobalConfig.RebootRequired)
 			                        BoLib.setRebootRequired();
 #endif
-			                });
-                         
+                            });
+                        
 			            //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 			        }
                     
@@ -104,13 +104,13 @@ namespace PDTUtils
 			            {
 			                _doorStatus = false;
 			                _hasChanged = true;
-			                OnPropertyChanged("DoorStatus");
-			                OnPropertyChanged("IsDoorClosed");
+                            OnPropertyChanged("DoorStatus");
+                            OnPropertyChanged("IsDoorClosed");
 			            }
 			        }
 			        else
 			        {
-			            if (_doorStatus == false)
+			            if (!_doorStatus)
 			            {
 			                _doorStatus = true;
 			                _hasChanged = true;

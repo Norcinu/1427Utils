@@ -19,6 +19,7 @@ namespace PDTUtils
 	{
         bool _isSpanishMachine = true;
 	    bool _sharedMemoryOnline = false;
+        bool _directSoundOnline = false;
         string _errorMessage = "";
 	    double WindowHeight { get; set; }
 		
@@ -229,14 +230,20 @@ namespace PDTUtils
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
 #endif
-            if (BoLib.isUtilityBitSet()) // No longer needed?
+            if (BoLib.getUtilRequestBitState((int)UtilBits.Allow))
                 BoLib.disableUtilsCoinBit();
             
             if (GlobalConfig.ReparseSettings)
                 BoLib.setUtilRequestBitState((int)UtilBits.RereadBirthCert);
 
-            BoLib.clearUtilRequestBitState((int)UtilBits.Allow); 
+            BoLib.clearUtilRequestBitState((int)UtilBits.Allow);
             
+            if (_directSoundOnline)
+            {
+                BoLib.DirectSoundShutdown();
+                _directSoundOnline = false;
+            }
+
             if (!_sharedMemoryOnline) return;
             _sharedMemoryOnline = false;
             BoLib.closeSharedMemory();

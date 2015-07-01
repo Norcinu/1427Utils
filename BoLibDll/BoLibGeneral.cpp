@@ -32,7 +32,7 @@ unsigned long getPrinterTicketState()
 
 void printTestTicket()
 {
-	Share2 |= 0x01; //advise shell that print needed
+	SetUtilRequestBitState(UTIL_PRINT_TICKET_BIT);
 
 	int returnCode = GetCurrentError();
 	do
@@ -47,7 +47,7 @@ void printTestTicket()
 			int a = 0;
 
 		returnCode = GetCurrentError();
-	} while (Share2 & 0x01);
+	} while (GetUtilRequestBitState(UTIL_PRINT_TICKET_BIT));
 }
 
 char *getBnvStringType(unsigned char bnv)

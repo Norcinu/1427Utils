@@ -80,15 +80,12 @@ DLLEXPORT unsigned int	getUtilsAdd2CreditValue();
 DLLEXPORT unsigned long getLastGameModel(int index);
 DLLEXPORT unsigned long getReserveCredits();
 DLLEXPORT bool			isBackOfficeAvilable();
-//DLLEXPORT unsigned int	getPayoutCoinValues(unsigned int WhichOne);
 DLLEXPORT unsigned long getWinningGameMeter(int offset, int meter);
 DLLEXPORT unsigned long getHistoryLength();
 DLLEXPORT char			*getLicense();
 DLLEXPORT char			*getCountryCodeStrLiteral(char *str, int code);
 DLLEXPORT unsigned long getEspRegionalVariableValue(int ValueIndex);
-DLLEXPORT bool			isUtilityBitSet(/*const int index*/);
 DLLEXPORT unsigned int	getBankCreditsReservePtr();
-DLLEXPORT bool			getOogaDeBooga();
 DLLEXPORT bool			getIsHopperHopping(unsigned char hopper);
 DLLEXPORT bool			getUtilRequestBitState(int whichBit);
 

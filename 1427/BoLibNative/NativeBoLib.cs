@@ -481,17 +481,11 @@ namespace PDTUtils.Native
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern ulong getEspRegionalVariableValue(int value);
 
-        /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern uint getPayoutCoinValues(uint which);*/
-
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool isUtilityBitSet(/*const int index*/);
-
+        /**
+         ** Gets the bank, credit and reserve POINTER value not nvr_main.
+         **/
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint getBankCreditsReservePtr();
-
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool getOogaDeBooga();
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool getIsHopperHopping(byte hopper);
@@ -691,5 +685,21 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setTitoState(int state);
+
+
+        /************************************************************************/
+        /* DirectSound methods - hear me now, praise de Lord!                   */
+        /************************************************************************/
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int DirectSoundInit();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int DirectSoundShutdown();
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int LoadWavFile(string filename, int control_flags);
+
+        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DoPlaySound(); //always gonna be sound zero in utils.
     }
 }

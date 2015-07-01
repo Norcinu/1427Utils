@@ -33,6 +33,14 @@ namespace PDTUtils
                         
                         _uiUpdateTimer = new Timer() { Interval = 1000, Enabled = true };
                         _uiUpdateTimer.Elapsed += UpdateUiLabels;
+
+                        /*if (BoLib.DirectSoundInit() > 0)
+                            _directSoundOnline = true;
+                        else
+                            _directSoundOnline = false;
+
+                        BoLib.LoadWavFile(@"D:\1525\wav\volume.wav", 0);
+                        BoLib.DoPlaySound();*/
                         return;
                     case 1:
                         _errorMessage = "Could not connect to Shell. Check If Running.";
@@ -74,8 +82,16 @@ namespace PDTUtils
 
 	    private void UpdateUiLabels(object sender, ElapsedEventArgs e)
 		{
-            LblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
-            LblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
+            try
+            {
+                LblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
+                LblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.StackTrace);
+            }
 		}
         
 		public void UpdateTimeAndDate()

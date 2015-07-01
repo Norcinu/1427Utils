@@ -788,38 +788,9 @@ unsigned long getEspRegionalVariableValue(int ValueIndex)
 	return GetEspRegionalVariableValue(ValueIndex);
 }
 
-
-// Just handling the coin bit for now.
-bool isUtilityBitSet(/*const int index*/)
-{
-	return false;
-/*
-	if (UTIL_REQUEST_REFILL_COINS)
-		return true;
-	else
-		false;*/
-}
-
 unsigned int getBankCreditsReservePtr()
 {
 	return (unsigned int)(nvr_ptr->bank1 + nvr_ptr->cd1 + nvr_ptr->reserveCredits1);
-}
-
-bool getOogaDeBooga()
-{	
-	return false;
-/*
-	bool retVal = true;
-
-	auto mutex = CreateMutex(NULL, TRUE, NULL);
-	if (mutex == nullptr) return retVal;
-	
-	if (UTIL_REQUEST_EMPTY_RECYCLER)
-		retVal = false;
-
-	ReleaseMutex(mutex);
-
-	return retVal;*/
 }
 
 /*

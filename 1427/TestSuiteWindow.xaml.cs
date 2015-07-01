@@ -34,12 +34,13 @@ namespace PDTUtils
         readonly byte[] _specialMasks = new byte[2] { 0x10, 0x02 };
         readonly byte[] _buttonMasks = new byte[8] { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 
-        readonly string[] _buttonContent = new string[6] { "Printer", "Buttons", "Lamps", "Dil Status", "Note Val", "Coin Mech" };
+        readonly string[] _buttonContent = new string[6] { (PrinterOrHopper() > 0) ? "Printer" : "Hopper", "Buttons", "Lamps", 
+                                                                                     "Dil Status", "Note Val", "Coin Mech" };
         readonly int[] _buttonsPressed = new int[8];
         readonly Label[] _labels;
         readonly Timer _startTimer = new Timer() { Enabled = false, Interval = 100 };
         readonly Timer _lampTimer = new Timer() { Enabled = false, Interval = 100 };
-
+        
         #region DELEGATE TYPES
         public delegate void DelegateDil(Label l, string message);
         public delegate void DelegateNoteVal(Label l, int v);
@@ -208,9 +209,7 @@ namespace PDTUtils
                 ctr++;
             }
             
-            //BogStandardResetTests();
-
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
 
             var timer = new System.Threading.Timer(o =>
             {
@@ -225,7 +224,7 @@ namespace PDTUtils
             BtnEndTest.IsEnabled = false;
             _aTestIsRunning = false;
         }
-
+        
         void DoCoinTest()
         {
             _aTestIsRunning = true;
@@ -298,6 +297,11 @@ namespace PDTUtils
                     label.Dispatcher.Invoke((DelegateUpdate)label_DefaultStyle, label);
                 }
             }
+        }
+
+        void DoHopperTest()
+        {
+
         }
         
         #region DELEGATES AND EVENTS
@@ -611,6 +615,16 @@ namespace PDTUtils
             //BoLib.disableNoteValidator();
 
             // shut down print thread? - should never start up.
+        }
+
+        static int PrinterOrHopper()
+        {
+            char[] ret = new char[3];
+            NativeWinApi.GetPrivateProfileString("Config", "PayoutType", "", ret, 3, @Properties.Resources.birth_cert);
+            if (ret[0] == '0') return 0;
+            else if (ret[0] == '1') return 1;
+            else if (ret[0] == '2') return 2;
+            else return -1;
         }
     }
 }

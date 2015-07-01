@@ -313,7 +313,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             RaisePropertyChangedEvent("ErrorMessage");
         }
-
+        
         private ICommand ShowMessageBox
         {
             get { return new DelegateCommand(o => _msgBoxService.ShowMessage(_message, _caption)); }
@@ -439,11 +439,12 @@ namespace PDTUtils.MVVM.ViewModels
                     Pennies *= 100;
                 }
             }
-
+          
             BoLib.setUtilsAdd2CreditValue((uint)Pennies);
             BoLib.setUtilRequestBitState((int)UtilBits.AddToCredit);
-            //BoLib.setRequestUtilsAdd2Credit();
+            
             System.Threading.Thread.Sleep(250);
+            
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
             Reserve = (int)BoLib.getReserveCredits();
@@ -464,7 +465,7 @@ namespace PDTUtils.MVVM.ViewModels
             HandPayActive = false;
             BoLib.cancelHandPay();
         }
-        //
+        
         public ICommand ToggleIsEnabled
         {
             get { return new DelegateCommand(o => IsEnabled = !IsEnabled); }
