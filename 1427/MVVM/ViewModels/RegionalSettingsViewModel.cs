@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-//using System.Data.SQLite;
 using System.Reflection;
 using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
 using PDTUtils.Properties;
+
 
 
 namespace PDTUtils.MVVM.ViewModels
@@ -25,7 +25,7 @@ namespace PDTUtils.MVVM.ViewModels
         readonly ObservableCollection<SpanishRegionalModel> _street = new ObservableCollection<SpanishRegionalModel>();
         SpanishRegionalModel _editableLiveRegion;
         SpainRegionSelection _selected = new SpainRegionSelection();
-                
+        
         readonly string _espRegionIni = Resources.esp_live_ini;
         readonly string[] _streetMarketRegions = new string[20]
         {
@@ -71,7 +71,7 @@ namespace PDTUtils.MVVM.ViewModels
             get { return _editableLiveRegion; }
             set { _editableLiveRegion = value; }
         }
-
+        
         public int ArcadeSelectedIndex
         {
             get { return _arcadeSelectedIndex; }
@@ -164,7 +164,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _isSpanishMachine = false;
                 return; //not a spanish machine so dont load.
             }
-
+          
             var i = 0;
             foreach (var s in _streetMarketRegions)
             {

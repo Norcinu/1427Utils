@@ -30,7 +30,7 @@ namespace PDTUtils
                         
                         _doorStatusTimer = new Timer() { Interval = 500, Enabled = true };
                         _doorStatusTimer.Elapsed += DoorTimerEvent;
-                        
+
                         _uiUpdateTimer = new Timer() { Interval = 1000, Enabled = true };
                         _uiUpdateTimer.Elapsed += UpdateUiLabels;
 
@@ -145,7 +145,7 @@ namespace PDTUtils
             //if (_keyDoorWorker.DoorStatus == false)
 		    //    BoLib.disableNoteValidator();
 		}
-        
+                
 		void ChangeVolume(int newVolume)
 		{
 			var volume = BoLib.getLocalMasterVolume();

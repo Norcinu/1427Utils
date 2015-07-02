@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Runtime.InteropServices;
 using System.Timers;
+using System.Diagnostics;
 
 namespace PDTUtilsControlLib
 {
@@ -129,6 +130,16 @@ namespace PDTUtilsControlLib
 			newTime.hour = hour;
 			newTime.minute = minute;
 			SetSystemTime(ref newTime);
+
+            var process = new Process();
+            var startInfo = new ProcessStartInfo();
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C EWFMGR C: -COMMIT";
+            process.StartInfo = startInfo;
+            process.Start();
+
+            MessageBox.Show("New Time Saved.\n\nPlease reboot or changes will be lost.", "INFO", MessageBoxButton.OK, MessageBoxImage.Asterisk);
 		}
 	}
 }

@@ -81,7 +81,7 @@ namespace PDTUtils
                     DockPanel.SetDock(b, Dock.Right);
             }
         }
-        //
+        
         void button_Click(object sender, EventArgs e)
         {
             var button = sender as Button;
@@ -92,7 +92,10 @@ namespace PDTUtils
                 Debug.Assert(button != null, "button != null");
                 if (button.Content.ToString() == _buttonContent[0])
                 {
-                    DoPrinterTest();
+                    if (PrinterOrHopper() > 0)
+                        DoPrinterTest();
+                    else 
+                        DoHopperTest();
                 }
                 else if (button.Content.ToString() == _buttonContent[1])
                 {
@@ -301,7 +304,11 @@ namespace PDTUtils
 
         void DoHopperTest()
         {
-
+            if (!hopperTest.IsEnabled)
+            {
+                hopperTest.IsEnabled=true;
+                hopperTest.Visibility = Visibility.Visible;
+            }
         }
         
         #region DELEGATES AND EVENTS
@@ -532,13 +539,12 @@ namespace PDTUtils
         void timer_CheckNoteValidator(object sender, ElapsedEventArgs e)
         {
             if (!_noteImpl.IsRunning) return;
-            //else BoLib.clearBankCreditReserve();
+
             var value = BoLib.getBankCreditsReservePtr();//BoLib.getCredit() + BoLib.getBank() + (int)BoLib.getReserveCredits();
             if (value <= 0) return;
 
             BoLib.clearBankCreditReserve();   
             Label3.Dispatcher.Invoke((DelegateNoteVal)timer_updateNoteVal, Label3, (int)value);
-            //BoLib.clearBankAndCredit();
         }
 
         void BogStandardResetTests()
@@ -584,8 +590,6 @@ namespace PDTUtils
 
                 BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
                 BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);
-                //BoLib.clearUtilBit((int)UtilBits.CoinTest);
-                //BoLib.clearUtilBit((int)UtilBits.NoteTest);
 
                 BtnEndTest.IsEnabled = false;
                 _aTestIsRunning = false;
@@ -609,14 +613,10 @@ namespace PDTUtils
 
             BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
             BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);
-            //BoLib.clearUtilBit((int)UtilBits.CoinTest);
-            //BoLib.clearUtilBit((int)UtilBits.NoteTest);
-
-            //BoLib.disableNoteValidator();
-
+            
             // shut down print thread? - should never start up.
         }
-
+        
         static int PrinterOrHopper()
         {
             char[] ret = new char[3];
@@ -628,4 +628,3 @@ namespace PDTUtils
         }
     }
 }
-    

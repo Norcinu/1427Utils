@@ -118,7 +118,7 @@ char *GetUniquePcbID(char TYPE)
 {
 	unsigned char chipId[DPCI_IDPROM_ID_SIZE];
 	unsigned char retries = 5;
-	
+		
 	unsigned long PromId1 = 0;
 	unsigned long PromId2 = 0;
 
@@ -189,3 +189,4 @@ void clearFileAction()
 {
 	ClearFileAction();
 }
+

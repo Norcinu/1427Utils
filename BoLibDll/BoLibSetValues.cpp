@@ -178,28 +178,18 @@ void setPayoutCoinValues(unsigned int WhichOne, unsigned int Value)
 	SetPayoutCoinValues(WhichOne, Value);
 }*/
 
-
-
 void clearBankCreditReserve()
 {
-	//if (UTIL_REQUEST_NOTE_TEST)
-	{
-		//clearBankAndCredit();
-		nvr_ptr->bank1 = 0;
-		nvr_ptr->bank2 = 0;
-		nvr_ptr->bank3 = 0;
+	nvr_ptr->bank1 = 0;
+	nvr_ptr->bank2 = 0;
+	nvr_ptr->bank3 = 0;
 
-		nvr_ptr->cd1 = 0;
-		nvr_ptr->cd2 = 0;
-		nvr_ptr->cd3 = 0;
+	nvr_ptr->cd1 = 0;
+	nvr_ptr->cd2 = 0;
+	nvr_ptr->cd3 = 0;
 
-		nvr_ptr->reserveCredits1 = 0;
-		nvr_ptr->reserveCredits2 = 0;
-		nvr_ptr->reserveCredits3 = 0;
-	}
+	nvr_ptr->reserveCredits1 = 0;
+	nvr_ptr->reserveCredits2 = 0;
+	nvr_ptr->reserveCredits3 = 0;
 }
 
-void oogaDeBooga()
-{
-	Share2 |= UTIL_RECYCLER_VALUE_BIT;
-}

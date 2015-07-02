@@ -125,6 +125,9 @@
     <Compile Include="MVVM\ViewModels\PerformanceViewModel.cs" />
     <Compile Include="MVVM\ViewModels\RegionalSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ScreenshotViewModel.cs" />
+    <Compile Include="Views\HopperTestView.xaml.cs">
+      <DependentUpon>HopperTestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\WPFMessageBoxService.cs" />
     <Compile Include="Properties\Categories.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -265,6 +268,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HopperAdminView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HopperTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

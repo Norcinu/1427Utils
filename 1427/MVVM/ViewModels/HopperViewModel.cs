@@ -566,9 +566,20 @@ namespace PDTUtils.MVVM.ViewModels
             RefloatLeft = new string(refloatLeft).Trim("\0".ToCharArray());
             RefloatRight = new string(refloatRight).Trim("\0".ToCharArray());
 
-            BoLib.setHopperFloatLevel((byte)Hoppers.Left, Convert.ToUInt32(RefloatLeft));
-            BoLib.setHopperFloatLevel((byte)Hoppers.Right, Convert.ToUInt32(RefloatRight));
+            if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
+            {
+                var leftFloat = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
+                var rightFloat = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
 
+                BoLib.setHopperFloatLevel((byte)Hoppers.Left, leftFloat + Convert.ToUInt32(RefloatLeft));
+                BoLib.setHopperFloatLevel((byte)Hoppers.Right, rightFloat + Convert.ToUInt32(RefloatRight));
+            }
+            else
+            {
+                BoLib.setHopperFloatLevel((byte)Hoppers.Left, Convert.ToUInt32(RefloatLeft));
+                BoLib.setHopperFloatLevel((byte)Hoppers.Right, Convert.ToUInt32(RefloatRight));
+            }
+            
             SelHopperValue = (_currentSelHopper.Equals("LEFT HOPPER")) ? BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString()
                                                                        : BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
             

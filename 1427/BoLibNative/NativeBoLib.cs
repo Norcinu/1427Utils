@@ -180,8 +180,8 @@ namespace PDTUtils.Native
     
     enum EspRegionalExt
     {
-        EspAlwaysFichas = 17,
-        EspAutoTfxToStake = 18
+        EspAlwaysFichas = 18,
+        EspAutoTfxToStake = 19
     }
 
     enum UtilBits

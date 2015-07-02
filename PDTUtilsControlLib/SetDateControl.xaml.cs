@@ -4,6 +4,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace PDTUtilsControlLib
 {
@@ -141,8 +142,18 @@ namespace PDTUtilsControlLib
             newTime.month = minute;
             newTime.year = year;
             SetSystemTime(ref newTime);
+            
+            var process = new Process();
+            var startInfo = new ProcessStartInfo();
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C EWFMGR C: -COMMIT";
+            process.StartInfo = startInfo;
+            process.Start();
+            process.EnableRaisingEvents = true;
+            MessageBox.Show("New Date Saved.\n\nPlease reboot or changes will be lost.", "INFO", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         }
-
+        
         private void btnSecondsInc_Click(object sender, RoutedEventArgs e)
         {
             var year = Convert.ToInt32(txtSeconds.Text);
