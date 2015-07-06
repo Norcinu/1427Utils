@@ -477,7 +477,8 @@ int StatusSound(int id)
 		return(status);
 
 	} // end if
-	else // total failure/************************************************************************/
+	else
+		/************************************************************************/
 		/* TITO methods                                                         */
 		/************************************************************************/
 		return(-1);
@@ -488,6 +489,7 @@ void DoPlaySound(/*char *filename*/)
 {
 	/*assert (filename != nullptr);*/
 	PlaySound(0, 0, GetLocalMasterVolume(), 0, 0);
+
 }
 
 

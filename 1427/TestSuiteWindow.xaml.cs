@@ -68,12 +68,11 @@ namespace PDTUtils
             {
                 StpButtons.Children.Add(new Button());
                 var b = StpButtons.Children[i] as Button;
-                //var l = new Label().Content = _buttonContent[i];
-                //b.Content = _buttonContent[i];
+                //you lmow ujqu
                 b.Content = _buttonContent[i];//l;
                 b.MinWidth = 90;
                 b.Margin = new Thickness(0, 0, 5, 0);
-                
+                b.Visibility = Visibility.Visible;
                 b.Click += button_Click;
                 if (i < 2)
                     DockPanel.SetDock(b, Dock.Left);
@@ -91,11 +90,17 @@ namespace PDTUtils
                 _currentButton = StpButtons.Children.IndexOf(button);
                 Debug.Assert(button != null, "button != null");
                 if (button.Content.ToString() == _buttonContent[0])
-                {
+                {   
                     if (PrinterOrHopper() > 0)
                         DoPrinterTest();
-                    else 
+                    else
+                    {
                         DoHopperTest();
+                        foreach (var l in _labels)
+                        {
+                            l.Visibility = Visibility.Collapsed;
+                        }
+                    }
                 }
                 else if (button.Content.ToString() == _buttonContent[1])
                 {
@@ -125,6 +130,7 @@ namespace PDTUtils
                 }
 
                 _buttonEnabledCount = 1;
+                BtnEndTest.IsEnabled = true;
             }
             else
             {
@@ -132,6 +138,7 @@ namespace PDTUtils
                 for (var i = 0; i < VisualButtonCount; i++)
                 {
                     StpButtons.Children[i].IsEnabled = true;
+                    StpButtons.Children[i].Visibility = Visibility.Visible;
                 }
             }
         }
@@ -212,7 +219,7 @@ namespace PDTUtils
                 ctr++;
             }
             
-            Thread.Sleep(2000);
+            //Thread.Sleep(2000);
 
             var timer = new System.Threading.Timer(o =>
             {
@@ -224,7 +231,7 @@ namespace PDTUtils
                 }
             }, null, 1000, System.Threading.Timeout.Infinite);
             
-            BtnEndTest.IsEnabled = false;
+            //BtnEndTest.IsEnabled = false;
             _aTestIsRunning = false;
         }
         
@@ -306,8 +313,10 @@ namespace PDTUtils
         {
             if (!hopperTest.IsEnabled)
             {
-                hopperTest.IsEnabled=true;
+                hopperTest.IsEnabled = true;
                 hopperTest.Visibility = Visibility.Visible;
+                BtnEndTest.IsEnabled = true;
+                BtnExit.IsEnabled = true;
             }
         }
         
@@ -575,7 +584,7 @@ namespace PDTUtils
         /// <param name="e"></param>
         void btnEndTest_Click(object sender, RoutedEventArgs e)
         {
-            if (_aTestIsRunning)
+          //  if (_aTestIsRunning)
             {
                 if (_testPrintThread != null)
                     while (_testPrintThread.IsAlive) ;
@@ -585,12 +594,32 @@ namespace PDTUtils
                     if (!b.IsEnabled)
                         b.IsEnabled = true;
                 }
-                
-                ResetLabels(StpMainPanel.Children);
 
+                _buttonEnabledCount = VisualButtonCount;
+
+                ResetLabels(StpMainPanel.Children);
+                
                 BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
                 BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);
 
+                foreach (var b in StpButtons.Children)
+                {
+                    var btn = b as Button;
+                    btn.IsEnabled = true;
+                }
+
+                foreach (var l in _labels)
+                {
+                    if (l.Visibility == Visibility.Collapsed || l.Visibility == Visibility.Hidden)
+                        l.Visibility = Visibility.Visible;
+                    
+                    l.Content = "";
+                    l.Background = Brushes.Black;
+                    l.Foreground = Brushes.White;
+                }
+
+                hopperTest.Visibility = Visibility.Collapsed;
+                
                 BtnEndTest.IsEnabled = false;
                 _aTestIsRunning = false;
             }

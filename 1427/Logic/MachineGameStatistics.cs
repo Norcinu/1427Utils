@@ -88,7 +88,8 @@ namespace PDTUtils
 	public class MachineGameStatistics : INotifyPropertyChanged
 	{
 		ObservableCollection<GameStats> _games = new ObservableCollection<GameStats>();
-        bool _fileLoaded = false;        
+        bool _fileLoaded = false;
+        bool _firstPass = true;
 		int _moneyIn = 0;
 		int _moneyOut = 0;
 		int _totalBet = 0;
@@ -97,8 +98,9 @@ namespace PDTUtils
 		int _numberOfGames = 0;
         decimal _machineRtp = 0.00M;
         string _perfLog = Resources.perf_log;
-
-		#region Properties
+        string _avgStakeMsg = "Average Stake ";
+		
+        #region Properties
 		public ObservableCollection<GameStats> Games
 		{
 			get { return _games; }
@@ -150,6 +152,16 @@ namespace PDTUtils
             get
             {
                 return "Overall Game Machine Average: " + Math.Round(_machineRtp, 4).ToString("P");
+            }
+        }
+
+        public string AvgStakeMsg
+        {
+            get { return _avgStakeMsg; }
+            set
+            {
+                _avgStakeMsg = value;
+                RaisePropertyChangedEvent("AvgStakeMsg");
             }
         }
 		#endregion
@@ -207,7 +219,12 @@ namespace PDTUtils
         {
             if (_games.Count > 0)
                 _games.RemoveAll();
-            
+
+            if (_firstPass)
+            {
+                AvgStakeMsg += ((BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "(¢)" : "(P)").ToString();
+                _firstPass = false;
+            }
             var moneyInLt = BoLib.getPerformanceMeter((byte)Performance.MoneyInLt);
             var moneyOutLt = BoLib.getPerformanceMeter((byte)Performance.MoneyOutLt);
             var moneyWageredLt = BoLib.getPerformanceMeter((byte)Performance.WageredLt);

@@ -46,6 +46,15 @@ namespace PDTUtils
 			}
 		}
 
+        /// <summary>
+        /// I cant be bothered writing a negate converter,.
+        /// </summary>
+        public bool IsDoorOpen
+        {
+            get { return _doorStatus; }
+        }
+
+
 		public bool IsDoorClosed
 		{
 			get { return !_doorStatus; }
@@ -106,6 +115,7 @@ namespace PDTUtils
 			                _hasChanged = true;
                             OnPropertyChanged("DoorStatus");
                             OnPropertyChanged("IsDoorClosed");
+                            OnPropertyChanged("IsDoorOpen");
 			            }
 			        }
 			        else
@@ -116,6 +126,7 @@ namespace PDTUtils
 			                _hasChanged = true;
 			                OnPropertyChanged("DoorStatus");
 			                OnPropertyChanged("IsDoorClosed");
+                            OnPropertyChanged("IsDoorOpen");
 			            }
 			        }
 			    }

@@ -53,6 +53,7 @@
     <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+            <!-- <cv:NegateBoolValue x:Key="NegateBool" /> -->
             <cv:FalseToHiddenConv x:Key="FalseToVis" />
             <cv:ConvertScreenHeight x:Key="ScaleScreenHeight" />
         </Grid.Resources>
@@ -363,11 +364,12 @@
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-
+        
         <!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
         <!--  Height="{Binding Path=RowTwo.Height}" -->
         <TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  
                     Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
+                    <!-- Visibility="{Binding Path=KeyDoorWorker.IsDoorOpen, Converter={StaticResource BoolToVisConverter}}"> -->
             
             <TabItem Header="Local Settings">
                 <TabControl Name="regionalSubTab">
@@ -410,6 +412,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                     
+                                    
                                     <GridViewColumn Width="340" Header="Value">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -423,7 +426,7 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-
+                           
                         <StackPanel Orientation="Horizontal" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Button Width="75" Height="35" FontSize="20" Margin="25">Save</Button>
                             <Button Width="75" Height="35" FontSize="20" Margin="25">Discard Changes</Button>
@@ -505,7 +508,8 @@
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Label Style="{StaticResource MESHUGGAH}" Content="{Binding GameStatistics.MachineRtp}"/>
                         <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1420" 
-                              FontSize="22" Height="760"> <!-- 760 -->
+                              FontSize="22" Height="760">
+                            <!-- 760 -->
                             <ListView.View>
                                 <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
                                     <GridViewColumn Header="Game Number" Width="200">
@@ -565,7 +569,9 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Average Stake" Width="200">
+                                    <!-- <GridViewColumn Header="Average Stake" Width="200"> -->
+                                    <GridViewColumn Header="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                            AncestorType={x:Type Window}}, Path=DataContext.GameStatistics.AvgStakeMsg}" Width="200">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
@@ -579,7 +585,7 @@
                         </ListView>
                     </StackPanel>
                 </TabItem>
-
+                
                 <TabItem Header="Game Selection">
                     <view:GameChartView />
                 </TabItem>
@@ -588,12 +594,12 @@
         
         <!-- is this were all the binding errors come from? -->
         <view:PerformanceView x:Name="UcPerformance" Grid.Row="1" Grid.Column="1" IsEnabled="False" Visibility="Hidden"/>
-       
+        
         <!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
         <view:CreditManagementView Panel.ZIndex="5" x:Name="UcCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
         <view:MainPage Panel.ZIndex="1" x:Name="UcMainPage" Grid.Row="1" Grid.Column="1" />
         <view:DiagnosticsView Panel.ZIndex="5" x:Name="UcDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"  Visibility="Hidden" />
- 
+        
         <!-- End of System Info View -->
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="BtnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />

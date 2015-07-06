@@ -166,15 +166,15 @@ namespace PDTUtils.MVVM.ViewModels
         }
 
         #endregion
-
+        
         public HopperViewModel()
         {
             CurrentCulture = BoLib.getCountryCode() == BoLib.getSpainCountryCode()
                 ? new CultureInfo("es-ES")
                 : new CultureInfo("en-GB");
-
+            
             Nfi = CurrentCulture.NumberFormat;
-
+            
             RefloatLeft = "";
             RefloatRight = "";
             _enabled = false;
@@ -192,7 +192,7 @@ namespace PDTUtils.MVVM.ViewModels
             NeedToSync = false;
             _syncLeft = false;
             _syncRight = false;
-
+            
             SelHopperValue = BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString();
 
             InitRefloatLevels();
@@ -325,10 +325,10 @@ namespace PDTUtils.MVVM.ViewModels
                                     Thread.Sleep(2);
                                 }
                             }
-
+                            
                             if (BoLib.refillKeyStatus() <= 0 || BoLib.getDoorStatus() <= 0 ||
                                 (!dumpSwitchPressed && BoLib.getHopperDumpSwitchActive() > 0)) return;
-                            //BoLib.setRequestEmptyRightHopper();
+                            
                             BoLib.setUtilRequestBitState((int)UtilBits.DumpRightHopper);
 
                             if (BoLib.getRequestEmptyRightHopper() > 0 && BoLib.getHopperFloatLevel((byte)Hoppers.Right) > 0)
@@ -544,7 +544,7 @@ namespace PDTUtils.MVVM.ViewModels
             NeedToSync = false;
             _syncLeft = false;
             _syncRight = false;
-            
+           
             NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", DivertLeftMessage, Resources.birth_cert);
@@ -594,6 +594,17 @@ namespace PDTUtils.MVVM.ViewModels
         {
             CurrentSelHopper = CurrentSelHopper;//BoLib.getHopperFloatLevel(Convert.ToUInt32((string.IsNullOrEmpty(CurrentSelHopper) ? "0" 
                 //: CurrentSelHopper))).ToString(); //CurrentSelHopper;
+        }
+         
+        /*
+         *
+         * Spanish Hopper Emptying Methods
+         * 
+         */
+        public ICommand SpanishEmptyone { get { return new DelegateCommand(DoSpanishEmptyOne); } }
+        void DoSpanishEmptyOne(object o)
+        {
+            //o=hopper as param
         }
     }
 }
