@@ -142,7 +142,7 @@ namespace PDTUtils
                 }
             }
         }
-
+        
         void TheActualLampTest()
         {
             for (short i = 128; i > 0; i /= 2)
@@ -162,7 +162,7 @@ namespace PDTUtils
             Label1.Dispatcher.BeginInvoke((DelegateDil)label_updateMessage, new object[] { Label1, 
                 "Testing Button Lamps Finished" });
         }
-
+        
         void DoLampTest()
         {
             BtnEndTest.IsEnabled = true;
@@ -220,7 +220,7 @@ namespace PDTUtils
             }
             
             //Thread.Sleep(2000);
-
+            
             var timer = new System.Threading.Timer(o =>
             {
                 Debug.WriteLine("WHY DIS NOT RUNNING?");
@@ -601,13 +601,14 @@ namespace PDTUtils
                 
                 BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
                 BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);
-
+                //mang 
                 foreach (var b in StpButtons.Children)
                 {
                     var btn = b as Button;
                     btn.IsEnabled = true;
+                    btn.Visibility = Visibility.Visible;
                 }
-
+                
                 foreach (var l in _labels)
                 {
                     if (l.Visibility == Visibility.Collapsed || l.Visibility == Visibility.Hidden)

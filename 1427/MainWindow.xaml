@@ -29,7 +29,7 @@
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Foreground" Value="Yellow"/>
         </Style>
-        
+               
         <Style x:Key="StatsLabel" TargetType="Label">
             <Setter Property="Foreground" Value="Navy"/>
             <Setter Property="Background" Value="LightGray"/>
