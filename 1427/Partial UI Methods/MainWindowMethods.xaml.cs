@@ -25,7 +25,8 @@ namespace PDTUtils
                         if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
                         {
                             _isSpanishMachine = false;
-                            regionalSubTab.SelectedIndex = 1; //region settings dont exist so set focus to next tab.
+                            if (regionalSubTab != null)
+                                regionalSubTab.SelectedIndex = 1; //region settings dont exist so set focus to next tab.
                         }
                         
                         _doorStatusTimer = new Timer() { Interval = 500, Enabled = true };

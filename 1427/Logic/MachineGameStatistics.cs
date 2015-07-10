@@ -253,14 +253,14 @@ namespace PDTUtils
 
                 if (win > 0 && bet > 0)
                     perc = ((decimal)win / (decimal)bet) * 100;
-                
+
                 if (i > 0)
                 {
                     totalGameCount += playCount;
                     tempTotalWon += win;
                     totalBet += bet;
                 }
-                
+
                 _games.Add(new GameStats()
                 {
                     GameNumber = i + 1,
@@ -268,8 +268,8 @@ namespace PDTUtils
                     Bets = (int)bet,
                     Wins = (int)win,
                     Percentage = (perc > 0) ? Math.Round(perc, 2).ToString() + "%" : "0.00%",
-                    ImageSource = (modelNo == 1524) ? Properties.Resources.PreGambleIcon :
-                                                      @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png",
+                    ImageSource = (modelNo == 1524) ? Properties.Resources.PreGambleIcon
+                                                    : @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png",
                     AverageStake = average,
                 });
             }
@@ -282,6 +282,7 @@ namespace PDTUtils
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 _machineRtp = 0.00M;
                 RaisePropertyChangedEvent("MachineRtp");
             }

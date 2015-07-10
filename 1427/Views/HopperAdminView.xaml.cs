@@ -20,5 +20,10 @@ namespace PDTUtils.Views
             var dc = DataContext as HopperViewModel;
             dc.RefreshLevels();
         }
+
+        private void Border_AccessKeyPressed(object sender, System.Windows.Input.AccessKeyPressedEventArgs e)
+        {
+
+        }
     }
 }

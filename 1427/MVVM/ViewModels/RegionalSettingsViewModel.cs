@@ -214,11 +214,6 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     if (headerCtr < 18)
                     {
-                        if (headerCtr == 17)
-                        {
-                            int a = 0;
-                            int b = 0;
-                        } 
                         _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr],
                             (uint)p.GetValue(_editableLiveRegion, null)));
                         headerCtr++;

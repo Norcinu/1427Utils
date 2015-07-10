@@ -9,10 +9,11 @@
 			 x:Name="UcHopperConfig">
 
     <!-- IsEnabled="{Binding Enabled}"> -->
-
     <UserControl.Resources>
-        <c:BoolToVisibilityConverter x:Key="BoolToVis"/>
-
+        <c:BoolToVisibilityConverter x:Key="BoolToVis" />
+        <c:NegateBoolValue x:Key="NegateToVis" />
+        <c:FalseToHiddenConv x:Key="FalseToHidden"/>
+        
         <Style x:Key="StevesLabel" TargetType="Label">
             <Setter Property="Background" Value="SlateGray" />
             <Setter Property="Foreground" Value="White"/>
@@ -21,7 +22,7 @@
             <Setter Property="Margin" Value="5"/>
             <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
-
+        
         <Style x:Key="MyRepeatButton" TargetType="RepeatButton">
             <Setter Property="Delay" Value="500"/>
             <Setter Property="Width" Value="55" />
@@ -30,7 +31,7 @@
             <Setter Property="Margin" Value="10" />
         </Style>
     </UserControl.Resources>
-
+    
     <Grid>
         <TabControl FontSize="18" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" SelectionChanged="cmbHoppers_SelectionChanged">
             <TabItem Header="Configure" MinWidth="250">
@@ -83,14 +84,14 @@
                         <Label Margin="10">Set Hopper to Cashbox Divert Level</Label>
                         <StackPanel Orientation="Horizontal">
                             <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ChangeLeftDivert}" 
-                                      CommandParameter="decrease" Content="-"/>
+                                          CommandParameter="decrease" Content="-"/>
                             <Label Style="{StaticResource StevesLabel}" Width="350" ContentStringFormat="Left Hopper Divert Level: {0}" 
                                Content="{Binding DivertLeftMessage}" VerticalContentAlignment="Center" Margin="10" />
                             <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ChangeLeftDivert}" 
                                       CommandParameter="increase" Content="+"/>
                         </StackPanel>
                     </StackPanel>
-
+                    
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Background="AliceBlue">
                         <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ChangeRightDivert}" 
                                       CommandParameter="decrease" Content="-"/>
@@ -108,14 +109,16 @@
                     </StackPanel>
                 </StackPanel>
             </TabItem>
-
+            
+            
             <TabItem Header="Empty" MinWidth="250">
                 <!--  IsEnabled="{Binding NotRefilling}"> -->
                 <Border BorderBrush="Black" BorderThickness="2">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
-                                    Height="325" Width="550">
-
+                                    Height="325" Width="550" IsEnabled="{Binding IsBritish}" Visibility="{Binding IsBritish, 
+                                    Converter={StaticResource BoolToVis}}">
+                            
                             <Label Content="Select Hopper to Empty" Style="{StaticResource StevesLabel}"/>
                             <StackPanel Orientation="Horizontal">
                                 <Label Width="275" Height="35" Style="{StaticResource StevesLabel}" Background="Transparent"
@@ -124,39 +127,40 @@
                                   FontSize="20" Margin="10" IsEditable="True" ItemsSource="{Binding HopperList}" 
                                   SelectedItem="{Binding CurrentSelHopper}" IsSynchronizedWithCurrentItem="True" />
                             </StackPanel>
-
+                            
+                            
                             <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" MinHeight="35" ContentStringFormat="Current Float Level: {0}" 
                                Content="{Binding SelHopperValue}" Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
 
                             <Label Margin="10,0,10,10" BorderThickness="2,0,2,2" MinHeight="35" Content="{Binding DumpSwitchMessage}" 
                                Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
-
+                            
                             <Button Width="250" Height="35" Margin="10" FontSize="20"
 						        Command="{Binding DoEmptyHopper}"
 							    CommandParameter="{Binding ElementName=CmbHoppers}"
                                 HorizontalContentAlignment="Center" Content="Empty Hopper" />
                         </StackPanel>
-
+                        
                         <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
-                                    Height="325" Width="550">
+                                    Height="325" Width="550" IsEnabled="{Binding IsBritish}"
+                                    Visibility="{Binding IsBritish, Converter={StaticResource BoolToVis}}"> 
                             <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" Style="{StaticResource StevesLabel}" 
                                    Content="Current Refloat Values:"/>
                             <Label Margin="10,0,10,0" BorderThickness="2,0,2,0" Style="{StaticResource StevesLabel}" 
                                    ContentStringFormat="Left Hopper = {0}" Content="{Binding RefloatLeft}" />
                             <Label Margin="10,0,10,0" BorderThickness="2,0,2,2" Style="{StaticResource StevesLabel}" 
-                                   ContentStringFormat="Right Hopper = {0}" 
-                                   Content="{Binding RefloatRight}" />
+                                   ContentStringFormat="Right Hopper = {0}"  Content="{Binding RefloatRight}" />
                             <Label HorizontalAlignment="Center" Margin="10,10,10,10" MinHeight="35" Content="Set Float to Refloat Level" 
                                    VerticalAlignment="Center" Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
                             <Button Width="250" Height="35" Margin="10" FontSize="20" HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" Command="{Binding RefloatTheHoppers}" Content="Reset" />
                         </StackPanel>
-                        
-                        
-                        <!-- Spain option 1 -->
-                        <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
-                                    Height="325" Width="550" Orientation="Horizontal" x:Name="stpSpainOne">
 
+                        <!-- Spain option 1 --> 
+                        <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
+                                    Height="325" Width="700" Orientation="Horizontal" x:Name="stpSpainOne" IsEnabled="{Binding IsSpanish}" 
+                                    Visibility="{Binding IsSpanish, Converter={StaticResource BoolToVis}}">
+                            
                             <Border BorderBrush="Black" BorderThickness="2" Margin="2">
                                 <StackPanel>
                                     <Label Margin="10">Zero Hoppers</Label>
@@ -181,7 +185,7 @@
                                                       Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="left+increase" 
                                                       Content="+" />
                                     </StackPanel>
-
+                                    
                                     <StackPanel Orientation="Horizontal">
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
                                                       Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="right+decrease" 
@@ -192,16 +196,74 @@
                                                       Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="right+increase" 
                                                       Content="+" />
                                     </StackPanel>
+                                    
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
 
-                                    <!--  <StackPanel Orientation="Horizontal">
-                                    <Button FontSize="24" Width="75" Height="35" Margin="5">+</Button>
-                                    <Label FontSize="24" Margin="5" VerticalContentAlignment="Center">Dat Value 3:</Label>
-                                    <Button FontSize="24" Width="75" Height="35" Margin="5">-</Button>
-                                </StackPanel> -->
+                        <!-- width 550 -->
+                        <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
+                                    Height="325" Width="550" IsEnabled="{Binding IsBritish}"
+                                    Visibility="{Binding IsBritish, Converter={StaticResource BoolToVis}}">
+                            <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" Style="{StaticResource StevesLabel}" 
+                                   Content="Current Refloat Values:"/>
+                            <Label Margin="10,0,10,0" BorderThickness="2,0,2,0" Style="{StaticResource StevesLabel}" 
+                                   ContentStringFormat="Left Hopper = {0}" Content="{Binding RefloatLeft}" />
+                            <Label Margin="10,0,10,0" BorderThickness="2,0,2,2" Style="{StaticResource StevesLabel}" 
+                                   ContentStringFormat="Right Hopper = {0}"  Content="{Binding RefloatRight}" />
+                            <Label HorizontalAlignment="Center" Margin="10,10,10,10" MinHeight="35" Content="Set Float to Refloat Level" 
+                                   VerticalAlignment="Center" Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
+                            <Button Width="250" Height="35" Margin="10" FontSize="20" HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" Command="{Binding RefloatTheHoppers}" Content="Reset" />
+                        </StackPanel>
+
+                        <!-- Spain option 2 -->
+                        <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
+                                    Height="325" Width="700" Orientation="Horizontal" x:Name="stpSpainTwo" IsEnabled="{Binding IsSpanish}" 
+                                    Visibility="{Binding IsSpanish, Converter={StaticResource BoolToVis}}">
+
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="2">
+                                <StackPanel>
+                                    <Label Margin="10">Zero Hoppers</Label>
+                                    <Button Width="125" Height="35" Margin="10" FontSize="20" HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center" Content="Left" Command="{Binding ZeroHopperFloat}" 
+                                        CommandParameter="left" />
+                                    <Button Width="125" Height="35" Margin="10" FontSize="20" HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center" Content="Right" Command="{Binding ZeroHopperFloat}"
+                                        CommandParameter="right" />
+                                </StackPanel>
+                            </Border>
+                            
+                            <Border BorderBrush="Black" BorderThickness="2" Margin="2">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
+                                                      Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="left+decrease" 
+                                                      Content="-" />
+                                        <Label FontSize="24" Margin="5" VerticalContentAlignment="Center" Content="{Binding NewLeftFillValue}"
+                                           ContentStringFormat="Left Float: {0}" Width="200" />
+                                        <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
+                                                      Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="left+increase" 
+                                                      Content="+" />
+                                        <Button FontSize="24" Width="75" Height="35" Margin="5" Content="Set Hopper Float" />
+                                    </StackPanel>
+                                    
+                                    <StackPanel Orientation="Horizontal">
+                                        <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
+                                                      Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="right+decrease" 
+                                                      Content="-" />
+                                        <Label FontSize="24" Margin="5" VerticalContentAlignment="Center" Content="{Binding NewRightFillValue}"
+                                           ContentStringFormat="Right Float: {0}" Width="200" />
+                                        <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
+                                                      Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="right+increase" 
+                                                      Content="+" />
+                                        <Button FontSize="24" Width="75" Height="35" Margin="5" Content="Set Hopper Float" />
+                                    </StackPanel>
 
                                 </StackPanel>
                             </Border>
                         </StackPanel>
+                        
                     </StackPanel>
                 </Border>
             </TabItem>
