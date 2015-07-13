@@ -165,10 +165,10 @@ namespace PDTUtils
             }
         }
 		#endregion
-        
-		public MachineGameStatistics()
-		{
-		}
+
+        public MachineGameStatistics()
+        {
+        }
         
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -178,7 +178,7 @@ namespace PDTUtils
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        
 		public void Update()
 		{
 		}
@@ -201,8 +201,8 @@ namespace PDTUtils
                 gs.Percentage = combo[1].Trim() + "%";
             }
 		}
-		
-		public void ResetStats()
+        
+        public void ResetStats()
 		{
 			_moneyIn = 0;
 			_moneyOut = 0;
@@ -219,7 +219,7 @@ namespace PDTUtils
         {
             if (_games.Count > 0)
                 _games.RemoveAll();
-
+            
             if (_firstPass)
             {
                 AvgStakeMsg += ((BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "(¢)" : "(P)").ToString();
@@ -250,7 +250,7 @@ namespace PDTUtils
                 var playCount = (uint)BoLib.getGamePerformanceMeter((uint)i, 2);
                 var average = (double)bet / (double)playCount;
                 var perc = 0.00M;
-
+                
                 if (win > 0 && bet > 0)
                     perc = ((decimal)win / (decimal)bet) * 100;
 
@@ -260,7 +260,7 @@ namespace PDTUtils
                     tempTotalWon += win;
                     totalBet += bet;
                 }
-
+    
                 _games.Add(new GameStats()
                 {
                     GameNumber = i + 1,

@@ -8,8 +8,8 @@ using System.Windows.Input;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
 using PDTUtils.Properties;
-using Timer = System.Timers.Timer;
 using GlobalConfig = PDTUtils.Logic.GlobalConfig;
+using Timer = System.Timers.Timer;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -56,7 +56,7 @@ namespace PDTUtils.MVVM.ViewModels
             get { return _emptyingHoppers; }
             set { _emptyingHoppers = value; }
         }
-
+        
         public bool Enabled
         {
             get { return _enabled; }
@@ -68,7 +68,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("RightRefillMsg");
             }
         }
-
+        
         public int SelectedTabIndex
         {
             get { return _selectedTabIndex; }
@@ -78,6 +78,7 @@ namespace PDTUtils.MVVM.ViewModels
                     _selectedTabIndex = value;
             }
         }
+        
         public string DumpSwitchMessage { get; set; }
         //public List<string> HopperList { get; set; }
         public ObservableCollection<string> HopperList { get; set; }
@@ -175,7 +176,8 @@ namespace PDTUtils.MVVM.ViewModels
             get { return _newLeftFillValue; }
             set { _newLeftFillValue = value; RaisePropertyChangedEvent("NewLeftFillValue"); }
         }
-
+       
+        
         public string NewRightFillValue
         {
             get { return _newRightFillValue; }
@@ -202,7 +204,7 @@ namespace PDTUtils.MVVM.ViewModels
                 : new CultureInfo("en-GB");
 
             Nfi = CurrentCulture.NumberFormat;
-
+            
             RefloatLeft = "";
             RefloatRight = "";
             _enabled = false;
@@ -217,7 +219,6 @@ namespace PDTUtils.MVVM.ViewModels
             DivertLeftMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Left).ToString();
             DivertRightMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Right).ToString();
 
-            //IsSpanish = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? true : false;
             if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
             {
                 IsSpanish = true;
@@ -229,8 +230,8 @@ namespace PDTUtils.MVVM.ViewModels
                 IsBritish = true;
             }
 
-            NewLeftFillValue = "500";
-            NewRightFillValue = "125";
+            NewLeftFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Left).ToString();// "500";
+            NewRightFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Right).ToString();
 
             NeedToSync = false;
             _syncLeft = false;
@@ -248,13 +249,13 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("SelHopperValue");
 
             HopperList = new ObservableCollection<string>();
-
+            
             var leftHopperText = "LEFT HOPPER";
             var rightHopperText = "RIGHT HOPPER";
             HopperList.Add(leftHopperText);
             HopperList.Add(rightHopperText);
             RaisePropertyChangedEvent("HopperList");
-            //not good imo
+
             const uint initial = 0;
             try
             {
@@ -402,7 +403,7 @@ namespace PDTUtils.MVVM.ViewModels
                     break;
             }
         }
-
+        
         void InitRefloatLevels()
         {
             char[] refloatValue = new char[10];
@@ -499,7 +500,7 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Config", key, newRefloatValue.ToString(), Resources.birth_cert);
 
             CheckForSync(newRefloatValue, tokens[0]);
-
+            
             RaisePropertyChangedEvent(key);
         }
 
@@ -523,7 +524,7 @@ namespace PDTUtils.MVVM.ViewModels
                 if (newValue < 200)
                     newValue = 0;
             }
-
+            
             //BoLib.setHopperDivertLevel(BoLib.getLeftHopper(), newValue);
             GlobalConfig.ReparseSettings = true;
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
@@ -554,7 +555,7 @@ namespace PDTUtils.MVVM.ViewModels
                 if (newValue < 50)
                     newValue = 50;
             }
-
+            //
             //BoLib.setHopperDivertLevel(BoLib.getRightHopper(), newValue);
             GlobalConfig.ReparseSettings = true;
             NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", newValue.ToString(), Resources.birth_cert);
@@ -564,6 +565,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("DivertRightMessage");
         }
 
+        
         public ICommand LoadDefaults { get { return new DelegateCommand(o => DoLoadDefaults()); } }
         void DoLoadDefaults()
         {
@@ -572,7 +574,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             BoLib.setHopperFloatLevel((byte)Hoppers.Left, refloatDefaults[0]);
             BoLib.setHopperFloatLevel((byte)Hoppers.Right, refloatDefaults[1]);
-
+            
             RefloatLeft = refloatDefaults[0].ToString();
             RefloatRight = refloatDefaults[1].ToString();
 
@@ -581,11 +583,11 @@ namespace PDTUtils.MVVM.ViewModels
 
             DivertLeftMessage = divertDefaults[0].ToString();
             DivertRightMessage = divertDefaults[1].ToString();
-
+            //
             NeedToSync = false;
             _syncLeft = false;
             _syncRight = false;
-
+            
             NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", DivertLeftMessage, Resources.birth_cert);
@@ -620,7 +622,7 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setHopperFloatLevel((byte)Hoppers.Left, Convert.ToUInt32(RefloatLeft));
                 BoLib.setHopperFloatLevel((byte)Hoppers.Right, Convert.ToUInt32(RefloatRight));
             }
-
+            
             SelHopperValue = (_currentSelHopper.Equals("LEFT HOPPER")) ? BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString()
                                                                        : BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
 
@@ -647,18 +649,22 @@ namespace PDTUtils.MVVM.ViewModels
         {
             //o=hopper as param
         }
-        you hanging on too. nice one son. nah hes gan do the off
+        
         public ICommand ZeroHopperFloat { get { return new DelegateCommand(DoHopperZero); } }
         void DoHopperZero(object o)
         {
             //TODO: !!!! Need to update the visual float level here !!!!
             var str = o as string;
             if (str.Equals("left"))
+            {
                 BoLib.setHopperFloatLevel((int)Hoppers.Left, 0);
+            }
             else if (str.Equals("right"))
+            {
                 BoLib.setHopperFloatLevel((int)Hoppers.Right, 0);
+            }
         }
-
+        
         public ICommand ChangeNewFloat { get { return new DelegateCommand(DoChangeNewFloat); } }
         void DoChangeNewFloat(object o)
         {
@@ -666,7 +672,7 @@ namespace PDTUtils.MVVM.ViewModels
             var tokens = str.Split('+');
             uint incrementValue = 100;
             uint floatLevel = 0;
-
+            
             if (tokens[0].Equals("left"))
             {
                 floatLevel = BoLib.getHopperFloatLevel((int)Hoppers.Left);

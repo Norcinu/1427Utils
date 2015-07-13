@@ -41,7 +41,7 @@ namespace PDTUtils
                             _directSoundOnline = false;
 
                         BoLib.LoadWavFile(@"D:\1525\wav\volume.wav", 0);
-                        BoLib.DoPlaySound();*/
+                        BoLib.DoPlaySound*/
                         return;
                     case 1:
                         _errorMessage = "Could not connect to Shell. Check If Running.";

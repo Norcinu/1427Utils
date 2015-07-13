@@ -206,7 +206,6 @@ namespace PDTUtils.MVVM.ViewModels
             Pennies = 2000;
             NotRefilling = true;
             CanRefillHoppers = false;
-
             DenomVisibility = System.Windows.Visibility.Hidden;
 
             GetErrorMessage();

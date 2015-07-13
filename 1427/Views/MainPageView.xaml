@@ -110,7 +110,7 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
-                
+
                 
                 <StackPanel x:Name="StpHandPay" Grid.Column="1" Grid.Row="1"
 							VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding HandPayActive}"
