@@ -6,7 +6,7 @@ using System.Windows.Input;
 using PDTUtils.Native;
 using PDTUtils.Properties;
 //using Timer = System.Timers.Timer;
-//the johnny cash meters surely need to 
+
 namespace PDTUtils.MVVM.ViewModels
 {
     class NoteAdminViewModel : ObservableObject
@@ -40,12 +40,11 @@ namespace PDTUtils.MVVM.ViewModels
                     HasRecycler = false;
                     RecyclerMessage = "NO RECYCLER";
                 }
-
+                
                 //_recycleRunChecker.Elapsed += new System.Timers.ElapsedEventHandler(_recycleRunChecker_Elapsed);
-
                 NoteOne = _isSpanish ? "€10" : "£10";
                 NoteTwo = _isSpanish ? "€20" : "£20";
-
+                
                 Thread.Sleep(2000);
                 RecyclerValue = BoLib.getRecyclerFloatValue().ToString();
             }
@@ -53,6 +52,7 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 Debug.WriteLine(ex.Message);
             }
+            
             RaisePropertyChangedEvent("HasRecycler");
             RaisePropertyChangedEvent("RecyclerMessage");
             RaisePropertyChangedEvent("NoteOne");
@@ -64,11 +64,10 @@ namespace PDTUtils.MVVM.ViewModels
         void DoSetRecycleNote(object o)
         {
             var noteType = o as string;
-
+            
             if (BoLib.getBnvType() != 5) return;
-
+            
             var channel = (noteType == "10") ? "2" : "3";
-            //BoLib.shellSendRecycleNote();
             BoLib.setUtilRequestBitState((int)UtilBits.RecyclerValue);
             BoLib.setUtilRequestBitState((int)UtilBits.RereadBirthCert);
             NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", channel, Resources.birth_cert);
@@ -76,23 +75,15 @@ namespace PDTUtils.MVVM.ViewModels
             RecyclerMessage = (noteType == "10") ? NoteOne + " NOTE TO BE RECYCLED" : NoteTwo + " NOTE TO BE RECYCLED";
             RaisePropertyChangedEvent("RecyclerMessage");
         }
-        
+
         public ICommand EmptyRecycler { get { return new DelegateCommand(o => DoEmptyRecycler()); } }
         void DoEmptyRecycler()
         {
             if (RecyclerValue != "0")
             {
-                /*if (_recycleRunChecker == null || !_recycleRunChecker.Enabled)
-                {
-                    _recycleRunChecker.Elapsed += new System.Timers.ElapsedEventHandler(_recycleRunChecker_Elapsed);
-                    _recycleRunChecker.Enabled = true;
-                }
-                else
-                    _recycleRunChecker.Enabled = true;*/
-
                 BoLib.setUtilRequestBitState((int)UtilBits.EmptyRecycler);
                 Thread.Sleep(500);
-                RecyclerValue = "0";// BoLib.getRecyclerFloatValue().ToString();
+                RecyclerValue = "0";
                 RaisePropertyChangedEvent("RecyclerValue");
             }
             else
@@ -102,23 +93,9 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
         
-        /*void _recycleRunChecker_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (BoLib.getUtilRequestBitState((int)UtilBits.EmptyRecycler))
-            {
-                Debug.WriteLine(BoLib.getRecyclerFloatValue().ToString());
-                Debug.WriteLine("Emptying this ting yo");
-            }
-            else
-            {
-                _recycleRunChecker.Enabled = false;
-            }
-        }*/
-        
         void Refresh()
         {
             if (RecyclerValue == "0") return;
-            //if (_recycleRunChecker.Enabled) _recycleRunChecker.Enabled = false;
             
             RecyclerValue = BoLib.getRecyclerFloatValue().ToString();
             RaisePropertyChangedEvent("RecyclerValue");

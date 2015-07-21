@@ -150,7 +150,7 @@ namespace PDTUtils
             }
 			Application.Current.Shutdown();
         }
-        
+        //
 		private void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
 			Enabler.ClearAll();
@@ -205,8 +205,11 @@ namespace PDTUtils
         void WindowMain_Closing(object sender, CancelEventArgs e)
         {
             if (_keyDoorWorker.Running)
+            {
                 _keyDoorWorker.Running = false;
-
+                Thread.Sleep(20);
+            }
+            
             if (_keyDoorThread != null)
             {
                 try
@@ -214,7 +217,10 @@ namespace PDTUtils
                     if (_keyDoorThread.IsAlive)
                     {
                         //_keyDoorThread.Abort();
-                        _keyDoorThread.Join();
+                        //_keyDoorThread.Join();
+                        //keep an eye on this - _keyDoorThread.Join() seemed to be getting into a race condition.
+                        //this should work fine as we *have* shutdown thread above, sleep should let it catch up.
+                        while (_keyDoorThread.IsAlive) Thread.Sleep(2);
                     }
                 }
                 catch (Exception ex)
@@ -235,7 +241,7 @@ namespace PDTUtils
             
             if (GlobalConfig.ReparseSettings)
                 BoLib.setUtilRequestBitState((int)UtilBits.RereadBirthCert);
-
+            
             BoLib.clearUtilRequestBitState((int)UtilBits.Allow);
             
             if (_directSoundOnline)
@@ -261,19 +267,22 @@ namespace PDTUtils
             UcPerformance.Visibility = Visibility.Hidden;
             
             Enabler.ClearAll();
-			Enabler.EnableCategory(Categories.Setup);
-            
+            Enabler.EnableCategory(Categories.Setup);
             TabSetup.SelectedIndex = 0;
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 		}
         
+        /// <summary>
+        /// TODO: validates the new ini setting.
+        /// </summary>
+        /// <returns>true for valid settting.</returns>
 		bool ValidateNewIniSetting()
 		{   
 			return true;
 		}
         
         void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
+		{;
             UpdateIniItem(sender);
 		}
         
@@ -306,7 +315,7 @@ namespace PDTUtils
             }
             l.SelectedIndex = -1;
         }
-
+        
         void AmendOption(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var newValue = w.OptionValue;
@@ -473,11 +482,11 @@ namespace PDTUtils
 
             UcDiagnostics.IsEnabled = false;
             UcDiagnostics.Visibility = Visibility.Hidden;
-
+            
             UcPerformance.IsEnabled = false;
             UcPerformance.Visibility = Visibility.Hidden;
         }
-
+        
         void btnDiagnostics_Click(object sender, RoutedEventArgs e)
         {
             UcDiagnostics.IsEnabled = !UcDiagnostics.IsEnabled;
@@ -487,7 +496,7 @@ namespace PDTUtils
 
             UcMainPage.IsEnabled = false;
             UcMainPage.Visibility = Visibility.Hidden;
-
+    
             UcPerformance.IsEnabled = false;
             UcPerformance.Visibility = Visibility.Hidden;
         }
@@ -519,12 +528,10 @@ namespace PDTUtils
             _keyDoorWorker.PrepareForReboot = false;
             DiskCommit.SaveAndReboot();
         }
-
+        
 	    void ButtonBase_OnClick(object sender, RoutedEventArgs e)
 	    {
-            //BoLib.setSerialDumpByte();
             Application.Current.Shutdown();
-            //Close();
 	    }
     }
 }

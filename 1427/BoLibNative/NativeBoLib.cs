@@ -631,8 +631,8 @@ namespace PDTUtils.Native
         [DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
         public static extern void setTerminalType(byte type);
 
-        [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void setUtilBit(int bit);
+        /*[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void setUtilBit(int bit);*/
 
         //[DllImport(DllName, CallingConvention=CallingConvention.Cdecl)]
         //public static extern void clearUtilBit(int bit);

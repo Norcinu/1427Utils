@@ -68,7 +68,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("RightRefillMsg");
             }
         }
-        
+                
         public int SelectedTabIndex
         {
             get { return _selectedTabIndex; }
@@ -93,7 +93,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("HopperModels");
             }
         }
-
+        
         public string LeftRefillMsg
         {
             get
@@ -218,7 +218,7 @@ namespace PDTUtils.MVVM.ViewModels
             SelectedTabIndex = 0;
             DivertLeftMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Left).ToString();
             DivertRightMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Right).ToString();
-
+            
             if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
             {
                 IsSpanish = true;
@@ -378,8 +378,6 @@ namespace PDTUtils.MVVM.ViewModels
                                 Thread.Sleep(2000);
                                 SelHopperValue =/* "Hopper Level: " +*/ BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
                                 RaisePropertyChangedEvent("SelHopperValue");
-                                //  var _msg = new WpfMessageBoxService();
-                                //  _msg.ShowMessage("COINS REMOVED = " + SelHopperValue, "HOPPER EMPTYING");
                             }
                             else if (BoLib.getHopperFloatLevel((byte)Hoppers.Right) == 0)
                             {
@@ -449,7 +447,7 @@ namespace PDTUtils.MVVM.ViewModels
                 shouldSync = false;
             }
         }
-
+        
         void CheckForSync(UInt32 newRefloatValue, string hopper)
         {
             if (hopper == "left")
@@ -472,11 +470,11 @@ namespace PDTUtils.MVVM.ViewModels
                 else
                     _syncRight = false;
             }
-
+            
             if (!_syncLeft && !_syncRight)
-                NeedToSync = false;
+                NeedToSync = false; 
         }
-
+        
         public ICommand SetRefloatLevel { get { return new DelegateCommand(DoSetRefloatLevel); } }
         void DoSetRefloatLevel(object o)
         {
@@ -484,26 +482,26 @@ namespace PDTUtils.MVVM.ViewModels
             var tokens = format.Split("+".ToCharArray());
             const int denom = 50;
             string key = (tokens[0] == "left") ? "RefloatLH" : "RefloatRH";
-
+            
             char[] refloatValue = new char[10];
             NativeWinApi.GetPrivateProfileString("Config", key, "", refloatValue, 10, Resources.birth_cert);
 
             var newRefloatValue = Convert.ToUInt32(new string(refloatValue).Trim("\0".ToCharArray()));
             if (tokens[1] == "increase") newRefloatValue += denom;
             else if (tokens[1] == "decrease" && newRefloatValue > denom) newRefloatValue -= denom;
-
+            
             if (tokens[0] == "left")
                 RefloatLeft = newRefloatValue.ToString();
             else
                 RefloatRight = newRefloatValue.ToString();
-
+           
             NativeWinApi.WritePrivateProfileString("Config", key, newRefloatValue.ToString(), Resources.birth_cert);
-
+            
             CheckForSync(newRefloatValue, tokens[0]);
             
             RaisePropertyChangedEvent(key);
         }
-
+        
         public ICommand ChangeLeftDivert { get { return new DelegateCommand(DoChangeDivert); } }
         void DoChangeDivert(object o)
         {
@@ -513,7 +511,7 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.GetPrivateProfileString("Config", "LH Divert Threshold", "", divert, 10, Resources.birth_cert);
             var currentThreshold = Convert.ToUInt32(new string(divert));//BoLib.getHopperDivertLevel(0);
             var newValue = currentThreshold;
-
+            
             if (actionType == "increase")
             {
                 newValue += changeAmount;
@@ -555,12 +553,12 @@ namespace PDTUtils.MVVM.ViewModels
                 if (newValue < 50)
                     newValue = 50;
             }
-            //
+            
             //BoLib.setHopperDivertLevel(BoLib.getRightHopper(), newValue);
             GlobalConfig.ReparseSettings = true;
             NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
-
+            
             DivertRightMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertRightMessage");
         }
@@ -583,7 +581,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             DivertLeftMessage = divertDefaults[0].ToString();
             DivertRightMessage = divertDefaults[1].ToString();
-            //
+            
             NeedToSync = false;
             _syncLeft = false;
             _syncRight = false;
@@ -608,7 +606,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             RefloatLeft = new string(refloatLeft).Trim("\0".ToCharArray());
             RefloatRight = new string(refloatRight).Trim("\0".ToCharArray());
-
+            
             if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
             {
                 var leftFloat = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
@@ -625,7 +623,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             SelHopperValue = (_currentSelHopper.Equals("LEFT HOPPER")) ? BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString()
                                                                        : BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
-
+            
             RaisePropertyChangedEvent("CurrentSelHopper");
             RaisePropertyChangedEvent("SelHopperValue");
         }
@@ -638,16 +636,27 @@ namespace PDTUtils.MVVM.ViewModels
             CurrentSelHopper = CurrentSelHopper;//BoLib.getHopperFloatLevel(Convert.ToUInt32((string.IsNullOrEmpty(CurrentSelHopper) ? "0" 
             //: CurrentSelHopper))).ToString(); //CurrentSelHopper;
         }
-
+        
         /*
          *
          * Spanish Hopper Emptying Methods
          * 
          */
-        public ICommand SpanishEmptyone { get { return new DelegateCommand(DoSpanishEmptyOne); } }
+        public ICommand SpanishEmptyOne { get { return new DelegateCommand(DoSpanishEmptyOne); } }
         void DoSpanishEmptyOne(object o)
         {
-            //o=hopper as param
+            if (BoLib.refillKeyStatus() == 0)
+            {
+                var msg = new WpfMessageBoxService();
+                msg.ShowMessage("Please turn Refill Key before continuing.", "Warning");
+                return;
+            }
+
+            var which = o as string;
+            var currentCredits = BoLib.getBank() + BoLib.getCredit() + (int)BoLib.getReserveCredits();
+
+            if (BoLib.getUtilRequestBitState((int)UtilBits.DumpLeftHopper))
+                return;
         }
         
         public ICommand ZeroHopperFloat { get { return new DelegateCommand(DoHopperZero); } }
@@ -680,7 +689,7 @@ namespace PDTUtils.MVVM.ViewModels
                     floatLevel += incrementValue;
                 else if (tokens[1].Equals("decrease") && BoLib.getHopperFloatLevel((int)Hoppers.Left) >= 100)
                     floatLevel -= 100;
-
+                
                 BoLib.setHopperFloatLevel((int)Hoppers.Left, floatLevel);
                 NewLeftFillValue = floatLevel.ToString();
             }
@@ -698,3 +707,4 @@ namespace PDTUtils.MVVM.ViewModels
         }
     }
 }
+

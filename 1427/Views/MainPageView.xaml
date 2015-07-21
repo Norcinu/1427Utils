@@ -23,13 +23,13 @@
             <Setter Property="Height" Value="35"/>
         </Style>
     </UserControl.Resources>
-
+        
     <Grid HorizontalAlignment="Center">
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
             <cv:FalseToHiddenConv x:Key="FalseToVis" />
         </Grid.Resources>
-
+        
         <StackPanel x:Name="StpMainView">
             <Grid>
                 <Grid.ColumnDefinitions>

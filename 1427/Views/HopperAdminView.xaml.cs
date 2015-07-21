@@ -15,15 +15,10 @@ namespace PDTUtils.Views
         }
         
         //yes ok this breaks MVVM but yer kna its already broken in this app, so fuck it.
-        private void cmbHoppers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void cmbHoppers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var dc = DataContext as HopperViewModel;
             dc.RefreshLevels();
-        }
-
-        private void Border_AccessKeyPressed(object sender, System.Windows.Input.AccessKeyPressedEventArgs e)
-        {
-
         }
     }
 }

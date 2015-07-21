@@ -103,7 +103,7 @@ namespace PDTUtils
 			                        BoLib.setRebootRequired();
 #endif
                             });
-                        
+                         
 			            //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 			        }
                     

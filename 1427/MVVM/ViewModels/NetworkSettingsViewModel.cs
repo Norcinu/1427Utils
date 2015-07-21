@@ -31,8 +31,8 @@ namespace PDTUtils.MVVM.ViewModels
 
             PopulateInfo();
         }
-
-        private bool ChangesMade { get; set; }
+        
+        bool ChangesMade { get; set; }
         public bool IpAddressActive { get; set; }
         public bool SubnetActive { get; set; }
         public bool DefaultActive { get; set; }
