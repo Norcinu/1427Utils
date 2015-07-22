@@ -68,7 +68,7 @@ namespace PDTUtils
             {
                 StpButtons.Children.Add(new Button());
                 var b = StpButtons.Children[i] as Button;
-                //you lmow ujqu
+                
                 b.Content = _buttonContent[i];//l;
                 b.MinWidth = 90;
                 b.Margin = new Thickness(0, 0, 5, 0);
@@ -170,7 +170,7 @@ namespace PDTUtils
                 "Testing Button Lamps. \nCheck Flashing Lamps." });
 
             //Thread.Sleep(1200);
-            
+
             Thread t = new Thread(TheActualLampTest);
             t.Start();
 
@@ -588,20 +588,42 @@ namespace PDTUtils
             {
                 if (_testPrintThread != null)
                     while (_testPrintThread.IsAlive) ;
-
+                
                 foreach (Button b in StpButtons.Children)
                 {
                     if (!b.IsEnabled)
                         b.IsEnabled = true;
                 }
-
+                
+                ShutdownTimer(_startTimer);
+                ShutdownTimer(_lampTimer); //hmmm
+              
+                /*if (_startTimer != null)
+                {
+                    if (_startTimer.Enabled)
+                    {
+                        _startTimer.Enabled = false;
+                        foreach (var child in stpMainLabels.Children)
+                        {
+                            if (child.GetType() == typeof(Label))
+                            {
+                                var labrador = child as Label;
+                                labrador.Content = "";
+                                labrador.Background = Brushes.Black;
+                                labrador.Foreground = Brushes.White;
+                                labrador.BorderBrush = Brushes.Black;
+                            }
+                        }
+                    }
+                }*/
+                
                 _buttonEnabledCount = VisualButtonCount;
-
+                
                 ResetLabels(StpMainPanel.Children);
                 
                 BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
                 BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);
-                //mang 
+                
                 foreach (var b in StpButtons.Children)
                 {
                     var btn = b as Button;
@@ -647,6 +669,26 @@ namespace PDTUtils
             // shut down print thread? - should never start up.
         }
         
+        void ShutdownTimer(Timer timer)
+        {
+            if (timer != null && timer.Enabled)
+            {
+                timer.Enabled = false;
+                foreach (var child in stpMainLabels.Children)
+                {
+                    if (child.GetType() == typeof(Label))
+                    {
+                        var labrador = child as Label;
+                        labrador.Content = "";
+                        labrador.Background = Brushes.Black;
+                        labrador.Foreground = Brushes.White;
+                        labrador.BorderBrush = Brushes.Black;
+                    }
+                }
+            }
+        }
+
+
         static int PrinterOrHopper()
         {
             char[] ret = new char[3];

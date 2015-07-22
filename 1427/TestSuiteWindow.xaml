@@ -30,7 +30,7 @@
     
     <DockPanel LastChildFill="True" Height="30" Margin="12,12,12,0" Name="StpButtons" VerticalAlignment="Top" Width="600" HorizontalAlignment="Center" />
         <StackPanel Height="950" HorizontalAlignment="Center" Margin="12,48,12,0" Name="StpMainPanel" VerticalAlignment="Top" Width="600" Background="#FFDBC2C2" Grid.RowSpan="3">
-            <StackPanel>
+            <StackPanel x:Name="stpMainLabels">
                 <views:HopperTestView x:Name="hopperTest" IsEnabled="False" Visibility="Collapsed" />
                 <Label Style="{StaticResource StdLabel}" Height="80" Name="Label1" HorizontalContentAlignment="Center" FontSize="22"/>
                 <Label Style="{StaticResource StdLabel}" Height="80" Name="Label2" HorizontalContentAlignment="Center" FontSize="22"/>

@@ -636,12 +636,13 @@ namespace PDTUtils.MVVM.ViewModels
             CurrentSelHopper = CurrentSelHopper;//BoLib.getHopperFloatLevel(Convert.ToUInt32((string.IsNullOrEmpty(CurrentSelHopper) ? "0" 
             //: CurrentSelHopper))).ToString(); //CurrentSelHopper;
         }
-        
+        //the way you operate/
         /*
-         *
+         * 
          * Spanish Hopper Emptying Methods
          * 
          */
+        
         public ICommand SpanishEmptyOne { get { return new DelegateCommand(DoSpanishEmptyOne); } }
         void DoSpanishEmptyOne(object o)
         {
