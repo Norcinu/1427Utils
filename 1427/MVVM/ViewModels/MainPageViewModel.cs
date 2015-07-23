@@ -85,7 +85,7 @@ namespace PDTUtils.MVVM.ViewModels
 #endif
             }
         }
-
+        
         string _coinDenominationMsg = "";
         public string CoinDenominationMsg
         {
@@ -175,6 +175,20 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("DenomVisibility");
             }
         }
+        
+        #region Spanish Refill Method Stuff
+       
+        public bool IsSpain //as these are potentinally going to be put in all global *sheesh* static class.
+        {
+            get { return _isSpain; }
+            set
+            {
+                _isSpain = value;
+                RaisePropertyChangedEvent("IsSpain");
+            }
+        }
+        
+        #endregion
         
         public string ErrorMessage { get; set; }
         
@@ -540,7 +554,7 @@ namespace PDTUtils.MVVM.ViewModels
 #endif  
         }
         
-        void Refresh() //TODO DO THIS!!
+        void Refresh() //TODO THIS!!
         {
             RefillCoinsAddedLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
             RefillCoinsAddedRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right);

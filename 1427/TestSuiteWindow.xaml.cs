@@ -21,6 +21,7 @@ namespace PDTUtils
     partial class TestSuiteWindow : Window
     {
         bool _aTestIsRunning = false;
+        bool _lampTestRunning = false;
         const int VisualButtonCount = 6;
         int _buttonEnabledCount = 6;
         int _counter = 0;
@@ -145,7 +146,7 @@ namespace PDTUtils
         
         void TheActualLampTest()
         {
-            for (short i = 128; i > 0; i /= 2)
+            for (short i = 128; i > 0 && _lampTestRunning; i /= 2)
             {
                 BoLib.setLampStatus(1, (byte)i, 1);
                 Thread.Sleep(200);
@@ -166,11 +167,12 @@ namespace PDTUtils
         void DoLampTest()
         {
             BtnEndTest.IsEnabled = true;
+            _lampTestRunning = true;
             Label1.Dispatcher.Invoke((DelegateDil)label_updateMessage, new object[] { Label1, 
                 "Testing Button Lamps. \nCheck Flashing Lamps." });
 
             //Thread.Sleep(1200);
-
+            
             Thread t = new Thread(TheActualLampTest);
             t.Start();
 
@@ -375,7 +377,7 @@ namespace PDTUtils
             l.BorderThickness = new Thickness(2);
             l.Content = "**WARNING** Button NOT FITTED/ERROR";
         }
-
+        
         void timer_buttonError(Label l)
         {
             l.Background = Brushes.Red;
@@ -384,7 +386,7 @@ namespace PDTUtils
             l.BorderThickness = new Thickness(2);
             l.Content = "**WARNING** " + _termButtonList[_currentButton] + " NOT FITTED/ERROR";
         }
-
+        
         void timer_ButtonShowTestMsg(Label l)
         {
             l.Background = Brushes.SlateGray;
@@ -400,9 +402,10 @@ namespace PDTUtils
                 l.Content = "Note of " + (v / 100).ToString("0.00") + " value inserted.";
             else
                 l.Content = "Coin of " + ((v >= 100) ? (v / 100) : v).ToString(v >= 100 ? "0.00" : "") + " value inserted.";
-             
+
             Debug.WriteLine("coin value", v.ToString());
         }
+        
         
         void timer_buttonEnable(Button b)
         {
@@ -426,7 +429,7 @@ namespace PDTUtils
                     {
                         if (_btnImpl._currentSpecial == 0)
                         {
-                            if (_btnImpl._toggled[0] == false)
+                            if (!_btnImpl._toggled[0])
                                 _counter++;
                             
                             var comp = Label1.Dispatcher.Invoke((DelegateReturnString)timer_getLabelContent, Label1) as string;
@@ -438,7 +441,7 @@ namespace PDTUtils
                             var status = BoLib.getSwitchStatus(2, mask);
                             if (status == 0)
                             {
-                                if (_btnImpl._toggled[0] == false) // key toggled off
+                                if (!_btnImpl._toggled[0]) // key toggled off
                                     _btnImpl._toggled[0] = true;
                             }
                             else
@@ -463,7 +466,7 @@ namespace PDTUtils
                             var status = BoLib.getSwitchStatus(2, mask);
                             if (status == 0)
                             {
-                                if (_btnImpl._toggled[1] == false) // toggle closed
+                                if (!_btnImpl._toggled[1]) // toggle closed
                                     _btnImpl._toggled[1] = true;
                             }
                             else
@@ -595,27 +598,11 @@ namespace PDTUtils
                         b.IsEnabled = true;
                 }
                 
+                if (_lampTestRunning)
+                    _lampTestRunning = false;
+                
                 ShutdownTimer(_startTimer);
-                ShutdownTimer(_lampTimer); //hmmm
-              
-                /*if (_startTimer != null)
-                {
-                    if (_startTimer.Enabled)
-                    {
-                        _startTimer.Enabled = false;
-                        foreach (var child in stpMainLabels.Children)
-                        {
-                            if (child.GetType() == typeof(Label))
-                            {
-                                var labrador = child as Label;
-                                labrador.Content = "";
-                                labrador.Background = Brushes.Black;
-                                labrador.Foreground = Brushes.White;
-                                labrador.BorderBrush = Brushes.Black;
-                            }
-                        }
-                    }
-                }*/
+                ShutdownTimer(_lampTimer);
                 
                 _buttonEnabledCount = VisualButtonCount;
                 
@@ -645,6 +632,7 @@ namespace PDTUtils
                 
                 BtnEndTest.IsEnabled = false;
                 _aTestIsRunning = false;
+                _lampTestRunning = false;
             }
         }
         

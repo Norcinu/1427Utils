@@ -62,7 +62,7 @@ namespace PDTUtils.MVVM.ViewModels
                 CabinetType =/* (BoLib.GetUniquePcbID(0)) ? */"INNOCORE TS22 L29" /*: "AXIS - L29"*/,
                 CpuID = BoLib.GetUniquePcbID(0)
             });
-            
+
             foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (ni.NetworkInterfaceType != NetworkInterfaceType.Wireless80211 &&
@@ -76,8 +76,8 @@ namespace PDTUtils.MVVM.ViewModels
                     Hardware[0].DefGateway = ni.GetIPProperties().GatewayAddresses[0].Address.ToString();
                 }
             }
-            
-            var code = BoLib.getCountryCode();
+
+            var code = MachineDescription.CountryCode; //BoLib.getCountryCode();
             GeneralList.Add("Country Code: (" + code + ") " + BoLib.getCountryCodeStrLiteral("", code));
             GeneralList.Add("Printer Port: COM2");
             GeneralList.Add(BoLib.getEDCTypeStr());

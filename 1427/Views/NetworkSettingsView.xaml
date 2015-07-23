@@ -51,7 +51,7 @@
                 <TextBox  Background="White" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" 
                           HorizontalContentAlignment="Center" Text="{Binding MacAddress}" IsEnabled="True" IsReadOnly="True"/>
                 <Button Width="150" Margin="30" Command="{Binding ToggleDefault}" IsEnabled="False" Visibility="Hidden"
-                        Content="BUTTON HIDDEN FOR SPACING" />
+                        Content="BUTTON HIDDEN FOR SPACING" /> <!-- Do not re-enable --> 
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">

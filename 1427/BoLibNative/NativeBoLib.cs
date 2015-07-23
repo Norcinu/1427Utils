@@ -224,7 +224,7 @@ namespace PDTUtils.Native
 
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
         public static extern int getCountryCode();
-
+        
         [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         [return: MarshalAs(UnmanagedType.LPStr)]
         public static extern string getCountryCodeStr();

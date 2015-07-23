@@ -20,8 +20,11 @@ namespace PDTUtils.MVVM.ViewModels
         public List<KeyValuePair<string, KeepOnGiving>> Incomings { get; set; }
         public List<KeyValuePair<string, KeepOnGiving>> Outgoings { get; set; }
 
-        string _manifest = (BoLib.getCountryCode() == 9) ? Properties.Resources.model_manifest_esp
-                                                         : Properties.Resources.model_manifest;
+        /*string _manifest = (BoLib.getCountryCode() == 9) ? Properties.Resources.model_manifest_esp
+                                                         : Properties.Resources.model_manifest;*/
+
+        string _manifest = (MachineDescription.CountryCode == BoLib.getSpainCountryCode()) ? Properties.Resources.model_manifest_esp : 
+                                                                                             Properties.Resources.model_manifest;
 
         public GameChartViewModel()
         {

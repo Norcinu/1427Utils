@@ -15,7 +15,7 @@ namespace PDTUtils.MVVM.ViewModels
         readonly int[] _ukStakeValues = new int[4] { 25, 50, 100, 200 };
         readonly string _manifest = (BoLib.getCountryCode() == 9) ? Properties.Resources.model_manifest_esp 
                                                                   : Properties.Resources.model_manifest;
-
+        
         int _count = 0;
         int _currentFirstSel = -1;
         int _currentSecondSel = -1;
@@ -365,11 +365,10 @@ namespace PDTUtils.MVVM.ViewModels
 
             _currentCulture = BoLib.getCountryCode() == BoLib.getUkCountryCodeB3() ||
                               BoLib.getCountryCode() == BoLib.getUkCountryCodeC()
-                ? new CultureInfo("en-GB")
-                : new CultureInfo("es-ES");
-
+                ? new CultureInfo("en-GB") : new CultureInfo("es-ES");
+            
             Nfi = _currentCulture.NumberFormat;
-
+            
             string[] modelNumber;
             IniFileUtility.GetIniProfileSection(out modelNumber, "Models", _manifest, true);
             _numberOfGames = Convert.ToUInt32(modelNumber[0]);
@@ -429,7 +428,7 @@ namespace PDTUtils.MVVM.ViewModels
                 else if (promoCount >= 2)
                     g.Promo = false;
             }
-                 
+            
             if (promoCount == 0)
             {
                 var r = new Random((int)DateTime.Now.Ticks & 0x0000FFFF);
@@ -439,7 +438,7 @@ namespace PDTUtils.MVVM.ViewModels
             bool isFirstSet = false;
             bool isSecondSet = false;
             uint activeCount = _numberOfGames;
-
+            
             for (var i = 0; i < _numberOfGames; i++)
             {
                 var m = _gameSettings[i];

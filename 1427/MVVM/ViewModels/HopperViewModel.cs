@@ -498,7 +498,7 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Config", key, newRefloatValue.ToString(), Resources.birth_cert);
             
             CheckForSync(newRefloatValue, tokens[0]);
-            
+
             RaisePropertyChangedEvent(key);
         }
         
@@ -527,11 +527,11 @@ namespace PDTUtils.MVVM.ViewModels
             GlobalConfig.ReparseSettings = true;
             NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
-
+            
             DivertLeftMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertLeftMessage");
         }
-
+        
         public ICommand ChangeRightDivert { get { return new DelegateCommand(DoChangeDivertRight); } }
         void DoChangeDivertRight(object o)
         {
@@ -542,7 +542,7 @@ namespace PDTUtils.MVVM.ViewModels
             var currentThreshold = Convert.ToUInt32(new string(divert));
             const uint changeAmount = 50;
             var newValue = currentThreshold;
-
+            
             if (actionType == "increase")
             {
                 newValue += changeAmount;
@@ -652,7 +652,7 @@ namespace PDTUtils.MVVM.ViewModels
                 msg.ShowMessage("Please turn Refill Key before continuing.", "Warning");
                 return;
             }
-
+            
             var which = o as string;
             var currentCredits = BoLib.getBank() + BoLib.getCredit() + (int)BoLib.getReserveCredits();
 
@@ -680,7 +680,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var str = o as string;
             var tokens = str.Split('+');
-            uint incrementValue = 100;
+            uint incrementValue = 10;
             uint floatLevel = 0;
             
             if (tokens[0].Equals("left"))
@@ -688,8 +688,8 @@ namespace PDTUtils.MVVM.ViewModels
                 floatLevel = BoLib.getHopperFloatLevel((int)Hoppers.Left);
                 if (tokens[1].Equals("increase"))
                     floatLevel += incrementValue;
-                else if (tokens[1].Equals("decrease") && BoLib.getHopperFloatLevel((int)Hoppers.Left) >= 100)
-                    floatLevel -= 100;
+                else if (tokens[1].Equals("decrease") && BoLib.getHopperFloatLevel((int)Hoppers.Left) >= incrementValue)
+                    floatLevel -= incrementValue;
                 
                 BoLib.setHopperFloatLevel((int)Hoppers.Left, floatLevel);
                 NewLeftFillValue = floatLevel.ToString();
@@ -699,8 +699,8 @@ namespace PDTUtils.MVVM.ViewModels
                 floatLevel = BoLib.getHopperFloatLevel((int)Hoppers.Right);
                 if (tokens[1].Equals("increase"))
                     floatLevel += incrementValue;
-                else if (tokens[1].Equals("decrease") && BoLib.getHopperFloatLevel((int)Hoppers.Right) >= 100)
-                    floatLevel -= 100;
+                else if (tokens[1].Equals("decrease") && BoLib.getHopperFloatLevel((int)Hoppers.Right) >= incrementValue)
+                    floatLevel -= incrementValue;
 
                 BoLib.setHopperFloatLevel((int)Hoppers.Right, floatLevel);
                 NewRightFillValue = floatLevel.ToString();

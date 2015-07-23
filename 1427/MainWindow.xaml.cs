@@ -40,9 +40,9 @@ namespace PDTUtils
         readonly GamesList _gamesList = new GamesList();
         readonly MachineLogsController _logController = new MachineLogsController();
         readonly UserSoftwareUpdate _updateFiles;
-
+        
         public bool IsSpanishMachine { get { return _isSpanishMachine; } }
-
+        
         public MainWindow()
         {
             RequiresSave = false;
@@ -52,7 +52,11 @@ namespace PDTUtils
                 InitialiseBoLib();
                 InitializeComponent();
                 
-                var ci = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? new CultureInfo("es-ES") : new CultureInfo("en-GB");
+                MachineDescription.IsSpanish = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? true : false;
+                MachineDescription.IsBritish = !MachineDescription.IsSpanish;
+                MachineDescription.CountryCode = BoLib.getCountryCode();
+                
+                var ci = MachineDescription.IsSpanish ? new CultureInfo("es-ES") : new CultureInfo("en-GB");
                 
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
