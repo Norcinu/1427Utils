@@ -793,22 +793,9 @@ unsigned int getBankCreditsReservePtr()
 	return (unsigned int)(nvr_ptr->bank1 + nvr_ptr->cd1 + nvr_ptr->reserveCredits1);
 }
 
-/*
-!!!! DEBUG REINCLUSION FOR NEXT BUILD OF L29. !!!!
-unsigned int getPayoutCoinValues(unsigned int WhichOne)
+bool getIsHopperHopping()
 {
-	return GetPayoutCoinValues(WhichOne);
-}*/
-
-bool getIsHopperHopping(unsigned char hopper)
-{
-	if (hopper == LEFTHOPPER)
-		return Share3 & 0x08;
-	else if (hopper == RIGHTHOPPER)
-		return Share3 & 0x10;
-
-	return 0;
-
+	return (bool)GetHoppersRunning();
 }
 
 bool getUtilRequestBitState(int whichBit)

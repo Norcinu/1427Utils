@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="755"
 			 x:Name="UcHopperConfig">
-
+    
     <!-- IsEnabled="{Binding Enabled}"> -->
     <UserControl.Resources>
         <c:BoolToVisibilityConverter x:Key="BoolToVis" />
@@ -173,7 +173,8 @@
                             </Border> -->
 
                             <Border BorderBrush="Black" BorderThickness="2" Margin="2">
-                                <StackPanel Width="550">
+                                <StackPanel Width="560">
+                                    <!-- Width="550"> -->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
                                                       Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="left+decrease" 
@@ -183,6 +184,8 @@
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
                                                       Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="left+increase" 
                                                       Content="+" />
+
+                                        <Button FontSize="24" Width="135" Height="35" Margin="5" Content="Save Left"/>
                                     </StackPanel>
                                     <!-- need to add some labels directing man what to do. -->
                                     <!-- dis new machine got the smart card and black box? -->
@@ -195,6 +198,7 @@
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
                                                       Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="right+increase" 
                                                       Content="+" />
+                                        <Button FontSize="24" Width="135" Height="35" Margin="5" Content="Save Right"/>
                                     </StackPanel>
 
                                     <Button Margin="5" Command="{Binding SpanishEmptyOne}" CommandParameter="left" Height="35" 
@@ -204,9 +208,8 @@
                                 </StackPanel>
                             </Border>
                         </StackPanel>
-                        
-                        
-                        <!-- width 550 Width="550"-->
+
+                            <!-- width 550 Width="550"-->
                         <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
                                     Height="325" IsEnabled="{Binding IsBritish}"
                                     Visibility="{Binding IsBritish, Converter={StaticResource BoolToVis}}">

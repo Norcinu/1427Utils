@@ -36,6 +36,7 @@ namespace PDTUtils.MVVM.ViewModels
         Timer EmptyLeftTimer;
         Timer EmptyRightTimer;
         Timer RefillTimer;
+        Timer SpanishEmpty;
 
         NumberFormatInfo Nfi { get; set; }
         CultureInfo CurrentCulture { get; set; }
@@ -229,7 +230,7 @@ namespace PDTUtils.MVVM.ViewModels
                 IsSpanish = false;
                 IsBritish = true;
             }
-
+            
             NewLeftFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Left).ToString();// "500";
             NewRightFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Right).ToString();
 
@@ -393,7 +394,7 @@ namespace PDTUtils.MVVM.ViewModels
                                 _msg.ShowMessage("COINS REMOVED = " + SelHopperValue, "HOPPER EMPTYING");
                             }
 
-                            Debug.WriteLine("IS HOPPER HOPPING: ", BoLib.getIsHopperHopping(1).ToString());
+                            //Debug.WriteLine("IS HOPPER HOPPING: ", BoLib.getIsHopperHopping(1).ToString());
                         };
                     }
 
@@ -600,7 +601,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             char[] refloatLeft = new char[10];
             char[] refloatRight = new char[10];
-
+            
             NativeWinApi.GetPrivateProfileString("Config", "RefloatLH", "", refloatLeft, 10, Resources.birth_cert);
             NativeWinApi.GetPrivateProfileString("Config", "RefloatRH", "", refloatRight, 10, Resources.birth_cert);
 
@@ -636,13 +637,15 @@ namespace PDTUtils.MVVM.ViewModels
             CurrentSelHopper = CurrentSelHopper;//BoLib.getHopperFloatLevel(Convert.ToUInt32((string.IsNullOrEmpty(CurrentSelHopper) ? "0" 
             //: CurrentSelHopper))).ToString(); //CurrentSelHopper;
         }
-        //the way you operate/
+     
         /*
          * 
          * Spanish Hopper Emptying Methods
          * 
          */
-        
+        // load values from ini file.
+        // allow user to change via the 2 buttons.
+        //this save
         public ICommand SpanishEmptyOne { get { return new DelegateCommand(DoSpanishEmptyOne); } }
         void DoSpanishEmptyOne(object o)
         {
@@ -652,14 +655,44 @@ namespace PDTUtils.MVVM.ViewModels
                 msg.ShowMessage("Please turn Refill Key before continuing.", "Warning");
                 return;
             }
-            
+            Thread.Sleep(500);
             var which = o as string;
             var currentCredits = BoLib.getBank() + BoLib.getCredit() + (int)BoLib.getReserveCredits();
 
-            if (BoLib.getUtilRequestBitState((int)UtilBits.DumpLeftHopper))
-                return;
+            BoLib.setUtilRequestBitState((int)UtilBits.DumpLeftHopper);
+            //if (BoLib.getUtilRequestBitState((int)UtilBits.DumpLeftHopper))
+            //    return;
+            if (SpanishEmpty == null)
+            {
+                SpanishEmpty = new Timer() { Enabled = true, Interval = 2 };
+                SpanishEmpty.Elapsed += new System.Timers.ElapsedEventHandler(TimerSpainEmpty);
+            }
+            else if (!SpanishEmpty.Enabled)
+                SpanishEmpty.Enabled = true;
+
         }
+
+        void TimerSpainEmpty(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if (BoLib.getIsHopperHopping())
+            {
+                Debug.WriteLine("THE HOPPER IS HOPPING");
+            }
+            else
+            {
+                Debug.WriteLine("THE HOPPER IS FINISHED");
+                SpanishEmpty.Enabled = false;
+            }
+        }
+
+        //increase 
         
+        //decrease
+
+
+        //End Spain Methods
+
+
         public ICommand ZeroHopperFloat { get { return new DelegateCommand(DoHopperZero); } }
         void DoHopperZero(object o)
         {
@@ -682,7 +715,7 @@ namespace PDTUtils.MVVM.ViewModels
             var tokens = str.Split('+');
             uint incrementValue = 10;
             uint floatLevel = 0;
-            
+
             if (tokens[0].Equals("left"))
             {
                 floatLevel = BoLib.getHopperFloatLevel((int)Hoppers.Left);

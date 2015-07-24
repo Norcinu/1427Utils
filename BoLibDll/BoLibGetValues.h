@@ -86,6 +86,6 @@ DLLEXPORT char			*getLicense();
 DLLEXPORT char			*getCountryCodeStrLiteral(char *str, int code);
 DLLEXPORT unsigned long getEspRegionalVariableValue(int ValueIndex);
 DLLEXPORT unsigned int	getBankCreditsReservePtr();
-DLLEXPORT bool			getIsHopperHopping(unsigned char hopper);
+DLLEXPORT bool			getIsHopperHopping();
 DLLEXPORT bool			getUtilRequestBitState(int whichBit);
 
