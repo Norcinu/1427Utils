@@ -258,4 +258,7 @@
   <data name="model_manifest_UKB3" xml:space="preserve">
     <value>D:\machine\ModelManifestB3.ini</value>
   </data>
+  <data name="utils_config" xml:space="preserve">
+    <value>D:\1525\config\utils_config.ini</value>
+  </data>
 </root>

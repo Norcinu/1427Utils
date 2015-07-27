@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <c:BoolToVisibilityConverter x:Key="BoolToVis" />
         <c:NegateBoolValue x:Key="NegateToVis" />
-        <c:FalseToHiddenConv x:Key="FalseToHidden"/>
+        <c:FalseToHiddenConv x:Key="FalseToHidden" />
         
         <Style x:Key="StevesLabel" TargetType="Label">
             <Setter Property="Background" Value="SlateGray" />
@@ -73,7 +73,7 @@
                         </StackPanel>
                     </StackPanel>
                     <!-- end of refloat -->
-
+                    
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20"/>
                     <!-- bit o' spacing -->
                     <!-- divert values -->
@@ -174,29 +174,33 @@
 
                             <Border BorderBrush="Black" BorderThickness="2" Margin="2">
                                 <StackPanel Width="560">
+                                    <Label Style="{StaticResource StevesLabel}" Content="Set New Float Level"/>
+                                    
                                     <!-- Width="550"> -->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
-                                                      Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="left+decrease" 
+                                                      Margin="5" Command="{Binding EspChangeRefillAmount}" CommandParameter="left+decrease" 
                                                       Content="-" />
                                         <Label FontSize="24" Margin="5" VerticalContentAlignment="Center" Content="{Binding NewLeftFillValue}"
-                                                   ContentStringFormat="Left Float: {0}" Width="200" HorizontalContentAlignment="Center" />
+                                               ContentStringFormat="Left Float: {0}" Width="200" HorizontalContentAlignment="Center"
+                                               Style="{StaticResource StevesLabel}"/>
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
-                                                      Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="left+increase" 
+                                                      Margin="5" Command="{Binding EspChangeRefillAmount}" CommandParameter="left+increase" 
                                                       Content="+" />
 
                                         <Button FontSize="24" Width="135" Height="35" Margin="5" Content="Save Left"/>
                                     </StackPanel>
+                                    
                                     <!-- need to add some labels directing man what to do. -->
-                                    <!-- dis new machine got the smart card and black box? -->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
-                                                      Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="right+decrease" 
+                                                      Margin="5" Command="{Binding EspChangeRefillAmount}" CommandParameter="right+decrease" 
                                                       Content="-" />
                                         <Label FontSize="24" Margin="5" VerticalContentAlignment="Center" Content="{Binding NewRightFillValue}"
-                                                   ContentStringFormat="Right Float: {0}" Width="200" HorizontalContentAlignment="Center" />
+                                               ContentStringFormat="Right Float: {0}" Width="200" HorizontalContentAlignment="Center" 
+                                               Style="{StaticResource StevesLabel}"/>
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
-                                                      Margin="5" Command="{Binding ChangeNewFloat}" CommandParameter="right+increase" 
+                                                      Margin="5" Command="{Binding EspChangeRefillAmount}" CommandParameter="right+increase" 
                                                       Content="+" />
                                         <Button FontSize="24" Width="135" Height="35" Margin="5" Content="Save Right"/>
                                     </StackPanel>

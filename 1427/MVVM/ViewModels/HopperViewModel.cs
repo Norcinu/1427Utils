@@ -10,6 +10,7 @@ using PDTUtils.Native;
 using PDTUtils.Properties;
 using GlobalConfig = PDTUtils.Logic.GlobalConfig;
 using Timer = System.Timers.Timer;
+using System.IO;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -655,10 +656,11 @@ namespace PDTUtils.MVVM.ViewModels
                 msg.ShowMessage("Please turn Refill Key before continuing.", "Warning");
                 return;
             }
+            
             Thread.Sleep(500);
             var which = o as string;
             var currentCredits = BoLib.getBank() + BoLib.getCredit() + (int)BoLib.getReserveCredits();
-
+                   
             BoLib.setUtilRequestBitState((int)UtilBits.DumpLeftHopper);
             //if (BoLib.getUtilRequestBitState((int)UtilBits.DumpLeftHopper))
             //    return;
@@ -669,7 +671,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else if (!SpanishEmpty.Enabled)
                 SpanishEmpty.Enabled = true;
-
+            
         }
 
         void TimerSpainEmpty(object sender, System.Timers.ElapsedEventArgs e)
@@ -685,14 +687,65 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
 
-        //increase 
+        //increase - decrease
+        public ICommand EspChangeRefillAmount
+        {
+            get
+            {
+                return new DelegateCommand(DoEspChangeRefillAmount);
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if directory + utils config exist.
+        /// If not create them.
+        /// </summary>
+        void CheckDirAndIniExist()
+        {
+            if (!File.Exists(Properties.Resources.utils_config))
+            {
+                try
+                {
+                    if (!Directory.Exists(@"D:\1525\config"))
+                        Directory.CreateDirectory(@"D:\1525\config");
+
+                    string contents = "######### General Config for 1525 Utilities.\r\n\r\n[Hoppers]\r\nLeft=300\r\nRight=150";
+                    using (File.Create(Properties.Resources.utils_config)) ;
+                    File.WriteAllText(Properties.Resources.utils_config, contents);
+                }
+                catch (Exception ex)
+                {
+                    var window = new WpfMessageBoxService();
+                    window.ShowMessage(ex.Message, "ERROR");
+                }
+            }
+        }
         
-        //decrease
-
-
+        void DoEspChangeRefillAmount(object o)
+        {
+            var str = o as string;
+            var tokens = str.Split('+');
+            
+            CheckDirAndIniExist();
+            
+            //<Left/Right> + <increase/decrease>
+            if (tokens[0].ToLower().Equals("left"))
+            {
+                if (tokens[1].ToLower().Equals("increase"))
+                    Debug.WriteLine("left+increase");
+                else if (tokens[1].ToLower().Equals("decrease"))
+                    Debug.WriteLine("left+decrease");
+            }
+            else if (tokens[0].ToLower().Equals("right"))
+            {
+                if (tokens[1].ToLower().Equals("increase"))
+                    Debug.WriteLine("right+increase");
+                else if (tokens[1].ToLower().Equals("decrease"))
+                    Debug.WriteLine("right+decrease");
+            }
+        }
         //End Spain Methods
-
-
+        
         public ICommand ZeroHopperFloat { get { return new DelegateCommand(DoHopperZero); } }
         void DoHopperZero(object o)
         {
@@ -708,6 +761,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
         
+        /* I'm not sure why this is here? i dont think it was quite needed for these operations.
         public ICommand ChangeNewFloat { get { return new DelegateCommand(DoChangeNewFloat); } }
         void DoChangeNewFloat(object o)
         {
@@ -715,7 +769,7 @@ namespace PDTUtils.MVVM.ViewModels
             var tokens = str.Split('+');
             uint incrementValue = 10;
             uint floatLevel = 0;
-
+            
             if (tokens[0].Equals("left"))
             {
                 floatLevel = BoLib.getHopperFloatLevel((int)Hoppers.Left);
@@ -734,11 +788,12 @@ namespace PDTUtils.MVVM.ViewModels
                     floatLevel += incrementValue;
                 else if (tokens[1].Equals("decrease") && BoLib.getHopperFloatLevel((int)Hoppers.Right) >= incrementValue)
                     floatLevel -= incrementValue;
-
+                
                 BoLib.setHopperFloatLevel((int)Hoppers.Right, floatLevel);
                 NewRightFillValue = floatLevel.ToString();
             }
         }
+        */
     }
 }
 

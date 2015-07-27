@@ -398,6 +398,15 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to D:\1525\config\utils_config.ini.
+        /// </summary>
+        internal static string utils_config {
+            get {
+                return ResourceManager.GetString("utils_config", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D:\machine\GAME_DATA\VizTechError.log.
         /// </summary>
         internal static string viz_tech_log {
