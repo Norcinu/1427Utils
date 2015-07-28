@@ -175,45 +175,52 @@
                             <Border BorderBrush="Black" BorderThickness="2" Margin="2">
                                 <StackPanel Width="560">
                                     <Label Style="{StaticResource StevesLabel}" Content="Set New Float Level"/>
-                                    
+
                                     <!-- Width="550"> -->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
                                                       Margin="5" Command="{Binding EspChangeRefillAmount}" CommandParameter="left+decrease" 
                                                       Content="-" />
-                                        <Label FontSize="24" Margin="5" VerticalContentAlignment="Center" Content="{Binding NewLeftFillValue}"
+                                        <Label FontSize="24" Margin="5" VerticalContentAlignment="Center" Content="{Binding EspLeftHopper}"
                                                ContentStringFormat="Left Float: {0}" Width="200" HorizontalContentAlignment="Center"
                                                Style="{StaticResource StevesLabel}"/>
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
                                                       Margin="5" Command="{Binding EspChangeRefillAmount}" CommandParameter="left+increase" 
                                                       Content="+" />
 
-                                        <Button FontSize="24" Width="135" Height="35" Margin="5" Content="Save Left"/>
+                                        <Button FontSize="24" Width="135" Height="35" Margin="5" Content="Set Left"
+                                                Command="{Binding EspHopperRefill}" CommandParameter="left" />
                                     </StackPanel>
-                                    
+
                                     <!-- need to add some labels directing man what to do. -->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
                                                       Margin="5" Command="{Binding EspChangeRefillAmount}" CommandParameter="right+decrease" 
                                                       Content="-" />
-                                        <Label FontSize="24" Margin="5" VerticalContentAlignment="Center" Content="{Binding NewRightFillValue}"
+                                        <Label FontSize="24" Margin="5" VerticalContentAlignment="Center" Content="{Binding EspRightHopper}"
                                                ContentStringFormat="Right Float: {0}" Width="200" HorizontalContentAlignment="Center" 
                                                Style="{StaticResource StevesLabel}"/>
                                         <RepeatButton Style="{StaticResource MyRepeatButton}" FontSize="24" Width="75" Height="35" 
                                                       Margin="5" Command="{Binding EspChangeRefillAmount}" CommandParameter="right+increase" 
                                                       Content="+" />
-                                        <Button FontSize="24" Width="135" Height="35" Margin="5" Content="Save Right"/>
+                                        <Button FontSize="24" Width="135" Height="35" Margin="5" Content="Set Right"
+                                                Command="{Binding EspHopperRefill}" CommandParameter="right" />
                                     </StackPanel>
 
-                                    <Button Margin="5" Command="{Binding SpanishEmptyOne}" CommandParameter="left" Height="35" 
+                                    <Label Style="{StaticResource StevesLabel}" Content="Select Hopper to Empty" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Margin="5" Command="{Binding SpanishEmptyOne}" CommandParameter="left" Height="35" 
                                             Width="100" Content="EMPTY LEFT" />
-                                    <Button Margin="5" Command="{Binding SpanishEmptyOne}" CommandParameter="right" Height="35" 
+                                        <Button Margin="5" Command="{Binding SpanishEmptyOne}" CommandParameter="right" Height="35" 
                                             Width="100" Content="EMPTY RIGHT" />
+                                    </StackPanel>
                                 </StackPanel>
+
                             </Border>
                         </StackPanel>
-
-                            <!-- width 550 Width="550"-->
+                        
+                        
+                        <!-- width 550 Width="550"-->
                         <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
                                     Height="325" IsEnabled="{Binding IsBritish}"
                                     Visibility="{Binding IsBritish, Converter={StaticResource BoolToVis}}">

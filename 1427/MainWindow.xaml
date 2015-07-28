@@ -610,8 +610,10 @@
             <Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="BtnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
             <Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
             <!--<Button Content="Serial Dump" Width="170" Height="35" FontSize="22" Click="ButtonBase_OnClick"></Button>-->
+            <!-- <Button Content="Set Reboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" Name="BtnReboot" FontSize="22" /> -->
         </StackPanel>
-        
-        <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="BtnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
+
+        <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="BtnExit" Width="75" Grid.Row="2" Click="btnExit_Click" /> 
+
     </Grid>
 </Window>

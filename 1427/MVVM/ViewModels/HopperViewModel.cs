@@ -1,7 +1,14 @@
-﻿using System;
+﻿/*
+ * Massive TODO:
+ * Get rid of all the new string/Convert to Ints.
+ * Use GetPrivateProfileInt!!!
+ */ 
+
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,7 +17,6 @@ using PDTUtils.Native;
 using PDTUtils.Properties;
 using GlobalConfig = PDTUtils.Logic.GlobalConfig;
 using Timer = System.Timers.Timer;
-using System.IO;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -23,16 +29,19 @@ namespace PDTUtils.MVVM.ViewModels
         bool _syncRight;
         bool _isSpanish;
         bool _isBritish; //yeah alright the convertors arent working correctly.
-
+        
         int _selectedTabIndex;
+        int _espLeftHopper;
+        int _espRightHopper;
+
         string _leftRefillMsg;
         string _rightRefillMsg;
         string _leftCoinsAdded;
         string _rightCoinsAdded;
         string _refloatLeft;
         string _refloatRight;
-        string _newLeftFillValue;
-        string _newRightFillValue;
+        /*string _newLeftFillValue;
+        string _newRightFillValue;*/
 
         Timer EmptyLeftTimer;
         Timer EmptyRightTimer;
@@ -173,7 +182,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
 
-        public string NewLeftFillValue
+    /*    public string NewLeftFillValue
         {
             get { return _newLeftFillValue; }
             set { _newLeftFillValue = value; RaisePropertyChangedEvent("NewLeftFillValue"); }
@@ -184,7 +193,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return _newRightFillValue; }
             set { _newRightFillValue = value; RaisePropertyChangedEvent("NewRightFillValue"); }
-        }
+        }*/
 
         public bool IsSpanish
         {
@@ -196,6 +205,26 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return _isBritish; }
             set { _isBritish = value; RaisePropertyChangedEvent("IsBritish"); }
+        }
+
+        public int EspLeftHopper
+        {
+            get { return _espLeftHopper; }
+            set
+            {
+                _espLeftHopper = value;
+                RaisePropertyChangedEvent("EspLeftHopper");
+            }
+        }
+
+        public int EspRightHopper
+        {
+            get { return _espRightHopper; }
+            set
+            {
+                _espRightHopper = value;
+                RaisePropertyChangedEvent("EspRightHopper");
+            }
         }
         #endregion
 
@@ -232,9 +261,19 @@ namespace PDTUtils.MVVM.ViewModels
                 IsBritish = true;
             }
             
-            NewLeftFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Left).ToString();// "500";
-            NewRightFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Right).ToString();
+            /*NewLeftFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Left).ToString();// "500";
+            NewRightFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Right).ToString();*/
+            CheckDirAndIniExist();
 
+            char[] LOL_WUTERMELON = new char[10];
+            NativeWinApi.GetPrivateProfileString("Hoppers", "Left", "", LOL_WUTERMELON, 10, Properties.Resources.utils_config);
+            EspLeftHopper = Convert.ToInt32(new string(LOL_WUTERMELON));
+            
+            Array.Clear(LOL_WUTERMELON, 0, 10);
+
+            NativeWinApi.GetPrivateProfileString("Hoppers", "Right", "", LOL_WUTERMELON, 10, Properties.Resources.utils_config);
+            EspRightHopper = Convert.ToInt32(new string(LOL_WUTERMELON));
+            
             NeedToSync = false;
             _syncLeft = false;
             _syncRight = false;
@@ -242,7 +281,7 @@ namespace PDTUtils.MVVM.ViewModels
             SelHopperValue = BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString();
 
             InitRefloatLevels();
-
+            
             RaisePropertyChangedEvent("DumpSwitchMessage");
             RaisePropertyChangedEvent("DivertLeftMessage");
             RaisePropertyChangedEvent("DivertRightMessage");
@@ -414,7 +453,7 @@ namespace PDTUtils.MVVM.ViewModels
             RefloatRight = new string(refloatValue).Trim("\0".ToCharArray());
             CheckForSync(Convert.ToUInt32(RefloatRight), "right");
         }
-
+        
         public ICommand PerformSync { get { return new DelegateCommand(o => DoPerformSync()); } }
         void DoPerformSync()
         {
@@ -423,14 +462,14 @@ namespace PDTUtils.MVVM.ViewModels
                 NeedToSync = false;
                 return;
             }
-
+            
             NSync(ref _syncLeft, ref _refloatLeft, 0);
             NSync(ref _syncRight, ref _refloatRight, 2);
 
             RaisePropertyChangedEvent("RefloatLeft");
             RaisePropertyChangedEvent("RefloatRight");
         }
-
+        
         /// <summary>
         /// Bye Bye Bye
         /// </summary>
@@ -720,31 +759,45 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-        
+
         void DoEspChangeRefillAmount(object o)
         {
             var str = o as string;
             var tokens = str.Split('+');
-            
+            int increment = 100;
+
             CheckDirAndIniExist();
             
             //<Left/Right> + <increase/decrease>
             if (tokens[0].ToLower().Equals("left"))
             {
                 if (tokens[1].ToLower().Equals("increase"))
-                    Debug.WriteLine("left+increase");
+                {
+                    EspLeftHopper += increment;
+                }
                 else if (tokens[1].ToLower().Equals("decrease"))
-                    Debug.WriteLine("left+decrease");
+                {
+                    if (EspLeftHopper > increment)
+                        EspLeftHopper -= increment;
+                }
             }
             else if (tokens[0].ToLower().Equals("right"))
             {
                 if (tokens[1].ToLower().Equals("increase"))
-                    Debug.WriteLine("right+increase");
+                {
+                    EspRightHopper += increment / 5;
+                }
                 else if (tokens[1].ToLower().Equals("decrease"))
-                    Debug.WriteLine("right+decrease");
+                {
+                    if (EspRightHopper > increment)
+                        EspRightHopper -= increment / 5;
+                }
             }
+            
+            NativeWinApi.WritePrivateProfileString("Hoppers", "Left", EspLeftHopper.ToString(), Properties.Resources.utils_config);
+            NativeWinApi.WritePrivateProfileString("Hoppers", "Right", EspRightHopper.ToString(), Properties.Resources.utils_config);
         }
-        //End Spain Methods
+        //End Spain Methods.
         
         public ICommand ZeroHopperFloat { get { return new DelegateCommand(DoHopperZero); } }
         void DoHopperZero(object o)
@@ -761,39 +814,14 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
         
-        /* I'm not sure why this is here? i dont think it was quite needed for these operations.
-        public ICommand ChangeNewFloat { get { return new DelegateCommand(DoChangeNewFloat); } }
-        void DoChangeNewFloat(object o)
+        public ICommand EspHopperRefill { get { return new DelegateCommand(DoEspHopperRefill); } }
+        void DoEspHopperRefill(object o)
         {
             var str = o as string;
-            var tokens = str.Split('+');
-            uint incrementValue = 10;
-            uint floatLevel = 0;
-            
-            if (tokens[0].Equals("left"))
-            {
-                floatLevel = BoLib.getHopperFloatLevel((int)Hoppers.Left);
-                if (tokens[1].Equals("increase"))
-                    floatLevel += incrementValue;
-                else if (tokens[1].Equals("decrease") && BoLib.getHopperFloatLevel((int)Hoppers.Left) >= incrementValue)
-                    floatLevel -= incrementValue;
-                
-                BoLib.setHopperFloatLevel((int)Hoppers.Left, floatLevel);
-                NewLeftFillValue = floatLevel.ToString();
-            }
-            else if (tokens[0].Equals("right"))
-            {
-                floatLevel = BoLib.getHopperFloatLevel((int)Hoppers.Right);
-                if (tokens[1].Equals("increase"))
-                    floatLevel += incrementValue;
-                else if (tokens[1].Equals("decrease") && BoLib.getHopperFloatLevel((int)Hoppers.Right) >= incrementValue)
-                    floatLevel -= incrementValue;
-                
-                BoLib.setHopperFloatLevel((int)Hoppers.Right, floatLevel);
-                NewRightFillValue = floatLevel.ToString();
-            }
+            var key = str.Equals("left") ? "Left" : "Right";
+            byte hopper = str.Equals("left") ? (byte)Hoppers.Left : (byte)Hoppers.Right;
+            uint newFloat = (uint)NativeWinApi.GetPrivateProfileInt("Hoppers", key, 0, Properties.Resources.utils_config);
+            BoLib.setHopperFloatLevel(hopper, newFloat);
         }
-        */
     }
 }
-

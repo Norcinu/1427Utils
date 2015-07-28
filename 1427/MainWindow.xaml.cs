@@ -510,7 +510,7 @@ namespace PDTUtils
             var tb = sender as TextBox;
         }
         
-        // refactor this
+        // refactor this 
         // set globalconfig.reboot = true
         void btnReboot_Click(object sender, RoutedEventArgs e)
         {
@@ -527,10 +527,10 @@ namespace PDTUtils
             {
                 MessageBox.Show("Please Close the Door", "INFO");
             }
-
+            
             if (BoLib.refillKeyStatus() != 0 || BoLib.getDoorStatus() != 0) return;
             _keyDoorWorker.PrepareForReboot = false;
-            DiskCommit.SaveAndReboot();
+            DiskCommit.SaveAndReboot();       
         }
         
 	    void ButtonBase_OnClick(object sender, RoutedEventArgs e)
