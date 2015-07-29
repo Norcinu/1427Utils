@@ -795,7 +795,8 @@ unsigned int getBankCreditsReservePtr()
 
 bool getIsHopperHopping()
 {
-	return (bool)GetHoppersRunning();
+	//return (bool)GetHoppersRunning();
+	return (bool)GetRequestHopperPayout();
 }
 
 bool getUtilRequestBitState(int whichBit)

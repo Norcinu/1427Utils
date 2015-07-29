@@ -46,7 +46,8 @@ namespace PDTUtils.Native
         Left = 0x00,
         Middle = 0x01,
         Right = 0x02,
-        HopperLeftMask = 0x10
+        HopperLeftMask = 0x10,
+        NoHopper = 0x100
     }
 
     enum Performance

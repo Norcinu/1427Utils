@@ -10,12 +10,6 @@ namespace PDTUtils.Logic
 {
     static class IniFileUtility
     {
-        /*public static int ConvertValueToInt(string file, string key)
-        {
-            NativeWinApi.GetPrivateProfileInt
-        }*/
-
-
         public static bool GetIniProfileSection(out string[] section, string field, string file, bool removeField=false)
         {
             const uint bufferSize = 4048;
