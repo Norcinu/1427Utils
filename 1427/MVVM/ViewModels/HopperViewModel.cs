@@ -712,7 +712,7 @@ namespace PDTUtils.MVVM.ViewModels
             var currentCredits = BoLib.getBank() + BoLib.getCredit() + (int)BoLib.getReserveCredits();
 
             bool isLeftHopper = which.Equals("left") ? true : false;
-
+            
             if (which.Equals("left"))
             {
                 if (BoLib.getHopperFloatLevel(0) == 0)
@@ -779,7 +779,6 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
         
-
         public ICommand EspChangeRefillAmount
         {
             get
@@ -820,7 +819,7 @@ namespace PDTUtils.MVVM.ViewModels
             int increment = 100;
 
             CheckDirAndIniExist();
-            
+
             //<Left/Right> + <increase/decrease>
             if (tokens[0].ToLower().Equals("left"))
             {
@@ -846,7 +845,7 @@ namespace PDTUtils.MVVM.ViewModels
                         EspRightHopper -= increment / 5;
                 }
             }
-            
+        
             NativeWinApi.WritePrivateProfileString("Hoppers", "Left", EspLeftHopper.ToString(), Properties.Resources.utils_config);
             NativeWinApi.WritePrivateProfileString("Hoppers", "Right", EspRightHopper.ToString(), Properties.Resources.utils_config);
         }
@@ -875,6 +874,11 @@ namespace PDTUtils.MVVM.ViewModels
             byte hopper = str.Equals("left") ? (byte)Hoppers.Left : (byte)Hoppers.Right;
             uint newFloat = (uint)NativeWinApi.GetPrivateProfileInt("Hoppers", key, 0, Properties.Resources.utils_config);
             BoLib.setHopperFloatLevel(hopper, newFloat);
+            if (BoLib.getHopperFloatLevel(hopper) > 0)
+            {
+                var msg = new WpfMessageBoxService();
+                msg.ShowMessage("New Float Level is " + newFloat.ToString() + " Coins", "Payout Info");
+            }
         }
     }
 }

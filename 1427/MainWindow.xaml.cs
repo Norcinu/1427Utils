@@ -98,14 +98,14 @@ namespace PDTUtils
 			get { return _machineData; }
 			set { _machineData = value; }
 		}*/
-
+        
 		public bool RequiresSave { get; set; }
 
 	    public MachineIni GetMachineIni
 		{ 
 			get { return _machineIni; } 
 		}
-
+        //yeah mang, move it move it
 		public UniqueIniCategory GetUniqueCategories
 		{
 			get { return _uniqueIniCategory; }
@@ -115,7 +115,7 @@ namespace PDTUtils
 		{
 			get { return _enabler; }
 		}
-
+        
 		public MachineGameStatistics GameStatistics
 		{
 			get { return _gameStatistics; }

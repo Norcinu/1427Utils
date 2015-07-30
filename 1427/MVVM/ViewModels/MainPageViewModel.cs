@@ -185,7 +185,13 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 _isSpain = value;
                 RaisePropertyChangedEvent("IsSpain");
+                RaisePropertyChangedEvent("IsBritainAndDoorOpen");
             }
+        }
+
+        public bool IsBritainAndDoorOpen
+        {
+            get { return (DoorOpen && IsSpain); }
         }
         
         #endregion
@@ -229,10 +235,11 @@ namespace PDTUtils.MVVM.ViewModels
             GetMaxNoteValue();
             
             TotalCredits = 0;
+
+            RaisePropertyChangedEvent("IsBritainAndDoorOpen");
         }
 
         public bool DoorOpen { get; set; }
-
         public bool NotRefilling { get; set; }
         
         public ICommand GetCredit
@@ -245,7 +252,7 @@ namespace PDTUtils.MVVM.ViewModels
             Credits = BoLib.getCredit();
             RaisePropertyChangedEvent("Credits");
         }
-
+        
         public ICommand GetBank
         {
             get { return new DelegateCommand(o => GetBankLevel()); }

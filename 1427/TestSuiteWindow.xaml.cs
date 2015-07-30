@@ -558,7 +558,7 @@ namespace PDTUtils
             BoLib.clearBankCreditReserve();   
             Label3.Dispatcher.Invoke((DelegateNoteVal)timer_updateNoteVal, Label3, (int)value);
         }
-
+        
         void BogStandardResetTests()
         {
             if (_aTestIsRunning)
@@ -571,7 +571,7 @@ namespace PDTUtils
                     if (!b.IsEnabled)
                         b.IsEnabled = true;
                 }
-
+                
                 ResetLabels(StpMainPanel.Children);
 
                 BtnEndTest.IsEnabled = false;
@@ -599,7 +599,10 @@ namespace PDTUtils
                 }
                 
                 if (_lampTestRunning)
+                {
+                    Label1.Dispatcher.Invoke((DelegateDil)label_updateMessage, new object[] { Label1, "" });
                     _lampTestRunning = false;
+                }
                 
                 ShutdownTimer(_startTimer);
                 ShutdownTimer(_lampTimer);
@@ -675,8 +678,7 @@ namespace PDTUtils
                 }
             }
         }
-
-
+        
         static int PrinterOrHopper()
         {
             char[] ret = new char[3];
