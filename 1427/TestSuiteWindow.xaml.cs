@@ -40,6 +40,7 @@ namespace PDTUtils
         readonly int[] _buttonsPressed = new int[8];
         readonly Label[] _labels;
         readonly Timer _startTimer = new Timer() { Enabled = false, Interval = 100 };
+        readonly Timer _noteTimer = new Timer() { Enabled = false, Interval = 100 };
         readonly Timer _lampTimer = new Timer() { Enabled = false, Interval = 100 };
         
         #region DELEGATE TYPES
@@ -59,7 +60,8 @@ namespace PDTUtils
                 _buttonsPressed[i] = 0;
                
             _startTimer.Elapsed += timer_CheckButton;
-            _startTimer.Elapsed += timer_CheckNoteValidator;
+            _noteTimer.Elapsed += timer_CheckNoteValidator;
+            //_startTimer.Elapsed += timer_CheckNoteValidator;
             BtnEndTest.Click    += btnEndTest_Click;
         }
         
@@ -250,7 +252,7 @@ namespace PDTUtils
             Label1.Background = Brushes.Black;
             Label1.Foreground = Brushes.Aqua;
             Label1.Content = "Please deposit coin into the machine.";
-            _startTimer.Enabled = true;
+            _noteTimer.Enabled = true;
             BtnEndTest.IsEnabled = true;
             //_aTestIsRunning = false;
         }
@@ -279,7 +281,7 @@ namespace PDTUtils
             Label1.Background = Brushes.Black;
             Label1.Foreground = Brushes.Aqua;
             Label1.Content = "Please insert note into Note Validator.";
-            _startTimer.Enabled = true;
+            _noteTimer.Enabled = true;
             BtnEndTest.IsEnabled = true;
             //_aTestIsRunning = false;
         }
@@ -605,12 +607,14 @@ namespace PDTUtils
                 }
                 
                 ShutdownTimer(_startTimer);
+                ShutdownTimer(_noteTimer);
                 ShutdownTimer(_lampTimer);
                 
                 _buttonEnabledCount = VisualButtonCount;
                 
-                ResetLabels(StpMainPanel.Children);
-                
+                //ResetLabels(StpMainPanel.Children);
+                ResetLabels(stpMainLabels.Children);
+
                 BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
                 BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);
                 
@@ -653,6 +657,9 @@ namespace PDTUtils
 
             if (_lampTimer.Enabled)
                 _lampTimer.Enabled = false;
+
+            if (_noteTimer.Enabled)
+                _noteTimer.Enabled = false;
 
             BoLib.clearUtilRequestBitState((int)UtilBits.CoinTest);
             BoLib.clearUtilRequestBitState((int)UtilBits.NoteTest);

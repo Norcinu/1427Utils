@@ -62,7 +62,8 @@ namespace PDTUtils.MVVM.ViewModels
         NumberFormatInfo Nfi { get; set; }
         CultureInfo CurrentCulture { get; set; }
 
-        MessageBoxAccess _msgAccess = new MessageBoxAccess(false);
+        //MessageBoxAccess _msgAccess = new MessageBoxAccess(false);
+        WpfMessageBoxService _msg = new WpfMessageBoxService();
 
         #region Properties
         public bool EndRefill { get; set; }
@@ -74,7 +75,7 @@ namespace PDTUtils.MVVM.ViewModels
         public string DivertRightMessage { get; set; }
 
         public string SelHopperValue { get; set; }
-
+        
         public bool EmptyingHoppers
         {
             get { return _emptyingHoppers; }
@@ -706,13 +707,16 @@ namespace PDTUtils.MVVM.ViewModels
                 msg.ShowMessage("Please turn Refill Key before continuing.", "Warning");
                 return;
             }
-            
+
+            //if (_msgAccess.Show) 
+            //    _msgAccess.Show = false;
+
             Thread.Sleep(500);
             var which = o as string;
             var currentCredits = BoLib.getBank() + BoLib.getCredit() + (int)BoLib.getReserveCredits();
 
             bool isLeftHopper = which.Equals("left") ? true : false;
-            
+
             if (which.Equals("left"))
             {
                 if (BoLib.getHopperFloatLevel(0) == 0)
@@ -731,16 +735,16 @@ namespace PDTUtils.MVVM.ViewModels
                     new WpfMessageBoxService().ShowMessage("The hopper selected is already empty.", "Payout Info");
                     return;
                 }
-                
+
                 BoLib.setUtilRequestBitState((int)UtilBits.DumpRightHopper);
                 _currentHopperDumping = (byte)Hoppers.Right;
             }
             
-            _msgAccess.Show = !_msgAccess.Show;
+            //_msgAccess.Show = !_msgAccess.Show;
 
             if (SpanishEmpty == null)
             {
-                SpanishEmpty = new Timer() { Enabled = true, Interval = 2 }; // 2ms!! the fuck bruv?
+                SpanishEmpty = new Timer() { Enabled = true, Interval = 100 };
                 SpanishEmpty.Elapsed += new System.Timers.ElapsedEventHandler(TimerSpainEmpty);
             }
             else if (!SpanishEmpty.Enabled)
@@ -756,34 +760,36 @@ namespace PDTUtils.MVVM.ViewModels
 #endif
             }
             else
-            { 
+            {
 #if DEBUG
                 Debug.WriteLine("THE HOPPER IS FINISHED");
 #endif
                 SpanishEmpty.Enabled = false;
-                ObservableCollection<int> takeithome = new ObservableCollection<int>();
+
+                //Thread.Sleep(1000);
+                //ObservableCollection<int> takeithome = new ObservableCollection<int>();
 
                 //lock (_msgAccess)
-                lock (takeithome)
+                //lock (takeithome)
+                //lock (this)
                 {
-                    if (!_msgAccess.Show)
+                    //if (!_msgAccess.Show)
                     {
                         var floatLevel = BoLib.getHopperFloatLevel(_currentHopperDumping);
-                        var msg = new WpfMessageBoxService();
-                        msg.ShowMessage("FINISHED EMPTYING.\nCoins Paid Out: " + floatLevel, "INFO");
-                        _msgAccess.Show = true;
-                        BoLib.setHopperFloatLevel(_currentHopperDumping, 0);//DEBUG!!!!! Should I be doing this??
+
+                        //var msg = new WpfMessageBoxService();
+                        /*Thread t = new Thread(new ParameterizedThreadStart(o => { 
+                            _msg.ShowMessage("FINISHED EMPTYING.\nCoins Paid Out: " + floatLevel, "INFO"); }));*/
+
+                        _msg.ShowMessage("FINISHED EMPTYING.\nCoins Paid Out: " + floatLevel, "INFO");
+
+                        Debug.WriteLine("FINISHED EMPTYING.\nCoins Paid Out: " + floatLevel, "INFO");
+                        //_msgAccess.Show = true;
+
+                        BoLib.setHopperFloatLevel(_currentHopperDumping, 0); //DEBUG!!!!! Should I be doing this??
                         unchecked { _currentHopperDumping = (byte)Hoppers.NoHopper; }
                     }
                 }
-            }
-        }
-        
-        public ICommand EspChangeRefillAmount
-        {
-            get
-            {
-                return new DelegateCommand(DoEspChangeRefillAmount);
             }
         }
         
@@ -801,7 +807,7 @@ namespace PDTUtils.MVVM.ViewModels
                         Directory.CreateDirectory(@"D:\1525\config");
 
                     //File.Create(Properties.Resources.utils_config);
-                    string contents = "######### General Config for 1525 Utilities.\r\n\r\n[Hoppers]\r\nLeft=300\r\nRight=150";
+                    string contents = "######### General Config for 1525 Utilities.\r\n\r\n[Hoppers]\r\nLeft=300\r\nRight=100";
                     File.WriteAllText(Properties.Resources.utils_config, contents);
                 }
                 catch (Exception ex)
@@ -812,6 +818,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
         }
         
+        public ICommand EspChangeRefillAmount { get { return new DelegateCommand(DoEspChangeRefillAmount); } }
         void DoEspChangeRefillAmount(object o)
         {
             var str = o as string;
@@ -854,6 +861,7 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand ZeroHopperFloat { get { return new DelegateCommand(DoHopperZero); } }
         void DoHopperZero(object o)
         {
+            if (o == null) return;
             //TODO: !!!! Need to update the visual float level here !!!!
             var str = o as string;
             if (str.Equals("left"))

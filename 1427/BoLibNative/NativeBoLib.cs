@@ -216,9 +216,9 @@ namespace PDTUtils.Native
 #endif
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int setEnvironment();
-
+        
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int closeSharedMemory();
+        public static extern void closeSharedMemory();
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int getDoorStatus();

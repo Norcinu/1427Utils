@@ -284,8 +284,10 @@ namespace PDTUtils.Native
 
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
         public static extern bool GetComputerName(StringBuilder lpBuffer, ref uint lpnSize);
+
         [DllImport("Kernel32", CharSet = CharSet.Ansi)]
         public static extern unsafe bool GetComputerName(byte* lpBuffer, long* nSize);
+
         [DllImport("kernel32.dll")]
         public static extern bool SetComputerName(string lpComputerName);
         

@@ -29,8 +29,8 @@ namespace PDTUtils.MVVM.ViewModels
         readonly string _espRegionIni = Resources.esp_live_ini;
         readonly string[] _streetMarketRegions = new string[20]
         {
-            "Andalucia", "Aragón", "Asturias", "Baleares", "País Vasco", "Cantabria", "Castilla-La Mancha",
-            "Castilla León", "Catalonia", "Catalonia Light", "Extremadura", "Madrid", "Murcia", "Navarra",
+            "Andalucia", "Aragon", "Asturias", "Baleares", "Pais Vasco", "Cantabria", "Castilla-La Mancha",
+            "Castilla Leon", "Catalonia", "Catalonia Light", "Extremadura", "Madrid", "Murcia", "Navarra",
             "La Rioja", "Valencia", "Valencia 500", "Valencia Light", "Canarias", "Galicia"
         };
         
@@ -193,7 +193,8 @@ namespace PDTUtils.MVVM.ViewModels
 
             LoadSettings();
             LoadSettingsView();
-            
+                        
+
             RaisePropertyChangedEvent("EditableLiveRegion");
             RaisePropertyChangedEvent("Arcades");
             RaisePropertyChangedEvent("Street");

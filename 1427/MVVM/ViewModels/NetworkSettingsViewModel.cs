@@ -19,6 +19,8 @@ namespace PDTUtils.MVVM.ViewModels
             IpAddressActive = false;
             SubnetActive = false;
             DefaultActive = false;
+            SubnetActive = false;
+            DefaultComputerName = false;
 
             IpAddress = "";
             SubnetAddress = "";
@@ -36,7 +38,9 @@ namespace PDTUtils.MVVM.ViewModels
         public bool IpAddressActive { get; set; }
         public bool SubnetActive { get; set; }
         public bool DefaultActive { get; set; }
+        public bool DefaultComputerName { get; set; }
         public bool PingTestRunning { get; set; }
+        
         public string IpAddress { get; set; }
         public string SubnetAddress { get; set; }
         public string DefaultGateway { get; set; }
@@ -70,6 +74,11 @@ namespace PDTUtils.MVVM.ViewModels
             get { return new DelegateCommand(o => DoSaveNetworkInfo()); }
         }
 
+        public ICommand ToggleName
+        {
+            get { return new DelegateCommand(o => DoToggleName()); }
+        }
+
         private void PopulateInfo()
         {
             //IP Address
@@ -92,12 +101,13 @@ namespace PDTUtils.MVVM.ViewModels
                     MacAddress += ni.GetPhysicalAddress().ToString();
                 }
             }
-
+            
             ComputerName = Environment.MachineName;
-
+            
             RaisePropertyChangedEvent("IPAddressActive");
             RaisePropertyChangedEvent("SubnetActive");
             RaisePropertyChangedEvent("DefaultActive");
+            RaisePropertyChangedEvent("DefaultComputerName");
 
             RaisePropertyChangedEvent("IPAddress");
             RaisePropertyChangedEvent("ComputerName");
@@ -210,20 +220,29 @@ namespace PDTUtils.MVVM.ViewModels
             SubnetActive = !SubnetActive;
             RaisePropertyChangedEvent("SubnetActive");
         }
-
+        
         private void DoToggleDefault()
         {
             ChangesMade = true;
             DefaultActive = !DefaultActive;
             RaisePropertyChangedEvent("DefaultActive");
         }
-
+        
+        void DoToggleName()
+        {
+            ChangesMade = true;
+            DefaultComputerName = !DefaultComputerName;
+            RaisePropertyChangedEvent("ComputerName");
+        }
+        
         private void DoSaveNetworkInfo()
         {
             var objMc = new ManagementClass("Win32_NetworkAdapterConfiguration");
             var objMoc = objMc.GetInstances();
             
             if (!ChangesMade) return;
+
+            NativeWinApi.SetComputerName(ComputerName);
             
             foreach (var o in objMoc)
             {
@@ -236,8 +255,8 @@ namespace PDTUtils.MVVM.ViewModels
                     {
                         // ReSharper disable once UnusedVariable
                         // var newGateway = objMo.GetMethodParameters("SetGateways");
-                        newIp["IPAddress"] = new[] {IpAddress};
-                        newIp["SubnetMask"] = new[] {SubnetAddress};
+                        newIp["IPAddress"] = new[] { IpAddress };
+                        newIp["SubnetMask"] = new[] { SubnetAddress };
                     }
                     
                     //setIp = objMo.InvokeMethod("EnableStatic", newIp, null);

@@ -45,6 +45,12 @@
 				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding DefaultGateway}" IsEnabled="{Binding DefaultActive}"/>
 				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleDefault}">SET GATEWAY</Button>
 			</StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label FontSize="36" Content="Computer Name:" Style="{StaticResource StdLabel}"/>
+                <TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding ComputerName}" IsEnabled="{Binding DefaultComputerName}"/>
+                <Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleName}">SET NAME</Button>
+            </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label FontSize="36" Content="Mac Address:" Style="{StaticResource StdLabel}"/>

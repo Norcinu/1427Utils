@@ -221,7 +221,7 @@
                         </StackPanel>
                         
                         <!-- width 550 Width="550" -->
-                        <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
+                        <!-- <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
                                     Height="325" IsEnabled="{Binding IsBritish}"
                                     Visibility="{Binding IsBritish, Converter={StaticResource BoolToVis}}">
                             <Label Margin="10,10,10,0" BorderThickness="2,2,2,0" Style="{StaticResource StevesLabel}" 
@@ -234,18 +234,18 @@
                                    VerticalAlignment="Center" Style="{StaticResource StevesLabel}" HorizontalContentAlignment="Center"/>
                             <Button Width="250" Height="35" Margin="10" FontSize="20" HorizontalAlignment="Center" 
                                     VerticalAlignment="Center" Command="{Binding RefloatTheHoppers}" Content="Reset" />
-                        </StackPanel>
+                        </StackPanel> -->
                     </StackPanel>
                     
                     <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="AliceBlue" Width="550">
                         <Border BorderBrush="Black" BorderThickness="2">
                             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                                 <Label Style="{StaticResource StevesLabel}" HorizontalAlignment="Left" HorizontalContentAlignment="Center"
-                                       Content="Set Hopper Float to Zero" />
+                                       Content="Set Hopper Float to Zero"/>
                                 <Button Width="125" Height="35" Margin="10" FontSize="20" HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center">Left</Button>
+                                    VerticalAlignment="Center" Command="{Binding ZeroHopperFloat}" CommandParameter="left">Left</Button>
                                 <Button Width="125" Height="35" Margin="10" FontSize="20" HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center">Right</Button>
+                                    VerticalAlignment="Center" Command="{Binding ZeroHopperFloat}" CommandParameter="right">Right</Button>
                             </StackPanel>
                         </Border>
                     </StackPanel>

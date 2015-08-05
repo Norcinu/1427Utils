@@ -232,6 +232,12 @@ namespace PDTUtils
                     Debug.WriteLine(ex.Message);
                 }
             }
+
+            if (BoLib.getUtilRequestBitState((int)UtilBits.Allow))
+                BoLib.disableUtilsCoinBit();
+
+            if (GlobalConfig.ReparseSettings)
+                BoLib.setUtilRequestBitState((int)UtilBits.RereadBirthCert);
             
 #if DEBUG
             if (GlobalConfig.RebootRequired)
@@ -240,11 +246,7 @@ namespace PDTUtils
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
 #endif
-            if (BoLib.getUtilRequestBitState((int)UtilBits.Allow))
-                BoLib.disableUtilsCoinBit();
             
-            if (GlobalConfig.ReparseSettings)
-                BoLib.setUtilRequestBitState((int)UtilBits.RereadBirthCert);
             
             BoLib.clearUtilRequestBitState((int)UtilBits.Allow);
             
@@ -259,7 +261,7 @@ namespace PDTUtils
             BoLib.closeSharedMemory();
         }
         
-		void btnSetup_Click(object sender, RoutedEventArgs e) 
+		void btnSetup_Click(object sender, RoutedEventArgs e)
 		{
             UcMainPage.IsEnabled = false;
             UcMainPage.Visibility = Visibility.Hidden;
@@ -272,7 +274,11 @@ namespace PDTUtils
             
             Enabler.ClearAll();
             Enabler.EnableCategory(Categories.Setup);
+
             TabSetup.SelectedIndex = 0;
+            if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
+                regionalSubTab.SelectedIndex = 1;
+            
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 		}
         
@@ -284,9 +290,9 @@ namespace PDTUtils
 		{   
 			return true;
 		}
-        
+
         void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
-		{;
+		{
             UpdateIniItem(sender);
 		}
         
