@@ -63,6 +63,20 @@ namespace PDTUtils
                 
                 _updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = Height;
+
+              /*  NativeWinApi.SetComputerName("STEVETERMINAL01");
+                NativeWinApi.SetComputerNameEx(NativeWinApi.COMPUTER_NAME_FORMAT.ComputerNameDnsDomain, "STEVETERMINAL01");
+
+                var values = Enum.GetValues(typeof(NativeWinApi.COMPUTER_NAME_FORMAT));
+                for (int i = 0; i < (int)NativeWinApi.COMPUTER_NAME_FORMAT.ComputerNameMax; i++)
+                {
+                    uint amount = 256;
+                    System.Text.StringBuilder s = new System.Text.StringBuilder((int)amount);
+                    NativeWinApi.GetComputerNameEx((NativeWinApi.COMPUTER_NAME_FORMAT)i, s, ref amount);
+                    string str = s.ToString();
+                    if (!string.IsNullOrEmpty(str))
+                        NativeWinApi.SetComputerNameEx((NativeWinApi.COMPUTER_NAME_FORMAT)i, "STEVETERMINAL01");
+                }*/
             }
             catch (Exception err)
             {
@@ -347,7 +361,7 @@ namespace PDTUtils
             GetMachineIni.WriteMachineIni(current.Category, current.Field);
             GetMachineIni.ChangesPending = true;
         }
-        
+
         void CommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var listView = sender as ListView;
@@ -362,7 +376,7 @@ namespace PDTUtils
             GetMachineIni.WriteMachineIni(current.Category, current.Field);
             GetMachineIni.ChangesPending = true;
         }
-        
+
         void UnCommentEntry(IniSettingsWindow w, object sender, ref IniElement c)
         {
             var listView = sender as ListView;
@@ -372,22 +386,22 @@ namespace PDTUtils
             listView.Items.Refresh();
             GetMachineIni.WriteMachineIni(current.Category, current.Field);
             GetMachineIni.ChangesPending = true;
-                
+
             current.Field = current.Field.Substring(1);
 
             listView.Items.Refresh();
             GetMachineIni.WriteMachineIni(current.Category, current.Field);
             GetMachineIni.ChangesPending = true;
         }
-        
-		void RemoveChildrenFromStackPanel()
-		{
-			var childCount = StpButtonPanel.Children.Count;
-			if (childCount > 0)
-			{
-				StpButtonPanel.Children.RemoveRange(0, childCount);
-			}
-		}
+
+        void RemoveChildrenFromStackPanel()
+        {
+            var childCount = StpButtonPanel.Children.Count;
+            if (childCount > 0)
+            {
+                StpButtonPanel.Children.RemoveRange(0, childCount);
+            }
+        }
 		
 		void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{

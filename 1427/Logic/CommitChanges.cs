@@ -16,16 +16,16 @@ namespace PDTUtils
         /// This must always be called when changes are made and the machine must
         /// be rebooted.
         /// </summary>
-		public static void Save()
-		{
-			var process = new Process();
-			var startInfo = new ProcessStartInfo();
-			startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-			startInfo.FileName = "cmd.exe";
-			startInfo.Arguments = "/C EWFMGR C: -COMMIT";
-			process.StartInfo = startInfo;
-			process.Start();
-		}
+        public static void Save()
+        {
+            var process = new Process();
+            var startInfo = new ProcessStartInfo();
+            startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C EWFMGR C: -COMMIT";
+            process.StartInfo = startInfo;
+            process.Start();
+        }
         
         /// <summary>
         /// Forces the machine to reboot.
@@ -34,14 +34,14 @@ namespace PDTUtils
 		{
 			var W32_OS = new ManagementClass("Win32_OperatingSystem");
             W32_OS.Scope.Options.EnablePrivileges = true;
-
+            
 			foreach(var o in W32_OS.GetInstances())
 			{
 			    var obj = (ManagementObject) o;
 			    var inParams = obj.GetMethodParameters("Win32Shutdown");
                 inParams["Flags"] = 6; // ForcedReboot;
 				inParams["Reserved"] = 0;
-
+                
 				var outParams = obj.InvokeMethod("Win32Shutdown", inParams, null);
 				var result = Convert.ToInt32(outParams["returnValue"]);
 				if (result != 0)

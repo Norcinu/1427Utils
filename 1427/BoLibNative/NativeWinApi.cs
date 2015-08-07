@@ -93,6 +93,19 @@ namespace PDTUtils.Native
 			DisplayFixedOutput = 0x20000000
 		}
 
+        public enum COMPUTER_NAME_FORMAT
+        {
+            ComputerNameNetBIOS,
+            ComputerNameDnsHostname,
+            ComputerNameDnsDomain,
+            ComputerNameDnsFullyQualified,
+            ComputerNamePhysicalNetBIOS,
+            ComputerNamePhysicalDnsHostname,
+            ComputerNamePhysicalDnsDomain,
+            ComputerNamePhysicalDnsFullyQualified,
+            ComputerNameMax
+        }
+
 		/// <summary>
 		/// Specifies whether collation should be used when printing multiple copies.
 		/// </summary>
@@ -210,18 +223,18 @@ namespace PDTUtils.Native
 			public Byte WProductType;
 			public Byte WReserved;
 		}
+        
+        [DllImport("kernel32")]
+        public static extern bool GetVersionEx(ref Osversioninfo osvi);
+        
 
-		[DllImport("kernel32")]
-		public static extern bool GetVersionEx(ref Osversioninfo osvi);
-       
-       
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         //public static extern int GetPrivateProfileSectionNames(IntPtr lpszReturnBuffer,
         //                                                       uint nSize,
         //                                                       string lpFileName);
 
-        public static extern int GetPrivateProfileSectionNames(byte[] lpszReturnBuffer, 
-                                                               int nSize, 
+        public static extern int GetPrivateProfileSectionNames(byte[] lpszReturnBuffer,
+                                                               int nSize,
                                                                string lpFileName);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
@@ -271,49 +284,53 @@ namespace PDTUtils.Native
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         public static extern bool WritePrivateProfileString(string lpAppName,
-                                                            string lpKeyName, 
-                                                            string lpString, 
+                                                            string lpKeyName,
+                                                            string lpString,
                                                             string lpFileName);
         
-		[DllImport("kernel32.dll")]
-		public static extern bool SetFileAttributes(string lpFileName, 
-													uint dwFileAttributes);
+        [DllImport("kernel32.dll")]
+        public static extern bool SetFileAttributes(string lpFileName,
+                                                    uint dwFileAttributes);
         
 		public const int FileAttributeNormal = 0x80;
-
-
+        
         [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
         public static extern bool GetComputerName(StringBuilder lpBuffer, ref uint lpnSize);
-
+        
         [DllImport("Kernel32", CharSet = CharSet.Ansi)]
         public static extern unsafe bool GetComputerName(byte* lpBuffer, long* nSize);
 
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi)]
+        public static extern bool GetComputerNameEx(COMPUTER_NAME_FORMAT NameType, StringBuilder lpBuffer, ref uint lpnSize);
+
         [DllImport("kernel32.dll")]
         public static extern bool SetComputerName(string lpComputerName);
-        
+
+        [DllImport("kernel32.dll")]
+        public static extern bool SetComputerNameEx(COMPUTER_NAME_FORMAT NameType, string lpBuffer);
         
         public struct Systemtime
-		{
-			public short Year;
-			public short Month;
-			public short DayOfWeek;
-			public short Day;
-			public short Hour;
-			public short Minute;
-			public short Second;
-			public short Milliseconds;
-		}
+        {
+            public short Year;
+            public short Month;
+            public short DayOfWeek;
+            public short Day;
+            public short Hour;
+            public short Minute;
+            public short Second;
+            public short Milliseconds;
+        }
         
-		[DllImport("coredll.dll")]
-		private extern static void GetSystemTime(ref Systemtime lpSystemTime);
+        [DllImport("coredll.dll")]
+        private extern static void GetSystemTime(ref Systemtime lpSystemTime);
 
-		[DllImport("coredll.dll")]
-		private extern static uint SetSystemTime(ref Systemtime lpSystemTime);
+        [DllImport("coredll.dll")]
+        private extern static uint SetSystemTime(ref Systemtime lpSystemTime);
 
-		[DllImport("kernel32.dll")]
-		public static extern bool MoveFile(string lpExistingFileName, string lpNewFileName);
+        [DllImport("kernel32.dll")]
+        public static extern bool MoveFile(string lpExistingFileName, string lpNewFileName);
 
-		[DllImport("kernel32.dll")]
-		public static extern bool CopyFile(string lpExistingFileName, string lpNewFileName, bool bFailIfExists);
+        [DllImport("kernel32.dll")]
+        public static extern bool CopyFile(string lpExistingFileName, string lpNewFileName, bool bFailIfExists);
 	}
 }

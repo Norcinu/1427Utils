@@ -78,7 +78,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => DoToggleName()); }
         }
-
+        
         private void PopulateInfo()
         {
             //IP Address
@@ -108,7 +108,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("SubnetActive");
             RaisePropertyChangedEvent("DefaultActive");
             RaisePropertyChangedEvent("DefaultComputerName");
-
+            
             RaisePropertyChangedEvent("IPAddress");
             RaisePropertyChangedEvent("ComputerName");
             RaisePropertyChangedEvent("SubnetAddress");
@@ -136,7 +136,7 @@ namespace PDTUtils.MVVM.ViewModels
                     IPAddress.Parse("8.8.4.4"), // Google 2
                     IPAddress.Parse("169.254.1.1") // Internal Back Office
                 };
-
+                
                 if (!BoLib.isBackOfficeAvilable())
                 {
                     if (index == 0 && PingOne.Length > 0)
@@ -160,7 +160,7 @@ namespace PDTUtils.MVVM.ViewModels
                     RaisePropertyChangedEvent("PingTwo");
                     index = 2;
                 }
-
+                
                 PingTestRunning = true;
                 RaisePropertyChangedEvent("PingTestRunning");
 
@@ -232,18 +232,20 @@ namespace PDTUtils.MVVM.ViewModels
         {
             ChangesMade = true;
             DefaultComputerName = !DefaultComputerName;
-            RaisePropertyChangedEvent("ComputerName");
+            RaisePropertyChangedEvent("DefaultComputerName");
         }
         
-        private void DoSaveNetworkInfo()
+        void DoSaveNetworkInfo()
         {
             var objMc = new ManagementClass("Win32_NetworkAdapterConfiguration");
             var objMoc = objMc.GetInstances();
             
             if (!ChangesMade) return;
 
-            NativeWinApi.SetComputerName(ComputerName);
-            
+            //NativeWinApi.SetComputerName("STEVETERMINAL01");
+            //NativeWinApi.SetComputerNameEx(NativeWinApi.COMPUTER_NAME_FORMAT.ComputerNameDnsHostname, 
+            NativeWinApi.SetComputerNameEx(NativeWinApi.COMPUTER_NAME_FORMAT.ComputerNamePhysicalDnsHostname, ComputerName);
+            var name = Environment.MachineName;
             foreach (var o in objMoc)
             {
                 var objMo = (ManagementObject) o;
@@ -266,8 +268,9 @@ namespace PDTUtils.MVVM.ViewModels
                     Debug.WriteLine(ex.Message);
                 }
             }
-            
+            //mang i'd love to nbatter this cunts tonight
             ChangesMade = false;
+            PDTUtils.Logic.GlobalConfig.RebootRequired = true;
             DiskCommit.Save();
         }
     }

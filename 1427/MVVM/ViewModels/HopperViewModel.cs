@@ -753,13 +753,7 @@ namespace PDTUtils.MVVM.ViewModels
         
         void TimerSpainEmpty(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (BoLib.getIsHopperHopping())
-            {
-#if DEBUG
-                Debug.WriteLine("THE HOPPER IS HOPPING");
-#endif
-            }
-            else
+            if (!BoLib.getIsHopperHopping())
             {
 #if DEBUG
                 Debug.WriteLine("THE HOPPER IS FINISHED");
