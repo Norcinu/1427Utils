@@ -6,24 +6,24 @@
 			 xmlns:logic="clr-namespace:PDTUtils.Logic"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1200">
-    
-	<UserControl.Resources>
-		<Style x:Key="StdLabel" TargetType="Label">
-			<Setter Property="Control.BorderBrush" Value="Black"/>
-			<Setter Property="Control.BorderThickness" Value="2"/>
-			<Setter Property="Control.Background" Value="AliceBlue"/>
-			<Setter Property="Control.FontFamily" Value="Calibri" />
-			<Setter Property="Control.HorizontalAlignment" Value="Center" />
-			<Setter Property="Control.HorizontalContentAlignment" Value="Center" />
-			<Setter Property="Control.VerticalContentAlignment" Value="Center" />
-			<Setter Property="Control.Margin" Value="10"/>
-			<Setter Property="Control.MinWidth" Value="350"/>
-		</Style>
-        
-		<BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-	</UserControl.Resources>
-    
-	<Grid>
+
+    <UserControl.Resources>
+        <Style x:Key="StdLabel" TargetType="Label">
+            <Setter Property="Control.BorderBrush" Value="Black"/>
+            <Setter Property="Control.BorderThickness" Value="2"/>
+            <Setter Property="Control.Background" Value="AliceBlue"/>
+            <Setter Property="Control.FontFamily" Value="Calibri" />
+            <Setter Property="Control.HorizontalAlignment" Value="Center" />
+            <Setter Property="Control.HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Control.VerticalContentAlignment" Value="Center" />
+            <Setter Property="Control.Margin" Value="10"/>
+            <Setter Property="Control.MinWidth" Value="350"/>
+        </Style>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
 		<StackPanel HorizontalAlignment="Stretch" Background="LightGray" Margin="10">
 			<Label Style="{StaticResource StdLabel}" FontSize="48" HorizontalAlignment="Center" BorderBrush="AliceBlue" 
 				   BorderThickness="2" Margin="0,60,0,0">Network Information</Label> <!-- Background="Red" Foreground="Peru" -->
@@ -31,33 +31,34 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label FontSize="36" Content="IP Address:" Style="{StaticResource StdLabel}"/>
                 <TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding IpAddress}" IsEnabled="{Binding IpAddressActive}" />
-                <Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleIp}">SET IP</Button>
+                <Button FontSize="22" Width="250" Margin="30" Command="{Binding ToggleIp}">CHANGE IP</Button>
 			</StackPanel>
-				
+
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 				<Label FontSize="36" Content="Subnet:" Style="{StaticResource StdLabel}"/>
 				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding SubnetAddress}" IsEnabled="{Binding SubnetActive}"/>
-				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleSubnet}">SET SUBNET</Button>
+				<Button FontSize="22" Width="250" Margin="30" Command="{Binding ToggleSubnet}">CHANGE SUBNET</Button>
 			</StackPanel>
             
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 				<Label FontSize="36" Content="Gateway:" Style="{StaticResource StdLabel}"/>
 				<TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding DefaultGateway}" IsEnabled="{Binding DefaultActive}"/>
-				<Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleDefault}">SET GATEWAY</Button>
+				<Button FontSize="22" Width="250" Margin="30" Command="{Binding ToggleDefault}">CHANGE GATEWAY</Button>
 			</StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label FontSize="36" Content="Computer Name:" Style="{StaticResource StdLabel}"/>
                 <TextBox logic:TouchScreenKeyboard.TouchScreenKeyboard="True" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding ComputerName}" IsEnabled="{Binding DefaultComputerName}"/>
-                <Button FontSize="22" Width="150" Margin="30" Command="{Binding ToggleName}">SET NAME</Button>
+                <Button FontSize="22" Width="250" Margin="30" Command="{Binding ToggleName}">CHANGE NAME</Button>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label FontSize="36" Content="Mac Address:" Style="{StaticResource StdLabel}"/>
                 <TextBox  Background="White" FontSize="48" Width="460" Margin="10" VerticalContentAlignment="Center" 
                           HorizontalContentAlignment="Center" Text="{Binding MacAddress}" IsEnabled="True" IsReadOnly="True"/>
-                <Button Width="150" Margin="30" Command="{Binding ToggleDefault}" IsEnabled="False" Visibility="Hidden"
-                        Content="BUTTON HIDDEN FOR SPACING" /> <!-- Do not re-enable --> 
+                <Button FontSize="22" Width="250"  Margin="30" Command="{Binding ToggleDefault}"  Visibility="Hidden" 
+                        IsEnabled="False" Content="BUTTON HIDDEN FOR SPACING" />
+                <!-- Do not re-enable --> 
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">

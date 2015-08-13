@@ -9,8 +9,9 @@
         ResizeMode="NoResize"
         Closed="Window_Closed"
         WindowState="Maximized"
-        SizeToContent="Manual">
-    
+        SizeToContent="Manual"
+        Background="Gray">
+
     <Window.Resources>
         <Style x:Key="StdLabel" TargetType="Label">
             <Setter Property="Control.VerticalContentAlignment" Value="Center"/>
@@ -20,16 +21,26 @@
             <Setter Property="Control.Background" Value="Black"/>
         </Style>
     </Window.Resources>
-
+    
+    <!-- <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,0.3">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="HotPink" Offset="0"/>
+                <GradientStop Color="Transparent" Offset="1"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+    </Window.Background> -->
+    
     <Grid HorizontalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="67*"/>
             <RowDefinition Height="0*"/>
             <RowDefinition Height="374*"/>
         </Grid.RowDefinitions>
-    
-    <DockPanel LastChildFill="True" Height="30" Margin="12,12,12,0" Name="StpButtons" VerticalAlignment="Top" Width="600" HorizontalAlignment="Center" />
-        <StackPanel Height="950" HorizontalAlignment="Center" Margin="12,48,12,0" Name="StpMainPanel" VerticalAlignment="Top" Width="600" Background="#FFDBC2C2" Grid.RowSpan="3">
+        <!-- Background="#FFDBC2C2" -->
+        
+        <DockPanel LastChildFill="True" Height="30" Margin="12,12,12,0" Name="StpButtons" VerticalAlignment="Top" Width="600" HorizontalAlignment="Center" />
+        <StackPanel Height="950" HorizontalAlignment="Center" Margin="12,48,12,0" Name="StpMainPanel" VerticalAlignment="Top" Width="600" Background="Black" Grid.RowSpan="3">
             <StackPanel x:Name="stpMainLabels">
                 <views:HopperTestView x:Name="hopperTest" IsEnabled="False" Visibility="Collapsed" />
                 <Label Style="{StaticResource StdLabel}" Height="80" Name="Label1" HorizontalContentAlignment="Center" FontSize="22"/>
@@ -50,6 +61,7 @@
                 <Label>Exit</Label>
             </Button>
         </StackPanel>
+        
         <!-- <StackPanel>
             <Button Height="50" Name="BtnEndTest" Width="120" Click="btnEndTest_Click" IsEnabled="False" Margin="10" FontSize="24">
                 <Label>End Test</Label>

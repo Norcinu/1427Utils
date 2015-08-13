@@ -73,8 +73,10 @@ namespace PDTUtils
                 var b = StpButtons.Children[i] as Button;
                 
                 b.Content = _buttonContent[i];//l;
-                b.MinWidth = 90;
-                b.Margin = new Thickness(0, 0, 5, 0);
+                //b.MinWidth = 90;
+                
+                b.Width = (600 - 50) / 6;
+                b.Margin = new Thickness(5, 0, 5, 0);
                 b.Visibility = Visibility.Visible;
                 b.Click += button_Click;
                 if (i < 2)

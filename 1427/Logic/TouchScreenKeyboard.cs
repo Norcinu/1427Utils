@@ -789,7 +789,7 @@ namespace PDTUtils.Logic
             }
 
         }
-
+        
         static void OnGotFocus(object sender, RoutedEventArgs e)
         {
             var host = sender as Control;
@@ -803,7 +803,7 @@ namespace PDTUtils.Logic
             host.BorderThickness = new Thickness(4);
 
             _currentControl = host;
-
+            
             if (_instanceObject == null)
             {
                 FrameworkElement ct = host;
@@ -811,9 +811,10 @@ namespace PDTUtils.Logic
                 {
                     if (ct is Window)
                     {
-                        ((Window)ct).LocationChanged += new EventHandler(TouchScreenKeyboard_LocationChanged);
-                        ((Window)ct).Activated += new EventHandler(TouchScreenKeyboard_Activated);
-                        ((Window)ct).Deactivated += new EventHandler(TouchScreenKeyboard_Deactivated);
+                        var w = ct as Window;
+                        (/*(Window)*/w).LocationChanged += new EventHandler(TouchScreenKeyboard_LocationChanged);
+                        (/*(Window)*/w).Activated += new EventHandler(TouchScreenKeyboard_Activated);
+                        (/*(Window)*/w).Deactivated += new EventHandler(TouchScreenKeyboard_Deactivated);
                         break;
                     }
                     ct = (FrameworkElement)ct.Parent;
@@ -837,7 +838,7 @@ namespace PDTUtils.Logic
                 _instanceObject.Topmost = false;
             }
         }
-
+        
         static void TouchScreenKeyboard_Activated(object sender, EventArgs e)
         {
             if (_instanceObject != null)

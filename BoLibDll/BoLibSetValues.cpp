@@ -90,13 +90,9 @@ void clearShortTermMeters()
 	
 	for (auto i = 0; i <= getNumberOfGames(); i++)
 	{
-		GamePerformanceMeters[i][GAMEWON_ST] = 0;
-		GamePerformanceMeters[i][GAMEWAGERED_ST] = 0;
-		GamePerformanceMeters[i][GAMEPLAY_ST] = 0;
-
-		nvr_ptr->gamePerformanceMeters[i][GAMEWON_ST] = 0;
-		nvr_ptr->gamePerformanceMeters[i][GAMEWAGERED_ST] = 0;
-		nvr_ptr->gamePerformanceMeters[i][GAMEPLAY_ST] = 0;
+		nvr_main->gamePerformanceMeters[i][GAMEWON_ST] = 0;
+		nvr_main->gamePerformanceMeters[i][GAMEWAGERED_ST] = 0;
+		nvr_main->gamePerformanceMeters[i][GAMEPLAY_ST] = 0;
 	}
 }
 
@@ -177,7 +173,7 @@ void setPayoutCoinValues(unsigned int WhichOne, unsigned int Value)
 {
 	SetPayoutCoinValues(WhichOne, Value);
 }*/
-
+    
 void clearBankCreditReserve()
 {
 	nvr_ptr->bank1 = 0;

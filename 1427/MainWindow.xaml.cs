@@ -64,6 +64,8 @@ namespace PDTUtils
                 _updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = Height;
 
+                //NativeWinApi.SetComputerName("STEVETERMINAL01");
+
               /*  NativeWinApi.SetComputerName("STEVETERMINAL01");
                 NativeWinApi.SetComputerNameEx(NativeWinApi.COMPUTER_NAME_FORMAT.ComputerNameDnsDomain, "STEVETERMINAL01");
 

@@ -79,7 +79,7 @@ namespace PDTUtils.Native
         MaxGameMeters,
         GameStOffSetP = (MaxGameMeters / 2)
     }
-
+    
     enum ELongTermMeters
     {
         NoteSix = 0,
@@ -135,7 +135,7 @@ namespace PDTUtils.Native
         CoinThree,
         CoinTwo,
         CoinOne,
-
+        
         TitoIn,
 
         RefillL,

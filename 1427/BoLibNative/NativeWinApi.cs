@@ -244,7 +244,7 @@ namespace PDTUtils.Native
                                                           StringBuilder lpReturnedString,
                                                           int nSize,
                                                           string lpFileName);
-
+        
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public static extern uint GetPrivateProfileString(string lpAppName,
                                                           string lpKeyName,

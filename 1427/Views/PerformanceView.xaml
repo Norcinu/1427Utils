@@ -46,93 +46,42 @@
                 <!-- <TabControl>
                 
                     <TabItem Header="Machine"> -->
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
-                            <Label Content="Machine Performance Log" Style="{StaticResource StdLabel}"/>
-                            <ListView FontSize="22" ItemsSource="{Binding Performance}" Margin="25">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Width="250"/>
-                                        <GridViewColumn Header="Short Term Meter" Width="250">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderBrush="Black" BorderThickness="2">
-                                                        <TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
+                    <Label Content="Machine Performance Log" Style="{StaticResource StdLabel}"/>
+                    <ListView FontSize="22" ItemsSource="{Binding Performance}" Margin="25">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Name}" Width="250"/>
+                                <GridViewColumn Header="Short Term Meter" Width="250">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="2">
+                                                <TextBlock Text="{Binding ShortTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
 
-                                        <GridViewColumn Header="Long Term Meter" Width="250">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderBrush="Black" BorderThickness="2">
-                                                        <TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
-                                                    </Border>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
-                            <Button FontSize="20" Width="150" Height="40" Margin="20" Command="{Binding ClearShortTerms}">
-                                <Border BorderBrush="Black" BorderThickness="2">
-                                    <TextBlock Style="{StaticResource StdButtonBlock}">
+                                <GridViewColumn Header="Long Term Meter" Width="250">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="2">
+                                                <TextBlock Text="{Binding LongTermValue}" TextAlignment="Center" Background="LightGray" Foreground="Navy" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button FontSize="20" Width="150" Height="40" Margin="20" Command="{Binding ClearShortTerms}">
+                        <Border BorderBrush="Black" BorderThickness="2">
+                            <TextBlock Style="{StaticResource StdButtonBlock}">
                                     Clear ST Meters
-                                    </TextBlock>
-                                </Border>
-                            </Button>
-                        </StackPanel>
-                    <!--</TabItem>
-
-                    <TabItem Header="Games">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" >
-                            <Label Content="Individual Game Stats" Style="{StaticResource StdLabel}"/>
-                            <ListView FontSize="22" Margin="25" ItemsSource="{Binding GameStats}">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="Game" Width="145">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Image Source="{Binding Name}"></Image>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-
-                                        <GridViewColumn Header="Bet" Width="125">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderBrush="{x:Null}" Background="LightGray" Height="100">
-                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Navy" FontSize="24" Text="{Binding Bet}"></TextBlock>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-
-                                        <GridViewColumn Header="Winnings" Width="125">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderBrush="{x:Null}" Background="LightGray" Height="100">
-                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Navy" FontSize="24" Text="{Binding Won}"></TextBlock>
-                                                    </Border>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-
-                                        <GridViewColumn Header="Percentage" Width="125">
-                                            <GridViewColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <Border BorderBrush="{x:Null}" Background="LightGray" Height="100">
-                                                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Navy" FontSize="24" Text="{Binding Percentage}" />
-                                                    </Border>
-                                                </DataTemplate>
-                                            </GridViewColumn.CellTemplate>
-                                        </GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
-                        </StackPanel>
-                    </TabItem>
-                </TabControl>-->
+                            </TextBlock>
+                        </Border>
+                    </Button>
+                </StackPanel>
             </TabItem>
 
             <TabItem Header="LCD Meters">
@@ -165,7 +114,7 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-
+                        
                         <Label Style="{StaticResource StdLabel}" Content="Tito Meter" />
                         <ListView FontSize="18" ItemsSource="{Binding TitoMeter.MeterDesc}">
                             <ListView.View>
@@ -191,11 +140,9 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-
                     </StackPanel>
 
                     <StackPanel Margin="15" HorizontalAlignment="Center" VerticalAlignment="Top">
-
                         <Label Content="Long Term Meters" Style="{StaticResource StdLabel}"/>
                         <ListView FontSize="18" ItemsSource="{Binding LongTerm.MeterDesc}">
                             <ListView.View>

@@ -103,9 +103,11 @@ namespace PDTUtils
 			                        BoLib.setRebootRequired();
 #endif
                             });
-                         
-			            //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
-			        }
+                        
+                        //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
+			        } 
+                    //loses to arsenal? calm down sweet pea it was only the charity shield. noone except the deluded modern "gooners" 
+                    //would ever be talking about that shit yo.
                     
 			        if (BoLib.getDoorStatus() == 0)
 			        {
