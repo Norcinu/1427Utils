@@ -15,25 +15,39 @@ namespace PDTUtils.MVVM.ViewModels
         public bool RebootRequired { get; set; }
         public bool IsCatC { get; set; }
         public bool TiToEnabled { get; set; }
-        //public bool HasRecycler { get; set; }
+        public bool IsBritish { get; set; }
+        public bool HandPayState { get; set; }
+        //public bool HandPayEnabled { get; set; }
         public string RtpMessage { get; set; }
         public string HandPayLevel { get; set; }
         public string DivertLeftMessage { get; set; }
         public string DivertRightMessage { get; set; }
-        //public string RecyclerMessage { get; set; }
         public string TerminalAssetMsg { get; set; }
-
+        public string HandPayStateMsg { get; set; }
         readonly string _titoDisabledMsg = "Warning: TiTo DISABLED";
         readonly string _titoEnabledMsg = "TiTo ENABLED";
-
+        
         public GeneralSettingsViewModel()
         {
             try
             {
-                Thread.CurrentThread.CurrentUICulture = BoLib.getCountryCode() != BoLib.getSpainCountryCode() 
+                /*Thread.CurrentThread.CurrentUICulture = BoLib.getCountryCode() != BoLib.getSpainCountryCode() 
                     ? new CultureInfo("en-GB") 
-                    : new CultureInfo("es-ES");
+                    : new CultureInfo("es-ES");*/
 
+                if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
+                {
+                    IsBritish = true;
+                    RaisePropertyChangedEvent("IsBritish");
+                    Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-GB");
+                }
+                else
+                {
+                    IsBritish = false;
+                    RaisePropertyChangedEvent("IsBritish");
+                    Thread.CurrentThread.CurrentUICulture = new CultureInfo("es-ES");
+                }
+                
                 if (BoLib.getCountryCode() != BoLib.getUkCountryCodeC())
                 {
                     RtpMessage = "CAT C NOT ENABLED";
@@ -44,7 +58,7 @@ namespace PDTUtils.MVVM.ViewModels
                     RtpMessage = BoLib.getTargetPercentage().ToString() + "%";
                     IsCatC = true;
                 }
-
+                
                 TiToEnabled = BoLib.getTitoEnabledState();
                 TerminalAssetMsg = (TiToEnabled) ? _titoEnabledMsg : _titoDisabledMsg;
 
@@ -52,39 +66,38 @@ namespace PDTUtils.MVVM.ViewModels
                 DivertLeftMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Left).ToString();
                 DivertRightMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Right).ToString();
                 
-                /*if (BoLib.getBnvType() == 5)
+                RebootRequired = false;
+
+                char[] buffer = new char[3];
+                NativeWinApi.GetPrivateProfileString("Config", "PayoutType", "", buffer, buffer.Length, Resources.birth_cert);
+                var str = new string(buffer).Trim("\0".ToCharArray());
+                if (str.Equals("0"))
                 {
-                    HasRecycler = true;
-                    if (BoLib.getRecyclerChannel() == 3)
-                        RecyclerMessage = "£20 NOTE RECYCLED";
-                    else
-                        RecyclerMessage = "£10 NOTE RECYCLED";
+                    HandPayState = false;
+                    HandPayStateMsg = "Hopper Only";
+                    RaisePropertyChangedEvent("HandPayState");
                 }
                 else
                 {
-                    HasRecycler = false;
-                    RecyclerMessage = "NO RECYCLER";
-                }*/
+                    if (str.Equals("1"))
+                        HandPayStateMsg = "Printer";
+                    else
+                        HandPayStateMsg = "Combined";
 
-                RebootRequired = false;
-                ///!!! DEBUG - Use proper BoLib function for this !!! 
-                //UseReserveEnabled = true;
-                //DoUseReserve("startup");   
+                    HandPayState = true;
+                    RaisePropertyChangedEvent("HandPayState");
+                }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
             }
-
-            //RaisePropertyChangedEvent("HasRecycler");
+            
             RaisePropertyChangedEvent("IsCatC");
             RaisePropertyChangedEvent("HandPayLevel");
             RaisePropertyChangedEvent("DivertMessage");
-            //RaisePropertyChangedEvent("RecyclerMessage");
             RaisePropertyChangedEvent("TerminalAssetMsg");
             RaisePropertyChangedEvent("RebootRequired");
-           // RaisePropertyChangedEvent("UseReserveEnabled");
-            //RaisePropertyChangedEvent("UseReserveStake");
         }
         
         public ICommand SetRtp
@@ -134,11 +147,22 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else
             {
-                if (BoLib.getHandPayThreshold() == 0)
+                var thresh = BoLib.getHandPayThreshold();
+                
+                if (thresh == 0)
                     return;
 
-                if (amount == 0)
-                    amount = 1000;//5000
+                if (amount == 0 && thresh >= 1000)
+                    amount = 1000; //5000
+                
+                if (thresh < 1000)
+                {
+                    amount = 0;
+                    for (int i = 0; i < thresh; i += 100)
+                    {
+                        amount += 100;
+                    }
+                }
 
                 BoLib.setHandPayThreshold((uint)current - (uint)amount);
                 newVal -= amount;
@@ -182,7 +206,7 @@ namespace PDTUtils.MVVM.ViewModels
             DivertLeftMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertLeftMessage");
         }
-
+        
         public ICommand ChangeRightDivert { get { return new DelegateCommand(DoChangeDivertRight); } }
         void DoChangeDivertRight(object o)
         {
@@ -211,21 +235,6 @@ namespace PDTUtils.MVVM.ViewModels
             DivertRightMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertRightMessage");
         }
-                
-        /*public ICommand Recycle { get { return new DelegateCommand(DoRecycleNote); } }
-        void DoRecycleNote(object o)
-        {
-            var noteType = o as string;
-
-            if (BoLib.getBnvType() != 5) return;
-            
-            var channel = (noteType == "10") ? "2" : "3";
-            BoLib.shellSendRecycleNote();
-            NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", channel, Resources.birth_cert);
-            IniFileUtility.HashFile(Resources.birth_cert);
-            RecyclerMessage = (noteType == "10") ? "£10 Recycled" : "£20 Recycled";
-            RaisePropertyChangedEvent("RecyclerMessage");
-        }*/
         
         public ICommand TiToState { get { return new DelegateCommand(ToggleTiToState); } }
         void ToggleTiToState(object o) //TODO: Re-factor this mess of code ffs.
@@ -312,19 +321,33 @@ namespace PDTUtils.MVVM.ViewModels
                 IniFileUtility.HashFile(Properties.Resources.machine_ini);
             }
         }
-                
-        //!! not needed - moved to region settings (Set Auto Transfer)
-      /*  public ICommand UseReserve { get { return new DelegateCommand(DoUseReserve); } }
-        void DoUseReserve(object o)
+        
+        public ICommand SetHandPayState { get { return new DelegateCommand(DoSetHandPayState); } }
+        void DoSetHandPayState(object o)
         {
             var str = o as string;
-            Debug.WriteLine("UseReserve: " + o);
-            UseReserveEnabled = !UseReserveEnabled;
-            if (!UseReserveEnabled) UseReserveStakeMsg = "Not using reserve fill.";
-            else UseReserveStakeMsg = "Using reserve fill.";
+            var value = "";
+
+            if (str.Equals("hopper"))
+            {
+                HandPayStateMsg = "Hopper Only";
+                value = "0";
+            }
+            else if (str.Equals("printer"))
+            {
+                HandPayStateMsg = "Printer Only";
+                value = "1";
+            }
+            else if (str.Equals("combined"))
+            {
+                HandPayStateMsg = "Combined";
+                value = "2";
+            }
+
+            if (!string.IsNullOrEmpty(value))
+                NativeWinApi.WritePrivateProfileString("Config", "PayoutType", value, Resources.birth_cert);
             
-            RaisePropertyChangedEvent("UseReserveStake");
-            RaisePropertyChangedEvent("UseReserveStakeMsg");
-        }*/
+            RaisePropertyChangedEvent("HandPayStateMsg");
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace PDTUtils.Logic
 	{
 		public MachineInfo()
 		{
-			QueryMachine();
+			//QueryMachine();
 		}
 		
 /*
@@ -147,9 +147,12 @@ namespace PDTUtils.Logic
 		{
 			return ReadFileLine(Resources.security_log);
 		}
-
+        
 		public string GetUpdateKey()
 		{
+            if (!File.Exists(Resources.update_log))
+                return "Update Key Does Not Exist. - Please contact Project.";
+
 			var strs = ReadFileLine(Resources.update_log,1).Split("=".ToCharArray());
 			var final = new StringBuilder(strs[1]);
 			
@@ -161,8 +164,8 @@ namespace PDTUtils.Logic
 
 			return "Update Key: " + final;
 		}
-
-		private string ReadFileLine(string filename, int index = 0)
+        
+		string ReadFileLine(string filename, int index = 0)
 		{
 			var line = "";
 

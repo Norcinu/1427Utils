@@ -27,6 +27,23 @@
 		<StackPanel HorizontalAlignment="Stretch" Background="LightGray" Margin="10">
 			<Label Style="{StaticResource StdLabel}" FontSize="48" HorizontalAlignment="Center" BorderBrush="AliceBlue" 
 				   BorderThickness="2" Margin="0,60,0,0">Network Information</Label> <!-- Background="Red" Foreground="Peru" -->
+            
+            <Label Style="{StaticResource StdLabel}" Background="Red" Foreground="Yellow" Name="lblSaveWarning" Content="SAVE SETTINGS"
+                  >
+                <!-- <Label.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation From="Yellow" To="Red" Duration="0:0:7" 
+                                                Storyboard.TargetName="lblSaveWarning"
+                                                Storyboard.TargetProperty="Foreground"/>
+                                <ColorAnimation From="Red" To="Pink" Duration="0:0:7" 
+                                                Storyboard.TargetProperty="Background"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Label.Triggers> -->
+            </Label>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Label FontSize="36" Content="IP Address:" Style="{StaticResource StdLabel}"/>
@@ -62,12 +79,12 @@
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                <Button x:Name="BtnSaveNetwork" FontSize="24" Width="250" Margin="20" Command="{Binding SaveNetworkInfo}">Set Network Info</Button>
-                <Button x:Name="BtnClearNetwork" FontSize="24" Width="250" Margin="20">Clear Network Info</Button>
+                <Button x:Name="BtnSaveNetwork" FontSize="24" Width="250" Margin="20" Command="{Binding SaveNetworkInfo}">Save Network Info</Button>
+                <!-- <Button x:Name="BtnClearNetwork" FontSize="24" Width="250" Margin="20">Clear Network Info</Button> -->
                 <Button x:Name="BtnTestNetwork"	FontSize="24" Width="250" Margin="20" Command="{Binding PingSites}" CommandParameter="0">Test Network</Button>
             </StackPanel>
             
-            <StackPanel Margin="0,60,0,0">
+            <StackPanel Margin="0,20,0,0"> <!-- 60 -->
 				<Border Width="400" BorderBrush="Black" BorderThickness="2"> <!-- Width="800"-->
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Width="400" Background="AliceBlue" IsEnabled="{Binding PingTestRunning}" 

@@ -13,5 +13,11 @@ namespace PDTUtils.Views
             InitializeComponent();
             this.DataContext = new MetersViewModel();
         }
+
+        public void RefreshMang()
+        {
+            var mvm = DataContext as MetersViewModel;
+            mvm.Refresh();
+        }
     }
 }

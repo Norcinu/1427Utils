@@ -22,7 +22,7 @@ namespace PDTUtils
     {
         bool _aTestIsRunning = false;
         bool _lampTestRunning = false;
-        const int VisualButtonCount = 6;
+        const int _visualButtonCount = 6;
         int _buttonEnabledCount = 6;
         int _counter = 0;
         int _currentButton = 0;
@@ -67,18 +67,17 @@ namespace PDTUtils
         
         void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            int offset = 50;
             for (var i = 0; i < 6; i++)
             {
                 StpButtons.Children.Add(new Button());
                 var b = StpButtons.Children[i] as Button;
-                
-                b.Content = _buttonContent[i];//l;
-                //b.MinWidth = 90;
-                
-                b.Width = (600 - 50) / 6;
+                b.Content = _buttonContent[i];
+                b.Width = (StpButtons.Width - offset) / _visualButtonCount;
                 b.Margin = new Thickness(5, 0, 5, 0);
                 b.Visibility = Visibility.Visible;
                 b.Click += button_Click;
+                
                 if (i < 2)
                     DockPanel.SetDock(b, Dock.Left);
                 else if (i > 3)
@@ -128,7 +127,7 @@ namespace PDTUtils
                     DoCoinTest();
                 }
                 
-                for (var i = 0; i < VisualButtonCount; i++)
+                for (var i = 0; i < _visualButtonCount; i++)
                 {
                     if (button != StpButtons.Children[i])
                         StpButtons.Children[i].IsEnabled = false;
@@ -139,8 +138,8 @@ namespace PDTUtils
             }
             else
             {
-                _buttonEnabledCount = VisualButtonCount;
-                for (var i = 0; i < VisualButtonCount; i++)
+                _buttonEnabledCount = _visualButtonCount;
+                for (var i = 0; i < _visualButtonCount; i++)
                 {
                     StpButtons.Children[i].IsEnabled = true;
                     StpButtons.Children[i].Visibility = Visibility.Visible;
@@ -183,7 +182,7 @@ namespace PDTUtils
             for (short i = 128; i > 0; i /= 2)
                 BoLib.setLampStatus(1, (byte)i, 0);
 
-            for (var i = 0; i < VisualButtonCount; i++)
+            for (var i = 0; i < _visualButtonCount; i++)
                 StpButtons.Children[i].Dispatcher.BeginInvoke((DelegateEnableBtn)timer_buttonEnable, 
                     new object[] { StpButtons.Children[i] });
             
@@ -612,7 +611,7 @@ namespace PDTUtils
                 ShutdownTimer(_noteTimer);
                 ShutdownTimer(_lampTimer);
                 
-                _buttonEnabledCount = VisualButtonCount;
+                _buttonEnabledCount = _visualButtonCount;
                 
                 //ResetLabels(StpMainPanel.Children);
                 ResetLabels(stpMainLabels.Children);

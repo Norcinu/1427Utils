@@ -33,14 +33,14 @@ namespace PDTUtils.MVVM.ViewModels
 
             PopulateInfo();
         }
-        
+
         bool ChangesMade { get; set; }
         public bool IpAddressActive { get; set; }
         public bool SubnetActive { get; set; }
         public bool DefaultActive { get; set; }
         public bool DefaultComputerName { get; set; }
         public bool PingTestRunning { get; set; }
-        
+
         public string IpAddress { get; set; }
         public string SubnetAddress { get; set; }
         public string DefaultGateway { get; set; }
@@ -58,7 +58,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => DoToggleIp()); }
         }
-        
+
         public ICommand ToggleSubnet
         {
             get { return new DelegateCommand(o => DoToggleSubnet()); }
@@ -68,22 +68,23 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => DoToggleDefault()); }
         }
-        
+
         public ICommand SaveNetworkInfo
         {
             get { return new DelegateCommand(o => DoSaveNetworkInfo()); }
         }
-        
+
         public ICommand ToggleName
         {
             get { return new DelegateCommand(o => DoToggleName()); }
         }
-        
+
         void PopulateInfo()
         {
             //IP Address
             foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
             {
+                //TODO: Handle 2 network cards.
                 if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
                     ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
                 {
@@ -95,7 +96,7 @@ namespace PDTUtils.MVVM.ViewModels
                         DefaultGateway = ni.GetIPProperties().GatewayAddresses[0].Address.ToString();
                     }
                 }
-                //
+                
                 if (ni.OperationalStatus == OperationalStatus.Up && MacAddress == null)
                 {
                     MacAddress += ni.GetPhysicalAddress().ToString();
@@ -103,12 +104,12 @@ namespace PDTUtils.MVVM.ViewModels
             }
             
             ComputerName = Environment.MachineName;
-            
+
             RaisePropertyChangedEvent("IPAddressActive");
             RaisePropertyChangedEvent("SubnetActive");
             RaisePropertyChangedEvent("DefaultActive");
             RaisePropertyChangedEvent("DefaultComputerName");
-        
+
             RaisePropertyChangedEvent("IPAddress");
             RaisePropertyChangedEvent("ComputerName");
             RaisePropertyChangedEvent("SubnetAddress");
@@ -116,13 +117,13 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("MacAddress");
             RaisePropertyChangedEvent("PingTestRunning");
         }
-        
+
         public void DoPingSites(object o)
         {
             var t = new Thread(() => _DoPingSite(o));
             t.Start();
         }
-        
+
         void _DoPingSite(object o)
         {
             try
@@ -136,7 +137,7 @@ namespace PDTUtils.MVVM.ViewModels
                     IPAddress.Parse("8.8.4.4"), // Google 2
                     IPAddress.Parse("169.254.1.1") // Internal Back Office
                 };
-                
+
                 if (!BoLib.isBackOfficeAvilable())
                 {
                     if (index == 0 && PingOne.Length > 0)
@@ -158,15 +159,15 @@ namespace PDTUtils.MVVM.ViewModels
                     PingOne = "";
                     RaisePropertyChangedEvent("PingOne");
                     RaisePropertyChangedEvent("PingTwo");
-                    index = 2; 
+                    index = 2;
                 }
-
+                
                 PingTestRunning = true;
-                RaisePropertyChangedEvent("PingTestRunning"); 
+                RaisePropertyChangedEvent("PingTestRunning");
 
                 var pinger = new Ping();
                 var reply = pinger.Send(addies[index]);
-                
+
                 if (reply.Status == IPStatus.Success)
                 {
                     PingOne += "Ping to " + addies[index] + " OK - " + reply.Status + "\n\n";
@@ -202,18 +203,18 @@ namespace PDTUtils.MVVM.ViewModels
                 PingOne = ex.Message;
                 RaisePropertyChangedEvent("PingOne");
             }
-            
+
             RaisePropertyChangedEvent("PingTestRunning");
         }
-        
-        private void DoToggleIp()
+
+        void DoToggleIp()
         {
             ChangesMade = true;
             IpAddressActive = !IpAddressActive;
             RaisePropertyChangedEvent("IPAddressActive");
         }
-
-        private void DoToggleSubnet()
+        
+        void DoToggleSubnet()
         {
             ChangesMade = true;
             SubnetActive = !SubnetActive;
@@ -238,18 +239,16 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var objMc = new ManagementClass("Win32_NetworkAdapterConfiguration");
             var objMoc = objMc.GetInstances();
-            
+
             if (!ChangesMade) return;
-            
-            //NativeWinApi.SetComputerName("STEVETERMINAL01");
-            //NativeWinApi.SetComputerNameEx(NativeWinApi.COMPUTER_NAME_FORMAT.ComputerNameDnsHostname, 
+
             NativeWinApi.SetComputerNameEx(NativeWinApi.COMPUTER_NAME_FORMAT.ComputerNamePhysicalDnsHostname, ComputerName);
-            var name = Environment.MachineName;
+            
             foreach (var o in objMoc)
             {
                 var objMo = (ManagementObject)o;
                 if (!(bool)objMo["IPEnabled"]) continue;
-                
+
                 try
                 {
                     using (var newIp = objMo.GetMethodParameters("EnableStatic"))
@@ -267,10 +266,11 @@ namespace PDTUtils.MVVM.ViewModels
                     Debug.WriteLine(ex.Message);
                 }
             }
-            
+
             ChangesMade = false;
             PDTUtils.Logic.GlobalConfig.RebootRequired = true;
             DiskCommit.Save();
         }
     }
 }
+

@@ -32,10 +32,15 @@ namespace PDTUtils.MVVM.ViewModels
         
         public MetersViewModel()
         {
-            _nfi = BoLib.getCountryCode() == BoLib.getSpainCountryCode() 
-                ? new CultureInfo("es-ES").NumberFormat 
-                : new CultureInfo("en-GB").NumberFormat;
+            _nfi = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ?
+                new CultureInfo("es-ES").NumberFormat :
+                new CultureInfo("en-GB").NumberFormat;
+            
+            Initialise();            
+        }
 
+        void Initialise()
+        {
             _longTerm.ReadMeter();
             _shortTerm.ReadMeter();
             _titoMeters.ReadMeter();
@@ -44,18 +49,28 @@ namespace PDTUtils.MVVM.ViewModels
 
             ReadPerformance();
             ReadCashRecon();
-            
+
             RaisePropertyChangedEvent("LongTerm");
             RaisePropertyChangedEvent("ShortTerm");
             RaisePropertyChangedEvent("TitoMeters");
             RaisePropertyChangedEvent("NumberOfGames");
         }
         
+        public void Refresh()
+        {
+            _cashRecon.RemoveAll();
+            _gameStats.RemoveAll();
+            _performance.RemoveAll();
+            _refill.RemoveAll();
+                    
+            Initialise();
+        }
+        
         public ICommand ClearShortTerms
         {
             get { return new DelegateCommand(o => ClearShortTermMeters()); }
         }
-        
+
         void ClearShortTermMeters()
         {
             if (BoLib.getCredit() > 0 || BoLib.getBank() > 0 || (int)BoLib.getReserveCredits() > 0)
@@ -72,12 +87,12 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.clearShortTermMeters();
                 NativeWinApi.WritePrivateProfileString("TicketsIn", "TicketCount", "0", @Properties.Resources.tito_log);
                 NativeWinApi.WritePrivateProfileString("TicketsOut", "TicketCount", "0", @Properties.Resources.tito_log);
-
+                
                 ReadPerformance();
                 ReadCashRecon();
-
+                
                 _shortTerm.ReadMeter();
-
+                
                 RaisePropertyChangedEvent("ShortTerm");
                 RaisePropertyChangedEvent("LongTerm");
             }
@@ -106,7 +121,6 @@ namespace PDTUtils.MVVM.ViewModels
                 ctr++;
             }
             
-            //var shortTermCoinArray = System.Enum.ToObject(typeof(EShortTermMeters), )
             // corresponding to recon meter #defines in the bo lib. - TODO!!! Refactor this in some way so they are not hard coded.
             var perfCoinLt = new byte[] { 8, 9, 10, 11, 12 };
             var perfCoinSt = new byte[] {36, 37, 38, 39, 40};

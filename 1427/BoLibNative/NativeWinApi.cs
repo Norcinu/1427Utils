@@ -158,7 +158,7 @@ namespace PDTUtils.Native
 			Int16 dmDefaultSource;
 			[FieldOffset(58)]
 			Int16 dmPrintQuality;
-
+            
 			[FieldOffset(44)]
 			public Pointl dmPosition;
 			[FieldOffset(52)]
@@ -194,7 +194,7 @@ namespace PDTUtils.Native
 			[FieldOffset(120)]
 			public Int32 dmDisplayFrequency;
 		}
-
+        
 		[DllImport("user32.dll")]
 		public static extern bool EnumDisplaySettings(string deviceName, int modeNum, ref Devmode devMode);
 

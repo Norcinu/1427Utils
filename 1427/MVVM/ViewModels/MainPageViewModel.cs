@@ -111,7 +111,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("CanPayFifty");
             }
         }
-        
+         
         public Decimal TotalCredits 
         { 
             get 
@@ -124,7 +124,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("TotalCredits");
             } 
         }
-
+        
         public uint RefillCoinsAdded
         {
             get { return _refillCoinsAdded; }
@@ -293,7 +293,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => TransferBankCredits()); }
         }
-
+        
         void TransferBankCredits()
         {
             BoLib.transferBankToCredit();
@@ -306,7 +306,7 @@ namespace PDTUtils.MVVM.ViewModels
         
         void GetMaxNoteValue()
         {
-            var maxValue = BoLib.getLiveElement(11); //ESP_MAX_BANKNOTE_VALUE 
+            var maxValue = BoLib.getLiveElement((int)EspRegionalBase.MaxBankNote);
             CanPayFifty = maxValue > 2000;
         }
         
@@ -314,7 +314,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => AddCreditsActive = !AddCreditsActive); }
         }
-
+        
         public ICommand GetError
         {
             get { return new DelegateCommand(o => GetErrorMessage()); }

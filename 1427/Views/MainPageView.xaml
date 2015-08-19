@@ -51,9 +51,9 @@
                     <StackPanel>
                         <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Credits</Label>
                         <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue" Content="{Binding Credits}" />
-                    </StackPanel>
+                    </StackPanel> 
                 </Border>
-
+                
                 <Border Grid.Column="1" Margin="20" BorderBrush="AliceBlue" BorderThickness="2">
                     <StackPanel>
                         <Label HorizontalAlignment="Center" FontSize="44" Foreground="AliceBlue">Bank</Label>

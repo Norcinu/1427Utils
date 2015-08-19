@@ -51,6 +51,7 @@ namespace PDTUtils.MVVM.ViewModels
         string _rightCoinsAdded;
         string _refloatLeft;
         string _refloatRight;
+        string _hopperPayingValue = "";
         /*string _newLeftFillValue;
         string _newRightFillValue;*/
 
@@ -248,8 +249,14 @@ namespace PDTUtils.MVVM.ViewModels
                 ? new CultureInfo("es-ES")
                 : new CultureInfo("en-GB");
 
+            // incase no hoppers
+            char[] buffer = new char[3];
+            NativeWinApi.GetPrivateProfileString("Config", "NumberOfHoppers", "", buffer, 3, Properties.Resources.birth_cert);
+            if (buffer[0] == '0')
+                return;
+
             Nfi = CurrentCulture.NumberFormat;
-            
+
             RefloatLeft = "";
             RefloatRight = "";
             _enabled = false;
@@ -264,7 +271,7 @@ namespace PDTUtils.MVVM.ViewModels
             SelectedTabIndex = 0;
             DivertLeftMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Left).ToString();
             DivertRightMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Right).ToString();
-
+            
             if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
             {
                 IsSpanish = true;
@@ -392,6 +399,10 @@ namespace PDTUtils.MVVM.ViewModels
                             var t = sender as Timer;
                             t.Enabled = false;
                             dumpSwitchPressed = false;
+                            //READ OUT VALUE FROM BIRTH CERT AT BEGINNING OF THE FUNCTION.
+                            var hopperValueStr = "LEFT HOPPER (£1 COINS)\n";
+                            var _msg = new WpfMessageBoxService();
+                            _msg.ShowMessage(hopperValueStr + "COINS REMOVED = " + SelHopperValue, "HOPPER EMPTYING");
                         }
                     };
                     EmptyLeftTimer.Enabled = true;
@@ -444,9 +455,9 @@ namespace PDTUtils.MVVM.ViewModels
                                 var t = sender as Timer;
                                 t.Enabled = false;
                                 dumpSwitchPressed = false;
-
+                                var hopperValueStr = "RIGHT HOPPER (10p COINS)\n";
                                 var _msg = new WpfMessageBoxService();
-                                _msg.ShowMessage("COINS REMOVED = " + SelHopperValue, "HOPPER EMPTYING");
+                                _msg.ShowMessage(hopperValueStr +  "COINS REMOVED = " + SelHopperValue, "HOPPER EMPTYING");
                             }
 
                             //Debug.WriteLine("IS HOPPER HOPPING: ", BoLib.getIsHopperHopping(1).ToString());
@@ -490,7 +501,7 @@ namespace PDTUtils.MVVM.ViewModels
         /// </summary>
         /// <param name="shouldSync">Its gonna be me</param>
         /// <param name="refloatValue">Tearing up my heart</param>
-        /// <param name="whichHopper">This I promise you</param>
+        /// <param name="whichHopper">This I promise you</param>7
         void NSync(ref bool shouldSync, ref string refloatValue, byte whichHopper)
         {
             if (shouldSync)
@@ -758,32 +769,13 @@ namespace PDTUtils.MVVM.ViewModels
 #if DEBUG
                 Debug.WriteLine("THE HOPPER IS FINISHED");
 #endif
+                SetHopperPayingValue();
                 SpanishEmpty.Enabled = false;
-
-                //Thread.Sleep(1000);
-                //ObservableCollection<int> takeithome = new ObservableCollection<int>();
-
-                //lock (_msgAccess)
-                //lock (takeithome)
-                //lock (this)
-                {
-                    //if (!_msgAccess.Show)
-                    {
-                        var floatLevel = BoLib.getHopperFloatLevel(_currentHopperDumping);
-
-                        //var msg = new WpfMessageBoxService();
-                        /*Thread t = new Thread(new ParameterizedThreadStart(o => { 
-                            _msg.ShowMessage("FINISHED EMPTYING.\nCoins Paid Out: " + floatLevel, "INFO"); }));*/
-
-                        _msg.ShowMessage("FINISHED EMPTYING.\nCoins Paid Out: " + floatLevel, "INFO");
-
-                        Debug.WriteLine("FINISHED EMPTYING.\nCoins Paid Out: " + floatLevel, "INFO");
-                        //_msgAccess.Show = true;
-
-                        BoLib.setHopperFloatLevel(_currentHopperDumping, 0); //DEBUG!!!!! Should I be doing this??
-                        unchecked { _currentHopperDumping = (byte)Hoppers.NoHopper; }
-                    }
-                }
+                var hopperValue = (_currentHopperDumping == (byte)Hoppers.Left) ? "LEFT HOPPER INFO" : "RIGHT HOPPER INFO";
+                var floatLevel = BoLib.getHopperFloatLevel(_currentHopperDumping);
+                _msg.ShowMessage("FINISHED EMPTYING.\n" + _hopperPayingValue + " Coins Paid Out: " + floatLevel, hopperValue);
+                BoLib.setHopperFloatLevel(_currentHopperDumping, 0);
+                unchecked { _currentHopperDumping = (byte)Hoppers.NoHopper; }
             }
         }
         
@@ -880,6 +872,22 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 var msg = new WpfMessageBoxService();
                 msg.ShowMessage("New Float Level is " + newFloat.ToString() + " Coins", "Payout Info");
+            }
+        }
+        
+        void SetHopperPayingValue()
+        {
+            if (_currentHopperDumping >= 0)
+            {
+                char[] iniValue = new char[5];
+                string key = (_currentHopperDumping == (byte)Hoppers.Left) ? "PayoutCoin1" : "PayoutCoin2";
+                NativeWinApi.GetPrivateProfileString("Config", key, "", iniValue, iniValue.Length, Properties.Resources.birth_cert);
+                _hopperPayingValue = new string(iniValue, 0, iniValue.Length).Trim("\0".ToCharArray());
+                _hopperPayingValue.Insert(0, "£");
+                if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
+                    _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "€") : _hopperPayingValue.Insert(_hopperPayingValue.Length, "¢");
+                else
+                    _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "£") : _hopperPayingValue.Insert(_hopperPayingValue.Length, "p");
             }
         }
     }

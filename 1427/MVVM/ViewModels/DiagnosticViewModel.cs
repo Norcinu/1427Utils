@@ -14,7 +14,8 @@ namespace PDTUtils.MVVM.ViewModels
         public ObservableCollection<SoftwareInfo> Software { get; private set; }
         public ObservableCollection<HardwareInfo> Hardware { get; private set; }
         public ObservableCollection<string> GeneralList { get; set; }
-
+        public string License { get { return Hardware[0].License; } }
+        
         MachineInfo _machineData;
         
         public DiagnosticViewModel(MachineInfo machineData)
@@ -31,38 +32,41 @@ namespace PDTUtils.MVVM.ViewModels
             var hash = "";
             var status = CheckHashIsAuthed(buffer, ref hash);
             Software.Add(new SoftwareInfo("1524", hash, status));
-            
+
             for (var i = 0; i < BoLib.getNumberOfGames(); i++)
             {
                 var exe = new StringBuilder(64);
                 var dir = new StringBuilder(64);
-                
+
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "Exe", "", exe, 64, ini);
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "GameDirectory", "", dir, 64, ini);
-                   
+
                 var fullPath = new StringBuilder(dir + @"\" + exe);
                 status = CheckHashIsAuthed(fullPath, ref hash);
                 Software.Add(new SoftwareInfo(dir.ToString().TrimStart("\\".ToCharArray()), hash, status));
             }
-            
-            //string sb = "";
-            //ativeWinApi.GetPrivateProfileString("Key", "License", "", sb, 128, Properties.Resources.machine_ini);
-#if DEBUG
-            string license = "DEVELOPMENT";
-#else
-            string license = "TODO DO THIS";
-#endif
-            //var serial = BoLib.getSerialNumber();
+
+            char[] licenseBuffer = new char[128];
+            NativeWinApi.GetPrivateProfileString("Keys", "License", "", licenseBuffer, 128, Properties.Resources.machine_ini);
+            //NativeWinApi.GetPrivateProfileString("Key", "License", "", licenseBuffer, 128, Properties.Resources.machine_ini);
+
+            string license = new string(licenseBuffer, 0, 128).Trim("\0".ToCharArray());
+            for (int i = 0; i < license.Length; i++)
+            {
+                if ((i % 15 == 0) && i > 0)
+                    license = license.Insert(i, "-");
+            }
+                //var serial = BoLib.getSerialNumber();
             Hardware.Add(new HardwareInfo()
             {
                 SerialKey = BoLib.getSerialNumber(),//serial,
-                MachineName = "TERMINAL_01",
+                MachineName = System.Environment.MachineName, //"TERMINAL_01",
                 License = license,
                 CpuType = "S430",
                 CabinetType =/* (BoLib.GetUniquePcbID(0)) ? */"INNOCORE TS22 L29" /*: "AXIS - L29"*/,
                 CpuID = BoLib.GetUniquePcbID(0)
             });
-
+            
             foreach (var ni in NetworkInterface.GetAllNetworkInterfaces())
             {
                 if (ni.NetworkInterfaceType != NetworkInterfaceType.Wireless80211 &&

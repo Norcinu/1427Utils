@@ -193,7 +193,6 @@ namespace PDTUtils.MVVM.ViewModels
 
             LoadSettings();
             LoadSettingsView();
-                        
 
             RaisePropertyChangedEvent("EditableLiveRegion");
             RaisePropertyChangedEvent("Arcades");
@@ -410,7 +409,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
-        //they
+ 
         void DoSetEscrow(object o)
         {
             var str = o as string;

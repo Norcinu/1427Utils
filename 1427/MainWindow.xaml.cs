@@ -420,10 +420,13 @@ namespace PDTUtils
 
             UcDiagnostics.IsEnabled = false;
             UcDiagnostics.Visibility = Visibility.Hidden;
-
+               
             UcPerformance.IsEnabled = !UcPerformance.IsEnabled;
             if (UcPerformance.IsEnabled)
+            {
+                UcPerformance.RefreshMang();
                 UcPerformance.Visibility = Visibility.Visible;
+            }
             else
                 UcPerformance.Visibility = Visibility.Hidden;
 		}
