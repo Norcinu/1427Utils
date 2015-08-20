@@ -29,7 +29,7 @@
 				   BorderThickness="2" Margin="0,60,0,0">Network Information</Label> <!-- Background="Red" Foreground="Peru" -->
             
             <Label Style="{StaticResource StdLabel}" Background="Red" Foreground="Yellow" Name="lblSaveWarning" Content="SAVE SETTINGS"
-                  >
+                  IsEnabled="{Binding ChangesMade}" Visibility="{Binding ChangesMade, Converter={StaticResource BoolToVisConverter}}">
                 <!-- <Label.Triggers>
                     <EventTrigger RoutedEvent="Button.Click">
                         <BeginStoryboard>

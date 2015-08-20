@@ -34,7 +34,7 @@ namespace PDTUtils.MVVM.ViewModels
             PopulateInfo();
         }
 
-        bool ChangesMade { get; set; }
+        public bool ChangesMade { get; set; }
         public bool IpAddressActive { get; set; }
         public bool SubnetActive { get; set; }
         public bool DefaultActive { get; set; }
@@ -212,6 +212,7 @@ namespace PDTUtils.MVVM.ViewModels
             ChangesMade = true;
             IpAddressActive = !IpAddressActive;
             RaisePropertyChangedEvent("IPAddressActive");
+            RaisePropertyChangedEvent("ChangesMade");
         }
         
         void DoToggleSubnet()
@@ -219,6 +220,7 @@ namespace PDTUtils.MVVM.ViewModels
             ChangesMade = true;
             SubnetActive = !SubnetActive;
             RaisePropertyChangedEvent("SubnetActive");
+            RaisePropertyChangedEvent("ChangesMade");
         }
         
         void DoToggleDefault()
@@ -226,6 +228,7 @@ namespace PDTUtils.MVVM.ViewModels
             ChangesMade = true;
             DefaultActive = !DefaultActive;
             RaisePropertyChangedEvent("DefaultActive");
+            RaisePropertyChangedEvent("ChangesMade");
         }
         
         void DoToggleName()
@@ -233,6 +236,7 @@ namespace PDTUtils.MVVM.ViewModels
             ChangesMade = true;
             DefaultComputerName = !DefaultComputerName;
             RaisePropertyChangedEvent("DefaultComputerName");
+            RaisePropertyChangedEvent("ChangesMade");
         }
         
         void DoSaveNetworkInfo()
@@ -258,6 +262,9 @@ namespace PDTUtils.MVVM.ViewModels
                         newIp["IPAddress"] = new[] { IpAddress };
                         newIp["SubnetMask"] = new[] { SubnetAddress };
                     }
+
+                    ChangesMade = false;
+                    RaisePropertyChangedEvent("ChangesMade");
 
                     //setIp = objMo.InvokeMethod("EnableStatic", newIp, null);
                 }

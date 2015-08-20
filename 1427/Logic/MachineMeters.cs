@@ -37,30 +37,30 @@ namespace PDTUtils
         
 		abstract public void ReadMeter();
 	}
-    
-	public class ShortTermMeters : MachineMeters
-	{
-		public ShortTermMeters()
-		{
-		}
 
-		public override void ReadMeter()
-		{
+    public class ShortTermMeters : MachineMeters
+    {
+        public ShortTermMeters()
+        {
+        }
+
+        public override void ReadMeter()
+        {
             if (_meterDesc.Count > 0)
                 _meterDesc.RemoveAll();
 
-			_meterDesc.Add(new MeterDescription("Cash In", BoLib.getCashIn(BoLib.useMoneyInType(0)).ToString()));
-			_meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCashOut(BoLib.useMoneyOutType(0)).ToString()));
-			_meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(0)).ToString()));
-			_meterDesc.Add(new MeterDescription("Notes Out", BoLib.getNotesOut(BoLib.useMoneyOutType(0)).ToString()));
-			_meterDesc.Add(new MeterDescription("Refill", BoLib.getRefillValue(BoLib.useRefillType(0)).ToString()));
-			_meterDesc.Add(new MeterDescription("Fischas Bet", BoLib.getVtp(BoLib.useVtpMeter(0)).ToString()));
-			_meterDesc.Add(new MeterDescription("Fischas Win", BoLib.getWon(BoLib.useWonMeter(0)).ToString()));
-			_meterDesc.Add(new MeterDescription("Hand Pay", BoLib.getHandPay(BoLib.useHandPayMeter(0)).ToString()));
+            _meterDesc.Add(new MeterDescription("Cash In", BoLib.getCashIn(BoLib.useMoneyInType(0)).ToString()));
+            _meterDesc.Add(new MeterDescription("Cash Out", BoLib.getCashOut(BoLib.useMoneyOutType(0)).ToString()));
+            _meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(0)).ToString()));
+            _meterDesc.Add(new MeterDescription("Notes Out", BoLib.getNotesOut(BoLib.useMoneyOutType(0)).ToString()));
+            _meterDesc.Add(new MeterDescription("Refill", BoLib.getRefillValue(BoLib.useRefillType(0)).ToString()));
+            _meterDesc.Add(new MeterDescription("Fischas Bet", BoLib.getVtp(BoLib.useVtpMeter(0)).ToString()));
+            _meterDesc.Add(new MeterDescription("Fischas Win", BoLib.getWon(BoLib.useWonMeter(0)).ToString()));
+            _meterDesc.Add(new MeterDescription("Hand Pay", BoLib.getHandPay(BoLib.useHandPayMeter(0)).ToString()));
             _meterDesc.Add(new MeterDescription("Ticket Out", BoLib.getTicketsPay(BoLib.useTicketsMeter(0)).ToString()));
-			this.OnPropertyChanged("ShortTerm");
-		}
-	}
+            this.OnPropertyChanged("ShortTerm");
+        }
+    }
     
     public class LongTermMeters : MachineMeters
 	{

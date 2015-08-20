@@ -809,8 +809,10 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var str = o as string;
             var tokens = str.Split('+');
-            int increment = 100;
-
+            int increment = 50;//100;
+            const int MAX_LIMIT = 1000;
+            const int MIN_LIMIT = 200;
+            
             CheckDirAndIniExist();
 
             //<Left/Right> + <increase/decrease>
@@ -818,24 +820,34 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if (tokens[1].ToLower().Equals("increase"))
                 {
-                    EspLeftHopper += increment;
+                    if (EspLeftHopper + increment <= MAX_LIMIT)
+                        EspLeftHopper += increment;
+                    else
+                        EspLeftHopper = MAX_LIMIT;
                 }
                 else if (tokens[1].ToLower().Equals("decrease"))
                 {
-                    if (EspLeftHopper > increment)
+                    if (EspLeftHopper - increment > MIN_LIMIT)
                         EspLeftHopper -= increment;
+                    else
+                        EspLeftHopper = MIN_LIMIT;
                 }
             }
             else if (tokens[0].ToLower().Equals("right"))
             {
                 if (tokens[1].ToLower().Equals("increase"))
                 {
-                    EspRightHopper += increment / 5;
+                    if (EspRightHopper + increment <= MAX_LIMIT)
+                        EspRightHopper += increment;
+                    else
+                        EspRightHopper = MAX_LIMIT;
                 }
                 else if (tokens[1].ToLower().Equals("decrease"))
                 {
-                    if (EspRightHopper > increment)
-                        EspRightHopper -= increment / 5;
+                    if (EspRightHopper - increment > MIN_LIMIT)
+                        EspRightHopper -= increment;
+                    else
+                        EspRightHopper = MIN_LIMIT;
                 }
             }
         
@@ -882,8 +894,11 @@ namespace PDTUtils.MVVM.ViewModels
                 char[] iniValue = new char[5];
                 string key = (_currentHopperDumping == (byte)Hoppers.Left) ? "PayoutCoin1" : "PayoutCoin2";
                 NativeWinApi.GetPrivateProfileString("Config", key, "", iniValue, iniValue.Length, Properties.Resources.birth_cert);
-                _hopperPayingValue = new string(iniValue, 0, iniValue.Length).Trim("\0".ToCharArray());
-                _hopperPayingValue.Insert(0, "£");
+                var args = (key.Equals("PayoutCoin1")) ? "\0 0" : "\0";
+                _hopperPayingValue = new string(iniValue, 0, iniValue.Length).Trim(args.ToCharArray());  //"\0".ToCharArray());
+                if (key.Equals("PayoutCoin1"))
+                    _hopperPayingValue = _hopperPayingValue.Trim("0".ToCharArray());
+                //_hopperPayingValue.Insert(0, "£");
                 if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
                     _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "€") : _hopperPayingValue.Insert(_hopperPayingValue.Length, "¢");
                 else

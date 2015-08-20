@@ -637,7 +637,8 @@ namespace PDTUtils
                 }
 
                 hopperTest.Visibility = Visibility.Collapsed;
-                
+                hopperTest.IsEnabled = false;
+
                 BtnEndTest.IsEnabled = false;
                 _aTestIsRunning = false;
                 _lampTestRunning = false;

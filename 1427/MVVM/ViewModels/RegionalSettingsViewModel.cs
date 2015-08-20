@@ -34,15 +34,15 @@ namespace PDTUtils.MVVM.ViewModels
             "La Rioja", "Valencia", "Valencia 500", "Valencia Light", "Canarias", "Galicia"
         };
         
-        readonly string[] _arcadeRegions = new string[38]
+        readonly string[] _arcadeRegions = new string[40]
         {
-            "Andalucia-1000", "Aragon-1000","Aragon-2000","Asturia-1000","Asturias-2000","Baleares-1000","Baleares-3000-(specialB)",
-            "Basque-1000","Basque-2000","Basque-3000-(specialBS)","Cantabria-1000","Cantabria-2000","Castilla-la-Mancha-1000",
-            "Castilla-la-Mancha-2000","Castilla-La-Mancha-6000(special)","Castilla-La-Mancha-3000(special)","Castilla-Leon-1000",
-            "Catalonia-2000","Catalonia-arcade-500","Extremadura-1000","Madrid-1000","Madria-2000","Madrid-3000","Murcia-600",
-            "Murcia-6000-(arcade,reservate area)","Murcia-3000-(arcade,reservate area)","Murcia-arcade-500","Navarra-1000",
-            "Navarra-2000","La Rioja-1000","La Rioja-2000","Valencia-2000","Valencia-3000","Valencia-600","Valencia-1000",
-            "Canarias-1000","Galicia-3600","Galicia-1800"
+            "Andalucia-1000", "Aragon-1000","Aragon-2000","Aragon-6000","Asturia-1000","Asturias-2000","Baleares-1000",
+            "Baleares-3000-(specialB)","Basque-1000","Basque-2000","Basque-3000-(specialBS)","Cantabria-1000","Cantabria-2000",
+            "Castilla-la-Mancha-1000","Castilla-la-Mancha-2000","Castilla-La-Mancha-6000(special)","Castilla-La-Mancha-3000(special)",
+            "Castilla-Leon-1000","Castilla-Leon-3000","Catalonia-2000","Catalonia-arcade-500","Extremadura-1000","Madrid-1000",
+            "Madria-2000","Madrid-3000","Murcia-600","Murcia-6000-(arcade,reservate area)","Murcia-3000-(arcade,reservate area)",
+            "Murcia-arcade-500","Navarra-1000","Navarra-2000","La Rioja-1000","La Rioja-2000","Valencia-2000","Valencia-3000",
+            "Valencia-600","Valencia-1000","Canarias-1000","Galicia-3600","Galicia-1800"
         };
 
         readonly string[] _settingHeaders = new string[19] 
@@ -145,7 +145,7 @@ namespace PDTUtils.MVVM.ViewModels
         }
         
         #endregion
-        
+ 
         #region Commands
         public ICommand Save { get { return new DelegateCommand(o => SaveChanges()); } }
         public ICommand Load { get { return new DelegateCommand(o => LoadSettings()); } }

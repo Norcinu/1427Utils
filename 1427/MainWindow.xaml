@@ -392,8 +392,8 @@
                             <StackPanel>
                                 <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="680"
                                     Height="75" Content="Proceed With Caution" />
-                                <Label FontSize="32 " HorizontalAlignment="Center"  Style="{StaticResource StatsLabel}" Width="680"
-                                    Height="75" Content="Touch Row to Change Value" />
+                                <Label FontSize="24" HorizontalAlignment="Center"  Style="{StaticResource StatsLabel}" Width="680"
+                                    Height="75" Content="Touch Row to Change Value. Changes require reboot." />
                             </StackPanel>
                         </Border>
                         
@@ -435,6 +435,10 @@
                 </ScrollViewer>
             </TabItem>
 
+            <TabItem Header="Birth Cert" VerticalContentAlignment="Stretch" MinWidth="100">
+                <view:BirthCertView />
+            </TabItem>
+            
             <TabItem Header="System Settings" MinWidth="100">
                 <TabControl>
 

@@ -15,14 +15,7 @@ namespace PDTUtils.Views
         }
 
         void btnLeftHopper_Click(object sender, RoutedEventArgs e)
-        {
-            if (BoLib.getHopperFloatLevel((int)Hoppers.Left) == 0)
-            {
-                MessageBox.Show("Hopper is Empty. Please place a coin into Hopper.", "Warning", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
-                return;
-            }
-            
+        {         
             BoLib.setUtilRequestBitState((int)UtilBits.TestLeftHopper);
             System.Threading.Thread.Sleep(500);
             BoLib.clearUtilRequestBitState((int)UtilBits.TestLeftHopper);
@@ -30,13 +23,6 @@ namespace PDTUtils.Views
         
         void btnRightHopper_Click(object sender, RoutedEventArgs e)
         {
-            if (BoLib.getHopperFloatLevel((int)Hoppers.Right) == 0)
-            {
-                MessageBox.Show("Hopper is Empty. Please place a coin into Hopper.", "Warning", MessageBoxButton.OK,
-                                MessageBoxImage.Information);
-                return;
-            }
-            
             BoLib.setUtilRequestBitState((int)UtilBits.TestRightHopper);
             System.Threading.Thread.Sleep(500);
             BoLib.clearUtilRequestBitState((int)UtilBits.TestRightHopper);
