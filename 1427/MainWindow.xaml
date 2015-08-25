@@ -75,7 +75,12 @@
                BorderBrush="Black" 
                BorderThickness="2" 
                VerticalContentAlignment="Center"
-               Grid.ColumnSpan="2" />
+               Grid.ColumnSpan="2" 
+               FontWeight="Bold"
+               FontSize="22"
+               Foreground="Yellow"
+               HorizontalContentAlignment="Center"
+               Content=""/>
 
         <Label Name="LblLeft" 
                Background="DimGray" 

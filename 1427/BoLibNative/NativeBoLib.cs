@@ -480,6 +480,9 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool getUtilRequestBitState(int bit);
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern byte getSmartCardGroup();
         
         /************************************************************************/
         /*							Set methods                                 */

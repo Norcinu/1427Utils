@@ -88,4 +88,4 @@ DLLEXPORT unsigned long getEspRegionalVariableValue(int ValueIndex);
 DLLEXPORT unsigned int	getBankCreditsReservePtr();
 DLLEXPORT bool			getIsHopperHopping();
 DLLEXPORT bool			getUtilRequestBitState(int whichBit);
-
+DLLEXPORT unsigned char getSmartCardGroup();

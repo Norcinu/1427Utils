@@ -70,7 +70,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(o => ClearShortTermMeters()); }
         }
-
+        
         void ClearShortTermMeters()
         {
             if (BoLib.getCredit() > 0 || BoLib.getBank() > 0 || (int)BoLib.getReserveCredits() > 0)
@@ -195,7 +195,7 @@ namespace PDTUtils.MVVM.ViewModels
                 totalWonLt += (int)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWonLt);
                 totalWonSt += (int)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWonSt);
             }
-
+            
             totalBetsLt /= 100;
             totalBetsSt /= 100;
             totalWonLt /= 100;
@@ -209,10 +209,10 @@ namespace PDTUtils.MVVM.ViewModels
             
             if (retainedPercLt > 0)
                 retainedPercLt = ((retainedPercLt - (longTermCashOut + handPayLt)) / longTermTotal);
-            
+
             if (retainedPercSt > 0)
                 retainedPercSt = ((retainedPercSt - (shortTermCashOut + handPaySt)) / shortTermTotal);
-                        
+            
             Performance.Add(new HelloImJohnnyCashMeters("Total Fischas Bet:", // fischas bet
                                                         totalBetsLt.ToString("C", _nfi),
                                                         totalBetsSt.ToString("C", _nfi)));
@@ -225,7 +225,7 @@ namespace PDTUtils.MVVM.ViewModels
             Performance.Add(new HelloImJohnnyCashMeters("Retained Percentage:",
                                                         retainedPercLt.ToString("P"),
                                                         retainedPercSt.ToString("P")));
-            
+
             NumberOfGamesLt = (int)BoLib.getPerformanceMeter(4);
             NumberOfGamesSt = (int)BoLib.getPerformanceMeter(11);
             Performance.Add(new HelloImJohnnyCashMeters("Number of Games: ",
@@ -258,8 +258,8 @@ namespace PDTUtils.MVVM.ViewModels
                 var bets = (uint)BoLib.getGamePerformanceMeter(i, 0) / 100.0M;
                 var won = (int)BoLib.getGamePerformanceMeter(i, 1) / 100.0M;
                 var percentage = (won > 0 || bets > 0) ? (won / bets) : 0;
-                GameStats.Add(new GameStatMeter(model.ToString(), 
-                                                bets.ToString("C", _nfi), 
+                GameStats.Add(new GameStatMeter(model.ToString(),
+                                                bets.ToString("C", _nfi),
                                                 won.ToString("C", _nfi),
                                                 System.Math.Round(percentage, 2).ToString("P", _nfi)));
             }

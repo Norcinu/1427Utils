@@ -87,6 +87,7 @@ namespace PDTUtils
             {
                 LblDoorStatus.Dispatcher.Invoke((DelegateUpdate)UpdateDoorStatusLabel);
                 LblBottom.Dispatcher.Invoke((DelegateUpdate)UpdateTimeAndDate);
+                LblTop.Dispatcher.Invoke((DelegateUpdate)UpdateSmartCardLevel);
             }
             catch (Exception ex)
             {
@@ -95,7 +96,12 @@ namespace PDTUtils
             }
 		}
         
-		public void UpdateTimeAndDate()
+        public void UpdateSmartCardLevel()
+        {
+            LblTop.Content = "Access Level: " + _keyDoorWorker.SmartCardString;
+        }
+		
+        public void UpdateTimeAndDate()
 		{
 			LblBottom.FontSize = 22;
 			LblBottom.Foreground = Brushes.Pink;

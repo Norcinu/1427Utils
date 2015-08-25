@@ -89,6 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Access\GlobalAccess.cs" />
     <Compile Include="CommandBehaviours\CommandBehavior.cs" />
     <Compile Include="CommandBehaviours\CommandBehaviorBinding.cs" />
     <Compile Include="CommandBehaviours\EventHandlerGenerator.cs" />
@@ -387,6 +388,7 @@
   <ItemGroup>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release (

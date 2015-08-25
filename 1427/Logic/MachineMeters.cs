@@ -54,8 +54,20 @@ namespace PDTUtils
             _meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(0)).ToString()));
             _meterDesc.Add(new MeterDescription("Notes Out", BoLib.getNotesOut(BoLib.useMoneyOutType(0)).ToString()));
             _meterDesc.Add(new MeterDescription("Refill", BoLib.getRefillValue(BoLib.useRefillType(0)).ToString()));
-            _meterDesc.Add(new MeterDescription("Fischas Bet", BoLib.getVtp(BoLib.useVtpMeter(0)).ToString()));
-            _meterDesc.Add(new MeterDescription("Fischas Win", BoLib.getWon(BoLib.useWonMeter(0)).ToString()));
+            
+            uint won = 0;
+            uint bet = 0;
+            
+            for (uint i = 1; i <= BoLib.getNumberOfGames(); i++)
+            {
+                bet += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GamePlaySt); //wriong
+                won += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWonSt);
+            }
+
+            _meterDesc.Add(new MeterDescription("Fischas Bet", bet.ToString()));
+            _meterDesc.Add(new MeterDescription("Fischas Win", won.ToString()));
+            //_meterDesc.Add(new MeterDescription("Fischas Bet", BoLib.getVtp(BoLib.useVtpMeter(0)).ToString()));
+            //_meterDesc.Add(new MeterDescription("Fischas Win", BoLib.getWon(BoLib.useWonMeter(0)).ToString()));
             _meterDesc.Add(new MeterDescription("Hand Pay", BoLib.getHandPay(BoLib.useHandPayMeter(0)).ToString()));
             _meterDesc.Add(new MeterDescription("Ticket Out", BoLib.getTicketsPay(BoLib.useTicketsMeter(0)).ToString()));
             this.OnPropertyChanged("ShortTerm");
@@ -78,8 +90,21 @@ namespace PDTUtils
 			_meterDesc.Add(new MeterDescription("Notes In", BoLib.getNotesIn(BoLib.useMoneyInType(1)).ToString()));
 			_meterDesc.Add(new MeterDescription("Notes Out", BoLib.getNotesOut(BoLib.useMoneyOutType(1)).ToString()));
 			_meterDesc.Add(new MeterDescription("Refill", BoLib.getRefillValue(BoLib.useRefillType(1)).ToString()));
-			_meterDesc.Add(new MeterDescription("Fischas Bet", BoLib.getVtp(BoLib.useVtpMeter(1)).ToString()));
-			_meterDesc.Add(new MeterDescription("Fischas Win", BoLib.getWon(BoLib.useWonMeter(1)).ToString()));
+			
+            uint won = 0;
+            uint bet = 0;
+            
+            for (uint i = 1; i <= BoLib.getNumberOfGames(); i++)
+            {
+                bet += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GamePlayLt);
+                won += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWonLt);
+            }
+
+            _meterDesc.Add(new MeterDescription("Fischas Bet", bet.ToString()));
+            _meterDesc.Add(new MeterDescription("Fischas Win", won.ToString()));
+
+            //_meterDesc.Add(new MeterDescription("Fischas Bet", BoLib.getVtp(BoLib.useVtpMeter(1)).ToString()));
+			//_meterDesc.Add(new MeterDescription("Fischas Win", BoLib.getWon(BoLib.useWonMeter(1)).ToString()));
 			_meterDesc.Add(new MeterDescription("Hand Pay", BoLib.getHandPay(BoLib.useHandPayMeter(1)).ToString()));
 			_meterDesc.Add(new MeterDescription("Ticket Out", BoLib.getTicketsPay(BoLib.useTicketsMeter(1)).ToString()));
 			this.OnPropertyChanged("LongTerm");
@@ -96,7 +121,7 @@ namespace PDTUtils
         {
             string[] ticketsIn;
             string[] ticketsOut;
-             
+
             IniFileUtility.GetIniProfileSection(out ticketsIn, "TicketsIn", @Resources.tito_log);
             IniFileUtility.GetIniProfileSection(out ticketsOut, "TicketsOut", @Resources.tito_log);
             
@@ -105,7 +130,7 @@ namespace PDTUtils
             
             _meterDesc.Add(new MeterDescription("TicketIn", ti[1]));
             _meterDesc.Add(new MeterDescription("TicketOut", to[1]));
-            this.OnPropertyChanged("TitoMeter");
+            OnPropertyChanged("TitoMeter");
         }
     }
 }

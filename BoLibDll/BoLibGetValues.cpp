@@ -803,3 +803,8 @@ bool getUtilRequestBitState(int whichBit)
 {
 	return (bool)GetUtilRequestBitState(whichBit);
 }
+
+unsigned char getSmartCardGroup()
+{
+	return GetSmartCardGroup();
+}

@@ -14,13 +14,18 @@ namespace PDTUtils
     /// </summary>
 	public class DoorAndKeyStatus : INotifyPropertyChanged
 	{
+        string[] _strings = new string[8] {"Player", "Technician", "Cashier", "Admin", "Operator", "Distributor", "Manufacturer", "None"};
+        
 		volatile bool _doorStatus;
 		volatile bool _running;
 		volatile bool _hasChanged;
 		volatile bool _isTestSuiteRunning;
         volatile bool _prepareForReboot;
-        
-        System.Timers.Timer _updateTimer;
+
+        byte _smartCardGroup;
+        string _smartCardString = "";
+
+        //System.Timers.Timer _updateTimer;
 
 		#region Properties
 		public bool TestSuiteRunning
@@ -45,7 +50,7 @@ namespace PDTUtils
 				OnPropertyChanged("IsDoorClosed");
 			}
 		}
-
+        
         /// <summary>
         /// I cant be bothered writing a negate converter,.
         /// </summary>
@@ -53,7 +58,6 @@ namespace PDTUtils
         {
             get { return _doorStatus; }
         }
-
 
 		public bool IsDoorClosed
 		{
@@ -71,6 +75,16 @@ namespace PDTUtils
             get { return _prepareForReboot; }
             set { _prepareForReboot = value; }
         }
+
+        public byte SmartCardGroup
+        {
+            get { return _smartCardGroup; }
+        }
+
+        public string SmartCardString
+        {
+            get { return _smartCardString;}
+        }
 		#endregion
         
 		public DoorAndKeyStatus()
@@ -79,15 +93,17 @@ namespace PDTUtils
 			_running = true;
 			_hasChanged = false;
 			_isTestSuiteRunning = false;
-
-            _updateTimer = new Timer { Interval = 500/*1000*/ };
-			_updateTimer.Enabled = true;
+            
+            //_updateTimer = new Timer { Interval = 500/*1000*/ };
+			//_updateTimer.Enabled = true;
 		}
-        
+
         public void Run()
 		{
 			while (_running)
 			{
+             //   _smartCardGroup = BoLib.getSmartCardGroup();
+               // System.Diagnostics.Debug.WriteLine("SmartCardGroup", _smartCardGroup.ToString());
 				var r = new Random();
 			    if (r.Next(1000) < 100 && !_isTestSuiteRunning)
 			    {
@@ -105,9 +121,7 @@ namespace PDTUtils
                             });
                         
                         //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
-			        } 
-                    //loses to arsenal? calm down sweet pea it was only the charity shield. noone except the deluded modern "gooners" 
-                    //would ever be talking about that shit yo.
+			        }
                     
 			        if (BoLib.getDoorStatus() == 0)
 			        {
@@ -132,7 +146,12 @@ namespace PDTUtils
 			            }
 			        }
 			    }
-			    Thread.Sleep(2);
+
+                _smartCardGroup = BoLib.getSmartCardGroup();
+                _smartCardString = _strings[(int)_smartCardGroup];
+                //System.Diagnostics.Debug.WriteLine("SmartCardGroup", _strings[(int)_smartCardGroup]);
+			    Thread.Sleep(150);
+                //Thread.Sleep(2);
 			}
 		}
         

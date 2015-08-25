@@ -26,7 +26,7 @@ namespace PDTUtils
         System.Timers.Timer _doorStatusTimer;
 		System.Timers.Timer _uiUpdateTimer;
 		Thread _keyDoorThread;
-
+        
 		MachineErrorLog _errorLogText = new MachineErrorLog();
 		MachineGameStatistics _gameStatistics = new MachineGameStatistics();
 		ShortTermMeters _shortTerm = new ShortTermMeters();
@@ -55,37 +55,20 @@ namespace PDTUtils
                 MachineDescription.IsSpanish = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? true : false;
                 MachineDescription.IsBritish = !MachineDescription.IsSpanish;
                 MachineDescription.CountryCode = BoLib.getCountryCode();
-                
+
                 var ci = MachineDescription.IsSpanish ? new CultureInfo("es-ES") : new CultureInfo("en-GB");
-                
+
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
                 
                 _updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = Height;
-
-                //NativeWinApi.SetComputerName("STEVETERMINAL01");
-
-              /*  NativeWinApi.SetComputerName("STEVETERMINAL01");
-                NativeWinApi.SetComputerNameEx(NativeWinApi.COMPUTER_NAME_FORMAT.ComputerNameDnsDomain, "STEVETERMINAL01");
-
-                var values = Enum.GetValues(typeof(NativeWinApi.COMPUTER_NAME_FORMAT));
-                for (int i = 0; i < (int)NativeWinApi.COMPUTER_NAME_FORMAT.ComputerNameMax; i++)
-                {
-                    uint amount = 256;
-                    System.Text.StringBuilder s = new System.Text.StringBuilder((int)amount);
-                    NativeWinApi.GetComputerNameEx((NativeWinApi.COMPUTER_NAME_FORMAT)i, s, ref amount);
-                    string str = s.ToString();
-                    if (!string.IsNullOrEmpty(str))
-                        NativeWinApi.SetComputerNameEx((NativeWinApi.COMPUTER_NAME_FORMAT)i, "STEVETERMINAL01");
-                }*/
             }
             catch (Exception err)
             {
                 MessageBox.Show("Error: " + err.ToString());
                 Application.Current.Shutdown();
             }
-            
             RowOne.Height = new GridLength(75);
             ColumnOne.Width = new GridLength(200);
             Loaded += WindowMain_Loaded;
@@ -160,7 +143,7 @@ namespace PDTUtils
 
 		#endregion
 		
-		private void btnExit_Click(object sender, RoutedEventArgs e)
+		void btnExit_Click(object sender, RoutedEventArgs e)
         {
             if (BoLib.refillKeyStatus() > 0)
             {
@@ -170,8 +153,8 @@ namespace PDTUtils
             }
 			Application.Current.Shutdown();
         }
-        //
-		private void btnHoppers_Click(object sender, RoutedEventArgs e)
+        
+		void btnHoppers_Click(object sender, RoutedEventArgs e)
 		{
 			Enabler.ClearAll();
 		}
