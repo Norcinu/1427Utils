@@ -484,6 +484,18 @@ namespace PDTUtils.Native
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern byte getSmartCardGroup();
         
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern byte getUtilAccessLevel();
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool getUtilDoorAccess();
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool getUtilRefillAccess();
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool getUtilSmartCardAccess(int whichBit);
+        
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/

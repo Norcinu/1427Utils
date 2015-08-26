@@ -102,28 +102,25 @@ namespace PDTUtils
 		{
 			while (_running)
 			{
-             //   _smartCardGroup = BoLib.getSmartCardGroup();
-               // System.Diagnostics.Debug.WriteLine("SmartCardGroup", _smartCardGroup.ToString());
 				var r = new Random();
 			    if (r.Next(1000) < 100 && !_isTestSuiteRunning)
 			    {
-			        if (BoLib.refillKeyStatus() == 0 && !_prepareForReboot)
-			        {
-			            //_running = false; - no longer need to quit here. this is handled in Window_Closing.
+                    if (BoLib.getUtilRefillAccess() && !_prepareForReboot)
+			        {                
                         Application.Current.Dispatcher.Invoke(
                             DispatcherPriority.Normal,
                             (ThreadStart)delegate
                             {
 #if !DEBUG
-			                    if (PDTUtils.Logic.GlobalConfig.RebootRequired)
-			                        BoLib.setRebootRequired();
+			                        if (PDTUtils.Logic.GlobalConfig.RebootRequired)
+			                            BoLib.setRebootRequired();
 #endif
                             });
-                        
+                    
                         //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
 			        }
                     
-			        if (BoLib.getDoorStatus() == 0)
+                    if (BoLib.getUtilDoorAccess())
 			        {
 			            if (_doorStatus)
 			            {
@@ -147,8 +144,10 @@ namespace PDTUtils
 			        }
 			    }
 
-                _smartCardGroup = BoLib.getSmartCardGroup();
-                _smartCardString = _strings[(int)_smartCardGroup];
+                // !!!! Get Util Bit Access
+
+                //_smartCardGroup = BoLib.getSmartCardGroup();
+                //_smartCardString = _strings[(int)_smartCardGroup];
                 //System.Diagnostics.Debug.WriteLine("SmartCardGroup", _strings[(int)_smartCardGroup]);
 			    Thread.Sleep(150);
                 //Thread.Sleep(2);

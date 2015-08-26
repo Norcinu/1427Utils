@@ -89,3 +89,8 @@ DLLEXPORT unsigned int	getBankCreditsReservePtr();
 DLLEXPORT bool			getIsHopperHopping();
 DLLEXPORT bool			getUtilRequestBitState(int whichBit);
 DLLEXPORT unsigned char getSmartCardGroup();
+DLLEXPORT unsigned char getUtilsAccessLevel();
+DLLEXPORT bool			getUtilDoorAccess();
+DLLEXPORT bool			getUtilRefillAccess();
+DLLEXPORT bool			getUtilSmartCardAccess(int whichBit);
+

@@ -808,3 +808,32 @@ unsigned char getSmartCardGroup()
 {
 	return GetSmartCardGroup();
 }
+
+unsigned char getUtilsAccessLevel()
+{
+	return GetUtilsAccessLevel();
+}
+
+bool getUtilDoorAccess()
+{
+	if (GetUtilsAccessLevel() & 0x00000020)
+		return true;
+	else
+		return false;
+}
+
+bool getUtilRefillAccess()
+{
+	if (GetUtilsAccessLevel() & 0x00000010)
+		return true;
+	else
+		return false;
+}
+
+bool getUtilSmartCardAccess(int whichBit) 
+{
+	if (GetUtilsAccessLevel() & whichBit)
+		return true;
+	else
+		return false;
+}
