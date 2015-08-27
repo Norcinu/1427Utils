@@ -40,9 +40,13 @@ namespace PDTUtils
         readonly GamesList _gamesList = new GamesList();
         readonly MachineLogsController _logController = new MachineLogsController();
         readonly UserSoftwareUpdate _updateFiles;
-        
+
         public bool IsSpanishMachine { get { return _isSpanishMachine; } }
-        
+
+        public Visibility SetupTabVisManu { get; set; }
+        public Visibility SetupTabVisDist { get; set; }
+        public Visibility SetupTabVisCashier { get; set; }
+
         public MainWindow()
         {
             RequiresSave = false;
@@ -277,7 +281,13 @@ namespace PDTUtils
             TabSetup.SelectedIndex = 0;
             if (BoLib.getCountryCode() != BoLib.getSpainCountryCode())
                 regionalSubTab.SelectedIndex = 1;
-            
+
+            var level = BoLib.getUtilsAccessLevel() & 0x0F;
+            if (level == 5 || level == 6)
+                SetupTabVisDist = Visibility.Visible;
+            else
+                SetupTabVisDist = Visibility.Collapsed;
+
 			MasterVolumeSlider.Value = BoLib.getLocalMasterVolume();
 		}
         

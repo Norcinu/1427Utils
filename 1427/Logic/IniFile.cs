@@ -276,16 +276,16 @@ namespace PDTUtils.Logic
         #region GetSectionValues Methods
 
         /// <summary>
-        /// Gets all of the values in a section as a list.
+        /// Gets all of the _smartCardValues in a section as a list.
         /// </summary>
         /// <param name="sectionName">
-        /// Name of the section to retrieve values from.
+        /// Name of the section to retrieve _smartCardValues from.
         /// </param>
         /// <returns>
         /// A <see cref="List{T}"/> containing <see cref="KeyValuePair{T1, T2}"/> objects 
         /// that describe this section.  Use this verison if a section may contain
         /// multiple items with the same key value.  If you know that a section 
-        /// cannot contain multiple values with the same key name or you don't 
+        /// cannot contain multiple _smartCardValues with the same key name or you don't 
         /// care about the duplicates, use the more convenient 
         /// <see cref="GetSectionValues"/> function.
         /// </returns>
@@ -341,10 +341,10 @@ namespace PDTUtils.Logic
         }
 
         /// <summary>
-        /// Gets all of the values in a section as a dictionary.
+        /// Gets all of the _smartCardValues in a section as a dictionary.
         /// </summary>
         /// <param name="sectionName">
-        /// Name of the section to retrieve values from.
+        /// Name of the section to retrieve _smartCardValues from.
         /// </param>
         /// <returns>
         /// A <see cref="Dictionary{T, T}"/> containing the key/value 

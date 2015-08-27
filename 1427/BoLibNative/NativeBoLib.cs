@@ -485,7 +485,7 @@ namespace PDTUtils.Native
         public static extern byte getSmartCardGroup();
         
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern byte getUtilAccessLevel();
+        public static extern byte getUtilsAccessLevel();
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool getUtilDoorAccess();

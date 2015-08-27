@@ -48,6 +48,8 @@
             <Setter Property="Background" Value="Beige"/>
             <Setter Property="Margin" Value="20"/>
         </Style>
+
+        <cv:SmartCardStateConverter x:Key="cardStateConvert" />
     </Window.Resources>
 
     <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
@@ -389,8 +391,9 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
-            
-            <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100">
+
+            <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" Visibility="{Binding KeyDoorWorker.CanViewDistributor, 
+                Converter={StaticResource cardStateConvert}}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
                         <Border BorderBrush="Black" BorderThickness="2" Margin="3">
@@ -440,7 +443,9 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Birth Cert" VerticalContentAlignment="Stretch" MinWidth="100">
+            <TabItem Header="Birth Cert" VerticalContentAlignment="Stretch" MinWidth="100" 
+                     Visibility="{Binding KeyDoorWorker.CanViewManufacturer, ConverterParameter={Binding KeyDoorWorker.CommandParameter}, 
+                                  Converter={StaticResource cardStateConvert}}">
                 <view:BirthCertView />
             </TabItem>
             
@@ -484,7 +489,7 @@
                                 <Label Content="{Binding ElementName=MasterVolumeSlider, Path=Value}" FontSize="28"/>
                                 <Label Content="%" FontSize="28"/>
                             </StackPanel>
-
+                            
                         </StackPanel>
                     </TabItem>
                    

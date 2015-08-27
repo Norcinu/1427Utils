@@ -6,7 +6,7 @@ using System.Text;
 namespace PDTUtils
 {
     /// <summary>
-    /// Set these values at start up. Then use these for setting member variable values.
+    /// Set these _smartCardValues at start up. Then use these for setting member variable _smartCardValues.
     /// </summary>
     static class MachineDescription
     {

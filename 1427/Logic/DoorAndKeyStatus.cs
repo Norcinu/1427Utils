@@ -9,12 +9,19 @@ using Timer = System.Timers.Timer;
 
 namespace PDTUtils
 {
+    /*enum SmartCardGroups
+    {
+        Player = 0x0, Technician = 0x01, Cashier = 0x02, Admin = 0x03, Operator = 0x04, Distributor = 0x05, Manufacturer = 0x06, None = 0x7
+    }*/
+
     /// <summary>
     /// Handles status of door open/closed, key turns and card reader status.
     /// </summary>
 	public class DoorAndKeyStatus : INotifyPropertyChanged
 	{
-        string[] _strings = new string[8] {"Player", "Technician", "Cashier", "Admin", "Operator", "Distributor", "Manufacturer", "None"};
+        int _currentValue = -1;
+        string[] _strings = new string[8] {"Player", "Technician", "Cashier", "Admin", "Operator", 
+                                           "Distributor", "Manufacturer", "None"};
         
 		volatile bool _doorStatus;
 		volatile bool _running;
@@ -22,10 +29,8 @@ namespace PDTUtils
 		volatile bool _isTestSuiteRunning;
         volatile bool _prepareForReboot;
 
-        byte _smartCardGroup;
         string _smartCardString = "";
-
-        //System.Timers.Timer _updateTimer;
+        string _commandProperty = "";
 
 		#region Properties
 		public bool TestSuiteRunning
@@ -76,15 +81,17 @@ namespace PDTUtils
             set { _prepareForReboot = value; }
         }
 
-        public byte SmartCardGroup
-        {
-            get { return _smartCardGroup; }
-        }
-
         public string SmartCardString
         {
             get { return _smartCardString;}
         }
+
+        public string CommandProperty { get { return _commandProperty; } }
+
+        public bool CanViewManufacturer { get; set; }
+        public bool CanViewDistributor { get; set; }
+        public bool CanViewCashier { get; set; }
+
 		#endregion
         
 		public DoorAndKeyStatus()
@@ -93,9 +100,10 @@ namespace PDTUtils
 			_running = true;
 			_hasChanged = false;
 			_isTestSuiteRunning = false;
-            
-            //_updateTimer = new Timer { Interval = 500/*1000*/ };
-			//_updateTimer.Enabled = true;
+
+            CanViewCashier = false;
+            CanViewDistributor = false;
+            CanViewManufacturer = false;
 		}
 
         public void Run()
@@ -103,10 +111,10 @@ namespace PDTUtils
 			while (_running)
 			{
 				var r = new Random();
-			    if (r.Next(1000) < 100 && !_isTestSuiteRunning)
-			    {
+                if (r.Next(1000) < 100 && !_isTestSuiteRunning)
+                {
                     if (BoLib.getUtilRefillAccess() && !_prepareForReboot)
-			        {                
+                    {
                         Application.Current.Dispatcher.Invoke(
                             DispatcherPriority.Normal,
                             (ThreadStart)delegate
@@ -116,41 +124,70 @@ namespace PDTUtils
 			                            BoLib.setRebootRequired();
 #endif
                             });
-                    
+
                         //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
-			        }
-                    
-                    if (BoLib.getUtilDoorAccess())
-			        {
-			            if (_doorStatus)
-			            {
-			                _doorStatus = false;
-			                _hasChanged = true;
+                    }
+
+                    if (!BoLib.getUtilDoorAccess()) //if door is open
+                    {
+                        if (_doorStatus)
+                        {
+                            _doorStatus = false;
+                            _hasChanged = true;
                             OnPropertyChanged("DoorStatus");
                             OnPropertyChanged("IsDoorClosed");
                             OnPropertyChanged("IsDoorOpen");
-			            }
-			        }
-			        else
-			        {
-			            if (!_doorStatus)
-			            {
-			                _doorStatus = true;
-			                _hasChanged = true;
-			                OnPropertyChanged("DoorStatus");
-			                OnPropertyChanged("IsDoorClosed");
+                        }
+                    }
+                    else // door closed.
+                    {
+                        if (!_doorStatus)
+                        {
+                            _doorStatus = true;
+                            _hasChanged = true;
+                            OnPropertyChanged("DoorStatus");
+                            OnPropertyChanged("IsDoorClosed");
                             OnPropertyChanged("IsDoorOpen");
-			            }
-			        }
-			    }
+                        }
+                    }
+                }
 
-                // !!!! Get Util Bit Access
+                var level = BoLib.getUtilsAccessLevel() & 0x0F;
+                _smartCardString = _strings[level];
+                
+                if (level == 2)
+                {
+                    CanViewManufacturer = false;
+                    CanViewDistributor = false;
+                    CanViewCashier = true;
+                    _commandProperty = "on|on|on";
+                }
+                else if (level == 5)
+                {
+                    CanViewManufacturer = false;
+                    CanViewDistributor = true;
+                    CanViewCashier = false;
+                    _commandProperty = "off|on|on";
+                }
+                else if (level == 6)
+                {
+                    CanViewManufacturer = true;
+                    CanViewDistributor = false;
+                    CanViewCashier = false;
+                    _commandProperty = "off|off|on";
+                }
+                else
+                {
+                    CanViewManufacturer = false;
+                    CanViewDistributor = false;
+                    CanViewCashier = false;
+                }
 
-                //_smartCardGroup = BoLib.getSmartCardGroup();
-                //_smartCardString = _strings[(int)_smartCardGroup];
-                //System.Diagnostics.Debug.WriteLine("SmartCardGroup", _strings[(int)_smartCardGroup]);
+                OnPropertyChanged("CanViewManufacturer");
+                OnPropertyChanged("CanViewDistributor");
+                OnPropertyChanged("CanViewCashier");
+                OnPropertyChanged("CommandProperty");
 			    Thread.Sleep(150);
-                //Thread.Sleep(2);
 			}
 		}
         

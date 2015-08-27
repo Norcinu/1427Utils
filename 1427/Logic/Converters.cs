@@ -264,4 +264,58 @@ namespace PDTUtils
             throw new Exception("The method or operation is not implemented.");
         }
     }
+
+    [ValueConversion(typeof(bool), typeof(Visibility))]
+    public sealed class SmartCardStateConverter : IValueConverter
+    {
+        public bool Reverse { get; set; }
+        public Visibility TrueValue { get; set; }
+        public Visibility FalseValue { get; set; }
+
+        public SmartCardStateConverter()
+        {
+            TrueValue = Visibility.Visible;
+            FalseValue = Visibility.Collapsed;
+        }
+
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            if (!(value is bool))
+                return null;
+
+            return (bool)value ? TrueValue : FalseValue;
+        }
+
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            if (Equals(value, TrueValue))
+                return true;
+
+            return Equals(value, FalseValue) ? (object)false : null;
+        }
+    }
+ /*   [ValueConversion(typeof(bool), typeof(Visibility))]
+    public class SmartCardStateConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var paramString = parameter as string;
+            
+            if (string.IsNullOrEmpty(paramString))
+            {
+                var split = paramString.Split("|");
+
+            }
+
+            return null;
+        }
+        
+        public object[] ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return new NotImplementedException("SmartCardStateConverter::ConvertBack Not Implemented");
+        }
+
+    }*/
 }
