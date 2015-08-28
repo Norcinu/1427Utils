@@ -91,6 +91,15 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\CpuEventLog.ini.
+        /// </summary>
+        internal static string cpu_event_log {
+            get {
+                return ResourceManager.GetString("cpu_event_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D:\1525\bmp\disable.png.
         /// </summary>
         internal static string disable_button {

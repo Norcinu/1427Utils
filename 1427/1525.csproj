@@ -93,6 +93,7 @@
     <Compile Include="CommandBehaviours\CommandBehavior.cs" />
     <Compile Include="CommandBehaviours\CommandBehaviorBinding.cs" />
     <Compile Include="CommandBehaviours\EventHandlerGenerator.cs" />
+    <Compile Include="FatStevesPie\StevesPie.cs" />
     <Compile Include="LoadingWindow.xaml.cs">
       <DependentUpon>LoadingWindow.xaml</DependentUpon>
     </Compile>
@@ -115,6 +116,7 @@
     <Compile Include="MVVM\Models\ScreenshotModel.cs" />
     <Compile Include="MVVM\ObservableObject.cs" />
     <Compile Include="MVVM\ViewModels\BirthCertViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\CpuCaseOpenViewModel.cs" />
     <Compile Include="MVVM\ViewModels\CreditManagementViewModel.cs" />
     <Compile Include="MVVM\ViewModels\DiagnosticViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameChartViewModel.cs" />
@@ -127,6 +129,9 @@
     <Compile Include="MVVM\ViewModels\PerformanceViewModel.cs" />
     <Compile Include="MVVM\ViewModels\RegionalSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ScreenshotViewModel.cs" />
+    <Compile Include="Views\CpuCaseOpenLog.xaml.cs">
+      <DependentUpon>CpuCaseOpenLog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HopperTestView.xaml.cs">
       <DependentUpon>HopperTestView.xaml</DependentUpon>
     </Compile>
@@ -250,6 +255,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BirthCertView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CpuCaseOpenLog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

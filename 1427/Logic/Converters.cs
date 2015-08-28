@@ -284,9 +284,10 @@ namespace PDTUtils
             if (!(value is bool))
                 return null;
 
+            /*var paramString = parameter as string;*/
             return (bool)value ? TrueValue : FalseValue;
         }
-
+        
         public object ConvertBack(object value, Type targetType,
                                   object parameter, CultureInfo culture)
         {

@@ -204,7 +204,8 @@ namespace PDTUtils.Native
         DumpLeftHopper      = 0x00004000,
         DumpRightHopper     = 0x00008000,
         TestLeftHopper      = 0x00010000,
-        TestRightHopper     = 0x00020000
+        TestRightHopper     = 0x00020000,
+        ReadCpuEventsBit    = 0x00040000
     }
     
     static class BoLib

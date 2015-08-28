@@ -28,8 +28,8 @@ namespace PDTUtils.MVVM.ViewModels
         
         public GameChartViewModel()
         {
-            try
-            {
+       //     try
+    //        {
                 Incomings = new List<KeyValuePair<string, KeepOnGiving>>();
                 Outgoings = new List<KeyValuePair<string, KeepOnGiving>>();
 
@@ -61,12 +61,12 @@ namespace PDTUtils.MVVM.ViewModels
                 
                 Incomings.Sort(CompareValue);
                 Outgoings.Sort(CompareValue);
-            }
-            catch (Exception e)
+        //    }
+    /*        catch (Exception e)
             {
                 //new WpfMessageBoxService().ShowMessage(e.Message, "Loading Error");
                 System.Diagnostics.Debug.WriteLine(e.Message);
-            }
+            }*/
             
             RaisePropertyChangedEvent("Incomings");
             RaisePropertyChangedEvent("Outgoings");

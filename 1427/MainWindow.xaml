@@ -29,7 +29,7 @@
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Foreground" Value="Yellow"/>
         </Style>
-               
+        
         <Style x:Key="StatsLabel" TargetType="Label">
             <Setter Property="Foreground" Value="Navy"/>
             <Setter Property="Background" Value="LightGray"/>
@@ -250,7 +250,7 @@
                 </ScrollViewer>
             </TabItem>
 
-
+            
 
             <TabItem Header="Games" MinWidth="150" HorizontalContentAlignment="Center">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
@@ -275,7 +275,7 @@
                                                 <Border BorderBrush="Black" BorderThickness="2">
                                                     <TextBlock Text="{Binding LogDate}" TextAlignment="Center" Background="LightGray" 
                                                                Foreground="Navy"/>
-                                                </Border>
+                                                </Border> 
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -370,6 +370,10 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+            <TabItem Header="Cpu Door" MinWidth="150" HorizontalContentAlignment="Center">
+                <view:CpuCaseOpenLog />
+            </TabItem>
+
         </TabControl>
         
         <!--<Border BorderBrush="BlanchedAlmond" ></Border>-->
@@ -377,9 +381,9 @@
         <TabControl Name="TabSetup" Panel.ZIndex="5"  Grid.Row="1" Grid.Column="1" Width="Auto" IsEnabled="{Binding Enabler.Setup}"  
                     Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
                     <!-- Visibility="{Binding Path=KeyDoorWorker.IsDoorOpen, Converter={StaticResource BoolToVisConverter}}"> -->
-            
-            <TabItem Header="Local Settings">
-                <TabControl Name="regionalSubTab">
+
+            <TabItem Header="Local Settings" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}">
+                <TabControl Name="regionalSubTab" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}">
                     <TabItem Header="Region Settings" IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 
                             Converter={StaticResource BoolToVisConverter}}">
                         <view:RegionalSettingsView IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 
@@ -395,7 +399,7 @@
             <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" Visibility="{Binding KeyDoorWorker.CanViewDistributor, 
                 Converter={StaticResource cardStateConvert}}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25" Visibility="{Binding KeyDoorWorker.CanViewDistributor, Converter={StaticResource cardStateConvert}}">
                         <Border BorderBrush="Black" BorderThickness="2" Margin="3">
                             <StackPanel>
                                 <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="680"
@@ -444,8 +448,8 @@
             </TabItem>
 
             <TabItem Header="Birth Cert" VerticalContentAlignment="Stretch" MinWidth="100" 
-                     Visibility="{Binding KeyDoorWorker.CanViewManufacturer, ConverterParameter={Binding KeyDoorWorker.CommandParameter}, 
-                                  Converter={StaticResource cardStateConvert}}">
+                     Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}">
+                <!-- ConverterParameter={Binding KeyDoorWorker.CommandParameter}, -->
                 <view:BirthCertView />
             </TabItem>
             

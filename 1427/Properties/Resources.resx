@@ -261,4 +261,7 @@
   <data name="utils_config" xml:space="preserve">
     <value>D:\1525\config\utils_config.ini</value>
   </data>
+  <data name="cpu_event_log" xml:space="preserve">
+    <value>D:\machine\GAME_DATA\CpuEventLog.ini</value>
+  </data>
 </root>

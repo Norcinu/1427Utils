@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using PDTUtils.Native;
-using System.Collections.Generic;
 
 namespace PDTUtils.Logic
 {
@@ -39,12 +38,10 @@ namespace PDTUtils.Logic
             return true;
         }
         
-/*
         public static bool WriteIniProfileSection(string[] section, string field, string file)
         {
             return true;
         }
-*/
     
         public static void HashFile(string filename)
         {
