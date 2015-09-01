@@ -14,7 +14,7 @@
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <Button Margin="20" FontSize="36" Content="Load Log" Height="50" Command="{Binding LoadEvents}" Width="400" />
+                <Button Margin="20" FontSize="36" Content="Load Log" Height="50" Command="{Binding LoadEvents}" Width="250" />
                 <ListView ItemsSource="{Binding EventList}" IsEnabled="{Binding ShowListView}" Visibility="{Binding ShowListView,
                     Converter={StaticResource BoolToVisConverter}}">
                     <ListView.View>

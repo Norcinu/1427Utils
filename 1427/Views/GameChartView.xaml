@@ -6,8 +6,10 @@
              xmlns:charts="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
              xmlns:steve="clr-namespace:PDTUtils.FatStevesPie"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="300" 
+             d:DesignWidth="300"
              x:Name="root">
+    
     <Grid>
         <TabControl>
             <TabItem Header="Game Revenue" Width="200">
@@ -82,7 +84,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="Total Bets" Width="295">
+                                <GridViewColumn Header="Total Wins" Width="295">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border BorderBrush="Black" BorderThickness="2">

@@ -549,21 +549,21 @@ namespace PDTUtils.MVVM.ViewModels
             var tokens = format.Split("+".ToCharArray());
             const int denom = 50;
             string key = (tokens[0] == "left") ? "RefloatLH" : "RefloatRH";
-            
+
             char[] refloatValue = new char[10];
             NativeWinApi.GetPrivateProfileString("Config", key, "", refloatValue, 10, Resources.birth_cert);
 
             var newRefloatValue = Convert.ToUInt32(new string(refloatValue).Trim("\0".ToCharArray()));
             if (tokens[1] == "increase") newRefloatValue += denom;
             else if (tokens[1] == "decrease" && newRefloatValue > denom) newRefloatValue -= denom;
-            
+
             if (tokens[0] == "left")
                 RefloatLeft = newRefloatValue.ToString();
             else
                 RefloatRight = newRefloatValue.ToString();
-           
+
             NativeWinApi.WritePrivateProfileString("Config", key, newRefloatValue.ToString(), Resources.birth_cert);
-            
+
             CheckForSync(newRefloatValue, tokens[0]);
 
             RaisePropertyChangedEvent(key);
@@ -609,7 +609,7 @@ namespace PDTUtils.MVVM.ViewModels
             var currentThreshold = Convert.ToUInt32(new string(divert));
             const uint changeAmount = 50;
             var newValue = currentThreshold;
-            
+
             if (actionType == "increase")
             {
                 newValue += changeAmount;
@@ -625,7 +625,7 @@ namespace PDTUtils.MVVM.ViewModels
             GlobalConfig.ReparseSettings = true;
             NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
-            
+
             DivertRightMessage = (newValue).ToString();
             RaisePropertyChangedEvent("DivertRightMessage");
         }
@@ -636,7 +636,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             uint[] refloatDefaults = new uint[2] { 600, 50 };
             uint[] divertDefaults = new uint[2] { 800, 250 };
-
+            
             BoLib.setHopperFloatLevel((byte)Hoppers.Left, refloatDefaults[0]);
             BoLib.setHopperFloatLevel((byte)Hoppers.Right, refloatDefaults[1]);
             
@@ -667,13 +667,13 @@ namespace PDTUtils.MVVM.ViewModels
         {
             char[] refloatLeft = new char[10];
             char[] refloatRight = new char[10];
-            
+
             NativeWinApi.GetPrivateProfileString("Config", "RefloatLH", "", refloatLeft, 10, Resources.birth_cert);
             NativeWinApi.GetPrivateProfileString("Config", "RefloatRH", "", refloatRight, 10, Resources.birth_cert);
 
             RefloatLeft = new string(refloatLeft).Trim("\0".ToCharArray());
             RefloatRight = new string(refloatRight).Trim("\0".ToCharArray());
-            
+
             if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
             {
                 var leftFloat = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
@@ -687,10 +687,10 @@ namespace PDTUtils.MVVM.ViewModels
                 BoLib.setHopperFloatLevel((byte)Hoppers.Left, Convert.ToUInt32(RefloatLeft));
                 BoLib.setHopperFloatLevel((byte)Hoppers.Right, Convert.ToUInt32(RefloatRight));
             }
-            
+
             SelHopperValue = (_currentSelHopper.Equals("LEFT HOPPER")) ? BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString()
                                                                        : BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
-            
+
             RaisePropertyChangedEvent("CurrentSelHopper");
             RaisePropertyChangedEvent("SelHopperValue");
         }
@@ -812,7 +812,7 @@ namespace PDTUtils.MVVM.ViewModels
             int increment = 50;//100;
             const int MAX_LIMIT = 1000;
             const int MIN_LIMIT = 200;
-            
+
             CheckDirAndIniExist();
 
             //<Left/Right> + <increase/decrease>
@@ -850,7 +850,7 @@ namespace PDTUtils.MVVM.ViewModels
                         EspRightHopper = MIN_LIMIT;
                 }
             }
-        
+
             NativeWinApi.WritePrivateProfileString("Hoppers", "Left", EspLeftHopper.ToString(), Properties.Resources.utils_config);
             NativeWinApi.WritePrivateProfileString("Hoppers", "Right", EspRightHopper.ToString(), Properties.Resources.utils_config);
         }
@@ -893,16 +893,20 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 char[] iniValue = new char[5];
                 string key = (_currentHopperDumping == (byte)Hoppers.Left) ? "PayoutCoin1" : "PayoutCoin2";
+
                 NativeWinApi.GetPrivateProfileString("Config", key, "", iniValue, iniValue.Length, Properties.Resources.birth_cert);
                 var args = (key.Equals("PayoutCoin1")) ? "\0 0" : "\0";
-                _hopperPayingValue = new string(iniValue, 0, iniValue.Length).Trim(args.ToCharArray());  //"\0".ToCharArray());
+                _hopperPayingValue = new string(iniValue, 0, iniValue.Length).Trim(args.ToCharArray());
+                
                 if (key.Equals("PayoutCoin1"))
                     _hopperPayingValue = _hopperPayingValue.Trim("0".ToCharArray());
-                //_hopperPayingValue.Insert(0, "£");
+                
                 if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
-                    _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "€") : _hopperPayingValue.Insert(_hopperPayingValue.Length, "¢");
+                    _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "€") : 
+                                                                  _hopperPayingValue.Insert(_hopperPayingValue.Length, "¢");
                 else
-                    _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "£") : _hopperPayingValue.Insert(_hopperPayingValue.Length, "p");
+                    _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "£") : 
+                                                                  _hopperPayingValue.Insert(_hopperPayingValue.Length, "p");
             }
         }
     }
