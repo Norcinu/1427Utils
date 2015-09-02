@@ -52,6 +52,9 @@ namespace PDTUtils.MVVM.ViewModels
         string _refloatLeft;
         string _refloatRight;
         string _hopperPayingValue = "";
+        string _floatLevelLeft = "";
+        string _floatLevelRight = "";
+
         /*string _newLeftFillValue;
         string _newRightFillValue;*/
 
@@ -241,6 +244,26 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("EspRightHopper");
             }
         }
+
+        public string FloatLevelLeft
+        {
+            get { return _floatLevelLeft; }
+            set
+            {
+                _floatLevelLeft = value;
+                RaisePropertyChangedEvent("FloatLevelLeft");
+            }
+        }
+
+        public string FloatLevelRight
+        {
+            get { return _floatLevelRight; }
+            set
+            {
+                _floatLevelRight = value;
+                RaisePropertyChangedEvent("FloatLevelRight");
+            }
+        }
         #endregion
 
         public HopperViewModel()
@@ -282,7 +305,9 @@ namespace PDTUtils.MVVM.ViewModels
                 IsSpanish = false;
                 IsBritish = true;
             }
-            
+
+            FloatLevelLeft = BoLib.getHopperFloatLevel((int)Hoppers.Left).ToString();
+            FloatLevelRight = BoLib.getHopperFloatLevel((int)Hoppers.Right).ToString();
             /*NewLeftFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Left).ToString();// "500";
             NewRightFillValue = BoLib.getHopperFloatLevel((int)Hoppers.Right).ToString();*/
             CheckDirAndIniExist();

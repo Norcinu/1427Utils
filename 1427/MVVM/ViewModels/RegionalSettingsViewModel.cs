@@ -343,9 +343,11 @@ namespace PDTUtils.MVVM.ViewModels
             if (setting == null) return;
             if (setting.Equals("GameTime"))
             {
-                var time = BoLib.getDefaultElement(Selected.Id, 9);
-                if ((EditableLiveRegion.GameTime + 3) <= (time + 3))
-                    EditableLiveRegion.GameTime += 3;
+                if (EditableLiveRegion.GameTime < 100)
+                    EditableLiveRegion.GameTime += 1;
+                //var time = BoLib.getDefaultElement(Selected.Id, 9);
+                //if ((EditableLiveRegion.GameTime + 3) <= (time + 3))
+                //    EditableLiveRegion.GameTime += 3;
             }
             else if ((setting.Equals("RTP") && _editableLiveRegion.Rtp < 10000))
                 _editableLiveRegion.Rtp += 100;
@@ -371,13 +373,16 @@ namespace PDTUtils.MVVM.ViewModels
             if (setting == null) return;
             if (setting.Equals("GameTime"))
             {
-                var diff = (int)EditableLiveRegion.GameTime - BoLib.getDefaultElement(Selected.Id, 9);
-                if (diff >= 0)
-                    EditableLiveRegion.GameTime -= 3;
+                if ((int)EditableLiveRegion.GameTime > 1)
+                    EditableLiveRegion.GameTime -= 1;
+                //var diff = (int)EditableLiveRegion.GameTime - BoLib.getDefaultElement(Selected.Id, 9);
+                //if (diff >= 0)
+                //    EditableLiveRegion.GameTime -= 3;
             }
             else if (setting == "RTP")
             {
-                if (EditableLiveRegion.Rtp >= 100 && _editableLiveRegion.Rtp <= 10000)
+                if (EditableLiveRegion.Rtp > BoLib.getDefaultElement(Selected.Id, (int)EspRegionalBase.Rtp) 
+                    && _editableLiveRegion.Rtp <= 10000)
                     _editableLiveRegion.Rtp -= 100;
             }
             else if (setting == "MaxBank" && _editableLiveRegion.MaxBank > 50)

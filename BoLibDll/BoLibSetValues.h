@@ -31,3 +31,4 @@ DLLEXPORT void	setUtilRequestBitState(int bit);
 DLLEXPORT void	clearUtilRequestBitState(int bit);
 DLLEXPORT void  shellSendEmptyRecycler();
 DLLEXPORT void  clearBankCreditReserve();
+//DLLEXPORT void	ESPHandPay();

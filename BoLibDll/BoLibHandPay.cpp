@@ -3,6 +3,7 @@
 
 extern unsigned long zero_cdeposit(void);
 extern unsigned long add_cdeposit(unsigned long value);
+extern unsigned long ZeroReserveCredits();
 
 void setHandPayThreshold(unsigned int value)
 {
@@ -50,7 +51,7 @@ bool performHandPay()
 	{
 		if (GetHandPayActive() || country == CC_EURO || titoState == TITO_ENABLED_NotREGISTERED)
 		{
-			auto totalCredits = GetBankDeposit() + GetCredits();
+			auto totalCredits = GetBankDeposit() + (country == CC_ESP) ? GetReserveCredits() : GetCredits();
 			SendHeaderOnly(HANDPAY_CONFIRM, 1);
 			AddToPerformanceMeters(HAND_PAY_LT, totalCredits);
 			SetMeterPulses(2, 1, totalCredits);
@@ -63,8 +64,16 @@ bool performHandPay()
 				ClearTPlaySessionActive();
 			}
 			
-			zero_cdeposit();
-			ZeroBankDeposit();
+			if (country == CC_ESP)
+			{
+				ZeroReserveCredits();
+				ZeroBankDeposit();
+			}
+			else 
+			{
+				zero_cdeposit();
+				ZeroBankDeposit();
+			}
 			return true;
 		}
 	}

@@ -382,8 +382,8 @@
                     Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
                     <!-- Visibility="{Binding Path=KeyDoorWorker.IsDoorOpen, Converter={StaticResource BoolToVisConverter}}"> -->
 
-            <TabItem Header="Local Settings" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}">
-                <TabControl Name="regionalSubTab" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}">
+            <TabItem Header="Local Settings"> <!-- Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}"> -->
+                <TabControl Name="regionalSubTab"> <!-- Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}"> -->
                     <TabItem Header="Region Settings" IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 
                             Converter={StaticResource BoolToVisConverter}}">
                         <view:RegionalSettingsView IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 

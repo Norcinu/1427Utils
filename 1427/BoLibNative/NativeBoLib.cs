@@ -576,9 +576,11 @@ namespace PDTUtils.Native
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void clearBankCreditReserve();
         
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void oogaDeBooga();
-        
+        /*[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void oogaDeBooga();*/
+
+        /*[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ESPHandPay();*/
         /************************************************************************/
         /* General methods                                                      */
         /************************************************************************/

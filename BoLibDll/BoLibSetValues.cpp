@@ -189,3 +189,16 @@ void clearBankCreditReserve()
 	nvr_ptr->reserveCredits3 = 0;
 }
 
+// Only handpays bank + reserve.
+/*
+void ESPHandPay()
+{
+	nvr_main->bank1 = 0;
+	nvr_main->bank2 = 0;
+	nvr_main->bank3 = 0;
+
+	nvr_main->reserveCredits1 = 0;
+	nvr_main->reserveCredits2 = 0;
+	nvr_main->reserveCredits3 = 0;
+}
+*/

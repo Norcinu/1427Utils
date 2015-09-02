@@ -373,19 +373,24 @@ namespace PDTUtils.MVVM.ViewModels
             var oldCaption = _caption;
             var oldMsg = _message;
             
-            var total = Bank + Credits;
+            var spanish = BoLib.getCountryCode() == BoLib.getSpainCountryCode();
+            var total = (spanish) ? Bank + Reserve : Bank + Credits;
             
             if (total > 0)
             {
                 if (BoLib.performHandPay())
                 {
-                    BoLib.clearBankAndCredit();
+                    /*if (spanish)
+                        BoLib.ESPHandPay();
+                    else
+                        BoLib.clearBankAndCredit();*/
+                    
                     WriteToHandPayLog(total);
                     Credits = BoLib.getCredit();
                     Bank = BoLib.getBank();
                     Reserve = (int) BoLib.getReserveCredits();
                     TotalCredits = 0;
-
+                    
                     RaisePropertyChangedEvent("Credits");
                     RaisePropertyChangedEvent("Bank");
                     RaisePropertyChangedEvent("Reserve");
