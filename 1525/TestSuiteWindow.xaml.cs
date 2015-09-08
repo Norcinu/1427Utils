@@ -37,6 +37,9 @@ namespace PDTUtils
 
         readonly string[] _buttonContent = new string[6] { (PrinterOrHopper() > 0) ? "Printer" : "Hopper", "Buttons", "Lamps", 
                                                                                      "Dil Status", "Note Val", "Coin Mech" };
+
+        readonly string[] _spanishBtnNames = new string[10] { "Refill Key", "Door Switch", "", "", "", "", "", "", "", "" };
+
         readonly int[] _buttonsPressed = new int[8];
         readonly Label[] _labels;
         readonly Timer _startTimer = new Timer() { Enabled = false, Interval = 100 };
@@ -349,7 +352,8 @@ namespace PDTUtils
             l.Foreground = Brushes.White;
             l.BorderBrush = Brushes.Black;
             l.BorderThickness = new Thickness(2);
-            l.Content = "SUCCESS " + _termButtonList[_currentButton] + " OK";
+            l.Content = "SUCCESS " +/* BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? _spanishBtnNames[_currentButton] :*/
+                                                                                             _termButtonList[_currentButton] + " OK";
         }
         
         void timer_UpdateSpecials(Label l)
@@ -678,7 +682,7 @@ namespace PDTUtils
                 {
                     if (child.GetType() == typeof(Label))
                     {
-                        var labrador = child as Label;
+                        var labrador = child as Label; // Larry the Labrador.
                         labrador.Content = "";
                         labrador.Background = Brushes.Black;
                         labrador.Foreground = Brushes.White;

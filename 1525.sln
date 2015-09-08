@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1525", "1427\1525.csproj", "{B2A85817-6C79-45B9-98D5-E645D0BE0F50}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1525", "1525\1525.csproj", "{B2A85817-6C79-45B9-98D5-E645D0BE0F50}"
 	ProjectSection(ProjectDependencies) = postProject
 		{0B6E237B-8610-4ACB-A71B-2FA019BEA249} = {0B6E237B-8610-4ACB-A71B-2FA019BEA249}
 	EndProjectSection

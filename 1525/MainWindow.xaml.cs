@@ -472,9 +472,9 @@ namespace PDTUtils
                 return new DelegateCommand(o => DoScreenshot());
             }
         }
-
+        
         void DoScreenshot() { }
-
+        
         void btnScreenShots_Click(object sender, RoutedEventArgs e)
         {
             Enabler.ClearAll();
@@ -511,8 +511,9 @@ namespace PDTUtils
         
         void btnDiagnostics_Click(object sender, RoutedEventArgs e)
         {
-            UcDiagnostics.IsEnabled = !UcDiagnostics.IsEnabled;
-            UcDiagnostics.Visibility = UcDiagnostics.IsEnabled ? Visibility.Visible : Visibility.Hidden;
+            //if (UcDiagnostics.AccessLevel)
+            //UcDiagnostics.IsEnabled = !UcDiagnostics.IsEnabled;
+            //UcDiagnostics.Visibility = UcDiagnostics.IsEnabled ? Visibility.Visible : Visibility.Hidden;
 
             Enabler.ClearAll();
 
@@ -550,7 +551,7 @@ namespace PDTUtils
             _keyDoorWorker.PrepareForReboot = false;
             DiskCommit.SaveAndReboot();       
         }
-        
+        //excelletn thank you baby girl.
 	    void ButtonBase_OnClick(object sender, RoutedEventArgs e)
 	    {
             Application.Current.Shutdown();

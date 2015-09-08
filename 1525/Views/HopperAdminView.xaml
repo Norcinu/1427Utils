@@ -158,9 +158,9 @@
 
                         <!-- Spain option 1 Width="700"-->
                         <StackPanel Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue" 
-                                    Height="325"  Orientation="Horizontal" x:Name="stpSpainOne" IsEnabled="{Binding IsSpanish}" 
+                                    Height="650" Orientation="Horizontal" x:Name="stpSpainOne" IsEnabled="{Binding IsSpanish}" 
                                     Visibility="{Binding IsSpanish, Converter={StaticResource BoolToVis}}">
-
+<!-- Height="325" -->
                             <!-- <Border BorderBrush="Black" BorderThickness="2" Margin="2">
                                 <StackPanel>
                                     <Label Margin="10">Zero Hoppers</Label>
@@ -175,8 +175,8 @@
                             
                             <Border BorderBrush="Black" BorderThickness="2" Margin="2">
                                 <StackPanel Width="560">
-                                    <Label Style="{StaticResource StevesLabel}" ContentStringFormat="€1 Float Level: {0}" Content="{Binding FloatLevelLeft}" />
-                                    <Label Style="{StaticResource StevesLabel}" ContentStringFormat="20¢ Float Level: {0}" Content="{Binding FloatLevelRight}" />
+                                    <Label Style="{StaticResource StevesLabel}" BorderThickness="2,2,2,0" Margin="5,5,5,0" ContentStringFormat="€1 Float Level: {0}" Content="{Binding FloatLevelLeft}" />
+                                    <Label Style="{StaticResource StevesLabel}" BorderThickness="2,0,2,2" Margin="5,0,5,5" ContentStringFormat="20¢ Float Level: {0}" Content="{Binding FloatLevelRight}" />
 
                                     <Label Style="{StaticResource StevesLabel}" Content="Set New Float Level"/>
 

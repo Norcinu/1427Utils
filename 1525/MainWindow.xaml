@@ -50,6 +50,7 @@
         </Style>
 
         <cv:SmartCardStateConverter x:Key="cardStateConvert" />
+        
     </Window.Resources>
 
     <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
@@ -58,6 +59,7 @@
             <!-- <cv:NegateBoolValue x:Key="NegateBool" /> -->
             <cv:FalseToHiddenConv x:Key="FalseToVis" />
             <cv:ConvertScreenHeight x:Key="ScaleScreenHeight" />
+            <cv:OperatorAndManuLevelConv x:Key="opManConverter" />
         </Grid.Resources>
 
         <Grid.ColumnDefinitions>
@@ -382,8 +384,8 @@
                     Visibility="{Binding Path=Enabler.Setup, Converter={StaticResource BoolToVisConverter}}">
                     <!-- Visibility="{Binding Path=KeyDoorWorker.IsDoorOpen, Converter={StaticResource BoolToVisConverter}}"> -->
 
-            <TabItem Header="Local Settings"> <!-- Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}"> -->
-                <TabControl Name="regionalSubTab"> <!-- Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}"> -->
+            <TabItem Header="Local Settings" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}"> 
+                <TabControl Name="regionalSubTab" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}">
                     <TabItem Header="Region Settings" IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 
                             Converter={StaticResource BoolToVisConverter}}">
                         <view:RegionalSettingsView IsEnabled="{Binding IsSpanishMachine}" Visibility="{Binding IsSpanishMachine, 
@@ -395,6 +397,7 @@
                     </TabItem>
                 </TabControl>
             </TabItem>
+
 
             <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" Visibility="{Binding KeyDoorWorker.CanViewDistributor, 
                 Converter={StaticResource cardStateConvert}}">
@@ -423,7 +426,7 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    
+
                                     
                                     <GridViewColumn Width="340" Header="Value">
                                         <GridViewColumn.CellTemplate>
@@ -446,16 +449,17 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
+            
             <TabItem Header="Birth Cert" VerticalContentAlignment="Stretch" MinWidth="100" 
                      Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}">
+                     <!-- Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}"> -->
                 <!-- ConverterParameter={Binding KeyDoorWorker.CommandParameter}, -->
                 <view:BirthCertView />
             </TabItem>
             
             <TabItem Header="System Settings" MinWidth="100">
                 <TabControl>
-
+                    
                     <TabItem Header="General">
                         <view:GeneralSettingsView/>
                     </TabItem>
@@ -616,22 +620,27 @@
         <!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
         <view:CreditManagementView Panel.ZIndex="5" x:Name="UcCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
         <view:MainPage Panel.ZIndex="1" x:Name="UcMainPage" Grid.Row="1" Grid.Column="1" />
-        <view:DiagnosticsView Panel.ZIndex="5" x:Name="UcDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"  Visibility="Hidden" />
+        <view:DiagnosticsView Panel.ZIndex="5" x:Name="UcDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"   
+                              Visibility="{Binding KeyDoorWorker.IsDoorClosed, Converter={StaticResource BoolToVisConverter}}" />
+                              <!-- Visibility="Hidden" /> -->
         
         <!-- End of System Info View -->
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="BtnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
+            <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="BtnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271"/>
+            <!-- Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" /> -->
             <Button Content="Games" Height="35" HorizontalAlignment="Stretch" Name="BtnGames" VerticalAlignment="Stretch" Width="170" Click="Games_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
             <Button Content="System History" Height="35" HorizontalAlignment="Stretch" Name="BtnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
             <Button Content="Cash" Height="35" Name="BtnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-            <Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="BtnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
-            <Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="BtnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click" Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" />
+            <Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="BtnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271"/>
+            <!-- Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" /> -->
+            <Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="BtnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click"/>
+            <!-- Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" /> -->
             <Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
             <!--<Button Content="Serial Dump" Width="170" Height="35" FontSize="22" Click="ButtonBase_OnClick"></Button>-->
             <!-- <Button Content="Set Reboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" Name="BtnReboot" FontSize="22" /> -->
         </StackPanel>
-
-        <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="BtnExit" Width="75" Grid.Row="2" Click="btnExit_Click" /> 
+        
+        <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="BtnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />
 
     </Grid>
 </Window>

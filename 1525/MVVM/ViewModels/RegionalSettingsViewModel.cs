@@ -200,7 +200,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Selected");
             RaisePropertyChangedEvent("IsSpanishMachine");
         }
-        
+
         void LoadSettingsView()
         {
             if (_settingsView.Count > 0)
@@ -214,12 +214,15 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     if (headerCtr < 18)
                     {
-                        _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr],
-                            (uint)p.GetValue(_editableLiveRegion, null)));
+                        if (headerCtr != 2)
+                        {
+                            _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr],
+                                (uint)p.GetValue(_editableLiveRegion, null)));
+                        }
                         headerCtr++;
                     }
                 }
-                _settingsView.Move(17, 11);
+                _settingsView.Move(16, 11); //17,11
             }
             catch (Exception ex)
             {
@@ -260,7 +263,7 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Settings", "FastTRansfer", _editableLiveRegion.FastTransfer.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "CycleSize", _editableLiveRegion.CycleSize.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "MaxPlayerPoints", _editableLiveRegion.MaxPlayerPoints.ToString(), _espRegionIni);
-
+            
             IniFileUtility.HashFile(_espRegionIni);
             
             RaisePropertyChangedEvent("EditableLiveRegion");
@@ -281,7 +284,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             string[] liveSettings;
             IniFileUtility.GetIniProfileSection(out liveSettings, "Settings", _espRegionIni);
-            
+
             _editableLiveRegion.MaxStakeCredits = Convert.ToUInt32(liveSettings[0].Substring(16));
             _editableLiveRegion.MaxStakeBank = Convert.ToUInt32(liveSettings[1].Substring(13));
             _editableLiveRegion.StakeMask = Convert.ToUInt32(liveSettings[2].Substring(10));
@@ -400,7 +403,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
-        
+
         void DoResetLiveToDefault()
         {
             var id = (Selected.VenueType == "Street Market") ? Selected.Id : Selected.Id + 1;
@@ -414,7 +417,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
- 
+
         void DoSetEscrow(object o)
         {
             var str = o as string;

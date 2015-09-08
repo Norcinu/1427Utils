@@ -7,5 +7,5 @@
 #include <NVR.H>
 #include <dsound.h>
 
-#define MODEL_NUMBER 1527
+#define MODEL_NUMBER 1525
 

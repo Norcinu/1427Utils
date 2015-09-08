@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using PDTUtils.Properties;
+using PDTUtils.Access;
 
 namespace PDTUtils
 {
@@ -264,7 +265,7 @@ namespace PDTUtils
             throw new Exception("The method or operation is not implemented.");
         }
     }
-
+    
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public sealed class SmartCardStateConverter : IValueConverter
     {
@@ -297,6 +298,67 @@ namespace PDTUtils
             return Equals(value, FalseValue) ? (object)false : null;
         }
     }
+
+    /**
+     * Smartcard Converters
+     **/
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [ValueConversion(typeof(int), typeof(Visibility))]
+    public sealed class CashierLevelConv
+    {
+        
+    }
+
+    /// <summary>
+    /// For both levels above cashier
+    /// </summary>
+    [ValueConversion(typeof(bool), typeof(Visibility))]
+    public sealed class OperatorAndManuLevelConv
+    {
+        public Visibility TrueValue { get; set; }
+        public Visibility FalseValue { get; set; }
+
+        public OperatorAndManuLevelConv()
+        {
+            TrueValue = Visibility.Visible;
+            FalseValue = Visibility.Collapsed;
+        }
+
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            if (!(value is bool))
+                return null;
+
+
+            return (GlobalAccess.Level > 2) ? TrueValue : FalseValue;
+        }
+        
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            if (Equals(value, TrueValue))
+                return true;
+
+            return Equals(value, FalseValue) ? (object)false : null;
+        }
+    }
+
+    /// <summary>
+    /// for only manufacturer
+    /// </summary>
+    [ValueConversion(typeof(int), typeof(Visibility))]
+    public sealed class ManufactureOnlyConv
+    {
+
+    }
+
+    
+
+
  /*   [ValueConversion(typeof(bool), typeof(Visibility))]
     public class SmartCardStateConverter : IValueConverter
     {

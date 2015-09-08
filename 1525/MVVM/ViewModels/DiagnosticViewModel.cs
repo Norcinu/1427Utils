@@ -1,11 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Text;
+using PDTUtils.Access;
 using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
 using PDTUtils.Native;
-using PDTUtils.Properties;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -16,10 +15,42 @@ namespace PDTUtils.MVVM.ViewModels
         public ObservableCollection<string> GeneralList { get; set; }
         public string License { get { return Hardware[0].License; } }
         
+        System.Windows.Visibility _viewVisibility;
+        public System.Windows.Visibility ViewVisibility
+        {
+            get { return _viewVisibility; }
+            set
+            {
+                _viewVisibility = value;
+                RaisePropertyChangedEvent("ViewVisibility");
+            }
+        }
+        
         MachineInfo _machineData;
         
+        int _accessLevel;// = (int)SmartCardGroups.Manufacturer & (int)SmartCardGroups.Distributor;
+        public bool AccessLevel
+        {
+            get
+            {
+                if (((_accessLevel >> (int)SmartCardGroups.Manufacturer) & 1) == 1)
+                    return true;
+
+                if (((_accessLevel >> (int)SmartCardGroups.Distributor) & 1) == 1)
+                    return true;
+
+                return false;
+            }
+        }
+        //
         public DiagnosticViewModel(MachineInfo machineData)
         {
+            _accessLevel |= 1 << (int)SmartCardGroups.Manufacturer;
+            _accessLevel |= 1 << (int)SmartCardGroups.Distributor;
+            
+            var _arr = new System.Collections.BitArray(8);
+            _arr[(int)SmartCardGroups.Distributor] = true;
+            
             _machineData = machineData;
             Hardware = new ObservableCollection<HardwareInfo>();
             Software = new ObservableCollection<SoftwareInfo>();
@@ -32,7 +63,7 @@ namespace PDTUtils.MVVM.ViewModels
             var hash = "";
             var status = CheckHashIsAuthed(buffer, ref hash);
             Software.Add(new SoftwareInfo("1524", hash, status));
-
+                
             for (var i = 0; i < BoLib.getNumberOfGames(); i++)
             {
                 var exe = new StringBuilder(64);
@@ -40,12 +71,12 @@ namespace PDTUtils.MVVM.ViewModels
 
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "Exe", "", exe, 64, ini);
                 NativeWinApi.GetPrivateProfileString("Game" + (i + 1), "GameDirectory", "", dir, 64, ini);
-
+                
                 var fullPath = new StringBuilder(dir + @"\" + exe);
                 status = CheckHashIsAuthed(fullPath, ref hash);
                 Software.Add(new SoftwareInfo(dir.ToString().TrimStart("\\".ToCharArray()), hash, status));
             }
-
+            
             char[] licenseBuffer = new char[128];
             NativeWinApi.GetPrivateProfileString("Keys", "License", "", licenseBuffer, 128, Properties.Resources.machine_ini);
             //NativeWinApi.GetPrivateProfileString("Key", "License", "", licenseBuffer, 128, Properties.Resources.machine_ini);
@@ -56,7 +87,8 @@ namespace PDTUtils.MVVM.ViewModels
                 if ((i % 15 == 0) && i > 0)
                     license = license.Insert(i, "-");
             }
-                //var serial = BoLib.getSerialNumber();
+            
+            //var serial = BoLib.getSerialNumber();
             Hardware.Add(new HardwareInfo()
             {
                 SerialKey = BoLib.getSerialNumber(),//serial,

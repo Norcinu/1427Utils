@@ -44,7 +44,12 @@ namespace PDTUtils.MVVM.ViewModels
         int _selectedTabIndex;
         int _espLeftHopper;
         int _espRightHopper;
-        
+
+        int _leftHopperTryCount = 0;
+        int _rightHopperTryCount = 0;
+
+        readonly int TRY_COUNT = 3;
+
         string _leftRefillMsg;
         string _rightRefillMsg;
         string _leftCoinsAdded;
@@ -57,7 +62,7 @@ namespace PDTUtils.MVVM.ViewModels
 
         /*string _newLeftFillValue;
         string _newRightFillValue;*/
-
+        
         Timer EmptyLeftTimer;
         Timer EmptyRightTimer;
         Timer RefillTimer;
@@ -544,7 +549,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (hopper == "left")
             {
-                if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Left))
+                if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Left) && IsBritish)
                 {
                     NeedToSync = true;
                     _syncLeft = true;
@@ -554,7 +559,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else
             {
-                if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Right))
+                if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Right) && IsBritish)
                 {
                     NeedToSync = true;
                     _syncRight = true;
@@ -728,7 +733,7 @@ namespace PDTUtils.MVVM.ViewModels
             CurrentSelHopper = CurrentSelHopper;//BoLib.getHopperFloatLevel(Convert.ToUInt32((string.IsNullOrEmpty(CurrentSelHopper) ? "0" 
             //: CurrentSelHopper))).ToString(); //CurrentSelHopper;
         }
-     
+        
         /*
          * 
          * Spanish Hopper Emptying Methods
@@ -752,28 +757,36 @@ namespace PDTUtils.MVVM.ViewModels
             var currentCredits = BoLib.getBank() + BoLib.getCredit() + (int)BoLib.getReserveCredits();
 
             bool isLeftHopper = which.Equals("left") ? true : false;
-
+            
             if (which.Equals("left"))
             {
                 if (BoLib.getHopperFloatLevel(0) == 0)
                 {
-                    new WpfMessageBoxService().ShowMessage("The hopper selected is already empty.", "Payout Info");
-                    return;
+                    _leftHopperTryCount++;
+                //    new WpfMessageBoxService().ShowMessage("The hopper selected is already empty.", "Payout Info");
+                //    return;
                 }
 
-                BoLib.setUtilRequestBitState((int)UtilBits.DumpLeftHopper);
-                _currentHopperDumping = (byte)Hoppers.Left;
+                if (_leftHopperTryCount <= TRY_COUNT)
+                {
+                    BoLib.setUtilRequestBitState((int)UtilBits.DumpLeftHopper);
+                    _currentHopperDumping = (byte)Hoppers.Left;
+                }
             }
             else
             {
                 if (BoLib.getHopperFloatLevel(2) == 0)
                 {
-                    new WpfMessageBoxService().ShowMessage("The hopper selected is already empty.", "Payout Info");
-                    return;
+                    _rightHopperTryCount++;
+                 //   new WpfMessageBoxService().ShowMessage("The hopper selected is already empty.", "Payout Info");
+                 //   return;
                 }
 
-                BoLib.setUtilRequestBitState((int)UtilBits.DumpRightHopper);
-                _currentHopperDumping = (byte)Hoppers.Right;
+                if (_rightHopperTryCount <= TRY_COUNT)
+                {
+                    BoLib.setUtilRequestBitState((int)UtilBits.DumpRightHopper);
+                    _currentHopperDumping = (byte)Hoppers.Right;
+                }
             }
             
             //_msgAccess.Show = !_msgAccess.Show;
@@ -791,9 +804,6 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (!BoLib.getIsHopperHopping())
             {
-#if DEBUG
-                Debug.WriteLine("THE HOPPER IS FINISHED");
-#endif
                 SetHopperPayingValue();
                 SpanishEmpty.Enabled = false;
                 var hopperValue = (_currentHopperDumping == (byte)Hoppers.Left) ? "LEFT HOPPER INFO" : "RIGHT HOPPER INFO";
@@ -801,6 +811,8 @@ namespace PDTUtils.MVVM.ViewModels
                 _msg.ShowMessage("FINISHED EMPTYING.\n" + _hopperPayingValue + " Coins Paid Out: " + floatLevel, hopperValue);
                 BoLib.setHopperFloatLevel(_currentHopperDumping, 0);
                 unchecked { _currentHopperDumping = (byte)Hoppers.NoHopper; }
+                FloatLevelLeft = BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString();
+                FloatLevelRight = BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
             }
         }
         
@@ -880,7 +892,7 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Hoppers", "Right", EspRightHopper.ToString(), Properties.Resources.utils_config);
         }
         //End Spain Methods.
-        
+        //the several iraqis I gutted with my bayonet. Much prefered shooting them from 50 yards away imo.
         public ICommand ZeroHopperFloat { get { return new DelegateCommand(DoHopperZero); } }
         void DoHopperZero(object o)
         {
@@ -889,11 +901,13 @@ namespace PDTUtils.MVVM.ViewModels
             var str = o as string;
             if (str.Equals("left"))
             {
-                BoLib.setHopperFloatLevel((int)Hoppers.Left, 0); 
+                BoLib.setHopperFloatLevel((int)Hoppers.Left, 0);
+                FloatLevelLeft = 0.ToString();
             }
             else if (str.Equals("right"))
             {
-                BoLib.setHopperFloatLevel((int)Hoppers.Right, 0); 
+                BoLib.setHopperFloatLevel((int)Hoppers.Right, 0);
+                FloatLevelRight = 0.ToString();
             }
         }
         
@@ -909,6 +923,17 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 var msg = new WpfMessageBoxService();
                 msg.ShowMessage("New Float Level is " + newFloat.ToString() + " Coins", "Payout Info");
+            }
+
+            if (hopper == (byte)Hoppers.Left)
+            {
+                _leftHopperTryCount = 0;
+                FloatLevelLeft = newFloat.ToString();
+            }
+            else
+            {
+                _rightHopperTryCount = 0;
+                FloatLevelRight = newFloat.ToString();
             }
         }
         

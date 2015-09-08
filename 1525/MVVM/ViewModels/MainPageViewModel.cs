@@ -120,7 +120,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
             set
             {
-                _totalCredits = Credits + Bank;// + Reserve;
+                _totalCredits = value;//(valueCredits + Bank;// + Reserve;
                 RaisePropertyChangedEvent("TotalCredits");
             } 
         }
@@ -233,8 +233,8 @@ namespace PDTUtils.MVVM.ViewModels
             GetBankLevel();
             GetReserveLevel();
             GetMaxNoteValue();
-            
-            TotalCredits = 0;
+
+            TotalCredits = _isSpain ? Bank + Reserve : Bank + Credits;
 
             RaisePropertyChangedEvent("IsBritainAndDoorOpen");
         }
@@ -299,7 +299,7 @@ namespace PDTUtils.MVVM.ViewModels
             BoLib.transferBankToCredit();
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
-            TotalCredits = Bank + Credits;
+            TotalCredits = _isSpain ? Bank + Reserve : Bank + Credits;
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");
         }
@@ -346,7 +346,14 @@ namespace PDTUtils.MVVM.ViewModels
         
         void ClearError()
         {
-            if (BoLib.getDoorStatus() > 0)
+            /*if (BoLib.getError() == 99) // we dont need the door open for this error.
+            {
+                if (BoLib.clearError() != 0) return;
+                ErrorMessage = "Error Cleared. Please Continue.";
+                RaisePropertyChangedEvent("ErrorMessage");
+            }*/
+            
+            if (BoLib.getDoorStatus() > 0 || BoLib.getError() == 99)
             {
                 if (BoLib.clearError() != 0) return;
                 ErrorMessage = "Error Cleared. Please Continue.";
@@ -473,7 +480,7 @@ namespace PDTUtils.MVVM.ViewModels
             Credits = BoLib.getCredit();
             Bank = BoLib.getBank();
             Reserve = (int)BoLib.getReserveCredits();
-            TotalCredits = Bank + Credits;
+            TotalCredits = (_isSpain) ? Bank + Reserve : Bank + Credits;
             
             RaisePropertyChangedEvent("Credits");
             RaisePropertyChangedEvent("Bank");

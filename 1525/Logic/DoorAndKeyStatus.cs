@@ -3,17 +3,13 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
+using PDTUtils.Access;
 using PDTUtils.Native;
 
 using Timer = System.Timers.Timer;
 
 namespace PDTUtils
 {
-    /*enum SmartCardGroups
-    {
-        Player = 0x0, Technician = 0x01, Cashier = 0x02, Admin = 0x03, Operator = 0x04, Distributor = 0x05, Manufacturer = 0x06, None = 0x7
-    }*/
-
     /// <summary>
     /// Handles status of door open/closed, key turns and card reader status.
     /// </summary>
@@ -151,25 +147,27 @@ namespace PDTUtils
                         }
                     }
                 }
-
-                var level = BoLib.getUtilsAccessLevel() & 0x0F;
-                _smartCardString = _strings[level];
                 
-                if (level == 2)
+                //var level = BoLib.getUtilsAccessLevel() & 0x0F;
+                GlobalAccess.Level = BoLib.getUtilsAccessLevel() & 0x0F;
+                _smartCardString = _strings[GlobalAccess.Level];
+                GlobalAccess.Level = GlobalAccess.Level;
+                
+                if (GlobalAccess.Level == 2)
                 {
                     CanViewManufacturer = false;
                     CanViewDistributor = false;
                     CanViewCashier = true;
                     _commandProperty = "on|on|on";
                 }
-                else if (level == 5)
+                else if (GlobalAccess.Level== 5)
                 {
                     CanViewManufacturer = false;
                     CanViewDistributor = true;
                     CanViewCashier = false;
                     _commandProperty = "off|on|on";
                 }
-                else if (level == 6)
+                else if (GlobalAccess.Level == 6)
                 {
                     CanViewManufacturer = true;
                     CanViewDistributor = false;

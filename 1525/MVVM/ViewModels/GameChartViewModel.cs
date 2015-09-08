@@ -35,7 +35,7 @@ namespace PDTUtils.MVVM.ViewModels
 
                 IncomingsSimple = new List<KeyValuePair<string, uint>>();
                 OutgoingsSimple = new List<KeyValuePair<string, uint>>();
-
+                
                 var buffer = new char[3];
                 NativeWinApi.GetPrivateProfileString("Models", "NumberOfModels", "", buffer, buffer.Length, _manifest);
                 var gameCount = Convert.ToUInt32(new string(buffer)) + 1;
@@ -59,7 +59,7 @@ namespace PDTUtils.MVVM.ViewModels
                     OutgoingsSimple.Add(new KeyValuePair<string, uint>(title, won));
                 }
                 
-                Incomings.Sort(CompareValue); //theres only one thing that I really need.
+                Incomings.Sort(CompareValue); 
                 Outgoings.Sort(CompareValue);
             }
             catch (Exception e)
@@ -67,7 +67,7 @@ namespace PDTUtils.MVVM.ViewModels
                 //new WpfMessageBoxService().ShowMessage(e.Message, "Loading Error");
                 System.Diagnostics.Debug.WriteLine(e.Message);
             }
-            
+
             RaisePropertyChangedEvent("Incomings");
             RaisePropertyChangedEvent("Outgoings");
 
