@@ -306,17 +306,17 @@ namespace PDTUtils
     /// <summary>
     /// 
     /// </summary>
-    [ValueConversion(typeof(int), typeof(Visibility))]
-    public sealed class CashierLevelConv
+    /*[ValueConversion(typeof(int), typeof(Visibility))]
+    public sealed class CashierLevelConv : IValueConverter
     {
         
-    }
+    }*/
 
     /// <summary>
     /// For both levels above cashier
     /// </summary>
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public sealed class OperatorAndManuLevelConv
+    public sealed class OperatorAndManuLevelConv : IValueConverter
     {
         public Visibility TrueValue { get; set; }
         public Visibility FalseValue { get; set; }
@@ -350,11 +350,12 @@ namespace PDTUtils
     /// <summary>
     /// for only manufacturer
     /// </summary>
+/*
     [ValueConversion(typeof(int), typeof(Visibility))]
-    public sealed class ManufactureOnlyConv
+    public sealed class ManufactureOnlyConv : IValueConverter
     {
 
-    }
+    }*/
 
     
 

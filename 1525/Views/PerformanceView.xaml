@@ -41,8 +41,8 @@
     </UserControl.Resources>
 
     <Grid>
-        <TabControl Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto">
-            <TabItem Header="Performance">
+        <TabControl Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" Name="tcMain">
+            <TabItem Header="Performance" Name="tiPerformance">
                 <!-- <TabControl>
                 
                     <TabItem Header="Machine"> -->
@@ -84,7 +84,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="LCD Meters">
+            <TabItem Header="LCD Meters" Name="tiLCD">
                 
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Stretch" Orientation="Horizontal">
                     <StackPanel Margin="15">
@@ -173,7 +173,7 @@
             </TabItem>
 
             
-            <TabItem Header="Cash Reconcilliation">
+            <TabItem Header="Cash Reconcilliation" Name="tiRecon">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
                     <Label Style="{StaticResource StdLabel}">Cash Reconciliation</Label>
                     <ListView FontSize="18" ItemsSource="{Binding CashRecon}" Margin="25">

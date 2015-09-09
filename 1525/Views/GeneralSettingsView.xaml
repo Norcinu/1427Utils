@@ -110,7 +110,7 @@
                     <Label Style="{StaticResource StdLabelWide}" Content="{Binding TerminalAssetMsg}"/>
                 </Border>
             </StackPanel>
-
+            
             
             <Border IsEnabled="{Binding RebootRequired}" CornerRadius="10" Width="500" Background="SlateGray" 
                     BorderBrush="SlateBlue" Margin="5" BorderThickness="4">

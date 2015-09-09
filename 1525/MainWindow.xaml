@@ -103,7 +103,7 @@
                Grid.RowSpan="2" 
                Style="{Binding}" 
                IsEnabled="True" />
-
+        
         <Label Name="LblBottom" 
                Background="#FF336699" 
                BorderBrush="Black" 
@@ -318,7 +318,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
+            
             <TabItem Header="Wins" MinWidth="150" HorizontalContentAlignment="Center">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
@@ -398,11 +398,11 @@
                 </TabControl>
             </TabItem>
 
-
-            <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" Visibility="{Binding KeyDoorWorker.CanViewDistributor, 
+            
+            <TabItem Header="Machine Ini" VerticalContentAlignment="Stretch" MinWidth="100" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, 
                 Converter={StaticResource cardStateConvert}}">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25" Visibility="{Binding KeyDoorWorker.CanViewDistributor, Converter={StaticResource cardStateConvert}}">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}">
                         <Border BorderBrush="Black" BorderThickness="2" Margin="3">
                             <StackPanel>
                                 <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="680"
@@ -441,7 +441,7 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                           
+                        
                         <StackPanel Orientation="Horizontal" Height="35" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Button Width="75" Height="35" FontSize="20" Margin="25">Save</Button>
                             <Button Width="75" Height="35" FontSize="20" Margin="25">Discard Changes</Button>
@@ -459,8 +459,9 @@
             
             <TabItem Header="System Settings" MinWidth="100">
                 <TabControl>
-                    
-                    <TabItem Header="General">
+
+                    <TabItem Header="General" Visibility="{Binding KeyDoorWorker.CanViewDistOrManu, 
+                        Converter={StaticResource BoolToVisConverter}}" >
                         <view:GeneralSettingsView/>
                     </TabItem>
                     
@@ -503,29 +504,46 @@
                    
                 </TabControl>
             </TabItem>
-            
-            <TabItem Header="Hoppers" MinWidth="100">
+
+            <TabItem Header="Hoppers" MinWidth="100" Visibility="{Binding KeyDoorWorker.CanViewDistOrManu, 
+                        Converter={StaticResource BoolToVisConverter}}">
                 <view:HopperAdminView />
             </TabItem>
 
-            <TabItem Header="Note Admin" MinWidth="100"> 
+            <TabItem Header="Note Admin" MinWidth="100" Visibility="{Binding KeyDoorWorker.CanViewDistOrManu, 
+                        Converter={StaticResource BoolToVisConverter}}"> 
                 <view:NoteAdminView />
             </TabItem>
-            
-            <TabItem Header="Network">
+
+            <TabItem Header="Network" Visibility="{Binding KeyDoorWorker.CanViewDistOrManu, 
+                        Converter={StaticResource BoolToVisConverter}}">
                 <view:NetworkSettingsView />
             </TabItem>
-
-            <TabItem Header="Software Update" MinWidth="100">
+            
+            <TabItem Header="Games">
+                <TabControl>
+                    <TabItem Header="General">
+                        <!-- <view:GeneralGameSettingView/> -->
+                    </TabItem>
+                    <TabItem Header="Roultette">
+                        <view:RouletteBettingView />
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            
+             
+            <TabItem Header="Software Update" MinWidth="100" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, 
+                        Converter={StaticResource BoolToVisConverter}}">
                 <view:UsbSoftwareUpdateView  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Margin="0,10,0,10"/>
             </TabItem>
         </TabControl>
-        
+
         <StackPanel Panel.ZIndex="5" Grid.Row="1" Grid.Column="1" Width="Auto" Name="StpGameStatsView" 
                     IsEnabled="{Binding Path=Enabler.GameStatistics}" 
                     Visibility="{Binding Path=Enabler.GameStatistics, Converter={StaticResource BoolToVisConverter}}">
-            <!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph-->
-            <TabControl Height="1000">
+            <!-- Wrap this in a dockpanel and set to left hand side. On the right have a graph -->
+            <TabControl Height="1000" 
+                        Visibility="{Binding KeyDoorWorker.CanViewDistOrManu, Converter={StaticResource BoolToVisConverter}}" >
                 <TabItem Header="Games" MinWidth="100">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Label Style="{StaticResource MESHUGGAH}" Content="{Binding GameStatistics.MachineRtp}"/>
@@ -619,25 +637,31 @@
         
         <!-- <view:ScreenshotView Panel.ZIndex="5" x:Name="ucScreenshotView" IsEnabled="False" Visibility="Hidden"  Grid.Row="1" Grid.Column="1"/> -->
         <view:CreditManagementView Panel.ZIndex="5" x:Name="UcCredits" IsEnabled="False" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
-        <view:MainPage Panel.ZIndex="1" x:Name="UcMainPage" Grid.Row="1" Grid.Column="1" />
-        <view:DiagnosticsView Panel.ZIndex="5" x:Name="UcDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"   
-                              Visibility="{Binding KeyDoorWorker.IsDoorClosed, Converter={StaticResource BoolToVisConverter}}" />
-                              <!-- Visibility="Hidden" /> -->
+        <view:MainPage Panel.ZIndex="1" x:Name="UcMainPage" Grid.Row="1" Grid.Column="1" Visibility="Hidden" IsEnabled="False" />
+        <view:DiagnosticsView Panel.ZIndex="5" x:Name="UcDiagnostics" IsEnabled="False" Grid.Row="1" Grid.Column="1"  Visibility="Hidden"/>
+
+        <Label Content="Please Enter Access Card" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"
+               Foreground="HotPink" FontSize="36" Grid.Column="1" Grid.Row="1"
+               Visibility="{Binding KeyDoorWorker.AnyAuthedCard, Converter={StaticResource FalseToVis}}" Margin="20" />
         
-        <!-- End of System Info View -->
+        
         <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="BtnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271"/>
-            <!-- Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" /> -->
-            <Button Content="Games" Height="35" HorizontalAlignment="Stretch" Name="BtnGames" VerticalAlignment="Stretch" Width="170" Click="Games_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-            <Button Content="System History" Height="35" HorizontalAlignment="Stretch" Name="BtnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-            <Button Content="Cash" Height="35" Name="BtnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" />
-            <Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="BtnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271"/>
-            <!-- Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" /> -->
-            <Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="BtnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click"/>
-            <!-- Visibility="{Binding KeyDoorWorker.IsDoorClosed,Converter={StaticResource FalseToVis}}" /> -->
-            <Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"/>
-            <!--<Button Content="Serial Dump" Width="170" Height="35" FontSize="22" Click="ButtonBase_OnClick"></Button>-->
-            <!-- <Button Content="Set Reboot" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" Name="BtnReboot" FontSize="22" /> -->
+            <Label Content="Navigation" Background="Aquamarine" Foreground="HotPink" FontSize="24" HorizontalContentAlignment="Center"/>
+            
+            <Button Content="Setup" Height="35" HorizontalAlignment="Stretch" Name="BtnSetup" VerticalAlignment="Stretch" Width="170" Click="btnSetup_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271"
+                    Visibility="{Binding KeyDoorWorker.AnyAuthedCard,Converter={StaticResource BoolToVisConverter}}" />
+            <Button Content="Games" Height="35" HorizontalAlignment="Stretch" Name="BtnGames" VerticalAlignment="Stretch" Width="170" Click="Games_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" 
+                    Visibility="{Binding KeyDoorWorker.CanViewDistOrManu, Converter={StaticResource BoolToVisConverter}}" />
+            <Button Content="System History" Height="35" HorizontalAlignment="Stretch" Name="BtnLogfiles" VerticalAlignment="Stretch" Width="170" Click="btnLogfiles_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" 
+                    Visibility="{Binding KeyDoorWorker.AnyAuthedCard,Converter={StaticResource BoolToVisConverter}}" />
+            <Button Content="Cash" Height="35" Name="BtnCash" Width="170" Click="btnReadMeters_Click" FontSize="22" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{StaticResource NormalBrush}" Foreground="#FF042271" 
+                    Visibility="{Binding KeyDoorWorker.AnyAuthedCard,Converter={StaticResource BoolToVisConverter}}" />
+            <Button Content="Functional Tests" Height="35" HorizontalAlignment="Stretch" Name="BtnFunctionalTests" VerticalAlignment="Stretch" Width="170" Click="btnFunctionalTests_Click" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271"
+                    Visibility="{Binding KeyDoorWorker.CanViewDistOrManu, Converter={StaticResource BoolToVisConverter}}" />
+            <Button Content="Diagnostics" Height="35" HorizontalAlignment="Stretch" Name="BtnDiagnostics" VerticalAlignment="Stretch" Width="170" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnDiagnostics_Click"
+                    Visibility="{Binding KeyDoorWorker.CanViewDistOrManu, Converter={StaticResource BoolToVisConverter}}" />
+            <Button Content="Main" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="170" Height="35" FontSize="22" Background="{StaticResource NormalBrush}" Foreground="#FF042271" Click="btnCreditManage_Click"
+                    Visibility="{Binding KeyDoorWorker.AnyAuthedCard,Converter={StaticResource BoolToVisConverter}}" />
         </StackPanel>
         
         <Button Content="Exit" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="54,0,0,12" Name="BtnExit" Width="75" Grid.Row="2" Click="btnExit_Click" />

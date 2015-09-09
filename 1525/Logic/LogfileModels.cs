@@ -233,7 +233,7 @@ namespace PDTUtils
             Time = "";
             Message = "";
         }
-
+        
         public CashlessLibLog(string message)
         {
             Time = "";
@@ -357,7 +357,29 @@ namespace PDTUtils
                     reveresed[ctr] = lines[i];
                     ctr++;
                 }
-                
+                /** LAST COLLECT INFO **/
+                using (BinaryReader b = new BinaryReader(File.Open(@"D:\machine\GAME_DATA\payout.dat", FileMode.Open)))
+                {
+                    // 2.
+                    // Position and length variables.
+                    int pos = 0;
+                    // 2A.
+                    // Use BaseStream.
+                    int length = (int)b.BaseStream.Length;
+                    while (pos < length)
+                    {
+                        // 3.
+                        // Read integer.
+                        int v = b.ReadInt32();
+                        Console.WriteLine(v);
+
+                        // 4.
+                        // Advance our position variable.
+                        pos += sizeof(int);
+                    }
+                }
+                /** LAST COLLECT INFO **/
+
                 foreach (var s in reveresed)
                 {
                     try
