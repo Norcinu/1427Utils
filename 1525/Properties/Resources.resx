@@ -264,4 +264,10 @@
   <data name="cpu_event_log" xml:space="preserve">
     <value>D:\machine\GAME_DATA\CpuEventLog.ini</value>
   </data>
+  <data name="payout" xml:space="preserve">
+    <value>D:\machine\GAME_DATA\payout.dat</value>
+  </data>
+  <data name="payout_ticket" xml:space="preserve">
+    <value>D:\machine\GAME_DATA\ticket.dat</value>
+  </data>
 </root>

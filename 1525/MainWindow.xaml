@@ -220,7 +220,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-
+            
             <TabItem Header="Hand Pay" MinWidth="150" HorizontalContentAlignment="Center">
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="25">
                     <StackPanel Margin="25">
@@ -372,6 +372,11 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+
+            <TabItem Header="Last Collect" MinWidth="150" HorizontalContentAlignment="Center">
+                <view:LastCollectLogView />
+            </TabItem>
+            
             <TabItem Header="Cpu Door" MinWidth="150" HorizontalContentAlignment="Center">
                 <view:CpuCaseOpenLog />
             </TabItem>

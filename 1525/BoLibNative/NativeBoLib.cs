@@ -207,6 +207,16 @@ namespace PDTUtils.Native
         TestRightHopper     = 0x00020000,
         ReadCpuEventsBit    = 0x00040000
     }
+
+    enum CollectType
+    {
+        ErrNoCollect    = 0,
+        NoCollect       = 1,
+        Printer         = 2,
+        HandPay         = 3,
+        Hopper          = 4,
+        HandPayAll      = 5
+    }
     
     static class BoLib
     {
@@ -496,6 +506,9 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool getUtilSmartCardAccess(int whichBit);
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int getLastPayoutType();
         
         /************************************************************************/
         /*							Set methods                                 */

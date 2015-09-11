@@ -122,6 +122,7 @@
     <Compile Include="MVVM\ViewModels\GameChartViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GeneralSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\HopperViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\LastCollectLogViewModel.cs" />
     <Compile Include="MVVM\ViewModels\MainPageViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameSettingViewModel.cs" />
     <Compile Include="MVVM\ViewModels\NetworkSettingsViewModel.cs" />
@@ -135,10 +136,13 @@
     <Compile Include="Views\HopperTestView.xaml.cs">
       <DependentUpon>HopperTestView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LastCollectLogView.xaml.cs">
+      <DependentUpon>LastCollectLogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RouletteBettingView.xaml.cs">
       <DependentUpon>RouletteBettingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WPFMessageBoxService.cs" />
+    <Compile Include="MVVM\WPFMessageBoxService.cs" />
     <Compile Include="Properties\Categories.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -286,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HopperTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LastCollectLogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

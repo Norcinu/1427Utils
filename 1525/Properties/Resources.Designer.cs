@@ -289,6 +289,24 @@ namespace PDTUtils.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\payout.dat.
+        /// </summary>
+        internal static string payout {
+            get {
+                return ResourceManager.GetString("payout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to D:\machine\GAME_DATA\ticket.dat.
+        /// </summary>
+        internal static string payout_ticket {
+            get {
+                return ResourceManager.GetString("payout_ticket", resourceCulture);
+            }
+        }
+        
         internal static System.IO.UnmanagedMemoryStream paytrans {
             get {
                 return ResourceManager.GetStream("paytrans", resourceCulture);

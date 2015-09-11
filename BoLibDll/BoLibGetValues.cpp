@@ -837,3 +837,8 @@ bool getUtilSmartCardAccess(int whichBit)
 	else
 		return false;
 }
+
+int getLastPayoutType()
+{
+	return GetLastPayoutType();
+}

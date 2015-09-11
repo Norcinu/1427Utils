@@ -357,7 +357,9 @@ namespace PDTUtils
                     reveresed[ctr] = lines[i];
                     ctr++;
                 }
+                
                 /** LAST COLLECT INFO **/
+                
                 using (BinaryReader b = new BinaryReader(File.Open(@"D:\machine\GAME_DATA\payout.dat", FileMode.Open)))
                 {
                     // 2.
@@ -379,7 +381,7 @@ namespace PDTUtils
                     }
                 }
                 /** LAST COLLECT INFO **/
-
+                
                 foreach (var s in reveresed)
                 {
                     try
