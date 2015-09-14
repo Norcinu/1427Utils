@@ -22,14 +22,16 @@ namespace PDTUtils.Views
             var l = sender as ListView;
             if (l.SelectedIndex == -1)
                 return;
-            
-            var c = l.Items[l.SelectedIndex] as BirthCertModel;
 
-            var w = new IniSettingsWindow(c.Field, c.Value)
+            var c = l.Items[l.SelectedIndex] as BirthCertModel;
+            var dc = DataContext as BirthCertViewModel;
+            dc.SetHelpMessage(l.SelectedIndex);
+
+            var w = new BirthCertSettingsWindow(c.Field, c.Value)
             {
-                BtnComment = {IsEnabled = false, Visibility = Visibility.Hidden}
+                BtnComment = { IsEnabled = false, Visibility = Visibility.Hidden }
             };
-            
+
             if (w.ShowDialog() != false) return;
             switch (w.RetChangeType)
             {
@@ -42,8 +44,8 @@ namespace PDTUtils.Views
                     break;
             }
         }
-        
-        void AmendOption(IniSettingsWindow w, object sender, ref BirthCertModel c)
+
+        void AmendOption(BirthCertSettingsWindow w, object sender, ref BirthCertModel c)
         {
             var newValue = w.OptionValue;
             

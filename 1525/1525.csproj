@@ -93,6 +93,9 @@
     <Compile Include="CommandBehaviours\CommandBehavior.cs" />
     <Compile Include="CommandBehaviours\CommandBehaviorBinding.cs" />
     <Compile Include="CommandBehaviours\EventHandlerGenerator.cs" />
+    <Compile Include="BirthCertSettingsWindow.xaml.cs">
+      <DependentUpon>BirthCertSettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FatStevesPie\StevesPie.cs" />
     <Compile Include="LoadingWindow.xaml.cs">
       <DependentUpon>LoadingWindow.xaml</DependentUpon>
@@ -214,6 +217,10 @@
     <Compile Include="Views\UsbSoftwareUpdateView.xaml.cs">
       <DependentUpon>UsbSoftwareUpdateView.xaml</DependentUpon>
     </Compile>
+    <Page Include="BirthCertSettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="IniSettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

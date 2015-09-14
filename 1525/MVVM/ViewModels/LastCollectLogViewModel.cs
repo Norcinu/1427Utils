@@ -155,7 +155,6 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 var attr = File.GetAttributes(_payoutFile);
                 PayoutDate = File.GetLastWriteTime(_payoutFile);
-                
             }
             else
             {
@@ -165,9 +164,35 @@ namespace PDTUtils.MVVM.ViewModels
             BoLib.clearFileAction();
         }
         
-        void TicketCollectPayout(ref List<int> wagwan, ref int liveChecksum, ref int finalChecksum)
+        //!!! TODO COMPLETE THIS
+        void TicketCollectPayout(ref List<int> wagwan, ref List<int>ticketNumber, ref int liveChecksum, ref int finalChecksum)
         {
-
+            BoLib.setFileAction();
+            //using (var b = new BinaryReader(File.Open(@_ticketPayout, FileMode.Open)))
+            {
+                /*int position = 0;
+                int length = (int)b.BaseStream.Length;
+                while (position < length)
+                {
+                    if (position != (sizeof(int) * 2)) //3?
+                    {
+                        var value = b.ReadInt32();
+                        wagwan.Add(value);
+                        if (position != length - sizeof(int))
+                            liveChecksum += value;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 32; i++)
+                        {
+                            var value = b.ReadInt32();
+                            ticketNumber.Add(value);
+                            liveChecksum += value;
+                        }
+                    }
+                }*/
+            }
+            BoLib.clearFileAction();
         }
         
         void DoLoadLog()
@@ -183,7 +208,9 @@ namespace PDTUtils.MVVM.ViewModels
             }
             else
             {
+                var ticketNumber = new List<int>();
                 _payoutFile = Properties.Resources.payout_ticket;
+                TicketCollectPayout(ref wagwan, ref ticketNumber, ref liveChecksum, ref finalChecksum);
             }
             
             ShowListView = true;

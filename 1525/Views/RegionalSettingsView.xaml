@@ -115,8 +115,8 @@
 
                             <Border BorderBrush="Black" BorderThickness="2" Background="LightBlue">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="25" Background="LightBlue">
-                                    <Label Style="{StaticResource StdHeaderLabel}">Edit Region:</Label>
-                                    <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Selected.Community}"></Label>
+                                    <Label Style="{StaticResource StdHeaderLabel}" Content="Edit Region:" />
+                                    <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Selected.Community}" />
                                 </StackPanel>
                             </Border>
 
