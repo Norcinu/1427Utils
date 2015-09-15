@@ -31,7 +31,8 @@ namespace PDTUtils
         
         readonly ButtonTestImpl _btnImpl = new ButtonTestImpl();
         readonly CoinNoteValImpl _noteImpl = new CoinNoteValImpl();
-        readonly string[] _termButtonList = new string[8] { "LH1", "LH2", "LH3", "LH4", "LH5", "LH6", "LH7", "LH8" };
+        readonly string[] _termButtonList = new string[8] { "COBRAR", "MENU", "APUESTA", "JEUGO ESPECIAL", "RIESGO FICHAS", 
+                                                            "AUTO START", "INICIO", "LH8" };
         readonly byte[] _specialMasks = new byte[2] { 0x10, 0x02 };
         readonly byte[] _buttonMasks = new byte[8] { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 
@@ -400,9 +401,9 @@ namespace PDTUtils
             l.Foreground = Brushes.Yellow;
             l.BorderBrush = Brushes.Black;
             l.BorderThickness = new Thickness(2);
-            l.Content = "Press And Hold the button " + _termButtonList[_currentButton];
+            l.Content = "Press And Hold " + _termButtonList[_currentButton];
         }
-
+        
         void timer_updateNoteVal(Label l, int v)
         {
             if (v >= 500)

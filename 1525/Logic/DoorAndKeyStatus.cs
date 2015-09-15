@@ -92,7 +92,7 @@ namespace PDTUtils
         
         #endregion
         
-
+        
 		public DoorAndKeyStatus()
 		{
 			_doorStatus = false;

@@ -90,18 +90,19 @@ namespace PDTUtils
                 BtnComment.Content = "Enable";
             else
                 BtnComment.Content = "Disable";
-            
-            this.Left = (1920 / 2) - (300 / 2);
-            this.Top = (1080 / 2) - (136 / 2);
 
-            var w = new HelpMessageWindow(_theHelpMessages[index]);
+            Left = (1920 / 2) - (300 / 2);
+            Top = (1080 / 2) - (136 / 2);
+            
+            lblValidValues.Content = _theHelpMessages[index];
+            /* var w = new HelpMessageWindow(_theHelpMessages[index]);
             
             w.Width = 300;
             w.Height = 136;
             w.HorizontalAlignment = HorizontalAlignment.Center;
             w.Left = this.Left - (w.Width / 2);//(this.Left + this.Width) + 10;
             w.Top = this.Top - 150;
-            w.Show();
+            w.Show(); */
         }
         
         void button2_Click(object sender, RoutedEventArgs e)
