@@ -16,7 +16,8 @@ namespace PDTUtils.Views
             InitializeComponent();
             DataContext = new BirthCertViewModel();
         }
-
+        //wanna geta  papa johns imo. would be quality to get one instead of 
+        //
         void UpdateIniItem(object sender)
         {
             var l = sender as ListView;
@@ -24,10 +25,10 @@ namespace PDTUtils.Views
                 return;
 
             var c = l.Items[l.SelectedIndex] as BirthCertModel;
-            var dc = DataContext as BirthCertViewModel;
-            dc.SetHelpMessage(l.SelectedIndex);
+            /*var dc = DataContext as BirthCertViewModel;
+            dc.SetHelpMessage(l.SelectedIndex);*/
 
-            var w = new BirthCertSettingsWindow(c.Field, c.Value)
+            var w = new BirthCertSettingsWindow(c.Field, c.Value, l.SelectedIndex)
             {
                 BtnComment = { IsEnabled = false, Visibility = Visibility.Hidden }
             };
@@ -59,7 +60,7 @@ namespace PDTUtils.Views
             current.Value = newValue;
             current.Value = newValue;
             listView.Items.Refresh();
-                
+                  
             NativeWinApi.WritePrivateProfileString("Config", c.Field, c.Value, Properties.Resources.birth_cert);
         }
         

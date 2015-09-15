@@ -66,8 +66,8 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <Label Style="{StaticResource HelpLabel}" Foreground="Wheat" Background="Red" FontSize="24" Margin="10,0,0,0" 
-                           Content="{Binding HelpMessage}"/>
+                    <!-- <Label Style="{StaticResource HelpLabel}" Foreground="Wheat" Background="Red" FontSize="24" Margin="10,0,0,0" 
+                           Content="{Binding HelpMessage}"/> -->
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

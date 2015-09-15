@@ -8,8 +8,8 @@ namespace PDTUtils.MVVM.ViewModels
     class BirthCertViewModel : ObservableObject
     {
         readonly string _filename = Properties.Resources.birth_cert;
-        bool _showHelp = false;
-        string _helpMessage = "";
+        //bool _showHelp = false;
+        //string _helpMessage = "";
 
         public BirthCertViewModel()
         {
@@ -17,7 +17,7 @@ namespace PDTUtils.MVVM.ViewModels
             ParseIni();
         }
         
-        string[] _theHelpMessages = new string[27]
+        /*string[] _theHelpMessages = new string[27]
         {
             @"Payout Type: 0 = Hopper. 1 = Printer. 2 = Combined.", 
             @"Number Of Hoppers: 0 = No Hopper. 1 = High Value Coin Only. 2 = High & Low Hopper",
@@ -46,10 +46,10 @@ namespace PDTUtils.MVVM.ViewModels
             @"CommunityMember: 0 = No Community Link. 1 = Community active.",
             @"CommunityMaster: 0 = Not Master. 1 Act as Master.",
             @"CommunityIP: IP Address. E.g. 192.168.1.1"
-        };
+        };*/
         
         public ObservableCollection<BirthCertModel> Values { get; private set; }
-        public bool ShowHelp
+      /*  public bool ShowHelp
         {
             get { return _showHelp; }
             set
@@ -67,7 +67,8 @@ namespace PDTUtils.MVVM.ViewModels
                 _helpMessage = value;
                 RaisePropertyChangedEvent("HelpMessage");
             }
-        }
+        }*/
+
         public ICommand Parse { get { return new DelegateCommand(o => ParseIni()); } }
         void ParseIni()
         {
@@ -85,10 +86,10 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Values");
         }
         
-        public void SetHelpMessage(int index)
+        /*public void SetHelpMessage(int index)
         {
             HelpMessage = _theHelpMessages[index];
-        }
+        }*/
 
 
         /* TODO!!! */
