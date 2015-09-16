@@ -82,7 +82,7 @@
                         <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
                     </StackPanel>
                 </RepeatButton>
-
+                
                 <RepeatButton Height="75" Delay="500" Margin="45,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
                     <StackPanel>
                         <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
@@ -100,4 +100,3 @@
         </StackPanel>
     </Grid>
 </UserControl>
-    

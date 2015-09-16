@@ -512,8 +512,8 @@ namespace PDTUtils
         void btnDiagnostics_Click(object sender, RoutedEventArgs e)
         {
             //if (UcDiagnostics.AccessLevel)
-            //UcDiagnostics.IsEnabled = !UcDiagnostics.IsEnabled;
-            //UcDiagnostics.Visibility = UcDiagnostics.IsEnabled ? Visibility.Visible : Visibility.Hidden;
+            UcDiagnostics.IsEnabled = !UcDiagnostics.IsEnabled;
+            UcDiagnostics.Visibility = UcDiagnostics.IsEnabled ? Visibility.Visible : Visibility.Hidden;
 
             Enabler.ClearAll();
 

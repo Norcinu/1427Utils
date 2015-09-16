@@ -132,6 +132,7 @@
     <Compile Include="MVVM\ViewModels\NoteAdminViewModel.cs" />
     <Compile Include="MVVM\ViewModels\PerformanceViewModel.cs" />
     <Compile Include="MVVM\ViewModels\RegionalSettingsViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\RouletteBettingViewModel.cs" />
     <Compile Include="MVVM\ViewModels\ScreenshotViewModel.cs" />
     <Compile Include="Views\CpuCaseOpenLog.xaml.cs">
       <DependentUpon>CpuCaseOpenLog.xaml</DependentUpon>

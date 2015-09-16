@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PDTUtils.MVVM.ViewModels;
 
 namespace PDTUtils.Views
 {
@@ -21,6 +22,7 @@ namespace PDTUtils.Views
     {
         public RouletteBettingView()
         {
+            DataContext = new RouletteBettingViewModel();
             InitializeComponent();
         }
     }

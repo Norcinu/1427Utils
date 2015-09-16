@@ -6,7 +6,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1200">
     
+    
     <UserControl.Resources>
+        
         <Style x:Key="StdLabel" TargetType="Label">
             <Setter Property="Height" Value="38"/>
             <Setter Property="FontSize" Value="22"/>
