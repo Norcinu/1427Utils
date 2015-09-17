@@ -12,21 +12,15 @@ namespace PDTUtils.MVVM.ViewModels
         readonly string _name = "name";
         readonly string _min = "min";
         readonly string _max = "max";
-        //
-        /*ObservableCollection<int> _minValues = new ObservableCollection<int>();
-        ObservableCollection<int> _maxValues = new ObservableCollection<int>();*/
+        
         
         Dictionary<string, KeyValuePair<int, int>> _betInfo = new Dictionary<string, KeyValuePair<int, int>>();
-
-
+        
+        
         public RouletteBettingViewModel()
         {
             ParseFile();
         }
-        
-
-        //dem properties imo.
-        
         
         void ParseFile()
         {
@@ -36,13 +30,16 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     string name = "";
                     string[] attribute = new string[2];
-
+                    int count = 0;
+                    int length = 3;
+                    
                     while (xml.Read())
                     {
                         switch (xml.NodeType)
                         {
                             case XmlNodeType.Element:
                                 name = xml.Name;
+                                count++;
                                 break;
                             
                             case XmlNodeType.Text:
@@ -50,13 +47,21 @@ namespace PDTUtils.MVVM.ViewModels
                                     attribute[0] = xml.Value.Trim("\t\n\r".ToCharArray());
                                 else if (name == "max")
                                     attribute[1] = xml.Value.Trim("\t\n\r".ToCharArray());
+                                
+                                count++;
                                 break;
-                            
+
                             case XmlNodeType.EndElement:
                                 name = "";
                                 attribute[0] = "";
                                 attribute[1] = "";
                                 break;
+                        }
+                        
+                        if (count == length)
+                        {
+                            System.Diagnostics.Debug.WriteLine("BULLA JE FROG");
+                            //NEW DICTIONARY ITEM
                         }
                     }
                 }
@@ -68,7 +73,7 @@ namespace PDTUtils.MVVM.ViewModels
                 //load default values
             }
         }
-
+        
         void Write()
         {
 
