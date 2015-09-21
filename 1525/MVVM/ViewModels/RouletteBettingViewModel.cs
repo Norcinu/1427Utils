@@ -8,10 +8,10 @@ namespace PDTUtils.MVVM.ViewModels
     class RouletteBettingViewModel : ObservableObject
     {
         readonly string _betValues = @"D:\2001\BetValues.xml";
-        readonly string _rootNode = "betvalues";
+        /*readonly string _rootNode = "betvalues";
         readonly string _name = "name";
         readonly string _min = "min";
-        readonly string _max = "max";
+        readonly string _max = "max";*/
         
         
         Dictionary<string, KeyValuePair<int, int>> _betInfo = new Dictionary<string, KeyValuePair<int, int>>();
@@ -21,12 +21,13 @@ namespace PDTUtils.MVVM.ViewModels
         {
             ParseFile();
         }
-        
+        //literally I am an insult to the bass and bass players.
+        //pretty cool guitar solo imo.
         void ParseFile()
         {
             try
             {
-                using (XmlReader xml = XmlReader.Create(_betValues))
+                using (var xml = XmlReader.Create(_betValues))
                 {
                     string name = "";
                     string[] attribute = new string[2];
@@ -76,7 +77,7 @@ namespace PDTUtils.MVVM.ViewModels
         
         void Write()
         {
-
+            //half an hour so false.
         }
 
         public ICommand Increment

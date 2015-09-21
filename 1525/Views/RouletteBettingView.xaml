@@ -27,17 +27,19 @@
     
     <Grid>
         <StackPanel>
-            <StackPanel Orientation="Horizontal" Background="DarkBlue"> <!-- darkgray -->
+            <StackPanel Orientation="Horizontal" Background="DarkBlue">
+                <!-- darkgray -->
                 <Label Style="{StaticResource StdLabel}" Margin="10" Height="76" Width="546" BorderThickness="0" FontSize="48">BET</Label>
                 <Label Style="{StaticResource StdLabel}" Margin="10" Height="76" Width="545" BorderThickness="0" FontSize="48">MIN</Label>
-                <Label Style="{StaticResource StdLabel}" Margin="10" Height="76" Width="546" BorderThickness="0" FontSize="48">MAX</Label>                
+                <Label Style="{StaticResource StdLabel}" Margin="10" Height="76" Width="546" BorderThickness="0" FontSize="48">MAX</Label>
             </StackPanel>
+
             
             <ScrollViewer>
                 <StackPanel>
             <StackPanel Orientation="Horizontal" Background="IndianRed"><!--  HorizontalAlignment="Center"> -->
                 <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="35:1"/>
-
+                
                 <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
                     <StackPanel>
                         <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
@@ -51,7 +53,6 @@
                         <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
                     </StackPanel>
                 </RepeatButton>
-
                 <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
                     <StackPanel>
                         <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
@@ -67,6 +68,7 @@
                 </RepeatButton>
             </StackPanel>
 
+            
             <StackPanel Orientation="Horizontal" Background="IndianRed">
                 <!--  HorizontalAlignment="Center"> -->
                 <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="17:1"/>

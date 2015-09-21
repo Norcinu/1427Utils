@@ -69,7 +69,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Name="RowOne" Height="82*" />
             <RowDefinition Name="RowTwo" Height="{Binding Path=Height,  Converter={StaticResource ScaleScreenHeight}}" 
-                           SharedSizeGroup="theRow"/>
+                           SharedSizeGroup="theRow" />
             <RowDefinition Name="RowThree" Height="52*" />
         </Grid.RowDefinitions>
         
@@ -524,13 +524,13 @@
                         Converter={StaticResource BoolToVisConverter}}">
                 <view:NetworkSettingsView />
             </TabItem>
-            
+             
             <TabItem Header="Games">
                 <TabControl>
                     <TabItem Header="General">
                         <!-- <view:GeneralGameSettingView/> -->
                     </TabItem>
-                    <TabItem Header="Roultette">
+                    <TabItem Header="Roulette">
                         <view:RouletteBettingView />
                     </TabItem>
                 </TabControl>

@@ -23,6 +23,8 @@ namespace PDTUtils.MVVM.ViewModels
         readonly ObservableCollection<KeyValuePair<string, uint>> _settingsView = new ObservableCollection<KeyValuePair<string, uint>>();
         readonly ObservableCollection<SpanishRegionalModel> _arcades = new ObservableCollection<SpanishRegionalModel>();
         readonly ObservableCollection<SpanishRegionalModel> _street = new ObservableCollection<SpanishRegionalModel>();
+        readonly ObservableCollection<KeyValuePair<string, string>> _visualSettingsView = new ObservableCollection<KeyValuePair<string,string>>();
+        
         SpanishRegionalModel _editableLiveRegion;
         SpainRegionSelection _selected = new SpainRegionSelection();
         
@@ -44,14 +46,14 @@ namespace PDTUtils.MVVM.ViewModels
             "Murcia-arcade-500","Navarra-1000","Navarra-2000","La Rioja-1000","La Rioja-2000","Valencia-2000","Valencia-3000",
             "Valencia-600","Valencia-1000","Canarias-1000","Galicia-3600","Galicia-1800"
         };
-
+        
         readonly string[] _settingHeaders = new string[19] 
         {
             "Max Stake Credits", "Max Stake Bank", "Stake Mask", "Max Win Per Stake", "Max Credits", "Max Reserve Credits", 
             "Max Bank", "Max Player Points", "Escrow State", "RTP", "Game Time", "Give Change Threshold", 
             "Max Bank Note", "Allow Credit To Bank", "Convert To PP", "Cycle Size", "Fast Transfer", "GamesPerPeriod", ""
         };
-
+        
         #region Properties
         public bool FirstScreen { get; set; }
         public bool SecondScreen { get; set; }
@@ -59,7 +61,7 @@ namespace PDTUtils.MVVM.ViewModels
         public IEnumerable<SpanishRegionalModel> Arcades { get { return _arcades; } }
         public IEnumerable<SpanishRegionalModel> Street { get { return _street; } }
         public IEnumerable<KeyValuePair<string, uint>> SettingsView { get { return _settingsView; } }
-        
+
         public SpainRegionSelection Selected
         {
             get { return _selected; }
@@ -79,7 +81,7 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if (_marketSelectedIndex >= 0)
                     MarketSelectedIndex = -1;
-                _arcadeSelectedIndex = value;
+                _arcadeSelectedIndex = value + 1;
                 SetRegion();
 
                 RaisePropertyChangedEvent("ArcadeSelectedIndex");
@@ -93,13 +95,13 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if (_arcadeSelectedIndex >= 0)
                     ArcadeSelectedIndex = -1;
-                _marketSelectedIndex = value;
+                _marketSelectedIndex = value + 1;
                 SetRegion();
 
                 RaisePropertyChangedEvent("MarketSelectedIndex");
             }
         }
-
+        
         public bool SelectionChanged
         {
             get { return _selectionChanged; }
@@ -109,7 +111,6 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("SelectionChanged");
             }
         }
-
         
         public uint _alwaysFichas = 0;
         public uint AlwaysFichas
@@ -144,6 +145,11 @@ namespace PDTUtils.MVVM.ViewModels
             get { return _isSpanishMachine; }
         }
         
+        public  ObservableCollection<KeyValuePair<string, string>> VisualSettingsView
+        {
+            get{return _visualSettingsView;}
+        }
+
         #endregion
  
         #region Commands
@@ -164,7 +170,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _isSpanishMachine = false;
                 return; //not a spanish machine so dont load.
             }
-          
+
             var i = 0;
             foreach (var s in _streetMarketRegions)
             {
@@ -183,9 +189,9 @@ namespace PDTUtils.MVVM.ViewModels
                 _arcades.Add(new SpanishRegionalModel(_arcadeRegions[i], sr));
                 i++;
             }
-
+            
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
-
+            
             SelectionChanged = false;
 
             AlwaysFichas = BoLib.getLiveElement((int)EspRegionalExt.EspAlwaysFichas);
@@ -193,7 +199,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             LoadSettings();
             LoadSettingsView();
-
+                    
             RaisePropertyChangedEvent("EditableLiveRegion");
             RaisePropertyChangedEvent("Arcades");
             RaisePropertyChangedEvent("Street");
@@ -205,7 +211,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (_settingsView.Count > 0)
                 _settingsView.Clear();
-
+            
             PropertyInfo[] properties = _editableLiveRegion.GetType().GetProperties();
             int headerCtr = 0;
             try
@@ -216,8 +222,39 @@ namespace PDTUtils.MVVM.ViewModels
                     {
                         if (headerCtr != 2)
                         {
-                            _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr],
-                                (uint)p.GetValue(_editableLiveRegion, null)));
+                            if (_settingHeaders[headerCtr] == "RTP")
+                            {
+                                _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr],
+                                    (uint)p.GetValue(_editableLiveRegion, null) / 100));
+
+                                _visualSettingsView.Add(new KeyValuePair<string, string>(_settingHeaders[headerCtr],
+                                    p.GetValue(_editableLiveRegion, null).ToString()));
+                            }
+                            else
+                            {
+                                var str = "";
+                                if (headerCtr == 0 || headerCtr == 1 || headerCtr == 3 || headerCtr == 4 || headerCtr == 5 || headerCtr == 6 || headerCtr == 11)
+                                {
+                                    uint a = 0;
+                                    if ((uint)p.GetValue(_editableLiveRegion, null) >= 100)
+                                    {
+                                        a = (uint)p.GetValue(_editableLiveRegion, null) / 100;
+                                        str = "€" + Convert.ToString(a);
+                                    }
+                                    else
+                                    {
+                                        a = (uint)p.GetValue(_editableLiveRegion, null);
+                                        str = Convert.ToString(a) + "¢";
+                                    }
+                                }
+                                else
+                                    str = p.GetValue(_editableLiveRegion, null).ToString();
+
+                                _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr],
+                                    (uint)p.GetValue(_editableLiveRegion, null)));
+
+                                _visualSettingsView.Add(new KeyValuePair<string, string>(_settingHeaders[headerCtr], str));
+                            }
                         }
                         headerCtr++;
                     }
@@ -231,6 +268,7 @@ namespace PDTUtils.MVVM.ViewModels
 #endif
             }
             RaisePropertyChangedEvent("SettingsView");
+            RaisePropertyChangedEvent("VisualSettingsView");
         }
         
         public void SaveChanges()
@@ -252,7 +290,7 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Settings", "MaxReserveCredits", _editableLiveRegion.MaxReserveCredits.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "MaxBank", _editableLiveRegion.MaxBank.ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "EscrowState", _editableLiveRegion.EscrowState.ToString(), _espRegionIni);
-            NativeWinApi.WritePrivateProfileString("Settings", "Rtp", _editableLiveRegion.Rtp.ToString(), _espRegionIni);
+            NativeWinApi.WritePrivateProfileString("Settings", "Rtp", (_editableLiveRegion.Rtp * 100).ToString(), _espRegionIni);
             NativeWinApi.WritePrivateProfileString("Settings", "GameTime", _editableLiveRegion.GameTime.ToString(), _espRegionIni);
             
             NativeWinApi.WritePrivateProfileString("Settings", "GamesPerPeriod", _editableLiveRegion.GamesPerPeriod.ToString(), _espRegionIni);
@@ -293,7 +331,7 @@ namespace PDTUtils.MVVM.ViewModels
             _editableLiveRegion.MaxReserveCredits = Convert.ToUInt32(liveSettings[5].Substring(18));
             _editableLiveRegion.MaxBank = Convert.ToUInt32(liveSettings[6].Substring(8));
             _editableLiveRegion.EscrowState = Convert.ToUInt32(liveSettings[7].Substring(12));
-            _editableLiveRegion.Rtp = Convert.ToUInt32(liveSettings[8].Substring(4));
+            _editableLiveRegion.Rtp = Convert.ToUInt32(liveSettings[8].Substring(4)) / 100;
             _editableLiveRegion.GameTime = Convert.ToUInt32(liveSettings[9].Substring(9));
             _editableLiveRegion.GamesPerPeriod = Convert.ToUInt32(liveSettings[10].Substring(15));
             _editableLiveRegion.GiveChangeThreshold = Convert.ToUInt32(liveSettings[11].Substring(20));
@@ -330,6 +368,7 @@ namespace PDTUtils.MVVM.ViewModels
             BoLib.getDefaultRegionValues(id, ref sr);
 
             _editableLiveRegion = new SpanishRegionalModel(Selected.Community, sr);
+            _editableLiveRegion.Rtp /= 100;
             SelectionChanged = true;
             
             SaveChanges();
@@ -339,7 +378,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Selected");
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
-       
+        
         void DoIncrement(object settingsName)
         {
             var setting = settingsName as string;
@@ -348,17 +387,14 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if (EditableLiveRegion.GameTime < 100)
                     EditableLiveRegion.GameTime += 1;
-                //var time = BoLib.getDefaultElement(Selected.Id, 9);
-                //if ((EditableLiveRegion.GameTime + 3) <= (time + 3))
-                //    EditableLiveRegion.GameTime += 3;
             }
-            else if ((setting.Equals("RTP") && _editableLiveRegion.Rtp < 10000))
-                _editableLiveRegion.Rtp += 100;
-            else if (setting.Equals("MaxBank"))// && _editableLiveRegion.MaxBank >= 50)
+            else if ((setting.Equals("RTP") && _editableLiveRegion.Rtp < 100))//00))
+                _editableLiveRegion.Rtp += 1; //100;
+            else if (setting.Equals("MaxBank"))
                 _editableLiveRegion.MaxBank += 100;
-            else if (setting.Equals("MaxCredits"))// && _editableLiveRegion.MaxCredits >= 50)
+            else if (setting.Equals("MaxCredits"))
                 _editableLiveRegion.MaxCredits += 100;
-            else if (setting.Equals("MaxReserve"))// && _editableLiveRegion.MaxReserveCredits >= 1000)
+            else if (setting.Equals("MaxReserve"))
                 _editableLiveRegion.MaxReserveCredits += 1000;
             else if (setting.Equals("Cycle") && EditableLiveRegion.CycleSize < 500000)
                 EditableLiveRegion.CycleSize += 1000;
@@ -378,15 +414,12 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if ((int)EditableLiveRegion.GameTime > 1)
                     EditableLiveRegion.GameTime -= 1;
-                //var diff = (int)EditableLiveRegion.GameTime - BoLib.getDefaultElement(Selected.Id, 9);
-                //if (diff >= 0)
-                //    EditableLiveRegion.GameTime -= 3;
             }
             else if (setting == "RTP")
             {
-                if (EditableLiveRegion.Rtp > BoLib.getDefaultElement(Selected.Id, (int)EspRegionalBase.Rtp) 
-                    && _editableLiveRegion.Rtp <= 10000)
-                    _editableLiveRegion.Rtp -= 100;
+                if (EditableLiveRegion.Rtp > BoLib.getDefaultElement(Selected.Id, (int)EspRegionalBase.Rtp) / 100
+                    && _editableLiveRegion.Rtp <= 100)//00)
+                    _editableLiveRegion.Rtp -= 1;//00;
             }
             else if (setting == "MaxBank" && _editableLiveRegion.MaxBank > 50)
                 _editableLiveRegion.MaxBank -= 100;
@@ -438,7 +471,7 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-        
+        //here me now.
         void DoSetFastTransfer(object o)
         {
             var str = o as string;
