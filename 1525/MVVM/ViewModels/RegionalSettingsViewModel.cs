@@ -211,7 +211,9 @@ namespace PDTUtils.MVVM.ViewModels
         {
             if (_settingsView.Count > 0)
                 _settingsView.Clear();
-            
+            if (_visualSettingsView.Count > 0)
+                _visualSettingsView.Clear();
+
             PropertyInfo[] properties = _editableLiveRegion.GetType().GetProperties();
             int headerCtr = 0;
             try
@@ -233,22 +235,26 @@ namespace PDTUtils.MVVM.ViewModels
                             else
                             {
                                 var str = "";
-                                if (headerCtr == 0 || headerCtr == 1 || headerCtr == 3 || headerCtr == 4 || headerCtr == 5 || headerCtr == 6 || headerCtr == 11)
+                                if (headerCtr == 0 || headerCtr == 1 || headerCtr == 3 || headerCtr == 4 ||
+                                    headerCtr == 5 || headerCtr == 6 || headerCtr == 12)
                                 {
-                                    uint a = 0;
-                                    if ((uint)p.GetValue(_editableLiveRegion, null) >= 100)
+                                    uint a = (uint)p.GetValue(_editableLiveRegion, null);
+                                    if (a >= 100)
                                     {
-                                        a = (uint)p.GetValue(_editableLiveRegion, null) / 100;
-                                        str = "€" + Convert.ToString(a);
+                                        //a = (uint)p.GetValue(_editableLiveRegion, null) / 100;
+
+                                        str = "€" + Convert.ToString(a /= 100);
                                     }
                                     else
                                     {
-                                        a = (uint)p.GetValue(_editableLiveRegion, null);
+                                        //a = (uint)p.GetValue(_editableLiveRegion, null);
                                         str = Convert.ToString(a) + "¢";
                                     }
                                 }
                                 else
+                                {
                                     str = p.GetValue(_editableLiveRegion, null).ToString();
+                                }
 
                                 _settingsView.Add(new KeyValuePair<string, uint>(_settingHeaders[headerCtr],
                                     (uint)p.GetValue(_editableLiveRegion, null)));

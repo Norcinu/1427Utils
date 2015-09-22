@@ -16,358 +16,60 @@
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Foreground" Value="White"/>
+            <!-- <Setter Property="Margin" Value="10"/> -->
+            <Setter Property="Foreground" Value="Red"/>
             <Setter Property="Background" Value="DarkBlue"/>
-            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="MinWidth" Value="200"/>
+            <!-- <Setter Property="MinWidth" Value="180"/> -->
+            <Setter Property="Width" Value="175"/>
         </Style>
     </UserControl.Resources>
     
     <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal" Background="DarkBlue">
-                <!-- darkgray -->
-                <Label Style="{StaticResource StdLabel}" Margin="10" Height="76" Width="546" BorderThickness="0" FontSize="48">BET</Label>
-                <Label Style="{StaticResource StdLabel}" Margin="10" Height="76" Width="545" BorderThickness="0" FontSize="48">MIN</Label>
-                <Label Style="{StaticResource StdLabel}" Margin="10" Height="76" Width="546" BorderThickness="0" FontSize="48">MAX</Label>
-            </StackPanel>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <ListView ItemsSource="{Binding BetInfo}" SelectedIndex="{Binding SelectedIndex}" Width="600">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Key" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Background="LightGray" BorderBrush="Black" BorderThickness="2"
+                                           FontSize="20" Content="{Binding Key}" Style="{StaticResource StdLabel}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Min" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label  Background="LightGray" BorderBrush="Black" BorderThickness="2"
+                                            FontSize="20" Content="{Binding Value.First}" Style="{StaticResource StdLabel}"/>
+                                    </DataTemplate>
+                                    <!-- Margin="10,2,10,2" -->
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-            
-            <ScrollViewer>
-                <StackPanel>
-            <StackPanel Orientation="Horizontal" Background="IndianRed"><!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="35:1"/>
+                            <GridViewColumn Header="Max" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Background="LightGray" BorderBrush="Black" BorderThickness="2"
+                                           FontSize="20" Content="{Binding Value.Second}" Style="{StaticResource StdLabel}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
                 
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
+                <StackPanel Width="200" Margin="10">
+                    <Label Content="{Binding SelectedName}"/>
+                    <Label ContentStringFormat="Min: {0}" Content="{Binding SelectedMin}" />
+                    <Label ContentStringFormat="Max: {0}" Content="{Binding SelectedMax}" />
                 </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
             </StackPanel>
-
-            
-            <StackPanel Orientation="Horizontal" Background="IndianRed">
-                <!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="17:1"/>
-
-                <RepeatButton Height="75" Delay="500" Margin="10,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Margin="10" Height="75" Width="376">Game Time</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="0,10,10,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Background="IndianRed">
-                <!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="11:1"/>
-
-                <RepeatButton Height="75" Delay="500" Margin="10,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Margin="10" Height="75" Width="376">Game Time</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="0,10,10,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Background="IndianRed">
-                <!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="8:1"/>
-
-                <RepeatButton Height="75" Delay="500" Margin="10,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Margin="10" Height="75" Width="376">Game Time</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="0,10,10,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Background="IndianRed">
-                <!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="5:1"/>
-
-                <RepeatButton Height="75" Delay="500" Margin="10,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Margin="10" Height="75" Width="376">Game Time</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="0,10,10,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Background="IndianRed">
-                <!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="2:1"/>
-
-                <RepeatButton Height="75" Delay="500" Margin="10,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Margin="10" Height="75" Width="376">Game Time</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="0,10,10,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Background="IndianRed">
-                <!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="1:1"/>
-
-                <RepeatButton Height="75" Delay="500" Margin="10,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Margin="10" Height="75" Width="376">Game Time</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="0,10,10,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Background="IndianRed">
-                <!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="Zero Split"/>
-
-                <RepeatButton Height="75" Delay="500" Margin="10,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Margin="10" Height="75" Width="376">Game Time</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="0,10,10,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Background="IndianRed">
-                <!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="Table"/>
-
-                <RepeatButton Height="75" Delay="500" Margin="10,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Margin="10" Height="75" Width="376">Game Time</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="0,10,10,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Background="IndianRed">
-                <!--  HorizontalAlignment="Center"> -->
-                <Label Style="{StaticResource StdLabel}" BorderThickness="2" Margin="10" Width="546" Height="76" FontSize="48" Content="Inside"/>
-
-                <RepeatButton Height="75" Delay="500" Margin="10,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Margin="10" Height="75" Width="376">Game Time</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="0,10,10,10" Command="{Binding Decrement}" CommandParameter="GameTime">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-
-                <RepeatButton Height="75" Delay="500" Margin="15,10,0,10" Command="{Binding Increment}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-                <StackPanel>
-                    <Label Style="{StaticResource StdLabel}" BorderThickness="2" FontSize="48" Height="75" Width="376" Margin="10">Machine RTP</Label>
-                </StackPanel>
-                <RepeatButton Height="75" Delay="500" Margin="5,10,10,10" Command="{Binding Decrement}" CommandParameter="RTP">
-                    <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
-                    </StackPanel>
-                </RepeatButton>
-            </StackPanel>
-
-                </StackPanel>
-            </ScrollViewer>
         </StackPanel>
     </Grid>
 </UserControl>
+
+    

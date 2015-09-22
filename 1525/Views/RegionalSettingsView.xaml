@@ -39,15 +39,19 @@
     <Grid>
         <TabControl>
             <TabItem Header="Community Type">
-
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Background="LightBlue">
-                        <Label Style="{StaticResource StdHeaderLabel}" BorderBrush="Black" BorderThickness="2" Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Background="Azure">
+                    <Border BorderBrush="Black" BorderThickness="2,2,2,0">
+                        <StackPanel>
+                        <Label Style="{StaticResource StdHeaderLabel}" Background="DarkGray" Foreground="Red" BorderBrush="Black" BorderThickness="2" Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Label Style="{StaticResource StdHeaderLabel}" Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" FontSize="28" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" />
                             <Label Style="{StaticResource StdHeaderLabel}" Content=" - Reboot Required" FontSize="28" Margin="-20,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" IsEnabled="{Binding SelectionChanged}"
                            Visibility="{Binding SelectionChanged, Converter={StaticResource BoolToVisConverter}}"/>
                         </StackPanel>
-                        
+                        </StackPanel>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="2">
                         <StackPanel HorizontalAlignment="Center">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -78,14 +82,16 @@
                                 </ListView>
                             </Grid>
                         </StackPanel>
+                    </Border>
                 </StackPanel>
+                
             </TabItem>
             
             <TabItem Header="Community Settings">
                 <TabControl>
                     <TabItem Header="View" Width="150">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <ListView ItemsSource="{Binding SettingsView}"> 
+                            <ListView ItemsSource="{Binding VisualSettingsView}"> 
                                 <ListView.View>
                                     <GridView>
                                         <GridViewColumn Header="Key" Width="380">
