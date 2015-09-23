@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows.Input;
 using System.Xml;
 
@@ -28,7 +29,7 @@ namespace PDTUtils.MVVM.ViewModels
         readonly string _betValues = @"D:\2001\BetValues.xml";
         Dictionary<string, Pair<int, int>> _betInfo = new Dictionary<string, Pair<int, int>>();
         List<string> _names = new List<string>();
-
+        
         public int SelectedIndex
         {
             get { return _selectedIndex; }
@@ -58,32 +59,32 @@ namespace PDTUtils.MVVM.ViewModels
             get
             {
                 if (_selectedIndex >= 0)
-                    return _betInfo[_names[_selectedIndex].Split(":".ToCharArray())[0]].First;
+                    return _betInfo[_names[_selectedIndex]].First;//.Split(":".ToCharArray())[0]].First;
                 else
                     return -1;
             }
             set
             {
-                _betInfo[_names[_selectedIndex]].First = value;
+                _betInfo[_names[_selectedIndex]].First = value; //.Split(":".ToCharArray())[0]].First = value;
             }
         }
-
+        
         public int SelectedMax
         {
             get 
             {
                 if (_selectedIndex >= 0)
-                    return _betInfo[_names[_selectedIndex].Split(":".ToCharArray())[0]].Second;
+                    return _betInfo[_names[_selectedIndex]].Second;//.Split(":".ToCharArray())[0]].Second;
                 else
                     return -1;
             }
             set
             {
                 if (_selectedIndex >= 0)
-                    _betInfo[_names[_selectedIndex].Split(":".ToCharArray())[0]].Second = value;
+                    _betInfo[_names[_selectedIndex]].Second = value; //.Split(":".ToCharArray())[0]].Second = value;
             }
         }
-
+        
         public List<string> Names { get { return _names; } }
 
         public Dictionary<string, Pair<int, int>> BetInfo
@@ -142,18 +143,18 @@ namespace PDTUtils.MVVM.ViewModels
                                 try
                                 {
                                     if (Convert.ToInt32(name) > 0)
-                                        _names.Add(name + ":1");
-                                    else
-                                        _names.Add(name);
+                                        name += ":1";
+
+                                    _names.Add(name);
                                 }
                                 catch (Exception e)
                                 {
                                     _names.Add(name);
                                 }
-
+                                
                                 _betInfo.Add(name, new Pair<int, int>(Convert.ToInt32(attribute[0]), Convert.ToInt32(attribute[1])));
                             }
-
+                            
                             count = 0;
                             attribute[0] = "";
                             attribute[1] = "";
@@ -171,27 +172,36 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Names");
         }
         
+        public ICommand SaveSettings
+        {
+            get { return new DelegateCommand(o => Write()); }
+        }
+        
         void Write()
         {
+            Encoding encoding = new ASCIIEncoding();
+            XmlWriterSettings settings = new XmlWriterSettings() { Indent = true, Encoding = encoding, NewLineChars = "\n" };
+            using (var xml = XmlWriter.Create(_betValues, settings))
+            {
+                xml.WriteStartDocument();
+                xml.WriteStartElement("betvalues");
+                xml.WriteAttributeString("update", "true");
+                
+                foreach (var k in _betInfo)
+                {
+                    xml.WriteStartElement("bet");
+                    xml.WriteAttributeString("name", k.Key.Split(":".ToCharArray())[0]);
+                    xml.WriteStartElement("min");
+                    xml.WriteAttributeString("value", k.Value.First.ToString());
+                    xml.WriteEndElement();
+                    xml.WriteStartElement("max");
+                    xml.WriteAttributeString("value", k.Value.Second.ToString());
+                    xml.WriteEndElement();
+                    xml.WriteEndElement();
+                }
+                
+                xml.WriteEndElement();
+            }
         }
-
-        public ICommand Increment
-        {
-            get { return new DelegateCommand(DoIncrement); }
-        }
-        void DoIncrement(object o)
-        {
-
-        }
-
-        public ICommand Decrement
-        {
-            get { return new DelegateCommand(DoDecrement); }
-        }
-        void DoDecrement(object o)
-        {
-
-        }
-
     }
 }

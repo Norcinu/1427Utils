@@ -107,6 +107,7 @@
     <Compile Include="Logic\IniFileUtility.cs" />
     <Compile Include="Logic\TouchScreenKeyboard.cs" />
     <Compile Include="Logic\MachineDescription.cs" />
+    <Compile Include="Logic\TouchScreenNumPad.cs" />
     <Compile Include="MVVM\IMessageBoxService.cs" />
     <Compile Include="MVVM\Models\BirthCertModel.cs" />
     <Compile Include="MVVM\Models\CashReconiliation.cs" />

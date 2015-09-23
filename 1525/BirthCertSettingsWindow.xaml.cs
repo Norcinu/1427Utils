@@ -85,16 +85,16 @@ namespace PDTUtils
             OptionValue = v;
             TxtNewValue.Text = OptionValue;
             RetChangeType = ChangeType.None;
-
+            
             if (OptionField[0] == '#')
                 BtnComment.Content = "Enable";
             else
                 BtnComment.Content = "Disable";
-
+            
             Left = (1920 / 2) - (300 / 2);
             Top = (1080 / 2) - (136 / 2);
-            
-            lblValidValues.Content = _theHelpMessages[index];
+
+            lblValidValues.Content = (index <= _theHelpMessages.Length) ? _theHelpMessages[index] : "";
             /* var w = new HelpMessageWindow(_theHelpMessages[index]);
             
             w.Width = 300;
@@ -117,7 +117,7 @@ namespace PDTUtils
 			OptionValue = TxtNewValue.Text;
 			Close();
 		}
-        
+            
 		void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
             

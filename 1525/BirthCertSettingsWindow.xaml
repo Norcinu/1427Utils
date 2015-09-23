@@ -8,15 +8,19 @@
     <Grid FocusManager.FocusedElement="{Binding ElementName=TxtNewValue}">
         <StackPanel Margin="20">
             <Label FontSize="18" Margin="10" VerticalAlignment="Top" FontStretch="Normal" Name="LblText" Content="Enter new Item Value:" />
-            <StackPanel Orientation="Horizontal" Height="25" VerticalAlignment="Bottom" Margin="10" Width="257">
-                <Button Content="Set Value" Height="23" Margin="0,0,15,0" Name="BtnSave" Width="75" Click="btnSave_Click" IsDefault="False" HorizontalAlignment="Left" />
+            <Label Name="lblValidValues" Margin="10" FontWeight="Bold"/>
+            <TextBox Height="35" FontSize="20" HorizontalAlignment="Left" Margin="12,30,0,0" Name="TxtNewValue" 
+                     VerticalAlignment="Top" Width="254"/>
+            
+            <StackPanel Orientation="Horizontal"  VerticalAlignment="Bottom" Margin="10" Width="257">
+                <Button Content="Set Value" Height="23" Margin="0,0,15,0" Name="BtnSave" Width="75" Click="btnSave_Click" 
+                        IsDefault="False" HorizontalAlignment="Left" />
                 <Button Content="Remove" Height="23" Margin="0,0,15,0" Name="BtnComment" Width="75" Click="btnComment_Click"
                         HorizontalAlignment="Center" />
-                <Button Content="Cancel" Height="23" Name="BtnCancel" Width="75" Click="button2_Click"
+                <Button Content="Cancel" Height="23" Margin="0,0,15,0" Name="BtnCancel" Width="75" Click="button2_Click"
                         HorizontalAlignment="Right" />
-            </StackPanel>
-            <Label Name="lblValidValues" />
-            <TextBox Height="35" FontSize="20" HorizontalAlignment="Left" Margin="12,30,0,0" Name="TxtNewValue" VerticalAlignment="Top" Width="254"/>
+            </StackPanel> <!-- Height="25" -->
+            
         </StackPanel>
     </Grid>
 </Window>
