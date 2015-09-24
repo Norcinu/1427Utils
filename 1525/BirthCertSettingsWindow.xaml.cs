@@ -33,9 +33,10 @@ namespace PDTUtils
     }
     
     //public enum ChangeType { Amend, Comment, Uncomment, Cancel, None };
+    
 	public partial class BirthCertSettingsWindow : Window
 	{
-        string[] _theHelpMessages = new string[27]
+        string[] _theHelpMessages = new string[32]
         {
             @"Payout Type: 0 = Hopper. 1 = Printer. 2 = Combined.", 
             @"Number Of Hoppers: 0 = No Hopper. 1 = High Value Coin Only. 2 = High & Low Hopper",
@@ -61,16 +62,21 @@ namespace PDTUtils
             @"Hand Pay Only: = 0: Combined Payment. 1 = Hand Pay Only",
             @"OverrideRecycler: 0 = Include Note Payment. 1 = Disable Note Payment",
             @"TiToEnabled: 0: Disabled. 1 = Enabled.",
+            @"TiToHost: 0: Not the host. 1 = Host.",
             @"CommunityMember: 0 = No Community Link. 1 = Community active.",
             @"CommunityMaster: 0 = Not Master. 1 Act as Master.",
-            @"CommunityIP: IP Address. E.g. 192.168.1.1"
+            @"CommunityIP: IP Address. E.g. 192.168.1.1",
+            @"Port: Numeric port number for community host range 1024-65535",
+            @"AssetNo: TiTo Asset Number.",
+            @"TiToServerIP: IP Address to TiTo Web Service",
+            @"MinPlayerPointsBet: Minimum Player points bet. Numeric value. "
         };
         
 	    #region options
         public string OptionValue { get; set; }
         public string OptionField { get; set; }
         #endregion
-
+        
         public ChangeType RetChangeType { get; set; }
 
         public BirthCertSettingsWindow()
@@ -78,7 +84,7 @@ namespace PDTUtils
 			InitializeComponent();
 		}
         
-        public BirthCertSettingsWindow(string f, string v, int index)
+        public BirthCertSettingsWindow(string f, string v)//, int index)
         {
             InitializeComponent();
             OptionField = f;
@@ -93,16 +99,15 @@ namespace PDTUtils
             
             Left = (1920 / 2) - (300 / 2);
             Top = (1080 / 2) - (136 / 2);
-
-            lblValidValues.Content = (index <= _theHelpMessages.Length) ? _theHelpMessages[index] : "";
-            /* var w = new HelpMessageWindow(_theHelpMessages[index]);
             
-            w.Width = 300;
-            w.Height = 136;
-            w.HorizontalAlignment = HorizontalAlignment.Center;
-            w.Left = this.Left - (w.Width / 2);//(this.Left + this.Width) + 10;
-            w.Top = this.Top - 150;
-            w.Show(); */
+            var tempIndex = 0;
+            for (var i = tempIndex; i < _theHelpMessages.Length; i++, tempIndex++)
+            {
+                if (_theHelpMessages[i].StartsWith(OptionField))
+                    break;
+            }
+
+            lblValidValues.Content = (tempIndex <= _theHelpMessages.Length) ? _theHelpMessages[tempIndex] : "";
         }
         
         void button2_Click(object sender, RoutedEventArgs e)

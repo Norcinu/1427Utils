@@ -199,7 +199,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             LoadSettings();
             LoadSettingsView();
-                    
+            
             RaisePropertyChangedEvent("EditableLiveRegion");
             RaisePropertyChangedEvent("Arcades");
             RaisePropertyChangedEvent("Street");
@@ -230,7 +230,7 @@ namespace PDTUtils.MVVM.ViewModels
                                     (uint)p.GetValue(_editableLiveRegion, null) / 100));
 
                                 _visualSettingsView.Add(new KeyValuePair<string, string>(_settingHeaders[headerCtr],
-                                    p.GetValue(_editableLiveRegion, null).ToString()));
+                                    p.GetValue(_editableLiveRegion, null).ToString() + "%"));
                             }
                             else
                             {
@@ -404,6 +404,13 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxReserveCredits += 1000;
             else if (setting.Equals("Cycle") && EditableLiveRegion.CycleSize < 500000)
                 EditableLiveRegion.CycleSize += 1000;
+            else if (setting.Equals("MaxWinPerStake"))
+            {
+                if (EditableLiveRegion.MaxWinPerStake > BoLib.getDefaultElement(_selected.Id, (int)EspRegionalBase.MaxStakeCredits))
+                {
+
+                }
+            }
             
             SaveChanges();
             LoadSettings();
@@ -435,7 +442,11 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxReserveCredits -= 1000;
             else if (setting.Equals("Cycle") && _editableLiveRegion.CycleSize > 0)
                 EditableLiveRegion.CycleSize -= 1000;
-            
+            else if (setting.Equals("MaxWinPerStake"))
+            {
+                // && EditableLiveRegion.MaxWinPerStake>))
+                
+            }
             SaveChanges();
             LoadSettings();
             LoadSettingsView();
@@ -477,7 +488,7 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-        //here me now.
+
         void DoSetFastTransfer(object o)
         {
             var str = o as string;

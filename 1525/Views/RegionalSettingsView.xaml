@@ -177,8 +177,9 @@
                                 </RepeatButton>
                             </StackPanel>
                             <!-- 1st Row -->
-                                                            
-                            <!-- 2nd Row -->
+                                          
+                            
+                            
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <RepeatButton Height="75" Delay="500" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="GameTime">
                                     <StackPanel>
@@ -226,10 +227,10 @@
                                     </StackPanel>
                                 </RepeatButton>
                             </StackPanel>
-                            <!-- 2nd Row -->
                             
-                            <!-- 3rd Row -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            
+                            
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0">
                                 <Button Height="75" Margin="0,10,0,10" Command="{Binding SetEscrow}" CommandParameter="Enable">
                                     <StackPanel>
                                         <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
@@ -279,67 +280,120 @@
                                     <StackPanel>
                                         <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
                                     </StackPanel>
+                                </Button>    
+                            </StackPanel>
+
+
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0">
+                                <Button Height="75" Margin="0,10,0,10" Command="{Binding Increment}" CommandParameter="MaxWinPerStake">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
+                                    </StackPanel>
                                 </Button>
 
-                                
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Max Stake Per Win</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" 
+                                           Content="{Binding EditableLiveRegion.MaxWinPerStake}" />
+                                </StackPanel>
+
+                                <Button Height="75" Margin="0,10,0,10" Command="{Binding Decrement}" CommandParameter="MaxWinPerStake">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Height="75" Margin="45,10,0,10" Command="{Binding SetFastTransfer}" CommandParameter="Enable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Fast Transfer</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding EditableLiveRegion.FastTransfer}" />
+                                </StackPanel>
+
+                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetFastTransfer}" CommandParameter="Disable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Height="75" Margin="45,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AutoTransfer+Enable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Set Auto Transfer</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding AutoTransferStake}" />
+                                </StackPanel>
+
+                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AutoTransfer+Disable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
-                            <!-- 2nd Row -->
+
+
+                            <!--
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetEscrow}" CommandParameter="Enable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Max Win Per Stale</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" />
+                                </StackPanel>
+
+                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetEscrow}" CommandParameter="Disable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Height="75" Margin="45,10,0,10" Command="{Binding SetFastTransfer}" CommandParameter="Enable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Max Player Points</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" />
+                                </StackPanel>
+
+                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetFastTransfer}" CommandParameter="Disable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button Height="75" Margin="45,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AutoTransfer+Enable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+
+                                <StackPanel>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Set Auto Transfer</Label>
+                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding AutoTransferStake}" />
+                                </StackPanel>
+
+                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AutoTransfer+Disable">
+                                    <StackPanel>
+                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                             
-                            <!-- 3rd Row -->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetEscrow}" CommandParameter="Enable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-
-                                <StackPanel>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Max Win Per Stale</Label>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" />
-                                </StackPanel>
-
-                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetEscrow}" CommandParameter="Disable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-                                
-                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AllowFish+Enable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-                                
-                                <StackPanel>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Fichas Only</Label>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding AlwaysFichas}" />
-                                </StackPanel>
-
-                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AllowFish+Disable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-
-                                <Button Height="75" Margin="45,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AutoTransfer+Enable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-
-                                <StackPanel>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Set Auto Transfer</Label>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding AutoTransferStake}" />
-                                </StackPanel>
-
-                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AutoTransfer+Disable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-
-                            <!-- 4th Row-->
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Button Height="75" Margin="0,10,0,10" Command="{Binding SetEscrow}" CommandParameter="Enable">
                                     <StackPanel>
@@ -392,62 +446,7 @@
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
-                            <!-- 4th Row-->
-
-                            <!-- 5th Row-->
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetEscrow}" CommandParameter="Enable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-
-                                <StackPanel>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Max Win Per Stale</Label>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" />
-                                </StackPanel>
-
-                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetEscrow}" CommandParameter="Disable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-
-                                <Button Height="75" Margin="45,10,0,10" Command="{Binding SetFastTransfer}" CommandParameter="Enable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-
-                                <StackPanel>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Max Player Points</Label>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" />
-                                </StackPanel>
-
-                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetFastTransfer}" CommandParameter="Disable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-
-                                <Button Height="75" Margin="45,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AutoTransfer+Enable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/enable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-
-                                <StackPanel>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,2,2,0" Margin="10,10,10,0">Set Auto Transfer</Label>
-                                    <Label Style="{StaticResource StdLabel}" BorderThickness="2,0,2,2" Margin="10,0,10,10" Content="{Binding AutoTransferStake}" />
-                                </StackPanel>
-
-                                <Button Height="75" Margin="0,10,0,10" Command="{Binding SetExtendedOption}" CommandParameter="AutoTransfer+Disable">
-                                    <StackPanel>
-                                        <Image Source="D:/1525/bmp/disable.png" Height="65" Width="65" />
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                            <!-- 5th Row -->
+                            
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <Button Height="75" Margin="0,10,0,10" Command="{Binding SetEscrow}" CommandParameter="Enable">
@@ -485,7 +484,7 @@
                                 </Button>
 
                             </StackPanel>
-
+                            -->
 
 
 

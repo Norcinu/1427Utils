@@ -30,19 +30,24 @@
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25">
-                <!-- <Label Style="{StaticResource StatsLabel}" FontSize="28" HorizontalAlignment="Center" Margin="3">Proceed With Caution</Label>
-                <Label Style="{StaticResource StatsLabel}" FontSize="22" HorizontalAlignment="Center" Margin="3">Touch Value to Change Value. Changes require Reboot</Label> -->
-
+                
                 <Border BorderBrush="Black" BorderThickness="2" Margin="3" Width="680">
                     <StackPanel>
                         <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="680"
                                     Height="75" Content="Proceed With Caution" />
                         <Label FontSize="24" HorizontalAlignment="Center"  Style="{StaticResource StatsLabel}" Width="680"
-                                    Height="75" Content="Touch Row to Change Value. Changes require reboot."/>
+                                    Height="75" Content="Touch Row to Change Value. Changes require reboot." />
                     </StackPanel>
                 </Border>
+                
+                <Border BorderBrush="Black" BorderThickness="2" Margin="0,20,0,0">
+                    <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="685"
+                           Height="75" Content="Config" />
+                    
+                </Border>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <ListView ItemsSource="{Binding Values}" HorizontalContentAlignment="Center"  SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
+                    <ListView Name="Config" ItemsSource="{Binding Values}" HorizontalContentAlignment="Center"  
+                              SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Width="340" Header="Field">
@@ -69,6 +74,37 @@
                     <!-- <Label Style="{StaticResource HelpLabel}" Foreground="Wheat" Background="Red" FontSize="24" Margin="10,0,0,0" 
                            Content="{Binding HelpMessage}"/> -->
                 </StackPanel>
+                
+                <Border BorderBrush="Black" BorderThickness="2" Margin="0,20,0,0">
+                    <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="685"
+                                    Height="75" Content="Operator" />
+                </Border>
+                <ListView Name="Operator" ItemsSource="{Binding OperatorESP}" HorizontalContentAlignment="Center" FontSize="22" 
+                          SelectionChanged="ListBoxSelectionChanged" AlternationCount="2">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="340" Header="Field">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="2">
+                                            <TextBlock Text="{Binding Field}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="340" Header="Value">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="2">
+                                            <TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
             </StackPanel>
         </ScrollViewer>
         <!--<Button Width="120" Height="35" Margin="20" FontSize="24" Content="Load Birth Cert" Command="{Binding Parse}"/>-->

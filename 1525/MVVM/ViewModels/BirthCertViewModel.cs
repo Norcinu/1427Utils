@@ -14,6 +14,7 @@ namespace PDTUtils.MVVM.ViewModels
         public BirthCertViewModel()
         {
             Values = new ObservableCollection<BirthCertModel>();
+            OperatorESP = new ObservableCollection<BirthCertModel>();
             ParseIni();
         }
         
@@ -47,8 +48,9 @@ namespace PDTUtils.MVVM.ViewModels
             @"CommunityMaster: 0 = Not Master. 1 Act as Master.",
             @"CommunityIP: IP Address. E.g. 192.168.1.1"
         };*/
-        
+
         public ObservableCollection<BirthCertModel> Values { get; private set; }
+        public ObservableCollection<BirthCertModel> OperatorESP { get; private set; }
       /*  public bool ShowHelp
         {
             get { return _showHelp; }
@@ -72,7 +74,7 @@ namespace PDTUtils.MVVM.ViewModels
         public ICommand Parse { get { return new DelegateCommand(o => ParseIni()); } }
         void ParseIni()
         {
-            if (Values.Count == 0)
+           /* if (Values.Count == 0)
             {
                 string[] config;
                 IniFileUtility.GetIniProfileSection(out config, "Config", _filename);
@@ -83,7 +85,38 @@ namespace PDTUtils.MVVM.ViewModels
                     Values.Add(new BirthCertModel(pair[0], pair[1]));
                 }
             }
+
+            if (OperatorESP.Count == 0)
+            {
+                string[] config;
+                IniFileUtility.GetIniProfileSection(out config, "Config", _filename);
+
+                foreach (var str in config)
+                {
+                    var pair = str.Split("=".ToCharArray());
+                    Values.Add(new BirthCertModel(pair[0], pair[1]));
+                }
+            }*/
+            ParseSection("Config", Values);
+            ParseSection("OperatorESP", OperatorESP);
+
             RaisePropertyChangedEvent("Values");
+            RaisePropertyChangedEvent("OperatorESP");
+        }
+
+        void ParseSection(string section, ObservableCollection<BirthCertModel> collection)
+        {
+            if (collection.Count == 0)
+            {
+                string[] config;
+                IniFileUtility.GetIniProfileSection(out config, section, _filename);
+
+                foreach (var str in config)
+                {
+                    var pair = str.Split("=".ToCharArray());
+                    collection.Add(new BirthCertModel(pair[0], pair[1]));
+                }
+            }
         }
         
         /*public void SetHelpMessage(int index)
