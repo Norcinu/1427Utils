@@ -38,7 +38,7 @@ namespace PDTUtils.MVVM.Models
         public uint GamesPerPeriod { get; set; }
         public string Community { get; set; }
         
-	            
+        
         public SpanishRegionalModel(string community, SpanishRegional region)
         {
             this.Community = community;

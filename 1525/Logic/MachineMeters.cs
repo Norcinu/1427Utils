@@ -122,14 +122,24 @@ namespace PDTUtils
             string[] ticketsIn;
             string[] ticketsOut;
 
-            IniFileUtility.GetIniProfileSection(out ticketsIn, "TicketsIn", @Resources.tito_log);
-            IniFileUtility.GetIniProfileSection(out ticketsOut, "TicketsOut", @Resources.tito_log);
-            
-            var ti = ticketsIn[0].Split("=".ToCharArray());
-            var to = ticketsOut[0].Split("=".ToCharArray());
-            
-            _meterDesc.Add(new MeterDescription("TicketIn", ti[1]));
-            _meterDesc.Add(new MeterDescription("TicketOut", to[1]));
+            if (System.IO.File.Exists(Properties.Resources.tito_log))
+            {
+                IniFileUtility.GetIniProfileSection(out ticketsIn, "TicketsIn", @Resources.tito_log);
+                IniFileUtility.GetIniProfileSection(out ticketsOut, "TicketsOut", @Resources.tito_log);
+
+                var ti = ticketsIn[0].Split("=".ToCharArray());
+                var to = ticketsOut[0].Split("=".ToCharArray());
+
+                _meterDesc.Add(new MeterDescription("TicketIn", ti[1]));
+                _meterDesc.Add(new MeterDescription("TicketOut", to[1]));
+            }
+            else
+            {
+                string def = "0";
+                _meterDesc.Add(new MeterDescription("TicketIn", def));
+                _meterDesc.Add(new MeterDescription("TicketOut", def));
+            }
+
             OnPropertyChanged("TitoMeter");
         }
     }

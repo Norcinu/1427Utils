@@ -19,7 +19,7 @@ namespace PDTUtils.MVVM.ViewModels
         bool _selectionChanged = false;
         int _arcadeSelectedIndex = -1;
         int _marketSelectedIndex = -1;
-        
+
         readonly ObservableCollection<KeyValuePair<string, uint>> _settingsView = new ObservableCollection<KeyValuePair<string, uint>>();
         readonly ObservableCollection<SpanishRegionalModel> _arcades = new ObservableCollection<SpanishRegionalModel>();
         readonly ObservableCollection<SpanishRegionalModel> _street = new ObservableCollection<SpanishRegionalModel>();
@@ -170,7 +170,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _isSpanishMachine = false;
                 return; //not a spanish machine so dont load.
             }
-
+            
             var i = 0;
             foreach (var s in _streetMarketRegions)
             {
@@ -193,10 +193,10 @@ namespace PDTUtils.MVVM.ViewModels
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
             
             SelectionChanged = false;
-
+            
             AlwaysFichas = BoLib.getLiveElement((int)EspRegionalExt.EspAlwaysFichas);
             AutoTransferStake = BoLib.getLiveElement((int)EspRegionalExt.EspAutoTfxToStake);
-
+            
             LoadSettings();
             LoadSettingsView();
             
@@ -213,7 +213,7 @@ namespace PDTUtils.MVVM.ViewModels
                 _settingsView.Clear();
             if (_visualSettingsView.Count > 0)
                 _visualSettingsView.Clear();
-
+            
             PropertyInfo[] properties = _editableLiveRegion.GetType().GetProperties();
             int headerCtr = 0;
             try
@@ -404,13 +404,10 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxReserveCredits += 1000;
             else if (setting.Equals("Cycle") && EditableLiveRegion.CycleSize < 500000)
                 EditableLiveRegion.CycleSize += 1000;
-            else if (setting.Equals("MaxWinPerStake"))
-            {
-                if (EditableLiveRegion.MaxWinPerStake > BoLib.getDefaultElement(_selected.Id, (int)EspRegionalBase.MaxStakeCredits))
-                {
-
-                }
-            }
+            else if (setting.Equals("MaxPlayerPoints"))
+                EditableLiveRegion.MaxPlayerPoints += 100;
+            else if (setting.Equals("GiveChangeThreshold"))
+                EditableLiveRegion.GiveChangeThreshold += 100;
             
             SaveChanges();
             LoadSettings();
@@ -442,11 +439,17 @@ namespace PDTUtils.MVVM.ViewModels
                 _editableLiveRegion.MaxReserveCredits -= 1000;
             else if (setting.Equals("Cycle") && _editableLiveRegion.CycleSize > 0)
                 EditableLiveRegion.CycleSize -= 1000;
-            else if (setting.Equals("MaxWinPerStake"))
+            else if (setting.Equals("MaxPlayerPoints"))
             {
-                // && EditableLiveRegion.MaxWinPerStake>))
-                
+                if (EditableLiveRegion.MaxPlayerPoints >= 100)
+                    EditableLiveRegion.MaxPlayerPoints -= 100;
             }
+            else if (setting.Equals("GiveChangeThreshold"))
+            {
+                if (EditableLiveRegion.GiveChangeThreshold >= 100)
+                    EditableLiveRegion.GiveChangeThreshold -= 100;
+            }
+            
             SaveChanges();
             LoadSettings();
             LoadSettingsView();
@@ -467,7 +470,7 @@ namespace PDTUtils.MVVM.ViewModels
 
             RaisePropertyChangedEvent("EditableLiveRegion");
         }
-
+        
         void DoSetEscrow(object o)
         {
             var str = o as string;
@@ -488,7 +491,7 @@ namespace PDTUtils.MVVM.ViewModels
                 }
             }
         }
-
+        
         void DoSetFastTransfer(object o)
         {
             var str = o as string;
@@ -542,6 +545,58 @@ namespace PDTUtils.MVVM.ViewModels
                     }
                     break;
             }
+        }
+
+        public ICommand SetAllowBank2Credit
+        {
+            get { return new DelegateCommand(DoSetAllowBank2Credit); }
+        }
+        
+        void DoSetAllowBank2Credit(object o)
+        {
+            var str = o as string;
+            if (string.IsNullOrEmpty(str)) return;
+            var tokens = str.Split("+".ToCharArray());
+
+            if (tokens[1] == "Enable")
+            {
+                EditableLiveRegion.AllowBank2Credit = 1;
+            }
+            else
+            {
+                EditableLiveRegion.AllowBank2Credit = 0;
+            }
+
+            SaveChanges();
+        }
+
+
+        public uint VisualMaxNote
+        {
+            get { return EditableLiveRegion.MaxBankNote / 100; }
+        }
+
+        public ICommand SetMaxBankNote
+        {
+            get { return new DelegateCommand(DoSetMaxBankNote); }
+        }
+
+        void DoSetMaxBankNote(object o)
+        {
+            var str = o as string;
+            if (string.IsNullOrEmpty(str)) return;
+            if (str == "20")
+                EditableLiveRegion.MaxBankNote = 2000;
+            else
+                EditableLiveRegion.MaxBankNote = 5000;
+
+            SaveChanges();
+            RaisePropertyChangedEvent("VisualMaxNote");
+        }
+        
+        public uint VisualGamesPerHour
+        {
+            get { return EditableLiveRegion.GamesPerPeriod * EditableLiveRegion.GameTime; }
         }
     }
 }

@@ -85,9 +85,13 @@ namespace PDTUtils.MVVM.ViewModels
                 GameStats.Clear();
 
                 BoLib.clearShortTermMeters();
-                NativeWinApi.WritePrivateProfileString("TicketsIn", "TicketCount", "0", @Properties.Resources.tito_log);
-                NativeWinApi.WritePrivateProfileString("TicketsOut", "TicketCount", "0", @Properties.Resources.tito_log);
-                
+
+                if (System.IO.File.Exists(Properties.Resources.tito_log))
+                {
+                    NativeWinApi.WritePrivateProfileString("TicketsIn", "TicketCount", "0", @Properties.Resources.tito_log);
+                    NativeWinApi.WritePrivateProfileString("TicketsOut", "TicketCount", "0", @Properties.Resources.tito_log);
+                }
+
                 ReadPerformance();
                 ReadCashRecon();
                 
