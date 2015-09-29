@@ -19,6 +19,7 @@ namespace PDTUtils.MVVM.ViewModels
         bool _selectionChanged = false;
         int _arcadeSelectedIndex = -1;
         int _marketSelectedIndex = -1;
+        uint _startUpMultiplier = 0;
 
         readonly ObservableCollection<KeyValuePair<string, uint>> _settingsView = new ObservableCollection<KeyValuePair<string, uint>>();
         readonly ObservableCollection<SpanishRegionalModel> _arcades = new ObservableCollection<SpanishRegionalModel>();
@@ -81,7 +82,7 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if (_marketSelectedIndex >= 0)
                     MarketSelectedIndex = -1;
-                _arcadeSelectedIndex = value + 1;
+                _arcadeSelectedIndex = value;
                 SetRegion();
 
                 RaisePropertyChangedEvent("ArcadeSelectedIndex");
@@ -95,7 +96,7 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if (_arcadeSelectedIndex >= 0)
                     ArcadeSelectedIndex = -1;
-                _marketSelectedIndex = value + 1;
+                _marketSelectedIndex = value;// +1;
                 SetRegion();
 
                 RaisePropertyChangedEvent("MarketSelectedIndex");
@@ -191,7 +192,7 @@ namespace PDTUtils.MVVM.ViewModels
             }
             
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
-            
+
             SelectionChanged = false;
             
             AlwaysFichas = BoLib.getLiveElement((int)EspRegionalExt.EspAlwaysFichas);
@@ -200,6 +201,8 @@ namespace PDTUtils.MVVM.ViewModels
             LoadSettings();
             LoadSettingsView();
             
+            _startUpMultiplier = _editableLiveRegion.GamesPerPeriod;
+
             RaisePropertyChangedEvent("EditableLiveRegion");
             RaisePropertyChangedEvent("Arcades");
             RaisePropertyChangedEvent("Street");
@@ -230,7 +233,7 @@ namespace PDTUtils.MVVM.ViewModels
                                     (uint)p.GetValue(_editableLiveRegion, null) / 100));
 
                                 _visualSettingsView.Add(new KeyValuePair<string, string>(_settingHeaders[headerCtr],
-                                    p.GetValue(_editableLiveRegion, null).ToString() + "%"));
+                                    ((uint)p.GetValue(_editableLiveRegion, null) / 100).ToString() + "%"));
                             }
                             else
                             {
@@ -276,7 +279,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("SettingsView");
             RaisePropertyChangedEvent("VisualSettingsView");
         }
-        
+        //
         public void SaveChanges()
         {
             NativeWinApi.WritePrivateProfileString("General", "Region", Selected.Community, _espRegionIni);
@@ -328,7 +331,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             string[] liveSettings;
             IniFileUtility.GetIniProfileSection(out liveSettings, "Settings", _espRegionIni);
-
+            
             _editableLiveRegion.MaxStakeCredits = Convert.ToUInt32(liveSettings[0].Substring(16));
             _editableLiveRegion.MaxStakeBank = Convert.ToUInt32(liveSettings[1].Substring(13));
             _editableLiveRegion.StakeMask = Convert.ToUInt32(liveSettings[2].Substring(10));
@@ -349,6 +352,9 @@ namespace PDTUtils.MVVM.ViewModels
             _editableLiveRegion.MaxPlayerPoints = Convert.ToUInt32(liveSettings[17].Substring(16));
             
             RaisePropertyChangedEvent("EditableLiveRegion");
+            RaisePropertyChangedEvent("VisualMaxNote");
+            RaisePropertyChangedEvent("VisualRTP");
+            RaisePropertyChangedEvent("VisualGamesPerHour");
         }
         
         public void SetRegion()
@@ -372,9 +378,9 @@ namespace PDTUtils.MVVM.ViewModels
             
             var sr = new SpanishRegional();
             BoLib.getDefaultRegionValues(id, ref sr);
-
+            
             _editableLiveRegion = new SpanishRegionalModel(Selected.Community, sr);
-            _editableLiveRegion.Rtp /= 100;
+            //_editableLiveRegion.Rtp;// /= 100;
             SelectionChanged = true;
             
             SaveChanges();
@@ -389,13 +395,9 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var setting = settingsName as string;
             if (setting == null) return;
-            if (setting.Equals("GameTime"))
-            {
-                if (EditableLiveRegion.GameTime < 100)
-                    EditableLiveRegion.GameTime += 1;
-            }
-            else if ((setting.Equals("RTP") && _editableLiveRegion.Rtp < 100))//00))
-                _editableLiveRegion.Rtp += 1; //100;
+            
+            if ((setting.Equals("RTP") && _editableLiveRegion.Rtp < 10000))
+                _editableLiveRegion.Rtp += 100;
             else if (setting.Equals("MaxBank"))
                 _editableLiveRegion.MaxBank += 100;
             else if (setting.Equals("MaxCredits"))
@@ -408,28 +410,28 @@ namespace PDTUtils.MVVM.ViewModels
                 EditableLiveRegion.MaxPlayerPoints += 100;
             else if (setting.Equals("GiveChangeThreshold"))
                 EditableLiveRegion.GiveChangeThreshold += 100;
+            else if (setting.Equals("MaxStakeCredits"))
+                EditableLiveRegion.MaxStakeCredits += 100;
+            else if (setting.Equals("MaxStakeBank"))
+                EditableLiveRegion.MaxStakeBank += 100;
             
             SaveChanges();
             LoadSettings();
             LoadSettingsView();
-
+            
             RaisePropertyChangedEvent("EditableLiveRegion");
+            RaisePropertyChangedEvent("VisualRTP");
         }
         
         void DoDecrement(object settingsName)
         {
             var setting = settingsName as string;
             if (setting == null) return;
-            if (setting.Equals("GameTime"))
+            
+            if (setting == "RTP")
             {
-                if ((int)EditableLiveRegion.GameTime > 1)
-                    EditableLiveRegion.GameTime -= 1;
-            }
-            else if (setting == "RTP")
-            {
-                if (EditableLiveRegion.Rtp > BoLib.getDefaultElement(Selected.Id, (int)EspRegionalBase.Rtp) / 100
-                    && _editableLiveRegion.Rtp <= 100)//00)
-                    _editableLiveRegion.Rtp -= 1;//00;
+                if (_editableLiveRegion.Rtp > 1000)
+                    _editableLiveRegion.Rtp -= 100;
             }
             else if (setting == "MaxBank" && _editableLiveRegion.MaxBank > 50)
                 _editableLiveRegion.MaxBank -= 100;
@@ -449,12 +451,23 @@ namespace PDTUtils.MVVM.ViewModels
                 if (EditableLiveRegion.GiveChangeThreshold >= 100)
                     EditableLiveRegion.GiveChangeThreshold -= 100;
             }
+            else if (setting.Equals("MaxStakeCredits"))
+            {
+                if (EditableLiveRegion.MaxStakeCredits >= 100)
+                    EditableLiveRegion.MaxStakeCredits -= 100;
+            }
+            else if (setting.Equals("MaxStakeBank"))
+            {
+                if (EditableLiveRegion.MaxStakeBank >= 100)
+                    EditableLiveRegion.MaxStakeBank -= 100;
+            }
             
             SaveChanges();
             LoadSettings();
             LoadSettingsView();
             
             RaisePropertyChangedEvent("EditableLiveRegion");
+            RaisePropertyChangedEvent("VisualRTP");
         }
 
         void DoResetLiveToDefault()
@@ -570,7 +583,6 @@ namespace PDTUtils.MVVM.ViewModels
             SaveChanges();
         }
 
-
         public uint VisualMaxNote
         {
             get { return EditableLiveRegion.MaxBankNote / 100; }
@@ -596,7 +608,78 @@ namespace PDTUtils.MVVM.ViewModels
         
         public uint VisualGamesPerHour
         {
-            get { return EditableLiveRegion.GamesPerPeriod * EditableLiveRegion.GameTime; }
+            get
+            {
+                return /*EditableLiveRegion.GamesPerPeriod*/
+                    _startUpMultiplier * EditableLiveRegion.GameTime;
+            }
+        }
+
+        public uint VisualRTP
+        {
+            get { return EditableLiveRegion.Rtp / 100; }
+        }
+        
+        public ICommand SetConvertToPP
+        {
+            get { return new DelegateCommand(DoSetConvertToPP); }
+        }
+        
+        void DoSetConvertToPP(object o)
+        {
+            var str = o as string;
+            if (string.IsNullOrEmpty(str)) return;
+            if (str.Equals("Enable"))
+            {
+                EditableLiveRegion.ConvertToPlay = 1;
+                NativeWinApi.WritePrivateProfileString("Settings", "ConvertToPlay", "1", Properties.Resources.esp_live_ini);
+            }
+            else
+            {
+                EditableLiveRegion.ConvertToPlay = 0;
+                NativeWinApi.WritePrivateProfileString("Settings", "ConvertToPlay", "0", Properties.Resources.esp_live_ini);
+            }
+
+            RaisePropertyChangedEvent("EditableLiveRegion");
+        }
+
+        public ICommand EditTimeSettings
+        {
+            get { return new DelegateCommand(DoEditTimeSettings); }
+        }
+
+        void DoEditTimeSettings(object o)
+        {
+            var str = o as string;
+            if (string.IsNullOrEmpty(str)) return;
+            
+            var arr = str.Split("+".ToCharArray());
+            if (arr[0].Equals("GameTime"))
+            {
+                if (arr[1].Equals("Increase"))
+                {
+                    EditableLiveRegion.GameTime += 1;
+                }
+                else
+                {
+                    if (EditableLiveRegion.GameTime > 1)
+                        EditableLiveRegion.GameTime -= 1;
+                }
+            }
+            else if (arr[0].Equals("Duration"))
+            {
+                if (arr[1].Equals("Increase"))
+                    EditableLiveRegion.GamesPerPeriod += 10;
+                else
+                {
+                    if (EditableLiveRegion.GamesPerPeriod > 10)
+                        EditableLiveRegion.GamesPerPeriod -= 10;
+                }
+            }
+            
+            SaveChanges();
+            RaisePropertyChangedEvent("EditableLiveRegion");
+            RaisePropertyChangedEvent("VisualGamesPerHour");
         }
     }
 }

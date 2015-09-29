@@ -40,12 +40,12 @@
                     </StackPanel>
                 </Border>
                 
-                <Border BorderBrush="Black" BorderThickness="2" Margin="0,20,0,0">
+               <!--  <Border BorderBrush="Black" BorderThickness="2" Margin="0,20,0,0">
                     <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="685"
                            Height="75" Content="Config" />
                     
-                </Border>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                </Border> -->
+                <!-- <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <ListView Name="Config" ItemsSource="{Binding Values}" HorizontalContentAlignment="Center"  
                               SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
                         <ListView.View>
@@ -71,9 +71,7 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
-                    <!-- <Label Style="{StaticResource HelpLabel}" Foreground="Wheat" Background="Red" FontSize="24" Margin="10,0,0,0" 
-                           Content="{Binding HelpMessage}"/> -->
-                </StackPanel>
+                </StackPanel> -->
                 
                 <Border BorderBrush="Black" BorderThickness="2" Margin="0,20,0,0">
                     <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="685"

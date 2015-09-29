@@ -198,6 +198,13 @@ namespace PDTUtils
                 else
                     AnyAuthedCard = false;
                 
+#if DEBUG
+                CanViewDistributor = true;
+                CanViewManufacturer = true;
+                CanViewCashier = true;
+                CanViewDistOrManu = true;
+                AnyAuthedCard = true;
+#endif
                 OnPropertyChanged("CanViewManufacturer");
                 OnPropertyChanged("CanViewDistributor");
                 OnPropertyChanged("CanViewCashier");

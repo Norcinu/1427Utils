@@ -9,7 +9,7 @@ namespace PDTUtils
     public class HelpMessageWindow : Window
     {
         public string Message { get; set; }
-        
+
         public HelpMessageWindow()
         {
         }
@@ -31,11 +31,11 @@ namespace PDTUtils
             });
         }
     }
-    
+
     //public enum ChangeType { Amend, Comment, Uncomment, Cancel, None };
-    
-	public partial class BirthCertSettingsWindow : Window
-	{
+
+    public partial class BirthCertSettingsWindow : Window
+    {
         string[] _theHelpMessages = new string[32]
         {
             @"Payout Type: 0 = Hopper. 1 = Printer. 2 = Combined.", 
@@ -71,19 +71,19 @@ namespace PDTUtils
             @"TiToServerIP: IP Address to TiTo Web Service",
             @"MinPlayerPointsBet: Minimum Player points bet. Numeric value. "
         };
-        
-	    #region options
+
+        #region options
         public string OptionValue { get; set; }
         public string OptionField { get; set; }
         #endregion
-        
+
         public ChangeType RetChangeType { get; set; }
 
         public BirthCertSettingsWindow()
-		{
-			InitializeComponent();
-		}
-        
+        {
+            InitializeComponent();
+        }
+
         public BirthCertSettingsWindow(string f, string v)//, int index)
         {
             InitializeComponent();
@@ -91,15 +91,15 @@ namespace PDTUtils
             OptionValue = v;
             TxtNewValue.Text = OptionValue;
             RetChangeType = ChangeType.None;
-            
+
             if (OptionField[0] == '#')
                 BtnComment.Content = "Enable";
             else
                 BtnComment.Content = "Disable";
-            
+
             Left = (1920 / 2) - (300 / 2);
             Top = (1080 / 2) - (136 / 2);
-            
+
             var tempIndex = 0;
             for (var i = tempIndex; i < _theHelpMessages.Length; i++, tempIndex++)
             {
@@ -107,26 +107,26 @@ namespace PDTUtils
                     break;
             }
 
-            lblValidValues.Content = (tempIndex <= _theHelpMessages.Length) ? _theHelpMessages[tempIndex] : "";
+            lblValidValues.Content = "";// (tempIndex <= _theHelpMessages.Length) ? _theHelpMessages[tempIndex] : "";
         }
-        
+
         void button2_Click(object sender, RoutedEventArgs e)
-		{
+        {
             RetChangeType = ChangeType.Cancel;
             Close();
-		}
-        
+        }
+
         void btnSave_Click(object sender, RoutedEventArgs e)
-		{
+        {
             RetChangeType = ChangeType.Amend;
-			OptionValue = TxtNewValue.Text;
-			Close();
-		}
-            
-		void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-            
-		}
+            OptionValue = TxtNewValue.Text;
+            Close();
+        }
+        
+        void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
 
         void btnComment_Click(object sender, RoutedEventArgs e)
         {
@@ -143,5 +143,5 @@ namespace PDTUtils
                 Close();
             }
         }
-	}
+    }
 }

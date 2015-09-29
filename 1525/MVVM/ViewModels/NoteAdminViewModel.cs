@@ -70,7 +70,7 @@ namespace PDTUtils.MVVM.ViewModels
             var channel = (noteType == "10") ? "2" : "3";
             BoLib.setUtilRequestBitState((int)UtilBits.RecyclerValue);
             BoLib.setUtilRequestBitState((int)UtilBits.RereadBirthCert);
-            NativeWinApi.WritePrivateProfileString("Config", "RecyclerChannel", channel, Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Operator", "RecyclerChannel", channel, Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
             RecyclerMessage = (noteType == "10") ? NoteOne + " NOTE TO BE RECYCLED" : NoteTwo + " NOTE TO BE RECYCLED";
             RaisePropertyChangedEvent("RecyclerMessage");

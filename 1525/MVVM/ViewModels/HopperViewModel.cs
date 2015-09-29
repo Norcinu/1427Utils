@@ -502,10 +502,10 @@ namespace PDTUtils.MVVM.ViewModels
         void InitRefloatLevels()
         {
             char[] refloatValue = new char[10];
-            NativeWinApi.GetPrivateProfileString("Config", "RefloatLH", "", refloatValue, 10, Resources.birth_cert);
+            NativeWinApi.GetPrivateProfileString("Operator", "RefloatLH", "", refloatValue, 10, Resources.birth_cert);
             RefloatLeft = new string(refloatValue).Trim("\0".ToCharArray());
             CheckForSync(Convert.ToUInt32(RefloatLeft), "left");
-            NativeWinApi.GetPrivateProfileString("Config", "RefloatRH", "", refloatValue, 10, Resources.birth_cert);
+            NativeWinApi.GetPrivateProfileString("Operator", "RefloatRH", "", refloatValue, 10, Resources.birth_cert);
             RefloatRight = new string(refloatValue).Trim("\0".ToCharArray());
             CheckForSync(Convert.ToUInt32(RefloatRight), "right");
         }
@@ -540,7 +540,7 @@ namespace PDTUtils.MVVM.ViewModels
                 refloatValue = divert.ToString();
                 shouldSync = false;
                 var key = (whichHopper == (byte)Hoppers.Left) ? "RefloatLH" : "RefloatRH";
-                NativeWinApi.WritePrivateProfileString("Config", key, refloatValue, Resources.birth_cert);
+                NativeWinApi.WritePrivateProfileString("Operator", key, refloatValue, Resources.birth_cert);
                 shouldSync = false;
             }
         }
@@ -581,7 +581,7 @@ namespace PDTUtils.MVVM.ViewModels
             string key = (tokens[0] == "left") ? "RefloatLH" : "RefloatRH";
 
             char[] refloatValue = new char[10];
-            NativeWinApi.GetPrivateProfileString("Config", key, "", refloatValue, 10, Resources.birth_cert);
+            NativeWinApi.GetPrivateProfileString("Operator", key, "", refloatValue, 10, Resources.birth_cert);
 
             var newRefloatValue = Convert.ToUInt32(new string(refloatValue).Trim("\0".ToCharArray()));
             if (tokens[1] == "increase") newRefloatValue += denom;
@@ -592,7 +592,7 @@ namespace PDTUtils.MVVM.ViewModels
             else
                 RefloatRight = newRefloatValue.ToString();
 
-            NativeWinApi.WritePrivateProfileString("Config", key, newRefloatValue.ToString(), Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Operator", key, newRefloatValue.ToString(), Resources.birth_cert);
 
             CheckForSync(newRefloatValue, tokens[0]);
 
@@ -605,7 +605,7 @@ namespace PDTUtils.MVVM.ViewModels
             const uint changeAmount = 50;
             var actionType = o as string;
             char[] divert = new char[10];
-            NativeWinApi.GetPrivateProfileString("Config", "LH Divert Threshold", "", divert, 10, Resources.birth_cert);
+            NativeWinApi.GetPrivateProfileString("Operator", "LH Divert Threshold", "", divert, 10, Resources.birth_cert);
             var currentThreshold = Convert.ToUInt32(new string(divert));//BoLib.getHopperDivertLevel(0);
             var newValue = currentThreshold;
             
@@ -622,7 +622,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             //BoLib.setHopperDivertLevel(BoLib.getLeftHopper(), newValue);
             GlobalConfig.ReparseSettings = true;
-            NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Operator", "LH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
             
             DivertLeftMessage = (newValue).ToString();
@@ -635,7 +635,7 @@ namespace PDTUtils.MVVM.ViewModels
             var actionType = o as string;
             //var currentThreshold = BoLib.getHopperDivertLevel((byte)Hoppers.Right);
             char[] divert = new char[10];
-            NativeWinApi.GetPrivateProfileString("Config", "RH Divert Threshold", "", divert, 10, Resources.birth_cert);
+            NativeWinApi.GetPrivateProfileString("Operator", "RH Divert Threshold", "", divert, 10, Resources.birth_cert);
             var currentThreshold = Convert.ToUInt32(new string(divert));
             const uint changeAmount = 50;
             var newValue = currentThreshold;
@@ -653,7 +653,7 @@ namespace PDTUtils.MVVM.ViewModels
             
             //BoLib.setHopperDivertLevel(BoLib.getRightHopper(), newValue);
             GlobalConfig.ReparseSettings = true;
-            NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", newValue.ToString(), Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Operator", "RH Divert Threshold", newValue.ToString(), Resources.birth_cert);
             PDTUtils.Logic.IniFileUtility.HashFile(Resources.birth_cert);
 
             DivertRightMessage = (newValue).ToString();
@@ -682,11 +682,11 @@ namespace PDTUtils.MVVM.ViewModels
             NeedToSync = false;
             _syncLeft = false;
             _syncRight = false;
-            
-            NativeWinApi.WritePrivateProfileString("Config", "RefloatLH", RefloatLeft, Resources.birth_cert);
-            NativeWinApi.WritePrivateProfileString("Config", "RefloatRH", RefloatRight, Resources.birth_cert);
-            NativeWinApi.WritePrivateProfileString("Config", "LH Divert Threshold", DivertLeftMessage, Resources.birth_cert);
-            NativeWinApi.WritePrivateProfileString("Config", "RH Divert Threshold", DivertRightMessage, Resources.birth_cert);
+
+            NativeWinApi.WritePrivateProfileString("Operator", "RefloatLH", RefloatLeft, Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Operator", "RefloatRH", RefloatRight, Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Operator", "LH Divert Threshold", DivertLeftMessage, Resources.birth_cert);
+            NativeWinApi.WritePrivateProfileString("Operator", "RH Divert Threshold", DivertRightMessage, Resources.birth_cert);
 
             RaisePropertyChangedEvent("DivertLeftMessage");
             RaisePropertyChangedEvent("DivertRightMessage");
@@ -698,8 +698,8 @@ namespace PDTUtils.MVVM.ViewModels
             char[] refloatLeft = new char[10];
             char[] refloatRight = new char[10];
 
-            NativeWinApi.GetPrivateProfileString("Config", "RefloatLH", "", refloatLeft, 10, Resources.birth_cert);
-            NativeWinApi.GetPrivateProfileString("Config", "RefloatRH", "", refloatRight, 10, Resources.birth_cert);
+            NativeWinApi.GetPrivateProfileString("Operator", "RefloatLH", "", refloatLeft, 10, Resources.birth_cert);
+            NativeWinApi.GetPrivateProfileString("Operator", "RefloatRH", "", refloatRight, 10, Resources.birth_cert);
 
             RefloatLeft = new string(refloatLeft).Trim("\0".ToCharArray());
             RefloatRight = new string(refloatRight).Trim("\0".ToCharArray());

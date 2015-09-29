@@ -35,8 +35,8 @@ namespace PDTUtils.MVVM.ViewModels
             _nfi = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ?
                 new CultureInfo("es-ES").NumberFormat :
                 new CultureInfo("en-GB").NumberFormat;
-            
-            Initialise();            
+
+            Initialise();      
         }
 
         void Initialise()
@@ -55,17 +55,17 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("TitoMeters");
             RaisePropertyChangedEvent("NumberOfGames");
         }
-        
+
         public void Refresh()
         {
             _cashRecon.RemoveAll();
             _gameStats.RemoveAll();
             _performance.RemoveAll();
             _refill.RemoveAll();
-                    
+
             Initialise();
         }
-        
+
         public ICommand ClearShortTerms
         {
             get { return new DelegateCommand(o => ClearShortTermMeters()); }
@@ -83,7 +83,7 @@ namespace PDTUtils.MVVM.ViewModels
                 Performance.Clear();
                 CashRecon.Clear();
                 GameStats.Clear();
-
+                
                 BoLib.clearShortTermMeters();
 
                 if (System.IO.File.Exists(Properties.Resources.tito_log))
@@ -94,9 +94,9 @@ namespace PDTUtils.MVVM.ViewModels
 
                 ReadPerformance();
                 ReadCashRecon();
-                
+
                 _shortTerm.ReadMeter();
-                
+
                 RaisePropertyChangedEvent("ShortTerm");
                 RaisePropertyChangedEvent("LongTerm");
             }

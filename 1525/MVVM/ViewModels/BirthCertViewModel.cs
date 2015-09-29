@@ -13,7 +13,7 @@ namespace PDTUtils.MVVM.ViewModels
 
         public BirthCertViewModel()
         {
-            Values = new ObservableCollection<BirthCertModel>();
+            //Values = new ObservableCollection<BirthCertModel>();
             OperatorESP = new ObservableCollection<BirthCertModel>();
             ParseIni();
         }
@@ -49,7 +49,7 @@ namespace PDTUtils.MVVM.ViewModels
             @"CommunityIP: IP Address. E.g. 192.168.1.1"
         };*/
 
-        public ObservableCollection<BirthCertModel> Values { get; private set; }
+        //public ObservableCollection<BirthCertModel> Values { get; private set; }
         public ObservableCollection<BirthCertModel> OperatorESP { get; private set; }
       /*  public bool ShowHelp
         {
@@ -97,10 +97,10 @@ namespace PDTUtils.MVVM.ViewModels
                     Values.Add(new BirthCertModel(pair[0], pair[1]));
                 }
             }*/
-            ParseSection("Config", Values);
-            ParseSection("OperatorESP", OperatorESP);
+           // ParseSection("Config", Values);
+            ParseSection("Operator", OperatorESP);
 
-            RaisePropertyChangedEvent("Values");
+           // RaisePropertyChangedEvent("Values");
             RaisePropertyChangedEvent("OperatorESP");
         }
 

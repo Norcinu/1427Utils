@@ -51,12 +51,11 @@ namespace PDTUtils.MVVM.Models
             this.MaxCredits = region.MaxCredit;
             this.MaxReserveCredits = region.MaxReserve;
             this.MaxStakeBank = region.MaxStakeFromBank;
-            this.MaxStakeCredits = region.MaxWinPerStake;
+            this.MaxStakeCredits = region.MaxStake;
             this.EscrowState = region.NoteEscrow;
             this.Rtp = region.Rtp;
             this.StakeMask = region.StakeMask;
             this.MaxWinPerStake = region.MaxWinPerStake;
-            this.StakeMask = region.StakeMask;
             this.AllowBank2Credit = region.BankToCredits;
             this.ConvertToPlay = region.ChargeConvertPoints;
             this.MaxBankNote = region.MaxNote;
