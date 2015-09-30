@@ -15,7 +15,7 @@ namespace PDTUtils
     /// </summary>
 	public class DoorAndKeyStatus : INotifyPropertyChanged
 	{
-        int _currentValue = -1;
+        //int _currentValue = -1;
         string[] _strings = new string[8] {"Player", "Technician", "C - Cashier", "Admin", "Operator", 
                                            "D - Distributor", "E - Manufacturer", "None"};
         
@@ -114,20 +114,20 @@ namespace PDTUtils
 				var r = new Random();
                 if (r.Next(1000) < 100 && !_isTestSuiteRunning)
                 {
-                    if (BoLib.getUtilRefillAccess() && !_prepareForReboot)
-                    {
-                        Application.Current.Dispatcher.Invoke(
-                            DispatcherPriority.Normal,
-                            (ThreadStart)delegate
-                            {
-#if !DEBUG
-			                        if (PDTUtils.Logic.GlobalConfig.RebootRequired)
-			                            BoLib.setRebootRequired();
-#endif
-                            });
-
+//                    if (BoLib.getUtilRefillAccess() && !_prepareForReboot)
+//                    {
+//                       Application.Current.Dispatcher.Invoke(
+//                            DispatcherPriority.Normal,
+//                            (ThreadStart)delegate
+//                            {
+//#if !DEBUG
+			                      //  if (PDTUtils.Logic.GlobalConfig.RebootRequired)
+			                      //      BoLib.setRebootRequired();
+//#endif
+//                            });
+                        //
                         //Application.Current.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
-                    }
+//                    }
 
                     if (!BoLib.getUtilDoorAccess()) //if door is open
                     {
@@ -198,13 +198,13 @@ namespace PDTUtils
                 else
                     AnyAuthedCard = false;
                 
-#if DEBUG
+//#if DEBUG
                 CanViewDistributor = true;
                 CanViewManufacturer = true;
                 CanViewCashier = true;
                 CanViewDistOrManu = true;
                 AnyAuthedCard = true;
-#endif
+//#endif
                 OnPropertyChanged("CanViewManufacturer");
                 OnPropertyChanged("CanViewDistributor");
                 OnPropertyChanged("CanViewCashier");

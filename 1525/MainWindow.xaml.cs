@@ -238,7 +238,7 @@ namespace PDTUtils
 
             if (BoLib.getUtilRequestBitState((int)UtilBits.Allow))
                 BoLib.disableUtilsCoinBit();
-
+            
             if (GlobalConfig.ReparseSettings)
                 BoLib.setUtilRequestBitState((int)UtilBits.RereadBirthCert);
             
@@ -249,7 +249,6 @@ namespace PDTUtils
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
 #endif
-            
             
             BoLib.clearUtilRequestBitState((int)UtilBits.Allow);
             
@@ -551,7 +550,7 @@ namespace PDTUtils
             _keyDoorWorker.PrepareForReboot = false;
             DiskCommit.SaveAndReboot();       
         }
-        //excelletn thank you baby girl.
+       
 	    void ButtonBase_OnClick(object sender, RoutedEventArgs e)
 	    {
             Application.Current.Shutdown();

@@ -46,13 +46,14 @@
                                Content="{Binding Path=Selected.Community, StringFormat=Your Current Region is: {0} }" 
                                FontSize="28" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Center" BorderThickness="2" />
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Label Style="{StaticResource StdHeaderLabel}" Background="DarkGray" Foreground="Red" FontSize="28" Margin="10" VerticalAlignment="Center" 
-                                   Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" 
-                                   HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="2"/>
+                                <Label Style="{StaticResource StdHeaderLabel}" Background="DarkGray" Foreground="Red" FontSize="28" 
+                                       Margin="10" VerticalAlignment="Center" 
+                                       Content="{Binding Path=Selected.VenueType, StringFormat=Venue Type is: {0}}" 
+                                       HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="2"/>
                                 <Label Style="{StaticResource StdHeaderLabel}" Content=" - Reboot Required" FontSize="28" 
-                                   Margin="-20,10,10,10" VerticalAlignment="Center" HorizontalAlignment="Center" 
-                                   IsEnabled="{Binding SelectionChanged}"
-                           Visibility="{Binding SelectionChanged, Converter={StaticResource BoolToVisConverter}}"/>
+                                       Background="DarkGray" Foreground="Red" Margin="-20,10,10,10" VerticalAlignment="Center" 
+                                       HorizontalAlignment="Center" IsEnabled="{Binding SelectionChanged}" 
+                                       Visibility="{Binding SelectionChanged, Converter={StaticResource BoolToVisConverter}}"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>

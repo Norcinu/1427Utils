@@ -89,7 +89,7 @@
                                 </CheckBox>
                             </StackPanel>
                         </Border>
-
+                        
                         <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,0,2,0" Visibility="{Binding IsBritishMachine, 
                             Converter={StaticResource BoolToVis}}">
                             

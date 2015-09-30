@@ -65,10 +65,10 @@
     <ClCompile Include="BoLibTito.cpp">
       <Filter>BoLibSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\1524LibSource\EspRegionalValues.cpp">
+    <ClCompile Include="DSoundPlayer.cpp">
       <Filter>BoLibSource</Filter>
     </ClCompile>
-    <ClCompile Include="DSoundPlayer.cpp">
+    <ClCompile Include="..\..\..\Bo_Library\1524ESPLibSource\EspRegionalValues.cpp">
       <Filter>BoLibSource</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using PDTUtils.Logic;
 using PDTUtils.MVVM.Models;
+using PDTUtils.Native;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -113,8 +114,18 @@ namespace PDTUtils.MVVM.ViewModels
 
                 foreach (var str in config)
                 {
+                    if (str.StartsWith("#"))
+                        break;
+
                     var pair = str.Split("=".ToCharArray());
-                    collection.Add(new BirthCertModel(pair[0], pair[1]));
+                    /*if (pair[0] != "Minimum Payout Value" &&
+                        pair[0] != "Minimum Bet" &&
+                        pair[0] != "StakeMatch" &&
+                        pair[0] != "Terminal Closed TIME" &&
+                        pair[0] != "Terminal Open TIME")*/
+                    {
+                        collection.Add(new BirthCertModel(pair[0], pair[1]));
+                    }
                 }
             }
         }

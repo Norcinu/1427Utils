@@ -546,7 +546,7 @@ namespace PDTUtils.MVVM.ViewModels
                     break;
             }
         }
-        
+    
         public void UpdatePromoSelection(GameSettingModel first, GameSettingModel second)
         {
             FirstPromo = first.Title;

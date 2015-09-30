@@ -44,7 +44,7 @@ namespace PDTUtils.Views
                     break;
             }
         }
-
+        
         void AmendOption(BirthCertSettingsWindow w, object sender, ref BirthCertModel c)
         {
             var newValue = w.OptionValue;

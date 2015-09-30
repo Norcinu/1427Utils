@@ -72,10 +72,10 @@
                         </ListView.View>
                     </ListView>
                 </StackPanel> -->
-                
+                <!-- Operator - -->
                 <Border BorderBrush="Black" BorderThickness="2" Margin="0,20,0,0">
                     <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="685"
-                                    Height="75" Content="Operator" />
+                                    Height="75" Content="Monetary values in ¢" />
                 </Border>
                 <ListView Name="Operator" ItemsSource="{Binding OperatorESP}" HorizontalContentAlignment="Center" FontSize="22" 
                           SelectionChanged="ListBoxSelectionChanged" AlternationCount="2">
@@ -102,7 +102,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-
+            
             </StackPanel>
         </ScrollViewer>
         <!--<Button Width="120" Height="35" Margin="20" FontSize="24" Content="Load Birth Cert" Command="{Binding Parse}"/>-->

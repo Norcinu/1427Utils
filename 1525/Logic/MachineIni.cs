@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using PDTUtils.Native;
 
+//make the machine ini editable only for the factory only card.
 namespace PDTUtils.Logic
 {
 	public class IniElement

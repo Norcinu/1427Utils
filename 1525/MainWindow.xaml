@@ -49,8 +49,7 @@
             <Setter Property="Margin" Value="20"/>
         </Style>
 
-        <cv:SmartCardStateConverter x:Key="cardStateConvert" />
-        
+        <cv:SmartCardStateConverter x:Key="cardStateConvert" />        
     </Window.Resources>
 
     <Grid x:Name="MainGrid" Grid.IsSharedSizeScope="True">
@@ -410,35 +409,36 @@
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="25" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, Converter={StaticResource cardStateConvert}}">
                         <Border BorderBrush="Black" BorderThickness="2" Margin="3">
                             <StackPanel>
-                                <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="680"
-                                    Height="75" Content="Proceed With Caution" />
-                                <Label FontSize="24" HorizontalAlignment="Center"  Style="{StaticResource StatsLabel}" Width="680"
-                                    Height="75" Content="Touch Row to Change Value. Changes require reboot." />
+                                <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="1300"
+                                    Height="75" Content="Machine INI - EDITABLE BY FACTORY" /><!-- Proceed With Caution" /> -->
+                                <!-- <Label FontSize="24" HorizontalAlignment="Center"  Style="{StaticResource StatsLabel}" Width="680"
+                                    Height="75" Content="Touch Row to Change Value. Changes require reboot." /> -->
                             </StackPanel>
                         </Border>
-                        
-                        <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" 
-                                  SelectionChanged="ListBoxSelectionChanged" FontSize="22" AlternationCount="2">
+
+                        <!-- SelectionChanged="ListBoxSelectionChanged" -->
+                        <ListView ItemsSource="{Binding GetMachineIni}" HorizontalContentAlignment="Center" FontSize="22" AlternationCount="2"> 
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Width="340" Header="Field">
+                                    <GridViewColumn Width="350" Header="Field">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
                                                     <TextBlock Text="{Binding Field}" TextAlignment="Center" Background="LightGray" 
-                                                               Foreground="Navy"/>
+                                                               Foreground="Navy" Height="30"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
                                     
-                                    <GridViewColumn Width="340" Header="Value">
-                                        <GridViewColumn.CellTemplate>
+                                    <GridViewColumn Width="950" Header="Value">
+                                        <!--340 -->
+                                            <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Border BorderBrush="Black" BorderThickness="2">
                                                     <TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" 
-                                                               Foreground="Navy"/>
+                                                               Foreground="Navy" Height="30"/>
                                                 </Border>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>

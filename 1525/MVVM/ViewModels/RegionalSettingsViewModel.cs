@@ -194,7 +194,7 @@ namespace PDTUtils.MVVM.ViewModels
             _editableLiveRegion = new SpanishRegionalModel("", new SpanishRegional());
 
             SelectionChanged = false;
-            
+
             AlwaysFichas = BoLib.getLiveElement((int)EspRegionalExt.EspAlwaysFichas);
             AutoTransferStake = BoLib.getLiveElement((int)EspRegionalExt.EspAutoTfxToStake);
             
@@ -395,7 +395,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             var setting = settingsName as string;
             if (setting == null) return;
-            
+
             if ((setting.Equals("RTP") && _editableLiveRegion.Rtp < 10000))
                 _editableLiveRegion.Rtp += 100;
             else if (setting.Equals("MaxBank"))

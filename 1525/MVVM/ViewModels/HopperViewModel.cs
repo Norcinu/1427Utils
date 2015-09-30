@@ -52,8 +52,8 @@ namespace PDTUtils.MVVM.ViewModels
 
         string _leftRefillMsg;
         string _rightRefillMsg;
-        string _leftCoinsAdded;
-        string _rightCoinsAdded;
+        /*string _leftCoinsAdded;
+        string _rightCoinsAdded;*/
         string _refloatLeft;
         string _refloatRight;
         string _hopperPayingValue = "";
@@ -65,7 +65,7 @@ namespace PDTUtils.MVVM.ViewModels
         
         Timer EmptyLeftTimer;
         Timer EmptyRightTimer;
-        Timer RefillTimer;
+        //Timer RefillTimer;
         Timer SpanishEmpty;
 
         NumberFormatInfo Nfi { get; set; }

@@ -25,10 +25,11 @@ void sendHandPayToServer(unsigned int paid_out, unsigned int release)
 	SendHandPay2Server(paid_out, release);
 }
 
+/*
 void addHandPayToEDC(unsigned int value)
 {
 	HandPayToEdc += value;
-}
+}*/
 
 
 bool canPerformHandPay()
@@ -55,7 +56,7 @@ bool performHandPay()
 			SendHeaderOnly(HANDPAY_CONFIRM, 1);
 			AddToPerformanceMeters(HAND_PAY_LT, totalCredits);
 			SetMeterPulses(2, 1, totalCredits);
-			addHandPayToEDC(totalCredits);
+			//addHandPayToEDC(totalCredits);
 			SendHandPay2Server(totalCredits, MODEL_NUMBER);
 			
 			if (GetInTournamentPlay())

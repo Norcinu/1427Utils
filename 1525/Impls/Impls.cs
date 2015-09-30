@@ -69,7 +69,7 @@ namespace PDTUtils.Impls
         public ButtonTestImpl()
 		{
 			_doSpecials = true;
-			_toggled = new bool[2] { false, false };
+            _toggled = new bool[2] { false, false };
 			_currentButton = 0;
 			_numberOfButtons = 8;
 			_specials = 2;

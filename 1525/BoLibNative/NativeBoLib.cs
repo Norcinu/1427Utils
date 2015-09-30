@@ -677,8 +677,8 @@ namespace PDTUtils.Native
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sendHandPayToServer(uint paidOut, uint release);
 
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void addHandPayToEDC(uint value);
+        /*[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void addHandPayToEDC(uint value);*/
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool performHandPay();
