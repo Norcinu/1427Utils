@@ -26,7 +26,8 @@ namespace PDTUtils.MVVM.ViewModels
     {
         int _selectedIndex = -1;
         
-        readonly string _betValues = @"D:\2001\BetValues.xml";
+        //TODO: Make the model number configurable instead of fixed to 2001.
+        readonly string _betValues = @Properties.Resources.roulette_bet_values; //@"D:\2001\BetValues.xml";
         Dictionary<string, Pair<int, int>> _betInfo = new Dictionary<string, Pair<int, int>>();
         List<string> _names = new List<string>();
         

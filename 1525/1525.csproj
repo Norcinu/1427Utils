@@ -127,6 +127,7 @@
     <Compile Include="MVVM\ViewModels\GeneralSettingsViewModel.cs" />
     <Compile Include="MVVM\ViewModels\HopperViewModel.cs" />
     <Compile Include="MVVM\ViewModels\LastCollectLogViewModel.cs" />
+    <Compile Include="MVVM\ViewModels\MachineBettingViewModel.cs" />
     <Compile Include="MVVM\ViewModels\MainPageViewModel.cs" />
     <Compile Include="MVVM\ViewModels\GameSettingViewModel.cs" />
     <Compile Include="MVVM\ViewModels\NetworkSettingsViewModel.cs" />
@@ -143,6 +144,9 @@
     </Compile>
     <Compile Include="Views\LastCollectLogView.xaml.cs">
       <DependentUpon>LastCollectLogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MachineBettingView.xaml.cs">
+      <DependentUpon>MachineBettingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RouletteBettingView.xaml.cs">
       <DependentUpon>RouletteBettingView.xaml</DependentUpon>
@@ -303,6 +307,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LastCollectLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MachineBettingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

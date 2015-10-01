@@ -94,4 +94,5 @@ DLLEXPORT bool			getUtilDoorAccess();
 DLLEXPORT bool			getUtilRefillAccess();
 DLLEXPORT bool			getUtilSmartCardAccess(int whichBit);
 DLLEXPORT int			getLastPayoutType();
+DLLEXPORT unsigned int	getPlayerPointsMinBet();
 

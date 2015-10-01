@@ -524,10 +524,12 @@
                         Converter={StaticResource BoolToVisConverter}}">
                 <view:NetworkSettingsView />
             </TabItem>
-             
-            <TabItem Header="Games">
+
+            <TabItem Header="Games" Visibility="{Binding KeyDoorWorker.CanViewManufacturer, 
+                Converter={StaticResource BoolToVisConverter}}">
                 <TabControl>
                     <TabItem Header="General">
+                        <view:MachineBettingView/>
                         <!-- <view:GeneralGameSettingView/> -->
                     </TabItem>
                     <TabItem Header="Roulette">

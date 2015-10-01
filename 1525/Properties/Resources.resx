@@ -270,4 +270,7 @@
   <data name="payout_ticket" xml:space="preserve">
     <value>D:\machine\GAME_DATA\ticket.dat</value>
   </data>
+  <data name="roulette_bet_values" xml:space="preserve">
+    <value>D:\2001\BetValues.xml</value>
+  </data>
 </root>

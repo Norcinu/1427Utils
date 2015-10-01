@@ -338,6 +338,15 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to D:\2001\BetValues.xml.
+        /// </summary>
+        internal static string roulette_bet_values {
+            get {
+                return ResourceManager.GetString("roulette_bet_values", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to D:\machine\SecurityLog.txt.
         /// </summary>
         internal static string security_log {

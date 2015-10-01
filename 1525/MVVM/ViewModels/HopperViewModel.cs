@@ -557,7 +557,7 @@ namespace PDTUtils.MVVM.ViewModels
                 else
                     _syncLeft = false;
             }
-            else
+            else 
             {
                 if (newRefloatValue > BoLib.getHopperDivertLevel((byte)Hoppers.Right) && IsBritish)
                 {

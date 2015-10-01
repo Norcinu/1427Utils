@@ -25,8 +25,8 @@
         </Style> -->
 
         <Style x:Key="StdLabel" TargetType="Label">
-            <Setter Property="Height" Value="38"/>
-            <Setter Property="FontSize" Value="22"/>
+            <!-- <Setter Property="Height" Value="38"/>  -->
+            <Setter Property="FontSize" Value="38"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="Margin" Value="10"/>
@@ -47,22 +47,45 @@
     <!-- ItemsSource="{Binding EventList}" -->
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
+            <StackPanel> 
                 <StackPanel Orientation="Horizontal">
-                    <Label  Style="{StaticResource ErrorMessageBox}" ContentStringFormat="Payout Date: {0}" Content="{Binding PayoutDate}" />
-                    <Label  Style="{StaticResource ErrorMessageBox}" IsEnabled="{Binding ErrorMessageActive}" Content="{Binding ErrorMessage}" 
-                           Visibility="{Binding ErrorMessageActive, Converter={StaticResource BoolToVisConverter}}"/>
+                    <Label  Style="{StaticResource ErrorMessageBox}" ContentStringFormat="Payout Date: {0}" 
+                            Content="{Binding PayoutDate}" />
+                    <Label  Style="{StaticResource ErrorMessageBox}" IsEnabled="{Binding ErrorMessageActive}" 
+                            Content="{Binding ErrorMessage}" Visibility="{Binding ErrorMessageActive, 
+                                                                          Converter={StaticResource BoolToVisConverter}}"/>
                 </StackPanel>
-                <!--<Button Margin="20" FontSize="36" Content="Load Log" Height="50" Command="{Binding LoadLog}" Width="250" />
-                <ListView  IsEnabled="{Binding ShowListView}" Visibility="{Binding ShowListView,
-                    Converter={StaticResource BoolToVisConverter}}">
+                <!--<Button Margin="20" FontSize="36" Content="Load Log" Height="50" Command="{Binding LoadLog}" Width="250" />-->
+                
+                <ListView IsEnabled="{Binding ShowListView}" Visibility="{Binding ShowListView,
+                    Converter={StaticResource BoolToVisConverter}}" ItemsSource="{Binding Entries}" Margin="10">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="700" Header="Log Entry">
+                            <GridViewColumn Width="400" Header="Log Entry">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Border BorderBrush="Black" BorderThickness="2">
-                                            <TextBlock Text="{Binding}" TextAlignment="Center" Background="LightGray" 
+                                            <TextBlock Text="{Binding Key}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="400" Header="Initial">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="2">
+                                            <TextBlock Text="{Binding Value.First}" TextAlignment="Center" Background="LightGray" 
+                                                               Foreground="Navy"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="400" Header="Paid Out">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="2">
+                                            <TextBlock Text="{Binding Value.Second}" TextAlignment="Center" Background="LightGray" 
                                                                Foreground="Navy"/>
                                         </Border>
                                     </DataTemplate>
@@ -71,7 +94,7 @@
 
                         </GridView>
                     </ListView.View>
-                </ListView>-->
+                </ListView>
 
             </StackPanel>
         </ScrollViewer>

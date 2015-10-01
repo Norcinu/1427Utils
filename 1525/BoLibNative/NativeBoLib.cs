@@ -509,7 +509,10 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int getLastPayoutType();
-        
+
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern uint getPlayerPointsMinBet();
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/

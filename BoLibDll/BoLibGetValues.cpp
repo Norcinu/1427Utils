@@ -842,3 +842,8 @@ int getLastPayoutType()
 {
 	return GetLastPayoutType();
 }
+
+unsigned int getPlayerPointsMinBet()
+{
+	return GetPlayerPointsMinimumBet();
+}
