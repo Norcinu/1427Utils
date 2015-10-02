@@ -180,22 +180,22 @@
     <value>..\Resources\volume.wav;System.IO.MemoryStream, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="FILE_TYPE_EXE" xml:space="preserve">
-    <value>D:\1525\bmp\exe.png</value>
+    <value>D:\2025\bmp\exe.png</value>
   </data>
   <data name="FILE_TYPE_FOLDER" xml:space="preserve">
-    <value>D:\1525\bmp\folder.png</value>
+    <value>D:\2025\bmp\folder.png</value>
   </data>
   <data name="FILE_TYPE_IMG" xml:space="preserve">
-    <value>D:\1525\bmp\png.png</value>
+    <value>D:\2025\bmp\png.png</value>
   </data>
   <data name="FILE_TYPE_INI" xml:space="preserve">
-    <value>D:\1525\bmp\ini.png</value>
+    <value>D:\2025\bmp\ini.png</value>
   </data>
   <data name="FILE_TYPE_UNKNOWN" xml:space="preserve">
-    <value>D:\1525\bmp\unknown.png</value>
+    <value>D:\2025\bmp\unknown.png</value>
   </data>
   <data name="FILE_TYPE_WAV" xml:space="preserve">
-    <value>D:\1525\bmp\wav.png</value>
+    <value>D:\2025\bmp\wav.png</value>
   </data>
   <data name="model_manifest" xml:space="preserve">
     <value>D:\machine\ModelManifest.ini</value>
@@ -222,7 +222,7 @@
     <value>..\Resources\Icon1.ico;System.Drawing.Icon, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="FILE_TYPE_RAW" xml:space="preserve">
-    <value>D:\1525\bmp\raw.png</value>
+    <value>D:\2025\bmp\raw.png</value>
   </data>
   <data name="cashless_log" xml:space="preserve">
     <value>D:\machine\GAME_DATA\CashlessLib.log</value>
@@ -234,23 +234,23 @@
     <value>D:\machine\GAME_DATA\TerminalWarningLog.log</value>
   </data>
   <data name="door_open_sound" xml:space="preserve">
-    <value>D:\1525\wav\util.wav</value>
+    <value>D:\2025\wav\util.wav</value>
   </data>
   <data name="PreGambleIcon" xml:space="preserve">
-    <value>D:\1525\BMP\GameIconS.png</value>
+    <value>D:\2024\BMP\GameIconS.png</value>
     <comment>For use in game stats page</comment>
   </data>
   <data name="disable_button" xml:space="preserve">
-    <value>D:\1525\bmp\disable.png</value>
+    <value>D:\2025\bmp\disable.png</value>
   </data>
   <data name="down_button" xml:space="preserve">
-    <value>D:\1525\bmp\down.png</value>
+    <value>D:\2025\bmp\down.png</value>
   </data>
   <data name="enable_button" xml:space="preserve">
-    <value>D:\1525\bmp\enable.png</value>
+    <value>D:\2025\bmp\enable.png</value>
   </data>
   <data name="up_button" xml:space="preserve">
-    <value>D:\1525\bmp\up.png</value>
+    <value>D:\2025\bmp\up.png</value>
   </data>
   <data name="model_manifest_esp" xml:space="preserve">
     <value>D:\machine\ModelManifestESP.ini</value>
@@ -259,7 +259,7 @@
     <value>D:\machine\ModelManifestB3.ini</value>
   </data>
   <data name="utils_config" xml:space="preserve">
-    <value>D:\1525\config\utils_config.ini</value>
+    <value>D:\2025\config\utils_config.ini</value>
   </data>
   <data name="cpu_event_log" xml:space="preserve">
     <value>D:\machine\GAME_DATA\CpuEventLog.ini</value>

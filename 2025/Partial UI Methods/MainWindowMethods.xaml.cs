@@ -40,7 +40,7 @@ namespace PDTUtils
                         else
                             _directSoundOnline = false;
 
-                        BoLib.LoadWavFile(@"D:\1525\wav\volume.wav", 0);
+                        BoLib.LoadWavFile(@"D:\2025\wav\volume.wav", 0);
                         BoLib.DoPlaySound*/
                         return;
                     case 1:

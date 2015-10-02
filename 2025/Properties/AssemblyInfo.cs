@@ -7,7 +7,7 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute _smartCardValues to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("1525 Shell Utility")]
+[assembly: AssemblyTitle("2025 Shell Utility")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Project Design Technology")]

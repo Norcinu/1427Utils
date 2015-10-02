@@ -18,7 +18,24 @@ namespace PDTUtils.MVVM.ViewModels
             OperatorESP = new ObservableCollection<BirthCertModel>();
             ParseIni();
         }
-        
+
+        string[] _theHelpMessages = new string[13]
+        {
+            @"RTP: Game Payout 88-94%",
+            @"MinPlayerPointsBet: Minimum Player Points Bet Value. 5. 10. 20. 40. 60. 80. 100. 200. 300. 400. 500",
+            @"NvFloatControl: 0 - Never Disable. Cent Value = Nv Off Float < Cent Value",
+            @"RecyclerChannel: 2 - 10€. 3 - 20€",
+            @"OverRideRecycler: 0 - Enable note payout. 1 - Disable note payout",
+            @"DumpSwitchFitted: 0 = No Hopper Dumpswitch. 1 = Hopper Dumpswitch Active",
+            @"Handpay Threshold: Handpay above this value (¢)",
+            @"Handpay Only: 0 - No Handpay. 1 - Handpay active",
+            @"LH Divert Threshold: Value in € for Left Hopper Cashbox Divert",
+            @"RH Divert Threshold: Value in € for Right Hopper Cashbox Divert",
+            @"RefloatLH: Value to set left hopper float in ¢.",
+            @"RefloatRH: Value to set right hopper float in ¢.",
+            @"LProgressiveSys: 0 - No Local Progressive. 1 - Local Progressive"
+        };
+
         /*string[] _theHelpMessages = new string[27]
         {
             @"Payout Type: 0 = Hopper. 1 = Printer. 2 = Combined.", 
@@ -52,6 +69,7 @@ namespace PDTUtils.MVVM.ViewModels
 
         //public ObservableCollection<BirthCertModel> Values { get; private set; }
         public ObservableCollection<BirthCertModel> OperatorESP { get; private set; }
+        public ObservableCollection<string> HelpValues { get; set; }
       /*  public bool ShowHelp
         {
             get { return _showHelp; }
@@ -104,7 +122,7 @@ namespace PDTUtils.MVVM.ViewModels
            // RaisePropertyChangedEvent("Values");
             RaisePropertyChangedEvent("OperatorESP");
         }
-
+        
         void ParseSection(string section, ObservableCollection<BirthCertModel> collection)
         {
             if (collection.Count == 0)
@@ -116,7 +134,7 @@ namespace PDTUtils.MVVM.ViewModels
                 {
                     if (str.StartsWith("#"))
                         break;
-
+                    
                     var pair = str.Split("=".ToCharArray());
                     /*if (pair[0] != "Minimum Payout Value" &&
                         pair[0] != "Minimum Bet" &&
@@ -135,11 +153,31 @@ namespace PDTUtils.MVVM.ViewModels
             HelpMessage = _theHelpMessages[index];
         }*/
 
-
-        /* TODO!!! */
-        void WriteChanges()
+        public void SetHelpMessage(int index)
         {
+            if (index > OperatorESP.Count)
+                return;
+            else
+            {
+                if (HelpValues == null)
+                    HelpValues = new ObservableCollection<string>();
 
+                if (HelpValues.Count > 0)
+                    HelpValues.RemoveAll();
+
+                var temp = _theHelpMessages[index];
+                var arr = temp.Split(":.".ToCharArray());
+
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    if (i > 0 && !string.IsNullOrEmpty(arr[i]))
+                        HelpValues.Add(arr[i]);
+                }
+                /*HelpValues.Add()*/
+
+                RaisePropertyChangedEvent("HelpValues");
+            }
         }
+
     }
 }

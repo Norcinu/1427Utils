@@ -1,8 +1,8 @@
 import os
 
-remote_folder = "Y:\\1525\\"
-debug_exe_name = remote_folder + "1525L29U010D.exe"
-release_exe_name = remote_folder + "1525L29U010R.exe"
+remote_folder = "Y:\\2025\\"
+debug_exe_name = remote_folder + "2025L29U010D.exe"
+release_exe_name = remote_folder + "2025L29U010R.exe"
 
 
 if os.access(release_exe_name, os.F_OK):

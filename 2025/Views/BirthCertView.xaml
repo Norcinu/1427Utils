@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" >
     
     <UserControl.Resources>
         <Style x:Key="StatsLabel" TargetType="Label">
@@ -73,36 +72,62 @@
                     </ListView>
                 </StackPanel> -->
                 <!-- Operator - -->
-                <Border BorderBrush="Black" BorderThickness="2" Margin="0,20,0,0">
-                    <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="685"
+                <Border BorderBrush="Black" BorderThickness="2" Margin="3,20,3,3">
+                    <Label FontSize="38" HorizontalAlignment="Center" Style="{StaticResource StatsLabel}" Width="1002"
                                     Height="75" Content="Monetary values in ¢" />
                 </Border>
-                <ListView Name="Operator" ItemsSource="{Binding OperatorESP}" HorizontalContentAlignment="Center" FontSize="22" 
-                          SelectionChanged="ListBoxSelectionChanged" AlternationCount="2">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="340" Header="Field">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border BorderBrush="Black" BorderThickness="2">
-                                            <TextBlock Text="{Binding Field}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Width="340" Header="Value">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border BorderBrush="Black" BorderThickness="2">
-                                            <TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            
+                
+                <StackPanel Orientation="Horizontal">
+                    <ListView Name="Operator" ItemsSource="{Binding OperatorESP}" HorizontalContentAlignment="Center" FontSize="22" 
+                          SelectionChanged="ListBoxSelectionChanged" AlternationCount="2" Margin="3">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="340" Header="Field">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="2">
+                                                <TextBlock Text="{Binding Field}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="140" Header="Value">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="Black" BorderThickness="2">
+                                                <TextBlock Text="{Binding Value}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    
+                    <StackPanel Margin="3">
+                        <!-- <Label Content="{Binding HelpDesc}" /> -->
+                        <ListView ItemsSource="{Binding HelpValues}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="500" Header="Possible Values">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border BorderBrush="Black" BorderThickness="2">
+                                                    <TextBlock Text="{Binding}" TextAlignment="Center" Background="LightGray" Foreground="Navy"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <!-- <GridViewColumn>
+                                    
+                                </GridViewColumn> -->
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                    
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
         <!--<Button Width="120" Height="35" Margin="20" FontSize="24" Content="Load Birth Cert" Command="{Binding Parse}"/>-->

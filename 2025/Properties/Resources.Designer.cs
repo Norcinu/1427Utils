@@ -100,7 +100,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\disable.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\disable.png.
         /// </summary>
         internal static string disable_button {
             get {
@@ -109,7 +109,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\wav\util.wav.
+        ///   Looks up a localized string similar to D:\2025\wav\util.wav.
         /// </summary>
         internal static string door_open_sound {
             get {
@@ -118,7 +118,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\down.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\down.png.
         /// </summary>
         internal static string down_button {
             get {
@@ -127,7 +127,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\enable.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\enable.png.
         /// </summary>
         internal static string enable_button {
             get {
@@ -151,7 +151,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\exe.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\exe.png.
         /// </summary>
         internal static string FILE_TYPE_EXE {
             get {
@@ -160,7 +160,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\folder.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\folder.png.
         /// </summary>
         internal static string FILE_TYPE_FOLDER {
             get {
@@ -169,7 +169,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\png.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\png.png.
         /// </summary>
         internal static string FILE_TYPE_IMG {
             get {
@@ -178,7 +178,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\ini.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\ini.png.
         /// </summary>
         internal static string FILE_TYPE_INI {
             get {
@@ -187,7 +187,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\raw.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\raw.png.
         /// </summary>
         internal static string FILE_TYPE_RAW {
             get {
@@ -196,7 +196,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\unknown.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\unknown.png.
         /// </summary>
         internal static string FILE_TYPE_UNKNOWN {
             get {
@@ -205,7 +205,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\wav.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\wav.png.
         /// </summary>
         internal static string FILE_TYPE_WAV {
             get {
@@ -323,7 +323,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\BMP\GameIconS.png.
+        ///   Looks up a localized string similar to D:\2024\BMP\GameIconS.png.
         /// </summary>
         internal static string PreGambleIcon {
             get {
@@ -389,7 +389,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\bmp\up.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\up.png.
         /// </summary>
         internal static string up_button {
             get {
@@ -434,7 +434,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\1525\config\utils_config.ini.
+        ///   Looks up a localized string similar to D:\2025\config\utils_config.ini.
         /// </summary>
         internal static string utils_config {
             get {

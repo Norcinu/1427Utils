@@ -67,7 +67,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>Y:\1525</OutDir>
+    <OutDir>Y:\2025</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug1224|Win32'">
     <OutDir>..\ShellController\bin\</OutDir>
@@ -80,7 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>C:\heber\DevSource\Dx9SDK\Include\;C:\heber\Projects\Bo_Library\1524ESPLibSource;$(IncludePath)</IncludePath>
+    <IncludePath>C:\heber\DevSource\Dx9SDK\Include\;C:\heber\Projects\Bo_Library\2024LibSource;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Heber\Projects\Bo_Library\Lib;C:\heber\DevSource\Dx9SDK\Lib\x86;C:\Heber\DevSource\VC98\MFC\Lib\;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
@@ -91,7 +91,7 @@
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>Y:\1525</OutDir>
+    <OutDir>Y:\2025</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release1224|Win32'">
     <OutDir>..\ShellController\bin\</OutDir>
@@ -104,7 +104,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetExt>.dll</TargetExt>
-    <IncludePath>C:\heber\DevSource\Dx9SDK\Include\;C:\heber\Projects\Bo_Library\1524ESPLibSource;$(IncludePath)</IncludePath>
+    <IncludePath>C:\heber\DevSource\Dx9SDK\Include\;C:\heber\Projects\Bo_Library\2024LibSource;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Heber\Projects\Bo_Library\Lib;C:\heber\DevSource\Dx9SDK\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release1224|Win32'">
@@ -121,7 +121,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dsound.lib;1524Ms10ESPD.lib;%(AdditionalDependencies);winmm.lib</AdditionalDependencies>
+      <AdditionalDependencies>dsound.lib;2024Ms10D.lib;%(AdditionalDependencies);winmm.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -154,7 +154,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>dsound.lib;1524Ms10ESPR.lib;%(AdditionalDependencies);winmm.lib</AdditionalDependencies>
+      <AdditionalDependencies>dsound.lib;2024Ms10R.lib;%(AdditionalDependencies);winmm.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(TargetPath)" "y:\1427"</Command>
@@ -175,7 +175,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\1524LibSource\EspRegionalValues.h" />
+    <ClInclude Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\2024LibSource\EspRegionalValues.h" />
     <ClInclude Include="BoLibGetValues.h" />
     <ClInclude Include="BoLibHandPay.h" />
     <ClInclude Include="BoLibSetValues.h" />
@@ -186,7 +186,7 @@
     <ClInclude Include="MD5.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Bo_Library\1524ESPLibSource\EspRegionalValues.cpp" />
+    <ClCompile Include="..\..\..\Bo_Library\2024LibSource\EspRegionalValues.cpp" />
     <ClCompile Include="BoLibGetValues.cpp" />
     <ClCompile Include="BoLibHandPay.cpp" />
     <ClCompile Include="BoLibSetValues.cpp" />

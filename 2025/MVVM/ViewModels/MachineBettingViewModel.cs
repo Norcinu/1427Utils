@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PDTUtils.Native;
 using System.Windows.Input;
+using PDTUtils.Native;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -52,7 +49,7 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get { return new DelegateCommand(CycleArray); }
         }
-
+        
         void CycleArray(object o)
         {
             var direction = o as string;
@@ -70,9 +67,13 @@ namespace PDTUtils.MVVM.ViewModels
                 else
                     _currentBetIndex = (int)TOTAL_STAKES - 1;
             }
-
+            
             CurrentBetValue = _validBetValues[_currentBetIndex];
-            //RaisePropertyChangedEvent("CurrentBetAsString");
+            NativeWinApi.WritePrivateProfileString("Operator", "MinPlayerPointsBet", _currentBetValue.ToString(), 
+                Properties.Resources.birth_cert);
+            
+            // birth cert needs to be re-parsed to affect changes.
+            BoLib.setUtilRequestBitState((int)UtilBits.RereadBirthCert);
         }
     }
 }

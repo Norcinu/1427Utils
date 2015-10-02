@@ -3,7 +3,9 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
-
+/*
+RENAME UTILS TO 2025
+RENAME 2025 LIBS WHEN BUILDING*/
 namespace PDTUtils
 {
     public class HelpMessageWindow : Window
@@ -36,7 +38,7 @@ namespace PDTUtils
 
     public partial class BirthCertSettingsWindow : Window
     {
-        string[] _theHelpMessages = new string[32]
+        /*string[] _theHelpMessages = new string[32]
         {
             @"Payout Type: 0 = Hopper. 1 = Printer. 2 = Combined.", 
             @"Number Of Hoppers: 0 = No Hopper. 1 = High Value Coin Only. 2 = High & Low Hopper",
@@ -70,7 +72,7 @@ namespace PDTUtils
             @"AssetNo: TiTo Asset Number.",
             @"TiToServerIP: IP Address to TiTo Web Service",
             @"MinPlayerPointsBet: Minimum Player points bet. Numeric value. "
-        };
+        };*/
 
         #region options
         public string OptionValue { get; set; }
@@ -100,14 +102,14 @@ namespace PDTUtils
             Left = (1920 / 2) - (300 / 2);
             Top = (1080 / 2) - (136 / 2);
 
-            var tempIndex = 0;
+          /*  var tempIndex = 0;
             for (var i = tempIndex; i < _theHelpMessages.Length; i++, tempIndex++)
             {
                 if (_theHelpMessages[i].StartsWith(OptionField))
                     break;
-            }
+            }*/
 
-            lblValidValues.Content = "";// (tempIndex <= _theHelpMessages.Length) ? _theHelpMessages[tempIndex] : "";
+            //lblValidValues.Content = "";// (tempIndex <= _theHelpMessages.Length) ? _theHelpMessages[tempIndex] : "";
         }
 
         void button2_Click(object sender, RoutedEventArgs e)

@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Y:\1525\</OutputPath>
+    <OutputPath>Y:\2025\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -110,8 +110,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy Y:\1525\SerialExtractionTool.exe Y:\1525\SerialExtractionTool_Copy.exe
-C:\Tool_MD5_Append -s=Y:\1525\SerialExtractionTool_Copy.exe -d=Y:\1525\SerialExtractionTool.exe &gt;CRCLog.txt</PostBuildEvent>
+    <PostBuildEvent>copy Y:\2025\SerialExtractionTool.exe Y:\2025\SerialExtractionTool_Copy.exe
+C:\Tool_MD5_Append -s=Y:\2025\SerialExtractionTool_Copy.exe -d=Y:\2025\SerialExtractionTool.exe &gt;CRCLog.txt</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

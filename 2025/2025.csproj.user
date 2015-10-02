@@ -14,18 +14,19 @@
     <RemoteDebugEnabled>true</RemoteDebugEnabled>
     <RemoteDebugMachine>STEVETERMINAL01</RemoteDebugMachine>
     <StartAction>Program</StartAction>
-    <StartProgram>D:\1525\1525L29U010D.exe</StartProgram>
+    <StartProgram>D:\2025\2025L29U010D.exe</StartProgram>
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <StartAction>Program</StartAction>
-    <StartProgram>D:\1525\1525L29U010R.exe</StartProgram>
+    <StartProgram>D:\2025\2025L29U010R.exe</StartProgram>
     <RemoteDebugEnabled>true</RemoteDebugEnabled>
     <RemoteDebugMachine>STEVETERMINAL01</RemoteDebugMachine>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>C:\Documents and Settings\Steve\My Documents\Visual Studio 2010\Projects\1427\</ReferencePath>
+    <ReferencePath>
+    </ReferencePath>
   </PropertyGroup>
 </Project>

@@ -54,7 +54,7 @@
                 <RepeatButton Height="75" Margin="0,10,0,10" Delay="500" 
                               Command="{Binding ChangeHandPayThreshold}" CommandParameter="increment">
                     <StackPanel>
-                        <Image Source="D:/1525/bmp/up.png" Height="65" Width="65" />
+                        <Image Source="D:/2025/bmp/up.png" Height="65" Width="65" />
                     </StackPanel>
                 </RepeatButton>
                 <Border CornerRadius="8" Background="SlateGray" BorderBrush="SlateBlue" Margin="5" BorderThickness="4">
@@ -63,7 +63,7 @@
                 <RepeatButton Height="75" Margin="0,10,100,10" Delay="500" 
                               Command="{Binding ChangeHandPayThreshold}" CommandParameter="decrement">
                     <StackPanel>
-                        <Image Source="D:/1525/bmp/down.png" Height="65" Width="65" />
+                        <Image Source="D:/2025/bmp/down.png" Height="65" Width="65" />
                     </StackPanel>
                 </RepeatButton>
 

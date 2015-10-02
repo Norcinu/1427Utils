@@ -39,10 +39,10 @@
     <ClInclude Include="BoLibTito.h">
       <Filter>BoLibHeaders</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\1524LibSource\EspRegionalValues.h">
+    <ClInclude Include="DSoundPlayer.h">
       <Filter>BoLibHeaders</Filter>
     </ClInclude>
-    <ClInclude Include="DSoundPlayer.h">
+    <ClInclude Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\2024LibSource\EspRegionalValues.h">
       <Filter>BoLibHeaders</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,7 +68,7 @@
     <ClCompile Include="DSoundPlayer.cpp">
       <Filter>BoLibSource</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Bo_Library\1524ESPLibSource\EspRegionalValues.cpp">
+    <ClCompile Include="..\..\..\Bo_Library\2024LibSource\EspRegionalValues.cpp">
       <Filter>BoLibSource</Filter>
     </ClCompile>
   </ItemGroup>

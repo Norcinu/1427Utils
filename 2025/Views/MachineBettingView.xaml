@@ -6,11 +6,11 @@
              xmlns:mv="clr-namespace:PDTUtils.MVVM.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-
+    
     <UserControl.DataContext>
         <mv:MachineBettingViewModel/>
     </UserControl.DataContext>
-
+    
     <UserControl.Resources>
         <Style x:Key="StevesLabel" TargetType="Label">
             <Setter Property="Background" Value="SlateGray" />
@@ -32,7 +32,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <StackPanel HorizontalAlignment="Center" Background="AliceBlue">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue">
             <Label Margin="10" Style="{StaticResource StevesLabel}" Content="Set Machine Player Points Minimum Bet" />
             <StackPanel Orientation="Horizontal">
                 <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ForwardHo}" 

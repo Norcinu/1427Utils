@@ -826,11 +826,11 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 try
                 {
-                    if (!Directory.Exists(@"D:\1525\config"))
-                        Directory.CreateDirectory(@"D:\1525\config");
+                    if (!Directory.Exists(@"D:\2025\config"))
+                        Directory.CreateDirectory(@"D:\2025\config");
 
                     //File.Create(Properties.Resources.utils_config);
-                    string contents = "######### General Config for 1525 Utilities.\r\n\r\n[Hoppers]\r\nLeft=300\r\nRight=100";
+                    string contents = "######### General Config for 2025 Utilities.\r\n\r\n[Hoppers]\r\nLeft=300\r\nRight=100";
                     File.WriteAllText(Properties.Resources.utils_config, contents);
                 }
                 catch (Exception ex)

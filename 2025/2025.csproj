@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PDTUtils</RootNamespace>
-    <AssemblyName>1525L29U010D</AssemblyName>
+    <AssemblyName>2025L29U010D</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -36,7 +36,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Y:\1525\</OutputPath>
+    <OutputPath>Y:\2025\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -48,7 +48,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Y:\1525\</OutputPath>
+    <OutputPath>Y:\2025\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -434,14 +434,14 @@
   <PropertyGroup>
     <PostBuildEvent>if "$(ConfigurationName)" == "Release" (
 python $(SolutionDir)PythonUtils\RenameRelease.py
-copy Y:\1525\1525L29U010R.exe Y:\1525\1525L29U010R_Copy.exe
-C:\Tool_MD5_Append -s=Y:\1525\1525L29U010R_Copy.exe   -d=Y:\1525\1525L29U010R.exe &gt;CRCLog.txt
+copy Y:\2025\2025L29U010R.exe Y:\2025\2025L29U010R_Copy.exe
+C:\Tool_MD5_Append -s=Y:\2025\2025L29U010R_Copy.exe   -d=Y:\2025\2025L29U010R.exe &gt;CRCLog.txt
 goto :finished
 )
 
 if "Debug" == "$(ConfigurationName)" (
-copy Y:\1525\1525L29U010D.exe Y:\1525\1525L29U010D_Copy.exe
-C:\Tool_MD5_Append -s=Y:\1525\1525L29U010D_Copy.exe -d=Y:\1525\1525L29U010D.exe &gt;CRCLog.txt
+copy Y:\2025\2025L29U010D.exe Y:\2025\2025L29U010D_Copy.exe
+C:\Tool_MD5_Append -s=Y:\2025\2025L29U010D_Copy.exe -d=Y:\2025\2025L29U010D.exe &gt;CRCLog.txt
 )
 
 :finished</PostBuildEvent>

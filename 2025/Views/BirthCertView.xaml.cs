@@ -65,7 +65,18 @@ namespace PDTUtils.Views
         
         void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            SetHelpMessage(sender);
             UpdateIniItem(sender);
+        }
+
+        void SetHelpMessage(object sender)
+        {
+            var l = sender as ListView;
+            if (l.SelectedIndex == -1)
+                return;
+
+            var dc = DataContext as BirthCertViewModel;
+            dc.SetHelpMessage(l.SelectedIndex);
         }
     }
 }

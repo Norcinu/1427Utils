@@ -51,7 +51,7 @@ namespace PDTUtils.MVVM.Models
         public GameStatMeter(string n, string b, string w, string p)
         {
             if (n.Equals("1524"))
-                this.Name = @"D:\1525\BMP\GameIconS.png";
+                this.Name = @"D:\2025\BMP\GameIconS.png";
             else
                 this.Name = @"D:\" + n + @"\BMP\" + "GameIconS.png";
             
