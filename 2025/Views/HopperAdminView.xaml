@@ -7,13 +7,13 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="755"
 			 x:Name="UcHopperConfig">
-
+    
     <!-- IsEnabled="{Binding Enabled}"> -->
     <UserControl.Resources>
         <c:BoolToVisibilityConverter x:Key="BoolToVis" />
         <c:NegateBoolValue x:Key="NegateToVis" />
         <c:FalseToHiddenConv x:Key="FalseToHidden" />
-
+        
         <Style x:Key="StevesLabel" TargetType="Label">
             <Setter Property="Background" Value="SlateGray" />
             <Setter Property="Foreground" Value="White"/>
@@ -31,6 +31,8 @@
             <Setter Property="Margin" Value="10" />
         </Style>
     </UserControl.Resources>
+    
+
     
     <Grid>
         <TabControl FontSize="18" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" SelectionChanged="cmbHoppers_SelectionChanged">
@@ -175,10 +177,23 @@
                             
                             <Border BorderBrush="Black" BorderThickness="2" Margin="2">
                                 <StackPanel Width="560">
+
                                     <Label Style="{StaticResource StevesLabel}" BorderThickness="2,2,2,0" Margin="5,5,5,0" ContentStringFormat="€1 Float Level: {0}" Content="{Binding FloatLevelLeft}" />
                                     <Label Style="{StaticResource StevesLabel}" BorderThickness="2,0,2,2" Margin="5,0,5,5" ContentStringFormat="20¢ Float Level: {0}" Content="{Binding FloatLevelRight}" />
 
-                                    <Label Style="{StaticResource StevesLabel}" Content="Set New Float Level"/>
+                                    <Label Margin="0,40,0,5" Style="{StaticResource StevesLabel}" Content="Select Hopper to Empty" />
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Margin="5" Command="{Binding SpanishEmptyOne}" CommandParameter="left" Height="35" 
+                                            Width="125" FontSize="20" Content="LEFT" />
+                                        <Button Margin="5" Command="{Binding SpanishEmptyOne}" CommandParameter="right" Height="35" 
+                                            Width="125" FontSize="20" Content="RIGHT" />
+                                    </StackPanel>
+
+                                    <StackPanel Margin="0,40,0,5" />
+                                    
+                                    
+                                    
+                                    <Label Style="{StaticResource StevesLabel}" Content="Set New Float Level (number of coins)."/>
 
                                     <!-- Width="550"> -->
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -211,14 +226,14 @@
                                                 Command="{Binding EspHopperRefill}" CommandParameter="right" />
                                     </StackPanel>
                                     
-                                    <StackPanel Margin="0,40,0,5" />
+                                    <!-- <StackPanel Margin="0,40,0,5" />
                                     <Label Style="{StaticResource StevesLabel}" Content="Select Hopper to Empty" />
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button Margin="5" Command="{Binding SpanishEmptyOne}" CommandParameter="left" Height="35" 
                                             Width="125" FontSize="20" Content="LEFT" />
                                         <Button Margin="5" Command="{Binding SpanishEmptyOne}" CommandParameter="right" Height="35" 
                                             Width="125" FontSize="20" Content="RIGHT" />
-                                    </StackPanel>
+                                    </StackPanel> -->
                                 </StackPanel>
                             </Border>
                         </StackPanel>

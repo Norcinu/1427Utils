@@ -237,7 +237,7 @@
     <value>D:\2025\wav\util.wav</value>
   </data>
   <data name="PreGambleIcon" xml:space="preserve">
-    <value>D:\2024\BMP\GameIconS.png</value>
+    <value>D:\2025\bmp\GameIconS.png</value>
     <comment>For use in game stats page</comment>
   </data>
   <data name="disable_button" xml:space="preserve">

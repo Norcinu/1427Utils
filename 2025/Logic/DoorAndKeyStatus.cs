@@ -199,7 +199,7 @@ namespace PDTUtils
                     AnyAuthedCard = false;
                 
 /*
-#if DEBUG
+#if DEBUG 
                 CanViewDistributor = true;
                 CanViewManufacturer = true;
                 CanViewCashier = true;

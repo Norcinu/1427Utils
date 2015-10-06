@@ -190,44 +190,53 @@ namespace PDTUtils.MVVM.ViewModels
         void HopperCollectPayout(ref List<int> wagwan, ref int liveChecksum, ref int finalChecksum)
         {
             BoLib.setFileAction();
-            using (var b = new BinaryReader(File.Open(@_payoutFile, FileMode.Open)))
+            try
             {
-                int position = 0;
-                int length = (int)b.BaseStream.Length;
-                while (position < length)
+                using (var b = new BinaryReader(File.Open(@_payoutFile, FileMode.Open)))
                 {
-                    var value = b.ReadInt32();
-                    wagwan.Add(value);
+                    int position = 0;
+                    int length = (int)b.BaseStream.Length;
+                    while (position < length)
+                    {
+                        var value = b.ReadInt32();
+                        wagwan.Add(value);
 
-                    if (position != length - sizeof(int))
-                        liveChecksum += value;
+                        if (position != length - sizeof(int))
+                            liveChecksum += value;
 
-                    position += sizeof(int);
+                        position += sizeof(int);
+                    }
+                }
+
+                finalChecksum = wagwan[wagwan.Count - 1];
+                if (TestCheckSums(liveChecksum, finalChecksum))
+                {
+                    var attr = File.GetAttributes(_payoutFile);
+                    //PayoutDate = File.GetLastWriteTime(_payoutFile);
+                    _payoutDate = File.GetLastWriteTime(_payoutFile);
+                    LeftHandCoinsPaid = wagwan[(int)HopperPayoutNames.LeftHandCoinCount] * wagwan[(int)HopperPayoutNames.LeftHandCoinValue];
+                    RightHandCoinsPaid = wagwan[(int)HopperPayoutNames.RightHandCoinCount] * wagwan[(int)HopperPayoutNames.RightHandCoinValue];
+                    NotesPaidOut = wagwan[(int)HopperPayoutNames.NoteValue]; // *(int)HopperPayoutNames.NoteCount;
+                    HandPaidOut = wagwan[(int)HopperPayoutNames.HandPayValue];
+                    Entries.Add("Left Hand Coins", new Pair<int, int>(LeftHandCoinsPaid, 0));
+                    Entries.Add("Right Hand Coins", new Pair<int, int>(RightHandCoinsPaid, 0));
+                    Entries.Add("Notes Paid Out", new Pair<int, int>(NotesPaidOut, 0));
+                    Entries.Add("Total Paid Out", new Pair<int, int>(LeftHandCoinsPaid + RightHandCoinsPaid + NotesPaidOut, 0));
+                    RaisePropertyChangedEvent("PayoutDate");
+                    RaisePropertyChangedEvent("Entries");
+                }
+                else
+                {
+                    ErrorMessage = "ERROR: CHECKSUM MISMATCH";
+                    ErrorMessageActive = true;
                 }
             }
-            
-            finalChecksum = wagwan[wagwan.Count - 1];
-            if (TestCheckSums(liveChecksum, finalChecksum))
+            catch (Exception e)
             {
-                var attr = File.GetAttributes(_payoutFile);
-                //PayoutDate = File.GetLastWriteTime(_payoutFile);
-                _payoutDate = File.GetLastWriteTime(_payoutFile);
-                LeftHandCoinsPaid = wagwan[(int)HopperPayoutNames.LeftHandCoinCount] * wagwan[(int)HopperPayoutNames.LeftHandCoinValue];
-                RightHandCoinsPaid = wagwan[(int)HopperPayoutNames.RightHandCoinCount] * wagwan[(int)HopperPayoutNames.RightHandCoinValue];
-                NotesPaidOut = wagwan[(int)HopperPayoutNames.NoteValue]; // *(int)HopperPayoutNames.NoteCount;
-                HandPaidOut = wagwan[(int)HopperPayoutNames.HandPayValue];
-                Entries.Add("Left Hand Coins", new Pair<int, int>(LeftHandCoinsPaid, 0));
-                Entries.Add("Right Hand Coins", new Pair<int, int>(RightHandCoinsPaid, 0));
-                Entries.Add("Notes Paid Out", new Pair<int, int>(NotesPaidOut, 0));
-                Entries.Add("Total Paid Out", new Pair<int,int>(LeftHandCoinsPaid+RightHandCoinsPaid+NotesPaidOut, 0));
-                RaisePropertyChangedEvent("PayoutDate");
-                RaisePropertyChangedEvent("Entries");
-            }
-            else
-            {
-                ErrorMessage = "ERROR: CHECKSUM MISMATCH";
+                ErrorMessage = e.Message;
                 ErrorMessageActive = true;
             }
+
             BoLib.clearFileAction();
         }
         

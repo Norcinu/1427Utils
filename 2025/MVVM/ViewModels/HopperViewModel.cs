@@ -300,16 +300,16 @@ namespace PDTUtils.MVVM.ViewModels
             DivertLeftMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Left).ToString();
             DivertRightMessage = BoLib.getHopperDivertLevel((byte)Hoppers.Right).ToString();
             
-            if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
-            {
+            //if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
+            //{
                 IsSpanish = true;
                 IsBritish = false;
-            }
-            else
-            {
-                IsSpanish = false;
-                IsBritish = true;
-            }
+            //}
+            //else
+            //{
+            //    IsSpanish = false;
+            //    IsBritish = true;
+            //}
 
             FloatLevelLeft = BoLib.getHopperFloatLevel((int)Hoppers.Left).ToString();
             FloatLevelRight = BoLib.getHopperFloatLevel((int)Hoppers.Right).ToString();
@@ -704,19 +704,19 @@ namespace PDTUtils.MVVM.ViewModels
             RefloatLeft = new string(refloatLeft).Trim("\0".ToCharArray());
             RefloatRight = new string(refloatRight).Trim("\0".ToCharArray());
 
-            if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
-            {
+            /*if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
+            {*/
                 var leftFloat = BoLib.getHopperFloatLevel((byte)Hoppers.Left);
                 var rightFloat = BoLib.getHopperFloatLevel((byte)Hoppers.Right);
 
                 BoLib.setHopperFloatLevel((byte)Hoppers.Left, leftFloat + Convert.ToUInt32(RefloatLeft));
                 BoLib.setHopperFloatLevel((byte)Hoppers.Right, rightFloat + Convert.ToUInt32(RefloatRight));
-            }
+            /*}
             else
             {
                 BoLib.setHopperFloatLevel((byte)Hoppers.Left, Convert.ToUInt32(RefloatLeft));
                 BoLib.setHopperFloatLevel((byte)Hoppers.Right, Convert.ToUInt32(RefloatRight));
-            }
+            }*/
 
             SelHopperValue = (_currentSelHopper.Equals("LEFT HOPPER")) ? BoLib.getHopperFloatLevel((byte)Hoppers.Left).ToString()
                                                                        : BoLib.getHopperFloatLevel((byte)Hoppers.Right).ToString();
@@ -891,8 +891,7 @@ namespace PDTUtils.MVVM.ViewModels
             NativeWinApi.WritePrivateProfileString("Hoppers", "Left", EspLeftHopper.ToString(), Properties.Resources.utils_config);
             NativeWinApi.WritePrivateProfileString("Hoppers", "Right", EspRightHopper.ToString(), Properties.Resources.utils_config);
         }
-        //End Spain Methods.
-        //the several iraqis I gutted with my bayonet. Much prefered shooting them from 50 yards away imo.
+        
         public ICommand ZeroHopperFloat { get { return new DelegateCommand(DoHopperZero); } }
         void DoHopperZero(object o)
         {
@@ -951,12 +950,12 @@ namespace PDTUtils.MVVM.ViewModels
                 if (key.Equals("PayoutCoin1"))
                     _hopperPayingValue = _hopperPayingValue.Trim("0".ToCharArray());
                 
-                if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
+                //if (BoLib.getCountryCode() == BoLib.getSpainCountryCode())
                     _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "€") : 
                                                                   _hopperPayingValue.Insert(_hopperPayingValue.Length, "¢");
-                else
-                    _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "£") : 
-                                                                  _hopperPayingValue.Insert(_hopperPayingValue.Length, "p");
+                //else
+                //    _hopperPayingValue = (key == "PayoutCoin1") ? _hopperPayingValue.Insert(0, "£") : 
+                //                                                  _hopperPayingValue.Insert(_hopperPayingValue.Length, "p");
             }
         }
     }

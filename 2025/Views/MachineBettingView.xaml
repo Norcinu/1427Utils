@@ -21,7 +21,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Center" />
         </Style>
 
-
+        
         <Style x:Key="MyRepeatButton" TargetType="RepeatButton">
             <Setter Property="Delay" Value="500"/>
             <Setter Property="Width" Value="55" />
@@ -30,10 +30,11 @@
             <Setter Property="Margin" Value="10" />
         </Style>
     </UserControl.Resources>
-
+    
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="AliceBlue">
             <Label Margin="10" Style="{StaticResource StevesLabel}" Content="Set Machine Player Points Minimum Bet" />
+            <Border BorderBrush="Black" BorderThickness="2">
             <StackPanel Orientation="Horizontal">
                 <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ForwardHo}" 
                                           CommandParameter="backward" Content="-"/>
@@ -42,6 +43,7 @@
                 <RepeatButton Style="{StaticResource MyRepeatButton}" Command="{Binding ForwardHo}" 
                                           CommandParameter="forward" Content="+"/>
             </StackPanel>
+            </Border>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -41,6 +41,7 @@ namespace PDTUtils.MVVM.ViewModels
                 RaisePropertyChangedEvent("SelectedName");
                 RaisePropertyChangedEvent("SelectedMin");
                 RaisePropertyChangedEvent("SelectedMax");
+                RaisePropertyChangedEvent("BetInfo");
             }
         }
 
@@ -54,19 +55,21 @@ namespace PDTUtils.MVVM.ViewModels
                     return "";
             }
         }
-
+        
         public int SelectedMin
         {
             get
             {
                 if (_selectedIndex >= 0)
-                    return _betInfo[_names[_selectedIndex]].First;//.Split(":".ToCharArray())[0]].First;
+                    return _betInfo[_names[_selectedIndex]].First;
                 else
                     return -1;
             }
             set
             {
-                _betInfo[_names[_selectedIndex]].First = value; //.Split(":".ToCharArray())[0]].First = value;
+                _betInfo[_names[_selectedIndex]].First = value;
+                RaisePropertyChangedEvent("SelectedMin");
+                RaisePropertyChangedEvent("BetInfo");
             }
         }
         
@@ -75,14 +78,18 @@ namespace PDTUtils.MVVM.ViewModels
             get 
             {
                 if (_selectedIndex >= 0)
-                    return _betInfo[_names[_selectedIndex]].Second;//.Split(":".ToCharArray())[0]].Second;
+                    return _betInfo[_names[_selectedIndex]].Second;
                 else
                     return -1;
             }
             set
             {
                 if (_selectedIndex >= 0)
-                    _betInfo[_names[_selectedIndex]].Second = value; //.Split(":".ToCharArray())[0]].Second = value;
+                {
+                    _betInfo[_names[_selectedIndex]].Second = value;
+                    RaisePropertyChangedEvent("SelectedMax");
+                    RaisePropertyChangedEvent("BetInfo");
+                }
             }
         }
         
@@ -91,6 +98,7 @@ namespace PDTUtils.MVVM.ViewModels
         public Dictionary<string, Pair<int, int>> BetInfo
         {
             get { return _betInfo; }
+            set { _betInfo = value; }
         }
         
         public RouletteBettingViewModel()

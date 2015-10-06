@@ -91,52 +91,59 @@ namespace PDTUtils.Logic
         /// <returns></returns>
         void ParseIni()
         {
-            using (var fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var bs = new BufferedStream(fs))
-            using (var sr = new StreamReader(bs))
+            try
             {
-                string line;
-                try
+                using (var fs = File.Open(IniPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var bs = new BufferedStream(fs))
+                using (var sr = new StreamReader(bs))
                 {
-                    if (File.Exists(BackUpFile))
-                        RemoveBackupFile();
-                    File.Copy(IniPath, BackUpFile);
-
-                    var first = new char[10];
-                    sr.Read(first, 0, 7);
-                    _firstLine = new string(first).Trim('\0');
-                }
-                catch (System.Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
-                }
-                
-                while ((line = sr.ReadLine()) != null)
-                {
-                    if (line.Equals(EndOfIni))
-                        break;
-
-                    if (!line.StartsWith("[") || LineContainsCategories(line) || line.Equals("")) continue;
-                    var category = line.Trim("[]".ToCharArray());
-                        
-                    string[] str;
-                    IniFileUtility.GetIniProfileSection(out str, category, IniPath);
-                    if (str == null) continue;
-                    
-                    foreach (var val in str)
+                    string line;
+                    try
                     {
-                        if (!val.Contains("=")) continue;
-                        var options = val.Split("=".ToCharArray());
-                        Add(new IniElement(category, options[0], options[1]));
+                        if (File.Exists(BackUpFile))
+                            RemoveBackupFile();
+                        File.Copy(IniPath, BackUpFile);
+
+                        var first = new char[10];
+                        sr.Read(first, 0, 7);
+                        _firstLine = new string(first).Trim('\0');
+                    }
+                    catch (System.Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex.Message);
+                    }
+
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (line.Equals(EndOfIni))
+                            break;
+
+                        if (!line.StartsWith("[") || LineContainsCategories(line) || line.Equals("")) continue;
+                        var category = line.Trim("[]".ToCharArray());
+
+                        string[] str;
+                        IniFileUtility.GetIniProfileSection(out str, category, IniPath);
+                        if (str == null) continue;
+
+                        foreach (var val in str)
+                        {
+                            if (!val.Contains("=")) continue;
+                            var options = val.Split("=".ToCharArray());
+                            Add(new IniElement(category, options[0], options[1]));
+                        }
                     }
                 }
+
+                string[] models;
+                IniFileUtility.GetIniProfileSection(out models, "Models", IniPath);
+                foreach (var m in models)
+                {
+                    _models.Add(new IniElement("Models", m, ""));
+                }
             }
-            
-            string[] models; 
-            IniFileUtility.GetIniProfileSection(out models, "Models", IniPath);
-            foreach (var m in models)
+            catch (System.Exception e)
             {
-                _models.Add(new IniElement("Models", m, ""));
+                System.Diagnostics.Debug.WriteLine(e.Message);
             }
         }
         

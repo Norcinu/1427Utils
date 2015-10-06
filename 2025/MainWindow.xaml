@@ -553,10 +553,14 @@
                         Visibility="{Binding KeyDoorWorker.CanViewDistOrManu, Converter={StaticResource BoolToVisConverter}}" >
                 <TabItem Header="Games" MinWidth="100">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <Label Style="{StaticResource MESHUGGAH}" Content="{Binding GameStatistics.MachineRtp}"/>
+                        <Label Style="{StaticResource MESHUGGAH}" BorderBrush="Black" BorderThickness="2" 
+                               Content="{Binding GameStatistics.MachineRtp}"/>
                         <ListView Name="MachineIniListView" ItemsSource="{Binding GameStatistics.Games}" Width="1420" 
-                              FontSize="22" Height="760">
-                            <!-- 760 -->
+                                  FontSize="22" 
+                                  Height="780" 
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                            
                             <ListView.View>
                                 <GridView ColumnHeaderToolTip="Game Stats view" AllowsColumnReorder="False">
                                     <GridViewColumn Header="Game Number" Width="200">

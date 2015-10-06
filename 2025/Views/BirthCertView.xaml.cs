@@ -24,10 +24,8 @@ namespace PDTUtils.Views
                 return;
             
             var c = l.Items[l.SelectedIndex] as BirthCertModel;
-            /*var dc = DataContext as BirthCertViewModel;
-            dc.SetHelpMessage(l.SelectedIndex);*/
-            //int offset = 0;
-            var w = new BirthCertSettingsWindow(c.Field, c.Value)//, l.SelectedIndex + offset)
+
+            var w = new BirthCertSettingsWindow(c.Field, c.Value)
             {
                 BtnComment = { IsEnabled = false, Visibility = Visibility.Hidden }
             };

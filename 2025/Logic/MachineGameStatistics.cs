@@ -222,7 +222,7 @@ namespace PDTUtils
             
             if (_firstPass)
             {
-                AvgStakeMsg += ((BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "(¢)" : "(P)").ToString();
+                AvgStakeMsg += "(¢)"; //((BoLib.getCountryCode() == BoLib.getSpainCountryCode()) ? "(¢)" : "(P)").ToString();
                 _firstPass = false;
             }
             var moneyInLt = BoLib.getPerformanceMeter((byte)Performance.MoneyInLt);
@@ -253,7 +253,7 @@ namespace PDTUtils
                 
                 if (win > 0 && bet > 0)
                     perc = ((decimal)win / (decimal)bet) * 100;
-
+                
                 if (i > 0)
                 {
                     totalGameCount += playCount;
@@ -268,7 +268,7 @@ namespace PDTUtils
                     Bets = (int)bet,
                     Wins = (int)win,
                     Percentage = (perc > 0) ? Math.Round(perc, 2).ToString() + "%" : "0.00%",
-                    ImageSource = (modelNo == 1524) ? Properties.Resources.PreGambleIcon
+                    ImageSource = (modelNo == 2024) ? Properties.Resources.PreGambleIcon
                                                     : @"D:\" + modelNo.ToString() + @"\BMP\GameIconS.png",
                     AverageStake = average,
                 });

@@ -323,7 +323,7 @@ namespace PDTUtils.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D:\2024\BMP\GameIconS.png.
+        ///   Looks up a localized string similar to D:\2025\bmp\GameIconS.png.
         /// </summary>
         internal static string PreGambleIcon {
             get {

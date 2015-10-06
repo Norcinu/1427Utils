@@ -56,15 +56,15 @@ namespace PDTUtils
                 InitialiseBoLib();
                 InitializeComponent();
                 
-                MachineDescription.IsSpanish = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? true : false;
-                MachineDescription.IsBritish = !MachineDescription.IsSpanish;
+                MachineDescription.IsSpanish = true;//BoLib.getCountryCode() == BoLib.getSpainCountryCode() ? true : false;
+                MachineDescription.IsBritish = false;//!MachineDescription.IsSpanish; //TODO: Remove any reference to Britain.
                 MachineDescription.CountryCode = BoLib.getCountryCode();
 
-                var ci = MachineDescription.IsSpanish ? new CultureInfo("es-ES") : new CultureInfo("en-GB");
+                var ci = new CultureInfo("es-ES"); //MachineDescription.IsSpanish ? new CultureInfo("es-ES") : new CultureInfo("en-GB");
 
                 Thread.CurrentThread.CurrentCulture = ci;
                 Thread.CurrentThread.CurrentUICulture = ci;
-                
+                 
                 _updateFiles = new UserSoftwareUpdate(this);
                 WindowHeight = Height;
             }
