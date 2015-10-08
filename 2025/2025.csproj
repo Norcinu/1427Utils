@@ -97,6 +97,7 @@
       <DependentUpon>BirthCertSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="FatStevesPie\StevesPie.cs" />
+    <Compile Include="Helpers\ObservableDictionary.cs" />
     <Compile Include="LoadingWindow.xaml.cs">
       <DependentUpon>LoadingWindow.xaml</DependentUpon>
     </Compile>

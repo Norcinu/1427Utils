@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using PDTUtils.MVVM.ViewModels;
 
 namespace PDTUtils.Views
@@ -24,6 +13,18 @@ namespace PDTUtils.Views
         {
             DataContext = new RouletteBettingViewModel();
             InitializeComponent();
+        }
+        
+        /// <summary>
+        /// Sigh. I cant get the ListView to update correctly when the value is changed.
+        /// So yes I am breaking the MVVM.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dc = DataContext as RouletteBettingViewModel;
+            dc.Items = BetSettings;
         }
     }
 }

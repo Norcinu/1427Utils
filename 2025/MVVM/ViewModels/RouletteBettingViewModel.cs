@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using System.Xml;
+using PDTUtils.Helpers;
 
 namespace PDTUtils.MVVM.ViewModels
 {
@@ -11,7 +12,7 @@ namespace PDTUtils.MVVM.ViewModels
         public Pair()
         {
         }
-
+        
         public Pair(T first, U second)
         {
             this.First = first;
@@ -20,6 +21,25 @@ namespace PDTUtils.MVVM.ViewModels
 
         public T First { get; set; }
         public U Second { get; set; }
+    }
+
+    public class RouletteSetting
+    {
+        public RouletteSetting()
+        {
+
+        }
+
+        public RouletteSetting(string header, int min, int max)
+        {
+            Header = header;
+            Max = max;
+            Min = min;
+        }
+
+        public string Header { get; set; }
+        public int Max { get; set; }
+        public int Min { get; set; }
     }
 
     class RouletteBettingViewModel : ObservableObject
@@ -61,13 +81,14 @@ namespace PDTUtils.MVVM.ViewModels
             get
             {
                 if (_selectedIndex >= 0)
-                    return _betInfo[_names[_selectedIndex]].First;
+                    return BetInfo[_names[_selectedIndex]].First;
                 else
                     return -1;
             }
             set
             {
-                _betInfo[_names[_selectedIndex]].First = value;
+                BetInfo[_names[_selectedIndex]].First = value;
+                _items.Items.Refresh();
                 RaisePropertyChangedEvent("SelectedMin");
                 RaisePropertyChangedEvent("BetInfo");
             }
@@ -78,7 +99,7 @@ namespace PDTUtils.MVVM.ViewModels
             get 
             {
                 if (_selectedIndex >= 0)
-                    return _betInfo[_names[_selectedIndex]].Second;
+                    return BetInfo[_names[_selectedIndex]].Second;
                 else
                     return -1;
             }
@@ -86,7 +107,8 @@ namespace PDTUtils.MVVM.ViewModels
             {
                 if (_selectedIndex >= 0)
                 {
-                    _betInfo[_names[_selectedIndex]].Second = value;
+                    BetInfo[_names[_selectedIndex]].Second = value;
+                    _items.Items.Refresh();
                     RaisePropertyChangedEvent("SelectedMax");
                     RaisePropertyChangedEvent("BetInfo");
                 }
@@ -104,6 +126,13 @@ namespace PDTUtils.MVVM.ViewModels
         public RouletteBettingViewModel()
         {
             ParseFile();
+        }
+
+        System.Windows.Controls.ListView _items = new System.Windows.Controls.ListView();
+        public System.Windows.Controls.ListView Items
+        {
+            get { return _items; }
+            set { _items = value; }
         }
         
         void ParseFile()
@@ -162,6 +191,7 @@ namespace PDTUtils.MVVM.ViewModels
                                 }
                                 
                                 _betInfo.Add(name, new Pair<int, int>(Convert.ToInt32(attribute[0]), Convert.ToInt32(attribute[1])));
+                                //_betInfo.Add(new RouletteSetting(name, Convert.ToInt32(attribute[0]), Convert.ToInt32(attribute[1])));
                             }
                             
                             count = 0;

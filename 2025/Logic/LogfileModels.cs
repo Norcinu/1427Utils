@@ -472,8 +472,8 @@ namespace PDTUtils
             try
             {
                 var filename = Resources.hand_pay_log;
-                if (!File.Exists(filename))
-                    File.Create(filename);
+                //if (!File.Exists(filename))
+                //    File.Create(filename);
                 
                 using (var fs = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
                 using (var bs = new BufferedStream(fs))

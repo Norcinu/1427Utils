@@ -108,7 +108,7 @@ namespace PDTUtils
 		{ 
 			get { return _machineIni; } 
 		}
-        //yeah mang, move it move it
+        
 		public UniqueIniCategory GetUniqueCategories
 		{
 			get { return _uniqueIniCategory; }
@@ -178,7 +178,7 @@ namespace PDTUtils
                 LogController.IsLoaded = true;
             }
 		}
-
+        
         private void Games_Click(object sender, RoutedEventArgs e)
 		{
 		    _gameStatistics.ParsePerfLog();

@@ -29,7 +29,7 @@ namespace PDTUtils.Views
             {
                 BtnComment = { IsEnabled = false, Visibility = Visibility.Hidden }
             };
-
+            
             if (w.ShowDialog() != false) return;
             switch (w.RetChangeType)
             {
@@ -42,7 +42,7 @@ namespace PDTUtils.Views
                     break;
             }
         }
-        
+        //fucking hell I didnt realise this shirt was so tight.
         void AmendOption(BirthCertSettingsWindow w, object sender, ref BirthCertModel c)
         {
             var newValue = w.OptionValue;
@@ -55,10 +55,13 @@ namespace PDTUtils.Views
             if (newValue == c.Value && (newValue != c.Value || current.Field[0] != '#')) return;
             
             current.Value = newValue;
-            current.Value = newValue;
+            
             listView.Items.Refresh();
-                  
-            NativeWinApi.WritePrivateProfileString("Config", c.Field, c.Value, Properties.Resources.birth_cert);
+
+            if (c.Field.Contains("("))
+                c.Field = c.Field.Split("(".ToCharArray())[0];
+
+            NativeWinApi.WritePrivateProfileString("Operator", c.Field, c.Value, Properties.Resources.birth_cert);
         }
         
         void ListBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -66,7 +69,7 @@ namespace PDTUtils.Views
             SetHelpMessage(sender);
             UpdateIniItem(sender);
         }
-
+        
         void SetHelpMessage(object sender)
         {
             var l = sender as ListView;

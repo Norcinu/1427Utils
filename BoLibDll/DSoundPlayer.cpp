@@ -13,6 +13,7 @@ WAVEFORMATEX		pcmwf;					// generic waveformat structure
 
 /* Functions ganning below here, haway man. */
 
+
 int LoadWavFile(char *filename, int control_flags)
 {
 	// this function loads a .wav file, sets up the directsound 

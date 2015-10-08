@@ -57,7 +57,17 @@ namespace PDTUtils.MVVM.ViewModels
                         break;
                     
                     var pair = str.Split("=".ToCharArray());
-                    collection.Add(new BirthCertModel(pair[0], pair[1]));
+                    var header = "";
+                    if (pair[0] == "RTP")
+                        header = " (%)";
+                    else if (pair[0] == "Handpay Threshold")
+                        header = " (¢)";
+                    else if (pair[0] == "LH Divert Threshold" || pair[0] == "RH Divert Threshold")
+                        header = " (€)";
+                    else if (pair[0] == "RefloatLH" || pair[0] == "RefloatRH")
+                        header = " (Num of coins)";
+
+                    collection.Add(new BirthCertModel(pair[0] + header, pair[1]));
                 }
             }
         }
