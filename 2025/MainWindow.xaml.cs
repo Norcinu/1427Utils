@@ -179,8 +179,13 @@ namespace PDTUtils
             }
 		}
         
-        private void Games_Click(object sender, RoutedEventArgs e)
-		{
+        void Games_Click(object sender, RoutedEventArgs e)
+		{           
+            /*BoLib.DirectSoundInit();
+            //BoLib.LoadWavFile(
+            BoLib.DoPlaySound();
+            BoLib.DirectSoundShutdown();*/
+
 		    _gameStatistics.ParsePerfLog();
 			Enabler.EnableCategory(Categories.GameStatistics);
 		}

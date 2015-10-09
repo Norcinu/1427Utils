@@ -42,7 +42,7 @@ namespace PDTUtils.Views
                     break;
             }
         }
-        //fucking hell I didnt realise this shirt was so tight.
+        
         void AmendOption(BirthCertSettingsWindow w, object sender, ref BirthCertModel c)
         {
             var newValue = w.OptionValue;
@@ -75,7 +75,7 @@ namespace PDTUtils.Views
             var l = sender as ListView;
             if (l.SelectedIndex == -1)
                 return;
-
+            
             var dc = DataContext as BirthCertViewModel;
             dc.SetHelpMessage(l.SelectedIndex);
         }

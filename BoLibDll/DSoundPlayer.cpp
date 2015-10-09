@@ -1,15 +1,15 @@
 #include "DSoundPlayer.h"
 #include <cassert>
 
-LPDIRECTSOUND		lpds;					// directsound interface pointer
-DSBUFFERDESC		dsbd;					// directsound description
-DSCAPS				dscaps;					// directsound caps
-HRESULT				dsresult;				// general directsound result
-DSBCAPS				dsbcaps;				// directsound buffer caps
-LPDIRECTSOUNDBUFFER	lpdsbprimary;			// he primary mixing buffer
-pcm_sound			sound_fx[MAX_SOUNDS];   // the array of secondary sound buffers
+static LPDIRECTSOUND		lpds;					// directsound interface pointer
+static DSBUFFERDESC		dsbd;					// directsound description
+static DSCAPS				dscaps;					// directsound caps
+static HRESULT				dsresult;				// general directsound result
+static DSBCAPS				dsbcaps;				// directsound buffer caps
+static LPDIRECTSOUNDBUFFER	lpdsbprimary;			// he primary mixing buffer
+static pcm_sound			sound_fx[MAX_SOUNDS];   // the array of secondary sound buffers
 
-WAVEFORMATEX		pcmwf;					// generic waveformat structure
+static WAVEFORMATEX		pcmwf;					// generic waveformat structure
 
 /* Functions ganning below here, haway man. */
 
