@@ -513,6 +513,9 @@ namespace PDTUtils.Native
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint getPlayerPointsMinBet();
 
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void loadAndPlayFile(string filename);
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/
@@ -707,21 +710,5 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setTitoState(int state);
-        
-
-        /************************************************************************/
-        /* DirectSound methods - hear me now, praise de Lord!                   */
-        /************************************************************************/
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int DirectSoundInit();
-
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int DirectSoundShutdown();
-
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int LoadWavFile(string filename, int control_flags);
-
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DoPlaySound(); //always gonna be sound zero in utils.
     }
 }

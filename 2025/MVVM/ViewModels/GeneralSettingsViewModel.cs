@@ -26,7 +26,7 @@ namespace PDTUtils.MVVM.ViewModels
         public string HandPayStateMsg { get; set; }
         readonly string _titoDisabledMsg = "Warning: TiTo DISABLED";
         readonly string _titoEnabledMsg = "TiTo ENABLED";
-        //i wanmt you to know this
+        
         public GeneralSettingsViewModel()
         {
             try

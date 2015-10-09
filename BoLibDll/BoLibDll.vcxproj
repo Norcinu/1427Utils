@@ -81,7 +81,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.dll</TargetExt>
     <IncludePath>C:\heber\DevSource\Dx9SDK\Include\;C:\heber\Projects\Bo_Library\2024LibSource;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Heber\Projects\Bo_Library\Lib;C:\heber\DevSource\Dx9SDK\Lib\x86;C:\Heber\DevSource\VC98\MFC\Lib\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Heber\Projects\Bo_Library\Lib;C:\heber\DevSource\Dx9SDK\Lib\x86;C:\Heber\DevSource\VC98\MFC\Lib\;c:\heber\DevSource\Dx9SDK\Lib\x86;c:\heber\DevSource\Dx9SDK\DirectShow\Lib\x86;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)D</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug1224|Win32'">
@@ -121,7 +121,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dsound.lib;2024Ms10D.lib;%(AdditionalDependencies);winmm.lib</AdditionalDependencies>
+      <AdditionalDependencies>dsound.lib;2024Ms10D.lib;%(AdditionalDependencies);winmm.lib;dxguid.lib;strmiids.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
@@ -154,7 +154,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>dsound.lib;2024Ms10R.lib;%(AdditionalDependencies);winmm.lib</AdditionalDependencies>
+      <AdditionalDependencies>dsound.lib;2024Ms10R.lib;%(AdditionalDependencies);winmm.lib;dxguid.lib;strmiids.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(TargetPath)" "y:\1427"</Command>
@@ -181,9 +181,14 @@
     <ClInclude Include="BoLibSetValues.h" />
     <ClInclude Include="BoLibGeneral.h" />
     <ClInclude Include="BoLibTito.h" />
-    <ClInclude Include="DSoundPlayer.h" />
     <ClInclude Include="General.h" />
     <ClInclude Include="MD5.h" />
+    <ClInclude Include="SoundEngine\AudioManager.h" />
+    <ClInclude Include="SoundEngine\AudioSample.h" />
+    <ClInclude Include="SoundEngine\Defines.h" />
+    <ClInclude Include="SoundEngine\GenericWavData.h" />
+    <ClInclude Include="SoundEngine\NonCopyable.h" />
+    <ClInclude Include="SoundEngine\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Bo_Library\2024LibSource\EspRegionalValues.cpp" />
@@ -192,8 +197,9 @@
     <ClCompile Include="BoLibSetValues.cpp" />
     <ClCompile Include="BoLibGeneral.cpp" />
     <ClCompile Include="BoLibTito.cpp" />
-    <ClCompile Include="DSoundPlayer.cpp" />
     <ClCompile Include="MD5.cpp" />
+    <ClCompile Include="SoundEngine\AudioManager.cpp" />
+    <ClCompile Include="SoundEngine\AudioSample.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,6 +16,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="SoundLib">
+      <UniqueIdentifier>{0508fa4e-7de3-489c-aa40-1d94f4cb7931}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoLibGetValues.h">
@@ -39,11 +42,26 @@
     <ClInclude Include="BoLibTito.h">
       <Filter>BoLibHeaders</Filter>
     </ClInclude>
-    <ClInclude Include="DSoundPlayer.h">
-      <Filter>BoLibHeaders</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\..\..\..\heber\Projects\Bo_Library\2024LibSource\EspRegionalValues.h">
       <Filter>BoLibHeaders</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine\AudioManager.h">
+      <Filter>SoundLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine\AudioSample.h">
+      <Filter>SoundLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine\Defines.h">
+      <Filter>SoundLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine\GenericWavData.h">
+      <Filter>SoundLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine\NonCopyable.h">
+      <Filter>SoundLib</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEngine\Singleton.h">
+      <Filter>SoundLib</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -65,11 +83,14 @@
     <ClCompile Include="BoLibTito.cpp">
       <Filter>BoLibSource</Filter>
     </ClCompile>
-    <ClCompile Include="DSoundPlayer.cpp">
-      <Filter>BoLibSource</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Bo_Library\2024LibSource\EspRegionalValues.cpp">
       <Filter>BoLibSource</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEngine\AudioManager.cpp">
+      <Filter>SoundLib</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEngine\AudioSample.cpp">
+      <Filter>SoundLib</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

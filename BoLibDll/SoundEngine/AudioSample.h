@@ -1,31 +1,61 @@
-#ifndef	AUDIOSAMPLE_H
-#define	AUDIOSAMPLE_H
+#ifndef AUDIOSAMPLE_H
+#define AUDIOSAMPLE_H
 
+//------AudioSample------//
+/*AudioSample can hold a file of .wav
+format, from here it can be played, looped
+and stopped.*/
+//----------------------//
+
+#include <dsound.h>
 #include <string>
-#include "ErrorLog.h"
+//#include "FileRead.h"
+////#include "GenericWavData.h"
+/**
+#define MAX_NO_SOUNDS  END_WAV
+#define TITLE_SIZE     45
+#define SINGLE			0
+#define LOOPING			1
+#define MAX_NO_PATHS   40
+#define REPEAT_INFINITE DMUS_SEG_REPEAT_INFINITE
+#define MIN_PERFORMANCE_VOLUME    500
+#define MAX_PERFORMANCE_VOLUME   2500  //needs to be negative
+#define PERFORMANCE_VOLUME_INCREMENTS ((MIN_PERFORMANCE_VOLUME-(0-MAX_PERFORMANCE_VOLUME))/100)
+***/
 
-class AudioManager;
-class XMLElement;
+
+struct WaveHeader
+{
+	char m_chunkId[4];
+	unsigned long m_chunkSize;
+	char m_format[4];
+	char m_subChunkId[4];
+	unsigned long m_subChunkSize;
+	unsigned short m_audioFormat;
+	unsigned short m_numChannels;
+	unsigned long m_sampleRate;
+	unsigned long m_bytesPerSecond;
+	unsigned short m_blockAlign;
+	unsigned short m_bitsPerSample;
+	char m_dataChunkId[4];
+	unsigned long m_dataSize;
+};
 
 class AudioSample
 {
 public:
-	AudioSample(AudioManager* audioManager);
-	virtual ~AudioSample();
-	virtual void Pause() = 0;
-	virtual void Play(bool loop = false, unsigned int volumeModifier = 100) = 0;
-	virtual void Resume() = 0;
-	virtual void Stop() = 0;
-	virtual bool IsPlaying() const = 0;
-	ERR_TYPE Load(XMLElement* sampleSettings);
-	const std::string& GetName() const;
-protected:
-	virtual ERR_TYPE LoadAudio(const std::string& filename, XMLElement* sampleSettings) = 0;
-protected:
-	AudioManager* m_audioManager;
-	bool m_looping;
+	AudioSample();
+	~AudioSample();
+	void Play(bool loop);
+	void Stop();
+	bool IsPlaying() const;
+	bool Load(const std::string& name, const std::string& filename);
+public:
+	//WCHAR  WavList[MAX_NO_SOUNDS][TITLE_SIZE];
+
+private:
+	IDirectSoundBuffer8* m_secondaryBuffer;
 	std::string m_name;
-	unsigned int m_volumeModifier;
 };
 
 #endif AUDIOSAMPLE_H

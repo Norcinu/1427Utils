@@ -1,258 +1,228 @@
 #include "AudioManager.h"
-#include "AudioSample.h"
-#include "ProcessManager.h"
-#include "XMLRead.h"
 
-/**
-* Default Constructor
-*/
+#include "bo.h"
+
+#include "GenericWavData.h"
+#include "Defines.h"
+
+
+void loadAndPlayFile(const char* filename)
+{
+	if (TheAudioManager::Instance()->GetDirectSound() == nullptr) {
+		TheAudioManager::Instance()->Initialize(::GetDesktopWindow());
+	}
+	
+	TheAudioManager::Instance()->SetVolume(GetLocalMasterVolume());
+	
+	if (TheAudioManager::Instance()->LoadAudio(filename)) {
+		TheAudioManager::Instance()->GetAudioSample(std::string(filename))->Play(false);
+		::Sleep(20);
+	}
+}
+
+
+
 AudioManager::AudioManager()
 {
-	m_dllLink = NULL;
-	m_processManager = nullptr;
-	m_masterVolume = 100;
+	m_directSound = 0;
+	m_primaryBuffer = 0;
+	m_volume = 25;
 }
 
-/**
-* Default Destructor
-*/
 AudioManager::~AudioManager()
 {
-	CleanUp();
-}
-
-/**
-* This function will clean up the AudioManager.
-*/
-void AudioManager::CleanUp()
-{
-	if(m_processManager)
-	{
-		delete m_processManager;
-		m_processManager = nullptr;
-	}
-
 	for(AudioSamples::iterator it = m_audioSamples.begin(); it != m_audioSamples.end(); ++it)
 	{
 		delete it->second;
-		it->second = nullptr;
 	}
 	m_audioSamples.clear();
-	m_pausedSamples.clear();
-}
 
-/**
-* Pauses the sound clip if it is currently playing.
-* @param audioName The name of the AudioSample you wish to pause.
-*/
-void AudioManager::Pause(const std::string& audioName)
-{
-	AudioSample* audioSample = GetAudioSample(audioName);
-
-	if(audioSample->IsPlaying())
+	if(m_primaryBuffer)
 	{
-		audioSample->Pause();
+		m_primaryBuffer->Release();
+		m_primaryBuffer = 0;
+	}
+
+	if(m_directSound)
+	{
+		m_directSound->Release();
+		m_directSound = 0;
 	}
 }
 
-/**
-* Pauses any currently playing sound, this can then be resumed by calling ResumeSounds().
-*/
-void AudioManager::PauseAll()
+void AudioManager::SetVolume(unsigned int volume)
+{
+	m_volume = volume;
+}
+
+void AudioManager::StopAllSounds()
 {
 	for(AudioSamples::iterator it = m_audioSamples.begin(); it != m_audioSamples.end(); ++it)
 	{
-		if(it->second->IsPlaying())
-		{
-			it->second->Pause();
-			m_pausedSamples.push_back(it->second);
-		}
+		it->second->Stop();
 	}
+
+	m_primaryBuffer->Stop();
 }
 
-/**
-* Plays the sound clip.
-* @param audioName The name of the AudioSample you wish to play.
-* @param loop If this value is true, then the sound clip will loop infinitely until it is stopped.
-* @param volumeModifier This is a value in the range 0-100 that will modify the AudioManagers master volume sound level.
-* @return Returns ERR_TYPE to handle any errors that could occur.
-*/
-void AudioManager::Play(const std::string& audioName, bool loop, unsigned int volumeModifier)
+AudioSample* AudioManager::GetAudioSample(const std::string& name)
 {
-	GetAudioSample(audioName)->Play(loop, volumeModifier);
-}
+	AudioSamples::iterator it = m_audioSamples.find(name);
 
-/**
-* Resumes the sound clip if it is has been paused.
-* @param audioName The name of the AudioSample you wish to resume.
-*/
-void AudioManager::Resume(const std::string& audioName)
-{
-	GetAudioSample(audioName)->Resume();
-}
-
-/**
-* Resumes any currently paused sound.
-*/
-void AudioManager::ResumeAll()
-{
-	for(unsigned int i = 0; i < m_pausedSamples.size(); i++)
-	{
-		m_pausedSamples[i]->Resume();
-	}
-	m_pausedSamples.clear();
-}
-
-/**
-* Sets the new master volume sound level, this calls ChildSetMasterVolume so the DLL can carry out this change.
-* @param masterVolume The new volume level on a percentage scale from 0-100.
-*/
-void AudioManager::SetMasterVolume(unsigned int masterVolume)
-{
-	m_masterVolume = masterVolume;
-}
-
-/**
-* Stops the sound clip if it is currently playing.
-* @param audioName The name of the AudioSample you wish to stop.
-*/
-void AudioManager::Stop(const std::string& audioName)
-{
-	AudioSample* audioSample = GetAudioSample(audioName);
-
-	if(audioSample->IsPlaying())
-	{
-		audioSample->Stop();
-	}
-}
-
-/**
-* Stops any currently playing sounds.
-*/
-void AudioManager::StopAll()
-{
-	for(AudioSamples::iterator it = m_audioSamples.begin(); it != m_audioSamples.end(); ++it)
-	{
-		if(it->second->IsPlaying())
-		{
-			it->second->Stop();
-		}
-	}
-}
-
-/**
-* @param audioName The name of the AudioSample you wish to retrive.
-* @return The AudioSample you have specified or nullptr if the AudioSample does not exist.
-*/
-AudioSample* AudioManager::GetAudioSample(const std::string& audioName)
-{
-	AudioSamples::iterator it = m_audioSamples.find(audioName);
 	if(it != m_audioSamples.end())
 	{
 		return it->second;
 	}
-	return nullptr;
+
+	char buffer[256];
+	sprintf_s(buffer, "The AudioSample \"%s\" Cannot Be Found In The AudioManager", name.c_str());
+	//TheDirect3D::Instance()->SetErrorBox(buffer);
+	return 0;
 }
 
-/**
-* @param audioName The name of the AudioSample to be checked.
-* @return Returns true if the AudioSample has been loaded into the AudioManager.
-*/
-bool AudioManager::HasAudioSample(const std::string& audioName)
+bool AudioManager::Initialize(HWND hwnd)
 {
-	AudioSamples::iterator it = m_audioSamples.find(audioName);
-	if(it != m_audioSamples.end())
+	if(FAILED(DirectSoundCreate8(NULL, &m_directSound, NULL)))
 	{
-		return true;
+		//TheDirect3D::Instance()->SetErrorBox("Creating DirectSound Failed!");
+		return false;
 	}
-	return false;
-}
-
-/**
-* @param audioName The name of the AudioSample you wish to check.
-* @return Returns true if the sample is playing.
-*/
-bool AudioManager::IsPlaying(const std::string& audioName)
-{
-	return GetAudioSample(audioName)->IsPlaying();
-}
-
-/**
-* @return Retrieves the DLL Handle used to Link VizTech to a derived AudioManager.
-*/
-DLL_LINK AudioManager::GetDLLLink() const
-{
-	return m_dllLink;
-}
-
-/**
-* Adds an AudioSample to the AudioManager, also checks to see if an AudioSample of this name already exists.
-* @param audioSample The AudioSample to be added to the AudioManager.
-* @return Returns ERR_TYPE to handle any errors that could occur.
-*/
-ERR_TYPE AudioManager::AddAudioSample(AudioSample* audioSample)
-{
-	if(HasAudioSample(audioSample->GetName()))
+	
+	
+	if(FAILED(m_directSound->SetCooperativeLevel(hwnd, DSSCL_PRIORITY)))
 	{
-		return ReportError(ERR_WARNING, "File: %s|Line: %i|The AudioSample \"%s\"|Cannot Be Added To The AudioManager|As An AudioSample Already Exists With This Name Already", __FILE__, __LINE__, audioSample->GetName().c_str());
+		//TheDirect3D::Instance()->SetErrorBox("DirectSound SetCooperativeLevel Failed!");
+		return false;
+	}
+	
+	DSBUFFERDESC buffer;
+	buffer.dwBufferBytes = 0;
+	buffer.dwFlags = DSBCAPS_PRIMARYBUFFER | DSBCAPS_GLOBALFOCUS;
+	buffer.dwReserved = 0;
+	buffer.dwSize = sizeof(DSBUFFERDESC);
+	buffer.guid3DAlgorithm = GUID_NULL;
+	buffer.lpwfxFormat = NULL;
+
+	if(FAILED(m_directSound->CreateSoundBuffer(&buffer, &m_primaryBuffer, NULL)))
+	{
+		//TheDirect3D::Instance()->SetErrorBox("DirectSound Create Primary Sound Buffer Failed!");
+		return false;
 	}
 
-	m_audioSamples[audioSample->GetName()] = audioSample;
-	return ERR_NONE;
+	WAVEFORMATEX waveFormat;
+	waveFormat.cbSize = 0;
+	waveFormat.nChannels = 2;
+	waveFormat.nSamplesPerSec = 44100;
+	waveFormat.wBitsPerSample = 16;
+	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
+	waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
+	waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
+
+	if(FAILED(m_primaryBuffer->SetFormat(&waveFormat)))
+	{
+		//TheDirect3D::Instance()->SetErrorBox("DirectSound Setting Wave Format Failed!");
+		return false;
+	}
+
+	return true;
 }
 
-/**
-* Function called by VizTechLib once the AudioManager has been Initialized.
-* @param audioData The XML Node containing information regarding the individual audio clips to be created.
-* @return Returns ERR_TYPE to handle any errors that could occur.
-*/
-ERR_TYPE AudioManager::LoadAudio(XMLElement* audioData)
+bool AudioManager::LoadAudio(const char* fname)
 {
-	if(audioData->IsNode("Samples"))
-	{
-		audioData = audioData->GetFirstXMLChild("Sample");
+	std::string name(fname);
+	std::string fullFilename(WAV_PATH);
+	fullFilename.append(fname);
+	auto audio = new AudioSample;
+	if (!audio->Load(name, name)) {//fullFilename)) {
+		return false;
 	}
 
-	if(!audioData->IsNode("Sample"))
+	m_audioSamples[name] = audio;
+
+	return true;
+}
+
+bool AudioManager::LoadAudio()
+{
+	//FileRead file;
+	std::string filename = WAV_PATH;
+	
+	/*filename.append("AudioSamples.pdt");
+	if(!file.Open(filename))
 	{
-		return ReportError(ERR_WARNING, "File: %s|Line: %i|Unable To Load Audio As A <Sample> Node Does Not Exist", __FILE__, __LINE__);
+		return false;
 	}
 
-	while(audioData)
+	std::string name;
+	while(true)
 	{
-		if(audioData->IsNode("Sample"))
+		if(!file.GetString(&name))
 		{
-			AudioSample* audioSample = GetFactory().Create(GetAudioManagerType(), this);
-			if(!audioSample)
-			{
-				return ReportError(ERR_FATAL, "File: %s|Line: %i|Failed Creating AudioSample", __FILE__, __LINE__);
-			}
-
-			ERR_TYPE errorType = audioSample->Load(audioData);
-			if(ERRCHK(errorType))
-			{
-				delete audioSample;
-				audioSample = nullptr;
-				return ReportError(ERR_FATAL, "File: %s|Line: %i|Failed Loading AudioSample", __FILE__, __LINE__);
-			}
-
-			errorType = AddAudioSample(audioSample);
-			if(ERRCHK(errorType))
-			{
-				delete audioSample;
-				audioSample = nullptr;
-				return ReportError(ERR_FATAL, "File: %s|Line: %i|Failed To Add AudioSample %s", __FILE__, __LINE__, audioSample->GetName().c_str());
-			}
+			break;
 		}
-		audioData = audioData->GetNextXMLSibling();
-	}
-	return ERR_NONE;
+
+		if(!file.GetString(&filename))
+		{
+			break;
+		}
+		std::string fullFilename = WAV_PATH;
+		fullFilename.append(filename);
+
+		AudioSample* audio = new AudioSample;
+		const char* dName = name.c_str();
+		if(!audio->Load(name, fullFilename))
+		{
+			return false;
+		}
+
+		m_audioSamples[name] = audio;
+	}*/
+	/**/
+
+	return true;
 }
 
-/**
-* @return Retrieves the master volume level on a percentage scale from 0-100.
-*/
-unsigned int AudioManager::GetMasterVolume() const
+IDirectSound8* AudioManager::GetDirectSound() const
 {
-	return m_masterVolume;
+	if(m_directSound)
+	{
+		return m_directSound;
+	}
+
+	//TheDirect3D::Instance()->SetErrorBox("GetDirectSound() Failed DirectSound Has Not Been Initialized!");
+	return 0;
+}
+
+unsigned int AudioManager::GetVolume() const
+{
+	return m_volume;
+}
+
+void AudioManager::SetServerBasedGame(unsigned char type)
+{
+	if(type != ServerBasedGame)
+	{
+		ServerBasedGame = type;
+	}
+}
+void AudioManager::CheckPerformanceVolumeChanged(void)
+{
+	if(ServerBasedGame)
+	{
+		if(GetRemoteMasterVolume()!=SavedMasterVolume)
+		{
+			SavedMasterVolume = GetRemoteMasterVolume();		//GV: save volume to check if changed during game play
+			SetVolume(SavedMasterVolume);
+			//SetPerformanceVolume((100-SavedMasterVolume) *40); 
+		}
+	}
+	else
+	{
+		if(GetLocalMasterVolume()!= SavedMasterVolume)
+		{
+			SavedMasterVolume = GetLocalMasterVolume();		//GV: save volume to check if changed during game play
+			SetVolume(SavedMasterVolume);
+			//SetPerformanceVolume((100-SavedMasterVolume) *40); 
+		}
+	}
 }

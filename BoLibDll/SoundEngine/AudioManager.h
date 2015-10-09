@@ -1,58 +1,60 @@
-#ifndef	AUDIOMANAGER_H
-#define	AUDIOMANAGER_H
+#ifndef AUDIOMANAGER_H
+#define AUDIOMANAGER_H
+
+//------AudioManager------//
+/*AudioManager keeps track of all the
+audio samples loaded into the game, from
+here they can be easily accessed by name.*/
+//------------------------//
+
+#define DIRECTSOUND_VERSION 0x0900
 
 #include <map>
-#include <vector>
-#include "ErrorLog.h"
-#include "Factory.h"
-#include "PlatformSpecifics.h"
+#include <string>
+#include <Windows.h>
+#include "AudioSample.h"
+#include "NonCopyable.h"
+#include "Singleton.h"
+#include "../General.h"
 
-class AudioSample;
-class DisplaySystem;
-class ProcessManager;
-class XMLElement;
 
-typedef enum
+#define DLLEXPORT extern "C" __declspec(dllexport)
+
+DLLEXPORT void loadAndPlayFile(const char* filename);
+
+
+
+class AudioManager : public NonCopyable
 {
-	AUDIOTYPE_DSOUND = 0
-}AUDIOTYPE;
-
-class AudioManager
-{
-protected:
-	typedef PFactory<unsigned int, AudioSample, AudioManager> AudioSampleFactory;
-public:
+private:
 	AudioManager();
-	virtual ~AudioManager();
-	void CleanUp();
-	void Pause(const std::string& audioName);
-	void PauseAll();
-	void Play(const std::string& audioName, bool loop = false, unsigned int volumeModifier = 100);
-	virtual void Register(AudioSampleFactory* audioSampleFactory) = 0;
-	void Resume(const std::string& audioName);
-	void ResumeAll();
-	void SetMasterVolume(unsigned int masterVolume);
-	void Stop(const std::string& audioName);
-	void StopAll();
-	AudioSample* GetAudioSample(const std::string& audioName);
-	AudioSampleFactory& GetFactory(){return m_audioSampleFactory;}
-	virtual AUDIOTYPE GetAudioManagerType() const = 0;
-	bool HasAudioSample(const std::string& audioName);
-	bool IsPlaying(const std::string& audioName);
-	DLL_LINK GetDLLLink() const;
-	ERR_TYPE AddAudioSample(AudioSample* audioSample);
-	virtual ERR_TYPE Initialize(XMLElement* audioSettings, DisplaySystem* displaySystem) = 0;
-	ERR_TYPE LoadAudio(XMLElement* audioData);
-	unsigned int GetMasterVolume() const;
-protected:
+	friend class Singleton<AudioManager>;
+
+public:
+	~AudioManager();
+
+	void SetVolume(unsigned int volume);
+	void StopAllSounds();
+	AudioSample* GetAudioSample(const std::string& name);
+	bool Initialize(HWND hwnd);
+	bool LoadAudio();
+	bool LoadAudio(const char* fname);
+	IDirectSound8* GetDirectSound() const;
+	unsigned int GetVolume() const;
+
+	void CheckPerformanceVolumeChanged(void);
+	void SetServerBasedGame(unsigned char type);
+
+private:
 	typedef std::map<std::string, AudioSample*> AudioSamples;
-	typedef std::vector<AudioSample*> PausedSamples;
 	AudioSamples m_audioSamples;
-	AudioSampleFactory m_audioSampleFactory;
-	DLL_LINK m_dllLink;
-	PausedSamples m_pausedSamples;
-	ProcessManager* m_processManager;
-	unsigned int m_masterVolume;
+	IDirectSound8* m_directSound;
+	IDirectSoundBuffer* m_primaryBuffer;
+	unsigned int m_volume;
+	unsigned int SavedMasterVolume;
+	int	ServerBasedGame;
 };
+
+typedef Singleton<AudioManager> TheAudioManager;
 
 #endif AUDIOMANAGER_H

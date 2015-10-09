@@ -17,9 +17,9 @@ namespace PDTUtils
     /// </summary>
     public partial class MainWindow
 	{
+        bool _initialSlider = true;
         bool _isSpanishMachine = true;
 	    bool _sharedMemoryOnline = false;
-        bool _directSoundOnline = false;
         string _errorMessage = "";
 	    double WindowHeight { get; set; }
 		
@@ -256,12 +256,6 @@ namespace PDTUtils
 #endif
             
             BoLib.clearUtilRequestBitState((int)UtilBits.Allow);
-            
-            if (_directSoundOnline)
-            {
-                BoLib.DirectSoundShutdown();
-                _directSoundOnline = false;
-            }
 
             if (!_sharedMemoryOnline) return;
             _sharedMemoryOnline = false;
@@ -404,9 +398,13 @@ namespace PDTUtils
 		
 		void MasterVolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			//PlaySoundOnEvent(@"./wav/volume.wav");
-			var volume = Convert.ToUInt32(MasterVolumeSlider.Value);
-			BoLib.setLocalMasterVolume(volume);
+            var volume = Convert.ToUInt32(MasterVolumeSlider.Value);
+            BoLib.setLocalMasterVolume(volume);
+            if (!_initialSlider)
+            {
+                BoLib.loadAndPlayFile(@"d:\2025\wav\volume.wav");
+            }
+            _initialSlider = false;
 		}
 		
 		void btnReadMeters_Click(object sender, RoutedEventArgs e)
