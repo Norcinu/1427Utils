@@ -237,9 +237,9 @@ namespace PDTUtils
                 }
             }
         }
-        
+
         void CleanUp()
-        {          
+        {
             //run through looking for _old files + folders and delete them.
             var dDrive = new DirectoryInfo(@"D:\");
             var fileList = dDrive.GetFiles();
@@ -258,14 +258,14 @@ namespace PDTUtils
                 }
             }
         }
-        
+
         bool ReadIniSection(out string[] section, string field)
-		{
+        {
             bool? result = IniFileUtility.GetIniProfileSection(out section, field, _updateIni);
-			if (result == false || section == null)
-				return true;
+            if (result == false || section == null)
+                return true;
             return false;
-		}
+        }
 		
         private static string GetImagePathString(string str)
 		{
@@ -273,10 +273,10 @@ namespace PDTUtils
 			var ret = conv.Convert(str, typeof(string), null, CultureInfo.InvariantCulture) as string;
 			return ret;
 		}
-		
+        
 		private bool GetIniProfileSection(out string[] section, string field)
 		{
-			uint bufferSize = 4048;
+			uint bufferSize = 4096; //4048
 			var retStringPtr = Marshal.AllocCoTaskMem((int)bufferSize * sizeof(char));
 			var bytesReturned = NativeWinApi.GetPrivateProfileSection(field, retStringPtr, bufferSize, _updateIni);
 			if ((bytesReturned == bufferSize - 2) || (bytesReturned == 0))

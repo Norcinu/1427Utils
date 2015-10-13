@@ -186,7 +186,6 @@
     <ClInclude Include="SoundEngine\AudioManager.h" />
     <ClInclude Include="SoundEngine\AudioSample.h" />
     <ClInclude Include="SoundEngine\Defines.h" />
-    <ClInclude Include="SoundEngine\GenericWavData.h" />
     <ClInclude Include="SoundEngine\NonCopyable.h" />
     <ClInclude Include="SoundEngine\Singleton.h" />
   </ItemGroup>

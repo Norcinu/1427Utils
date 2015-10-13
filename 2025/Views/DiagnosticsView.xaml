@@ -75,62 +75,70 @@
             </TabItem>
             
             <TabItem Header="Hardware" MinWidth="150">
-                <Border BorderBrush="Black" BorderThickness="2">
-                    <StackPanel Margin="10" HorizontalAlignment="Center" Background="LightGray" Width="1600">
-                        <StackPanel Background="DarkGray">
+                <!-- <Border BorderBrush="Black" BorderThickness="2"> -->
+                <StackPanel Margin="10" HorizontalAlignment="Center" Background="LightGray" Width="1800">
+
+                    <StackPanel Background="DarkGray">
                         <!-- <Label Content="License Number:"/>
                         <Label Content="{Binding License}"/> -->
-                        <Label Style="{StaticResource StdLabel}">Machine Hardware ID</Label>
-                        <Label Content="{Binding Hardware[0].SerialKey}" ContentStringFormat="Serial Key: {0}"/>
-                        <Label Content="{Binding Hardware[0].CpuID}" ContentStringFormat="CpuID: {0}"/>
-                        <Label Content="{Binding Hardware[0].MachineName}" ContentStringFormat="Machine Name: {0}"/>
-                        <Label Content="{Binding Hardware[0].License}" ContentStringFormat="License: {0}"/>
-                        <Label Content="{Binding Hardware[0].CpuType}" ContentStringFormat="Cpu Type: {0}"/>
-                        <Label Content="{Binding Hardware[0].CabinetType}" ContentStringFormat="Cabinet Type: {0}"/>
+                        <Label Style="{StaticResource StdLabel}" MinWidth="900" ContentStringFormat="Machine Hardware ID - {0}" Content="{Binding Hardware[0].MachineName}" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label Style="{StaticResource StdHeaderLabel}" Width="800" Content="{Binding Hardware[0].SerialKey}" ContentStringFormat="Serial Key: {0}"/>
+                            <Label Style="{StaticResource StdHeaderLabel}" Width="800" Content="{Binding Hardware[0].CpuID}" ContentStringFormat="CpuID: {0}"/>
                         </StackPanel>
-                        <Label Style="{StaticResource StdLabel}">Network Info</Label>
-                        <ListView Margin="10" FontSize="22" ItemsSource="{Binding Hardware}" Width="702">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="IP Address" Width="230">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Label Content="{Binding IPAddress}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Subnet Mask" Width="230">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Label Content="{Binding Subnet}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Default Gateway" Width="230">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Label Content="{Binding DefGateway}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label Style="{StaticResource StdHeaderLabel}" MinWidth="1610" Content="{Binding Hardware[0].License}" ContentStringFormat="License: {0}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label Style="{StaticResource StdHeaderLabel}" Width="800" Content="{Binding Hardware[0].CpuType}" ContentStringFormat="Cpu Type: {0}"/>
+                            <Label Style="{StaticResource StdHeaderLabel}" Width="800" Content="{Binding Hardware[0].CabinetType}" ContentStringFormat="Cabinet Type: {0}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <Label Style="{StaticResource StdLabel}">Network Info</Label>
+                    <ListView Margin="10" FontSize="22" ItemsSource="{Binding Hardware}" Width="702">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="IP Address" Width="230">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding IPAddress}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Subnet Mask" Width="230">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding Subnet}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Default Gateway" Width="230">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding DefGateway}" Style="{StaticResource StdHeaderLabel}" Margin="2" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
-                        <!-- <Border BorderBrush="Black" BorderThickness="2">
+                    <!-- <Border BorderBrush="Black" BorderThickness="2">
                         <StackPanel Orientation="Horizontal" Background="LightBlue">
                             <Label>License Key</Label>
                             <Label Content="{Binding Hardware[0].License}"/>
                         </StackPanel>
                     </Border> -->
-                        <Label Margin="10" Style="{StaticResource StdLabel}">General</Label>
-                        <ListBox ItemsSource="{Binding GeneralList}" Width="500" />
-                        
-                        <StackPanel Background="DarkSeaGreen">
+                    <Label Margin="10" Style="{StaticResource StdLabel}">General</Label>
+                    <ListBox ItemsSource="{Binding GeneralList}" Width="500" />
 
-                        </StackPanel>
+                    <StackPanel Background="DarkSeaGreen">
+
                     </StackPanel>
-                </Border>
+
+                </StackPanel>
+                <!-- </Border> -->
             </TabItem>
         </TabControl>
     </Grid>

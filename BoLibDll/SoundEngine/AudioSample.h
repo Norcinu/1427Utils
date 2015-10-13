@@ -49,7 +49,7 @@ public:
 	void Play(bool loop);
 	void Stop();
 	bool IsPlaying() const;
-	bool Load(const std::string& name, const std::string& filename);
+	bool Load(const std::string& name);//, const std::string& filename);
 public:
 	//WCHAR  WavList[MAX_NO_SOUNDS][TITLE_SIZE];
 

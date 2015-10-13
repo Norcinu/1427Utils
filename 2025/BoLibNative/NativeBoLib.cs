@@ -516,6 +516,9 @@ namespace PDTUtils.Native
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void loadAndPlayFile(string filename);
 
+        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void clearSoundResources();
+
         /************************************************************************/
         /*							Set methods                                 */
         /************************************************************************/
@@ -533,11 +536,7 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setRequestEmptyHopper(int hopper);
-        /*public static extern void setRequestEmptyLeftHopper();
-
-        [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void setRequestEmptyRightHopper();*/
-
+        
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void addCredit(int pennies);
 
@@ -552,7 +551,7 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void clearShortTermMeters();
-
+        
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setHopperDivertLevel(byte hopper, uint value);
 
@@ -567,7 +566,7 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setBnvType(byte value);
-
+        
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setRebootRequired();
 
@@ -579,9 +578,6 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setEspRegionalValue(uint query, ulong value);
-
-        /*[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void setPayoutCoinValues(uint which, uint value);*/
         
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void enableUtilsCoinBit();
@@ -594,12 +590,7 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void clearBankCreditReserve();
-        
-        /*[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void oogaDeBooga();*/
 
-        /*[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ESPHandPay();*/
         /************************************************************************/
         /* General methods                                                      */
         /************************************************************************/
@@ -656,12 +647,6 @@ namespace PDTUtils.Native
         [DllImport(DLL_NAME, CallingConvention=CallingConvention.Cdecl)]
         public static extern void setTerminalType(byte type);
 
-        /*[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void setUtilBit(int bit);*/
-
-        //[DllImport(DLL_NAME, CallingConvention=CallingConvention.Cdecl)]
-        //public static extern void clearUtilBit(int bit);
-
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void setUtilRequestBitState(int bit);
 
@@ -682,9 +667,6 @@ namespace PDTUtils.Native
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void sendHandPayToServer(uint paidOut, uint release);
-
-        /*[DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void addHandPayToEDC(uint value);*/
 
         [DllImport(DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool performHandPay();

@@ -32,7 +32,6 @@ namespace PDTUtils
 		ShortTermMeters _shortTerm = new ShortTermMeters();
 		LongTermMeters _longTerm = new LongTermMeters();
         TitoMeters _titoMeter = new TitoMeters();
-        //MachineInfo _machineData = new MachineInfo();
         
         readonly MachineIni _machineIni = new MachineIni();
         readonly UniqueIniCategory _uniqueIniCategory = new UniqueIniCategory();
@@ -40,7 +39,7 @@ namespace PDTUtils
         readonly GamesList _gamesList = new GamesList();
         readonly MachineLogsController _logController = new MachineLogsController();
         readonly UserSoftwareUpdate _updateFiles;
-
+        
         public bool IsSpanishMachine { get { return _isSpanishMachine; } }
 
         public Visibility SetupTabVisManu { get; set; }
@@ -254,6 +253,7 @@ namespace PDTUtils
             if (GlobalConfig.RebootRequired)
                 BoLib.setRebootRequired();
 #endif
+            BoLib.clearSoundResources();
             
             BoLib.clearUtilRequestBitState((int)UtilBits.Allow);
 

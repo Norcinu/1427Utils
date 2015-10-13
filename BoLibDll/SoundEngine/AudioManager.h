@@ -21,14 +21,16 @@ here they can be easily accessed by name.*/
 #define DLLEXPORT extern "C" __declspec(dllexport)
 
 DLLEXPORT void loadAndPlayFile(const char* filename);
+DLLEXPORT void clearSoundResources();
 
-
+typedef std::map<std::string, AudioSample*> AudioSamples;
 
 class AudioManager : public NonCopyable
 {
 private:
 	AudioManager();
 	friend class Singleton<AudioManager>;
+	
 
 public:
 	~AudioManager();
@@ -45,8 +47,10 @@ public:
 	void CheckPerformanceVolumeChanged(void);
 	void SetServerBasedGame(unsigned char type);
 
+	void CleanUp();
+	AudioSamples GetAudioSamples() const;
+
 private:
-	typedef std::map<std::string, AudioSample*> AudioSamples;
 	AudioSamples m_audioSamples;
 	IDirectSound8* m_directSound;
 	IDirectSoundBuffer* m_primaryBuffer;
@@ -57,4 +61,4 @@ private:
 
 typedef Singleton<AudioManager> TheAudioManager;
 
-#endif AUDIOMANAGER_H
+#endif AUDIOMANAGER_H 

@@ -54,9 +54,6 @@
     <ClInclude Include="SoundEngine\Defines.h">
       <Filter>SoundLib</Filter>
     </ClInclude>
-    <ClInclude Include="SoundEngine\GenericWavData.h">
-      <Filter>SoundLib</Filter>
-    </ClInclude>
     <ClInclude Include="SoundEngine\NonCopyable.h">
       <Filter>SoundLib</Filter>
     </ClInclude>

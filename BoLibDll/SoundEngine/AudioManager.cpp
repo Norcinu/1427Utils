@@ -1,9 +1,7 @@
 #include "AudioManager.h"
-
 #include "bo.h"
-
-#include "GenericWavData.h"
 #include "Defines.h"
+
 
 
 void loadAndPlayFile(const char* filename)
@@ -13,14 +11,17 @@ void loadAndPlayFile(const char* filename)
 	}
 	
 	TheAudioManager::Instance()->SetVolume(GetLocalMasterVolume());
-	
+
 	if (TheAudioManager::Instance()->LoadAudio(filename)) {
 		TheAudioManager::Instance()->GetAudioSample(std::string(filename))->Play(false);
 		::Sleep(20);
 	}
 }
 
-
+void clearSoundResources()
+{
+	TheAudioManager::Instance()->CleanUp();
+}
 
 AudioManager::AudioManager()
 {
@@ -31,10 +32,16 @@ AudioManager::AudioManager()
 
 AudioManager::~AudioManager()
 {
+	CleanUp();
+}
+
+void AudioManager::CleanUp()
+{
 	for(AudioSamples::iterator it = m_audioSamples.begin(); it != m_audioSamples.end(); ++it)
 	{
 		delete it->second;
 	}
+
 	m_audioSamples.clear();
 
 	if(m_primaryBuffer)
@@ -76,7 +83,6 @@ AudioSample* AudioManager::GetAudioSample(const std::string& name)
 
 	char buffer[256];
 	sprintf_s(buffer, "The AudioSample \"%s\" Cannot Be Found In The AudioManager", name.c_str());
-	//TheDirect3D::Instance()->SetErrorBox(buffer);
 	return 0;
 }
 
@@ -84,14 +90,12 @@ bool AudioManager::Initialize(HWND hwnd)
 {
 	if(FAILED(DirectSoundCreate8(NULL, &m_directSound, NULL)))
 	{
-		//TheDirect3D::Instance()->SetErrorBox("Creating DirectSound Failed!");
 		return false;
 	}
 	
 	
 	if(FAILED(m_directSound->SetCooperativeLevel(hwnd, DSSCL_PRIORITY)))
 	{
-		//TheDirect3D::Instance()->SetErrorBox("DirectSound SetCooperativeLevel Failed!");
 		return false;
 	}
 	
@@ -105,10 +109,9 @@ bool AudioManager::Initialize(HWND hwnd)
 
 	if(FAILED(m_directSound->CreateSoundBuffer(&buffer, &m_primaryBuffer, NULL)))
 	{
-		//TheDirect3D::Instance()->SetErrorBox("DirectSound Create Primary Sound Buffer Failed!");
 		return false;
 	}
-
+	
 	WAVEFORMATEX waveFormat;
 	waveFormat.cbSize = 0;
 	waveFormat.nChannels = 2;
@@ -120,7 +123,6 @@ bool AudioManager::Initialize(HWND hwnd)
 
 	if(FAILED(m_primaryBuffer->SetFormat(&waveFormat)))
 	{
-		//TheDirect3D::Instance()->SetErrorBox("DirectSound Setting Wave Format Failed!");
 		return false;
 	}
 
@@ -130,10 +132,9 @@ bool AudioManager::Initialize(HWND hwnd)
 bool AudioManager::LoadAudio(const char* fname)
 {
 	std::string name(fname);
-	std::string fullFilename(WAV_PATH);
-	fullFilename.append(fname);
+
 	auto audio = new AudioSample;
-	if (!audio->Load(name, name)) {//fullFilename)) {
+	if (!audio->Load(name)) {
 		return false;
 	}
 
@@ -144,41 +145,6 @@ bool AudioManager::LoadAudio(const char* fname)
 
 bool AudioManager::LoadAudio()
 {
-	//FileRead file;
-	std::string filename = WAV_PATH;
-	
-	/*filename.append("AudioSamples.pdt");
-	if(!file.Open(filename))
-	{
-		return false;
-	}
-
-	std::string name;
-	while(true)
-	{
-		if(!file.GetString(&name))
-		{
-			break;
-		}
-
-		if(!file.GetString(&filename))
-		{
-			break;
-		}
-		std::string fullFilename = WAV_PATH;
-		fullFilename.append(filename);
-
-		AudioSample* audio = new AudioSample;
-		const char* dName = name.c_str();
-		if(!audio->Load(name, fullFilename))
-		{
-			return false;
-		}
-
-		m_audioSamples[name] = audio;
-	}*/
-	/**/
-
 	return true;
 }
 
@@ -189,7 +155,6 @@ IDirectSound8* AudioManager::GetDirectSound() const
 		return m_directSound;
 	}
 
-	//TheDirect3D::Instance()->SetErrorBox("GetDirectSound() Failed DirectSound Has Not Been Initialized!");
 	return 0;
 }
 
@@ -205,6 +170,7 @@ void AudioManager::SetServerBasedGame(unsigned char type)
 		ServerBasedGame = type;
 	}
 }
+
 void AudioManager::CheckPerformanceVolumeChanged(void)
 {
 	if(ServerBasedGame)
@@ -213,7 +179,6 @@ void AudioManager::CheckPerformanceVolumeChanged(void)
 		{
 			SavedMasterVolume = GetRemoteMasterVolume();		//GV: save volume to check if changed during game play
 			SetVolume(SavedMasterVolume);
-			//SetPerformanceVolume((100-SavedMasterVolume) *40); 
 		}
 	}
 	else
@@ -222,7 +187,11 @@ void AudioManager::CheckPerformanceVolumeChanged(void)
 		{
 			SavedMasterVolume = GetLocalMasterVolume();		//GV: save volume to check if changed during game play
 			SetVolume(SavedMasterVolume);
-			//SetPerformanceVolume((100-SavedMasterVolume) *40); 
 		}
 	}
+}
+
+AudioSamples AudioManager::GetAudioSamples() const 
+{ 
+	return m_audioSamples; 
 }

@@ -22,7 +22,7 @@
 
 #define VIDEO_PATH "D:\\1200\\VIDEO\\"
 
-#define MODEL_NUMBER 1200
+//#define MODEL_NUMBER 1200
 #define RELEASE_NUMBER 1
 
 #define MINIMUM_BET 100

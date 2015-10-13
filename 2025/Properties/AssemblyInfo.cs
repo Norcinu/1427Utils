@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Project Design Technology")]
-[assembly: AssemblyProduct("1527 Engineers Utilities")]
+[assembly: AssemblyProduct("2025 Engineers Utilities")]
 [assembly: AssemblyCopyright("Copyright © PDT 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -17,7 +17,7 @@ namespace PDTUtils.MVVM.ViewModels
         public bool TiToEnabled { get; set; }
         public bool IsBritish { get; set; }
         public bool HandPayState { get; set; }
-        //public bool HandPayEnabled { get; set; }
+
         public string RtpMessage { get; set; }
         public string HandPayLevel { get; set; }
         public string DivertLeftMessage { get; set; }

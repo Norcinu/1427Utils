@@ -77,10 +77,10 @@ bool AudioSample::IsPlaying() const
 	return false;
 }
 
-bool AudioSample::Load(const std::string& name, const std::string& filename)
+bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 {
 	m_name = name;
-	
+	const std::string filename = m_name;
 	FILE* filePtr = 0;
 	int error = fopen_s(&filePtr, filename.c_str(), "rb");
 
