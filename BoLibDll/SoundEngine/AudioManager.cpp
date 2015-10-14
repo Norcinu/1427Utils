@@ -137,7 +137,7 @@ bool AudioManager::LoadAudio(const char* fname)
 	if (!audio->Load(name)) {
 		return false;
 	}
-
+	
 	m_audioSamples[name] = audio;
 
 	return true;

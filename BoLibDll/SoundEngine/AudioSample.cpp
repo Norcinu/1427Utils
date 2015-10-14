@@ -26,7 +26,6 @@ void AudioSample::Play(bool loop)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "\"%s\" Could Not Reset Sound Position", m_name.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 	}
 
 	if(FAILED(m_secondaryBuffer->SetVolume((TheAudioManager::Instance()->GetVolume() - 100) * 35)))
@@ -41,7 +40,6 @@ void AudioSample::Play(bool loop)
 		{
 			char buffer[256];
 			sprintf_s(buffer, "Could Not Play \"%s\"", m_name.c_str());
-			//TheDirect3D::Instance()->SetErrorBox(buffer);
 		}
 	}
 	else
@@ -50,7 +48,6 @@ void AudioSample::Play(bool loop)
 		{
 			char buffer[256];
 			sprintf_s(buffer, "Could Not Play \"%s\"", m_name.c_str());
-			//TheDirect3D::Instance()->SetErrorBox(buffer);
 		}
 	}
 }
@@ -61,7 +58,6 @@ void AudioSample::Stop()
 	{
 		char buffer[256];
 		sprintf_s(buffer, "\"%s\" Could Not Stop", m_name.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 	}
 }
 
@@ -88,7 +84,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "Could Not Open Audio File %s", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -99,7 +94,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "Could Not Read WaveHeader From %s", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -108,7 +102,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "The Chunk ID Of %s Is Not In The RIFF Format", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -117,7 +110,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "%s Is Not Of WAVE Format", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -126,7 +118,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "The SubChunk ID Of %s Is Not 'fmt'", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -134,7 +125,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "%s Is Not Of WAVE_FORMAT_PCM Format", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -142,7 +132,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "%s Was Not Recorded In Mono Or Stereo Format", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -151,7 +140,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 		char buffer[256];
 		sprintf_s(buffer, "%s Was Not Recorded At A Sample Rate Of 44.1 KHz Please Convert!",
 			filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -159,7 +147,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "%s Was Not Recorded In 16 Bit Format", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -168,7 +155,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "The DataChunk Header Of %s Is Not 'data'", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -196,7 +182,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "Creating Temporary Buffer For %s Failed", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -204,7 +189,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "Creating Secondary Buffer For %s Failed", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -218,7 +202,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "%s Has No Wave Data", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -228,7 +211,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "Reading In Wave Data From %s Failed", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 	
@@ -238,7 +220,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "Closing %s Failed", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -250,7 +231,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "Locking %s Secondary Buffer Failed", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 
@@ -260,7 +240,6 @@ bool AudioSample::Load(const std::string& name)//, const std::string& filename)
 	{
 		char buffer[256];
 		sprintf_s(buffer, "Unlocking %s Secondary Buffer Failed", filename.c_str());
-		//TheDirect3D::Instance()->SetErrorBox(buffer);
 		return false;
 	}
 

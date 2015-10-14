@@ -11,7 +11,7 @@ namespace PDTUtils.Logic
     {
         public static bool GetIniProfileSection(out string[] section, string field, string file, bool removeField=false)
         {
-            const uint bufferSize = 4048;
+            const uint bufferSize = 4096; //4048
             var retStringPtr = Marshal.AllocCoTaskMem((int)bufferSize * sizeof(char));
             var bytesReturned = NativeWinApi.GetPrivateProfileSection(field, retStringPtr, bufferSize, @file);
             if ((bytesReturned == bufferSize - 2) || (bytesReturned == 0))
@@ -42,7 +42,7 @@ namespace PDTUtils.Logic
         {
             return true;
         }
-    
+        
         public static void HashFile(string filename)
         {
             try
@@ -58,7 +58,7 @@ namespace PDTUtils.Logic
                     if (lines[i] != "[End]" && afterEnd)
                         lines.RemoveAt(i);
                 }
-                
+ 
                 File.WriteAllLines(filename, lines.ToArray());
                 var retries = 10;
                 if (NativeMD5.CheckFileType(filename) && !NativeMD5.CheckHash(filename))

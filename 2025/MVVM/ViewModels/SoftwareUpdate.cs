@@ -34,7 +34,7 @@ namespace PDTUtils
         }
 	}
     
-	/*public*/ class UserSoftwareUpdate : ObservableObject //BaseNotifyPropertyChanged
+	class UserSoftwareUpdate : ObservableObject 
 	{
         bool _updateSuccess = false;
 		string _rollbackIni; 
@@ -214,9 +214,6 @@ namespace PDTUtils
                     // Move old files back.
                     _updateSuccess = (_filesNotCopied.Count > 0) ? false : true;
 
-                    /*if (_filesNotCopied.Count>0)
-                        _u
-                        _updateSuccess = true;*/
                     HasUpdateFinished = true;
                     
                     RaisePropertyChangedEvent("HasUpdateFinished");
@@ -237,7 +234,7 @@ namespace PDTUtils
                 }
             }
         }
-
+        
         void CleanUp()
         {
             //run through looking for _old files + folders and delete them.
@@ -307,11 +304,6 @@ namespace PDTUtils
 			}
 			return false;
 		}
-
-	    /*protected override void ParseGame(int gameNo)
-		{
-            throw new Exception("The method or operation is not implemented.");
-		}*/
         
 		void AddToRollBack(string path, int flag)
 		{
@@ -390,7 +382,7 @@ namespace PDTUtils
 				}
 			}
 			return false;
-		}
+		} 
         
 		bool DoCopyDirectory(string path, int dirFlag)
 		{
@@ -403,14 +395,16 @@ namespace PDTUtils
                 try
                 {
                     var srcInfo = new DirectoryInfo(sourceFolder);
-                    foreach (var dirPath in Directory.GetDirectories(sourceFolder, "*",
-                        SearchOption.AllDirectories))
+                    foreach (var dirPath in Directory.GetDirectories(sourceFolder, "*", SearchOption.AllDirectories))
+                    {
                         Directory.CreateDirectory(dirPath.Replace(sourceFolder, destinationFolder));
+                    }
 
                     //Copy all the files & Replaces any files with the same name
-                    foreach (var newPath in Directory.GetFiles(sourceFolder, "*.*",
-                        SearchOption.AllDirectories))
+                    foreach (var newPath in Directory.GetFiles(sourceFolder, "*.*", SearchOption.AllDirectories))
+                    {
                         File.Copy(newPath, newPath.Replace(sourceFolder, destinationFolder), true);
+                    }
                 }
                 catch (System.Exception ex)
                 {
@@ -436,18 +430,24 @@ namespace PDTUtils
                         Directory.CreateDirectory(destinationFolder);
                         var dstInfo = new DirectoryInfo(renameFolder);
 
-                        foreach (var dirPath in Directory.GetDirectories(renameFolder, "*",
-                                 SearchOption.AllDirectories))
+                        foreach (var dirPath in Directory.GetDirectories(renameFolder, "*", SearchOption.AllDirectories))
+                        {
                             Directory.CreateDirectory(dirPath.Replace(renameFolder, destinationFolder));
+                        }
                         
                         //Copy all the files & Replaces any files with the same name
                         foreach (var newPath in Directory.GetFiles(renameFolder, "*.*", SearchOption.AllDirectories))
+                        {
                             File.Copy(newPath, newPath.Replace(renameFolder, destinationFolder), true);
+                        }
+                        
                         //maybe just copy the files and folders over instead of moving.
                         var srcInfo = new DirectoryInfo(sourceFolder);
                         AddToRollBack(renameFolder, 1);
                         GetAndCopyAllFiles(srcInfo, destinationFolder);
                         
+                        //enter moved folder and copy files that dont exist in the NEWLY created update folder.
+                        //foreach(var oldPath in Directory.GetFiles())
                         var d = new DirectoryInfo(sourceFolder);
                         var files = d.GetFiles();
                         foreach (var fi in files)
@@ -467,7 +467,10 @@ namespace PDTUtils
                                     return true;
                                 }
                             }
-                        }
+                        }   
+                    }
+                    else 
+                    {
                         
                     }
                 }
@@ -480,7 +483,7 @@ namespace PDTUtils
             
 			return true;
 		}
-
+        
 		void GetAndCopyAllFiles(DirectoryInfo srcInfo, string destinationFolder)
 		{
 			try 
@@ -558,7 +561,6 @@ namespace PDTUtils
         {
             LogText = "Update Completed.\r\n\r\nTo Restart Machine.\r\n\r\nPlease turn the Refill Key and remove USB device.";
             RaisePropertyChangedEvent("LogText");
-            //DiskCommit.SaveAndReboot(); - handled by shell
             PDTUtils.Logic.GlobalConfig.RebootRequired = true;
         }
 	}
