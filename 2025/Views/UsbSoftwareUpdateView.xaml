@@ -20,17 +20,17 @@
             
             <StackPanel Orientation="Horizontal" Margin="5,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Border BorderBrush="Black" Margin="2" BorderThickness="2">
-                    <StackPanel MinWidth="246"  VerticalAlignment="Top"  Name="StpUpdateBase" Background="Azure" Margin="0,0,5,0" MinHeight="150">
-                        <Label Margin="5,5,5,0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" 
+                    <StackPanel VerticalAlignment="Top"  Name="StpUpdateBase" Background="Azure" Margin="0,0,5,0" MinHeight="150">
+                        <Label Margin="5,5,5,5" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" 
                                Background="Bisque">Select Operation&#58;</Label>
-                        <Button Margin="5,5,5,0" Name="BtnUpdateFiles" Content="Update Files" FontWeight="Bold" MinHeight="50" FontSize="14" 
+                        <Button Margin="5,5,5,5" Name="BtnUpdateFiles" Content="Update Files" FontWeight="Bold" Height="50" FontSize="14" 
                                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding UpdatePrep}"/>
-                        <Button Margin="5,5,5,5" Name="BtnRollback" Content="Previous State" FontWeight="Bold" MinHeight="50" FontSize="14" 
+                        <Button Margin="5" Name="BtnRollback" Content="Previous State" FontWeight="Bold" Height="50" FontSize="14" 
                                 VerticalAlignment="Center" Command="{Binding Rollback}" IsEnabled="{Binding HasUpdateStarted}"/>
                     </StackPanel>
                 </Border>
                 
-                <StackPanel Name="StpUpdate"  Background="Azure" Margin="0,0,5,0" Width="512" VerticalAlignment="Top" 
+                <StackPanel Name="StpUpdate" Background="Azure" Margin="0,0,5,0" Width="512" VerticalAlignment="Top" 
                             HorizontalAlignment="Left">
                     <Grid Background="LightGray">
                         <Grid.RowDefinitions>
@@ -41,8 +41,8 @@
                         
                         <Label Grid.Row="0" FontFamily="Verdana" FontSize="24" HorizontalContentAlignment="Center" Background="Bisque" 
                                Margin="0,5,0,5" Name="LblUpdateSelect" Content="Files to be updated." HorizontalAlignment="Center" />
-
-                        <TreeView Name="TreeUpdateSelectFiles" Margin="5,5,5,5" Grid.Row="1" ItemsSource="{Binding Path=FilesToUpdate}" 
+                        
+                        <TreeView Name="TreeUpdateSelectFiles" Margin="5" Grid.Row="1" ItemsSource="{Binding Path=FilesToUpdate}" 
                                    VerticalAlignment="Top" Background="Honeydew" Height="500">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate>
@@ -54,7 +54,7 @@
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>
-
+                        
                         <Grid x:Name="ButtonGrid" Grid.Row="2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Name="ColumnOne" Width="256" />

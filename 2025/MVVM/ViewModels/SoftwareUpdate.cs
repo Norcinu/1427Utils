@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -13,7 +14,7 @@ using PDTUtils.Native;
 
 namespace PDTUtils
 {
-	public class FileImpl
+ 	public class FileImpl
 	{
 		public string Name { get; set; }
         public string Avatar { get; set; }
@@ -41,7 +42,10 @@ namespace PDTUtils
 		string _updateIni;
         
 		DriveInfo _updateDrive;
-        
+
+        List<string> _oldDirs = new List<string>();
+        List<string> _oldFiles = new List<string>();
+
 		#region PROPERTIES
 		public uint FileCount { get; set; }
 
@@ -213,7 +217,7 @@ namespace PDTUtils
                     // That copy works nicely. Odd that there isnt a C# version.
                     // Move old files back.
                     _updateSuccess = (_filesNotCopied.Count > 0) ? false : true;
-
+                    
                     HasUpdateFinished = true;
                     
                     RaisePropertyChangedEvent("HasUpdateFinished");
@@ -221,12 +225,15 @@ namespace PDTUtils
                     
                     CleanUp();
                     AutomaticSave();
-
+ 
                     if (_filesNotCopied.Count > 0)
                     {
                         string errorMessage = "";
                         foreach (var f in _filesNotCopied)
+                        {
                             errorMessage += @f + "\r\n";
+                        }
+
                         WpfMessageBoxService msg = new WpfMessageBoxService();
                         msg.ShowMessage(errorMessage, "Update Error");
                         _filesNotCopied.Clear();
@@ -235,17 +242,22 @@ namespace PDTUtils
             }
         }
         
+        static bool JustRemoveAll(string s)
+        {
+            return true;
+        }
+        
         void CleanUp()
         {
             //run through looking for _old files + folders and delete them.
-            var dDrive = new DirectoryInfo(@"D:\");
+            /*var dDrive = new DirectoryInfo(@"D:\");
             var fileList = dDrive.GetFiles();
             var dirList = dDrive.GetDirectories();
             foreach (var dir in dirList)
             {
                 try
                 {
-                    if (dir.Name.Contains("_old"))
+                    if (dir.Name.EndsWith("_old")) // .Contains("_old"))
                         dir.Delete(true);
                 }
                 catch (Exception ex)
@@ -253,9 +265,37 @@ namespace PDTUtils
                     LogText = ex.Message;
                     RaisePropertyChangedEvent("LogText");
                 }
-            }
-        }
+            }*/
 
+            foreach (var str in _oldFiles)
+            {
+                try
+                {
+                    File.Delete(str);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+            }
+            _oldFiles.RemoveAll(JustRemoveAll);
+
+            foreach (var str in _oldDirs)
+            {
+                try
+                {
+                    Directory.Delete(str, true);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+                //_oldDirs.Remove(str);
+            }
+            
+            _oldDirs.RemoveAll(JustRemoveAll);
+        }
+        
         bool ReadIniSection(out string[] section, string field)
         {
             bool? result = IniFileUtility.GetIniProfileSection(out section, field, _updateIni);
@@ -353,6 +393,7 @@ namespace PDTUtils
                         File.Copy(destination, rename, true);
                         File.Copy(source, destination, true);
                         AddToRollBack(rename, 0);
+                        _oldFiles.Add(rename);
                     }
                     catch (Exception ex)
                     {
@@ -386,10 +427,10 @@ namespace PDTUtils
         
 		bool DoCopyDirectory(string path, int dirFlag)
 		{
-			var sourceFolder = _updateDrive + path;
-			var destinationFolder = @"d:\" + path;//no path?
+            var sourceFolder = (dirFlag == 0) ? _updateDrive + path : path;
+            var destinationFolder = (dirFlag == 0) ? @"d:\" + path : path;//no path?
 			var renameFolder = destinationFolder + @"_old";
-
+            
             if (!Directory.Exists(destinationFolder))
             {
                 try
@@ -399,7 +440,7 @@ namespace PDTUtils
                     {
                         Directory.CreateDirectory(dirPath.Replace(sourceFolder, destinationFolder));
                     }
-
+                    
                     //Copy all the files & Replaces any files with the same name
                     foreach (var newPath in Directory.GetFiles(sourceFolder, "*.*", SearchOption.AllDirectories))
                     {
@@ -412,7 +453,7 @@ namespace PDTUtils
                     _filesNotCopied.Add(sourceFolder + " - Folder Not Found"); //!!! Tailor this for the exception that is caught.
                 }
             }
-            else
+            else 
             {
                 // Need to handle the case where we are only updating part of the folder.
                 // for instance updating the bmp + wav folder we obviously need the other 
@@ -422,14 +463,17 @@ namespace PDTUtils
                 {
                     // folder does exist move it to _old
                     // and create new folder
-                    if (Directory.Exists(renameFolder))
+                    /*if (Directory.Exists(renameFolder))*/
                     {
-                        Directory.Delete(renameFolder, true);
-
+                        if (Directory.Exists(renameFolder))
+                            Directory.Delete(renameFolder, true);
+                 
                         Directory.Move(destinationFolder, renameFolder);
                         Directory.CreateDirectory(destinationFolder);
-                        var dstInfo = new DirectoryInfo(renameFolder);
-
+                        _oldDirs.Add(renameFolder);
+                        
+                        //var dstInfo = new DirectoryInfo(renameFolder);
+                        
                         foreach (var dirPath in Directory.GetDirectories(renameFolder, "*", SearchOption.AllDirectories))
                         {
                             Directory.CreateDirectory(dirPath.Replace(renameFolder, destinationFolder));
@@ -439,12 +483,21 @@ namespace PDTUtils
                         foreach (var newPath in Directory.GetFiles(renameFolder, "*.*", SearchOption.AllDirectories))
                         {
                             File.Copy(newPath, newPath.Replace(renameFolder, destinationFolder), true);
+                            
                         }
                         
+                        //come on jam off you gan son. seriously. no need ofr it.
                         //maybe just copy the files and folders over instead of moving.
                         var srcInfo = new DirectoryInfo(sourceFolder);
                         AddToRollBack(renameFolder, 1);
                         GetAndCopyAllFiles(srcInfo, destinationFolder);
+                        
+
+                        /*foreach (var subdir in Directory.GetDirectories(destinationFolder, "*", SearchOption.AllDirectories))
+                        {
+                            DoCopyDirectory(subdir, 1);
+                            //var temppath = Path.Combine(sourceFolder, subdir.Name);
+                        }*/
                         
                         //enter moved folder and copy files that dont exist in the NEWLY created update folder.
                         //foreach(var oldPath in Directory.GetFiles())
@@ -452,27 +505,39 @@ namespace PDTUtils
                         var files = d.GetFiles();
                         foreach (var fi in files)
                         {
-                            if (NativeMD5.CheckHash(sourceFolder + fi.Name) || !NativeMD5.CheckFileType(sourceFolder + fi.Name))
+                            if (!fi.Name.EndsWith(".pdt"))
                             {
-                                File.SetAttributes(destinationFolder + fi.Name, FileAttributes.Normal);
-                                var destAttr = File.GetAttributes(destinationFolder + fi.Name);
-                                if ((destAttr & FileAttributes.Normal) == FileAttributes.Normal)
+                                if (NativeMD5.CheckHash(sourceFolder + fi.Name) || !NativeMD5.CheckFileType(sourceFolder + fi.Name))
                                 {
-                                    var retries = 10;
-                                    while (!NativeMD5.CheckHash(destinationFolder + fi.Name) && retries > 0)
+                                    File.SetAttributes(destinationFolder + fi.Name, FileAttributes.Normal);
+                                    var destAttr = File.GetAttributes(destinationFolder + fi.Name);
+                                    if ((destAttr & FileAttributes.Normal) == FileAttributes.Normal)
                                     {
-                                        NativeMD5.AddHashToFile(destinationFolder + fi.Name);
-                                        retries--;
+                                        var retries = 10;
+                                        while (!NativeMD5.CheckHash(destinationFolder + fi.Name) && retries > 0)
+                                        {
+                                            NativeMD5.AddHashToFile(destinationFolder + fi.Name);
+                                            retries--;
+                                        }
+                                        return true;
                                     }
-                                    return true;
                                 }
                             }
                         }   
                     }
-                    else 
+                   /* else
                     {
-                        
-                    }
+                        foreach (var dirPath in Directory.GetDirectories(renameFolder, "*", SearchOption.AllDirectories))
+                        {
+                            Directory.CreateDirectory(dirPath.Replace(renameFolder, destinationFolder));
+                        }
+
+                        //Copy all the files & Replaces any files with the same name
+                        foreach (var newPath in Directory.GetFiles(renameFolder, "*.*", SearchOption.AllDirectories))
+                        {
+                            File.Copy(newPath, newPath.Replace(renameFolder, destinationFolder), true);
+                        }
+                    }*/
                 }
                 catch (System.Exception ex)
                 {
@@ -491,7 +556,7 @@ namespace PDTUtils
 				var files = srcInfo.GetFiles();
 				foreach (var f in files)
 				{
-					f.CopyTo(Path.Combine(destinationFolder, f.Name));
+                    f.CopyTo(Path.Combine(destinationFolder, f.Name), true);
 				}
 			}
 			catch (System.Exception ex)
@@ -499,7 +564,7 @@ namespace PDTUtils
 				Debug.WriteLine(ex.Message);
 			}
 		}
-
+        
         //loop through backed up items and check to see if they exist in 'new' source folder.
         //if yes then do nothing, if no then copy back.
         void ReverseBackedUpItems(string path, string source)
@@ -512,7 +577,7 @@ namespace PDTUtils
                 }
             }
         }
-
+        
         public void DoCancelUpdate(object o, RoutedEventArgs e)
 		{
             HasUpdateStarted = false;
@@ -541,7 +606,7 @@ namespace PDTUtils
 				return;
 			BoLib.clearFileAction();
 		}
-        
+
         void AutomaticSave()
         {
             if (_updateSuccess)
