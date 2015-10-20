@@ -32,9 +32,7 @@ namespace PDTUtils.MVVM.ViewModels
         
         public MetersViewModel()
         {
-            _nfi = BoLib.getCountryCode() == BoLib.getSpainCountryCode() ?
-                new CultureInfo("es-ES").NumberFormat :
-                new CultureInfo("en-GB").NumberFormat;
+            _nfi = new CultureInfo("es-ES").NumberFormat;
 
             Initialise();      
         }
@@ -46,7 +44,7 @@ namespace PDTUtils.MVVM.ViewModels
             _titoMeters.ReadMeter();
 
             NumberOfGamesLt = 0;
-
+            
             ReadPerformance();
             ReadCashRecon();
 
@@ -55,17 +53,17 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("TitoMeters");
             RaisePropertyChangedEvent("NumberOfGames");
         }
-
+        
         public void Refresh()
         {
             _cashRecon.RemoveAll();
             _gameStats.RemoveAll();
             _performance.RemoveAll();
             _refill.RemoveAll();
-
+            
             Initialise();
         }
-
+        
         public ICommand ClearShortTerms
         {
             get { return new DelegateCommand(o => ClearShortTermMeters()); }

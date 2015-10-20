@@ -52,7 +52,8 @@ bool performHandPay()
 	{
 		if (GetHandPayActive() || country == CC_EURO || titoState == TITO_ENABLED_NotREGISTERED)
 		{
-			auto totalCredits = GetBankDeposit() + (country == CC_ESP) ? GetReserveCredits() : GetCredits();
+			auto totalCredits = GetBankDeposit() + GetReserveCredits();
+			/*(country == CC_ESP) ? GetBankDeposit() + GetReserveCredits() : GetBankDeposit() +  GetCredits();*/
 			SendHeaderOnly(HANDPAY_CONFIRM, 1);
 			AddToPerformanceMeters(HAND_PAY_LT, totalCredits);
 			SetMeterPulses(2, 1, totalCredits);

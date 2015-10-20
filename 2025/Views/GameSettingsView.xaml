@@ -93,7 +93,8 @@
                         <Border Background="LightBlue" BorderBrush="Black" BorderThickness="2,0,2,0" Visibility="{Binding IsBritishMachine, 
                             Converter={StaticResource BoolToVis}}">
                             
-                            <StackPanel Orientation="Horizontal" Margin="0,10,10,10" HorizontalAlignment="Center">
+                            <!-- Main 
+                                <StackPanel Orientation="Horizontal" Margin="0,10,10,10" HorizontalAlignment="Center">
                                 <CheckBox Margin="10" IsChecked="{Binding StakeOne, Mode=TwoWay}">
                                     <CheckBox.LayoutTransform>
                                         <ScaleTransform ScaleX="2" ScaleY="1.5" />
@@ -117,7 +118,8 @@
                                         <ScaleTransform ScaleX="2" ScaleY="1.5" />
                                     </CheckBox.LayoutTransform>
                                     <Label Content="£2" Style="{StaticResource StdHeaderLabel}" Width="50"/>
-                                </CheckBox>
+                                </CheckBox> -->
+                            
                                <!--  <CheckBox Margin="10,10,100,10" IsChecked="{Binding StakeOne, Mode=TwoWay}">
                                     <CheckBox.LayoutTransform>
                                         <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
@@ -142,7 +144,7 @@
                                     </CheckBox.LayoutTransform>
                                     <Label Content="£2" Style="{StaticResource StdHeaderLabel}" Width="50"/>
                                 </CheckBox> -->
-                            </StackPanel>
+                            <!-- </StackPanel> -->
                         
                         </Border>
 

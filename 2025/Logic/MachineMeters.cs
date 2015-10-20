@@ -60,7 +60,7 @@ namespace PDTUtils
             
             for (uint i = 1; i <= BoLib.getNumberOfGames(); i++)
             {
-                bet += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GamePlaySt); //wriong
+                bet += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWageredSt);// GamePlaySt); //wriong
                 won += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWonSt);
             }
 
@@ -96,7 +96,7 @@ namespace PDTUtils
 
             for (uint i = 1; i <= BoLib.getNumberOfGames(); i++)
             {
-                bet += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GamePlayLt);
+                bet += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWageredLt); //GamePlayLt);
                 won += (uint)BoLib.getGamePerformanceMeter(i, (uint)GamePerformance.GameWonLt);
             }
             

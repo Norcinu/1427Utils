@@ -179,17 +179,19 @@ namespace PDTUtils
 		}
         
         void Games_Click(object sender, RoutedEventArgs e)
-		{           
-            /*BoLib.DirectSoundInit();
-            //BoLib.LoadWavFile(
-            BoLib.DoPlaySound();
-            BoLib.DirectSoundShutdown();*/
-
+		{          
 		    _gameStatistics.ParsePerfLog();
 			Enabler.EnableCategory(Categories.GameStatistics);
+
+            UcDiagnostics.IsEnabled = false;
+            UcDiagnostics.Visibility = Visibility.Hidden;
+            UcMainPage.IsEnabled = false;
+            UcMainPage.Visibility = Visibility.Hidden;
+            UcPerformance.IsEnabled = false;
+            UcPerformance.Visibility = Visibility.Hidden;
 		}
         
-		private void GetSystemUptime()
+		void GetSystemUptime()
 		{
 			var ticks = Stopwatch.GetTimestamp();
 			var uptime = ((double)ticks) / Stopwatch.Frequency;
@@ -198,7 +200,7 @@ namespace PDTUtils
 			LblUptime.Content = u[0];
 		}
         
-        private void WindowMain_Loaded(object sender, RoutedEventArgs e)
+        void WindowMain_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {

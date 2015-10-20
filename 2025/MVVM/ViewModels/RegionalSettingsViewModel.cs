@@ -209,7 +209,7 @@ namespace PDTUtils.MVVM.ViewModels
             RaisePropertyChangedEvent("Selected");
             RaisePropertyChangedEvent("IsSpanishMachine");
         }
-
+        
         void LoadSettingsView()
         {
             if (_settingsView.Count > 0)
@@ -610,14 +610,31 @@ namespace PDTUtils.MVVM.ViewModels
         {
             get
             {
-                return /*EditableLiveRegion.GamesPerPeriod*/
-                    _startUpMultiplier * EditableLiveRegion.GameTime;
+                try
+                {
+                    return /*EditableLiveRegion.GamesPerPeriod*/
+                        _startUpMultiplier * EditableLiveRegion.GameTime;
+                }
+                catch (Exception e)
+                {
+                    return 0;
+                }
             }
         }
 
         public uint VisualRTP
         {
-            get { return EditableLiveRegion.Rtp / 100; }
+            get
+            {
+                try
+                {
+                    return EditableLiveRegion.Rtp / 100;
+                }
+                catch (Exception e)
+                {
+                    return 0;
+                }
+            }
         }
         
         public ICommand SetConvertToPP

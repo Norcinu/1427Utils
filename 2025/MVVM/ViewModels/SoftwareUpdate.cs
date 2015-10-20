@@ -483,21 +483,12 @@ namespace PDTUtils
                         foreach (var newPath in Directory.GetFiles(renameFolder, "*.*", SearchOption.AllDirectories))
                         {
                             File.Copy(newPath, newPath.Replace(renameFolder, destinationFolder), true);
-                            
                         }
                         
-                        //come on jam off you gan son. seriously. no need ofr it.
-                        //maybe just copy the files and folders over instead of moving.
+                        //maybe just copy the files and folders over instead of moving?
                         var srcInfo = new DirectoryInfo(sourceFolder);
                         AddToRollBack(renameFolder, 1);
                         GetAndCopyAllFiles(srcInfo, destinationFolder);
-                        
-
-                        /*foreach (var subdir in Directory.GetDirectories(destinationFolder, "*", SearchOption.AllDirectories))
-                        {
-                            DoCopyDirectory(subdir, 1);
-                            //var temppath = Path.Combine(sourceFolder, subdir.Name);
-                        }*/
                         
                         //enter moved folder and copy files that dont exist in the NEWLY created update folder.
                         //foreach(var oldPath in Directory.GetFiles())
